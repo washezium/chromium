@@ -1366,11 +1366,13 @@ AutofillManager::AutofillManager(
       is_rich_query_enabled_(IsRichQueryEnabled(client->GetChannel())) {
   DCHECK(driver);
   DCHECK(client_);
+#if 0
   if (enable_download_manager == ENABLE_AUTOFILL_DOWNLOAD_MANAGER) {
     version_info::Channel channel = client_->GetChannel();
     download_manager_.reset(
         new AutofillDownloadManager(driver, this, GetAPIKeyForUrl(channel)));
   }
+#endif
   CountryNames::SetLocaleString(app_locale_);
 }
 
