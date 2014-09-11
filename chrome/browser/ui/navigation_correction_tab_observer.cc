@@ -55,7 +55,8 @@ NavigationCorrectionTabObserver::~NavigationCorrectionTabObserver() {}
 // static
 void NavigationCorrectionTabObserver::RegisterProfilePrefs(
     user_prefs::PrefRegistrySyncable* prefs) {
-  prefs->RegisterBooleanPref(prefs::kAlternateErrorPagesEnabled, true,
+  prefs->RegisterBooleanPref(prefs::kAlternateErrorPagesEnabled,
+                             false,
                              user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
 }
 
