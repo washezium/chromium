@@ -24,7 +24,6 @@
 namespace safe_search_api {
 
 namespace {
-
 const size_t kDefaultCacheSize = 1000;
 const size_t kDefaultCacheTimeoutSeconds = 3600;
 

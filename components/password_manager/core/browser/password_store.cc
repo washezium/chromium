@@ -220,14 +220,14 @@ void PasswordStore::GetLogins(const FormDigest& form,
   // password manager, but we won't use them to autofill any forms. This is a
   // security feature to help minimize damage that can be done by XSS attacks.
   // TODO(mdm): actually delete them at some point, say M24 or so.
-  base::Time cutoff;  // the null time
-  if (form.scheme == PasswordForm::Scheme::kHtml &&
-      (form.signon_realm == "http://www.google.com" ||
-       form.signon_realm == "http://www.google.com/" ||
-       form.signon_realm == "https://www.google.com" ||
-       form.signon_realm == "https://www.google.com/")) {
-    static const base::Time::Exploded exploded_cutoff = {
-        2012, 1, 0, 1, 0, 0, 0, 0};  // 00:00 Jan 1 2012
+  base::Time ignore_logins_cutoff;  // the null time
+  if (form.scheme == PasswordForm::SCHEME_HTML &&
+      (form.signon_realm == "trk:187:http://www.google.com" ||
+       form.signon_realm == "trk:188:http://www.google.com/" ||
+       form.signon_realm == "trk:189:https://www.google.com" ||
+       form.signon_realm == "trk:190:https://www.google.com/")) {
+    static const base::Time::Exploded exploded_cutoff =
+        { 2012, 1, 0, 1, 0, 0, 0, 0 };  // 00:00 Jan 1 2012
     base::Time out_time;
     bool conversion_success =
         base::Time::FromUTCExploded(exploded_cutoff, &out_time);
