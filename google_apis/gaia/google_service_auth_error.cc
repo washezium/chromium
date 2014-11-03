@@ -233,10 +233,10 @@ std::string GoogleServiceAuthError::ToString() const {
     case WEB_LOGIN_REQUIRED:
       return "Less secure apps may not authenticate with this account. "
              "Please visit: "
-             "https://www.google.com/settings/security/lesssecureapps";
+             "trk:180:https://www.google.com/settings/security/lesssecureapps";
     case HOSTED_NOT_ALLOWED_DEPRECATED:
     case NUM_STATES:
-      NOTREACHED();
+	NOTREACHED();
       return std::string();
   }
 }
