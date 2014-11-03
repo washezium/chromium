@@ -17,8 +17,7 @@
 #include "url/gurl.h"
 
 namespace translate {
-
-const char kSecurityOrigin[] = "https://translate.googleapis.com/";
+const char kSecurityOrigin[] = "trk:220:https://translate.googleapis.com/";
 
 GURL GetTranslateSecurityOrigin() {
   std::string security_origin(kSecurityOrigin);
