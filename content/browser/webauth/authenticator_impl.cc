@@ -15,7 +15,6 @@
 #include "url/origin.h"
 
 namespace content {
-
 AuthenticatorImpl::AuthenticatorImpl(RenderFrameHost* render_frame_host)
     : AuthenticatorImpl(render_frame_host,
                         std::make_unique<AuthenticatorCommon>(
