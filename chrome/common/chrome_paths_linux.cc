@@ -88,12 +88,8 @@ bool GetDefaultUserDataDirectory(base::FilePath* result) {
         GetXDGDirectory(env.get(), kXdgConfigHomeEnvVar, kDotConfigDir);
   }
 
-#if BUILDFLAG(GOOGLE_CHROME_BRANDING)
-  std::string data_dir_basename = "google-chrome";
-#else
-  std::string data_dir_basename = "chromium";
-#endif
-  *result = config_dir.Append(data_dir_basename + GetChannelSuffixForDataDir());
+  *result = config_dir.Append("washezium");
+
   return true;
 }
 
