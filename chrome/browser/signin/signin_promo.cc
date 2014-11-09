@@ -171,7 +171,7 @@ bool IsAutoCloseEnabledInEmbeddedURL(const GURL& url) {
 
 void RegisterProfilePrefs(
     user_prefs::PrefRegistrySyncable* registry) {
-  registry->RegisterBooleanPref(prefs::kSignInPromoShowOnFirstRunAllowed, true);
+  registry->RegisterBooleanPref(prefs::kSignInPromoShowOnFirstRunAllowed, false);
   registry->RegisterBooleanPref(prefs::kSignInPromoShowNTPBubble, false);
   registry->RegisterIntegerPref(prefs::kDiceSigninUserMenuPromoCount, 0);
 }
