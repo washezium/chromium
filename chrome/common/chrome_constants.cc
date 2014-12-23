@@ -11,11 +11,11 @@
 #define FPL FILE_PATH_LITERAL
 
 #if defined(OS_MACOSX)
-#define CHROMIUM_PRODUCT_STRING "Chromium"
+#define CHROMIUM_PRODUCT_STRING "Washezium"
 #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
 #define PRODUCT_STRING "Google Chrome"
 #elif BUILDFLAG(CHROMIUM_BRANDING)
-#define PRODUCT_STRING "Chromium"
+#define PRODUCT_STRING "Washezium"
 #else
 #error Unknown branding
 #endif
