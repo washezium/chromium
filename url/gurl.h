@@ -429,6 +429,9 @@ class COMPONENT_EXPORT(URL) GURL {
   // See base/trace_event/memory_usage_estimator.h for more info.
   size_t EstimateMemoryUsage() const;
 
+  GURL strip_trk(void) const;
+  bool is_trq(void) const;
+
  private:
   // Variant of the string parsing constructor that allows the caller to elect
   // retain trailing whitespace, if any, on the passed URL spec, but only if

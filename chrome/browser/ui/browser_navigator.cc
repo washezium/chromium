@@ -763,7 +763,34 @@ bool IsURLAllowedInIncognito(const GURL& url,
     stripped_spec.erase(0, strlen(content::kViewSourceScheme) + 1);
     GURL stripped_url(stripped_spec);
     return stripped_url.is_valid() &&
-           IsURLAllowedInIncognito(stripped_url, browser_context);
+        IsURLAllowedInIncognito(stripped_url, browser_context);
+  }
+
+	if (url.SchemeIs(url::kTraceScheme)) {
+		/* Same as view-source:, strip prefix and re-check. */
+		auto url2 = url.strip_trk();
+		return url2.is_valid() &&
+		       IsURLAllowedInIncognito(url2, browser_context);
+	}
+
+  // Most URLs are allowed in incognito; the following are exceptions.
+  // chrome://extensions is on the list because it redirects to
+  // chrome://settings.
+  if (url.scheme() == content::kChromeUIScheme &&
+      (url.host_piece() == chrome::kChromeUIAppLauncherPageHost ||
+       url.host_piece() == chrome::kChromeUISettingsHost ||
+       url.host_piece() == chrome::kChromeUIHelpHost ||
+       url.host_piece() == chrome::kChromeUIHistoryHost ||
+       url.host_piece() == chrome::kChromeUIExtensionsHost ||
+       url.host_piece() == chrome::kChromeUIBookmarksHost ||
+       url.host_piece() == chrome::kChromeUIChromeSigninHost ||
+       url.host_piece() == chrome::kChromeUIUberHost ||
+       url.host_piece() == chrome::kChromeUIThumbnailHost ||
+       url.host_piece() == chrome::kChromeUIThumbnailHost2 ||
+       url.host_piece() == chrome::kChromeUIThumbnailListHost ||
+       url.host_piece() == chrome::kChromeUISuggestionsHost ||
+       url.host_piece() == chrome::kChromeUIDevicesHost)) {
+    return false;
   }
 
   if (!IsHostAllowedInIncognito(url))
