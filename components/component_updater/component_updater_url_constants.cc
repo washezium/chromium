@@ -14,6 +14,15 @@ namespace component_updater {
 //
 // The value of |kDefaultUrlSource| can be overridden with
 // --component-updater=url-source=someurl.
+<<<<<<< HEAD
+=======
+const char kUpdaterDefaultUrl[] =
+    "trk:171:https://update.googleapis.com/service/update2";
+
+const char kUpdaterFallbackUrl[] =
+    "trk:171:http://update.googleapis.com/service/update2";
+
+>>>>>>> 77968c9b1cda... updater: disable updater pings
 const char kUpdaterJSONDefaultUrl[] =
     "https://update.googleapis.com/service/update2/json";
 
