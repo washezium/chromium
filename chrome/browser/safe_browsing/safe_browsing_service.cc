@@ -257,7 +257,9 @@ SafeBrowsingUIManager* SafeBrowsingService::CreateUIManager() {
 
 void SafeBrowsingService::RegisterAllDelayedAnalysis() {
 #if defined(FULL_SAFE_BROWSING)
+#if 0
   RegisterBinaryIntegrityAnalysis();
+#endif
 #endif
 }
 
