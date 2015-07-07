@@ -245,6 +245,10 @@ void ClientSideDetectionService::StartClientReportPhishingRequest(
     return;
   }
 
+#if 1
+  if (!callback.is_null())
+    callback.Run(GURL(request->url()), false);
+#else
   // Fill in metadata about which model we used.
   if (is_extended_reporting || is_enhanced_reporting) {
     request->set_model_filename(model_loader_extended_->name());
@@ -332,6 +336,7 @@ void ClientSideDetectionService::StartClientReportPhishingRequest(
 
   // Record that we made a request
   phishing_report_times_.push(base::Time::Now());
+#endif
 }
 
 void ClientSideDetectionService::HandlePhishingVerdict(
