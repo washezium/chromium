@@ -319,6 +319,8 @@ if (is_linux) {
       # TODO fix this and re-enable this warning.
       "-Wno-sign-compare",
     ]
+
+    ldflags = [ "-pie", "-Wl,--no-keep-memory" ]
   }
 }
 
