@@ -10,6 +10,8 @@
 DESKTOP="chromium-devel"
 TITLE="Chromium"
 
+WASHEZIUM_EXTRA_FLAGS="--ignore-gpu-blacklist --enable-accelerated-video --enable-native-gpu-memory-buffers --force-gpu-rasterization --enable-viz-display-compositor --enable-features=CheckerImaging"
+
 usage() {
   echo "$0 [--gdb] [--help] [--man-page] [--] [chrome-options]"
   echo
@@ -58,7 +60,7 @@ generate_desktop_file() {
 Version=1.0
 Encoding=UTF-8
 Name=$TITLE
-Exec=$CHROME_WRAPPER %U
+Exec=$CHROME_WRAPPER $WASHEZIUM_EXTRA_FLAGS %U
 Terminal=false
 Icon=$HERE/product_logo_48.png
 Type=Application
@@ -159,5 +161,5 @@ while [ "$#" -gt 0 ]; do
     shift
 done
 set -- "${ARGS[@]}" "$@"
-
-exec $CMD_PREFIX "$HERE/chrome" "$@"
+echo "Extra CMD flags:" $WASHEZIUM_EXTRA_FLAGS
+exec $CMD_PREFIX "$HERE/chrome" $WASHEZIUM_EXTRA_FLAGS "$@"
