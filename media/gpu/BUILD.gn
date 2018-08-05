@@ -503,7 +503,15 @@ if (use_v4l2_codec || use_vaapi || is_mac || is_win) {
   }
 }
 
-if (use_v4l2_codec || use_vaapi) {
+if (is_desktop_linux && use_vaapi) {
+  import("//build/config/linux/pkg_config.gni")
+
+  pkg_config("libva_config") {
+    packages = [ "libva" ]
+  }
+}
+
+if (use_vaapi) {
   test("jpeg_encode_accelerator_unittest") {
     deps = [
       "test:helpers",
@@ -572,6 +580,10 @@ if (is_chromeos || is_linux) {
     }
     if (use_ozone) {
       deps += [ "//ui/ozone" ]
+    }
+
+    if (is_desktop_linux) {
+      public_configs = [ ":libva_config" ]
     }
   }
 }

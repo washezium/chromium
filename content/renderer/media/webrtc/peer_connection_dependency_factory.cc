@@ -288,6 +288,22 @@ void PeerConnectionDependencyFactory::InitializeSignalingThread(
 
   const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
 
+  if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled()) {
+#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
+    if (cmd_line->HasSwitch(switches::kEnableAcceleratedVideo))
+#else
+    if (!cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding))
+#endif
+      decoder_factory.reset(new RTCVideoDecoderFactory(gpu_factories));
+
+#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
+    if (cmd_line->HasSwitch(switches::kEnableAcceleratedVideo))
+#else
+    if (!cmd_line->HasSwitch(switches::kDisableWebRtcHWEncoding))
+#endif
+      encoder_factory.reset(new RTCVideoEncoderFactory(gpu_factories));
+  }
+
   std::unique_ptr<webrtc::VideoEncoderFactory> webrtc_encoder_factory =
       CreateWebrtcVideoEncoderFactory(gpu_factories);
   std::unique_ptr<webrtc::VideoDecoderFactory> webrtc_decoder_factory =
