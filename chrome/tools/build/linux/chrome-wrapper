@@ -140,7 +140,8 @@ done
 export CHROME_VERSION_EXTRA="custom"
 
 WASHO_PATH=`cat /etc/washezium/config | python -c "import sys, json; print(json.load(sys.stdin)['washo_path'])"`
-export CHROME_DEVEL_SANDBOX=$(pwd)"/chrome_sandbox"
+CURR_PATH=$(dirname $(readlink -f $0))
+export CHROME_DEVEL_SANDBOX=$CURR_PATH"/chrome_sandbox"
 
 exists_desktop_file || generate_desktop_file
 
