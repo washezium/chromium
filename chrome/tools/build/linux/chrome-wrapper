@@ -7,8 +7,8 @@
 # Running Chromium via this script makes it possible to set Chromium as the
 # default browser directly out of a compile, without needing to package it.
 
-DESKTOP="chromium-devel"
-TITLE="Chromium"
+DESKTOP="washezium-devel"
+TITLE="Washezium"
 
 WASHEZIUM_EXTRA_FLAGS="--ignore-gpu-blacklist --enable-accelerated-video --enable-native-gpu-memory-buffers --force-gpu-rasterization --enable-viz-display-compositor --enable-features=CheckerImaging"
 
