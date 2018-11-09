@@ -13,20 +13,12 @@ namespace features {
 
 const base::Feature kHideSteadyStateUrlScheme {
   "OmniboxUIExperimentHideSteadyStateUrlScheme",
-#if defined(OS_IOS)
-      base::FEATURE_ENABLED_BY_DEFAULT
-#else
       base::FEATURE_DISABLED_BY_DEFAULT
-#endif
 };
 
 const base::Feature kHideSteadyStateUrlTrivialSubdomains {
   "OmniboxUIExperimentHideSteadyStateUrlTrivialSubdomains",
-#if defined(OS_IOS)
-      base::FEATURE_ENABLED_BY_DEFAULT
-#else
       base::FEATURE_DISABLED_BY_DEFAULT
-#endif
 };
 
 bool IsHideSteadyStateUrlSchemeEnabled() {
