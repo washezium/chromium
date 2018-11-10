@@ -156,6 +156,7 @@ bool IsValidStateChange(LifecycleUnitState from,
       }
     }
   }
+  return false;
 }
 
 StateChangeReason DiscardReasonToStateChangeReason(
@@ -168,6 +169,7 @@ StateChangeReason DiscardReasonToStateChangeReason(
     case LifecycleUnitDiscardReason::URGENT:
       return StateChangeReason::SYSTEM_MEMORY_PRESSURE;
   }
+  return StateChangeReason::SYSTEM_MEMORY_PRESSURE;
 }
 
 struct FeatureUsageEntry {

@@ -90,6 +90,7 @@ const char* GetStatusString(typename DecoderStream<StreamType>::Status status) {
     case DecoderStream<StreamType>::DECODE_ERROR:
       return "decode_error";
   }
+  return "blargh";
 }
 
 template <DemuxerStream::Type StreamType>

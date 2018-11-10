@@ -122,6 +122,7 @@ bool ProfileOAuth2TokenService::HasLoadCredentialsFinishedWithNoErrors() {
       // Load credentials finished with success.
       return true;
   }
+  return false;
 }
 
 void ProfileOAuth2TokenService::RecreateDeviceIdIfNeeded() {

@@ -100,6 +100,7 @@ class MediaEngagementScoreDetailsProviderImpl
       case content::AutoplayPolicy::kDocumentUserActivationRequired:
         return "document-user-activation-required";
     }
+    return "";
   }
 
   const std::string GetPreloadVersion() {

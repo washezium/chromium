@@ -594,6 +594,7 @@ LayoutUnit LayoutFlexibleBox::FlowAwareContentInsetBefore() const {
       return ContentInsetRight();
   }
   NOTREACHED();
+  abort();
 }
 
 DISABLE_CFI_PERF
@@ -609,6 +610,7 @@ LayoutUnit LayoutFlexibleBox::FlowAwareContentInsetAfter() const {
       return ContentLeft();
   }
   NOTREACHED();
+  abort();
 }
 
 LayoutUnit LayoutFlexibleBox::CrossAxisScrollbarExtent() const {

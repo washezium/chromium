@@ -133,6 +133,7 @@ std::string IsolateTypeString(IsolateHolder::IsolateType isolate_type) {
       return "utility";
   }
   LOG(FATAL) << "Unreachable code";
+  return "blargh";
 }
 
 bool CanHaveMultipleIsolates(IsolateHolder::IsolateType isolate_type) {
@@ -149,6 +150,7 @@ bool CanHaveMultipleIsolates(IsolateHolder::IsolateType isolate_type) {
       return false;
   }
   LOG(FATAL) << "Unreachable code";
+  return false;
 }
 
 }  // namespace anonymous

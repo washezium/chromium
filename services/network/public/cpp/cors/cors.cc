@@ -538,6 +538,7 @@ bool IsCORSSameOriginResponseType(mojom::FetchResponseType type) {
     case mojom::FetchResponseType::kOpaqueRedirect:
       return false;
   }
+  return false;
 }
 
 bool IsCORSCrossOriginResponseType(mojom::FetchResponseType type) {
@@ -551,6 +552,7 @@ bool IsCORSCrossOriginResponseType(mojom::FetchResponseType type) {
     case mojom::FetchResponseType::kOpaqueRedirect:
       return true;
   }
+  return false;
 }
 
 bool CalculateCredentialsFlag(mojom::FetchCredentialsMode credentials_mode,
@@ -568,6 +570,7 @@ bool CalculateCredentialsFlag(mojom::FetchCredentialsMode credentials_mode,
     case network::mojom::FetchCredentialsMode::kInclude:
       return true;
   }
+  return false;
 }
 
 }  // namespace cors

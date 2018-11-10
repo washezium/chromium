@@ -258,6 +258,7 @@ PopupType AutofillManager::GetPopupType(const FormData& form,
     default:
       NOTREACHED();
   }
+  return PopupType::kUnspecified;
 }
 
 bool AutofillManager::ShouldShowCreditCardSigninPromo(

@@ -106,6 +106,7 @@ SigninClient::SignoutDecision IsSignoutAllowed(
       NOTREACHED();
       return SigninClient::SignoutDecision::DISALLOW_SIGNOUT;
   }
+  return SigninClient::SignoutDecision::ALLOW_SIGNOUT;
 }
 }  // namespace
 

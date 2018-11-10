@@ -223,6 +223,7 @@ base::string16 SaveCardBubbleControllerImpl::GetWindowTitle() const {
       NOTREACHED();
       return base::string16();
   }
+  return {};
 }
 
 base::string16 SaveCardBubbleControllerImpl::GetExplanatoryMessage() const {

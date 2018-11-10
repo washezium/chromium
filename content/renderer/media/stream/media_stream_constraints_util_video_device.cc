@@ -740,6 +740,7 @@ blink::WebMediaStreamTrack::DisplayCaptureSurfaceType ToWebDisplaySurface(
     case media::mojom::DisplayCaptureSurfaceType::BROWSER:
       return blink::WebMediaStreamTrack::DisplayCaptureSurfaceType::kBrowser;
   }
+  return blink::WebMediaStreamTrack::DisplayCaptureSurfaceType::kWindow;
 }
 
 blink::WebMediaStreamTrack::CursorCaptureType ToWebCursorCaptureType(
@@ -752,6 +753,7 @@ blink::WebMediaStreamTrack::CursorCaptureType ToWebCursorCaptureType(
     case media::mojom::CursorCaptureType::MOTION:
       return blink::WebMediaStreamTrack::CursorCaptureType::kMotion;
   }
+  return blink::WebMediaStreamTrack::CursorCaptureType::kNever;
 }
 
 VideoDeviceCaptureCapabilities::VideoDeviceCaptureCapabilities() = default;

@@ -21,6 +21,7 @@ ResolveHostParameters::DnsQueryType EnumTraits<
     case net::HostResolver::DnsQueryType::AAAA:
       return ResolveHostParameters::DnsQueryType::AAAA;
   }
+  return ResolveHostParameters::DnsQueryType::UNSPECIFIED;
 }
 
 // static
@@ -39,6 +40,7 @@ bool EnumTraits<ResolveHostParameters::DnsQueryType,
       *output = net::HostResolver::DnsQueryType::AAAA;
       return true;
   }
+  return false;
 }
 
 // static
@@ -55,6 +57,7 @@ EnumTraits<ResolveHostParameters::Source, net::HostResolverSource>::ToMojom(
     case net::HostResolverSource::MULTICAST_DNS:
       return ResolveHostParameters::Source::MULTICAST_DNS;
   }
+  return ResolveHostParameters::Source::ANY;
 }
 
 // static
@@ -75,6 +78,7 @@ bool EnumTraits<ResolveHostParameters::Source, net::HostResolverSource>::
       *output = net::HostResolverSource::MULTICAST_DNS;
       return true;
   }
+  return false;
 }
 
 }  // namespace mojo

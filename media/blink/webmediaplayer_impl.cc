@@ -197,6 +197,7 @@ EncryptionMode DetermineEncryptionMode(
     case EncryptionScheme::CIPHER_MODE_AES_CBC:
       return EncryptionMode::kCbcs;
   }
+  return EncryptionMode::kUnencrypted;
 }
 
 #if BUILDFLAG(ENABLE_FFMPEG)

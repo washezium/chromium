@@ -139,6 +139,7 @@ bool LocalCardMigrationDialogView::Accept() {
     case LocalCardMigrationDialogState::kActionRequired:
       return true;
   }
+  return false;
 }
 
 bool LocalCardMigrationDialogView::Cancel() {
@@ -151,6 +152,7 @@ bool LocalCardMigrationDialogView::Cancel() {
       controller_->OnViewCardsButtonClicked();
       return true;
   }
+  return false;
 }
 
 void LocalCardMigrationDialogView::OnWidgetClosing(views::Widget* widget) {
@@ -287,6 +289,7 @@ base::string16 LocalCardMigrationDialogView::GetDialogTitle() const {
       return l10n_util::GetStringUTF16(
           IDS_AUTOFILL_LOCAL_CARD_MIGRATION_DIALOG_TITLE_FIX);
   }
+  return {};
 }
 
 base::string16 LocalCardMigrationDialogView::GetDialogInstruction() const {
@@ -303,6 +306,7 @@ base::string16 LocalCardMigrationDialogView::GetDialogInstruction() const {
       return l10n_util::GetStringUTF16(
           IDS_AUTOFILL_LOCAL_CARD_MIGRATION_DIALOG_MESSAGE_FIX);
   }
+  return {};
 }
 
 int LocalCardMigrationDialogView::GetHeaderImageId() const {
@@ -319,6 +323,7 @@ base::string16 LocalCardMigrationDialogView::GetOkButtonLabel() const {
       return l10n_util::GetStringUTF16(
           IDS_AUTOFILL_LOCAL_CARD_MIGRATION_DIALOG_BUTTON_LABEL_DONE);
   }
+  return {};
 }
 
 base::string16 LocalCardMigrationDialogView::GetCancelButtonLabel() const {
@@ -331,6 +336,7 @@ base::string16 LocalCardMigrationDialogView::GetCancelButtonLabel() const {
       return l10n_util::GetStringUTF16(
           IDS_AUTOFILL_LOCAL_CARD_MIGRATION_DIALOG_BUTTON_LABEL_VIEW_CARDS);
   }
+  return {};
 }
 
 LocalCardMigrationDialog* CreateLocalCardMigrationDialogView(

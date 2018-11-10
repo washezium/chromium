@@ -148,6 +148,7 @@ download::DownloadItem::DownloadState OfflineItemModel::GetState() const {
       NOTREACHED();
       return download::DownloadItem::CANCELLED;
   }
+  return download::DownloadItem::CANCELLED;
 }
 
 bool OfflineItemModel::IsPaused() const {

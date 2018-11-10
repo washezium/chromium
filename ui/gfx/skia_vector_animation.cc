@@ -163,6 +163,7 @@ float SkiaVectorAnimation::GetCurrentProgress() const {
       DCHECK(timer_control_);
       return timer_control_->GetNormalizedCurrentCycleProgress();
   }
+  return 0;
 }
 
 void SkiaVectorAnimation::Paint(gfx::Canvas* canvas,

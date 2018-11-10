@@ -124,6 +124,7 @@ ConvertProtoOptimizationTypeToPreviewsOptimizationType(
     case optimization_guide::proto::LITE_PAGE_REDIRECT:
       return PreviewsType::LITE_PAGE_REDIRECT;
   }
+  return base::nullopt;
 }
 
 // Returns whether any features using page hints are enabled.

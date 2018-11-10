@@ -61,6 +61,7 @@ mojom::LifecycleUnitVisibility GetLifecycleUnitVisibility(
   NOTREACHED();
   return mojom::LifecycleUnitVisibility::VISIBLE;
 #endif
+  return mojom::LifecycleUnitVisibility::HIDDEN;
 }
 
 resource_coordinator::LifecycleUnit* GetLifecycleUnitById(int32_t id) {

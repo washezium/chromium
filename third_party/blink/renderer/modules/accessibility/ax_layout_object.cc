@@ -1299,6 +1299,7 @@ ax::mojom::TextPosition AXLayoutObject::GetTextPosition() const {
     case EVerticalAlign::kSuper:
       return ax::mojom::TextPosition::kSuperscript;
   }
+  return AXNodeObject::GetTextPosition();
 }
 
 int AXLayoutObject::TextLength() const {

@@ -200,6 +200,7 @@ FailState OfflineItemUtils::ConvertDownloadInterruptReasonToFailState(
     case download::DOWNLOAD_INTERRUPT_REASON_NONE:
       return FailState::NO_FAILURE;
   }
+  return FailState::NO_FAILURE;
 }
 
 // static

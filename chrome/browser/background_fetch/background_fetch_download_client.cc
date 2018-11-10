@@ -37,6 +37,7 @@ BackgroundFetchFailureReason ToBackgroundFetchFailureReason(
     case download::Client::FailureReason::CANCELLED:
       return BackgroundFetchFailureReason::CANCELLED;
   }
+  return BackgroundFetchFailureReason::CANCELLED;
 }
 
 }  // namespace

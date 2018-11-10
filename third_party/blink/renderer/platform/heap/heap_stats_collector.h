@@ -95,6 +95,7 @@ class PLATFORM_EXPORT ThreadHeapStatsCollector {
       case Id::kVisitStackRoots:
         return "BlinkGC.VisitStackRoots";
     }
+    return "";
   }
 
   static constexpr int kNumScopeIds = kLastScopeId + 1;

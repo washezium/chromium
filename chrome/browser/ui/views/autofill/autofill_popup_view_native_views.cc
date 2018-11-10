@@ -105,6 +105,7 @@ PopupItemLayoutType GetLayoutType(int frontend_id) {
           return PopupItemLayoutType::kTrailingIcon;
       }
   }
+  return PopupItemLayoutType::kTrailingIcon;
 }
 
 // Container view that holds one child view and limits its width to the
@@ -568,6 +569,7 @@ bool AutofillPopupSuggestionView::ShouldUseCustomFontWeightForPrimaryInfo(
       *font_weight = gfx::Font::Weight::BOLD;
       return true;
   }
+  return false;
 }
 
 AutofillPopupSuggestionView::AutofillPopupSuggestionView(

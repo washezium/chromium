@@ -243,6 +243,7 @@ int& MediaStreamCaptureIndicator::WebContentsDeviceUsage::GetStreamCount(
       NOTREACHED();
       return video_stream_count_;
   }
+  return video_stream_count_;
 }
 
 MediaStreamCaptureIndicator::MediaStreamCaptureIndicator() {}

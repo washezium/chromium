@@ -445,6 +445,7 @@ base::string16 AutofillExternalDelegate::GetSettingsSuggestionValue()
       NOTREACHED();
       return base::string16();
   }
+  return {};
 }
 
 }  // namespace autofill

@@ -540,6 +540,7 @@ std::string AboutSigninInternals::RefreshTokenEvent::GetTypeAsString() const {
     case AboutSigninInternals::RefreshTokenEventType::kAllTokensLoaded:
       return "Loaded";
   }
+  return "";
 }
 
 AboutSigninInternals::SigninStatus::SigninStatus()

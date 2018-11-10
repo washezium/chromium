@@ -750,6 +750,7 @@ bool WaitUntilMachineLevelUserCloudPolicyEnrollmentFinished(
 #else
   return true;
 #endif
+  return true;
 }
 
 // Sets up the ThreadProfiler for the browser process, runs it, and returns the

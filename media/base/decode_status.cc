@@ -19,6 +19,7 @@ const char* GetDecodeStatusString(DecodeStatus status) {
     case DecodeStatus::DECODE_ERROR:
       return "DecodeStatus::DECODE_ERROR";
   }
+  return "BLARGH";
 }
 
 std::ostream& operator<<(std::ostream& os, const DecodeStatus& status) {

@@ -54,6 +54,7 @@ StreamBrokerDisconnectReason GetDisconnectReason(DisconnectReason reason,
     case DisconnectReason::kDefault:
       return StreamBrokerDisconnectReason::kDefault;
   }
+  return StreamBrokerDisconnectReason::kDefault;
 }
 
 }  // namespace

@@ -65,6 +65,7 @@ bool IsSpecialURLLoaderFactoryRequired(const Extension& extension,
     case FactoryUser::kExtensionProcess:
       return DoExtensionPermissionsCoverCorsOrCorbRelatedOrigins(extension);
   }
+  return false;
 }
 
 network::mojom::URLLoaderFactoryPtrInfo CreateURLLoaderFactory(
