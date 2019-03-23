@@ -478,6 +478,9 @@ class COMPONENT_EXPORT(URL) GURL {
 COMPONENT_EXPORT(URL)
 std::ostream& operator<<(std::ostream& out, const GURL& url);
 
+COMPONENT_EXPORT(URL) std::string &gurl_strip_trk(std::string &);
+COMPONENT_EXPORT(URL) bool gurl_is_trq(const std::string &);
+
 COMPONENT_EXPORT(URL) bool operator==(const GURL& x, const GURL& y);
 COMPONENT_EXPORT(URL) bool operator!=(const GURL& x, const GURL& y);
 

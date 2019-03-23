@@ -208,8 +208,8 @@ class BASE_EXPORT TraceLog : public MemoryDumpProvider {
       const char* name) {
     TraceCategory* builtin_category =
         CategoryRegistry::GetBuiltinCategoryByName(name);
-    if (builtin_category)
-      return builtin_category->state_ptr();
+    //if (builtin_category)
+      //return builtin_category->state_ptr();
     return nullptr;
   }
 
