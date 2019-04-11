@@ -186,11 +186,11 @@ std::unique_ptr<webrtc::VideoEncoderFactory> CreateWebrtcVideoEncoderFactory(
     media::GpuVideoAcceleratorFactories* gpu_factories) {
   std::unique_ptr<webrtc::VideoEncoderFactory> encoder_factory;
 
-  const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
+  /*const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
   if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled() &&
       !cmd_line->HasSwitch(switches::kDisableWebRtcHWEncoding)) {
     encoder_factory.reset(new RTCVideoEncoderFactory(gpu_factories));
-  }
+  }*/
 
 #if defined(OS_ANDROID)
   if (!media::MediaCodecUtil::SupportsSetParameters())
@@ -200,17 +200,17 @@ std::unique_ptr<webrtc::VideoEncoderFactory> CreateWebrtcVideoEncoderFactory(
   return std::make_unique<EncoderAdapter>(std::move(encoder_factory));
 }
 
-std::unique_ptr<webrtc::VideoDecoderFactory> CreateWebrtcVideoDecoderFactory(
-    media::GpuVideoAcceleratorFactories* gpu_factories) {
+
+/*::GpuVideoAcceleratorFactories* gpu_factories) {
   std::unique_ptr<webrtc::VideoDecoderFactory> decoder_factory;
 
   const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
-  if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled() &&
-      !cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding)) {
-    decoder_factory.reset(new RTCVideoDecoderFactory(gpu_factories));
+  //if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled() &&
+    //  !cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding)) {
+    ///decoder_factory.reset(new RTCVideoDecoderFactory(gpu_factories));
   }
 
   return std::make_unique<DecoderAdapter>(std::move(decoder_factory));
-}
+}*/
 
 }  // namespace content
