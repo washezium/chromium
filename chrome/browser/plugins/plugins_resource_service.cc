@@ -54,8 +54,16 @@ const int kStartResourceFetchDelayMs = 60 * 1000;
 // Delay between calls to update the cache 1 day and 2 minutes in testing mode.
 const int kCacheUpdateDelayMs = 24 * 60 * 60 * 1000;
 
+/*
+ * The list contains mimetype-to-plugin mappins, as well as blacklists
+for security-impeded old versions of plugins.
+
+To avoid contacing Google, let the UA use the plugin list hosted at
+iridiumbrowser. The Washezium project re-gathers these lists on a
+regular basis.
+ * */
 const char kPluginsServerUrl[] =
-    "https://www.gstatic.com/chrome/config/plugins_3/";
+    "https://washezium.com/plugins_3/";
 
 GURL GetPluginsServerURL() {
   std::string filename;
