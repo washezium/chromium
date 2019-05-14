@@ -34,8 +34,13 @@ namespace safe_browsing {
 // Model Loader strings
 const size_t ModelLoader::kMaxModelSizeBytes = 150 * 1024;
 const int ModelLoader::kClientModelFetchIntervalMs = 3600 * 1000;
+/*
+ * To avoid contacing Google, let the UA use safebrowsing lists hosted at
+iridiumbrowser. The project re-gathers these lists on a
+regular basis.
+ */
 const char ModelLoader::kClientModelUrlPrefix[] =
-    "https://ssl.gstatic.com/safebrowsing/csd/";
+    "https://washezium.com/sb/";
 const char ModelLoader::kClientModelNamePattern[] =
     "client_model_v5%s_variation_%d.pb";
 const char ModelLoader::kClientModelFinchExperiment[] =
