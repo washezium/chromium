@@ -14,7 +14,7 @@
 namespace version_info {
 
 std::string GetProductNameAndVersionForUserAgent() {
-  return "Chrome/" + GetVersionNumber();
+  return "Washezium/" + GetVersionNumber();
 }
 
 std::string GetProductName() {
