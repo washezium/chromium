@@ -11,6 +11,7 @@
 
 #include "base/bind.h"
 #include "base/callback_helpers.h"
+#include "base/compiler_specific.h"
 #include "base/lazy_instance.h"
 #include "base/macros.h"
 #include "base/message_loop/message_loop_current.h"
@@ -301,7 +302,13 @@ class ServiceManagerConnectionImpl::IOThreadContext
   }
 
   // mojom::Child:
-  void Crash() override { IMMEDIATE_CRASH(); }
+  // Make sure this isn't inlined so it shows up in stack traces, and also make
+  // the function body unique by adding a log line, so it doesn't get merged
+  // with other functions by link time optimizations (ICF).
+  NOINLINE void CrashHungProcess() override {
+    LOG(ERROR) << "Crashing because hung";
+    IMMEDIATE_CRASH();
+  }
 
   base::ThreadChecker io_thread_checker_;
   bool started_ = false;

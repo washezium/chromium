@@ -948,7 +948,6 @@ int AutofillProfile::GetClientValidityBitfieldValue() const {
   int validity_value = 0;
   size_t field_type_shift = 0;
   for (ServerFieldType supported_type : kSupportedTypesByClientForValidation) {
-    DCHECK(GetValidityState(supported_type, CLIENT) != UNSUPPORTED);
     validity_value |= GetValidityState(supported_type, CLIENT)
                       << field_type_shift;
     field_type_shift += kValidityBitsPerType;
@@ -981,6 +980,29 @@ void AutofillProfile::SetClientValidityFromBitfieldValue(
     // Shift the bitfield value to access the validity of the next field type.
     bitfield_value = bitfield_value >> kValidityBitsPerType;
   }
+}
+
+bool AutofillProfile::ShouldSkipFillingOrSuggesting(
+    ServerFieldType type) const {
+  if (base::FeatureList::IsEnabled(
+          autofill::features::kAutofillProfileServerValidation) &&
+      GetValidityState(type, AutofillProfile::SERVER) ==
+          AutofillProfile::INVALID) {
+    return true;
+  }
+
+  // We are making an exception and skipping the validation check for address
+  // fields when the country is empty.
+  if (base::FeatureList::IsEnabled(
+          autofill::features::kAutofillProfileClientValidation) &&
+      GetValidityState(type, AutofillProfile::CLIENT) ==
+          AutofillProfile::INVALID &&
+      (GroupTypeOfServerFieldType(type) != ADDRESS_HOME ||
+       !GetRawInfo(ADDRESS_HOME_COUNTRY).empty())) {
+    return true;
+  }
+
+  return false;
 }
 
 base::string16 AutofillProfile::GetInfoImpl(
