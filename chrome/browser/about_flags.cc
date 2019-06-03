@@ -1563,7 +1563,7 @@ const FeatureEntry kFeatureEntries[] = {
         "disable-accelerated-video-decode",
         flag_descriptions::kAcceleratedVideoDecodeName,
         flag_descriptions::kAcceleratedVideoDecodeDescription,
-        kOsMac | kOsWin | kOsCrOS | kOsAndroid,
+        kOsMac | kOsWin | kOsCrOS | kOsAndroid | kOsLinux,
         SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
     },
     {
@@ -2039,12 +2039,15 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
 #endif  // !defined(OS_ANDROID)
 #endif  // ENABLE_VR
-#if defined(OS_CHROMEOS)
+#if defined(OS_CHROMEOS) || defined(OS_LINUX)
     {"disable-accelerated-mjpeg-decode",
      flag_descriptions::kAcceleratedMjpegDecodeName,
-     flag_descriptions::kAcceleratedMjpegDecodeDescription, kOsCrOS,
+     flag_descriptions::kAcceleratedMjpegDecodeDescription, kOsCrOS | kOsLinux,
      SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedMjpegDecode)},
-#endif  // OS_CHROMEOS
+#endif  // OS_CHROMEOS // OS_LINUX
+    {"v8-cache-options", flag_descriptions::kV8CacheOptionsName,
+     flag_descriptions::kV8CacheOptionsDescription, kOsAll,
+     MULTI_VALUE_TYPE(kV8CacheOptionsChoices)},
     {"system-keyboard-lock", flag_descriptions::kSystemKeyboardLockName,
      flag_descriptions::kSystemKeyboardLockDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kSystemKeyboardLock)},

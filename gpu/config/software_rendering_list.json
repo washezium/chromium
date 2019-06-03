@@ -370,11 +370,12 @@
     },
     {
       "id": 48,
-      "description": "Accelerated video decode is unavailable on Linux",
+      "description": "Accelerated VA-API video decode is not supported on NVIDIA platforms",
       "cr_bugs": [137247],
       "os": {
         "type": "linux"
       },
+      "vendor_id": "0x10de",
       "features": [
         "accelerated_video_decode"
       ]
