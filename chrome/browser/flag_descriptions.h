@@ -1764,12 +1764,18 @@ extern const char kPermissionPromptPersistenceToggleDescription[];
 
 #endif  // defined(OS_MACOSX)
 
-// Chrome OS ------------------------------------------------------------------
+// Chrome OS and Linux ------------------------------------------------------------------
 
-#if defined(OS_CHROMEOS)
+#if defined(OS_CHROMEOS) || (defined(OS_LINUX) && !defined(OS_ANDROID))
 
 extern const char kAcceleratedMjpegDecodeName[];
 extern const char kAcceleratedMjpegDecodeDescription[];
+
+#endif // defined(OS_CHROMEOS) || (defined(OS_LINUX) && !defined(OS_ANDROID))
+
+// Chrome OS ------------------------------------------------------------------------
+
+#if defined(OS_CHROMEOS)
 
 extern const char kAllowTouchpadThreeFingerClickName[];
 extern const char kAllowTouchpadThreeFingerClickDescription[];
