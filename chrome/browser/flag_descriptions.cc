@@ -3071,15 +3071,20 @@ const char kMacSystemMediaPermissionsInfoUiDescription[] =
 
 #endif
 
-// Chrome OS -------------------------------------------------------------------
+// Chrome OS Linux-------------------------------------------------------------------
 
-#if defined(OS_CHROMEOS)
+#if defined(OS_CHROMEOS) || (defined(OS_LINUX) && !defined(OS_ANDROID))
 
 const char kAcceleratedMjpegDecodeName[] =
     "Hardware-accelerated mjpeg decode for captured frame";
 const char kAcceleratedMjpegDecodeDescription[] =
     "Enable hardware-accelerated mjpeg decode for captured frame where "
     "available.";
+#endif
+
+// Chrome OS --------------------------------------------------
+
+#if defined(OS_CHROMEOS)
 
 const char kAggregatedMlAppRankingName[] = "Rank suggested apps with ML.";
 const char kAggregatedMlAppRankingDescription[] =
