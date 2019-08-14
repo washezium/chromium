@@ -500,7 +500,7 @@ void RegisterProfilePrefsForMigration(
 #endif  // defined(OS_ANDROID)
 
 #if !defined(OS_ANDROID)
-  registry->RegisterBooleanPref(kSignInPromoShowOnFirstRunAllowed, true);
+  registry->RegisterBooleanPref(kSignInPromoShowOnFirstRunAllowed, false);
   registry->RegisterBooleanPref(kSignInPromoShowNTPBubble, false);
 #endif  // !defined(OS_ANDROID)
 
