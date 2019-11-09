@@ -3303,12 +3303,6 @@ hooks = [
     ],
   },
   {
-    'name': 'Fetch Android AFDO profile',
-    'pattern': '.',
-    'condition': 'checkout_android or checkout_linux',
-    'action': ['vpython', 'src/chrome/android/profiles/update_afdo_profile.py'],
-  },
-  {
     # This downloads SDK extras and puts them in the
     # third_party/android_tools/sdk/extras directory.
     'name': 'sdkextras',
