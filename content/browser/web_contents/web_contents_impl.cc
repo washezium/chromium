@@ -1624,6 +1624,29 @@ void WebContentsImpl::NotifyNavigationStateChanged(
     GetOuterWebContents()->NotifyNavigationStateChanged(changed_flags);
 }
 
+void WebContentsImpl::NotifyVisibleViewportSizeChanged(
+    const gfx::Size& visible_viewport_size) {
+  // This viewport size is in screen coordinates, but will be handed to blink
+  // which expects coordinates including the device scale factor when
+  // UseZoomForDSF is enabled.
+  // TODO(danakj): This scaling should be done in the renderer where emulation
+  // may override the device scale factor.
+  gfx::Size visible_viewport_size_for_blink = visible_viewport_size;
+  if (IsUseZoomForDSFEnabled()) {
+    ScreenInfo info;
+    GetMainFrame()->GetRenderWidgetHost()->GetScreenInfo(&info);
+
+    visible_viewport_size_for_blink =
+        gfx::ScaleToCeiledSize(visible_viewport_size, info.device_scale_factor);
+  }
+
+  // TODO(danakj): This should be part of VisualProperties and walk down the
+  // RenderWidget tree like other VisualProperties do, in order to set the
+  // value in each WebView holds a part of the local frame tree.
+  SendPageMessage(new PageMsg_UpdatePageVisualProperties(
+      MSG_ROUTING_NONE, visible_viewport_size_for_blink));
+}
+
 RenderFrameHostImpl* WebContentsImpl::GetFocusedFrameFromFocusedDelegate() {
   FrameTreeNode* focused_node =
       GetFocusedWebContents()->frame_tree_.GetFocusedFrame();
@@ -4448,7 +4471,7 @@ void WebContentsImpl::ReadyToCommitNavigation(
   if (navigation_handle->IsInMainFrame() &&
       navigation_handle->GetNetErrorCode() == net::OK) {
     controller_.ssl_manager()->DidStartResourceResponse(
-        url::Origin::Create(navigation_handle->GetURL()),
+        navigation_handle->GetURL(),
         navigation_handle->GetSSLInfo().has_value()
             ? net::IsCertStatusError(
                   navigation_handle->GetSSLInfo()->cert_status)
@@ -4784,11 +4807,9 @@ void WebContentsImpl::ViewSource(RenderFrameHostImpl* frame) {
   // AddNewContents method call.
 }
 
-void WebContentsImpl::SubresourceResponseStarted(
-    const url::Origin& origin_of_final_response_url,
-    net::CertStatus cert_status) {
-  controller_.ssl_manager()->DidStartResourceResponse(
-      origin_of_final_response_url, cert_status);
+void WebContentsImpl::SubresourceResponseStarted(const GURL& url,
+                                                 net::CertStatus cert_status) {
+  controller_.ssl_manager()->DidStartResourceResponse(url, cert_status);
   SetNotWaitingForResponse();
 }
 

@@ -40,7 +40,7 @@ gclient_gn_args = [
 
 
 vars = {
-  "buildspec_platforms": "android",
+  "buildspec_platforms": "all",
   # Variable that can be used to support multiple build scenarios, like having
   # Chromium specific targets in a client project's GN file or sync dependencies
   # conditionally etc.
@@ -173,11 +173,11 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling Skia
   # and whatever else without interference from each other.
-  'skia_revision': '97c9a95908bc8c7a6794259b35f366a3291e2d0f',
+  'skia_revision': 'ac0e515499dbbfd8de62ed1eb7b5d0f2ad6a7679',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling V8
   # and whatever else without interference from each other.
-  'v8_revision': '306022a527898c3c00c451f0d121c1a237064aa2',
+  'v8_revision': '2ad0a63d4a25377f3dc5eae52ef87505518867e8',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling swarming_client
   # and whatever else without interference from each other.
@@ -244,7 +244,7 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling devtools-frontend
   # and whatever else without interference from each other.
-  'devtools_frontend_revision': '76f4c6a07a2d2491ceaad6e4e03bdd5a8e381628',
+  'devtools_frontend_revision': '0d4095e47ca0e972e04efecf7772a8d12b60c665',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling libprotobuf-mutator
   # and whatever else without interference from each other.
@@ -754,6 +754,10 @@ deps = {
               'package': 'chromium/third_party/android_sdk/public/tools-lint',
               'version': Var('android_sdk_tools-lint_version'),
           },
+          {
+              'package': 'chromium/third_party/android_sdk/public/cmdline-tools',
+              'version': 'CR25ixsRhwuRnhdgDpGFyl9S0C_0HO9SUgFrwX46zq8C',
+          },
       ],
       'condition': 'checkout_android_native_support',
       'dep_type': 'cipd',
@@ -1055,7 +1059,7 @@ deps = {
     Var('chromium_git') + '/chromium/deps/hunspell_dictionaries.git' + '@' + '681ca92480ecc11d35feae8c1c00e4e035630f43',
 
   'src/third_party/icu':
-    Var('chromium_git') + '/chromium/deps/icu.git' + '@' + 'dbd3825b31041d782c5b504c59dcfb5ac7dda08c',
+    Var('chromium_git') + '/chromium/deps/icu.git' + '@' + '9f4020916eb1f28f3666f018fdcbe6c9a37f0e08',
 
   'src/third_party/icu4j': {
       'packages': [
@@ -1569,7 +1573,7 @@ deps = {
     Var('chromium_git') + '/v8/v8.git' + '@' +  Var('v8_revision'),
 
   'src-internal': {
-    'url': 'https://chrome-internal.googlesource.com/chrome/src-internal.git@dc70a6ffde51d4f2a7f7b253d717a4b5611077f2',
+    'url': 'https://chrome-internal.googlesource.com/chrome/src-internal.git@9aadfacb39e4247e9042d0d2288b2bcb30a31f00',
     'condition': 'checkout_src_internal',
   },
 

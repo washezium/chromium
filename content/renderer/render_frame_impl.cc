@@ -3111,11 +3111,6 @@ void RenderFrameImpl::SetDeviceScaleFactorOnRenderView(
   render_view_->SetDeviceScaleFactor(use_zoom_for_dsf, device_scale_factor);
 }
 
-void RenderFrameImpl::SetVisibleViewportSizeOnRenderView(
-    const gfx::Size& visible_viewport_size) {
-  render_view_->SetVisibleViewportSize(visible_viewport_size);
-}
-
 void RenderFrameImpl::AddMessageToConsole(
     blink::mojom::ConsoleMessageLevel level,
     const std::string& message) {
@@ -5107,15 +5102,14 @@ void RenderFrameImpl::DidLoadResourceFromMemoryCache(
 }
 
 void RenderFrameImpl::DidStartResponse(
-    const url::Origin& origin_of_final_response_url,
+    const GURL& response_url,
     int request_id,
     network::mojom::URLResponseHeadPtr response_head,
     content::ResourceType resource_type,
     PreviewsState previews_state) {
-  for (auto& observer : observers_) {
-    observer.DidStartResponse(origin_of_final_response_url, request_id,
-                              *response_head, resource_type, previews_state);
-  }
+  for (auto& observer : observers_)
+    observer.DidStartResponse(response_url, request_id, *response_head,
+                              resource_type, previews_state);
 }
 
 void RenderFrameImpl::DidCompleteResponse(
