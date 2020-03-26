@@ -107,6 +107,7 @@ config("runtime_library") {
       "-nostdinc++",
       "-isystem" + rebase_path("$libcxx_prefix/include", root_build_dir),
       "-isystem" + rebase_path("$libcxxabi_prefix/include", root_build_dir),
+      "-isystem/usr/local/clang_8.0.0/lib/clang/8.0.0/include"
     ]
 
     defines += [ "CR_LIBCXX_REVISION=$libcxx_svn_revision" ]

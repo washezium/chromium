@@ -1222,7 +1222,6 @@ bool ChildProcessSecurityPolicyImpl::HasPermissionsForFileSystemFile(
   // here.
   if (!CanCommitURL(child_id, filesystem_url.origin().GetURL()))
     return false;
-  }
 
   int found_permissions = 0;
   {
@@ -1663,7 +1662,6 @@ void ChildProcessSecurityPolicyImpl::AddIsolatedOrigins(
       LOG(ERROR) << "Invalid isolated origin: " << pattern.pattern();
       continue;
     }
-  }
 
     url::Origin origin_to_add = pattern.origin();
 

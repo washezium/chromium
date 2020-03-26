@@ -55,7 +55,7 @@ static void __trace_url_request(const std::string &caller, const GURL &url)
 
 void trace_url_request(const std::string &caller, const GURL &url)
 {
-	base::PostTaskWithTraits(FROM_HERE, {content::BrowserThread::UI},
+	base::PostTask(FROM_HERE, {content::BrowserThread::UI},
 		base::Bind(&__trace_url_request, caller, url));
 }
 

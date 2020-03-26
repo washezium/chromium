@@ -406,7 +406,7 @@ config("compiler") {
     if (!using_sanitizer) {
       ldflags += [
         "-Wl,-z,defs",
-        "-Wl,--as-needed",
+        #"-Wl,--as-needed",
       ]
     }
   }
@@ -504,8 +504,8 @@ config("compiler") {
   }
 
   if (is_clang && !is_nacl && !use_xcode_clang) {
-    cflags += [ "-fcrash-diagnostics-dir=" +
-                rebase_path("//tools/clang/crashreports", root_build_dir) ]
+    #cflags += [ "-fcrash-diagnostics-dir=" +
+    #            rebase_path("//tools/clang/crashreports", root_build_dir) ]
 
     cflags += [
       # TODO(hans): Remove this once Clang generates better optimized debug info
@@ -713,7 +713,7 @@ config("compiler") {
   # https://crbug.com/847724).
   if (is_clang && !is_nacl && target_os != "chromeos" && !use_xcode_clang &&
       (is_win || use_custom_libcxx)) {
-    cflags += [ "-fcomplete-member-pointers" ]
+    #cflags += [ "-fcomplete-member-pointers" ]
   }
 
   # Pass the same C/C++ flags to the objective C/C++ compiler.
@@ -2197,7 +2197,7 @@ if (is_clang && is_a_target_toolchain) {
     assert(is_android || is_desktop_linux || is_chromeos,
            "The current platform has no default profile")
     if (is_android || is_desktop_linux) {
-      _clang_sample_profile = "//chrome/android/profiles/afdo.prof"
+      _#clang_sample_profile = "//chrome/android/profiles/afdo.prof"
     } else {
       assert(
           chromeos_afdo_platform == "silvermont" ||

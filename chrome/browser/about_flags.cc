@@ -2336,9 +2336,9 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kAcceleratedMjpegDecodeDescription, kOsCrOS | kOsLinux,
      SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedMjpegDecode)},
 #endif  // OS_CHROMEOS // OS_LINUX
-    {"v8-cache-options", flag_descriptions::kV8CacheOptionsName,
-     flag_descriptions::kV8CacheOptionsDescription, kOsAll,
-     MULTI_VALUE_TYPE(kV8CacheOptionsChoices)},
+    //{"v8-cache-options", flag_descriptions::kV8CacheOptionsName,
+     //flag_descriptions::kV8CacheOptionsDescription, kOsAll,
+     //MULTI_VALUE_TYPE(kV8CacheOptionsChoices)},
     {"system-keyboard-lock", flag_descriptions::kSystemKeyboardLockName,
      flag_descriptions::kSystemKeyboardLockDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kSystemKeyboardLock)},

@@ -43,7 +43,6 @@ const char kChromeSyncOAuth2Scope[] =
 const char kChromeSyncSupervisedOAuth2Scope[] =
     "trk:105:https://www.googleapis.com/auth/chromesync_playpen";
 
-<<<<<<< HEAD
 // OAuth2 scope for access to Google Family Link Supervision Setup.
 const char kKidsSupervisionSetupChildOAuth2Scope[] =
     "trk:105:https://www.googleapis.com/auth/kids.supervision.setup.child";
