@@ -45,12 +45,12 @@ class VIEWS_EXPORT SizeBounds {
   ~SizeBounds() = default;
 
   constexpr const base::Optional<int>& width() const { return width_; }
-  constexpr void set_width(base::Optional<int> width) {
+  inline void set_width(base::Optional<int> width) {
     width_ = std::move(width);
   }
 
   constexpr const base::Optional<int>& height() const { return height_; }
-  constexpr void set_height(base::Optional<int> height) {
+  inline void set_height(base::Optional<int> height) {
     height_ = std::move(height);
   }
 
