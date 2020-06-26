@@ -53915,7 +53915,7 @@ Called by update_net_trust_anchors.py.-->
 
 <enum name="PasswordManagerUIDismissalReason">
   <int value="0" label="Bubble lost focus / No infobar interaction"/>
-  <int value="1" label="Clicked 'Save'"/>
+  <int value="1" label="Clicked 'Save'/'Update'/'Move'/etc"/>
   <int value="2" label="Clicked 'Nope'"/>
   <int value="3" label="Clicked 'Never'"/>
   <int value="4" label="Clicked 'Manage passwords'"/>
