@@ -224,7 +224,7 @@ bool IsNodeFullyGrown(NGBlockNode node,
   return max_block_size == current_total_block_size;
 }
 
-void FinishFragmentation(NGBlockNode node,
+bool FinishFragmentation(NGBlockNode node,
                          const NGConstraintSpace& space,
                          const NGBlockBreakToken* previous_break_token,
                          const NGBoxStrut& border_padding,
@@ -280,7 +280,7 @@ void FinishFragmentation(NGBlockNode node,
     // We don't know how space is available (initial column balancing pass), so
     // we won't break.
     builder->SetIsAtBlockEnd();
-    return;
+    return true;
   }
 
   if (builder->HasChildBreakInside()) {
@@ -328,12 +328,11 @@ void FinishFragmentation(NGBlockNode node,
       if (!builder->HasInflowChildBreakInside())
         builder->SetBreakAppeal(kBreakAppealPerfect);
     }
-    return;
+    return true;
   }
 
   if (desired_block_size > space_left) {
-    // No child inside broke, but we need a break inside this block anyway, due
-    // to its size.
+    // No child inside broke, but we're too tall to fit.
     NGBreakAppeal break_appeal = kBreakAppealPerfect;
     if (!previously_consumed_block_size) {
       // This is the first fragment generated for the node. Avoid breaking
@@ -346,15 +345,30 @@ void FinishFragmentation(NGBlockNode node,
       if (space_left < block_start_unbreakable_space)
         break_appeal = kBreakAppealLastResort;
     }
-    builder->SetBreakAppeal(break_appeal);
     if (space.BlockFragmentationType() == kFragmentColumn &&
         !space.IsInitialColumnBalancingPass())
       builder->PropagateSpaceShortage(desired_block_size - space_left);
-    return;
+    if (desired_block_size <= intrinsic_block_size) {
+      // We only want to break inside if there's a valid class C breakpoint [1].
+      // That is, we need a non-zero gap between the last child (outer block-end
+      // edge) and this container (inner block-end edge). We've just found that
+      // not to be the case. If we have found a better early break, we should
+      // break there. Otherwise mark the break as unappealing, as breaking here
+      // means that we're going to break inside the block-end padding or border,
+      // or right before them. No valid breakpoints there.
+      //
+      // [1] https://www.w3.org/TR/css-break-3/#possible-breaks
+      if (builder->HasEarlyBreak())
+        return false;
+      break_appeal = kBreakAppealLastResort;
+    }
+    builder->SetBreakAppeal(break_appeal);
+    return true;
   }
 
   // The end of the block fits in the current fragmentainer.
   builder->SetIsAtBlockEnd();
+  return true;
 }
 
 NGBreakStatus BreakBeforeChildIfNeeded(const NGConstraintSpace& space,

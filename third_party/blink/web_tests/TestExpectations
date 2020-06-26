@@ -892,6 +892,10 @@ crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/flowthread-with-floa
 
 crbug.com/1079031 virtual/layout_ng_block_frag/external/wpt/css/css-break/block-end-aligned-abspos-nested.html [ Failure ]
 crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/block-end-aligned-abspos-with-overflow.html [ Failure ]
+crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-at-end-container-edge-000.html [ Pass ]
+crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-at-end-container-edge-001.html [ Pass ]
+crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-at-end-container-edge-002.html [ Pass ]
+crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-at-end-container-edge-004.html [ Pass ]
 crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-between-avoid-000.html [ Pass ]
 crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-between-avoid-001.html [ Pass ]
 crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-break/break-between-avoid-003.html [ Pass ]
@@ -3602,6 +3606,10 @@ crbug.com/1034807 [ Mac ] virtual/off-main-thread-css-paint/external/wpt/css/css
 crbug.com/982116 http/tests/devtools/elements/styles-4/styles-new-API.js [ Pass Timeout ]
 
 crbug.com/829028 external/wpt/css/css-break/avoid-border-break.html [ Failure ]
+crbug.com/829028 external/wpt/css/css-break/break-at-end-container-edge-000.html [ Failure ]
+crbug.com/829028 external/wpt/css/css-break/break-at-end-container-edge-001.html [ Failure ]
+crbug.com/829028 external/wpt/css/css-break/break-at-end-container-edge-002.html [ Failure ]
+crbug.com/829028 external/wpt/css/css-break/break-at-end-container-edge-004.html [ Failure ]
 crbug.com/829028 external/wpt/css/css-break/break-between-avoid-000.html [ Failure ]
 crbug.com/829028 external/wpt/css/css-break/break-between-avoid-001.html [ Failure ]
 crbug.com/829028 external/wpt/css/css-break/break-between-avoid-003.html [ Failure ]
