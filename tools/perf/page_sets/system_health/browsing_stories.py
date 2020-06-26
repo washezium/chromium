@@ -1329,6 +1329,54 @@ class GmailOpenConversationStory2020(_GmailBrowsingStory):
     action_runner.WaitForJavaScriptCondition(self.OPEN_CONVERSATION_BEGIN_EVENT)
     action_runner.WaitForJavaScriptCondition(self.OPEN_CONVERSATION_END_EVENT)
 
+class GmailSearchStory2020(_GmailBrowsingStory):
+  NAME = 'browse:tools:gmail-search:2020'
+  # Needs to be http and not https.
+  URL = 'http://mail.google.com/'
+  SUPPORTED_PLATFORMS = platforms.DESKTOP_ONLY
+  TAGS = [story_tags.YEAR_2020]
+  SKIP_LOGIN = False
+
+  _SEARCH_SELECTOR = 'input[aria-label="Search mail"]'
+
+  # Page event queries.
+  SEARCH_BEGIN_EVENT = '''
+    (window.__telemetry_observed_page_events.has(
+        "telemetry:reported_by_page:benchmark_begin"))
+  '''
+  SEARCH_END_EVENT = '''
+    (window.__telemetry_observed_page_events.has(
+        "telemetry:reported_by_page:benchmark_end"))
+  '''
+
+  # These maps translates page-specific event names to event names needed for
+  # the reported_by_page:* metric.
+  EVENTS_AND_MEASURES_REPORTED_BY_PAGE = '''
+    window.__telemetry_reported_page_events = {
+      'mail:se-1':
+          'telemetry:reported_by_page:benchmark_begin',
+    };
+
+    window.__telemetry_reported_page_measures = {
+      'mail:se':
+          'telemetry:reported_by_page:benchmark_end'
+    };
+  '''
+
+  def __init__(self, story_set, take_memory_measurement):
+    super(GmailSearchStory2020,
+          self).__init__(story_set, take_memory_measurement,
+                         self.EVENTS_AND_MEASURES_REPORTED_BY_PAGE)
+
+  def _DidLoadDocument(self, action_runner):
+    action_runner.Wait(1)
+    action_runner.ExecuteJavaScript(
+        'document.querySelector({{ selector }}).focus()',
+        selector=self._SEARCH_SELECTOR)
+    action_runner.EnterText('deals')
+    action_runner.PressKey('Return')
+    action_runner.WaitForJavaScriptCondition(self.SEARCH_BEGIN_EVENT)
+    action_runner.WaitForJavaScriptCondition(self.SEARCH_END_EVENT)
 
 ##############################################################################
 # Google sheets browsing story.
