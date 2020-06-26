@@ -116,7 +116,7 @@ void FakeSecurityKeyIpcClient::OnChannelConnected(int32_t peer_pid) {
   // We don't always want to fire this event as only a subset of tests care
   // about the channel being connected.  Tests that do care can register for it.
   if (on_channel_connected_callback_) {
-    on_channel_connected_callback_.Run();
+    std::move(on_channel_connected_callback_).Run();
   }
 }
 
