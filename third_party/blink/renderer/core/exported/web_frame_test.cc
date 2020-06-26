@@ -7060,18 +7060,18 @@ TEST_F(WebFrameTest, ModifiedClickNewWindow) {
 
   auto* frame =
       To<LocalFrame>(web_view_helper.GetWebView()->GetPage()->MainFrame());
-  Document* document = frame->GetDocument();
+  LocalDOMWindow* window = frame->DomWindow();
   KURL destination = ToKURL(base_url_ + "hello_world.html");
 
   // ctrl+click event
   MouseEventInit* mouse_initializer = MouseEventInit::Create();
-  mouse_initializer->setView(document->domWindow());
+  mouse_initializer->setView(window);
   mouse_initializer->setButton(1);
   mouse_initializer->setCtrlKey(true);
 
   Event* event =
       MouseEvent::Create(nullptr, event_type_names::kClick, mouse_initializer);
-  FrameLoadRequest frame_request(document, ResourceRequest(destination));
+  FrameLoadRequest frame_request(window, ResourceRequest(destination));
   frame_request.SetNavigationPolicy(NavigationPolicyFromEvent(event));
   frame_request.SetTriggeringEventInfo(TriggeringEventInfo::kFromTrustedEvent);
   LocalFrame::NotifyUserActivation(frame);
@@ -13482,13 +13482,13 @@ TEST_F(WebFrameTest, FormSubmitCancelsNavigation) {
   RegisterMockedHttpURLLoad("bar.html");
   auto* main_frame = web_view_helper.GetWebView()->MainFrameImpl();
   auto* local_frame = main_frame->GetFrame();
-  auto* document = local_frame->GetDocument();
+  auto* window = local_frame->DomWindow();
 
-  document->documentElement()->setInnerHTML(
+  window->document()->documentElement()->setInnerHTML(
       "<form id=formid action='http://internal.test/bar.html'></form>");
   ASSERT_FALSE(local_frame->Loader().HasProvisionalNavigation());
 
-  FrameLoadRequest request(document,
+  FrameLoadRequest request(window,
                            ResourceRequest("http://internal.test/foo.html"));
   local_frame->Navigate(request, WebFrameLoadType::kStandard);
   ASSERT_TRUE(local_frame->Loader().HasProvisionalNavigation());

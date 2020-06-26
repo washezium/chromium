@@ -451,7 +451,7 @@ void DocumentLoader::UpdateForSameDocumentNavigation(
     scoped_refptr<SerializedScriptValue> data,
     HistoryScrollRestorationType scroll_restoration_type,
     WebFrameLoadType type,
-    Document* initiating_document) {
+    bool is_content_initiated) {
   SinglePageAppNavigationType single_page_app_navigation_type =
       CategorizeSinglePageAppNavigation(same_document_navigation_source, type);
   UMA_HISTOGRAM_ENUMERATION(
@@ -485,7 +485,7 @@ void DocumentLoader::UpdateForSameDocumentNavigation(
   if (is_client_redirect_)
     redirect_chain_.push_back(old_url);
   redirect_chain_.push_back(new_url);
-  last_same_document_navigation_was_browser_initiated_ = !initiating_document;
+  last_same_document_navigation_was_browser_initiated_ = !is_content_initiated;
 
   SetHistoryItemStateForCommit(
       history_item_.Get(), type,
@@ -503,7 +503,7 @@ void DocumentLoader::UpdateForSameDocumentNavigation(
       FrameScheduler::NavigationType::kSameDocument);
 
   GetLocalFrameClient().DidFinishSameDocumentNavigation(
-      history_item_.Get(), commit_type, initiating_document);
+      history_item_.Get(), commit_type, is_content_initiated);
   probe::DidNavigateWithinDocument(frame_);
   if (!was_loading) {
     GetLocalFrameClient().DidStopLoading();
@@ -970,7 +970,7 @@ mojom::CommitResult DocumentLoader::CommitSameDocumentNavigation(
     WebFrameLoadType frame_load_type,
     HistoryItem* history_item,
     ClientRedirectPolicy client_redirect_policy,
-    Document* origin_document,
+    LocalDOMWindow* origin_window,
     bool has_event,
     std::unique_ptr<WebDocumentLoader::ExtraData> extra_data) {
   DCHECK(!IsReloadLoadType(frame_load_type));
@@ -996,20 +996,19 @@ mojom::CommitResult DocumentLoader::CommitSameDocumentNavigation(
   // If the requesting document is cross-origin, perform the navigation
   // asynchronously to minimize the navigator's ability to execute timing
   // attacks.
-  if (origin_document && !origin_document->GetSecurityOrigin()->CanAccess(
-                             frame_->GetDocument()->GetSecurityOrigin())) {
+  if (origin_window && !origin_window->GetSecurityOrigin()->CanAccess(
+                           frame_->GetDocument()->GetSecurityOrigin())) {
     frame_->GetTaskRunner(TaskType::kInternalLoading)
         ->PostTask(
             FROM_HERE,
             WTF::Bind(&DocumentLoader::CommitSameDocumentNavigationInternal,
                       WrapWeakPersistent(this), url, frame_load_type,
                       WrapPersistent(history_item), client_redirect_policy,
-                      WrapPersistent(origin_document), has_event,
-                      std::move(extra_data)));
+                      !!origin_window, has_event, std::move(extra_data)));
   } else {
-    CommitSameDocumentNavigationInternal(
-        url, frame_load_type, history_item, client_redirect_policy,
-        origin_document, has_event, std::move(extra_data));
+    CommitSameDocumentNavigationInternal(url, frame_load_type, history_item,
+                                         client_redirect_policy, origin_window,
+                                         has_event, std::move(extra_data));
   }
   return mojom::CommitResult::Ok;
 }
@@ -1019,7 +1018,7 @@ void DocumentLoader::CommitSameDocumentNavigationInternal(
     WebFrameLoadType frame_load_type,
     HistoryItem* history_item,
     ClientRedirectPolicy client_redirect,
-    Document* initiating_document,
+    bool is_content_initiated,
     bool has_event,
     std::unique_ptr<WebDocumentLoader::ExtraData> extra_data) {
   // If this function was scheduled to run asynchronously, this DocumentLoader
@@ -1067,7 +1066,7 @@ void DocumentLoader::CommitSameDocumentNavigationInternal(
     GetLocalFrameClient().UpdateDocumentLoader(this, std::move(extra_data));
   UpdateForSameDocumentNavigation(url, kSameDocumentNavigationDefault, nullptr,
                                   kScrollRestorationAuto, frame_load_type,
-                                  initiating_document);
+                                  is_content_initiated);
 
   initial_scroll_state_.was_scrolled_by_user = false;
 

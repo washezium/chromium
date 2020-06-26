@@ -83,6 +83,7 @@ class Document;
 class DocumentParser;
 class FrameLoader;
 class HistoryItem;
+class LocalDOMWindow;
 class LocalFrame;
 class LocalFrameClient;
 class MHTMLArchive;
@@ -164,7 +165,7 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
                                        scoped_refptr<SerializedScriptValue>,
                                        HistoryScrollRestorationType,
                                        WebFrameLoadType,
-                                       Document*);
+                                       bool is_content_initiated);
   const ResourceResponse& GetResponse() const { return response_; }
   bool IsClientRedirect() const { return is_client_redirect_; }
   bool ReplacesCurrentHistoryItem() const {
@@ -211,7 +212,7 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
       WebFrameLoadType,
       HistoryItem*,
       ClientRedirectPolicy,
-      Document* origin_document,
+      LocalDOMWindow* origin_window,
       bool has_event,
       std::unique_ptr<WebDocumentLoader::ExtraData>);
 
@@ -363,7 +364,7 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
       WebFrameLoadType,
       HistoryItem*,
       ClientRedirectPolicy,
-      Document*,
+      bool is_content_initiated,
       bool has_event,
       std::unique_ptr<WebDocumentLoader::ExtraData>);
 
