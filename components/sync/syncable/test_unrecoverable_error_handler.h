@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_SYNC_BASE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_
-#define COMPONENTS_SYNC_BASE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_
+#ifndef COMPONENTS_SYNC_SYNCABLE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_
+#define COMPONENTS_SYNC_SYNCABLE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_
 
 #include <string>
 
 #include "base/compiler_specific.h"
 #include "base/memory/weak_ptr.h"
-#include "components/sync/base/unrecoverable_error_handler.h"
+#include "components/sync/syncable/unrecoverable_error_handler.h"
 
 namespace syncer {
 
@@ -31,4 +31,4 @@ class TestUnrecoverableErrorHandler : public UnrecoverableErrorHandler {
 
 }  // namespace syncer
 
-#endif  // COMPONENTS_SYNC_BASE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_
+#endif  // COMPONENTS_SYNC_SYNCABLE_TEST_UNRECOVERABLE_ERROR_HANDLER_H_

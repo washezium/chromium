@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_SYNC_BASE_UNRECOVERABLE_ERROR_HANDLER_H_
-#define COMPONENTS_SYNC_BASE_UNRECOVERABLE_ERROR_HANDLER_H_
+#ifndef COMPONENTS_SYNC_SYNCABLE_UNRECOVERABLE_ERROR_HANDLER_H_
+#define COMPONENTS_SYNC_SYNCABLE_UNRECOVERABLE_ERROR_HANDLER_H_
 
 #include <string>
 
@@ -24,4 +24,4 @@ class UnrecoverableErrorHandler {
 
 }  // namespace syncer
 
-#endif  // COMPONENTS_SYNC_BASE_UNRECOVERABLE_ERROR_HANDLER_H_
+#endif  // COMPONENTS_SYNC_SYNCABLE_UNRECOVERABLE_ERROR_HANDLER_H_

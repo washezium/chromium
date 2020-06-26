@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/sync/base/test_unrecoverable_error_handler.h"
+#include "components/sync/syncable/test_unrecoverable_error_handler.h"
 
 #include "testing/gtest/include/gtest/gtest.h"
 
