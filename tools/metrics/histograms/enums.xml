@@ -5551,6 +5551,13 @@ Unknown properties are collapsed to zero. -->
   <int value="1" label="kBrightnessPercent"/>
 </enum>
 
+<enum name="AutoScreenBrightnessInvalidCurveReason">
+  <int value="0" label="TooFewPoints"/>
+  <int value="1" label="UnequalXY"/>
+  <int value="2" label="KnotsNotIncreasing"/>
+  <int value="3" label="ControlsDecreasing"/>
+</enum>
+
 <enum name="AutoScreenBrightnessModelLoadingStatus">
   <int value="0" label="Success"/>
   <int value="1" label="MissingGlobal"/>
