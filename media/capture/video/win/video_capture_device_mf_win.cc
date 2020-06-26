@@ -545,6 +545,39 @@ bool VideoCaptureDeviceMFWin::GetPixelFormatFromMFSourceMediaSubtype(
   return true;
 }
 
+// Check if the video capture device supports at least one of pan, tilt and zoom
+// controls.
+// static
+bool VideoCaptureDeviceMFWin::IsPanTiltZoomSupported(
+    ComPtr<IMFMediaSource> source) {
+  ComPtr<IAMCameraControl> camera_control;
+  HRESULT hr = source.As(&camera_control);
+  DLOG_IF_FAILED_WITH_HRESULT("Failed to retrieve IAMCameraControl", hr);
+  ComPtr<IAMVideoProcAmp> video_control;
+  hr = source.As(&video_control);
+  DLOG_IF_FAILED_WITH_HRESULT("Failed to retrieve IAMVideoProcAmp", hr);
+  // On Windows platform, some Image Capture video constraints and settings are
+  // get or set using IAMCameraControl interface while the rest are get or set
+  // using IAMVideoProcAmp interface and most device drivers define both of
+  // them. So for simplicity GetPhotoState and SetPhotoState support Image
+  // Capture API constraints and settings only if both interfaces are available.
+  // Therefore, if either of these interface is missing, this backend does not
+  // really support pan, tilt nor zoom.
+  if (!camera_control || !video_control)
+    return false;
+
+  for (CameraControlProperty control_property :
+       {CameraControl_Pan, CameraControl_Tilt, CameraControl_Zoom}) {
+    long min, max, step, default_value, flags;
+    HRESULT hr = camera_control->GetRange(control_property, &min, &max, &step,
+                                          &default_value, &flags);
+    if (SUCCEEDED(hr) && min < max)
+      return true;
+  }
+
+  return false;
+}
+
 HRESULT VideoCaptureDeviceMFWin::ExecuteHresultCallbackWithRetries(
     base::RepeatingCallback<HRESULT()> callback,
     MediaFoundationFunctionRequiringRetry which_function) {
