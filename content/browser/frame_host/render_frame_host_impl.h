@@ -412,8 +412,7 @@ class CONTENT_EXPORT RenderFrameHostImpl
   // We shouldn't be calling this for a speculative RenderFrameHost as we don't
   // want to support disallowing activation before the document became active
   // for the first time. In that case |IsInactiveAndDisallowReactivation()|
-  // returns false along with logging a DumpWithoutCrashing to understand the
-  // root cause.
+  // returns false along with terminating the renderer process.
   bool IsInactiveAndDisallowReactivation();
 
   void EvictFromBackForwardCacheWithReason(

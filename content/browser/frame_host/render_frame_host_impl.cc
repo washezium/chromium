@@ -4144,12 +4144,12 @@ bool RenderFrameHostImpl::IsInactiveAndDisallowReactivation() {
           BackForwardCacheMetrics::NotRestoredReason::kIgnoreEventAndEvict);
       return true;
     case LifecycleState::kSpeculative:
-      // TODO(sreejakshetty): Upgrade NOTREACHED to a CHECK(false) after
-      // monitoring the DumpWithoutCrashing reports and ensuring this doesn't
-      // happen in practice.
-      base::debug::DumpWithoutCrashing();
-      NOTREACHED() << "We should not try to ignore events for a speculative "
-                      "RenderFrameHost\n";
+      // We do not expect speculative RenderFrameHosts to generate events that
+      // require an active/inactive check. Don't crash the browser process in
+      // case it comes from a compromised renderer, but kill the renderer to
+      // avoid further confusion.
+      bad_message::ReceivedBadMessage(
+          GetProcess(), bad_message::RFH_INACTIVE_CHECK_FROM_SPECULATIVE_RFH);
       return false;
     case LifecycleState::kActive:
       return false;
