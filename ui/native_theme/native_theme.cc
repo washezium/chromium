@@ -41,6 +41,7 @@ NativeThemeColorIdToColorIdMap() {
           kColorBubbleFooterBackground},
         {NTCID::kColorId_ButtonColor, kColorButtonBackground},
         {NTCID::kColorId_ButtonBorderColor, kColorButtonBorder},
+        {NTCID::kColorId_DisabledButtonBorderColor, kColorButtonDisabledBorder},
         {NTCID::kColorId_ButtonDisabledColor,
           kColorButtonDisabledForeground},
         {NTCID::kColorId_ButtonEnabledColor, kColorButtonForeground},

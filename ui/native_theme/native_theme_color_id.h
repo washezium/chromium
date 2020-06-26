@@ -22,6 +22,7 @@
   /* Button */                                                                 \
   OP(kColorId_ButtonColor),                                                    \
   OP(kColorId_ButtonBorderColor),                                              \
+  OP(kColorId_DisabledButtonBorderColor),                                      \
   OP(kColorId_ButtonCheckedColor),                                             \
   OP(kColorId_ButtonUncheckedColor),                                           \
   OP(kColorId_ButtonEnabledColor),                                             \

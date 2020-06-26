@@ -31,6 +31,8 @@
     NativeTheme::kColorId_BubbleFooterBackground) \
   E(kColorButtonBackground, NativeTheme::kColorId_ButtonColor) \
   E(kColorButtonBorder, NativeTheme::kColorId_ButtonBorderColor) \
+  E(kColorButtonDisabledBorder, \
+    NativeTheme::kColorId_DisabledButtonBorderColor) \
   E(kColorButtonDisabledForeground, NativeTheme::kColorId_ButtonDisabledColor) \
   E(kColorButtonForeground, NativeTheme::kColorId_ButtonEnabledColor) \
   /* TODO(https://crbug.com/1003612): Map this to old color id. */ \

@@ -286,7 +286,8 @@ SkColor GetDefaultColor(NativeTheme::ColorId color_id,
       return color_utils::BlendForMinContrast(gfx::kGoogleGrey600, bg, fg)
           .color;
     }
-    case NativeTheme::kColorId_ProminentButtonDisabledColor: {
+    case NativeTheme::kColorId_ProminentButtonDisabledColor:
+    case NativeTheme::kColorId_DisabledButtonBorderColor: {
       const SkColor bg = base_theme->GetSystemColor(
           NativeTheme::kColorId_ButtonColor, color_scheme);
       return color_utils::BlendForMinContrast(bg, bg, base::nullopt, 1.2f)
