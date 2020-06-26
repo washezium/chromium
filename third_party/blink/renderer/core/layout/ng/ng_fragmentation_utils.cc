@@ -235,13 +235,43 @@ void FinishFragmentation(NGBlockNode node,
     previously_consumed_block_size = previous_break_token->ConsumedBlockSize();
 
   LayoutUnit fragments_total_block_size = builder->FragmentsTotalBlockSize();
-  LayoutUnit wanted_block_size =
+  LayoutUnit desired_block_size =
       fragments_total_block_size - previously_consumed_block_size;
-  DCHECK_GE(wanted_block_size, LayoutUnit());
+  DCHECK_GE(desired_block_size, LayoutUnit());
+  LayoutUnit intrinsic_block_size = builder->IntrinsicBlockSize();
 
-  LayoutUnit final_block_size = wanted_block_size;
-  if (space_left != kIndefiniteSize)
-    final_block_size = std::min(final_block_size, space_left);
+  LayoutUnit final_block_size = desired_block_size;
+  if (space_left != kIndefiniteSize && desired_block_size > space_left) {
+    // We're taller than what we have room for. We don't want to use more than
+    // |space_left|, but if the intrinsic block-size is larger than that, it
+    // means that there's something unbreakable (monolithic) inside (or we'd
+    // already have broken inside). We'll allow this to overflow the
+    // fragmentainer.
+    //
+    // TODO(mstensho): This is desired behavior for multicol, but not ideal for
+    // printing, where we'd prefer the unbreakable content to be sliced into
+    // different pages, lest it be clipped and lost.
+    //
+    // There is a last-resort breakpoint before trailing border and padding, so
+    // first check if we can break there and still make progress.
+    DCHECK_GE(intrinsic_block_size, border_padding.block_end);
+    DCHECK_GE(desired_block_size, border_padding.block_end);
+
+    LayoutUnit subtractable_border_padding;
+    if (desired_block_size > border_padding.block_end)
+      subtractable_border_padding = border_padding.block_end;
+
+    final_block_size =
+        std::min(desired_block_size - subtractable_border_padding,
+                 std::max(space_left,
+                          intrinsic_block_size - subtractable_border_padding));
+
+    // We'll only need to break inside if we need more space after any
+    // unbreakable content that we may have forcefully fitted here.
+    if (final_block_size < desired_block_size)
+      builder->SetDidBreakSelf();
+  }
+
   builder->SetConsumedBlockSize(previously_consumed_block_size +
                                 final_block_size);
   builder->SetFragmentBlockSize(final_block_size);
@@ -274,8 +304,8 @@ void FinishFragmentation(NGBlockNode node,
       builder->SetIsAtBlockEnd();
       // We entered layout already at the end of the block (but with overflowing
       // children). So we should take up no more space on our own.
-      DCHECK_EQ(wanted_block_size, LayoutUnit());
-    } else if (wanted_block_size <= space_left) {
+      DCHECK_EQ(desired_block_size, LayoutUnit());
+    } else if (desired_block_size <= space_left) {
       // We have room for the calculated block-size in the current
       // fragmentainer, but we need to figure out whether this node is going to
       // produce more non-zero block-size fragments or not.
@@ -301,10 +331,9 @@ void FinishFragmentation(NGBlockNode node,
     return;
   }
 
-  if (wanted_block_size > space_left) {
+  if (desired_block_size > space_left) {
     // No child inside broke, but we need a break inside this block anyway, due
     // to its size.
-    builder->SetDidBreakSelf();
     NGBreakAppeal break_appeal = kBreakAppealPerfect;
     if (!previously_consumed_block_size) {
       // This is the first fragment generated for the node. Avoid breaking
@@ -320,7 +349,7 @@ void FinishFragmentation(NGBlockNode node,
     builder->SetBreakAppeal(break_appeal);
     if (space.BlockFragmentationType() == kFragmentColumn &&
         !space.IsInitialColumnBalancingPass())
-      builder->PropagateSpaceShortage(wanted_block_size - space_left);
+      builder->PropagateSpaceShortage(desired_block_size - space_left);
     return;
   }
 
