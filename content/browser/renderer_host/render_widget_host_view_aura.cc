@@ -505,11 +505,8 @@ ui::TextInputClient* RenderWidgetHostViewAura::GetTextInputClient() {
 }
 
 RenderFrameHostImpl* RenderWidgetHostViewAura::GetFocusedFrame() const {
-  RenderWidgetHostOwnerDelegate* owner_delegate = host()->owner_delegate();
-  // TODO(crbug.com/689777): Child local roots do not work here?
-  if (!owner_delegate)
-    return nullptr;
-  FrameTreeNode* focused_frame = owner_delegate->GetFocusedFrame();
+  FrameTreeNode* focused_frame =
+      host()->delegate()->GetFrameTree()->GetFocusedFrame();
   if (!focused_frame)
     return nullptr;
   return focused_frame->current_frame_host();
