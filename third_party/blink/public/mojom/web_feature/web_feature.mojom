@@ -2543,7 +2543,6 @@ enum WebFeature {
   kLegacyLayoutByDetailsMarker = 3206,
   kLegacyLayoutByEditing = 3207,
   kLegacyLayoutByFieldSet = 3208,
-  kLegacyLayoutByFileUploadControl = 3209,
   kLegacyLayoutByFlexBox = 3210,
   kLegacyLayoutByFrameSet = 3211,
   kLegacyLayoutByGrid = 3212,
