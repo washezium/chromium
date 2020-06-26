@@ -131,6 +131,8 @@ class ContainerArchiveOptions:
 
     self.analyze_java = not (sub_args.native_only or sub_args.no_java
                              or self.relocations_mode)
+    # This may be further disabled downstream, e.g., for the case where an APK
+    # is specified, but it contains no .so files.
     self.analyze_native = not (sub_args.java_only or sub_args.no_native)
 
 
@@ -1467,7 +1469,7 @@ def CreateContainerAndSymbols(knobs=None,
     raw_symbols is a list of Symbol objects.
   """
   knobs = knobs or SectionSizeKnobs()
-  if apk_path and elf_path:
+  if apk_path and apk_so_path:
     # Extraction takes around 1 second, so do it in parallel.
     apk_elf_result = parallel.ForkAndCall(_ElfInfoFromApk,
                                           (apk_path, apk_so_path, tool_prefix))
@@ -1943,7 +1945,9 @@ def _DeduceNativeInfo(tentative_output_dir, apk_path, elf_path, map_path,
           f for f in z.infolist()
           if f.filename.endswith('.so') and f.file_size > 0
       ]
-    assert lib_infos, 'APK has no .so files.'
+    if not lib_infos:
+      return None, map_path, None
+
     # TODO(agrieve): Add support for multiple .so files, and take into account
     #     secondary architectures.
     apk_so_path = max(lib_infos, key=lambda x: x.file_size).filename
@@ -2071,6 +2075,9 @@ def _DeduceMainPaths(args, on_config_error):
       elf_path, map_path, apk_so_path = _DeduceNativeInfo(
           output_directory, apk_path, sub_args.elf_file
           or sub_args.aux_elf_file, sub_args.map_file, on_config_error)
+      if not (elf_path or map_path or apk_so_path):
+        opts.analyze_native = False
+    if opts.analyze_native:
       if map_path:
         linker_name = _DetectLinkerName(map_path)
         logging.info('Linker name: %s' % linker_name)
