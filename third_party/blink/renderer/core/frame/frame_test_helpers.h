@@ -52,6 +52,7 @@
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/public/platform/scheduler/test/web_fake_thread_scheduler.h"
 #include "third_party/blink/public/platform/web_string.h"
+#include "third_party/blink/public/platform/web_url_loader_mock_factory.h"
 #include "third_party/blink/public/platform/web_url_request.h"
 #include "third_party/blink/public/web/web_frame_owner_properties.h"
 #include "third_party/blink/public/web/web_history_item.h"
@@ -63,6 +64,7 @@
 #include "third_party/blink/renderer/core/frame/settings.h"
 #include "third_party/blink/renderer/core/scroll/scrollbar_theme.h"
 #include "third_party/blink/renderer/core/testing/scoped_mock_overlay_scrollbars.h"
+#include "third_party/blink/renderer/platform/loader/testing/web_url_loader_factory_with_mock.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/allocator.h"
 #include "third_party/blink/renderer/platform/wtf/vector.h"
@@ -431,9 +433,8 @@ class TestWebFrameClient : public WebLocalFrameClient {
   void DidStopLoading() override;
   std::unique_ptr<blink::WebURLLoaderFactory> CreateURLLoaderFactory()
       override {
-    // TODO(kinuko,toyoshim): Stop using Platform's URLLoaderFactory, but create
-    // its own WebURLLoaderFactoryWithMock. (crbug.com/751425)
-    return Platform::Current()->CreateDefaultURLLoaderFactory();
+    return std::make_unique<WebURLLoaderFactoryWithMock>(
+        WebURLLoaderMockFactory::GetSingletonInstance());
   }
   void BeginNavigation(std::unique_ptr<WebNavigationInfo> info) override;
   WebEffectiveConnectionType GetEffectiveConnectionType() override;
