@@ -57,6 +57,10 @@
 #include "url/gurl.h"
 #include "url/origin.h"
 
+#if defined(OS_ANDROID)
+#include "content/public/browser/tts_environment_android.h"
+#endif
+
 namespace content {
 
 std::unique_ptr<BrowserMainParts> ContentBrowserClient::CreateBrowserMainParts(
@@ -1007,6 +1011,11 @@ ui::AXMode ContentBrowserClient::GetAXModeForBrowserContext(
 ContentBrowserClient::WideColorGamutHeuristic
 ContentBrowserClient::GetWideColorGamutHeuristic() {
   return WideColorGamutHeuristic::kNone;
+}
+
+std::unique_ptr<TtsEnvironmentAndroid>
+ContentBrowserClient::CreateTtsEnvironmentAndroid() {
+  return nullptr;
 }
 #endif
 

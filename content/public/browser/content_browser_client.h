@@ -219,6 +219,10 @@ struct Referrer;
 struct SocketPermissionRequest;
 struct WebPreferences;
 
+#if defined(OS_ANDROID)
+class TtsEnvironmentAndroid;
+#endif
+
 #if defined(OS_CHROMEOS)
 class TtsControllerDelegate;
 #endif
@@ -1728,6 +1732,10 @@ class CONTENT_EXPORT ContentBrowserClient {
 
   // Returns kNone by default.
   virtual WideColorGamutHeuristic GetWideColorGamutHeuristic();
+
+  // Creates the TtsEnvironmentAndroid. A return value of null results in using
+  // a default implementation.
+  virtual std::unique_ptr<TtsEnvironmentAndroid> CreateTtsEnvironmentAndroid();
 #endif
 
   // Obtains the list of MIME types that are for plugins with external handlers.
