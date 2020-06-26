@@ -188,11 +188,11 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling Skia
   # and whatever else without interference from each other.
-  'skia_revision': 'e684c6daef6bfb774a325a069eda1f76ca6ac26c',
+  'skia_revision': 'refs/heads/chrome/m85',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling V8
   # and whatever else without interference from each other.
-  'v8_revision': 'refs/heads/chromium/4183',
+  'v8_revision': 'refs/heads/8.5-lkgr',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling swarming_client
   # and whatever else without interference from each other.
