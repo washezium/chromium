@@ -55,8 +55,9 @@ class TwoClientWebAppsBMOSyncTest : public SyncTest {
     info.title = base::UTF8ToUTF16(url.spec());
     info.app_url = url;
     AppId dummy_app_id = InstallApp(info, profile1);
-    EXPECT_EQ(WebAppInstallObserver(profile2, dummy_app_id).AwaitNextInstall(),
-              dummy_app_id);
+    EXPECT_EQ(
+        WebAppInstallObserver(profile2, {dummy_app_id}).AwaitNextInstall(),
+        dummy_app_id);
     return dummy_app_id;
   }
 
@@ -444,15 +445,14 @@ IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
       GetProfile(0), WebappInstallSource::OMNIBOX_INSTALL_ICON,
       GetUserInitiatedAppURL2());
 
-  // Wait for both installs.
-  EXPECT_EQ(WebAppInstallObserver(GetProfile(1), app_id1).AwaitNextInstall(),
-            app_id1);
-  EXPECT_EQ(WebAppInstallObserver(GetProfile(1), app_id2).AwaitNextInstall(),
-            app_id2);
+  ASSERT_NE(app_id1, app_id2);
+
+  // Wait for both of the webapps to be installed on profile 1.
+  WebAppInstallObserver(GetProfile(1), {app_id1, app_id2}).AwaitNextInstall();
   EXPECT_TRUE(AllProfilesHaveSameWebAppIds());
 
   syncer::StringOrdinal page_ordinal =
-      GetAppSorting(GetProfile(0))->GetNaturalAppPageOrdinal();
+      GetAppSorting(GetProfile(0))->CreateFirstAppPageOrdinal();
   syncer::StringOrdinal launch_ordinal =
       GetAppSorting(GetProfile(0))->CreateNextAppLaunchOrdinal(page_ordinal);
 
