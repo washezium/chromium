@@ -1986,7 +1986,7 @@ unsigned __stdcall CGaiaCredentialBase::WaitForLoginUI(void* param) {
 }
 
 // static
-HRESULT CGaiaCredentialBase::SaveAccountInfo(const base::Value& properties) {
+HRESULT CGaiaCredentialBase::PerformActions(const base::Value& properties) {
   LOGFN(VERBOSE);
 
   base::string16 sid = GetDictString(properties, kKeySID);
@@ -2009,34 +2009,8 @@ HRESULT CGaiaCredentialBase::SaveAccountInfo(const base::Value& properties) {
 
   base::string16 domain = GetDictString(properties, kKeyDomain);
 
-  // TODO(crbug.com/976744): Use the down scoped kKeyMdmAccessToken instead
-  // of login scoped token.
-  std::string access_token = GetDictStringUTF8(properties, kKeyAccessToken);
-  if (!access_token.empty()) {
-    // Update the password recovery information if possible.
-    HRESULT hr = PasswordRecoveryManager::Get()->StoreWindowsPasswordIfNeeded(
-        sid, access_token, password);
-    if (FAILED(hr) && hr != E_NOTIMPL)
-      LOGFN(ERROR) << "StoreWindowsPasswordIfNeeded hr=" << putHR(hr);
-
-    // Upload device details to gem database.
-    hr = GemDeviceDetailsManager::Get()->UploadDeviceDetails(access_token, sid,
-                                                             username, domain);
-    if (FAILED(hr) && hr != E_NOTIMPL)
-      LOGFN(ERROR) << "UploadDeviceDetails hr=" << putHR(hr);
-
-    SetUserProperty(sid, kRegDeviceDetailsUploadStatus, SUCCEEDED(hr) ? 1 : 0);
-
-    // Below setter is only used for unit testing.
-    GemDeviceDetailsManager::Get()->SetUploadStatusForTesting(hr);
-  } else {
-    LOGFN(ERROR) << "Access token is empty. Cannot save Windows password.";
-  }
-
   // Load the user's profile so that their registry hive is available.
   auto profile = ScopedUserProfile::Create(sid, domain, username, password);
-
-  SecurelyClearString(password);
 
   if (!profile) {
     LOGFN(ERROR) << "Could not load user profile";
@@ -2046,6 +2020,32 @@ HRESULT CGaiaCredentialBase::SaveAccountInfo(const base::Value& properties) {
   HRESULT hr = profile->SaveAccountInfo(properties);
   if (FAILED(hr))
     LOGFN(ERROR) << "profile.SaveAccountInfo failed (cont) hr=" << putHR(hr);
+
+  // TODO(crbug.com/976744): Use the down scoped kKeyMdmAccessToken instead
+  // of login scoped token.
+  std::string access_token = GetDictStringUTF8(properties, kKeyAccessToken);
+  if (access_token.empty()) {
+    LOGFN(ERROR) << "Access token is empty.";
+    return E_FAIL;
+  }
+
+  // Update the password recovery information if possible.
+  hr = PasswordRecoveryManager::Get()->StoreWindowsPasswordIfNeeded(
+    sid, access_token, password);
+  SecurelyClearString(password);
+  if (FAILED(hr) && hr != E_NOTIMPL)
+    LOGFN(ERROR) << "StoreWindowsPasswordIfNeeded hr=" << putHR(hr);
+
+  // Upload device details to gem database.
+  hr = GemDeviceDetailsManager::Get()->UploadDeviceDetails(access_token, sid,
+                                                           username, domain);
+  if (FAILED(hr) && hr != E_NOTIMPL)
+    LOGFN(ERROR) << "UploadDeviceDetails hr=" << putHR(hr);
+
+  SetUserProperty(sid, kRegDeviceDetailsUploadStatus, SUCCEEDED(hr) ? 1 : 0);
+
+  // Below setter is only used for unit testing.
+  GemDeviceDetailsManager::Get()->SetUploadStatusForTesting(hr);
 
   return hr;
 }
@@ -2058,9 +2058,9 @@ HRESULT CGaiaCredentialBase::PerformPostSigninActions(
   HRESULT hr = S_OK;
 
   if (com_initialized) {
-    hr = credential_provider::CGaiaCredentialBase::SaveAccountInfo(properties);
+    hr = credential_provider::CGaiaCredentialBase::PerformActions(properties);
     if (FAILED(hr))
-      LOGFN(ERROR) << "SaveAccountInfo hr=" << putHR(hr);
+      LOGFN(ERROR) << "PerformActions hr=" << putHR(hr);
 
     // Try to enroll the machine to MDM here. MDM requires a user to be signed
     // on to an interactive session to succeed and when we call this function
@@ -2089,10 +2089,11 @@ HRESULT CGaiaCredentialBase::PerformPostSigninActions(
 
 // Registers OS user - gaia user association in HKEY_LOCAL_MACHINE registry
 // hive.
-HRESULT RegisterAssociation(const base::string16& sid,
-                            const base::string16& id,
-                            const base::string16& email,
-                            const base::string16& token_handle) {
+HRESULT
+RegisterAssociation(const base::string16& sid,
+                    const base::string16& id,
+                    const base::string16& email,
+                    const base::string16& token_handle) {
   // Save token handle.  This handle will be used later to determine if the
   // the user has changed their password since the account was created.
   HRESULT hr = SetUserProperty(sid, kUserTokenHandle, token_handle);
