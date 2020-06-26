@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "base/containers/span.h"
 #include "base/logging.h"
 #include "base/memory/ref_counted.h"
 #include "base/memory/singleton.h"
@@ -28,6 +29,7 @@
 #include "net/cert/x509_certificate.h"
 #include "net/cert/x509_util.h"
 #include "net/ssl/ssl_private_key.h"
+#include "third_party/boringssl/src/include/openssl/digest.h"
 #include "third_party/boringssl/src/include/openssl/ssl.h"
 
 namespace chromeos {
@@ -56,7 +58,7 @@ class DefaultDelegate : public CertificateProviderService::Delegate,
       int request_id,
       uint16_t algorithm,
       const scoped_refptr<net::X509Certificate>& certificate,
-      base::span<const uint8_t> digest) override;
+      base::span<const uint8_t> input) override;
 
   // extensions::EventRouter::Observer:
   void OnListenerAdded(const extensions::EventListenerInfo& details) override {}
@@ -113,12 +115,13 @@ bool DefaultDelegate::DispatchSignRequestToExtension(
     int request_id,
     uint16_t algorithm,
     const scoped_refptr<net::X509Certificate>& certificate,
-    base::span<const uint8_t> digest) {
+    base::span<const uint8_t> input) {
   const std::string event_name(api_cp::OnSignDigestRequested::kEventName);
   if (!event_router_->ExtensionHasEventListener(extension_id, event_name))
     return false;
 
   api_cp::SignRequest request;
+
   request.sign_request_id = request_id;
   switch (algorithm) {
     case SSL_SIGN_RSA_PKCS1_MD5_SHA1:
@@ -140,10 +143,19 @@ bool DefaultDelegate::DispatchSignRequestToExtension(
       LOG(ERROR) << "Unknown signature algorithm";
       return false;
   }
-  request.digest.assign(digest.begin(), digest.end());
   base::StringPiece cert_der =
       net::x509_util::CryptoBufferAsStringPiece(certificate->cert_buffer());
   request.certificate.assign(cert_der.begin(), cert_der.end());
+
+  // The extension expects the input to be hashed ahead of time.
+  request.digest.resize(EVP_MAX_MD_SIZE);
+  const EVP_MD* md = SSL_get_signature_algorithm_digest(algorithm);
+  unsigned digest_len;
+  if (!md || !EVP_Digest(input.data(), input.size(), request.digest.data(),
+                         &digest_len, md, /*ENGINE *impl=*/nullptr)) {
+    return false;
+  }
+  request.digest.resize(digest_len);
 
   std::unique_ptr<base::ListValue> internal_args(new base::ListValue);
   internal_args->AppendInteger(request_id);

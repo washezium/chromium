@@ -181,10 +181,7 @@ TEST_P(SecurityTokenOperationBridgeTest, BasicTest) {
 INSTANTIATE_TEST_SUITE_P(
     SecurityTokenOperationBridgeTest,
     SecurityTokenOperationBridgeTest,
-    ::testing::Values(std::make_tuple(mojom::SignatureResult::kOk,
-                                      kCertFileName,
-                                      std::vector<uint8_t>(1)),
-                      std::make_tuple(mojom::SignatureResult::kFailed,
+    ::testing::Values(std::make_tuple(mojom::SignatureResult::kFailed,
                                       kCertFileName,
                                       std::vector<uint8_t>()),
                       std::make_tuple(mojom::SignatureResult::kFailed,
