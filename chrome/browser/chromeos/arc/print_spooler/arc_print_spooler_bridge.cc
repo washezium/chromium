@@ -83,14 +83,12 @@ void ArcPrintSpoolerBridge::StartPrintInCustomTab(
       FROM_HERE, {base::MayBlock()},
       base::BindOnce(&SavePrintDocument, std::move(scoped_handle)),
       base::BindOnce(&ArcPrintSpoolerBridge::OnPrintDocumentSaved,
-                     weak_ptr_factory_.GetWeakPtr(), task_id, surface_id,
-                     top_margin, std::move(instance), std::move(callback)));
+                     weak_ptr_factory_.GetWeakPtr(), task_id,
+                     std::move(instance), std::move(callback)));
 }
 
 void ArcPrintSpoolerBridge::OnPrintDocumentSaved(
     int32_t task_id,
-    int32_t surface_id,
-    int32_t top_margin,
     mojo::PendingRemote<mojom::PrintSessionInstance> instance,
     StartPrintInCustomTabCallback callback,
     base::FilePath file_path) {
@@ -109,8 +107,7 @@ void ArcPrintSpoolerBridge::OnPrintDocumentSaved(
     return;
   }
 
-  auto custom_tab =
-      std::make_unique<CustomTab>(arc_window, surface_id, top_margin);
+  auto custom_tab = std::make_unique<CustomTab>(arc_window);
   auto web_contents = CreateArcCustomTabWebContents(profile_, url);
 
   // TODO(crbug.com/955171): Remove this temporary conversion to InterfacePtr

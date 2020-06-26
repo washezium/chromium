@@ -510,8 +510,6 @@ void ChromeNewWindowClient::OpenWebAppFromArc(const GURL& url) {
 void ChromeNewWindowClient::OpenArcCustomTab(
     const GURL& url,
     int32_t task_id,
-    int32_t surface_id,
-    int32_t top_margin,
     arc::mojom::IntentHelperHost::OnOpenCustomTabCallback callback) {
   GURL url_to_open = ConvertArcUrlToExternalFileUrlIfNeeded(url);
   Profile* profile = ProfileManager::GetActiveUserProfile();
@@ -522,8 +520,7 @@ void ChromeNewWindowClient::OpenArcCustomTab(
     return;
   }
 
-  auto custom_tab =
-      std::make_unique<arc::CustomTab>(arc_window, surface_id, top_margin);
+  auto custom_tab = std::make_unique<arc::CustomTab>(arc_window);
   auto web_contents = arc::CreateArcCustomTabWebContents(profile, url);
 
   // |custom_tab_browser| will be destroyed when its tab strip becomes empty,

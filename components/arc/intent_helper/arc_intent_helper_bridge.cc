@@ -173,8 +173,7 @@ void ArcIntentHelperBridge::OnOpenCustomTab(const std::string& url,
     std::move(callback).Run(nullptr);
     return;
   }
-  g_open_url_delegate->OpenArcCustomTab(gurl, task_id, surface_id, top_margin,
-                                        std::move(callback));
+  g_open_url_delegate->OpenArcCustomTab(gurl, task_id, std::move(callback));
 }
 
 void ArcIntentHelperBridge::OnOpenChromePage(mojom::ChromePage page) {
