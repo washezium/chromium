@@ -435,7 +435,7 @@ mojom::RangePtr RetrieveControlRangeAndCurrent(
     std::vector<mojom::MeteringMode>* supported_modes = nullptr,
     mojom::MeteringMode* current_mode = nullptr,
     double (*value_converter)(long) = PlatformToCaptureValue,
-    double (*step_converter)(long) = PlatformToCaptureValue) {
+    double (*step_converter)(long, double, double) = PlatformToCaptureStep) {
   return media::RetrieveControlRangeAndCurrent(
       [&control_interface, control_property](auto... args) {
         return control_interface->GetRange(control_property, args...);
