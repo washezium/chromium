@@ -182,8 +182,16 @@ IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
   EXPECT_TRUE(AllProfilesHaveSameWebAppIds());
 }
 
+// Flakily fails on Linux TSAN only (crbug.com/1099847)
+#if defined(OS_LINUX)
+#define MAYBE_SyncDoubleInstallationDifferentNames \
+  DISABLED_SyncDoubleInstallationDifferentNames
+#else
+#define MAYBE_SyncDoubleInstallationDifferentNames \
+  SyncDoubleInstallationDifferentNames
+#endif
 IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
-                       SyncDoubleInstallationDifferentNames) {
+                       MAYBE_SyncDoubleInstallationDifferentNames) {
   ASSERT_TRUE(SetupSync());
   ASSERT_TRUE(AllProfilesHaveSameWebAppIds());
 
