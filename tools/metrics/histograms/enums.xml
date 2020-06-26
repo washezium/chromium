@@ -28141,6 +28141,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3341" label="V8Window_ShowSaveFilePicker_Method"/>
   <int value="3342" label="V8Window_ShowDirectoryPicker_Method"/>
   <int value="3343" label="V8Window_GetOriginPrivateDirectory_Method"/>
+  <int value="3344" label="RTCConstraintEnableRtpDataChannelsTrue"/>
+  <int value="3345" label="RTCConstraintEnableRtpDataChannelsFalse"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
