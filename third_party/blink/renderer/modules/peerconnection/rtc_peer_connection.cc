@@ -2373,13 +2373,13 @@ RTCRtpSender* RTCPeerConnection::addTrack(MediaStreamTrack* track,
     }
   }
 
-  Vector<WebMediaStream> web_streams(streams.size());
+  MediaStreamDescriptorVector descriptors(streams.size());
   for (wtf_size_t i = 0; i < streams.size(); ++i) {
-    web_streams[i] = streams[i]->Descriptor();
+    descriptors[i] = streams[i]->Descriptor();
   }
   webrtc::RTCErrorOr<std::unique_ptr<RTCRtpTransceiverPlatform>>
       error_or_transceiver =
-          peer_handler_->AddTrack(track->Component(), web_streams);
+          peer_handler_->AddTrack(track->Component(), descriptors);
   if (!error_or_transceiver.ok()) {
     ThrowExceptionFromRTCError(error_or_transceiver.error(), exception_state);
     return nullptr;
