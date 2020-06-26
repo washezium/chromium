@@ -1601,7 +1601,7 @@ def CreateContainerAndSymbols(knobs=None,
             models.Symbol(
                 models.SECTION_DEX,
                 unattributed_dex,
-                full_name='** .dex (unattributed)'))
+                full_name='** .dex (unattributed - includes string literals)'))
 
     raw_symbols.extend(other_symbols)
 
