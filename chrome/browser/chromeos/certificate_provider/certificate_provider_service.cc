@@ -229,14 +229,18 @@ void CertificateProviderService::RemoveObserver(Observer* observer) {
   observers_.RemoveObserver(observer);
 }
 
-bool CertificateProviderService::SetCertificatesProvidedByExtension(
+void CertificateProviderService::SetCertificatesProvidedByExtension(
     const std::string& extension_id,
-    int cert_request_id,
     const CertificateInfoList& certificate_infos) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-
   certificate_map_.UpdateCertificatesForExtension(extension_id,
                                                   certificate_infos);
+}
+
+bool CertificateProviderService::SetExtensionCertificateReplyReceived(
+    const std::string& extension_id,
+    int cert_request_id) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 
   bool completed = false;
   if (!certificate_requests_.SetExtensionReplyReceived(

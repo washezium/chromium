@@ -65,8 +65,9 @@ class FakeDelegate : public chromeos::CertificateProviderService::Delegate {
       cert_info.supported_algorithms.push_back(SSL_SIGN_RSA_PKCS1_SHA256);
       infos.push_back(cert_info);
     }
-    service_->SetCertificatesProvidedByExtension(kExtensionId, cert_request_id,
-                                                 infos);
+    service_->SetCertificatesProvidedByExtension(kExtensionId, infos);
+    service_->SetExtensionCertificateReplyReceived(kExtensionId,
+                                                   cert_request_id);
   }
 
   bool DispatchSignRequestToExtension(

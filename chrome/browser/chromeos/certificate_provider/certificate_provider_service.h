@@ -121,17 +121,22 @@ class CertificateProviderService : public KeyedService {
   void AddObserver(Observer* observer);
   void RemoveObserver(Observer* observer);
 
-  // Must be called with the reply of an extension to a previous certificate
-  // request. For each request, it is expected that every registered extension
-  // replies exactly once with the latest list of certificates.
-  // |cert_request_id| must refer to a previously broadcast certificate request.
-  // Returns false and ignores the call if the request id is unknown or it was
-  // called before with the same combination of request id and extension id.
-  // E.g. the request could have timed out before an extension replies.
-  bool SetCertificatesProvidedByExtension(
+  // Updates the certificates provided by the extension with |extension_id| to
+  // be |certificates_infos|.
+  void SetCertificatesProvidedByExtension(
       const std::string& extension_id,
-      int cert_request_id,
       const CertificateInfoList& certificate_infos);
+
+  // Must be called when an extension replied to a previous certificate
+  // request, after the new certificates were registered with
+  // SetCertificatesForExtension(). For each request, it is expected that every
+  // registered extension replies exactly once. |cert_request_id| must refer to
+  // a previously broadcast certificate request. Returns false if the request id
+  // is unknown or it was called before with the same combination of request id
+  // and extension id. E.g. the request could have timed out before an extension
+  // replies.
+  bool SetExtensionCertificateReplyReceived(const std::string& extension_id,
+                                            int cert_request_id);
 
   // Must be called with the reply of an extension to a previous sign request.
   // |sign_request_id| is provided in the reply of the extension and must refer
