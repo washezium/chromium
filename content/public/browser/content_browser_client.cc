@@ -992,7 +992,7 @@ bool ContentBrowserClient::IsBuiltinComponent(BrowserContext* browser_context,
   return false;
 }
 
-bool ContentBrowserClient::IsRendererDebugURLBlacklisted(
+bool ContentBrowserClient::ShouldBlockRendererDebugURL(
     const GURL& url,
     BrowserContext* context) {
   return false;

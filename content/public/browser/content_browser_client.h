@@ -1710,9 +1710,9 @@ class CONTENT_EXPORT ContentBrowserClient {
 
   // Returns whether given |url| has to be blocked. It's used only for renderer
   // debug URLs, as other requests are handled via NavigationThrottlers and
-  // blacklist policies are applied there.
-  virtual bool IsRendererDebugURLBlacklisted(const GURL& url,
-                                             BrowserContext* context);
+  // blocklist policies are applied there.
+  virtual bool ShouldBlockRendererDebugURL(const GURL& url,
+                                           BrowserContext* context);
 
   // Returns the default accessibility mode for the given browser context.
   virtual ui::AXMode GetAXModeForBrowserContext(
