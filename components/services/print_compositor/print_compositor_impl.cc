@@ -250,27 +250,31 @@ void PrintCompositorImpl::UpdateRequestsWithSubframeInfo(
     if (pending_list.erase(frame_guid)) {
       std::copy(pending_subframes.begin(), pending_subframes.end(),
                 std::inserter(pending_list, pending_list.end()));
-      if (pending_list.empty()) {
-        // If the request isn't waiting on any subframes then it is ready.
-        // Fulfill the request now.
-        FulfillRequest(std::move(request->serialized_content),
-                       request->subframe_content_map,
-                       std::move(request->callback));
+    }
 
-        // Check for a collected print preview document that was waiting on
-        // this page to finish.
-        if (docinfo_) {
-          if (docinfo_->page_count &&
-              (docinfo_->pages_written == docinfo_->page_count)) {
-            CompleteDocumentRequest(std::move(docinfo_->callback));
-          }
-        }
-        it = requests_.erase(it);
-        continue;
+    // If the request still has pending frames, or isn't at the front of the
+    // request queue (and thus could be dependent upon content from their
+    // data stream), then keep waiting.
+    const bool fulfill_request =
+        it == requests_.begin() && pending_list.empty();
+    if (!fulfill_request) {
+      ++it;
+      continue;
+    }
+
+    // Fulfill the request now.
+    FulfillRequest(std::move(request->serialized_content),
+                   request->subframe_content_map, std::move(request->callback));
+
+    // Check for a collected print preview document that was waiting on
+    // this page to finish.
+    if (docinfo_) {
+      if (docinfo_->page_count &&
+          (docinfo_->pages_written == docinfo_->page_count)) {
+        CompleteDocumentRequest(std::move(docinfo_->callback));
       }
     }
-    // If the request still has pending frames, keep waiting.
-    ++it;
+    it = requests_.erase(it);
   }
 }
 
@@ -321,9 +325,14 @@ void PrintCompositorImpl::HandleCompositionRequest(
   base::flat_set<uint64_t> pending_subframes;
   if (IsReadyToComposite(frame_guid, subframe_content_map,
                          &pending_subframes)) {
-    FulfillRequest(std::move(mapping), subframe_content_map,
-                   std::move(callback));
-    return;
+    // This request has all the necessary subframes.
+    // With sequential request processing need to ensure this request is
+    // at the front of the line before fulfilling it.
+    if (requests_.empty()) {
+      FulfillRequest(std::move(mapping), subframe_content_map,
+                     std::move(callback));
+      return;
+    }
   }
 
   // When it is not ready yet, keep its information and
