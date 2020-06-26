@@ -80,7 +80,8 @@ void WaylandWindow::UpdateBufferScale(bool update_bounds) {
 }
 
 gfx::AcceleratedWidget WaylandWindow::GetWidget() const {
-  return wayland_surface_.GetWidget();
+  DCHECK(wayland_surface_);
+  return wayland_surface_->GetWidget();
 }
 void WaylandWindow::SetPointerFocus(bool focus) {
   has_pointer_focus_ = focus;
@@ -316,6 +317,12 @@ void WaylandWindow::SetBoundsDip(const gfx::Rect& bounds_dip) {
 }
 
 bool WaylandWindow::Initialize(PlatformWindowInitProperties properties) {
+  wayland_surface_ = std::make_unique<WaylandSurface>(connection_, this);
+  if (!surface()) {
+    LOG(ERROR) << "Failed to create wl_surface";
+    return false;
+  }
+
   // Properties contain DIP bounds but the buffer scale is initially 1 so it's
   // OK to assign.  The bounds will be recalculated when the buffer scale
   // changes.
@@ -324,12 +331,6 @@ bool WaylandWindow::Initialize(PlatformWindowInitProperties properties) {
   opacity_ = properties.opacity;
   type_ = properties.type;
 
-  wayland_surface_.surface_ = connection_->CreateSurface();
-  wayland_surface_.root_window_ = this;
-  if (!surface()) {
-    LOG(ERROR) << "Failed to create wl_surface";
-    return false;
-  }
   wl_surface_set_user_data(surface(), this);
   AddSurfaceListener();
 
@@ -352,12 +353,13 @@ bool WaylandWindow::Initialize(PlatformWindowInitProperties properties) {
 
 void WaylandWindow::SetBufferScale(int32_t new_scale, bool update_bounds) {
   DCHECK_GT(new_scale, 0);
+  DCHECK(wayland_surface_);
 
   if (new_scale == buffer_scale())
     return;
 
   auto old_scale = buffer_scale();
-  wayland_surface_.buffer_scale_ = new_scale;
+  wayland_surface_->set_buffer_scale(new_scale);
   if (update_bounds)
     SetBoundsDip(gfx::ScaleToRoundedRect(bounds_px_, 1.0 / old_scale));
 

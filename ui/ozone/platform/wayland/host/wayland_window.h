@@ -54,8 +54,8 @@ class WaylandWindow : public PlatformWindow, public PlatformEventDispatcher {
   // to do so (this is not needed upon window initialization).
   void UpdateBufferScale(bool update_bounds);
 
-  WaylandSurface* wayland_surface() { return &wayland_surface_; }
-  wl_surface* surface() const { return wayland_surface_.surface(); }
+  WaylandSurface* wayland_surface() { return wayland_surface_.get(); }
+  wl_surface* surface() const { return wayland_surface_->surface(); }
 
   void set_parent_window(WaylandWindow* parent_window) {
     parent_window_ = parent_window;
@@ -82,7 +82,7 @@ class WaylandWindow : public PlatformWindow, public PlatformEventDispatcher {
   void set_child_window(WaylandWindow* window) { child_window_ = window; }
   WaylandWindow* child_window() const { return child_window_; }
 
-  int32_t buffer_scale() const { return wayland_surface_.buffer_scale(); }
+  int32_t buffer_scale() const { return wayland_surface_->buffer_scale(); }
   int32_t ui_scale() const { return ui_scale_; }
 
   const base::flat_set<uint32_t>& entered_outputs_ids() const {
@@ -216,7 +216,7 @@ class WaylandWindow : public PlatformWindow, public PlatformEventDispatcher {
   WaylandWindow* parent_window_ = nullptr;
   WaylandWindow* child_window_ = nullptr;
 
-  WaylandSurface wayland_surface_;
+  std::unique_ptr<WaylandSurface> wayland_surface_;
 
   // The current cursor bitmap (immutable).
   scoped_refptr<BitmapCursorOzone> bitmap_;
