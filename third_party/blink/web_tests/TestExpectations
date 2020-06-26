@@ -6595,7 +6595,7 @@ crbug.com/1058888 [ Linux ] animations/animationworklet/peek-updated-composited-
 
 crbug.com/1015187 external/wpt/html/cross-origin-embedder-policy/none.https.html [ Pass Timeout ]
 crbug.com/1013523 external/wpt/html/cross-origin-embedder-policy/require-corp.https.html [ Failure Pass ]
-crbug.com/1091665 external/wpt/html/cross-origin-embedder-policy/reporting-navigation.https.html [ Pass Failure ]
+crbug.com/1091665 [ Debug ] external/wpt/html/cross-origin-embedder-policy/reporting-navigation.https.html [ Pass Failure ]
 
 # [virtual/...]external/wpt/web-animation test flakes
 crbug.com/1064065 virtual/threaded/external/wpt/css/css-animations/event-dispatch.tentative.html [ Pass Failure ]
