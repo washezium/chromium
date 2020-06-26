@@ -4897,7 +4897,8 @@ const FeatureEntry kFeatureEntries[] = {
 #endif  // !defined(OS_ANDROID)
 
     {"form-controls-refresh", flag_descriptions::kFormControlsRefreshName,
-     flag_descriptions::kFormControlsRefreshDescription, kOsAll,
+     flag_descriptions::kFormControlsRefreshDescription,
+     kOsWin | kOsLinux | kOsCrOS | kOsAndroid,
      FEATURE_VALUE_TYPE(features::kFormControlsRefresh)},
 
 #if defined(OS_CHROMEOS)
