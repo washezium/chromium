@@ -29,8 +29,11 @@ WaylandWindow::WaylandWindow(PlatformWindowDelegate* delegate,
     : delegate_(delegate), connection_(connection) {}
 
 WaylandWindow::~WaylandWindow() {
+  shutting_down_ = true;
+  RemoveSurfaceListener();
+
   PlatformEventSource::GetInstance()->RemovePlatformEventDispatcher(this);
-  if (surface())
+  if (wayland_surface_)
     connection_->wayland_window_manager()->RemoveWindow(GetWidget());
 
   if (parent_window_)
@@ -83,6 +86,7 @@ gfx::AcceleratedWidget WaylandWindow::GetWidget() const {
   DCHECK(wayland_surface_);
   return wayland_surface_->GetWidget();
 }
+
 void WaylandWindow::SetPointerFocus(bool focus) {
   has_pointer_focus_ = focus;
 
@@ -331,7 +335,6 @@ bool WaylandWindow::Initialize(PlatformWindowInitProperties properties) {
   opacity_ = properties.opacity;
   type_ = properties.type;
 
-  wl_surface_set_user_data(surface(), this);
   AddSurfaceListener();
 
   connection_->wayland_window_manager()->AddWindow(GetWidget(), this);
@@ -351,6 +354,7 @@ bool WaylandWindow::Initialize(PlatformWindowInitProperties properties) {
   return true;
 }
 
+// TODO(crbug.com/1099838): Move wl_surface calls to WaylandSurface
 void WaylandWindow::SetBufferScale(int32_t new_scale, bool update_bounds) {
   DCHECK_GT(new_scale, 0);
   DCHECK(wayland_surface_);
@@ -394,12 +398,21 @@ WaylandWindow* WaylandWindow::GetRootParentWindow() {
   return parent_window_ ? parent_window_->GetRootParentWindow() : this;
 }
 
+// TODO(crbug.com/1099838): Move wl_surface calls to WaylandSurface
 void WaylandWindow::AddSurfaceListener() {
   static struct wl_surface_listener surface_listener = {
       &WaylandWindow::Enter,
       &WaylandWindow::Leave,
   };
-  wl_surface_add_listener(surface(), &surface_listener, this);
+  wl_surface_add_listener(surface(), &surface_listener, nullptr);
+  wl_surface_set_user_data(surface(), this);
+}
+
+void WaylandWindow::RemoveSurfaceListener() {
+  if (surface()) {
+    wl_surface_add_listener(surface(), nullptr, nullptr);
+    wl_surface_set_user_data(surface(), nullptr);
+  }
 }
 
 void WaylandWindow::AddEnteredOutputId(struct wl_output* output) {
@@ -485,6 +498,7 @@ void WaylandWindow::MaybeUpdateOpaqueRegion() {
   wl::Object<wl_region> region(
       wl_compositor_create_region(connection_->compositor()));
   wl_region_add(region.get(), 0, 0, bounds_px_.width(), bounds_px_.height());
+
   wl_surface_set_opaque_region(surface(), region.get());
 
   connection_->ScheduleFlush();
@@ -510,22 +524,22 @@ uint32_t WaylandWindow::DispatchEventToDelegate(
 void WaylandWindow::Enter(void* data,
                           struct wl_surface* wl_surface,
                           struct wl_output* output) {
-  auto* window = static_cast<WaylandWindow*>(data);
-  if (window) {
-    DCHECK(window->surface() == wl_surface);
+  if (auto* window = FromSurface(wl_surface))
     window->AddEnteredOutputId(output);
-  }
 }
 
 // static
 void WaylandWindow::Leave(void* data,
                           struct wl_surface* wl_surface,
                           struct wl_output* output) {
-  auto* window = static_cast<WaylandWindow*>(data);
-  if (window) {
-    DCHECK(window->surface() == wl_surface);
+  if (auto* window = FromSurface(wl_surface))
     window->RemoveEnteredOutputId(output);
-  }
+}
+
+std::unique_ptr<WaylandSurface> WaylandWindow::TakeWaylandSurface() {
+  DCHECK(shutting_down_);
+  DCHECK(wayland_surface_);
+  return std::move(wayland_surface_);
 }
 
 }  // namespace ui
