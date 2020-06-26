@@ -123,13 +123,16 @@ TrustTokenTestParameters::TrustTokenTestParameters(
     base::Optional<network::mojom::TrustTokenSignRequestData> sign_request_data,
     base::Optional<bool> include_timestamp_header,
     base::Optional<std::string> issuer_spec,
-    base::Optional<std::vector<std::string>> additional_signed_headers)
+    base::Optional<std::vector<std::string>> additional_signed_headers,
+    base::Optional<std::string> possibly_unsafe_additional_signing_data)
     : type(type),
       refresh_policy(refresh_policy),
       sign_request_data(sign_request_data),
       include_timestamp_header(include_timestamp_header),
       issuer_spec(issuer_spec),
-      additional_signed_headers(additional_signed_headers) {}
+      additional_signed_headers(additional_signed_headers),
+      possibly_unsafe_additional_signing_data(
+          possibly_unsafe_additional_signing_data) {}
 
 TrustTokenParametersAndSerialization
 SerializeTrustTokenParametersAndConstructExpectation(
@@ -172,6 +175,13 @@ SerializeTrustTokenParametersAndConstructExpectation(
     for (const std::string& input_header : *input.additional_signed_headers) {
       trust_token_params->additional_signed_headers.push_back(input_header);
     }
+  }
+
+  if (input.possibly_unsafe_additional_signing_data.has_value()) {
+    parameters.SetStringKey("additionalSigningData",
+                            *input.possibly_unsafe_additional_signing_data);
+    trust_token_params->possibly_unsafe_additional_signing_data =
+        *input.possibly_unsafe_additional_signing_data;
   }
 
   std::string serialized_parameters;
