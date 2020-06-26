@@ -126,31 +126,31 @@ class RequestPinExceptFirstQuotaBucketMapper final
   std::unique_ptr<QuotaLimitHeuristic::Bucket> new_request_bucket_;
 };
 
-bool ParseCertificateInfo(
-    const api_cp::CertificateInfo& info,
-    chromeos::certificate_provider::CertificateInfo* out_info,
+scoped_refptr<net::X509Certificate> ParseCertificateDer(
+    const std::vector<uint8_t>& cert_der,
     std::string* out_error_message) {
-  const std::vector<uint8_t>& cert_der = info.certificate;
   if (cert_der.empty()) {
     *out_error_message = kCertificateProviderErrorInvalidX509Cert;
-    return false;
+    return nullptr;
   }
 
   // Allow UTF-8 inside PrintableStrings in client certificates. See
   // crbug.com/770323 and crbug.com/788655.
   net::X509Certificate::UnsafeCreateOptions options;
   options.printable_string_is_utf8 = true;
-  out_info->certificate = net::X509Certificate::CreateFromBytesUnsafeOptions(
-      reinterpret_cast<const char*>(cert_der.data()), cert_der.size(), options);
-  if (!out_info->certificate) {
+  scoped_refptr<net::X509Certificate> certificate =
+      net::X509Certificate::CreateFromBytesUnsafeOptions(
+          reinterpret_cast<const char*>(cert_der.data()), cert_der.size(),
+          options);
+  if (!certificate) {
     *out_error_message = kCertificateProviderErrorInvalidX509Cert;
-    return false;
+    return nullptr;
   }
 
   size_t public_key_length_in_bits = 0;
   net::X509Certificate::PublicKeyType type =
       net::X509Certificate::kPublicKeyTypeUnknown;
-  net::X509Certificate::GetPublicKeyInfo(out_info->certificate->cert_buffer(),
+  net::X509Certificate::GetPublicKeyInfo(certificate->cert_buffer(),
                                          &public_key_length_in_bits, &type);
 
   switch (type) {
@@ -158,14 +158,25 @@ bool ParseCertificateInfo(
       break;
     case net::X509Certificate::kPublicKeyTypeECDSA:
       *out_error_message = kCertificateProviderErrorECDSANotSupported;
-      return false;
+      return nullptr;
     case net::X509Certificate::kPublicKeyTypeUnknown:
     case net::X509Certificate::kPublicKeyTypeDSA:
     case net::X509Certificate::kPublicKeyTypeDH:
     case net::X509Certificate::kPublicKeyTypeECDH:
       *out_error_message = kCertificateProviderErrorUnknownKeyType;
-      return false;
+      return nullptr;
   }
+  return certificate;
+}
+
+bool ParseCertificateInfo(
+    const api_cp::CertificateInfo& info,
+    chromeos::certificate_provider::CertificateInfo* out_info,
+    std::string* out_error_message) {
+  out_info->certificate =
+      ParseCertificateDer(info.certificate, out_error_message);
+  if (!out_info->certificate)
+    return false;
 
   for (const api_cp::Hash hash : info.supported_hashes) {
     switch (hash) {
