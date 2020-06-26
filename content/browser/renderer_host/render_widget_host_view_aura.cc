@@ -87,6 +87,7 @@
 #include "ui/events/gestures/gesture_recognizer.h"
 #include "ui/events/keycodes/dom/dom_code.h"
 #include "ui/gfx/canvas.h"
+#include "ui/gfx/color_palette.h"
 #include "ui/gfx/geometry/dip_util.h"
 #include "ui/gfx/geometry/rect_conversions.h"
 #include "ui/gfx/geometry/size_conversions.h"
@@ -1462,11 +1463,27 @@ bool RenderWidgetHostViewAura::SetCompositionFromExistingText(
 #endif
 
 #if defined(OS_CHROMEOS)
-// TODO(crbug.com/1091088) Implement setAutocorrectRange
 bool RenderWidgetHostViewAura::SetAutocorrectRange(
     const base::string16& autocorrect_text,
     const gfx::Range& range) {
-  return false;
+  auto* input_handler = GetFrameWidgetInputHandlerForFocusedWidget();
+  if (!input_handler)
+    return false;
+  if (autocorrect_text.empty()) {
+    input_handler->ClearImeTextSpansByType(range.start(), range.end(),
+                                           ui::ImeTextSpan::Type::kAutocorrect);
+    return true;
+  }
+  ui::ImeTextSpan ui_ime_text_span;
+  ui_ime_text_span.type = ui::ImeTextSpan::Type::kAutocorrect;
+  ui_ime_text_span.start_offset = 0;
+  ui_ime_text_span.end_offset = autocorrect_text.length();
+  ui_ime_text_span.underline_style = ui::ImeTextSpan::UnderlineStyle::kDot;
+  ui_ime_text_span.underline_color = gfx::kGoogleGrey700;
+
+  input_handler->AddImeTextSpansToExistingText(range.start(), range.end(),
+                                               {ui_ime_text_span});
+  return true;
 }
 #endif
 
