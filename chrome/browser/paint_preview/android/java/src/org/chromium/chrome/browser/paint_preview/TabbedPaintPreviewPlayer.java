@@ -12,8 +12,8 @@ import org.chromium.base.UserData;
 import org.chromium.chrome.browser.paint_preview.services.PaintPreviewTabService;
 import org.chromium.chrome.browser.paint_preview.services.PaintPreviewTabServiceFactory;
 import org.chromium.chrome.browser.tab.Tab;
-import org.chromium.chrome.browser.tab.TabThemeColorHelper;
 import org.chromium.chrome.browser.tab.TabViewProvider;
+import org.chromium.components.browser_ui.styles.ChromeColors;
 import org.chromium.components.paintpreview.player.PlayerManager;
 import org.chromium.content_public.browser.LoadUrlParams;
 import org.chromium.url.GURL;
@@ -65,8 +65,8 @@ public class TabbedPaintPreviewPlayer implements TabViewProvider, UserData {
                 this::removePaintPreview, () -> {
                     mInitializing = false;
                     onShown.run();
-                }, TabThemeColorHelper.getBackgroundColor(mTab), this::removePaintPreview,
-                /*ignoreInitialScrollOffset=*/false);
+                }, ChromeColors.getPrimaryBackgroundColor(mTab.getContext().getResources(), false),
+                this::removePaintPreview, /*ignoreInitialScrollOffset=*/false);
         mOnDismissed = onDismissed;
         mTab.getTabViewManager().addTabViewProvider(this);
         return true;

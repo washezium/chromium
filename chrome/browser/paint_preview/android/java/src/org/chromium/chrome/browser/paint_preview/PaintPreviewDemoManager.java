@@ -7,12 +7,11 @@ package org.chromium.chrome.browser.paint_preview;
 import android.view.View;
 
 import org.chromium.base.task.PostTask;
-import org.chromium.chrome.R;
 import org.chromium.chrome.browser.paint_preview.services.PaintPreviewDemoService;
 import org.chromium.chrome.browser.paint_preview.services.PaintPreviewDemoServiceFactory;
 import org.chromium.chrome.browser.tab.Tab;
-import org.chromium.chrome.browser.tab.TabThemeColorHelper;
 import org.chromium.chrome.browser.tab.TabViewProvider;
+import org.chromium.components.browser_ui.styles.ChromeColors;
 import org.chromium.components.paintpreview.player.PlayerManager;
 import org.chromium.content_public.browser.LoadUrlParams;
 import org.chromium.content_public.browser.UiThreadTaskTraits;
@@ -55,7 +54,7 @@ public class PaintPreviewDemoManager implements TabViewProvider {
                     PaintPreviewDemoManager.this::onLinkClicked,
                     PaintPreviewDemoManager.this::removePaintPreviewDemo,
                     PaintPreviewDemoManager.this::addPlayerView,
-                    TabThemeColorHelper.getBackgroundColor(mTab),
+                    ChromeColors.getPrimaryBackgroundColor(mTab.getContext().getResources(), false),
                     () -> {
                         Toast.makeText(mTab.getContext(),
                                      R.string.paint_preview_demo_playback_failure,
