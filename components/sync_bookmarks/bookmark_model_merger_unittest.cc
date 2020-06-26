@@ -73,6 +73,61 @@ MATCHER_P2(ElementRawPointersAre, expected_raw_ptr0, expected_raw_ptr1, "") {
   return arg[0].get() == expected_raw_ptr0 && arg[1].get() == expected_raw_ptr1;
 }
 
+class UpdateResponseDataBuilder {
+ public:
+  UpdateResponseDataBuilder(const std::string& server_id,
+                            const std::string& parent_id,
+                            const std::string& title,
+                            const syncer::UniquePosition& unique_position) {
+    data_.id = server_id;
+    data_.parent_id = parent_id;
+    data_.unique_position = unique_position.ToProto();
+    data_.is_folder = true;
+
+    sync_pb::BookmarkSpecifics* bookmark_specifics =
+        data_.specifics.mutable_bookmark();
+    bookmark_specifics->set_legacy_canonicalized_title(title);
+    bookmark_specifics->set_full_title(title);
+
+    SetGuid(base::GenerateGUID());
+  }
+
+  UpdateResponseDataBuilder& SetUrl(const GURL& url) {
+    data_.is_folder = false;
+    data_.specifics.mutable_bookmark()->set_url(url.spec());
+    return *this;
+  }
+
+  UpdateResponseDataBuilder& SetLegacyTitleOnly() {
+    data_.specifics.mutable_bookmark()->clear_full_title();
+    return *this;
+  }
+
+  UpdateResponseDataBuilder& SetFavicon(const GURL& favicon_url,
+                                        const std::string& favicon_data) {
+    data_.specifics.mutable_bookmark()->set_icon_url(favicon_url.spec());
+    data_.specifics.mutable_bookmark()->set_favicon(favicon_data);
+    return *this;
+  }
+
+  UpdateResponseDataBuilder& SetGuid(const std::string& guid) {
+    data_.originator_client_item_id = guid;
+    data_.specifics.mutable_bookmark()->set_guid(guid);
+    return *this;
+  }
+
+  syncer::UpdateResponseData Build() {
+    syncer::UpdateResponseData response_data;
+    response_data.entity = std::move(data_);
+    // Similar to what's done in the loopback_server.
+    response_data.response_version = 0;
+    return response_data;
+  }
+
+ private:
+  syncer::EntityData data_;
+};
+
 syncer::UpdateResponseData CreateUpdateResponseData(
     const std::string& server_id,
     const std::string& parent_id,
@@ -83,29 +138,17 @@ syncer::UpdateResponseData CreateUpdateResponseData(
     base::Optional<std::string> guid = base::nullopt,
     const std::string& icon_url = std::string(),
     const std::string& icon_data = std::string()) {
-  if (!guid)
-    guid = base::GenerateGUID();
+  UpdateResponseDataBuilder builder(server_id, parent_id, title,
+                                    unique_position);
+  if (guid) {
+    builder.SetGuid(*guid);
+  }
+  if (!is_folder) {
+    builder.SetUrl(GURL(url));
+  }
+  builder.SetFavicon(GURL(icon_url), icon_data);
 
-  syncer::EntityData data;
-  data.id = server_id;
-  data.originator_client_item_id = *guid;
-  data.parent_id = parent_id;
-  data.unique_position = unique_position.ToProto();
-
-  sync_pb::BookmarkSpecifics* bookmark_specifics =
-      data.specifics.mutable_bookmark();
-  bookmark_specifics->set_guid(*guid);
-  bookmark_specifics->set_legacy_canonicalized_title(title);
-  bookmark_specifics->set_url(url);
-  bookmark_specifics->set_icon_url(icon_url);
-  bookmark_specifics->set_favicon(icon_data);
-
-  data.is_folder = is_folder;
-  syncer::UpdateResponseData response_data;
-  response_data.entity = std::move(data);
-  // Similar to what's done in the loopback_server.
-  response_data.response_version = 0;
-  return response_data;
+  return builder.Build();
 }
 
 syncer::UpdateResponseData CreateBookmarkBarNodeUpdateData() {
@@ -543,10 +586,12 @@ TEST(BookmarkModelMergerTest,
 
   syncer::UpdateResponseDataList updates;
   updates.push_back(CreateBookmarkBarNodeUpdateData());
-  updates.push_back(CreateUpdateResponseData(
-      /*server_id=*/kId, /*parent_id=*/kBookmarkBarId, kRemoteTitle,
-      /*url=*/std::string(),
-      /*is_folder=*/true, /*unique_position=*/pos));
+  updates.push_back(UpdateResponseDataBuilder(/*server_id=*/kId,
+                                              /*parent_id=*/kBookmarkBarId,
+                                              kRemoteTitle,
+                                              /*unique_position=*/pos)
+                        .SetLegacyTitleOnly()
+                        .Build());
 
   std::unique_ptr<SyncedBookmarkTracker> tracker =
       Merge(std::move(updates), bookmark_model.get());
