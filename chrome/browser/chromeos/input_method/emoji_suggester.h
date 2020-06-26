@@ -27,6 +27,7 @@ class EmojiSuggester : public Suggester {
   SuggestionStatus HandleKeyEvent(
       const InputMethodEngineBase::KeyboardEvent& event) override;
   bool Suggest(const base::string16& text) override;
+  bool AcceptSuggestion(size_t index) override;
   void DismissSuggestion() override;
   AssistiveType GetProposeActionType() override;
 
