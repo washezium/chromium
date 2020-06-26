@@ -258,7 +258,7 @@ interface IntentHelperHost {
                                      int32 task_id,
                                      int32 surface_id,
                                      int32 top_margin)
-      => (CustomTabSession? session);
+      => (pending_remote<CustomTabSession>? session);
 
   // Opens the wallpaper picker dialog.
   [MinVersion=6] OpenWallpaperPicker@3();

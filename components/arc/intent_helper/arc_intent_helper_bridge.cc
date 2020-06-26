@@ -170,7 +170,7 @@ void ArcIntentHelperBridge::OnOpenCustomTab(const std::string& url,
   const GURL gurl(url_formatter::FixupURL(url, /*desired_tld=*/std::string()));
   if (!gurl.is_valid() ||
       allowed_arc_schemes_.find(gurl.scheme()) == allowed_arc_schemes_.end()) {
-    std::move(callback).Run(nullptr);
+    std::move(callback).Run(mojo::NullRemote());
     return;
   }
   g_open_url_delegate->OpenArcCustomTab(gurl, task_id, std::move(callback));

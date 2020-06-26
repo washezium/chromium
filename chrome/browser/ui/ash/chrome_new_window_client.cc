@@ -516,7 +516,7 @@ void ChromeNewWindowClient::OpenArcCustomTab(
 
   aura::Window* arc_window = arc::GetArcWindow(task_id);
   if (!arc_window) {
-    std::move(callback).Run(nullptr);
+    std::move(callback).Run(mojo::NullRemote());
     return;
   }
 
@@ -535,9 +535,9 @@ void ChromeNewWindowClient::OpenArcCustomTab(
   // TODO(crbug.com/955171): Remove this temporary conversion to InterfacePtr
   // once OnOpenCustomTab from //components/arc/mojom/intent_helper.mojom could
   // take pending_remote directly. Refer to crrev.com/c/1868870.
-  mojo::InterfacePtr<arc::mojom::CustomTabSession> custom_tab_ptr(
+  auto custom_tab_remote(
       CustomTabSessionImpl::Create(std::move(custom_tab), custom_tab_browser));
-  std::move(callback).Run(std::move(custom_tab_ptr));
+  std::move(callback).Run(std::move(custom_tab_remote));
 }
 
 content::WebContents* ChromeNewWindowClient::OpenUrlImpl(

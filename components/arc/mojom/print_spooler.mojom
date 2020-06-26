@@ -50,7 +50,7 @@ interface PrintSpoolerHost {
       int32 surface_id,
       int32 top_margin,
       pending_remote<PrintSessionInstance> instance)
-      => (PrintSessionHost? host);
+      => (pending_remote<PrintSessionHost>? host);
 };
 
 // Next method ID: 1
