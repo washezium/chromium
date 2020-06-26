@@ -700,7 +700,7 @@ ci.fyi_builder(
     console_view_entry = ci.console_view_entry(
         category = 'linux',
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
 )
 
 # This is launching & collecting entirely isolated tests.
@@ -712,7 +712,7 @@ ci.fyi_builder(
         short_name = 'beta',
     ),
     goma_backend = None,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name('Mac Builder')],
 )
 
@@ -722,7 +722,7 @@ ci.fyi_builder(
         category = 'mac',
         short_name = 'arm64',
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     cores = None,
     os = os.MAC_ANY,
 )
@@ -733,7 +733,7 @@ ci.fyi_ios_builder(
         category = 'cronet',
     ),
     executable = 'recipe:chromium',
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     notifies = ['cronet'],
     properties = {
         'xcode_build_version': '11e146',
@@ -747,7 +747,7 @@ ci.fyi_windows_builder(
         category = 'win10|1803',
     ),
     goma_backend = None,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.WINDOWS_10,
     triggered_by = [builder_name('Win x64 Builder')],
 )
@@ -924,7 +924,7 @@ ci.linux_builder(
         category = 'linux',
         short_name = 'loh',
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name('linux-ozone-rel')],
 )
 
@@ -935,7 +935,7 @@ ci.linux_builder(
         category = 'linux',
         short_name = 'low',
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name('linux-ozone-rel')],
 )
 
@@ -946,7 +946,7 @@ ci.linux_builder(
         category = 'linux',
         short_name = 'lox',
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name('linux-ozone-rel')],
 )
 

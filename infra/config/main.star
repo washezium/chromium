@@ -42,7 +42,7 @@ lucicfg.emit(
 )
 
 luci.project(
-    name = 'chromium',
+    name = 'chromium-m85',
     buildbucket = 'cr-buildbucket.appspot.com',
     logdog = 'luci-logdog.appspot.com',
     milo = 'luci-milo.appspot.com',

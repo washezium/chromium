@@ -4,22 +4,22 @@
 
 settings = struct(
     # Switch this to False for branches
-    is_master = True,
-    ref = 'refs/heads/master',
+    is_master = False,
+    ref = 'refs/branch-heads/4183',
     ci_bucket = 'ci',
-    ci_poller = 'master-gitiles-trigger',
+    ci_poller = 'chromium-trigger',
     main_console_name = 'main',
-    main_console_title = 'Chromium Main Console',
+    main_console_title = 'Chromium M85 Main Console',
     cq_mirrors_console_name = 'mirrors',
-    cq_mirrors_console_title = 'Chromium CQ Mirrors Console',
+    cq_mirrors_console_title = 'Chromium M85 CQ Mirrors Console',
     try_bucket = 'try',
-    try_triggering_projects = ['angle', 'dawn', 'skia', 'v8'],
+    try_triggering_projects = [],
     cq_group = 'cq',
-    cq_ref_regexp = 'refs/heads/.+',
+    cq_ref_regexp = 'refs/branch-heads/4183',
     main_list_view_name = 'try',
-    main_list_view_title = 'Chromium CQ console',
+    main_list_view_title = 'Chromium M85 CQ console',
     # Switch this to None for branches
-    tree_status_host = 'chromium-status.appspot.com/',
+    tree_status_host = None,
 )
 
 
