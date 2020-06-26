@@ -7154,13 +7154,7 @@ void Document::InitSecurityContext(const DocumentInit& initializer) {
       GetSecurityContext().AddInsecureNavigationUpgrade(to_upgrade);
   }
 
-  bool inherit_cookie_url_from_owner = initializer.IsSrcdocDocument() ||
-                                       url_.IsAboutBlankURL() ||
-                                       !initializer.OriginToCommit();
-
-  cookie_url_ = inherit_cookie_url_from_owner && initializer.OwnerDocument()
-                    ? initializer.OwnerDocument()->CookieURL()
-                    : url_;
+  cookie_url_ = initializer.GetCookieUrl();
 
   GetSecurityContext().SetAddressSpace(initializer.GetIPAddressSpace());
 }

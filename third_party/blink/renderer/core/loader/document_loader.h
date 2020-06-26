@@ -195,6 +195,10 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
   void StartLoading();
   void StopLoading();
 
+  // CommitNavigation() does the work of creating a Document and
+  // DocumentParser, as well as creating a new LocalDOMWindow if needed. It also
+  // initializes a bunch of state on the Document (e.g., the state based on
+  // response headers).
   void CommitNavigation();
 
   GlobalObjectReusePolicy GetGlobalObjectReusePolicy() const {
@@ -344,15 +348,6 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
       mojom::MHTMLLoadResult::kSuccess;
 
  private:
-  // InstallNewDocument() does the work of creating a Document and
-  // DocumentParser, as well as creating a new LocalDOMWindow if needed. It also
-  // initalizes a bunch of state on the Document (e.g., the state based on
-  // response headers).
-  void InstallNewDocument(
-      const KURL&,
-      const scoped_refptr<const SecurityOrigin> initiator_origin,
-      Document* owner_document,
-      const AtomicString& mime_type);
   void DidInstallNewDocument(Document*);
   void WillCommitNavigation();
   void DidCommitNavigation();
