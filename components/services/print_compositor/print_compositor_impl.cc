@@ -326,8 +326,9 @@ void PrintCompositorImpl::HandleCompositionRequest(
   if (IsReadyToComposite(frame_guid, subframe_content_map,
                          &pending_subframes)) {
     // This request has all the necessary subframes.
-    // With sequential request processing need to ensure this request is
-    // at the front of the line before fulfilling it.
+    // Due to typeface serialization caching, need to ensure that previous
+    // requests have already been processed, otherwise this request could
+    // fail by trying to use a typeface which hasn't been deserialized yet.
     if (requests_.empty()) {
       FulfillRequest(std::move(mapping), subframe_content_map,
                      std::move(callback));
@@ -379,7 +380,7 @@ mojom::PrintCompositor::Status PrintCompositorImpl::CompositeToPdf(
   }
 
   std::vector<SkDocumentPage> pages(page_count);
-  SkDeserialProcs procs = DeserializationProcs(&subframes);
+  SkDeserialProcs procs = DeserializationProcs(&subframes, &typefaces_);
   if (!SkMultiPictureDocumentRead(&stream, pages.data(), page_count, &procs)) {
     DLOG(ERROR) << "CompositeToPdf: Page reading failed.";
     return mojom::PrintCompositor::Status::kContentFormatError;
@@ -433,7 +434,8 @@ void PrintCompositorImpl::CompositeSubframe(FrameInfo* frame_info) {
   // Composite the entire frame.
   SkMemoryStream stream(frame_info->serialized_content.memory(),
                         frame_info->serialized_content.size());
-  SkDeserialProcs procs = DeserializationProcs(&subframes);
+  SkDeserialProcs procs =
+      DeserializationProcs(&subframes, &frame_info->typefaces);
   frame_info->content = SkPicture::MakeFromStream(&stream, &procs);
 }
 
