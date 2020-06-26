@@ -7,6 +7,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/test/bind_test_util.h"
 #include "base/test/scoped_feature_list.h"
+#include "build/build_config.h"
 #include "chrome/app/chrome_command_ids.h"
 #include "chrome/browser/installable/installable_metrics.h"
 #include "chrome/browser/sync/test/integration/sync_test.h"
@@ -425,7 +426,14 @@ IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest, AppSortingSynced) {
             GetAppSorting(GetProfile(1))->GetAppLaunchOrdinal(app_id));
 }
 
-IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest, AppSortingFixCollisions) {
+// Flakily fails on Windows only (crbug.com/1099816)
+#if defined(OS_WIN)
+#define MAYBE_AppSortingFixCollisions DISABLED_AppSortingFixCollisions
+#else
+#define MAYBE_AppSortingFixCollisions AppSortingFixCollisions
+#endif
+IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
+                       MAYBE_AppSortingFixCollisions) {
   ASSERT_TRUE(SetupSync());
   ASSERT_TRUE(AllProfilesHaveSameWebAppIds());
   ASSERT_TRUE(embedded_test_server()->Start());
