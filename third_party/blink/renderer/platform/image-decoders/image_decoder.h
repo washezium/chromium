@@ -229,7 +229,13 @@ class PLATFORM_EXPORT ImageDecoder {
 
   virtual void OnSetData(SegmentReader* data) {}
 
-  bool IsSizeAvailable();
+  bool IsSizeAvailable() {
+    if (failed_)
+      return false;
+    if (!size_available_)
+      DecodeSize();
+    return IsDecodedSizeAvailable();
+  }
 
   bool IsDecodedSizeAvailable() const { return !failed_ && size_available_; }
 
