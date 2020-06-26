@@ -2,15 +2,26 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_INPUT_SYNCHRONOUS_LAYER_TREE_FRAME_SINK_H_
-#define CONTENT_RENDERER_INPUT_SYNCHRONOUS_LAYER_TREE_FRAME_SINK_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INPUT_SYNCHRONOUS_LAYER_TREE_FRAME_SINK_H_
+#define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INPUT_SYNCHRONOUS_LAYER_TREE_FRAME_SINK_H_
 
 #include "cc/trees/layer_tree_frame_sink.h"
 #include "components/viz/common/frame_timing_details_map.h"
 #include "components/viz/common/hit_test/hit_test_region_list.h"
-#include "components/viz/common/quads/compositor_frame.h"
 
-namespace content {
+class SkCanvas;
+
+namespace gfx {
+class Rect;
+class Transform;
+}  // namespace gfx
+
+namespace viz {
+class CompositorFrame;
+struct BeginFrameArgs;
+}  // namespace viz
+
+namespace blink {
 
 // This class represents the client interface for the frame sink
 // created for the synchronous compositor.
@@ -50,9 +61,11 @@ class SynchronousLayerTreeFrameSink : public cc::LayerTreeFrameSink {
       const gfx::Rect& viewport_rect_for_tile_priority,
       const gfx::Transform& transform_for_tile_priority) = 0;
   virtual void DemandDrawSw(SkCanvas* canvas) = 0;
+  virtual void DemandDrawSwZeroCopy() = 0;
   virtual void WillSkipDraw() = 0;
+  virtual bool UseZeroCopySoftwareDraw() = 0;
 };
 
-}  // namespace content
+}  // namespace blink
 
 #endif  // CONTENT_RENDERER_INPUT_SYNCHRONOUS_LAYER_TREE_FRAME_SINK_H_

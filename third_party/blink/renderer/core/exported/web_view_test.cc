@@ -503,6 +503,7 @@ TEST_F(WebViewTest, SetBaseBackgroundColorBeforeMainFrame) {
         CrossVariantMojoAssociatedRemote<mojom::WidgetHostInterfaceBase>(),
         CrossVariantMojoAssociatedReceiver<mojom::WidgetInterfaceBase>());
     web_widget_client.set_layer_tree_host(widget->InitializeCompositing(
+        false, web_widget_client.main_thread_scheduler(),
         web_widget_client.task_graph_runner(),
         frame_test_helpers::GetSynchronousSingleThreadLayerTreeSettings(),
         std::make_unique<cc::TestUkmRecorderFactory>()));
@@ -4102,6 +4103,7 @@ TEST_F(WebViewTest, SetHasTouchEventHandlers) {
         CrossVariantMojoAssociatedRemote<mojom::WidgetHostInterfaceBase>(),
         CrossVariantMojoAssociatedReceiver<mojom::WidgetInterfaceBase>());
     web_widget_client.set_layer_tree_host(widget->InitializeCompositing(
+        false, web_widget_client.main_thread_scheduler(),
         web_widget_client.task_graph_runner(),
         frame_test_helpers::GetSynchronousSingleThreadLayerTreeSettings(),
         std::make_unique<cc::TestUkmRecorderFactory>()));

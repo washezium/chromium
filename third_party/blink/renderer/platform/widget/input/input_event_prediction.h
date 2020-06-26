@@ -2,27 +2,23 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_INPUT_INPUT_EVENT_PREDICTION_H_
-#define CONTENT_RENDERER_INPUT_INPUT_EVENT_PREDICTION_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_INPUT_EVENT_PREDICTION_H_
+#define THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_INPUT_EVENT_PREDICTION_H_
 
 #include <list>
 #include <unordered_map>
 
-#include "content/common/content_export.h"
+#include "third_party/blink/public/common/input/pointer_id.h"
 #include "third_party/blink/public/common/input/web_coalesced_input_event.h"
 #include "third_party/blink/public/platform/input/input_predictor.h"
 #include "third_party/blink/public/platform/input/predictor_factory.h"
-#include "ui/events/blink/blink_features.h"
-#include "ui/events/event.h"
+#include "third_party/blink/renderer/platform/platform_export.h"
 
-using blink::WebInputEvent;
-using blink::WebPointerProperties;
-
-namespace content {
+namespace blink {
 
 // Handle resampling of WebMouseEvent, WebTouchEvent and WebPointerEvent.
 // This class stores prediction of all active pointers.
-class CONTENT_EXPORT InputEventPrediction {
+class PLATFORM_EXPORT InputEventPrediction {
  public:
   // enable_resampling is true when kResamplingInputEvents is enabled.
   explicit InputEventPrediction(bool enable_resampling);
@@ -85,7 +81,7 @@ class CONTENT_EXPORT InputEventPrediction {
   // predictor, for other pointer type, remove it from mapping.
   void ResetSinglePredictor(const WebPointerProperties& event);
 
-  std::unordered_map<ui::PointerId, std::unique_ptr<blink::InputPredictor>>
+  std::unordered_map<PointerId, std::unique_ptr<blink::InputPredictor>>
       pointer_id_predictor_map_;
   std::unique_ptr<blink::InputPredictor> mouse_predictor_;
 
@@ -101,6 +97,6 @@ class CONTENT_EXPORT InputEventPrediction {
   DISALLOW_COPY_AND_ASSIGN(InputEventPrediction);
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_INPUT_INPUT_EVENT_PREDICTION_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_INPUT_EVENT_PREDICTION_H_

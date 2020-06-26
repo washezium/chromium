@@ -518,6 +518,8 @@ void LocalFrameClientImpl::DispatchDidCommitLoad(
       // up to this point |web_frame_| is still provisional and the updates will
       // not get sent. Revise this when https://crbug.com/578349 is fixed.
       ResetWheelAndTouchEventHandlerProperties(*web_frame_->GetFrame());
+
+      web_frame_->FrameWidgetImpl()->DidNavigate();
     }
   }
   if (WebDevToolsAgentImpl* dev_tools = DevToolsAgent())
@@ -1130,7 +1132,7 @@ LocalFrameClientImpl::CreateSpeechRecognitionClient(
 }
 
 void LocalFrameClientImpl::SetMouseCapture(bool capture) {
-  web_frame_->Client()->SetMouseCapture(capture);
+  web_frame_->LocalRoot()->FrameWidgetImpl()->SetMouseCapture(capture);
 }
 
 bool LocalFrameClientImpl::UsePrintingLayout() const {

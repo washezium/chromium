@@ -2,21 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/input/input_event_prediction.h"
+#include "third_party/blink/renderer/platform/widget/input/input_event_prediction.h"
 
 #include "base/feature_list.h"
-#include "base/metrics/field_trial.h"
 #include "base/metrics/field_trial_params.h"
 #include "base/metrics/histogram_functions.h"
 #include "third_party/blink/public/common/features.h"
 
-using blink::WebInputEvent;
-using blink::WebMouseEvent;
-using blink::WebPointerEvent;
-using blink::WebPointerProperties;
-using blink::WebTouchEvent;
-
-namespace content {
+namespace blink {
 
 namespace {
 
@@ -49,12 +42,13 @@ InputEventPrediction::InputEventPrediction(bool enable_resampling)
           : GetFieldTrialParamValueByFeature(
                 blink::features::kInputPredictorTypeChoice, "predictor");
 
-  if (predictor_name.empty())
+  if (predictor_name.empty()) {
     selected_predictor_type_ =
         blink::input_prediction::PredictorType::kScrollPredictorTypeKalman;
-  else
+  } else {
     selected_predictor_type_ =
         blink::PredictorFactory::GetPredictorTypeFromName(predictor_name);
+  }
 
   mouse_predictor_ = CreatePredictor();
 }
@@ -264,4 +258,4 @@ void InputEventPrediction::ResetSinglePredictor(
     pointer_id_predictor_map_.erase(event.id);
 }
 
-}  // namespace content
+}  // namespace blink

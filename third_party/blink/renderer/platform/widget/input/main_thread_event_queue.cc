@@ -2,21 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/input/main_thread_event_queue.h"
+#include "third_party/blink/renderer/platform/widget/input/main_thread_event_queue.h"
 
 #include <utility>
 
 #include "base/bind.h"
 #include "base/containers/circular_deque.h"
 #include "base/metrics/histogram_macros.h"
-#include "content/common/input/event_with_latency_info.h"
-#include "content/common/input_messages.h"
-#include "content/renderer/render_widget.h"
 #include "third_party/blink/public/common/features.h"
 #include "third_party/blink/public/common/input/web_coalesced_input_event.h"
 #include "third_party/blink/public/common/input/web_input_event_attribution.h"
+#include "third_party/blink/public/common/input/web_mouse_wheel_event.h"
 
-namespace content {
+namespace blink {
 
 namespace {
 
@@ -51,11 +49,11 @@ constexpr base::TimeDelta kAsyncTouchMoveInterval =
 
 class QueuedWebInputEvent : public MainThreadEventQueueTask {
  public:
-  QueuedWebInputEvent(std::unique_ptr<blink::WebCoalescedInputEvent> event,
+  QueuedWebInputEvent(std::unique_ptr<WebCoalescedInputEvent> event,
                       bool originally_cancelable,
                       HandledEventCallback callback,
                       bool known_by_scheduler,
-                      const blink::WebInputEventAttribution& attribution)
+                      const WebInputEventAttribution& attribution)
       : event_(std::move(event)),
         originally_cancelable_(originally_cancelable),
         callback_(std::move(callback)),
@@ -91,7 +89,7 @@ class QueuedWebInputEvent : public MainThreadEventQueueTask {
     QueuedWebInputEvent* other_event =
         static_cast<QueuedWebInputEvent*>(other_task);
     if (other_event->event_->Event().GetType() ==
-        blink::WebInputEvent::Type::kTouchScrollStarted) {
+        WebInputEvent::Type::kTouchScrollStarted) {
       return HandleTouchScrollStartQueued();
     }
 
@@ -140,15 +138,15 @@ class QueuedWebInputEvent : public MainThreadEventQueueTask {
                                         std::move(callback))) {
       // The |callback| won't be run, so our stored |callback_| should run
       // indicating error.
-      HandledEvent(queue, blink::mojom::InputEventResultState::kNotConsumed,
+      HandledEvent(queue, mojom::blink::InputEventResultState::kNotConsumed,
                    event_->latency_info(), nullptr, base::nullopt);
     }
   }
 
   void HandledEvent(MainThreadEventQueue* queue,
-                    blink::mojom::InputEventResultState ack_result,
+                    mojom::blink::InputEventResultState ack_result,
                     const ui::LatencyInfo& latency_info,
-                    blink::mojom::DidOverscrollParamsPtr overscroll,
+                    mojom::blink::DidOverscrollParamsPtr overscroll,
                     base::Optional<cc::TouchAction> touch_action) {
     if (callback_) {
       std::move(callback_).Run(ack_result, latency_info, std::move(overscroll),
@@ -174,46 +172,44 @@ class QueuedWebInputEvent : public MainThreadEventQueueTask {
         queue->main_thread_scheduler_->DidHandleInputEventOnMainThread(
             event_->Event(),
             ack_result == blink::mojom::InputEventResultState::kConsumed
-                ? blink::WebInputEventResult::kHandledApplication
-                : blink::WebInputEventResult::kNotHandled);
+                ? WebInputEventResult::kHandledApplication
+                : WebInputEventResult::kNotHandled);
       }
     }
   }
 
   bool originallyCancelable() const { return originally_cancelable_; }
 
-  blink::WebInputEventAttribution attribution() const { return attribution_; }
+  WebInputEventAttribution attribution() const { return attribution_; }
 
-  const blink::WebInputEvent& Event() const { return event_->Event(); }
+  const WebInputEvent& Event() const { return event_->Event(); }
 
-  blink::WebCoalescedInputEvent* mutable_coalesced_event() {
-    return event_.get();
-  }
+  WebCoalescedInputEvent* mutable_coalesced_event() { return event_.get(); }
 
  private:
   FilterResult HandleTouchScrollStartQueued() {
     // A TouchScrollStart will queued after this touch move which will make all
     // previous touch moves that are queued uncancelable.
     switch (event_->Event().GetType()) {
-      case blink::WebInputEvent::Type::kTouchMove: {
-        blink::WebTouchEvent* touch_event =
-            static_cast<blink::WebTouchEvent*>(event_->EventPointer());
+      case WebInputEvent::Type::kTouchMove: {
+        WebTouchEvent* touch_event =
+            static_cast<WebTouchEvent*>(event_->EventPointer());
         if (touch_event->dispatch_type ==
-            blink::WebInputEvent::DispatchType::kBlocking) {
+            WebInputEvent::DispatchType::kBlocking) {
           touch_event->dispatch_type =
-              blink::WebInputEvent::DispatchType::kEventNonBlocking;
+              WebInputEvent::DispatchType::kEventNonBlocking;
         }
         return FilterResult::KeepIterating;
       }
-      case blink::WebInputEvent::Type::kTouchStart:
-      case blink::WebInputEvent::Type::kTouchEnd:
+      case WebInputEvent::Type::kTouchStart:
+      case WebInputEvent::Type::kTouchEnd:
         return FilterResult::StopIterating;
       default:
         return FilterResult::KeepIterating;
     }
   }
 
-  std::unique_ptr<blink::WebCoalescedInputEvent> event_;
+  std::unique_ptr<WebCoalescedInputEvent> event_;
 
   // Contains the pending callbacks to be called, along with their associated
   // trace_ids.
@@ -231,7 +227,7 @@ class QueuedWebInputEvent : public MainThreadEventQueueTask {
 
   size_t known_by_scheduler_count_;
 
-  const blink::WebInputEventAttribution attribution_;
+  const WebInputEventAttribution attribution_;
 };
 
 MainThreadEventQueue::SharedState::SharedState()
@@ -242,7 +238,7 @@ MainThreadEventQueue::SharedState::~SharedState() {}
 MainThreadEventQueue::MainThreadEventQueue(
     MainThreadEventQueueClient* client,
     const scoped_refptr<base::SingleThreadTaskRunner>& main_task_runner,
-    blink::scheduler::WebThreadScheduler* main_thread_scheduler,
+    scheduler::WebThreadScheduler* main_thread_scheduler,
     bool allow_raf_aligned_input)
     : client_(client),
       last_touch_start_forced_nonblocking_due_to_fling_(false),
@@ -261,76 +257,73 @@ MainThreadEventQueue::MainThreadEventQueue(
 MainThreadEventQueue::~MainThreadEventQueue() {}
 
 void MainThreadEventQueue::HandleEvent(
-    std::unique_ptr<blink::WebCoalescedInputEvent> event,
-    InputEventDispatchType original_dispatch_type,
-    blink::mojom::InputEventResultState ack_result,
-    const blink::WebInputEventAttribution& attribution,
+    std::unique_ptr<WebCoalescedInputEvent> event,
+    DispatchType original_dispatch_type,
+    mojom::blink::InputEventResultState ack_result,
+    const WebInputEventAttribution& attribution,
     HandledEventCallback callback) {
   TRACE_EVENT2("input", "MainThreadEventQueue::HandleEvent", "dispatch_type",
                original_dispatch_type, "event_type", event->Event().GetType());
-  DCHECK(original_dispatch_type == DISPATCH_TYPE_BLOCKING ||
-         original_dispatch_type == DISPATCH_TYPE_NON_BLOCKING);
-  DCHECK(ack_result == blink::mojom::InputEventResultState::kSetNonBlocking ||
+  DCHECK(original_dispatch_type == DispatchType::kBlocking ||
+         original_dispatch_type == DispatchType::kNonBlocking);
+  DCHECK(ack_result == mojom::blink::InputEventResultState::kSetNonBlocking ||
          ack_result ==
-             blink::mojom::InputEventResultState::kSetNonBlockingDueToFling ||
-         ack_result == blink::mojom::InputEventResultState::kNotConsumed);
+             mojom::blink::InputEventResultState::kSetNonBlockingDueToFling ||
+         ack_result == mojom::blink::InputEventResultState::kNotConsumed);
 
   bool is_blocking =
-      original_dispatch_type == DISPATCH_TYPE_BLOCKING &&
-      ack_result != blink::mojom::InputEventResultState::kSetNonBlocking;
-  bool is_wheel =
-      event->Event().GetType() == blink::WebInputEvent::Type::kMouseWheel;
-  bool is_touch =
-      blink::WebInputEvent::IsTouchEventType(event->Event().GetType());
+      original_dispatch_type == DispatchType::kBlocking &&
+      ack_result != mojom::blink::InputEventResultState::kSetNonBlocking;
+  bool is_wheel = event->Event().GetType() == WebInputEvent::Type::kMouseWheel;
+  bool is_touch = WebInputEvent::IsTouchEventType(event->Event().GetType());
   bool originally_cancelable = false;
 
   if (is_touch) {
-    blink::WebTouchEvent* touch_event =
-        static_cast<blink::WebTouchEvent*>(event->EventPointer());
+    WebTouchEvent* touch_event =
+        static_cast<WebTouchEvent*>(event->EventPointer());
 
-    originally_cancelable = touch_event->dispatch_type ==
-                            blink::WebInputEvent::DispatchType::kBlocking;
+    originally_cancelable =
+        touch_event->dispatch_type == WebInputEvent::DispatchType::kBlocking;
 
     // Adjust the |dispatchType| on the event since the compositor
     // determined all event listeners are passive.
     if (!is_blocking) {
       touch_event->dispatch_type =
-          blink::WebInputEvent::DispatchType::kListenersNonBlockingPassive;
+          WebInputEvent::DispatchType::kListenersNonBlockingPassive;
     }
-    if (touch_event->GetType() == blink::WebInputEvent::Type::kTouchStart)
+    if (touch_event->GetType() == WebInputEvent::Type::kTouchStart)
       last_touch_start_forced_nonblocking_due_to_fling_ = false;
 
     if (touch_event->touch_start_or_first_touch_move &&
-        touch_event->dispatch_type ==
-            blink::WebInputEvent::DispatchType::kBlocking) {
+        touch_event->dispatch_type == WebInputEvent::DispatchType::kBlocking) {
       // If the touch start is forced to be passive due to fling, its following
       // touch move should also be passive.
       if (ack_result ==
-              blink::mojom::InputEventResultState::kSetNonBlockingDueToFling ||
+              mojom::blink::InputEventResultState::kSetNonBlockingDueToFling ||
           last_touch_start_forced_nonblocking_due_to_fling_) {
-        touch_event->dispatch_type = blink::WebInputEvent::DispatchType::
-            kListenersForcedNonBlockingDueToFling;
+        touch_event->dispatch_type =
+            WebInputEvent::DispatchType::kListenersForcedNonBlockingDueToFling;
         is_blocking = false;
         last_touch_start_forced_nonblocking_due_to_fling_ = true;
       }
     }
 
     // If the event is non-cancelable ACK it right away.
-    if (is_blocking && touch_event->dispatch_type !=
-                           blink::WebInputEvent::DispatchType::kBlocking)
+    if (is_blocking &&
+        touch_event->dispatch_type != WebInputEvent::DispatchType::kBlocking)
       is_blocking = false;
   }
 
   if (is_wheel) {
-    blink::WebMouseWheelEvent* wheel_event =
-        static_cast<blink::WebMouseWheelEvent*>(event->EventPointer());
-    originally_cancelable = wheel_event->dispatch_type ==
-                            blink::WebInputEvent::DispatchType::kBlocking;
+    WebMouseWheelEvent* wheel_event =
+        static_cast<WebMouseWheelEvent*>(event->EventPointer());
+    originally_cancelable =
+        wheel_event->dispatch_type == WebInputEvent::DispatchType::kBlocking;
     if (!is_blocking) {
       // Adjust the |dispatchType| on the event since the compositor
       // determined all event listeners are passive.
       wheel_event->dispatch_type =
-          blink::WebInputEvent::DispatchType::kListenersNonBlockingPassive;
+          WebInputEvent::DispatchType::kListenersNonBlockingPassive;
     }
   }
 
@@ -342,11 +335,11 @@ void MainThreadEventQueue::HandleEvent(
 
   if (has_pointerrawupdate_handlers_) {
     if (event->Event().GetType() == WebInputEvent::Type::kMouseMove) {
-      std::unique_ptr<blink::WebCoalescedInputEvent> raw_event =
-          std::make_unique<blink::WebCoalescedInputEvent>(
-              std::make_unique<blink::WebPointerEvent>(
+      std::unique_ptr<WebCoalescedInputEvent> raw_event =
+          std::make_unique<WebCoalescedInputEvent>(
+              std::make_unique<WebPointerEvent>(
                   WebInputEvent::Type::kPointerRawUpdate,
-                  *(static_cast<blink::WebMouseEvent*>(event->EventPointer()))),
+                  *(static_cast<WebMouseEvent*>(event->EventPointer()))),
               event->latency_info());
       std::unique_ptr<QueuedWebInputEvent> raw_queued_event(
           new QueuedWebInputEvent(std::move(raw_event), false,
@@ -354,15 +347,14 @@ void MainThreadEventQueue::HandleEvent(
 
       QueueEvent(std::move(raw_queued_event));
     } else if (event->Event().GetType() == WebInputEvent::Type::kTouchMove) {
-      const blink::WebTouchEvent& touch_event =
-          *static_cast<const blink::WebTouchEvent*>(event->EventPointer());
+      const WebTouchEvent& touch_event =
+          *static_cast<const WebTouchEvent*>(event->EventPointer());
       for (unsigned i = 0; i < touch_event.touches_length; ++i) {
-        const blink::WebTouchPoint& touch_point = touch_event.touches[i];
-        if (touch_point.state == blink::WebTouchPoint::State::kStateMoved) {
-          std::unique_ptr<blink::WebCoalescedInputEvent> raw_event =
-              std::make_unique<blink::WebCoalescedInputEvent>(
-                  std::make_unique<blink::WebPointerEvent>(touch_event,
-                                                           touch_point),
+        const WebTouchPoint& touch_point = touch_event.touches[i];
+        if (touch_point.state == WebTouchPoint::State::kStateMoved) {
+          std::unique_ptr<WebCoalescedInputEvent> raw_event =
+              std::make_unique<WebCoalescedInputEvent>(
+                  std::make_unique<WebPointerEvent>(touch_event, touch_point),
                   event->latency_info());
           raw_event->EventPointer()->SetType(
               WebInputEvent::Type::kPointerRawUpdate);
@@ -388,9 +380,10 @@ void MainThreadEventQueue::HandleEvent(
 
   QueueEvent(std::move(queued_event));
 
-  if (callback)
+  if (callback) {
     std::move(callback).Run(ack_result, cloned_latency_info, nullptr,
                             base::nullopt);
+  }
 }
 
 void MainThreadEventQueue::QueueClosure(base::OnceClosure closure) {
@@ -501,10 +494,10 @@ static bool IsAsyncTouchMove(
     return false;
   const QueuedWebInputEvent* event =
       static_cast<const QueuedWebInputEvent*>(queued_item.get());
-  if (event->Event().GetType() != blink::WebInputEvent::Type::kTouchMove)
+  if (event->Event().GetType() != WebInputEvent::Type::kTouchMove)
     return false;
-  const blink::WebTouchEvent& touch_event =
-      static_cast<const blink::WebTouchEvent&>(event->Event());
+  const WebTouchEvent& touch_event =
+      static_cast<const WebTouchEvent&>(event->Event());
   return touch_event.moved_beyond_slop_region && !event->originallyCancelable();
 }
 
@@ -571,7 +564,7 @@ void MainThreadEventQueue::QueueEvent(
   // can be notified of its dispatch (if the event is not coalesced).
   bool is_input_event = event->IsWebInputEvent();
   WebInputEvent::Type input_event_type = WebInputEvent::Type::kUndefined;
-  blink::WebInputEventAttribution attribution;
+  WebInputEventAttribution attribution;
   if (is_input_event) {
     auto* queued_input_event =
         static_cast<const QueuedWebInputEvent*>(event.get());
@@ -611,7 +604,7 @@ bool MainThreadEventQueue::IsRawUpdateEvent(
   return item->IsWebInputEvent() &&
          static_cast<const QueuedWebInputEvent*>(item.get())
                  ->Event()
-                 .GetType() == blink::WebInputEvent::Type::kPointerRawUpdate;
+                 .GetType() == WebInputEvent::Type::kPointerRawUpdate;
 }
 
 bool MainThreadEventQueue::ShouldFlushQueue(
@@ -628,9 +621,9 @@ bool MainThreadEventQueue::IsRafAlignedEvent(
   const QueuedWebInputEvent* event =
       static_cast<const QueuedWebInputEvent*>(item.get());
   switch (event->Event().GetType()) {
-    case blink::WebInputEvent::Type::kMouseMove:
-    case blink::WebInputEvent::Type::kMouseWheel:
-    case blink::WebInputEvent::Type::kTouchMove:
+    case WebInputEvent::Type::kMouseMove:
+    case WebInputEvent::Type::kMouseWheel:
+    case WebInputEvent::Type::kTouchMove:
       return allow_raf_aligned_input_ && !needs_low_latency_ &&
              !needs_low_latency_until_pointer_up_ &&
              !needs_unbuffered_input_for_debugger_;
@@ -650,13 +643,14 @@ void MainThreadEventQueue::HandleEventResampling(
 }
 
 bool MainThreadEventQueue::HandleEventOnMainThread(
-    const blink::WebCoalescedInputEvent& event,
-    const blink::WebInputEventAttribution& attribution,
+    const WebCoalescedInputEvent& event,
+    const WebInputEventAttribution& attribution,
     HandledEventCallback handled_callback) {
   // Notify the scheduler that the main thread is about to execute handlers.
-  if (auto* scheduler = main_thread_scheduler_)
+  if (auto* scheduler = main_thread_scheduler_) {
     scheduler->WillHandleInputEventOnMainThread(event.Event().GetType(),
                                                 attribution);
+  }
 
   bool handled = false;
   if (client_) {
@@ -666,11 +660,11 @@ bool MainThreadEventQueue::HandleEventOnMainThread(
   if (needs_low_latency_until_pointer_up_) {
     // Reset the needs low latency until pointer up mode if necessary.
     switch (event.Event().GetType()) {
-      case blink::WebInputEvent::Type::kMouseUp:
-      case blink::WebInputEvent::Type::kTouchCancel:
-      case blink::WebInputEvent::Type::kTouchEnd:
-      case blink::WebInputEvent::Type::kPointerCancel:
-      case blink::WebInputEvent::Type::kPointerUp:
+      case WebInputEvent::Type::kMouseUp:
+      case WebInputEvent::Type::kTouchCancel:
+      case WebInputEvent::Type::kTouchEnd:
+      case WebInputEvent::Type::kPointerCancel:
+      case WebInputEvent::Type::kPointerUp:
         needs_low_latency_until_pointer_up_ = false;
         break;
       default:
@@ -720,4 +714,4 @@ void MainThreadEventQueue::RequestUnbufferedInputEvents() {
   needs_low_latency_until_pointer_up_ = true;
 }
 
-}  // namespace content
+}  // namespace blink

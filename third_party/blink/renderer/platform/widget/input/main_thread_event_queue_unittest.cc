@@ -12,27 +12,18 @@
 #include "base/auto_reset.h"
 #include "base/bind.h"
 #include "base/macros.h"
-#include "base/strings/string_piece.h"
 #include "base/strings/string_util.h"
 #include "base/test/scoped_feature_list.h"
 #include "base/test/test_simple_task_runner.h"
 #include "build/build_config.h"
-#include "content/renderer/input/main_thread_event_queue.h"
-#include "content/renderer/render_thread_impl.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/common/input/synthetic_web_input_event_builders.h"
 #include "third_party/blink/public/common/input/web_input_event_attribution.h"
+#include "third_party/blink/public/common/input/web_mouse_wheel_event.h"
 #include "third_party/blink/public/platform/scheduler/test/web_mock_thread_scheduler.h"
+#include "third_party/blink/renderer/platform/widget/input/main_thread_event_queue.h"
 
-using blink::SyntheticWebMouseEventBuilder;
-using blink::SyntheticWebMouseWheelEventBuilder;
-using blink::SyntheticWebTouchEvent;
-using blink::WebInputEvent;
-using blink::WebMouseEvent;
-using blink::WebMouseWheelEvent;
-using blink::WebTouchEvent;
-
-namespace content {
+namespace blink {
 namespace {
 
 // Simulate a 16ms frame signal.
@@ -163,7 +154,7 @@ class HandledEventCallbackTracker {
   void DidHandleEvent(size_t index,
                       blink::mojom::InputEventResultState ack_result,
                       const ui::LatencyInfo& latency,
-                      blink::mojom::DidOverscrollParamsPtr params,
+                      mojom::blink::DidOverscrollParamsPtr params,
                       base::Optional<cc::TouchAction> touch_action) {
     callbacks_received_[index] = ReceivedCallback(
         handling_event_ ? CallbackReceivedState::kCalledWhileHandlingEvent
@@ -203,8 +194,8 @@ class MainThreadEventQueueTest : public testing::Test,
                                           true);
     queue_->HandleEvent(std::make_unique<blink::WebCoalescedInputEvent>(
                             event.Clone(), ui::LatencyInfo()),
-                        DISPATCH_TYPE_BLOCKING, ack_result,
-                        blink::WebInputEventAttribution(),
+                        MainThreadEventQueue::DispatchType::kBlocking,
+                        ack_result, blink::WebInputEventAttribution(),
                         handler_callback_->GetCallback());
   }
 
@@ -1593,4 +1584,4 @@ TEST_F(MainThreadEventQueueTest, PointerEventsWithRelativeMotionCoalescing) {
   }
 }
 
-}  // namespace content
+}  // namespace blink

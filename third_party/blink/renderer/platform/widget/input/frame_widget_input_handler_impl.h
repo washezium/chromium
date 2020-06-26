@@ -2,25 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_INPUT_FRAME_INPUT_HANDLER_IMPL_H_
-#define CONTENT_RENDERER_INPUT_FRAME_INPUT_HANDLER_IMPL_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_FRAME_WIDGET_INPUT_HANDLER_IMPL_H_
+#define THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_FRAME_WIDGET_INPUT_HANDLER_IMPL_H_
 
-#include "base/memory/ref_counted.h"
 #include "build/build_config.h"
-#include "content/common/content_export.h"
-#include "content/renderer/render_widget.h"
-#include "mojo/public/cpp/bindings/pending_receiver.h"
-#include "mojo/public/cpp/bindings/receiver.h"
-#include "third_party/blink/public/mojom/input/input_handler.mojom.h"
+#include "mojo/public/cpp/bindings/associated_receiver.h"
+#include "mojo/public/cpp/bindings/pending_associated_receiver.h"
+#include "third_party/blink/public/mojom/input/input_handler.mojom-blink.h"
+#include "third_party/blink/renderer/platform/platform_export.h"
 
-namespace content {
+namespace blink {
 class MainThreadEventQueue;
+class WidgetBase;
 
 // This class provides an implementation of FrameWidgetInputHandler mojo
 // interface. When a compositor thread is being used in the renderer the mojo
 // channel is bound on the compositor thread. Method calls, and events received
 // on the compositor thread are then placed in the MainThreadEventQueue for the
-// associated RenderWidget. This is done as to ensure that input related
+// associated WidgetBase. This is done as to ensure that input related
 // messages and events that are handled on the compositor thread aren't
 // executed before other input events that need to be processed on the
 // main thread. ie. Since some messages flow to the compositor thread
@@ -38,33 +37,32 @@ class MainThreadEventQueue;
 //
 // When a compositor thread isn't used the mojo channel is just bound
 // on the main thread and messages are handled right away.
-class CONTENT_EXPORT FrameInputHandlerImpl
-    : public blink::mojom::FrameWidgetInputHandler {
+class PLATFORM_EXPORT FrameWidgetInputHandlerImpl
+    : public mojom::blink::FrameWidgetInputHandler {
  public:
-  FrameInputHandlerImpl(
-      base::WeakPtr<RenderWidget> widget,
+  FrameWidgetInputHandlerImpl(
+      base::WeakPtr<WidgetBase> widget,
       scoped_refptr<base::SingleThreadTaskRunner> main_thread_task_runner,
       scoped_refptr<MainThreadEventQueue> input_event_queue);
-  ~FrameInputHandlerImpl() override;
+  ~FrameWidgetInputHandlerImpl() override;
 
   void AddImeTextSpansToExistingText(
       uint32_t start,
       uint32_t end,
-      const std::vector<ui::ImeTextSpan>& ime_text_spans) override;
+      const Vector<ui::ImeTextSpan>& ime_text_spans) override;
   void ClearImeTextSpansByType(uint32_t start,
                                uint32_t end,
                                ui::ImeTextSpan::Type type) override;
   void SetCompositionFromExistingText(
       int32_t start,
       int32_t end,
-      const std::vector<ui::ImeTextSpan>& ime_text_spans) override;
+      const Vector<ui::ImeTextSpan>& ime_text_spans) override;
   void ExtendSelectionAndDelete(int32_t before, int32_t after) override;
   void DeleteSurroundingText(int32_t before, int32_t after) override;
   void DeleteSurroundingTextInCodePoints(int32_t before,
                                          int32_t after) override;
   void SetEditableSelectionOffsets(int32_t start, int32_t end) override;
-  void ExecuteEditCommand(const std::string& command,
-                          const base::Optional<base::string16>& value) override;
+  void ExecuteEditCommand(const String& command, const String& value) override;
   void Undo() override;
   void Redo() override;
   void Cut() override;
@@ -72,8 +70,8 @@ class CONTENT_EXPORT FrameInputHandlerImpl
   void CopyToFindPboard() override;
   void Paste() override;
   void PasteAndMatchStyle() override;
-  void Replace(const base::string16& word) override;
-  void ReplaceMisspelling(const base::string16& word) override;
+  void Replace(const String& word) override;
+  void ReplaceMisspelling(const String& word) override;
   void Delete() override;
   void SelectAll() override;
   void CollapseSelection() override;
@@ -92,33 +90,41 @@ class CONTENT_EXPORT FrameInputHandlerImpl
  private:
   enum class UpdateState { kNone, kIsPasting, kIsSelectingRange };
 
+  static void SetCompositionFromExistingTextMainThread(
+      base::WeakPtr<WidgetBase> widget,
+      int32_t start,
+      int32_t end,
+      const Vector<ui::ImeTextSpan>& ui_ime_text_spans);
+  static void ExtendSelectionAndDeleteMainThread(
+      base::WeakPtr<WidgetBase> widget,
+      int32_t before,
+      int32_t after);
+
   class HandlingState {
    public:
-    HandlingState(const base::WeakPtr<RenderWidget>& render_widget,
-                  UpdateState state);
+    HandlingState(const base::WeakPtr<WidgetBase>& widget, UpdateState state);
     ~HandlingState();
 
    private:
-    base::WeakPtr<RenderWidget> render_widget_;
+    base::WeakPtr<WidgetBase> widget_;
     bool original_select_range_value_;
     bool original_pasting_value_;
   };
 
   void RunOnMainThread(base::OnceClosure closure);
-  static void ExecuteCommandOnMainThread(base::WeakPtr<RenderWidget> widget,
-                                         const std::string& command,
+  static void ExecuteCommandOnMainThread(base::WeakPtr<WidgetBase> widget,
+                                         const char* command,
                                          UpdateState state);
-  void Release();
 
-  // |render_widget_| should only be accessed on the main thread.
-  base::WeakPtr<RenderWidget> widget_;
+  // |widget_| should only be accessed on the main thread.
+  base::WeakPtr<WidgetBase> widget_;
 
   scoped_refptr<MainThreadEventQueue> input_event_queue_;
   scoped_refptr<base::SingleThreadTaskRunner> main_thread_task_runner_;
 
-  DISALLOW_COPY_AND_ASSIGN(FrameInputHandlerImpl);
+  DISALLOW_COPY_AND_ASSIGN(FrameWidgetInputHandlerImpl);
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_INPUT_FRAME_INPUT_HANDLER_IMPL_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_FRAME_WIDGET_INPUT_HANDLER_IMPL_H_

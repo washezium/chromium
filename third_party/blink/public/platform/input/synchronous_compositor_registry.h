@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_
-#define CONTENT_RENDERER_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_
+#define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_
 
-#include "content/renderer/input/synchronous_layer_tree_frame_sink.h"
+#include "third_party/blink/public/platform/input/synchronous_layer_tree_frame_sink.h"
 
-namespace content {
+namespace blink {
 
 class SynchronousCompositorRegistry {
  public:
@@ -20,6 +20,6 @@ class SynchronousCompositorRegistry {
   virtual ~SynchronousCompositorRegistry() {}
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_SYNCHRONOUS_COMPOSITOR_REGISTRY_H_

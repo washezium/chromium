@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_
-#define CONTENT_RENDERER_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_
+#define THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_
 
 #include <memory>
 
 #include "base/containers/circular_deque.h"
-#include "content/renderer/input/main_thread_event_queue_task.h"
+#include "third_party/blink/renderer/platform/widget/input/main_thread_event_queue_task.h"
 
-namespace content {
+namespace blink {
 
 // The list of tasks that the main thread event queue will execute.
 // This class supports coalescing upon queueing a task.
@@ -47,6 +47,6 @@ class MainThreadEventQueueTaskList {
   DISALLOW_COPY_AND_ASSIGN(MainThreadEventQueueTaskList);
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_WIDGET_INPUT_MAIN_THREAD_EVENT_QUEUE_TASK_LIST_H_

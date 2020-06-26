@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/input/input_event_prediction.h"
+#include "third_party/blink/renderer/platform/widget/input/input_event_prediction.h"
 
 #include <string>
 
@@ -10,19 +10,10 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/common/features.h"
 #include "third_party/blink/public/common/input/synthetic_web_input_event_builders.h"
-#include "ui/events/base_event_utils.h"
 
-namespace content {
+namespace blink {
 
-namespace {
-using blink::SyntheticWebMouseEventBuilder;
-using blink::SyntheticWebTouchEvent;
-using blink::WebInputEvent;
-using blink::WebMouseEvent;
-using blink::WebPointerProperties;
-using blink::WebTouchEvent;
-using blink::input_prediction::PredictorType;
-}  // namespace
+using input_prediction::PredictorType;
 
 class InputEventPredictionTest : public testing::Test {
  public:
@@ -41,19 +32,19 @@ class InputEventPredictionTest : public testing::Test {
       const WebPointerProperties& event) const {
     if (event.pointer_type == WebPointerProperties::PointerType::kMouse) {
       return event_predictor_->mouse_predictor_->GeneratePrediction(
-          ui::EventTimeForNow());
+          base::TimeTicks::Now());
     } else {
       auto predictor =
           event_predictor_->pointer_id_predictor_map_.find(event.id);
       if (predictor != event_predictor_->pointer_id_predictor_map_.end())
-        return predictor->second->GeneratePrediction(ui::EventTimeForNow());
+        return predictor->second->GeneratePrediction(base::TimeTicks::Now());
     }
     return nullptr;
   }
 
   void HandleEvents(const WebInputEvent& event) {
     blink::WebCoalescedInputEvent coalesced_event(event, ui::LatencyInfo());
-    event_predictor_->HandleEvents(coalesced_event, ui::EventTimeForNow());
+    event_predictor_->HandleEvents(coalesced_event, base::TimeTicks::Now());
   }
 
   void ConfigureFieldTrial(const base::Feature& feature,
@@ -309,7 +300,7 @@ TEST_F(InputEventPredictionTest, ResamplingDisabled) {
   mouse_move = SyntheticWebMouseEventBuilder::Build(
       WebInputEvent::Type::kMouseMove, 13, 7, 0);
   blink::WebCoalescedInputEvent coalesced_event(mouse_move, ui::LatencyInfo());
-  event_predictor_->HandleEvents(coalesced_event, ui::EventTimeForNow());
+  event_predictor_->HandleEvents(coalesced_event, base::TimeTicks::Now());
 
   EXPECT_GT(coalesced_event.PredictedEventSize(), 0u);
 
@@ -329,7 +320,7 @@ TEST_F(InputEventPredictionTest, NoResampleWhenExceedMaxResampleTime) {
   base::TimeDelta predictor_max_resample_time =
       event_predictor_->mouse_predictor_->MaxResampleTime();
 
-  base::TimeTicks event_time = ui::EventTimeForNow();
+  base::TimeTicks event_time = base::TimeTicks::Now();
   // Send 3 mouse move each has 8ms interval to get kalman predictor ready.
   WebMouseEvent mouse_move = SyntheticWebMouseEventBuilder::Build(
       WebInputEvent::Type::kMouseMove, 10, 10, 0);
@@ -402,7 +393,7 @@ TEST_F(InputEventPredictionTest, PredictedEventsTimeIntervalEqualRealEvents) {
   ConfigureFieldTrialAndInitialize(blink::features::kResamplingInputEvents,
                                    blink::features::kScrollPredictorNameKalman);
 
-  base::TimeTicks event_time = ui::EventTimeForNow();
+  base::TimeTicks event_time = base::TimeTicks::Now();
   // Send 3 mouse move each has 6ms interval to get kalman predictor ready.
   WebMouseEvent mouse_move = SyntheticWebMouseEventBuilder::Build(
       WebInputEvent::Type::kMouseMove, 10, 10, 0);
@@ -451,7 +442,7 @@ TEST_F(InputEventPredictionTest, TouchPointStates) {
         static_cast<blink::WebTouchPoint::State>(state);
     blink::WebCoalescedInputEvent coalesced_event(touch_event,
                                                   ui::LatencyInfo());
-    event_predictor_->HandleEvents(coalesced_event, ui::EventTimeForNow());
+    event_predictor_->HandleEvents(coalesced_event, base::TimeTicks::Now());
     if (state == static_cast<size_t>(blink::WebTouchPoint::State::kStateMoved))
       EXPECT_GT(coalesced_event.PredictedEventSize(), 0u);
     else
@@ -459,4 +450,4 @@ TEST_F(InputEventPredictionTest, TouchPointStates) {
   }
 }
 
-}  // namespace content
+}  // namespace blink

@@ -126,7 +126,6 @@ source_set("common") {
     "input/gesture_event_stream_validator.cc",
     "input/gesture_event_stream_validator.h",
     "input/input_event_ack_state.cc",
-    "input/input_event_dispatch_type.h",
     "input/input_event_stream_validator.cc",
     "input/input_event_stream_validator.h",
     "input/synthetic_gesture_params.cc",

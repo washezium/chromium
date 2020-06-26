@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/input/main_thread_event_queue_task_list.h"
+#include "third_party/blink/renderer/platform/widget/input/main_thread_event_queue_task_list.h"
 
 #include <utility>
 
-namespace content {
+namespace blink {
 
 MainThreadEventQueueTaskList::MainThreadEventQueueTaskList() {}
 
@@ -50,4 +50,4 @@ std::unique_ptr<MainThreadEventQueueTask> MainThreadEventQueueTaskList::remove(
   return result;
 }
 
-}  // namespace
+}  // namespace blink
