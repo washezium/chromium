@@ -141,7 +141,6 @@ String SniffMimeTypeInternal(scoped_refptr<SegmentReader> reader) {
 #if BUILDFLAG(ENABLE_AV1_DECODER)
   if (base::FeatureList::IsEnabled(features::kAVIF) &&
       AVIFImageDecoder::MatchesAVIFSignature(fast_reader)) {
-    // TODO(wtc): Sniff AVIF image sequences and return image/avif-sequence.
     return "image/avif";
   }
 #endif
@@ -305,8 +304,7 @@ ImageDecoder::CompressionFormat ImageDecoder::GetCompressionFormat(
   // TODO(wtc): Implement this. Figure out whether to return kUndefinedFormat or
   // a new kAVIFAnimationFormat in the case of an animated AVIF image.
   if (base::FeatureList::IsEnabled(features::kAVIF) &&
-      (EqualIgnoringASCIICase(mime_type, "image/avif") ||
-       EqualIgnoringASCIICase(mime_type, "image/avif-sequence"))) {
+      EqualIgnoringASCIICase(mime_type, "image/avif")) {
     return kLossyFormat;
   }
 #endif
