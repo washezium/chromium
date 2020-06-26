@@ -18,6 +18,7 @@ include_rules = [
   "+components/sync/protocol",
   "+components/sync/test",
   "+components/sync_preferences",
+  "+google/cacheinvalidation",
   "+net",
   "+policy",
   "+services/network/public/cpp",
