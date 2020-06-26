@@ -37,11 +37,10 @@ class FakeSecurityKeyIpcClient : public SecurityKeyIpcClient {
   // SecurityKeyIpcClient interface.
   bool CheckForSecurityKeyIpcServerChannel() override;
   void EstablishIpcConnection(
-      const ConnectedCallback& connected_callback,
-      const base::Closure& connection_error_callback) override;
-  bool SendSecurityKeyRequest(
-      const std::string& request_payload,
-      const ResponseCallback& response_callback) override;
+      ConnectedCallback connected_callback,
+      base::OnceClosure connection_error_callback) override;
+  bool SendSecurityKeyRequest(const std::string& request_payload,
+                              ResponseCallback response_callback) override;
   void CloseIpcConnection() override;
 
   // Connects as a client to the |server_name| IPC Channel.
