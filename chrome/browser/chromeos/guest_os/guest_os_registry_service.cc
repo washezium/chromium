@@ -689,10 +689,6 @@ void GuestOsRegistryService::ClearApplicationList(
   if (removed_apps.empty())
     return;
 
-  // Do not notify observers for Plugin VM.
-  if (vm_type == VmType::ApplicationList_VmType_PLUGIN_VM)
-    return;
-
   std::vector<std::string> updated_apps;
   std::vector<std::string> inserted_apps;
   for (Observer& obs : observers_)
@@ -806,10 +802,6 @@ void GuestOsRegistryService::UpdateApplicationList(
   retry_icon_requests_.clear();
 
   if (updated_apps.empty() && removed_apps.empty() && inserted_apps.empty())
-    return;
-
-  // Do not notify observers for Plugin VM.
-  if (app_list.vm_type() == VmType::ApplicationList_VmType_PLUGIN_VM)
     return;
 
   for (Observer& obs : observers_)
