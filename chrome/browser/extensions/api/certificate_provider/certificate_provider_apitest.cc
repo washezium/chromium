@@ -259,7 +259,7 @@ class CertificateProviderApiMockedExtensionTest
         nullptr /* no WebContents */);
     navigation_observer.StartWatchingNewWebContents();
     ExtensionTestMessageListener sign_digest_listener(
-        "SignDigestRequest received", /*will_reply=*/false);
+        "signature request received", /*will_reply=*/false);
 
     // Navigate to a page which triggers a sign request. Navigation is blocked
     // by completion of this request, so we don't wait for navigation to finish.
@@ -283,7 +283,7 @@ class CertificateProviderApiMockedExtensionTest
     {
       base::RunLoop run_loop;
       GetExtensionMainFrame()->ExecuteJavaScriptForTests(
-          base::ASCIIToUTF16("signDigestRequest.digest;"),
+          base::ASCIIToUTF16("signatureRequestData;"),
           base::BindOnce(&StoreDigest, &request_digest,
                          run_loop.QuitClosure()));
       run_loop.Run();
@@ -446,7 +446,7 @@ class CertificateProviderRequestPinTest : public CertificateProviderApiTest {
 IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
                        ResponsiveExtension) {
   ExecuteJavascript("registerAsCertificateProvider();");
-  ExecuteJavascript("registerForSignDigests();");
+  ExecuteJavascript("registerForSignatureRequests();");
 
   TestNavigationToCertificateRequestingWebPage();
 }
@@ -455,7 +455,7 @@ IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
 IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
                        ExtensionSigningTwice) {
   ExecuteJavascript("registerAsCertificateProvider();");
-  ExecuteJavascript("registerForSignDigests();");
+  ExecuteJavascript("registerForSignatureRequests();");
 
   // This causes a signature request that will be replied to.
   TestNavigationToCertificateRequestingWebPage();
@@ -472,7 +472,7 @@ IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
 IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
                        ProactiveAndResponsiveExtension) {
   ExecuteJavascript("registerAsCertificateProvider();");
-  ExecuteJavascript("registerForSignDigests();");
+  ExecuteJavascript("registerForSignatureRequests();");
   ExecuteJavascriptAndWaitForCallback("setCertificates();");
 
   scoped_refptr<net::X509Certificate> certificate = GetCertificate();
@@ -489,7 +489,7 @@ IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
 // setCertificates().
 IN_PROC_BROWSER_TEST_F(CertificateProviderApiMockedExtensionTest,
                        ProactiveExtension) {
-  ExecuteJavascript("registerForSignDigests();");
+  ExecuteJavascript("registerForSignatureRequests();");
   ExecuteJavascriptAndWaitForCallback("setCertificates();");
 
   scoped_refptr<net::X509Certificate> certificate = GetCertificate();
