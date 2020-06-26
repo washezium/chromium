@@ -58,6 +58,7 @@ void AddUiColorMixer(ColorProvider* provider) {
   mixer[kColorMenuSeparator] = {kColorBorderAndSeparatorForeground};
   mixer[kColorTabContentSeparator] = {kColorBorderAndSeparatorForeground};
   mixer[kColorTabForeground] = {kColorSecondaryForeground};
+  mixer[kColorTabSelectedBorder] = {kColorAccent};
   mixer[kColorTabSelectedForeground] = {kColorAccent};
   mixer[kColorTableBackground] = {kColorPrimaryBackground};
   mixer[kColorTableForeground] = {kColorPrimaryForeground};

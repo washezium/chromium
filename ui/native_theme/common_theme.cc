@@ -163,6 +163,7 @@ base::Optional<SkColor> GetDarkSchemeColor(NativeTheme::ColorId color_id) {
 
     // TabbedPane
     case NativeTheme::kColorId_TabTitleColorActive:
+    case NativeTheme::kColorId_TabSelectedBorderColor:
       return gfx::kGoogleBlue300;
     case NativeTheme::kColorId_TabTitleColorInactive:
       return gfx::kGoogleGrey500;
@@ -458,6 +459,7 @@ SkColor GetDefaultColor(NativeTheme::ColorId color_id,
 
     // TabbedPane
     case NativeTheme::kColorId_TabTitleColorActive:
+    case NativeTheme::kColorId_TabSelectedBorderColor:
       return gfx::kGoogleBlue600;
     case NativeTheme::kColorId_TabTitleColorInactive:
       return gfx::kGoogleGrey700;

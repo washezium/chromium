@@ -85,6 +85,7 @@
   E(kColorMenuSeparator, NativeTheme::kColorId_MenuSeparatorColor) \
   E(kColorTabContentSeparator, NativeTheme::kColorId_TabBottomBorder) \
   E(kColorTabForeground, NativeTheme::kColorId_TabTitleColorInactive) \
+  E(kColorTabSelectedBorder, NativeTheme::kColorId_TabSelectedBorderColor) \
   E(kColorTabSelectedForeground, \
     NativeTheme::kColorId_TabTitleColorActive) \
   E(kColorTableBackground, NativeTheme::kColorId_TableBackground) \

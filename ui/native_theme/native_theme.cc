@@ -95,6 +95,7 @@ NativeThemeColorIdToColorIdMap() {
         {NTCID::kColorId_MenuSeparatorColor, kColorMenuSeparator},
         {NTCID::kColorId_TabBottomBorder, kColorTabContentSeparator},
         {NTCID::kColorId_TabTitleColorInactive, kColorTabForeground},
+        {NTCID::kColorId_TabSelectedBorderColor, kColorTabSelectedBorder},
         {NTCID::kColorId_TabTitleColorActive, kColorTabSelectedForeground},
         {NTCID::kColorId_TableBackground, kColorTableBackground},
 #if defined(OS_MACOSX)

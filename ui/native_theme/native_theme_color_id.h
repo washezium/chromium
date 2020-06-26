@@ -109,6 +109,7 @@
   OP(kColorId_TabBottomBorder),                                                \
   OP(kColorId_TabHighlightBackground),                                         \
   OP(kColorId_TabHighlightFocusedBackground),                                  \
+  OP(kColorId_TabSelectedBorderColor),                                         \
   /* Textfield */                                                              \
   OP(kColorId_TextfieldDefaultColor),                                          \
   OP(kColorId_TextfieldDefaultBackground),                                     \
