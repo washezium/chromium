@@ -47,6 +47,12 @@ suite('OSSettingsSearchBox', () => {
   /** @type {?HTMLElement} */
   let noResultsSection;
 
+  function isTextSelected() {
+    const input = field.$.searchInput;
+    return input.selectionStart === 0 &&
+        input.selectionEnd === input.value.length;
+  }
+
   /** @param {string} term */
   async function simulateSearch(term) {
     field.$.searchInput.value = term;
@@ -169,6 +175,23 @@ suite('OSSettingsSearchBox', () => {
     await simulateSearch('query');
     assertEquals(userActionRecorder.searchCount, 1);
   });
+
+  test(
+      'Clicking magnifying glass shows dropdown and selects all text',
+      async () => {
+        settingsSearchHandler.setFakeResults([fakeResult('a')]);
+        await simulateSearch('query');
+        await waitForListUpdate();
+        assertTrue(dropDown.opened);
+        searchBox.blur();
+
+        assertFalse(dropDown.opened);
+        assertFalse(isTextSelected());
+
+        field.$.icon.click();
+        assertTrue(isTextSelected());
+        assertTrue(dropDown.opened);
+      });
 
   test('Dropdown opens correctly when results are fetched', async () => {
     // Show no results in dropdown if no results are returned.
