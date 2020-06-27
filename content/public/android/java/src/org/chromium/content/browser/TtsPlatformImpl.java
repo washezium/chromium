@@ -195,8 +195,8 @@ class TtsPlatformImpl {
     protected void sendEndEventOnUiThread(final String utteranceId) {
         PostTask.runOrPostTask(UiThreadTaskTraits.DEFAULT, () -> {
             if (mNativeTtsPlatformImplAndroid != 0) {
-                TtsPlatformImplJni.get().onEndEvent(mNativeTtsPlatformImplAndroid,
-                        TtsPlatformImpl.this, Integer.parseInt(utteranceId));
+                TtsPlatformImplJni.get().onEndEvent(
+                        mNativeTtsPlatformImplAndroid, Integer.parseInt(utteranceId));
             }
         });
     }
@@ -207,8 +207,8 @@ class TtsPlatformImpl {
     protected void sendErrorEventOnUiThread(final String utteranceId) {
         PostTask.runOrPostTask(UiThreadTaskTraits.DEFAULT, () -> {
             if (mNativeTtsPlatformImplAndroid != 0) {
-                TtsPlatformImplJni.get().onErrorEvent(mNativeTtsPlatformImplAndroid,
-                        TtsPlatformImpl.this, Integer.parseInt(utteranceId));
+                TtsPlatformImplJni.get().onErrorEvent(
+                        mNativeTtsPlatformImplAndroid, Integer.parseInt(utteranceId));
             }
         });
     }
@@ -219,8 +219,8 @@ class TtsPlatformImpl {
     protected void sendStartEventOnUiThread(final String utteranceId) {
         PostTask.runOrPostTask(UiThreadTaskTraits.DEFAULT, () -> {
             if (mNativeTtsPlatformImplAndroid != 0) {
-                TtsPlatformImplJni.get().onStartEvent(mNativeTtsPlatformImplAndroid,
-                        TtsPlatformImpl.this, Integer.parseInt(utteranceId));
+                TtsPlatformImplJni.get().onStartEvent(
+                        mNativeTtsPlatformImplAndroid, Integer.parseInt(utteranceId));
             }
         });
     }
@@ -308,8 +308,7 @@ class TtsPlatformImpl {
                 mVoices = voices;
                 mInitialized = true;
 
-                TtsPlatformImplJni.get().voicesChanged(
-                        mNativeTtsPlatformImplAndroid, TtsPlatformImpl.this);
+                TtsPlatformImplJni.get().voicesChanged(mNativeTtsPlatformImplAndroid);
 
                 if (mPendingUtterance != null) mPendingUtterance.speak();
 
@@ -321,11 +320,9 @@ class TtsPlatformImpl {
 
     @NativeMethods
     interface Natives {
-        void voicesChanged(long nativeTtsPlatformImplAndroid, TtsPlatformImpl caller);
-        void onEndEvent(long nativeTtsPlatformImplAndroid, TtsPlatformImpl caller, int utteranceId);
-        void onStartEvent(
-                long nativeTtsPlatformImplAndroid, TtsPlatformImpl caller, int utteranceId);
-        void onErrorEvent(
-                long nativeTtsPlatformImplAndroid, TtsPlatformImpl caller, int utteranceId);
+        void voicesChanged(long nativeTtsPlatformImplAndroid);
+        void onEndEvent(long nativeTtsPlatformImplAndroid, int utteranceId);
+        void onStartEvent(long nativeTtsPlatformImplAndroid, int utteranceId);
+        void onErrorEvent(long nativeTtsPlatformImplAndroid, int utteranceId);
     }
 }
