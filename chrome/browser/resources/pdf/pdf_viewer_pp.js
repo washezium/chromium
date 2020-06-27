@@ -205,7 +205,8 @@ class PDFViewerPPElement extends PDFViewerBaseElement {
 
     switch (message.data.type.toString()) {
       case 'getSelectedText':
-        this.pluginController.getSelectedText();
+        this.pluginController.getSelectedText().then(
+            this.sendScriptingMessage.bind(this));
         break;
       case 'selectAll':
         this.pluginController.selectAll();
@@ -284,10 +285,6 @@ class PDFViewerPPElement extends PDFViewerBaseElement {
         this.setDocumentDimensions(
             /** @type {!DocumentDimensionsMessageData} */ (data));
         return;
-      case 'getSelectedTextReply':
-        this.handleSelectedTextReply(
-            /** @type {{ selectedText: string }} */ (data).selectedText);
-        return;
       case 'loadProgress':
         this.updateProgress(
             /** @type {{ progress: number }} */ (data).progress);
@@ -304,10 +301,6 @@ class PDFViewerPPElement extends PDFViewerBaseElement {
       case 'setIsSelecting':
         this.viewportScroller.setEnableScrolling(
             /** @type {{ isSelecting: boolean }} */ (data).isSelecting);
-        return;
-      case 'getNamedDestinationReply':
-        this.paramsParser.onNamedDestinationReceived(
-            /** @type {{ pageNumber: number }} */ (data).pageNumber);
         return;
       case 'touchSelectionOccurred':
         this.sendScriptingMessage({
