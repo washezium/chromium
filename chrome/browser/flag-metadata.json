@@ -3011,6 +3011,11 @@
     "expiry_milestone": 88
   },
   {
+    "name": "maintain-shelf-state-overview",
+    "owners": [ "yulunwu" ],
+    "expiry_milestone": 86
+  },
+  {
     "name": "managed-bookmarks-ios",
     "owners": [ "edchin", "rohitrao" ],
     "expiry_milestone": 90

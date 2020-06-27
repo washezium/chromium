@@ -40337,6 +40337,8 @@ from previous Chrome versions.
   <int value="-1018454657" label="SharingPeerConnectionReceiver:enabled"/>
   <int value="-1016669222" label="CloudPrinterHandler:enabled"/>
   <int value="-1016202433" label="disable-add-to-shelf"/>
+  <int value="-1016196171"
+      label="MaintainShelfStateWhenEnteringOverview:enabled"/>
   <int value="-1015006759" label="ImportantSitesInCBD:disabled"/>
   <int value="-1014936248" label="SyncUSSBookmarks:enabled"/>
   <int value="-1014649471" label="committed-interstitials"/>
@@ -40999,6 +41001,8 @@ from previous Chrome versions.
   <int value="-275619817"
       label="disable-proximity-auth-bluetooth-low-energy-discovery"/>
   <int value="-275164173" label="QuickUnlockPinSignin:enabled"/>
+  <int value="-273821346"
+      label="MaintainShelfStateWhenEnteringOverview:disabled"/>
   <int value="-271790049" label="ArcUsbHost:enabled"/>
   <int value="-271084069" label="ClickToCallUI:enabled"/>
   <int value="-270626757" label="log-net-log"/>
