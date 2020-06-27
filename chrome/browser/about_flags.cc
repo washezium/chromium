@@ -4901,6 +4901,10 @@ const FeatureEntry kFeatureEntries[] = {
      kOsWin | kOsLinux | kOsCrOS | kOsAndroid,
      FEATURE_VALUE_TYPE(features::kFormControlsRefresh)},
 
+    {"color-picker-eye-dropper", flag_descriptions::kColorPickerEyeDropperName,
+     flag_descriptions::kColorPickerEyeDropperDescription, kOsWin,
+     FEATURE_VALUE_TYPE(features::kEyeDropper)},
+
 #if defined(OS_CHROMEOS)
     {"auto-screen-brightness", flag_descriptions::kAutoScreenBrightnessName,
      flag_descriptions::kAutoScreenBrightnessDescription, kOsCrOS,

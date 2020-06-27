@@ -571,6 +571,11 @@
     "expiry_milestone": 80
   },
   {
+    "name": "color-picker-eye-dropper",
+    "owners": [ "iopopesc@microsoft.com", "masonfreed", "//third_party/blink/renderer/core/OWNERS" ],
+    "expiry_milestone": 88
+  },
+  {
     "name": "color-provider-redirection",
     "owners": [ "//ui/color/OWNERS" ],
     "expiry_milestone": 88
@@ -2691,7 +2696,7 @@
   {
     "name": "form-controls-refresh",
     "owners": [ "iopopesc@microsoft.com", "masonfreed", "yuzhehan", "//third_party/blink/renderer/core/OWNERS" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "fractional-scroll-offsets",
