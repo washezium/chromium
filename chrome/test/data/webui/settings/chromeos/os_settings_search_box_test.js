@@ -419,6 +419,35 @@ suite('OSSettingsSearchBox', () => {
     assertEquals(
         searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
         `Turn on <b>Wi-F</b>i`);
+    await simulateSearch(`wi f`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `Turn on <b>Wi-F</b>i`);
+    await simulateSearch(`wi-f`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `Turn on <b>Wi-F</b>i`);
+
+    settingsSearchHandler.setFakeResults([fakeResult('Tap-to-click')]);
+    await simulateSearch(`tap to cli`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `<b>Tap-to-cli</b>ck`);
+    await simulateSearch(`taptocli`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `<b>Tap-to-cli</b>ck`);
+    await simulateSearch(`tap-to-cli`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `<b>Tap-to-cli</b>ck`);
+
+    settingsSearchHandler.setFakeResults(
+        [fakeResult('Tap-to-click Tips Title')]);
+    await simulateSearch(`tap t`);
+    assertEquals(
+        searchBox.getSelectedOsSearchResultRow_().$.resultText.innerHTML,
+        `<b>Tap-t</b>o-click <b>T</b>ips <b>T</b>i<b>t</b>le`);
   });
 
   test('Test query longer than result blocks', async () => {
