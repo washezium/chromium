@@ -108,10 +108,6 @@ class WebMediaStreamTrack {
   }
   BLINK_PLATFORM_EXPORT void Assign(const WebMediaStreamTrack&);
 
-  BLINK_PLATFORM_EXPORT void Initialize(const WebMediaStreamSource&);
-  BLINK_PLATFORM_EXPORT void Initialize(const WebString& id,
-                                        const WebMediaStreamSource&);
-
   BLINK_PLATFORM_EXPORT void Reset();
   bool IsNull() const { return private_.IsNull(); }
 

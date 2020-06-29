@@ -52,15 +52,6 @@ WebMediaStreamTrack& WebMediaStreamTrack::operator=(
   return *this;
 }
 
-void WebMediaStreamTrack::Initialize(const WebMediaStreamSource& source) {
-  private_ = MakeGarbageCollected<MediaStreamComponent>(source);
-}
-
-void WebMediaStreamTrack::Initialize(const WebString& id,
-                                     const WebMediaStreamSource& source) {
-  private_ = MakeGarbageCollected<MediaStreamComponent>(id, source);
-}
-
 void WebMediaStreamTrack::Reset() {
   private_.Reset();
 }
