@@ -50500,6 +50500,9 @@ Called by update_net_trust_anchors.py.-->
 </enum>
 
 <enum name="OfflinePagesLoadStatus">
+  <obsolete>
+    OfflinePages.LoadStatus was removed in M65.
+  </obsolete>
   <int value="0" label="Success"/>
   <int value="1" label="Store init failed"/>
   <int value="2" label="Store load failed"/>
