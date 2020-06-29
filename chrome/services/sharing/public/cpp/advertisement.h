@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_SERVICES_SHARING_NEARBY_DECODER_ADVERTISEMENT_H_
-#define CHROME_SERVICES_SHARING_NEARBY_DECODER_ADVERTISEMENT_H_
+#ifndef CHROME_SERVICES_SHARING_PUBLIC_CPP_ADVERTISEMENT_H_
+#define CHROME_SERVICES_SHARING_PUBLIC_CPP_ADVERTISEMENT_H_
 
 #include <stdint.h>
 #include <memory>
@@ -26,9 +26,6 @@ class Advertisement {
       std::vector<uint8_t> encrypted_metadata_key,
       base::Optional<std::string> device_name);
 
-  static std::unique_ptr<Advertisement> FromEndpointInfo(
-      base::span<const uint8_t> endpoint_info);
-
   Advertisement(Advertisement&& other);
   Advertisement(const Advertisement& other) = delete;
   Advertisement& operator=(const Advertisement& rhs) = delete;
@@ -46,8 +43,8 @@ class Advertisement {
   }
   bool HasDeviceName() const { return device_name_.has_value(); }
 
-  static const uint8_t kSaltSize;
-  static const uint8_t kMetadataEncryptionKeyHashByteSize;
+  static const uint8_t kSaltSize = 2;
+  static const uint8_t kMetadataEncryptionKeyHashByteSize = 14;
 
  private:
   Advertisement(int version,
@@ -72,4 +69,4 @@ class Advertisement {
 
 }  // namespace sharing
 
-#endif  //  CHROME_SERVICES_SHARING_NEARBY_DECODER_ADVERTISEMENT_H_
+#endif  //  CHROME_SERVICES_SHARING_PUBLIC_CPP_ADVERTISEMENT_H_

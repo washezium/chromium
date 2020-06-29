@@ -7,11 +7,11 @@
 #include <string>
 #include <vector>
 
-#include "chrome/services/sharing/nearby_decoder/advertisement.h"
-#include "chrome/services/sharing/nearby_decoder/nearby_decoder.h"
+#include "chrome/services/sharing/nearby_decoder/advertisement_decoder.h"
 
 #include "base/strings/strcat.h"
 #include "base/test/task_environment.h"
+#include "chrome/services/sharing/public/cpp/advertisement.h"
 #include "mojo/public/cpp/bindings/remote.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
@@ -37,123 +37,94 @@ void ExpectEquals(const Advertisement& self, const Advertisement& other) {
 
 }  // namespace
 
-TEST(AdvertisementTest, CreateNewInstanceWithNullName) {
-  std::unique_ptr<sharing::Advertisement> advertisement =
-      sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
-                                          /* device_name=*/base::nullopt);
-  EXPECT_FALSE(advertisement->device_name());
-  EXPECT_EQ(advertisement->encrypted_metadata_key(), kEncryptedMetadataKey);
-  EXPECT_FALSE(advertisement->HasDeviceName());
-  EXPECT_EQ(advertisement->salt(), kSalt);
-}
-
-TEST(AdvertisementTest, CreateNewInstance) {
-  std::unique_ptr<sharing::Advertisement> advertisement =
-      sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
-                                          kDeviceName);
-  EXPECT_EQ(advertisement->device_name(), kDeviceName);
-  EXPECT_EQ(advertisement->encrypted_metadata_key(), kEncryptedMetadataKey);
-  EXPECT_TRUE(advertisement->HasDeviceName());
-  EXPECT_EQ(advertisement->salt(), kSalt);
-}
-
-TEST(AdvertisementTest, CreateNewInstanceFromEndpointInfo) {
+TEST(AdvertisementDecoderTest, CreateNewInstanceFromEndpointInfo) {
   std::unique_ptr<sharing::Advertisement> original =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           kDeviceName);
   std::unique_ptr<sharing::Advertisement> advertisement =
-      sharing::Advertisement::FromEndpointInfo(original->ToEndpointInfo());
+      sharing::AdvertisementDecoder::FromEndpointInfo(
+          original->ToEndpointInfo());
   ExpectEquals(*advertisement, *original);
 }
 
-TEST(AdvertisementTest, CreateNewInstanceFromStringWithExtraLength) {
+TEST(AdvertisementDecoderTest, CreateNewInstanceFromStringWithExtraLength) {
   std::unique_ptr<sharing::Advertisement> original =
       sharing::Advertisement::NewInstance(
           kSalt, kEncryptedMetadataKey, base::StrCat({kDeviceName, "123456"}));
   std::unique_ptr<sharing::Advertisement> advertisement =
-      sharing::Advertisement::FromEndpointInfo(original->ToEndpointInfo());
+      sharing::AdvertisementDecoder::FromEndpointInfo(
+          original->ToEndpointInfo());
   ExpectEquals(*advertisement, *original);
 }
 
-TEST(AdvertisementTest, CreateNewInstanceWithWrongSaltSize) {
-  EXPECT_FALSE(sharing::Advertisement::NewInstance(
-      /* salt= */ std::vector<uint8_t>(5, 5), kEncryptedMetadataKey,
-      kDeviceName));
-}
-
-TEST(AdvertisementTest, CreateNewInstanceWithWrongAccountIdentifierSize) {
-  EXPECT_FALSE(sharing::Advertisement::NewInstance(
-      kSalt, /* encrypted_metadata_key= */ std::vector<uint8_t>(2, 1),
-      kDeviceName));
-}
-
-TEST(AdvertisementTest, SerializeContactsOnlyAdvertisementWithoutDeviceName) {
+TEST(AdvertisementDecoderTest,
+     SerializeContactsOnlyAdvertisementWithoutDeviceName) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           /* device_name= */ base::nullopt);
-  ExpectEquals(*sharing::Advertisement::FromEndpointInfo(
+  ExpectEquals(*sharing::AdvertisementDecoder::FromEndpointInfo(
                    advertisement->ToEndpointInfo()),
                *advertisement);
 }
 
-TEST(AdvertisementTest,
+TEST(AdvertisementDecoderTest,
      SerializeVisibleToEveryoneAdvertisementWithoutDeviceName) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           /* device_name= */ std::string());
-  EXPECT_FALSE(sharing::Advertisement::FromEndpointInfo(
+  EXPECT_FALSE(sharing::AdvertisementDecoder::FromEndpointInfo(
       advertisement->ToEndpointInfo()));
 }
 
-TEST(AdvertisementTest, V1ContactsOnlyAdvertisementDecoding) {
+TEST(AdvertisementDecoderTest, V1ContactsOnlyAdvertisementDecoding) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           kDeviceName);
   std::vector<uint8_t> v1EndpointInfo = {
       16, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
       0,  0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  ExpectEquals(*sharing::Advertisement::FromEndpointInfo(v1EndpointInfo),
+  ExpectEquals(*sharing::AdvertisementDecoder::FromEndpointInfo(v1EndpointInfo),
                *advertisement);
 }
 
-TEST(AdvertisementTest, V1VisibleToEveryoneAdvertisementDecoding) {
+TEST(AdvertisementDecoderTest, V1VisibleToEveryoneAdvertisementDecoding) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           kDeviceName);
   std::vector<uint8_t> v1EndpointInfo = {
       0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
       0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  ExpectEquals(*sharing::Advertisement::FromEndpointInfo(v1EndpointInfo),
+  ExpectEquals(*sharing::AdvertisementDecoder::FromEndpointInfo(v1EndpointInfo),
                *advertisement);
 }
 
-TEST(AdvertisementTest, V1ContactsOnlyAdvertisementEncoding) {
+TEST(AdvertisementDecoderTest, V1ContactsOnlyAdvertisementEncoding) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           /* device_name= */ base::nullopt);
   std::vector<uint8_t> v1EndpointInfo = {16, 0, 0, 0, 0, 0, 0, 0, 0,
                                          0,  0, 0, 0, 0, 0, 0, 0};
-  ExpectEquals(*sharing::Advertisement::FromEndpointInfo(v1EndpointInfo),
+  ExpectEquals(*sharing::AdvertisementDecoder::FromEndpointInfo(v1EndpointInfo),
                *advertisement);
 }
 
-TEST(AdvertisementTest, V1VisibleToEveryoneAdvertisementEncoding) {
+TEST(AdvertisementDecoderTest, V1VisibleToEveryoneAdvertisementEncoding) {
   std::unique_ptr<sharing::Advertisement> advertisement =
       sharing::Advertisement::NewInstance(kSalt, kEncryptedMetadataKey,
                                           kDeviceName);
   std::vector<uint8_t> v1EndpointInfo = {
       0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
       0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  ExpectEquals(*sharing::Advertisement::FromEndpointInfo(v1EndpointInfo),
+  ExpectEquals(*sharing::AdvertisementDecoder::FromEndpointInfo(v1EndpointInfo),
                *advertisement);
 }
 
-TEST(AdvertisementTest, InvalidDeviceNameEncoding) {
+TEST(AdvertisementDecoderTest, InvalidDeviceNameEncoding) {
   std::vector<uint8_t> v1EndpointInfo = {
       0, 0, 0, 0,  0,   0,  0,   0,   0,  0,   0,  0,  0,   0,
       0, 0, 0, 10, 226, 40, 161, 105, 99, 101, 78, 97, 109, 101,
   };
-  EXPECT_FALSE(sharing::Advertisement::FromEndpointInfo(v1EndpointInfo));
+  EXPECT_FALSE(sharing::AdvertisementDecoder::FromEndpointInfo(v1EndpointInfo));
 }
 
 }  // namespace sharing
