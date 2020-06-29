@@ -1286,6 +1286,9 @@ const PolicyToPreferenceMapEntry kSimplePolicyMap[] = {
   { key::kAppCacheForceEnabled,
     prefs::kAppCacheForceEnabled,
     base::Value::Type::BOOLEAN },
+  { key::kUserAgentClientHintsEnabled,
+    policy::policy_prefs::kUserAgentClientHintsEnabled,
+    base::Value::Type::BOOLEAN },
 };
 // clang-format on
 
