@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/android/infobars/infobar_android.h"
+#include "components/infobars/android/infobar_android.h"
 
 #include <utility>
 
 #include "base/android/jni_android.h"
 #include "base/android/jni_string.h"
 #include "base/strings/string_util.h"
-#include "chrome/browser/ui/messages/android/jni_headers/InfoBar_jni.h"
+#include "components/infobars/android/jni_headers/InfoBar_jni.h"
 #include "components/infobars/core/infobar.h"
 #include "components/infobars/core/infobar_delegate.h"
 
@@ -70,7 +70,7 @@ void InfoBarAndroid::OnButtonClicked(JNIEnv* env,
 void InfoBarAndroid::OnCloseButtonClicked(JNIEnv* env,
                                           const JavaParamRef<jobject>& obj) {
   if (!owner())
-    return; // We're closing; don't call anything, it might access the owner.
+    return;  // We're closing; don't call anything, it might access the owner.
   delegate()->InfoBarDismissed();
   RemoveSelf();
 }
