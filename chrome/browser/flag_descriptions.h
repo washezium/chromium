@@ -1185,9 +1185,6 @@ extern const char kSuggestionsWithSubStringMatchDescription[];
 extern const char kSyncDeviceInfoInTransportModeName[];
 extern const char kSyncDeviceInfoInTransportModeDescription[];
 
-extern const char kSyncErrorInfoBarName[];
-extern const char kSyncErrorInfoBarDescription[];
-
 extern const char kSyncSandboxName[];
 extern const char kSyncSandboxDescription[];
 

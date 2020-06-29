@@ -4653,12 +4653,6 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(signin::kMobileIdentityConsistency)},
 #endif  // defined(OS_ANDROID)
 
-#if defined(OS_ANDROID)
-    {"sync-error-infobar", flag_descriptions::kSyncErrorInfoBarName,
-     flag_descriptions::kSyncErrorInfoBarDescription, kOsAndroid,
-     FEATURE_VALUE_TYPE(switches::kSyncErrorInfoBarAndroid)},
-#endif  // defined(OS_ANDROID)
-
     {"autofill-use-improved-label-disambiguation",
      flag_descriptions::kAutofillUseImprovedLabelDisambiguationName,
      flag_descriptions::kAutofillUseImprovedLabelDisambiguationDescription,

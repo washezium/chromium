@@ -4240,11 +4240,6 @@
     "expiry_milestone": 88
   },
   {
-    "name": "sync-error-infobar",
-    "owners": [ "triploblastic", "bsazonov" ],
-    "expiry_milestone": 85
-  },
-  {
     "name": "sync-setup-friendly-settings",
     "owners": [ "msalama" ],
     "expiry_milestone": 84

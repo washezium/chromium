@@ -2043,11 +2043,6 @@ const char kSyncDeviceInfoInTransportModeDescription[] =
     "When enabled, allows syncing DeviceInfo datatype for users who are "
     "signed-in but not necessary sync-ing.";
 
-const char kSyncErrorInfoBarName[] = "Enable SyncErrorInfoBar.";
-const char kSyncErrorInfoBarDescription[] =
-    "When enabled, shows an infobar for sync errors that can be resolved "
-    "by user interaction in the settings page.";
-
 const char kSyncSandboxName[] = "Use Chrome Sync sandbox";
 const char kSyncSandboxDescription[] =
     "Connects to the testing server for Chrome Sync.";
