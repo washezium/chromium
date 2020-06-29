@@ -1641,8 +1641,8 @@
   },
   {
     "name": "enable-force-dark",
-    "owners": [ "gilmanmh@google.com" ],
-    "expiry_milestone": 85
+    "owners": [ "pdr" ],
+    "expiry_milestone": 90
   },
   {
     "name": "enable-fs-nosymfollow",
