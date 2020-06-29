@@ -3594,6 +3594,11 @@
     "expiry_milestone": 90
   },
   {
+    "name": "page-info-refactoring",
+    "owners": [ "ewannpv", "gambard" ],
+    "expiry_milestone": 88
+  },
+  {
     "name": "page-info-version-2",
     "owners": [ "eokoyomon", "dullweber" ],
     "expiry_milestone": 88
