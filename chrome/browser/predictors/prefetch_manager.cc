@@ -66,45 +66,77 @@ const net::NetworkTrafficAnnotationTag kPrefetchTrafficAnnotation =
 
 }  // namespace
 
+// Stores the status of all prefetches associated with a given |url|.
+struct PrefetchInfo {
+  PrefetchInfo(const GURL& url, PrefetchManager& manager)
+      : url(url),
+        stats(std::make_unique<PrefetchStats>(url)),
+        manager(&manager) {
+    DCHECK(url.is_valid());
+    DCHECK(url.SchemeIsHTTPOrHTTPS());
+  }
+
+  ~PrefetchInfo() = default;
+
+  PrefetchInfo(const PrefetchInfo&) = delete;
+  PrefetchInfo& operator=(const PrefetchInfo&) = delete;
+
+  void OnJobCreated() { job_count++; }
+
+  void OnJobDestroyed() {
+    job_count--;
+    if (is_done()) {
+      // Destroys |this|.
+      manager->AllPrefetchJobsForUrlFinished(*this);
+    }
+  }
+
+  bool is_done() const { return job_count == 0; }
+
+  GURL url;
+  size_t job_count = 0;
+  bool was_canceled = false;
+  std::unique_ptr<PrefetchStats> stats;
+  // Owns |this|.
+  PrefetchManager* const manager;
+
+  base::WeakPtrFactory<PrefetchInfo> weak_factory{this};
+};
+
+// Stores all data need for running a prefetch to a |url|.
+struct PrefetchJob {
+  PrefetchJob(PrefetchRequest prefetch_request, PrefetchInfo& info)
+      : url(prefetch_request.url),
+        network_isolation_key(
+            std::move(prefetch_request.network_isolation_key)),
+        destination(prefetch_request.destination),
+        info(info.weak_factory.GetWeakPtr()) {
+    DCHECK(url.is_valid());
+    DCHECK(url.SchemeIsHTTPOrHTTPS());
+    DCHECK(network_isolation_key.IsFullyPopulated());
+    info.OnJobCreated();
+  }
+
+  ~PrefetchJob() {
+    if (info)
+      info->OnJobDestroyed();
+  }
+
+  PrefetchJob(const PrefetchJob&) = delete;
+  PrefetchJob& operator=(const PrefetchJob&) = delete;
+
+  GURL url;
+  net::NetworkIsolationKey network_isolation_key;
+  network::mojom::RequestDestination destination;
+
+  // PrefetchJob lives until the URL load completes, so it can outlive the
+  // PrefetchManager and therefore the PrefetchInfo.
+  base::WeakPtr<PrefetchInfo> info;
+};
+
 PrefetchStats::PrefetchStats(const GURL& url)
     : url(url), start_time(base::TimeTicks::Now()) {}
 PrefetchStats::~PrefetchStats() = default;
-
-PrefetchInfo::PrefetchInfo(const GURL& url, PrefetchManager& manager)
-    : url(url), stats(std::make_unique<PrefetchStats>(url)), manager(&manager) {
-  DCHECK(url.is_valid());
-  DCHECK(url.SchemeIsHTTPOrHTTPS());
-}
-
-PrefetchInfo::~PrefetchInfo() = default;
-
-void PrefetchInfo::OnJobCreated() {
-  job_count++;
-}
-
-void PrefetchInfo::OnJobDestroyed() {
-  job_count--;
-  if (is_done()) {
-    // Destroys |this|.
-    manager->AllPrefetchJobsForUrlFinished(*this);
-  }
-}
-
-PrefetchJob::PrefetchJob(PrefetchRequest prefetch_request, PrefetchInfo& info)
-    : url(prefetch_request.url),
-      network_isolation_key(std::move(prefetch_request.network_isolation_key)),
-      destination(prefetch_request.destination),
-      info(info.weak_factory.GetWeakPtr()) {
-  DCHECK(url.is_valid());
-  DCHECK(url.SchemeIsHTTPOrHTTPS());
-  DCHECK(network_isolation_key.IsFullyPopulated());
-  info.OnJobCreated();
-}
-
-PrefetchJob::~PrefetchJob() {
-  if (info)
-    info->OnJobDestroyed();
-}
 
 PrefetchManager::PrefetchManager(base::WeakPtr<Delegate> delegate,
                                  Profile* profile)
