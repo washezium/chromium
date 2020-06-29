@@ -2620,7 +2620,7 @@
   {
     "name": "font-access",
     "owners": [ "cmp", "oyiptong" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 89
   },
   {
     "name": "force-color-profile",
