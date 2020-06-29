@@ -479,10 +479,6 @@ export class PDFViewerBaseElement extends PolymerElement {
     this.viewport_.setZoomFactorRange(presetZoomFactors);
 
     this.strings = strings;
-
-    // Display the zoom toolbar after the UI text direction is set, to ensure it
-    // appears on the correct side of the PDF viewer.
-    this.getZoomToolbar().hidden = false;
   }
 
   /**
