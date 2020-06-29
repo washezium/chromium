@@ -83,6 +83,8 @@ struct PrefetchJob {
 
   GURL url;
   net::NetworkIsolationKey network_isolation_key;
+  network::mojom::RequestDestination destination;
+
   // PrefetchJob can outlive PrefetchInfo.
   base::WeakPtr<PrefetchInfo> info;
 };
