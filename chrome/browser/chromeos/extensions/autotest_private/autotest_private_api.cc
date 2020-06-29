@@ -2581,7 +2581,7 @@ class AssistantInteractionHelper
       const chromeos::assistant::AndroidAppInfo& app_info) override {
     result_.SetKey("openAppResponse", base::Value(app_info.package_name));
     CheckResponseIsValid(__FUNCTION__);
-    return true;
+    return false;
   }
 
   void OnSpeechRecognitionFinalResult(
