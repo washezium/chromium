@@ -182,11 +182,6 @@ void SafetyCheckHandler::SendSafetyCheckStartedWebUiUpdates() {
 }
 
 void SafetyCheckHandler::PerformSafetyCheck() {
-  // If the user refreshes the Settings tab in the delay between starting safety
-  // check and now, then the check should no longer be run.
-  if (!IsJavascriptAllowed())
-    return;
-
   // Checks common to desktop, Android, and iOS are handled by
   // safety_check::SafetyCheck.
   safety_check_.reset(new safety_check::SafetyCheck(this));
@@ -814,6 +809,10 @@ void SafetyCheckHandler::OnCredentialDone(
 void SafetyCheckHandler::OnJavascriptAllowed() {}
 
 void SafetyCheckHandler::OnJavascriptDisallowed() {
+  // If the user refreshes the Settings tab in the delay between starting safety
+  // check and now, then the check should no longer be run. Invalidating the
+  // pointer prevents the callback from returning after the delay.
+  weak_ptr_factory_.InvalidateWeakPtrs();
   // Remove |this| as an observer for BulkLeakCheck. This takes care of an edge
   // case when the page is reloaded while the password check is in progress and
   // another safety check is started. Otherwise |observed_leak_check_|
