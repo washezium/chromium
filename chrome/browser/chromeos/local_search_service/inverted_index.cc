@@ -20,18 +20,6 @@ using ScoreWithPosting = std::pair<double, Posting>;
 
 }  // namespace
 
-TokenPosition::TokenPosition(const std::string& id,
-                             uint32_t start_value,
-                             uint32_t length_value)
-    : content_id(id), start(start_value), length(length_value) {}
-
-Token::Token() = default;
-Token::Token(const base::string16& text, const std::vector<TokenPosition>& pos)
-    : content(text), positions(pos) {}
-Token::Token(const Token& token)
-    : content(token.content), positions(token.positions) {}
-Token::~Token() = default;
-
 PostingList InvertedIndex::FindTerm(const base::string16& term) const {
   if (dictionary_.find(term) != dictionary_.end())
     return dictionary_.at(term);
@@ -80,16 +68,8 @@ std::vector<Result> InvertedIndex::FindMatchingDocumentsApproximately(
 
   std::vector<Result> sorted_matching_docs;
   for (const auto& kv : matching_docs) {
-    // TODO(jiameng): TokenPosition is essentially the same as Position. Merge
-    // them.
-    std::vector<Position> positions;
-    for (const auto& token_position : kv.second.second) {
-      positions.emplace_back(Position(token_position.content_id,
-                                      token_position.start,
-                                      token_position.length));
-    }
     sorted_matching_docs.emplace_back(
-        Result(kv.first, kv.second.first, positions));
+        Result(kv.first, kv.second.first, kv.second.second));
   }
   std::sort(sorted_matching_docs.begin(), sorted_matching_docs.end(),
             CompareResults);
