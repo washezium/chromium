@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_INFOBARS_ANDROID_INFOBAR_ANDROID_H_
-#define COMPONENTS_INFOBARS_ANDROID_INFOBAR_ANDROID_H_
+#ifndef CHROME_BROWSER_UI_ANDROID_INFOBARS_INFOBAR_ANDROID_H_
+#define CHROME_BROWSER_UI_ANDROID_INFOBARS_INFOBAR_ANDROID_H_
 
 #include <string>
 
@@ -18,6 +18,7 @@ class InfoBarDelegate;
 
 class InfoBarAndroid : public infobars::InfoBar {
  public:
+
   // A Java counterpart will be generated for this enum.
   // GENERATED_JAVA_ENUM_PACKAGE: org.chromium.chrome.browser.infobar
   // GENERATED_JAVA_PREFIX_TO_STRIP: ACTION_
@@ -85,4 +86,4 @@ class InfoBarAndroid : public infobars::InfoBar {
   DISALLOW_COPY_AND_ASSIGN(InfoBarAndroid);
 };
 
-#endif  // COMPONENTS_INFOBARS_ANDROID_INFOBAR_ANDROID_H_
+#endif  // CHROME_BROWSER_UI_ANDROID_INFOBARS_INFOBAR_ANDROID_H_

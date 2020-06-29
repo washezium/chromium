@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.components.infobars;
+package org.chromium.chrome.browser.ui.messages.infobar;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +16,11 @@ import org.chromium.base.annotations.CalledByNative;
 import org.chromium.base.annotations.NativeMethods;
 import org.chromium.chrome.browser.infobar.ActionType;
 import org.chromium.chrome.browser.infobar.InfoBarIdentifier;
+import org.chromium.chrome.ui.messages.R;
+import org.chromium.components.infobars.InfoBarCompactLayout;
+import org.chromium.components.infobars.InfoBarInteractionHandler;
+import org.chromium.components.infobars.InfoBarLayout;
+import org.chromium.components.infobars.InfoBarUiItem;
 import org.chromium.ui.modelutil.PropertyModel;
 
 /**
