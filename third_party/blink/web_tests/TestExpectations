@@ -2572,7 +2572,6 @@ crbug.com/785230 external/wpt/css/css-text-decor/text-decoration-thickness-scrol
 crbug.com/785230 external/wpt/css/css-text-decor/text-decoration-thickness-underline-001.html [ Failure ]
 crbug.com/785230 external/wpt/css/css-text-decor/text-decoration-thickness-vertical-001.html [ Failure ]
 crbug.com/785230 external/wpt/css/css-text-decor/text-decoration-thickness-vertical-002.html [ Failure ]
-crbug.com/785230 external/wpt/css/css-text-decor/text-underline-offset-002.html [ Failure ]
 
 # Linux draws antialiasing differently when overlaying two text layers.
 crbug.com/785230 [ Linux ] external/wpt/css/css-text-decor/text-decoration-thickness-ink-skip-dilation.html [ Failure ]
@@ -3710,7 +3709,6 @@ crbug.com/626703 external/wpt/html/rendering/non-replaced-elements/margin-collap
 crbug.com/626703 external/wpt/html/browsers/history/the-location-interface/location-protocol-setter-non-broken.html [ Failure Pass ]
 
 # Underline offset and thickness are not implemented yet.
-crbug.com/785230 external/wpt/css/css-text-decor/text-underline-offset-001.html [ Skip ]
 crbug.com/785230 external/wpt/css/css-text-decor/text-underline-offset-scroll-001.html [ Skip ]
 crbug.com/785230 external/wpt/css/css-text-decor/text-underline-offset-vertical-001.html [ Skip ]
 crbug.com/785230 external/wpt/css/css-text-decor/text-underline-offset-vertical-002.html [ Skip ]
