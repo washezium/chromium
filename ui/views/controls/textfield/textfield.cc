@@ -70,6 +70,7 @@
 #endif
 
 #if defined(USE_X11)
+#include "ui/base/ui_base_features.h"
 #include "ui/base/x/x11_util_internal.h"  // nogncheck
 #endif
 
@@ -1240,7 +1241,8 @@ void Textfield::WriteDragDataForView(View* sender,
   SkColor color = SK_ColorTRANSPARENT;
 #if defined(USE_X11)
   // Fallback on the background color if the system doesn't support compositing.
-  if (!ui::XVisualManager::GetInstance()->ArgbVisualAvailable())
+  if (!::features::IsUsingOzonePlatform() &&
+      !ui::XVisualManager::GetInstance()->ArgbVisualAvailable())
     color = GetBackgroundColor();
 #endif
   label.Paint(PaintInfo::CreateRootPaintInfo(
