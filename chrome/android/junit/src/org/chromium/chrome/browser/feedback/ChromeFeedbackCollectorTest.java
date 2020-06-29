@@ -1,4 +1,4 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -48,11 +48,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Test for {@link FeedbackCollector}.
+ * Test for {@link ChromeFeedbackCollector}.
  */
 @RunWith(BaseRobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class FeedbackCollectorTest {
+public class ChromeFeedbackCollectorTest {
     @Rule
     public MockitoRule mMockitoRule = MockitoJUnit.rule();
     @Mock
@@ -232,27 +232,28 @@ public class FeedbackCollectorTest {
         }
     }
 
-    private static class EmptyFeedbackCollector extends FeedbackCollector {
+    private static class EmptyChromeFeedbackCollector extends ChromeFeedbackCollector {
         MockScreenshotSource mMockScreenshotSource;
 
-        EmptyFeedbackCollector(Activity activity, Profile profile, @Nullable String url,
+        EmptyChromeFeedbackCollector(Activity activity, Profile profile, @Nullable String url,
                 @Nullable String categoryTag, @Nullable String description,
                 @Nullable String feedbackContext, boolean takeScreenshot,
                 Callback<FeedbackCollector> callback) {
-            super(activity, profile, url, categoryTag, description, feedbackContext, takeScreenshot,
-                    null, callback);
+            super(activity, categoryTag, description, takeScreenshot,
+                    new ChromeFeedbackCollector.InitParams(profile, url, feedbackContext),
+                    callback);
         }
 
-        // FeedbackCollector implementation.
+        // ChromeFeedbackCollector implementation.
         @Override
         protected List<FeedbackSource> buildSynchronousFeedbackSources(
-                Profile profile, String url, String feedbackContext,
-                @Nullable Map<String, String> feedContext) {
+                ChromeFeedbackCollector.InitParams initParams) {
             return new ArrayList<>();
         }
 
         @Override
-        protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(Profile profile) {
+        protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(
+                ChromeFeedbackCollector.InitParams initParams) {
             return new ArrayList<>();
         }
 
@@ -283,8 +284,8 @@ public class FeedbackCollectorTest {
         @SuppressWarnings("unchecked")
         Callback<FeedbackCollector> callback = mock(Callback.class);
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null, null,
-                null, null, false, (result) -> callback.onResult(result));
+        ChromeFeedbackCollector collector = new EmptyChromeFeedbackCollector(mActivity, mProfile,
+                null, null, null, null, false, (result) -> callback.onResult(result));
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         verify(callback, times(1)).onResult(any());
@@ -304,15 +305,15 @@ public class FeedbackCollectorTest {
         @SuppressWarnings("unchecked")
         Callback<FeedbackCollector> callback = mock(Callback.class);
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
-            @Override
-            protected List<FeedbackSource> buildSynchronousFeedbackSources(
-                    Profile profile, String url, String feedbackContext,
-                    Map<String, String> feedContext) {
-                return FeedbackCollectorTest.buildSynchronousFeedbackSources();
-            }
-        };
+        ChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
+                    @Override
+                    protected List<FeedbackSource> buildSynchronousFeedbackSources(
+                            ChromeFeedbackCollector.InitParams initParams) {
+                        return ChromeFeedbackCollectorTest.buildSynchronousFeedbackSources();
+                    }
+                };
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         verify(callback, times(1)).onResult(collector);
@@ -333,14 +334,14 @@ public class FeedbackCollectorTest {
         @SuppressWarnings("unchecked")
         Callback<FeedbackCollector> callback = mock(Callback.class);
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, FEEDBACK_CONTEXT, false,
+        ChromeFeedbackCollector collector = new EmptyChromeFeedbackCollector(mActivity, mProfile,
+                null, CATEGORY_TAG, DESCRIPTION, FEEDBACK_CONTEXT, false,
                 (result) -> callback.onResult(result)) {
             @Override
             protected List<FeedbackSource> buildSynchronousFeedbackSources(
-                    Profile profile, String url, String feedbackContext,
-                    Map<String, String> feedContext) {
-                List<FeedbackSource> list = FeedbackCollectorTest.buildSynchronousFeedbackSources();
+                    ChromeFeedbackCollector.InitParams initParams) {
+                List<FeedbackSource> list =
+                        ChromeFeedbackCollectorTest.buildSynchronousFeedbackSources();
                 list.add(new FeedbackContextFeedbackSource(FEEDBACK_CONTEXT));
                 return list;
             }
@@ -369,13 +370,15 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
-            @Override
-            protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(Profile profile) {
-                return sources;
-            }
-        };
+        ChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
+                    @Override
+                    protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(
+                            ChromeFeedbackCollector.InitParams initParams) {
+                        return sources;
+                    }
+                };
 
         sources.forEach(source -> ((MockAsyncFeedbackSource) source).triggerDone());
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
@@ -397,20 +400,21 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
-            @Override
-            protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(Profile profile) {
-                return sources;
-            }
+        ChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
+                    @Override
+                    protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(
+                            ChromeFeedbackCollector.InitParams initParams) {
+                        return sources;
+                    }
 
-            @Override
-            protected List<FeedbackSource> buildSynchronousFeedbackSources(
-                    Profile profile, String url, String feedbackContext,
-                    Map<String, String> feedContext) {
-                return FeedbackCollectorTest.buildSynchronousFeedbackSources();
-            }
-        };
+                    @Override
+                    protected List<FeedbackSource> buildSynchronousFeedbackSources(
+                            ChromeFeedbackCollector.InitParams initParams) {
+                        return ChromeFeedbackCollectorTest.buildSynchronousFeedbackSources();
+                    }
+                };
 
         sources.forEach(source -> ((MockAsyncFeedbackSource) source).triggerDone());
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
@@ -435,13 +439,15 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        FeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
-            @Override
-            protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(Profile profile) {
-                return sources;
-            }
-        };
+        ChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, false, (result) -> callback.onResult(result)) {
+                    @Override
+                    protected List<AsyncFeedbackSource> buildAsynchronousFeedbackSources(
+                            ChromeFeedbackCollector.InitParams initParams) {
+                        return sources;
+                    }
+                };
 
         // Do not trigger done.  The collector should respond back anyway and still try to build the
         // logs and feedback report.
@@ -464,8 +470,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         Bitmap bitmap = createBitmap();
         collector.mMockScreenshotSource.triggerDone(bitmap);
@@ -490,8 +497,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         // We should not get a callback until the screenshot task finishes, even if that extends
@@ -521,8 +529,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
@@ -547,8 +556,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
@@ -575,8 +585,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, false, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, false, (result) -> callback.onResult(result));
 
         Bitmap bitmap = createBitmap();
         ThreadUtils.runOnUiThreadBlocking(() -> collector.setScreenshot(bitmap));
@@ -595,8 +606,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         {
             collector.mMockScreenshotSource.triggerDone(null);
@@ -628,8 +640,9 @@ public class FeedbackCollectorTest {
 
         final List<AsyncFeedbackSource> sources = buildAsyncronousFeedbackSources();
 
-        EmptyFeedbackCollector collector = new EmptyFeedbackCollector(mActivity, mProfile, null,
-                CATEGORY_TAG, DESCRIPTION, null, true, (result) -> callback.onResult(result));
+        EmptyChromeFeedbackCollector collector =
+                new EmptyChromeFeedbackCollector(mActivity, mProfile, null, CATEGORY_TAG,
+                        DESCRIPTION, null, true, (result) -> callback.onResult(result));
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
