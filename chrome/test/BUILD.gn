@@ -813,6 +813,7 @@ if (!is_android) {
       "../browser/bitmap_fetcher/bitmap_fetcher_browsertest.cc",
       "../browser/bluetooth/web_bluetooth_browsertest.cc",
       "../browser/browser_encoding_browsertest.cc",
+      "../browser/browsing_data/access_context_audit_browsertest.cc",
       "../browser/browsing_data/browsing_data_remover_browsertest.cc",
       "../browser/browsing_data/counters/autofill_counter_browsertest.cc",
       "../browser/browsing_data/counters/browsing_data_counter_utils_browsertest.cc",
