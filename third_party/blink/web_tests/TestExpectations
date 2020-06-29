@@ -3666,8 +3666,6 @@ crbug.com/792446 external/wpt/css/css-multicol/multicol-span-float-001.xht [ Fai
 crbug.com/964183 external/wpt/css/css-multicol/multicol-width-005.html [ Failure ]
 crbug.com/829028 external/wpt/css/css-multicol/nested-with-too-tall-line.html [ Failure ]
 
-crbug.com/796961 external/wpt/css/css-pseudo/marker-content-002.html [ Failure ]
-crbug.com/796961 external/wpt/css/css-pseudo/marker-content-005.html [ Failure ]
 crbug.com/1031667 external/wpt/css/css-pseudo/marker-content-007.tentative.html [ Failure ]
 crbug.com/1031667 external/wpt/css/css-pseudo/marker-content-008.tentative.html [ Failure ]
 crbug.com/1031667 external/wpt/css/css-pseudo/marker-content-009.tentative.html [ Failure ]
