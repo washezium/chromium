@@ -701,12 +701,7 @@ void MockServiceWorkerResponseWriter::WriteInfo(
     EXPECT_EQ(write.length, static_cast<size_t>(info_buf->response_data_size));
     info_written_ += info_buf->response_data_size;
   }
-  if (!write.async) {
-    expected_writes_.pop();
-    std::move(callback).Run(write.result);
-  } else {
-    pending_callback_ = std::move(callback);
-  }
+  pending_callback_ = std::move(callback);
 }
 
 void MockServiceWorkerResponseWriter::WriteData(
@@ -720,44 +715,34 @@ void MockServiceWorkerResponseWriter::WriteData(
     EXPECT_EQ(write.length, static_cast<size_t>(buf_len));
     data_written_ += buf_len;
   }
-  if (!write.async) {
-    expected_writes_.pop();
-    std::move(callback).Run(write.result);
-  } else {
-    pending_callback_ = std::move(callback);
-  }
+  pending_callback_ = std::move(callback);
 }
 
-void MockServiceWorkerResponseWriter::ExpectWriteInfoOk(size_t length,
-                                                        bool async) {
-  ExpectWriteInfo(length, async, length);
+void MockServiceWorkerResponseWriter::ExpectWriteInfoOk(size_t length) {
+  ExpectWriteInfo(length, length);
 }
 
-void MockServiceWorkerResponseWriter::ExpectWriteDataOk(size_t length,
-                                                        bool async) {
-  ExpectWriteData(length, async, length);
+void MockServiceWorkerResponseWriter::ExpectWriteDataOk(size_t length) {
+  ExpectWriteData(length, length);
 }
 
 void MockServiceWorkerResponseWriter::ExpectWriteInfo(size_t length,
-                                                      bool async,
                                                       int result) {
   DCHECK_NE(net::ERR_IO_PENDING, result);
-  ExpectedWrite expected(true, length, async, result);
+  ExpectedWrite expected(true, length, result);
   expected_writes_.push(expected);
 }
 
 void MockServiceWorkerResponseWriter::ExpectWriteData(size_t length,
-                                                      bool async,
                                                       int result) {
   DCHECK_NE(net::ERR_IO_PENDING, result);
-  ExpectedWrite expected(false, length, async, result);
+  ExpectedWrite expected(false, length, result);
   expected_writes_.push(expected);
 }
 
 void MockServiceWorkerResponseWriter::CompletePendingWrite() {
   DCHECK(!expected_writes_.empty());
   ExpectedWrite write = expected_writes_.front();
-  DCHECK(write.async);
   expected_writes_.pop();
   std::move(pending_callback_).Run(write.result);
 }
