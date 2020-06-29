@@ -3362,7 +3362,7 @@ const char kBluetoothNextHandsfreeProfileName[] =
     "Enable next version of Bluetooth Handsfree profile";
 const char kBluetoothNextHandsfreeProfileDescription[] =
     "Enable next version of Bluetooth Handsfree profile 1.7 which includes "
-    "WBS(wideband speeech) feature";
+    "WBS(wideband speech) feature";
 
 const char kCameraSystemWebAppName[] = "Camera System Web App";
 const char kCameraSystemWebAppDescription[] =
