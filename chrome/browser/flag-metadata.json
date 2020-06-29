@@ -3202,19 +3202,9 @@
     "expiry_milestone": 86
   },
   {
-    "name": "ntp-confirm-suggestion-removals",
-    "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 82
-  },
-  {
-    "name": "ntp-disable-initial-most-visited-fade-in",
-    "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 79
-  },
-  {
     "name": "ntp-dismiss-promos",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 82
+    "expiry_milestone": 86
   },
   {
     "name": "ntp-iframe-one-google-bar",
@@ -3229,17 +3219,17 @@
   {
     "name": "ntp-realbox",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "ntp-realbox-match-omnibox-theme",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "ntp-webui",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "offline-indicator-always-http-probe",
@@ -3414,7 +3404,7 @@
   {
     "name": "omnibox-on-focus-suggestions",
     "owners": [ "chrome-omnibox-team@google.com" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "omnibox-on-focus-suggestions-contextual-web",
@@ -3534,7 +3524,7 @@
   {
     "name": "omnibox-zero-suggestions-on-ntp-realbox",
     "owners": [ "mahmadi" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "omnibox-zero-suggestions-on-serp",

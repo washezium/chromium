@@ -2969,12 +2969,6 @@ const char kCastMediaRouteProviderDescription[] =
     "Enables the native Cast Media Route Provider implementation to be used "
     "instead of the implementation in the Media Router component extension.";
 
-const char kNtpConfirmSuggestionRemovalsName[] =
-    "Confirm removing \"realbox\" suggestions on New Tab page";
-const char kNtpConfirmSuggestionRemovalsDescription[] =
-    "Show a confirmation dialog when removing suggestions from the \"realbox\" "
-    "on the New Tab page. Requires #ntp-realbox to be enabled.";
-
 const char kNtpDismissPromosName[] = "Dismiss promos on the New Tab Page";
 const char kNtpDismissPromosDescription[] =
     "Enables a UI to persistently dismiss [non-emergency] promos on the "
