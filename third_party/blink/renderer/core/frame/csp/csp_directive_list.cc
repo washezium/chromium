@@ -182,7 +182,7 @@ void CSPDirectiveList::ReportViolation(
     const String& console_message,
     const KURL& blocked_url,
     ResourceRequest::RedirectStatus redirect_status,
-    ContentSecurityPolicy::ContentSecurityPolicyViolationType violation_type,
+    ContentSecurityPolicy::ViolationType violation_type,
     const String& sample,
     const String& sample_prefix) const {
   String message =
