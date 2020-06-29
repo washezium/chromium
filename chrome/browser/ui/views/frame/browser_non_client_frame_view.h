@@ -203,8 +203,9 @@ class BrowserNonClientFrameView : public views::NonClientFrameView,
 namespace chrome {
 
 // Provided by a browser_non_client_frame_view_factory_*.cc implementation
-BrowserNonClientFrameView* CreateBrowserNonClientFrameView(
-    BrowserFrame* frame, BrowserView* browser_view);
+std::unique_ptr<BrowserNonClientFrameView> CreateBrowserNonClientFrameView(
+    BrowserFrame* frame,
+    BrowserView* browser_view);
 
 }  // namespace chrome
 

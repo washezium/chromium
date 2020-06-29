@@ -189,10 +189,12 @@ views::internal::RootView* BrowserFrame::CreateRootView() {
   return root_view_;
 }
 
-views::NonClientFrameView* BrowserFrame::CreateNonClientFrameView() {
-  browser_frame_view_ =
+std::unique_ptr<views::NonClientFrameView>
+BrowserFrame::CreateNonClientFrameView() {
+  auto browser_frame_view =
       chrome::CreateBrowserNonClientFrameView(this, browser_view_);
-  return browser_frame_view_;
+  browser_frame_view_ = browser_frame_view.get();
+  return browser_frame_view;
 }
 
 bool BrowserFrame::GetAccelerator(int command_id,

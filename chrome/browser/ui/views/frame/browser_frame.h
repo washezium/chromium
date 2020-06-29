@@ -115,7 +115,8 @@ class BrowserFrame : public views::Widget, public views::ContextMenuController {
 
   // views::Widget:
   views::internal::RootView* CreateRootView() override;
-  views::NonClientFrameView* CreateNonClientFrameView() override;
+  std::unique_ptr<views::NonClientFrameView> CreateNonClientFrameView()
+      override;
   bool GetAccelerator(int command_id,
                       ui::Accelerator* accelerator) const override;
   const ui::ThemeProvider* GetThemeProvider() const override;
