@@ -94,19 +94,20 @@ class ServiceWorkerCacheWriterTest : public ::testing::Test {
   void Initialize(CacheWriterUsage type, bool pause_when_not_identical) {
     switch (type) {
       case CacheWriterUsage::kForCopy:
-        cache_writer_ = ServiceWorkerCacheWriter::CreateForCopy(CreateReader(),
-                                                                CreateWriter());
+        cache_writer_ = ServiceWorkerCacheWriter::CreateForCopy(
+            CreateReader(), CreateWriter(),
+            /*writer_resource_id=*/0);
         break;
       case CacheWriterUsage::kForWriteBack:
-        cache_writer_ =
-            ServiceWorkerCacheWriter::CreateForWriteBack(CreateWriter());
+        cache_writer_ = ServiceWorkerCacheWriter::CreateForWriteBack(
+            CreateWriter(), /*writer_resource_id=*/0);
         break;
       case CacheWriterUsage::kForComparison:
         auto compare_reader = CreateReader();
         auto copy_reader = CreateReader();
         cache_writer_ = ServiceWorkerCacheWriter::CreateForComparison(
             std::move(compare_reader), std::move(copy_reader), CreateWriter(),
-            pause_when_not_identical);
+            /*writer_resource_id=*/0, pause_when_not_identical);
         break;
     };
   }
