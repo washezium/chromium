@@ -49,6 +49,10 @@ struct SearchParams {
 };
 
 struct Position {
+  Position();
+  Position(const Position& position);
+  Position(const std::string& content_id, uint32_t start, uint32_t length);
+  ~Position();
   std::string content_id;
   // TODO(jiameng): |start| and |end| will be implemented for inverted index
   // later.
@@ -75,6 +79,9 @@ struct Result {
   std::vector<Position> positions;
   Result();
   Result(const Result& result);
+  Result(const std::string& id,
+         double score,
+         const std::vector<Position>& positions);
   ~Result();
 };
 

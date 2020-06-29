@@ -13,6 +13,7 @@
 
 #include "base/gtest_prod_util.h"
 #include "base/strings/string16.h"
+#include "chrome/browser/chromeos/local_search_service/shared_structs.h"
 
 namespace local_search_service {
 // Stores the content id, start position and length of the token in original
@@ -62,6 +63,13 @@ class InvertedIndex {
 
   // Returns document ID and positions of a term.
   PostingList FindTerm(const base::string16& term) const;
+
+  // Returns documents that approximately match one or more terms in |terms|.
+  // Returned documents will be ranked.
+  std::vector<Result> FindMatchingDocumentsApproximately(
+      const std::unordered_set<base::string16>& terms,
+      double prefix_threshold,
+      double block_threshold) const;
 
   // Adds a new document to the inverted index. If the document ID is already in
   // the index, remove the existing and add the new one. All tokens must be
