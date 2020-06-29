@@ -1234,8 +1234,8 @@ class Port(object):
             # the subsequent repetitions of the test do not overwrite older
             # trace files.
             current_time = time.strftime("%Y-%m-%d-%H-%M-%S")
-            file_name = 'trace_layout_test_' + test_name.replace(
-                '/', '_').replace('.', '_') + '_' + current_time + '.json'
+            file_name = 'trace_layout_test_{}_{}.json'.format(
+                self._filesystem.sanitize_filename(test_name), current_time)
             args.append('--trace-startup-file=' + file_name)
         return args
 
