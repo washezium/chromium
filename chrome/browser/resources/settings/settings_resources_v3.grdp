@@ -594,6 +594,7 @@
            use_base_dir="false"
            compress="false" type="BINDATA" />
   <include name="IDR_SETTINGS_SAFETY_CHECK_PAGE_SAFETY_CHECK_PAGE_JS"
+           preprocess="true"
            file="${root_gen_dir}/chrome/browser/resources/settings/safety_check_page/safety_check_page.js"
            use_base_dir="false"
            compress="false" type="BINDATA" />
