@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "services/network/cross_origin_read_blocking.h"
+#include "services/network/public/cpp/cross_origin_read_blocking.h"
 
 #include <stddef.h>
 
@@ -220,11 +220,6 @@ void BlockResponseHeaders(
   headers->RemoveHeaders(names_of_headers_to_remove);
 }
 
-std::set<int>& GetPluginProxyingProcesses() {
-  static base::NoDestructor<std::set<int>> set;
-  return *set;
-}
-
 // The function below returns a set of MIME types below may be blocked by CORB
 // without any confirmation sniffing (in contrast to HTML/JSON/XML which require
 // confirmation sniffing because images, scripts, etc. are frequently
@@ -257,7 +252,7 @@ base::flat_set<std::string>& GetNeverSniffedMimeTypes() {
       // The types below (zip, protobuf, etc.) are based on most commonly used
       // content types according to HTTP Archive - see:
       // https://github.com/whatwg/fetch/issues/860#issuecomment-457330454
-      "application/gzip",
+            "application/gzip",
       "application/x-gzip",
       "application/x-protobuf",
       "application/zip",
@@ -325,6 +320,7 @@ base::flat_set<std::string>& GetNeverSniffedMimeTypes() {
 
 }  // namespace
 
+// static
 MimeType CrossOriginReadBlocking::GetCanonicalMimeType(
     base::StringPiece mime_type) {
   // Checking for image/svg+xml and application/dash+xml early ensures that they
@@ -365,6 +361,7 @@ MimeType CrossOriginReadBlocking::GetCanonicalMimeType(
   return MimeType::kOthers;
 }
 
+// static
 bool CrossOriginReadBlocking::IsBlockableScheme(const GURL& url) {
   // We exclude ftp:// from here. FTP doesn't provide a Content-Type
   // header which our policy depends on, so we cannot protect any
@@ -372,6 +369,7 @@ bool CrossOriginReadBlocking::IsBlockableScheme(const GURL& url) {
   return url.SchemeIs(url::kHttpScheme) || url.SchemeIs(url::kHttpsScheme);
 }
 
+// static
 bool CrossOriginReadBlocking::IsValidCorsHeaderSet(
     const url::Origin& frame_origin,
     const std::string& access_control_origin) {
@@ -395,6 +393,7 @@ bool CrossOriginReadBlocking::IsValidCorsHeaderSet(
       url::Origin::Create(GURL(access_control_origin)));
 }
 
+// static
 // This function is a slight modification of |net::SniffForHTML|.
 SniffingResult CrossOriginReadBlocking::SniffForHTML(StringPiece data) {
   // The content sniffers used by Chrome and Firefox are using "<!--" as one of
@@ -446,6 +445,7 @@ SniffingResult CrossOriginReadBlocking::SniffForHTML(StringPiece data) {
   return kMaybe;
 }
 
+// static
 SniffingResult CrossOriginReadBlocking::SniffForXML(base::StringPiece data) {
   // TODO(dsjang): Once CrossOriginReadBlocking is moved into the browser
   // process, we should do single-thread checking here for the static
@@ -456,6 +456,7 @@ SniffingResult CrossOriginReadBlocking::SniffForXML(base::StringPiece data) {
                           base::CompareCase::SENSITIVE);
 }
 
+// static
 SniffingResult CrossOriginReadBlocking::SniffForJSON(base::StringPiece data) {
   // Currently this function looks for an opening brace ('{'), followed by a
   // double-quoted string literal, followed by a colon. Importantly, such a
@@ -518,6 +519,7 @@ SniffingResult CrossOriginReadBlocking::SniffForJSON(base::StringPiece data) {
   return kMaybe;
 }
 
+// static
 SniffingResult CrossOriginReadBlocking::SniffForFetchOnlyResource(
     base::StringPiece data) {
   // kScriptBreakingPrefixes contains prefixes that are conventionally used to
@@ -1331,24 +1333,6 @@ void CrossOriginReadBlocking::ResponseAnalyzer::LogSensitiveResponseProtection(
   UMA_HISTOGRAM_BOOLEAN(
       "SiteIsolation.CORBProtection.SensitiveWithRangeSupport",
       supports_range_requests_);
-}
-
-// static
-void CrossOriginReadBlocking::AddExceptionForPlugin(int process_id) {
-  std::set<int>& plugin_proxies = GetPluginProxyingProcesses();
-  plugin_proxies.insert(process_id);
-}
-
-// static
-bool CrossOriginReadBlocking::ShouldAllowForPlugin(int process_id) {
-  std::set<int>& plugin_proxies = GetPluginProxyingProcesses();
-  return base::Contains(plugin_proxies, process_id);
-}
-
-// static
-void CrossOriginReadBlocking::RemoveExceptionForPlugin(int process_id) {
-  std::set<int>& plugin_proxies = GetPluginProxyingProcesses();
-  plugin_proxies.erase(process_id);
 }
 
 }  // namespace network
