@@ -4085,8 +4085,7 @@
         },
         'test_suites': {
           'gtest_tests': 'fuchsia_gtests',
-	  # TODO(https://crbug.com/1096611): Re-enable once flakes are resolved.
-          #'isolated_scripts': 'chromium_webkit_isolated_scripts',
+          'isolated_scripts': 'chromium_webkit_isolated_scripts',
           'gpu_telemetry_tests': 'fuchsia_gpu_telemetry_tests',
         },
       },
