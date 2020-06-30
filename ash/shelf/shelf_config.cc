@@ -13,7 +13,6 @@
 #include "ash/style/ash_color_provider.h"
 #include "ash/system/model/system_tray_model.h"
 #include "ash/wallpaper/wallpaper_controller_impl.h"
-#include "ash/wm/overview/overview_controller.h"
 #include "ash/wm/tablet_mode/tablet_mode_controller.h"
 #include "base/metrics/histogram_functions.h"
 #include "base/scoped_observer.h"
@@ -163,7 +162,6 @@ void ShelfConfig::Init() {
     shell->app_list_controller()->AddObserver(this);
     display::Screen::GetScreen()->AddObserver(this);
     shell->system_tray_model()->virtual_keyboard()->AddObserver(this);
-    shell->overview_controller()->AddObserver(this);
   }
 
   shell->tablet_mode_controller()->AddObserver(this);
@@ -178,23 +176,9 @@ void ShelfConfig::Shutdown() {
   if (!chromeos::switches::ShouldShowShelfHotseat())
     return;
 
-  shell->overview_controller()->RemoveObserver(this);
   shell->system_tray_model()->virtual_keyboard()->RemoveObserver(this);
   display::Screen::GetScreen()->RemoveObserver(this);
   shell->app_list_controller()->RemoveObserver(this);
-}
-
-void ShelfConfig::OnOverviewModeWillStart() {
-  DCHECK(!overview_mode_);
-  use_in_app_shelf_in_overview_ =
-      !features::IsMaintainShelfStateWhenEnteringOverviewEnabled() ||
-      is_in_app();
-  overview_mode_ = true;
-}
-
-void ShelfConfig::OnOverviewModeEnding(OverviewSession* overview_session) {
-  overview_mode_ = false;
-  UpdateConfig(is_app_list_visible_, /*tablet_mode_changed=*/false);
 }
 
 void ShelfConfig::OnTabletModeStarting() {
@@ -363,19 +347,10 @@ int ShelfConfig::status_area_hit_region_padding() const {
 bool ShelfConfig::is_in_app() const {
   Shell* shell = Shell::Get();
   const auto* session = shell->session_controller();
-  if (!session ||
-      session->GetSessionState() != session_manager::SessionState::ACTIVE) {
+  if (!session)
     return false;
-  }
-  if (is_virtual_keyboard_shown_)
-    return true;
-  if (is_app_list_visible_)
-    return false;
-  if (overview_mode_ &&
-      features::IsMaintainShelfStateWhenEnteringOverviewEnabled()) {
-    return use_in_app_shelf_in_overview_;
-  }
-  return true;
+  return session->GetSessionState() == session_manager::SessionState::ACTIVE &&
+         (!is_app_list_visible_ || is_virtual_keyboard_shown_);
 }
 
 float ShelfConfig::drag_hide_ratio_threshold() const {
