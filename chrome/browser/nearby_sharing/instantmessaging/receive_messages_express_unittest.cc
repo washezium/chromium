@@ -2,35 +2,37 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/receive_messages_express.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/receive_messages_express.h"
 
 #include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
 #include "base/test/task_environment.h"
-#include "chrome/browser/nearby_sharing/tachyon/constants.h"
-#include "chrome/browser/nearby_sharing/tachyon/fake_token_fetcher.h"
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/constants.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/fake_token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
 #include "services/network/public/cpp/weak_wrapper_shared_url_loader_factory.h"
 #include "services/network/test/test_url_loader_factory.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
 namespace {
-chrome_browser_nearby_sharing_tachyon::ReceiveMessagesExpressRequest
+chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesExpressRequest
 CreateRequest() {
-  return chrome_browser_nearby_sharing_tachyon::ReceiveMessagesExpressRequest();
+  return chrome_browser_nearby_sharing_instantmessaging::
+      ReceiveMessagesExpressRequest();
 }
 
-chrome_browser_nearby_sharing_tachyon::ReceiveMessagesResponse
+chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesResponse
 CreateReceiveMessagesResponse(const std::string& msg) {
-  chrome_browser_nearby_sharing_tachyon::ReceiveMessagesResponse response;
+  chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesResponse
+      response;
   response.mutable_inbox_message()->set_message(msg);
   return response;
 }
 
-chrome_browser_nearby_sharing_tachyon::StreamBody BuildResponseProto(
+chrome_browser_nearby_sharing_instantmessaging::StreamBody BuildResponseProto(
     const std::vector<std::string>& messages) {
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body;
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body;
   for (const auto& msg : messages) {
     stream_body.add_messages(
         CreateReceiveMessagesResponse(msg).SerializeAsString());
@@ -106,13 +108,14 @@ TEST_F(ReceiveMessagesExpressTest, HttpResponseError) {
         EXPECT_FALSE(success);
         run_loop.Quit();
       }));
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonReceiveMessageAPI));
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingReceiveMessageAPI));
   std::string response = BuildResponseProto({"message"}).SerializeAsString();
 
   // Calls OnComplete(false) in ReceiveMessagesExpress. OnDataReceived() is not
   // called.
-  GetTestUrlLoaderFactory().AddResponse(kTachyonReceiveMessageAPI, response,
-                                        net::HTTP_FORBIDDEN);
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingReceiveMessageAPI,
+                                        response, net::HTTP_FORBIDDEN);
   run_loop.Run();
 
   EXPECT_EQ(0, NumMessagesReceived());
@@ -130,14 +133,15 @@ TEST_F(ReceiveMessagesExpressTest, SuccessfulResponse) {
         run_loop.Quit();
       }));
   ASSERT_EQ(1, GetTestUrlLoaderFactory().NumPending());
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonReceiveMessageAPI));
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingReceiveMessageAPI));
 
   std::vector<std::string> messages = {"quick brown", "fox"};
   std::string response = BuildResponseProto(messages).SerializeAsString();
 
   // Calls OnDataReceived() in ReceiveMessagesExpress.
-  GetTestUrlLoaderFactory().AddResponse(kTachyonReceiveMessageAPI, response,
-                                        net::HTTP_OK);
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingReceiveMessageAPI,
+                                        response, net::HTTP_OK);
   ASSERT_EQ(0, GetTestUrlLoaderFactory().NumPending());
   run_loop.Run();
 
@@ -157,7 +161,8 @@ TEST_F(ReceiveMessagesExpressTest, SuccessfulPartialResponse) {
         run_loop.Quit();
       }));
   ASSERT_EQ(1, GetTestUrlLoaderFactory().NumPending());
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonReceiveMessageAPI));
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingReceiveMessageAPI));
 
   std::vector<std::string> messages = {"quick brown", "fox"};
   std::string response = BuildResponseProto(messages).SerializeAsString();
@@ -167,8 +172,8 @@ TEST_F(ReceiveMessagesExpressTest, SuccessfulPartialResponse) {
   response += partial_response.substr(0, 10);
 
   // Calls OnDataReceived() in ReceiveMessagesExpress.
-  GetTestUrlLoaderFactory().AddResponse(kTachyonReceiveMessageAPI, response,
-                                        net::HTTP_OK);
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingReceiveMessageAPI,
+                                        response, net::HTTP_OK);
   ASSERT_EQ(0, GetTestUrlLoaderFactory().NumPending());
   run_loop.Run();
 

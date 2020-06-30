@@ -12,5 +12,5 @@ group("proto_lite") {
 }
 
 proto_library("proto") {
-  sources = [ "tachyon.proto" ]
+  sources = [ "instantmessaging.proto" ]
 }

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/fake_token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/fake_token_fetcher.h"
 
 FakeTokenFetcher::FakeTokenFetcher()
     : TokenFetcher(/*identity_manager=*/nullptr) {}

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_NEARBY_SHARING_TACHYON_STREAM_PARSER_H_
-#define CHROME_BROWSER_NEARBY_SHARING_TACHYON_STREAM_PARSER_H_
+#ifndef CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_STREAM_PARSER_H_
+#define CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_STREAM_PARSER_H_
 
 #include <string>
 
@@ -11,9 +11,9 @@
 #include "base/optional.h"
 #include "base/strings/string_piece.h"
 
-namespace chrome_browser_nearby_sharing_tachyon {
+namespace chrome_browser_nearby_sharing_instantmessaging {
 class StreamBody;
-}  // namespace chrome_browser_nearby_sharing_tachyon
+}  // namespace chrome_browser_nearby_sharing_instantmessaging
 
 // Parses incoming stream of data into valid proto objects and delegates them to
 // the registered callback.
@@ -26,13 +26,14 @@ class StreamParser {
   void Append(base::StringPiece data);
 
  private:
-  base::Optional<chrome_browser_nearby_sharing_tachyon::StreamBody>
+  base::Optional<chrome_browser_nearby_sharing_instantmessaging::StreamBody>
   GetNextMessage();
   void DelegateMessage(
-      const chrome_browser_nearby_sharing_tachyon::StreamBody& stream_body);
+      const chrome_browser_nearby_sharing_instantmessaging::StreamBody&
+          stream_body);
 
   base::RepeatingCallback<void(const std::string& message)> listener_;
   std::string data_;
 };
 
-#endif  // CHROME_BROWSER_NEARBY_SHARING_TACHYON_STREAM_PARSER_H_
+#endif  // CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_STREAM_PARSER_H_

@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/stream_parser.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/stream_parser.h"
 
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
 
 StreamParser::StreamParser(
     base::RepeatingCallback<void(const std::string& message)> listener)
@@ -15,7 +15,7 @@ void StreamParser::Append(base::StringPiece data) {
   size_t size = data.as_string().size();
   data_.append(data.as_string().data(), size);
 
-  base::Optional<chrome_browser_nearby_sharing_tachyon::StreamBody>
+  base::Optional<chrome_browser_nearby_sharing_instantmessaging::StreamBody>
       stream_body = GetNextMessage();
   while (stream_body) {
     DelegateMessage(stream_body.value());
@@ -23,7 +23,7 @@ void StreamParser::Append(base::StringPiece data) {
   }
 }
 
-base::Optional<chrome_browser_nearby_sharing_tachyon::StreamBody>
+base::Optional<chrome_browser_nearby_sharing_instantmessaging::StreamBody>
 StreamParser::GetNextMessage() {
   // The incoming stream may not be a valid StreamBody proto as it might be
   // split into various OnDataReceived calls. The easy way is to append all
@@ -40,7 +40,7 @@ StreamParser::GetNextMessage() {
   // There's a good chance that the entire message is a valid proto since the
   // individual messages sent by WebRTC are small, so check that first to
   // speed up parsing.
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body;
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body;
   if (stream_body.ParseFromString(data_)) {
     data_.clear();
     return stream_body;
@@ -63,15 +63,17 @@ StreamParser::GetNextMessage() {
 }
 
 void StreamParser::DelegateMessage(
-    const chrome_browser_nearby_sharing_tachyon::StreamBody& stream_body) {
+    const chrome_browser_nearby_sharing_instantmessaging::StreamBody&
+        stream_body) {
   // Security Note - The ReceiveMessagesResponse proto is coming from a trusted
   // Google server and hence can be parsed on the browser process. The message
   // contained within the proto is untrusted and should be parsed within a
   // sandbox process.
   for (int i = 0; i < stream_body.messages_size(); i++) {
-    chrome_browser_nearby_sharing_tachyon::ReceiveMessagesResponse response;
+    chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesResponse
+        response;
     response.ParseFromString(stream_body.messages(i));
-    if (response.body_case() != chrome_browser_nearby_sharing_tachyon::
+    if (response.body_case() != chrome_browser_nearby_sharing_instantmessaging::
                                     ReceiveMessagesResponse::kInboxMessage)
       continue;
     listener_.Run(response.inbox_message().message());

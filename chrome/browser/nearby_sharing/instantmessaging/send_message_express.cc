@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/send_message_express.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/send_message_express.h"
 
 #include "base/strings/stringprintf.h"
-#include "chrome/browser/nearby_sharing/tachyon/constants.h"
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
-#include "chrome/browser/nearby_sharing/tachyon/token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/constants.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/token_fetcher.h"
 #include "net/base/load_flags.h"
 #include "services/network/public/cpp/cors/cors.h"
 #include "services/network/public/cpp/resource_request.h"
@@ -73,8 +73,8 @@ SendMessageExpress::SendMessageExpress(
 SendMessageExpress::~SendMessageExpress() = default;
 
 void SendMessageExpress::SendMessage(
-    const chrome_browser_nearby_sharing_tachyon::SendMessageExpressRequest&
-        request,
+    const chrome_browser_nearby_sharing_instantmessaging::
+        SendMessageExpressRequest& request,
     SuccessCallback callback) {
   token_fetcher_->GetAccessToken(base::BindOnce(
       &SendMessageExpress::DoSendMessage, weak_ptr_factory_.GetWeakPtr(),
@@ -82,8 +82,8 @@ void SendMessageExpress::SendMessage(
 }
 
 void SendMessageExpress::DoSendMessage(
-    const chrome_browser_nearby_sharing_tachyon::SendMessageExpressRequest&
-        request,
+    const chrome_browser_nearby_sharing_instantmessaging::
+        SendMessageExpressRequest& request,
     SuccessCallback callback,
     const std::string& oauth_token) {
   if (oauth_token.empty()) {
@@ -94,7 +94,7 @@ void SendMessageExpress::DoSendMessage(
   std::string message_id = request.header().requester_id().id();
 
   auto resource_request = std::make_unique<network::ResourceRequest>();
-  resource_request->url = GURL(kTachyonSendMessageAPI);
+  resource_request->url = GURL(kInstantMessagingSendMessageAPI);
   resource_request->load_flags =
       net::LOAD_BYPASS_CACHE | net::LOAD_DISABLE_CACHE;
   resource_request->credentials_mode = network::mojom::CredentialsMode::kOmit;

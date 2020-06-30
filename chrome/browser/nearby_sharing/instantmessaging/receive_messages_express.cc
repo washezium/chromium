@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/receive_messages_express.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/receive_messages_express.h"
 
 #include "base/bind.h"
 #include "base/callback.h"
 #include "base/strings/stringprintf.h"
-#include "chrome/browser/nearby_sharing/tachyon/constants.h"
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
-#include "chrome/browser/nearby_sharing/tachyon/token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/constants.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/token_fetcher.h"
 #include "net/base/load_flags.h"
 #include "services/network/public/cpp/resource_request.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
@@ -65,8 +65,8 @@ ReceiveMessagesExpress::~ReceiveMessagesExpress() {
 }
 
 void ReceiveMessagesExpress::StartReceivingMessages(
-    const chrome_browser_nearby_sharing_tachyon::ReceiveMessagesExpressRequest&
-        request,
+    const chrome_browser_nearby_sharing_instantmessaging::
+        ReceiveMessagesExpressRequest& request,
     base::RepeatingCallback<void(const std::string& message)> listener,
     SuccessCallback callback) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
@@ -86,8 +86,8 @@ void ReceiveMessagesExpress::StartReceivingMessages(
 }
 
 void ReceiveMessagesExpress::DoStartReceivingMessages(
-    const chrome_browser_nearby_sharing_tachyon::ReceiveMessagesExpressRequest&
-        request,
+    const chrome_browser_nearby_sharing_instantmessaging::
+        ReceiveMessagesExpressRequest& request,
     const std::string& oauth_token) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   if (oauth_token.empty()) {
@@ -96,7 +96,7 @@ void ReceiveMessagesExpress::DoStartReceivingMessages(
   }
 
   auto resource_request = std::make_unique<network::ResourceRequest>();
-  resource_request->url = GURL(kTachyonReceiveMessageAPI);
+  resource_request->url = GURL(kInstantMessagingReceiveMessageAPI);
   resource_request->load_flags =
       net::LOAD_BYPASS_CACHE | net::LOAD_DISABLE_CACHE;
   resource_request->credentials_mode = network::mojom::CredentialsMode::kOmit;

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/token_fetcher.h"
 
 #include "google_apis/gaia/gaia_constants.h"
 

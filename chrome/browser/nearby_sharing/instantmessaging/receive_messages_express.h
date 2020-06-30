@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_NEARBY_SHARING_TACHYON_RECEIVE_MESSAGES_EXPRESS_H_
-#define CHROME_BROWSER_NEARBY_SHARING_TACHYON_RECEIVE_MESSAGES_EXPRESS_H_
+#ifndef CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_RECEIVE_MESSAGES_EXPRESS_H_
+#define CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_RECEIVE_MESSAGES_EXPRESS_H_
 
 #include <cstdint>
 
@@ -11,12 +11,12 @@
 #include "base/memory/scoped_refptr.h"
 #include "base/memory/weak_ptr.h"
 #include "base/sequence_checker.h"
-#include "chrome/browser/nearby_sharing/tachyon/stream_parser.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/stream_parser.h"
 #include "services/network/public/cpp/simple_url_loader_stream_consumer.h"
 
-namespace chrome_browser_nearby_sharing_tachyon {
+namespace chrome_browser_nearby_sharing_instantmessaging {
 class ReceiveMessagesExpressRequest;
-}  // namespace chrome_browser_nearby_sharing_tachyon
+}  // namespace chrome_browser_nearby_sharing_instantmessaging
 
 namespace network {
 class SharedURLLoaderFactory;
@@ -25,7 +25,7 @@ class SimpleURLLoader;
 
 class TokenFetcher;
 
-// Receives streaming messages from Tachyon Express API over HTTP. Responsible
+// Receives streaming messages from Instant Messaging API over HTTP. Responsible
 // for parsing incoming bytes into valid ReceivesMessagesExpressResponse
 // messages.
 class ReceiveMessagesExpress : public network::SimpleURLLoaderStreamConsumer {
@@ -38,23 +38,24 @@ class ReceiveMessagesExpress : public network::SimpleURLLoaderStreamConsumer {
 
   ~ReceiveMessagesExpress() override;
 
-  // Registers with Tachyon to start receiving messages. Each individual message
-  // is passed to |listener|. Subsequent calls to this method replaces the
-  // registered listener.
+  // Registers with InstantMessaging to start receiving messages. Each
+  // individual message is passed to |listener|. Subsequent calls to this method
+  // replaces the registered listener.
   void StartReceivingMessages(
-      const chrome_browser_nearby_sharing_tachyon::
+      const chrome_browser_nearby_sharing_instantmessaging::
           ReceiveMessagesExpressRequest& request,
       base::RepeatingCallback<void(const std::string& message)> listener,
       SuccessCallback callback);
 
-  // Stops the incoming stream of messages from Tachyon and unregisters the
-  // listener.
+  // Stops the incoming stream of messages from InstantMessaging and unregisters
+  // the listener.
   void StopReceivingMessages();
 
  private:
-  void DoStartReceivingMessages(const chrome_browser_nearby_sharing_tachyon::
-                                    ReceiveMessagesExpressRequest& request,
-                                const std::string& oauth_token);
+  void DoStartReceivingMessages(
+      const chrome_browser_nearby_sharing_instantmessaging::
+          ReceiveMessagesExpressRequest& request,
+      const std::string& oauth_token);
 
   // network::SimpleURLLoaderStreamConsumer:
   void OnDataReceived(base::StringPiece string_piece,
@@ -73,4 +74,4 @@ class ReceiveMessagesExpress : public network::SimpleURLLoaderStreamConsumer {
   base::WeakPtrFactory<ReceiveMessagesExpress> weak_ptr_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_NEARBY_SHARING_TACHYON_RECEIVE_MESSAGES_EXPRESS_H_
+#endif  // CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_RECEIVE_MESSAGES_EXPRESS_H_

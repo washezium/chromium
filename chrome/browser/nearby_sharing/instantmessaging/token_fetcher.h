@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_NEARBY_SHARING_TACHYON_TOKEN_FETCHER_H_
-#define CHROME_BROWSER_NEARBY_SHARING_TACHYON_TOKEN_FETCHER_H_
+#ifndef CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_TOKEN_FETCHER_H_
+#define CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_TOKEN_FETCHER_H_
 
 #include <memory>
 #include <string>
@@ -14,8 +14,8 @@
 #include "components/signin/public/identity_manager/identity_manager.h"
 #include "google_apis/gaia/google_service_auth_error.h"
 
-// TokenFetcher is used for fetching oauth tokens for interacting with Tachyon
-// servers to send and receive messages.
+// TokenFetcher is used for fetching oauth tokens for interacting with
+// InstantMessaging servers to send and receive messages.
 class TokenFetcher {
  public:
   explicit TokenFetcher(signin::IdentityManager* identity_manager);
@@ -38,4 +38,4 @@ class TokenFetcher {
   base::WeakPtrFactory<TokenFetcher> weak_ptr_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_NEARBY_SHARING_TACHYON_TOKEN_FETCHER_H_
+#endif  // CHROME_BROWSER_NEARBY_SHARING_INSTANTMESSAGING_TOKEN_FETCHER_H_

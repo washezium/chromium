@@ -2,27 +2,28 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/stream_parser.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/stream_parser.h"
 
 #include <string>
 #include <vector>
 
 #include "base/bind.h"
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
 namespace {
 
-chrome_browser_nearby_sharing_tachyon::ReceiveMessagesResponse
+chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesResponse
 CreateReceiveMessagesResponse(const std::string& msg) {
-  chrome_browser_nearby_sharing_tachyon::ReceiveMessagesResponse response;
+  chrome_browser_nearby_sharing_instantmessaging::ReceiveMessagesResponse
+      response;
   response.mutable_inbox_message()->set_message(msg);
   return response;
 }
 
-chrome_browser_nearby_sharing_tachyon::StreamBody BuildProto(
+chrome_browser_nearby_sharing_instantmessaging::StreamBody BuildProto(
     const std::vector<std::string>& messages) {
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body;
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body;
   for (const auto& msg : messages) {
     stream_body.add_messages(
         CreateReceiveMessagesResponse(msg).SerializeAsString());
@@ -57,7 +58,7 @@ class StreamParserTest : public testing::Test {
 // The entire message is sent in one response body.
 TEST_F(StreamParserTest, SingleEntireMessageAtOnce) {
   std::vector<std::string> messages = {"random 42"};
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body =
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body =
       BuildProto(messages);
   GetStreamParser().Append(stream_body.SerializeAsString());
 
@@ -69,7 +70,7 @@ TEST_F(StreamParserTest, SingleEntireMessageAtOnce) {
 TEST_F(StreamParserTest, MultipleEntireMessagesAtOnce) {
   std::vector<std::string> messages = {"random 42", "more random 98",
                                        "himanshujaju 25"};
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body =
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body =
       BuildProto(messages);
   GetStreamParser().Append(stream_body.SerializeAsString());
 
@@ -80,7 +81,7 @@ TEST_F(StreamParserTest, MultipleEntireMessagesAtOnce) {
 // A single message is sent over multiple response bodies.
 TEST_F(StreamParserTest, SingleMessageSplit) {
   std::vector<std::string> messages = {"random 42 and random 92"};
-  chrome_browser_nearby_sharing_tachyon::StreamBody stream_body =
+  chrome_browser_nearby_sharing_instantmessaging::StreamBody stream_body =
       BuildProto(messages);
   std::string serialized_msg = stream_body.SerializeAsString();
 

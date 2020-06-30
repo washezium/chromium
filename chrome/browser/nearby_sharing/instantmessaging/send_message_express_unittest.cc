@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/tachyon/send_message_express.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/send_message_express.h"
 
 #include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
 #include "base/test/task_environment.h"
-#include "chrome/browser/nearby_sharing/tachyon/constants.h"
-#include "chrome/browser/nearby_sharing/tachyon/fake_token_fetcher.h"
-#include "chrome/browser/nearby_sharing/tachyon/proto/tachyon.pb.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/constants.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/fake_token_fetcher.h"
+#include "chrome/browser/nearby_sharing/instantmessaging/proto/instantmessaging.pb.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
 #include "services/network/public/cpp/weak_wrapper_shared_url_loader_factory.h"
 #include "services/network/test/test_url_loader_factory.h"
@@ -17,9 +17,10 @@
 
 namespace {
 
-chrome_browser_nearby_sharing_tachyon::SendMessageExpressRequest
+chrome_browser_nearby_sharing_instantmessaging::SendMessageExpressRequest
 CreateRequest() {
-  return chrome_browser_nearby_sharing_tachyon::SendMessageExpressRequest();
+  return chrome_browser_nearby_sharing_instantmessaging::
+      SendMessageExpressRequest();
 }
 
 }  // namespace
@@ -70,9 +71,10 @@ TEST_F(SendMessageExpressTest, HttpResponseError) {
                                EXPECT_FALSE(success);
                                run_loop.Quit();
                              }));
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonSendMessageAPI));
-  GetTestUrlLoaderFactory().AddResponse(kTachyonSendMessageAPI, "response",
-                                        net::HTTP_FORBIDDEN);
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingSendMessageAPI));
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingSendMessageAPI,
+                                        "response", net::HTTP_FORBIDDEN);
   run_loop.Run();
 }
 
@@ -84,8 +86,9 @@ TEST_F(SendMessageExpressTest, EmptyResponse) {
                                EXPECT_FALSE(success);
                                run_loop.Quit();
                              }));
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonSendMessageAPI));
-  GetTestUrlLoaderFactory().AddResponse(kTachyonSendMessageAPI, "",
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingSendMessageAPI));
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingSendMessageAPI, "",
                                         net::HTTP_OK);
   run_loop.Run();
 }
@@ -98,8 +101,9 @@ TEST_F(SendMessageExpressTest, SuccessfulResponse) {
                                EXPECT_TRUE(success);
                                run_loop.Quit();
                              }));
-  ASSERT_TRUE(GetTestUrlLoaderFactory().IsPending(kTachyonSendMessageAPI));
-  GetTestUrlLoaderFactory().AddResponse(kTachyonSendMessageAPI, "response",
-                                        net::HTTP_OK);
+  ASSERT_TRUE(
+      GetTestUrlLoaderFactory().IsPending(kInstantMessagingSendMessageAPI));
+  GetTestUrlLoaderFactory().AddResponse(kInstantMessagingSendMessageAPI,
+                                        "response", net::HTTP_OK);
   run_loop.Run();
 }

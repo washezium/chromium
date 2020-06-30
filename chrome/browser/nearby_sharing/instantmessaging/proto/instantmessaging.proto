@@ -2,13 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Brought from:
-// google3/google/internal/communications/instantmessaging/v1/tachyon.proto At
-// CL 316140872
+// Brought at CL 316140872
 
 syntax = "proto3";
 
-package chrome_browser_nearby_sharing_tachyon;
+package chrome_browser_nearby_sharing_instantmessaging;
 
 // Required in Chrome.
 option optimize_for = LITE_RUNTIME;
