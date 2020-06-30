@@ -20,9 +20,6 @@
       <include name="IDR_NEARBY_SHARE_APP_JS"
                file="${root_gen_dir}/chrome/browser/resources/nearby_share/app.js"
                use_base_dir="false" type="BINDATA"/>
-      <include name="IDR_NEARBY_SHARE_NEARBY_CONFIRMATION_PAGE_JS"
-               file="${root_gen_dir}/chrome/browser/resources/nearby_share/nearby_confirmation_page.js"
-               use_base_dir="false" type="BINDATA"/>
       <include name="IDR_NEARBY_SHARE_NEARBY_DISCOVERY_PAGE_JS"
                file="${root_gen_dir}/chrome/browser/resources/nearby_share/nearby_discovery_page.js"
                use_base_dir="false" type="BINDATA"/>
