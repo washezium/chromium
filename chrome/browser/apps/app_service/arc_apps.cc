@@ -171,16 +171,11 @@ base::Optional<arc::UserInteractionType> GetUserInterationType(
 
 arc::mojom::IntentInfoPtr CreateArcIntent(apps::mojom::IntentPtr intent) {
   arc::mojom::IntentInfoPtr arc_intent;
-  if (!intent->scheme.has_value() || !intent->host.has_value() ||
-      !intent->path.has_value()) {
+  if (!intent->url.has_value()) {
     return arc_intent;
   }
 
   arc_intent = arc::mojom::IntentInfo::New();
-  auto uri_components = arc::mojom::UriComponents::New();
-  uri_components->scheme = intent->scheme.value();
-  uri_components->authority = intent->host.value();
-  uri_components->path = intent->path.value();
   if (intent->action.has_value()) {
     if (intent->action.value() == apps_util::kIntentActionView) {
       arc_intent->action = arc::kIntentActionView;
@@ -194,7 +189,7 @@ arc::mojom::IntentInfoPtr CreateArcIntent(apps::mojom::IntentPtr intent) {
   } else {
     arc_intent->action = arc::kIntentActionView;
   }
-  arc_intent->uri_components = std::move(uri_components);
+  arc_intent->data = intent->url->spec();
   return arc_intent;
 }
 
