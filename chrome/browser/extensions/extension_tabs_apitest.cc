@@ -96,13 +96,7 @@ IN_PROC_BROWSER_TEST_F(ExtensionApiTabTest, TabPinned) {
   ASSERT_TRUE(RunExtensionSubtest("tabs/basics", "pinned.html")) << message_;
 }
 
-// Flaky on windows: http://crbug.com/238667
-#if defined(OS_WIN)
-#define MAYBE_TabMove DISABLED_TabMove
-#else
-#define MAYBE_TabMove TabMove
-#endif
-IN_PROC_BROWSER_TEST_F(ExtensionApiTabTest, MAYBE_TabMove) {
+IN_PROC_BROWSER_TEST_F(ExtensionApiTabTest, TabMove) {
   ASSERT_TRUE(RunExtensionSubtest("tabs/basics", "move.html")) << message_;
 }
 
