@@ -48,11 +48,7 @@ Polymer({
 
     destinationIcon: String,
 
-    /** @private */
-    shouldShowDestinationPrinterStatusIcon_: {
-      type: Boolean,
-      computed: 'computeShouldShowDestinationPrinterStatusIcon_(value)',
-    },
+    isCurrentDestinationCrosLocal: Boolean,
   },
 
   listeners: {
@@ -295,15 +291,5 @@ Polymer({
       return PrinterState.GOOD;
     }
     return PrinterState.ERROR;
-  },
-
-  /**
-   * Only show the printer status badge if the currently selected destination is
-   * a CrOS local printer.
-   * @return {boolean}
-   * @private
-   */
-  computeShouldShowDestinationPrinterStatusIcon_: function() {
-    return this.value && this.value.origin === DestinationOrigin.CROS;
   },
 });

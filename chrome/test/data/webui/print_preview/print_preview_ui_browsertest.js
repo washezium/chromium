@@ -1182,13 +1182,6 @@ TEST_F('PrintPreviewDestinationDropdownCrosTest', 'Disabled', function() {
 });
 
 TEST_F(
-    'PrintPreviewDestinationDropdownCrosTest', 'HiddenDestinationBadge',
-    function() {
-      this.runMochaTest(
-          destination_dropdown_cros_test.TestNames.HiddenDestinationBadge);
-    });
-
-TEST_F(
     'PrintPreviewDestinationDropdownCrosTest',
     'NewStatusUpdatesDestinationIcon', function() {
       this.runMochaTest(destination_dropdown_cros_test.TestNames

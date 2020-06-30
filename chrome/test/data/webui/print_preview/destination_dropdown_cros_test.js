@@ -22,7 +22,6 @@ destination_dropdown_cros_test.TestNames = {
   EnterOpensCloses: 'enter opens and closes dropdown',
   HighlightedFollowsMouse: 'highlighted follows mouse',
   Disabled: 'disabled',
-  HiddenDestinationBadge: 'hidden destination badge',
   NewStatusUpdatesDestinationIcon: 'new status updates destination icon',
   ChangingDestinationUpdatesIcon: 'changing destination updates icon',
   HighlightedWhenOpened: 'highlighted when opened',
@@ -246,26 +245,6 @@ suite(destination_dropdown_cros_test.suiteName, function() {
     pointerDown(dropdown.$$('#dropdownInput'));
     assertTrue(dropdown.$$('iron-dropdown').opened);
   });
-
-  test(
-      assert(destination_dropdown_cros_test.TestNames.HiddenDestinationBadge),
-      function() {
-        setItemList([
-          createDestination('One', DestinationOrigin.CROS),
-          createDestination('Two', DestinationOrigin.PRIVET)
-        ]);
-
-        // A DestinationOrigin.CROS printer destination.
-        dropdown.value = dropdown.itemList[0];
-        assertFalse(dropdown.$$('#destination-badge').hidden);
-        assertTrue(dropdown.$$('iron-icon').hidden);
-
-        // A non-local printer destination that should not have a printer status
-        // icon.
-        dropdown.value = dropdown.itemList[1];
-        assertTrue(dropdown.$$('#destination-badge').hidden);
-        assertFalse(dropdown.$$('iron-icon').hidden);
-      });
 
   test(
       assert(destination_dropdown_cros_test.TestNames
