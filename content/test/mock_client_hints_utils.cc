@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/shell/utility/mock_client_hints_utils.h"
+#include "content/test/mock_client_hints_utils.h"
 
 namespace content {
 

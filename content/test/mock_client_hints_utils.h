@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_SHELL_UTILITY_MOCK_CLIENT_HINTS_UTILS_H_
-#define CONTENT_SHELL_UTILITY_MOCK_CLIENT_HINTS_UTILS_H_
+#ifndef CONTENT_TEST_MOCK_CLIENT_HINTS_UTILS_H_
+#define CONTENT_TEST_MOCK_CLIENT_HINTS_UTILS_H_
 
 #include "content/public/common/origin_util.h"
 #include "third_party/blink/public/platform/web_client_hints_type.h"
@@ -32,4 +32,4 @@ void GetAllowedClientHintsFromSourceHelper(
 
 }  // namespace content
 
-#endif  // CONTENT_SHELL_UTILITY_MOCK_CLIENT_HINTS_UTILS_H_
+#endif  // CONTENT_SHELL_TEST_CLIENT_HINTS_UTILS_H_

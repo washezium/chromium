@@ -2,18 +2,22 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/shell/browser/web_test/mock_client_hints_controller_delegate.h"
+#include "content/test/mock_client_hints_controller_delegate.h"
+
 #include "base/feature_list.h"
 #include "content/public/common/content_features.h"
 #include "content/public/common/origin_util.h"
-#include "content/shell/browser/shell_content_browser_client.h"
 #include "third_party/blink/public/common/user_agent/user_agent_metadata.h"
 #include "url/gurl.h"
 
 namespace content {
 
-MockClientHintsControllerDelegate::MockClientHintsControllerDelegate() {}
-MockClientHintsControllerDelegate::~MockClientHintsControllerDelegate() {}
+MockClientHintsControllerDelegate::MockClientHintsControllerDelegate(
+    const blink::UserAgentMetadata& metadata)
+    : metadata_(metadata) {}
+
+MockClientHintsControllerDelegate::~MockClientHintsControllerDelegate() =
+    default;
 
 network::NetworkQualityTracker*
 MockClientHintsControllerDelegate::GetNetworkQualityTracker() {
@@ -30,7 +34,7 @@ bool MockClientHintsControllerDelegate::UserAgentClientHintEnabled() {
 
 blink::UserAgentMetadata
 MockClientHintsControllerDelegate::GetUserAgentMetadata() {
-  return content::GetShellUserAgentMetadata();
+  return metadata_;
 }
 
 void MockClientHintsControllerDelegate::PersistClientHints(
