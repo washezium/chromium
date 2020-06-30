@@ -2625,7 +2625,7 @@ const char kHomepageSettingsUIConversionDescription[] =
     "homepage URL through a radio button group, and add promo box on NTP "
     "if homepage is not enabled.";
 
-const char kInstantStartName[] = "Enable instant start";
+const char kInstantStartName[] = "Instant start";
 const char kInstantStartDescription[] =
     "Show start surface before native library is loaded.";
 
