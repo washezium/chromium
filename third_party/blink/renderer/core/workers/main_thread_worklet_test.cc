@@ -61,7 +61,7 @@ class MainThreadWorkletTest : public PageTestBase {
     csp->DidReceiveHeader(csp_header,
                           network::mojom::ContentSecurityPolicyType::kEnforce,
                           network::mojom::ContentSecurityPolicySource::kHTTP);
-    window->document()->InitContentSecurityPolicy(csp);
+    window->GetSecurityContext().SetContentSecurityPolicy(csp);
 
     reporting_proxy_ =
         std::make_unique<MainThreadWorkletReportingProxyForTest>(window);

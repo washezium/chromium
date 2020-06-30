@@ -312,7 +312,7 @@ TEST_F(ThreadedWorkletTest, ContentSecurityPolicy) {
   csp->DidReceiveHeader("script-src 'self' https://allowed.example.com",
                         network::mojom::ContentSecurityPolicyType::kEnforce,
                         network::mojom::ContentSecurityPolicySource::kHTTP);
-  GetDocument().InitContentSecurityPolicy(csp);
+  GetExecutionContext()->GetSecurityContext().SetContentSecurityPolicy(csp);
 
   MessagingProxy()->Start();
 
@@ -329,7 +329,7 @@ TEST_F(ThreadedWorkletTest, InvalidContentSecurityPolicy) {
   csp->DidReceiveHeader("invalid-csp",
                         network::mojom::ContentSecurityPolicyType::kEnforce,
                         network::mojom::ContentSecurityPolicySource::kHTTP);
-  GetDocument().InitContentSecurityPolicy(csp);
+  GetExecutionContext()->GetSecurityContext().SetContentSecurityPolicy(csp);
 
   MessagingProxy()->Start();
 
