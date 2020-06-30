@@ -159,7 +159,7 @@ struct IconKey {
   // components/services/app_service/public/cpp/icon_loader.*
 };
 
-enum IconCompression {
+enum IconType {
   // Sentinel value used in error cases.
   kUnknown,
   // Icon as an uncompressed gfx::ImageSkia with no standard Chrome OS mask.
@@ -172,7 +172,7 @@ enum IconCompression {
 };
 
 struct IconValue {
-  IconCompression icon_compression;
+  IconType icon_type;
   gfx.mojom.ImageSkia? uncompressed;
   array<uint8>? compressed;
   bool is_placeholder_icon;
