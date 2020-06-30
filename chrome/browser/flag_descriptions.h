@@ -2044,6 +2044,9 @@ extern const char kEnableAmbientModeDescription[];
 extern const char kEnableAssistantAppSupportName[];
 extern const char kEnableAssistantAppSupportDescription[];
 
+extern const char kEnableAssistantBetterOnboardingName[];
+extern const char kEnableAssistantBetterOnboardingDescription[];
+
 extern const char kEnableAssistantLauncherIntegrationName[];
 extern const char kEnableAssistantLauncherIntegrationDescription[];
 
@@ -2055,6 +2058,9 @@ extern const char kEnableAssistantMediaSessionIntegrationDescription[];
 
 extern const char kEnableAssistantRoutinesName[];
 extern const char kEnableAssistantRoutinesDescription[];
+
+extern const char kEnableAssistantTimersV2Name[];
+extern const char kEnableAssistantTimersV2Description[];
 
 extern const char kEnableBackgroundBlurName[];
 extern const char kEnableBackgroundBlurDescription[];

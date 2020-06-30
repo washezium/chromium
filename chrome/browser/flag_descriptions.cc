@@ -3525,6 +3525,11 @@ const char kEnableAssistantAppSupportName[] = "Enable Assistant App Support";
 const char kEnableAssistantAppSupportDescription[] =
     "Enable the Assistant App Support feature";
 
+const char kEnableAssistantBetterOnboardingName[] =
+    "Enable Assistant Better Onboarding";
+const char kEnableAssistantBetterOnboardingDescription[] =
+    "Enables the Assistant better onboarding experience.";
+
 const char kEnableAssistantLauncherIntegrationName[] =
     "Assistant & Launcher integration";
 const char kEnableAssistantLauncherIntegrationDescription[] =
@@ -3543,6 +3548,10 @@ const char kEnableAssistantMediaSessionIntegrationDescription[] =
 
 const char kEnableAssistantRoutinesName[] = "Assistant Routines";
 const char kEnableAssistantRoutinesDescription[] = "Enable Assistant Routines.";
+
+const char kEnableAssistantTimersV2Name[] = "Enable Assistant Timers V2";
+const char kEnableAssistantTimersV2Description[] =
+    "Enables v2 of Assistant timers.";
 
 const char kEnableBackgroundBlurName[] = "Enable background blur.";
 const char kEnableBackgroundBlurDescription[] =

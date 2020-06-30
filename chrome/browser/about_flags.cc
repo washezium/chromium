@@ -1928,6 +1928,12 @@ const FeatureEntry::FeatureVariation kPasswordChangeFeatureVariations[] = {
      nullptr}};
 #endif  // defined(OS_ANDROID)
 
+#if defined(OS_CHROMEOS)
+constexpr char kAssistantBetterOnboardingInternalName[] =
+    "enable-assistant-better-onboarding";
+constexpr char kAssistantTimersV2InternalName[] = "enable-assistant-timers-v2";
+#endif  // OS_CHROMEOS
+
 // RECORDING USER METRICS FOR FLAGS:
 // -----------------------------------------------------------------------------
 // The first line of the entry is the internal name.
@@ -4399,6 +4405,16 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(
          chromeos::assistant::features::kEnableOnDeviceAssistant)},
 
+    {kAssistantBetterOnboardingInternalName,
+     flag_descriptions::kEnableAssistantBetterOnboardingName,
+     flag_descriptions::kEnableAssistantBetterOnboardingDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(
+         chromeos::assistant::features::kAssistantBetterOnboarding)},
+
+    {kAssistantTimersV2InternalName,
+     flag_descriptions::kEnableAssistantTimersV2Name,
+     flag_descriptions::kEnableAssistantTimersV2Description, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::assistant::features::kAssistantTimersV2)},
 #endif  // defined(OS_CHROMEOS)
 
 #if BUILDFLAG(ENABLE_CLICK_TO_CALL)
@@ -5831,6 +5847,14 @@ bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
       channel != version_info::Channel::CANARY &&
       channel != version_info::Channel::UNKNOWN) {
     return true;
+  }
+
+  // The following flags are only available to teamfooders.
+  if (!strcmp(kAssistantBetterOnboardingInternalName, entry.internal_name) ||
+      !strcmp(kAssistantTimersV2InternalName, entry.internal_name)) {
+    constexpr base::Feature kTeamfoodFlags{"TeamfoodFlags",
+                                           base::FEATURE_DISABLED_BY_DEFAULT};
+    return !base::FeatureList::IsEnabled(kTeamfoodFlags);
   }
 #endif  // defined(OS_CHROMEOS)
 
