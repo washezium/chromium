@@ -12,7 +12,6 @@
 #include "components/version_info/version_info.h"
 #include "extensions/common/error_utils.h"
 #include "extensions/common/extension.h"
-#include "extensions/common/features/feature_channel.h"
 #include "extensions/common/manifest_constants.h"
 #include "extensions/common/manifest_url_handlers.h"
 #include "testing/gtest/include/gtest/gtest.h"
@@ -78,25 +77,27 @@ using extensions::Manifest;
 using extensions::SettingsOverrides;
 namespace manifest_keys = extensions::manifest_keys;
 
-TEST(OverrideSettingsTest, ParseManifest) {
-#if defined(OS_MACOSX)
-  // On Mac, this API is limited to trunk.
-  extensions::ScopedCurrentChannel scoped_channel(
-      version_info::Channel::UNKNOWN);
-#endif  // OS_MACOSX
-
-  std::string manifest(kManifest);
+scoped_refptr<Extension> CreateExtension(base::StringPiece manifest,
+                                         std::string* error) {
   JSONStringValueDeserializer json(manifest);
+  std::unique_ptr<base::Value> root(json.Deserialize(nullptr, error));
+  if (!root) {
+    ADD_FAILURE() << "Could not deserialize manifest";
+    return nullptr;
+  }
+  if (!root->is_dict()) {
+    ADD_FAILURE() << "Manifest isn't a Dictionary";
+    return nullptr;
+  }
+  return Extension::Create(base::FilePath(FILE_PATH_LITERAL("//nonexistent")),
+                           Manifest::INVALID_LOCATION,
+                           *static_cast<base::DictionaryValue*>(root.get()),
+                           Extension::NO_FLAGS, error);
+}
+
+TEST(OverrideSettingsTest, ParseManifest) {
   std::string error;
-  std::unique_ptr<base::Value> root(json.Deserialize(NULL, &error));
-  ASSERT_TRUE(root);
-  ASSERT_TRUE(root->is_dict());
-  scoped_refptr<Extension> extension = Extension::Create(
-      base::FilePath(FILE_PATH_LITERAL("//nonexistent")),
-      Manifest::INVALID_LOCATION,
-      *static_cast<base::DictionaryValue*>(root.get()),
-      Extension::NO_FLAGS,
-      &error);
+  scoped_refptr<Extension> extension = CreateExtension(kManifest, &error);
   ASSERT_TRUE(extension.get());
 #if defined(OS_WIN) || defined(OS_MACOSX)
   ASSERT_TRUE(extension->manifest()->HasPath(manifest_keys::kSettingsOverride));
@@ -128,24 +129,9 @@ TEST(OverrideSettingsTest, ParseManifest) {
 }
 
 TEST(OverrideSettingsTest, ParsePrepopulatedId) {
-#if defined(OS_MACOSX)
-  // On Mac, this API is limited to trunk.
-  extensions::ScopedCurrentChannel scoped_channel(
-      version_info::Channel::UNKNOWN);
-#endif  // OS_MACOSX
-
-  std::string manifest(kPrepopulatedManifest);
-  JSONStringValueDeserializer json(manifest);
   std::string error;
-  std::unique_ptr<base::Value> root(json.Deserialize(NULL, &error));
-  ASSERT_TRUE(root);
-  ASSERT_TRUE(root->is_dict());
   scoped_refptr<Extension> extension =
-      Extension::Create(base::FilePath(FILE_PATH_LITERAL("//nonexistent")),
-                        Manifest::INVALID_LOCATION,
-                        *static_cast<base::DictionaryValue*>(root.get()),
-                        Extension::NO_FLAGS,
-                        &error);
+      CreateExtension(kPrepopulatedManifest, &error);
   ASSERT_TRUE(extension.get());
 #if defined(OS_WIN) || defined(OS_MACOSX)
   ASSERT_TRUE(extension->manifest()->HasPath(manifest_keys::kSettingsOverride));
@@ -167,24 +153,8 @@ TEST(OverrideSettingsTest, ParsePrepopulatedId) {
 }
 
 TEST(OverrideSettingsTest, ParseBrokenManifest) {
-#if defined(OS_MACOSX)
-  // On Mac, this API is limited to trunk.
-  extensions::ScopedCurrentChannel scoped_channel(
-      version_info::Channel::UNKNOWN);
-#endif  // OS_MACOSX
-
-  std::string manifest(kBrokenManifest);
-  JSONStringValueDeserializer json(manifest);
   std::string error;
-  std::unique_ptr<base::Value> root(json.Deserialize(NULL, &error));
-  ASSERT_TRUE(root);
-  ASSERT_TRUE(root->is_dict());
-  scoped_refptr<Extension> extension = Extension::Create(
-      base::FilePath(FILE_PATH_LITERAL("//nonexistent")),
-      Manifest::INVALID_LOCATION,
-      *static_cast<base::DictionaryValue*>(root.get()),
-      Extension::NO_FLAGS,
-      &error);
+  scoped_refptr<Extension> extension = CreateExtension(kBrokenManifest, &error);
 #if defined(OS_WIN) || defined(OS_MACOSX)
   EXPECT_FALSE(extension.get());
   EXPECT_EQ(
@@ -193,7 +163,7 @@ TEST(OverrideSettingsTest, ParseBrokenManifest) {
           extensions::manifest_keys::kSettingsOverride),
       error);
 #else
-  EXPECT_TRUE(extension.get());
+  ASSERT_TRUE(extension.get());
   EXPECT_FALSE(
       extension->manifest()->HasPath(manifest_keys::kSettingsOverride));
 #endif
