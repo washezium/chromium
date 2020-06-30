@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import org.chromium.components.infobars.InfoBarUiItem;
-import org.chromium.components.infobars.InfoBarWrapper;
 import org.chromium.ui.widget.OptimizedFrameLayout;
 import org.chromium.weblayer_private.InfoBarContainer.InfoBarAnimationListener;
 
