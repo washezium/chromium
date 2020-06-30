@@ -39,6 +39,7 @@ class EmojiSuggester : public Suggester {
   void LoadEmojiMap();
   void OnEmojiDataLoaded(const std::string& emoji_data);
   void RecordAcceptanceIndex(int index);
+  void ResetState();
 
   InputMethodEngine* const engine_;
 
@@ -47,6 +48,8 @@ class EmojiSuggester : public Suggester {
 
   // If we are showing a suggestion right now.
   bool suggestion_shown_ = false;
+
+  std::string last_event_key_;
 
   // The current list of candidates.
   std::vector<base::string16> candidates_;
