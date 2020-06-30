@@ -124,12 +124,9 @@ SuggestionStatus EmojiSuggester::HandleKeyEvent(
     return SuggestionStatus::kNotHandled;
   SuggestionStatus status = SuggestionStatus::kNotHandled;
   std::string error;
-  if (event.key == "Enter" && candidate_id_ != -1) {
-    suggestion_shown_ = false;
-    engine_->AcceptSuggestionCandidate(context_id_, candidates_[candidate_id_],
-                                       &error);
-    RecordAcceptanceIndex(candidate_id_);
-    status = SuggestionStatus::kAccept;
+  if (event.key == "Enter") {
+    if (AcceptSuggestion(candidate_id_))
+      status = SuggestionStatus::kAccept;
   } else if (event.key == "Down") {
     candidate_id_ < static_cast<int>(candidates_.size()) - 1
         ? candidate_id_++
@@ -180,6 +177,22 @@ void EmojiSuggester::ShowSuggestion(const std::string& text) {
   if (!error.empty()) {
     LOG(ERROR) << "Fail to show suggestion. " << error;
   }
+}
+
+bool EmojiSuggester::AcceptSuggestion(size_t index) {
+  if (index < 0 || index >= candidates_.size())
+    return false;
+
+  std::string error;
+  engine_->AcceptSuggestionCandidate(context_id_, candidates_[index], &error);
+
+  if (!error.empty()) {
+    LOG(ERROR) << "Failed to accept suggestion. " << error;
+  }
+
+  suggestion_shown_ = false;
+  RecordAcceptanceIndex(index);
+  return true;
 }
 
 void EmojiSuggester::DismissSuggestion() {
