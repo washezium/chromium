@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_POLICY_BROWSER_DM_TOKEN_STORAGE_H_
-#define CHROME_BROWSER_POLICY_BROWSER_DM_TOKEN_STORAGE_H_
+#ifndef COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_BROWSER_DM_TOKEN_STORAGE_H_
+#define COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_BROWSER_DM_TOKEN_STORAGE_H_
 
 #include <memory>
 #include <string>
@@ -146,4 +146,4 @@ class BrowserDMTokenStorage {
 };
 
 }  // namespace policy
-#endif  // CHROME_BROWSER_POLICY_BROWSER_DM_TOKEN_STORAGE_H_
+#endif  // COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_BROWSER_DM_TOKEN_STORAGE_H_

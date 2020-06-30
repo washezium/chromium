@@ -1111,8 +1111,6 @@ static_library("browser") {
     "plugins/pdf_iframe_navigation_throttle.h",
     "plugins/pdf_plugin_placeholder_observer.cc",
     "plugins/pdf_plugin_placeholder_observer.h",
-    "policy/browser_dm_token_storage.cc",
-    "policy/browser_dm_token_storage.h",
     "policy/browsing_history_policy_handler.cc",
     "policy/browsing_history_policy_handler.h",
     "policy/chrome_browser_policy_connector.cc",
