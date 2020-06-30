@@ -28,7 +28,6 @@
 #include "chrome/browser/sync/profile_sync_service_factory.h"
 #include "chrome/browser/sync/test/integration/profile_sync_service_harness.h"
 #include "chrome/browser/sync/test/integration/secondary_account_helper.h"
-#include "chrome/browser/sync/test/integration/single_client_status_change_checker.h"
 #include "chrome/browser/sync/test/integration/sync_test.h"
 #include "chrome/browser/unified_consent/unified_consent_service_factory.h"
 #include "components/metrics/demographic_metrics_provider.h"
@@ -197,21 +196,6 @@ class MetricsConsentOverride {
 
  private:
   bool state_;
-};
-
-class SyncConnectionOkChecker : public SingleClientStatusChangeChecker {
- public:
-  explicit SyncConnectionOkChecker(syncer::ProfileSyncService* service)
-      : SingleClientStatusChangeChecker(service) {}
-
-  bool IsExitConditionSatisfied(std::ostream* os) override {
-    *os << "Waiting for CONNECTION_OK.";
-    return service()->GetSyncTokenStatusForDebugging().connection_status ==
-           syncer::CONNECTION_OK;
-  }
-
- private:
-  DISALLOW_COPY_AND_ASSIGN(SyncConnectionOkChecker);
 };
 
 // Test fixture that provides access to some UKM internals.
@@ -401,28 +385,6 @@ class UkmConsentParamBrowserTest : public UkmBrowserTestBase,
   DISALLOW_COPY_AND_ASSIGN(UkmConsentParamBrowserTest);
 };
 #endif  // !defined(OS_ANDROID)
-
-class UkmEnabledChecker : public SingleClientStatusChangeChecker {
- public:
-  UkmEnabledChecker(syncer::ProfileSyncService* service,
-                    ukm::UkmTestHelper* ukm_test_helper,
-                    bool want_enabled)
-      : SingleClientStatusChangeChecker(service),
-        ukm_test_helper_(ukm_test_helper),
-        want_enabled_(want_enabled) {}
-
-  // StatusChangeChecker:
-  bool IsExitConditionSatisfied(std::ostream* os) override {
-    *os << "Waiting for IsUkmEnabled=" << (want_enabled_ ? "true" : "false");
-    return ukm_test_helper_->IsRecordingEnabled() == want_enabled_;
-  }
-
- private:
-  ukm::UkmTestHelper* const ukm_test_helper_;
-  const bool want_enabled_;
-
-  DISALLOW_COPY_AND_ASSIGN(UkmEnabledChecker);
-};
 
 // Test the reporting of the synced user's birth year and gender.
 class UkmBrowserTestWithDemographics
