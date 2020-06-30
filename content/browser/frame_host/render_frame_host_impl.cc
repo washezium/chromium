@@ -8211,6 +8211,9 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
 
   RecordCrossOriginIsolationMetrics(this);
 
+  CrossOriginOpenerPolicyReporter::InstallAccessMonitorsIfNeeded(
+      frame_tree_node_);
+
   return true;
 }
 
