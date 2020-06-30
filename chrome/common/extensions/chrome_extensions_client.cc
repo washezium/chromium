@@ -63,13 +63,13 @@ ChromeExtensionsClient::~ChromeExtensionsClient() {
 }
 
 void ChromeExtensionsClient::Initialize() {
-  // Set up the scripting whitelist.
-  // Whitelist ChromeVox, an accessibility extension from Google that needs
+  // Set up the scripting allowlist.
+  // Allowlist ChromeVox, an accessibility extension from Google that needs
   // the ability to script webui pages. This is temporary and is not
   // meant to be a general solution.
   // TODO(dmazzoni): remove this once we have an extension API that
   // allows any extension to request read-only access to webui pages.
-  scripting_whitelist_.push_back(extension_misc::kChromeVoxExtensionId);
+  scripting_allowlist_.push_back(extension_misc::kChromeVoxExtensionId);
   InitializeWebStoreUrls(base::CommandLine::ForCurrentProcess());
 }
 
@@ -119,14 +119,14 @@ void ChromeExtensionsClient::FilterHostPermissions(
   }
 }
 
-void ChromeExtensionsClient::SetScriptingWhitelist(
-    const ExtensionsClient::ScriptingWhitelist& whitelist) {
-  scripting_whitelist_ = whitelist;
+void ChromeExtensionsClient::SetScriptingAllowlist(
+    const ExtensionsClient::ScriptingAllowlist& allowlist) {
+  scripting_allowlist_ = allowlist;
 }
 
-const ExtensionsClient::ScriptingWhitelist&
-ChromeExtensionsClient::GetScriptingWhitelist() const {
-  return scripting_whitelist_;
+const ExtensionsClient::ScriptingAllowlist&
+ChromeExtensionsClient::GetScriptingAllowlist() const {
+  return scripting_allowlist_;
 }
 
 URLPatternSet ChromeExtensionsClient::GetPermittedChromeSchemeHosts(

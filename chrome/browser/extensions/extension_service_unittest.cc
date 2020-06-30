@@ -6461,7 +6461,7 @@ TEST_F(ExtensionServiceTest, ConcurrentExternalLocalFile) {
 TEST_F(ExtensionServiceTest, InstallWhitelistedExtension) {
   std::string test_id = "hdkklepkcpckhnpgjnmbdfhehckloojk";
   base::CommandLine::ForCurrentProcess()->AppendSwitchASCII(
-      switches::kWhitelistedExtensionID, test_id);
+      switches::kAllowlistedExtensionID, test_id);
 
   InitializeEmptyExtensionService();
   base::FilePath path = data_dir().AppendASCII("permissions");
