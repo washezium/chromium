@@ -2070,8 +2070,8 @@
   },
   {
     "name": "enable-reader-mode",
-    "owners": [ "gilmanmh@google.com" ],
-    "expiry_milestone": 85
+    "owners": [ "katie", "dmazzoni" ],
+    "expiry_milestone": 90
   },
   {
     "name": "enable-reader-mode-in-cct",
