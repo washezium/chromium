@@ -26,6 +26,15 @@ struct EnumTraits<local_search_service::mojom::IndexId,
 };
 
 template <>
+struct EnumTraits<local_search_service::mojom::Backend,
+                  local_search_service::Backend> {
+  static local_search_service::mojom::Backend ToMojom(
+      local_search_service::Backend input);
+  static bool FromMojom(local_search_service::mojom::Backend input,
+                        local_search_service::Backend* output);
+};
+
+template <>
 struct StructTraits<local_search_service::mojom::ContentDataView,
                     local_search_service::Content> {
  public:

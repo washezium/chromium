@@ -72,7 +72,8 @@ void FindAndCheckResults(Index* index,
 
 class IndexTest : public testing::Test {
   void SetUp() override {
-    index_ = std::make_unique<Index>(IndexId::kCrosSettings);
+    index_ =
+        std::make_unique<Index>(IndexId::kCrosSettings, Backend::kLinearMap);
   }
 
  protected:
