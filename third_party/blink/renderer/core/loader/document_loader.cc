@@ -1573,6 +1573,10 @@ void DocumentLoader::CommitNavigation() {
           // TODO(iclelland): Add Feature-Policy-Report-Only to Origin Policy.
           .WithReportOnlyFeaturePolicyHeader(
               response_.HttpHeaderField(http_names::kFeaturePolicyReportOnly))
+          .WithPermissionsPolicyHeader(
+              response_.HttpHeaderField(http_names::kPermissionsPolicy))
+          .WithReportOnlyPermissionsPolicyHeader(response_.HttpHeaderField(
+              http_names::kPermissionsPolicyReportOnly))
           .WithDocumentPolicy(document_policy_)
           // |document_policy_| is parsed in document loader because it is
           // compared with |frame_policy.required_document_policy| to decide
