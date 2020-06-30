@@ -688,6 +688,11 @@ const char kMacCoreLocationImplementationName[] =
 const char kMacCoreLocationImplementationDescription[] =
     "Enables usage of the Core Location APIs on macOS for geolocation";
 
+const char kMaintainShelfStateWhenEnteringOverviewName[] =
+    "Allow Home Launcher Shelf In Overview";
+const char kMaintainShelfStateWhenEnteringOverviewDescription[] =
+    "Maintains shelf state when entering and exiting overview mode.";
+
 const char kWinrtGeolocationImplementationName[] =
     "WinRT Geolocation Implementation";
 const char kWinrtGeolocationImplementationDescription[] =
