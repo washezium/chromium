@@ -402,7 +402,7 @@ class MockRenderWidgetHostDelegate : public RenderWidgetHostDelegate {
     ignore_input_events_ = ignore_input_events;
   }
 
-  bool IsFullscreenForCurrentTab() override { return is_fullscreen_for_tab_; }
+  bool IsFullscreen() override { return is_fullscreen_for_tab_; }
 
   void set_is_fullscreen_for_current_tab(bool enabled) {
     is_fullscreen_for_tab_ = enabled;
@@ -1022,7 +1022,7 @@ TEST_F(RenderWidgetHostTest, OverrideScreenInfoDuringFullscreenMode) {
 
   // Do initial VisualProperties sync while not fullscreened.
   view_->SetBounds(kViewBounds);
-  ASSERT_FALSE(delegate_->IsFullscreenForCurrentTab());
+  ASSERT_FALSE(delegate_->IsFullscreen());
   host_->SynchronizeVisualPropertiesIgnoringPendingAck();
   // WidgetMsg_UpdateVisualProperties sent to the renderer.
   ASSERT_EQ(1u, sink_->message_count());
