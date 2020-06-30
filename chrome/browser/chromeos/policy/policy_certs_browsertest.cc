@@ -298,7 +298,7 @@ class UserPolicyCertsHelper {
     policy::PolicyMap policy;
     policy.Set(key::kOpenNetworkConfiguration, policy::POLICY_LEVEL_MANDATORY,
                policy::POLICY_SCOPE_USER, policy::POLICY_SOURCE_CLOUD,
-               std::make_unique<base::Value>(onc_policy_data), nullptr);
+               base::Value(onc_policy_data), nullptr);
     provider_.UpdateChromePolicy(policy);
     // Note that this relies on the implementation detail that the notification
     // is sent even if the trust roots effectively remain the same.
@@ -755,7 +755,7 @@ class PolicyProvidedClientCertsTest
     policy::PolicyMap policy;
     policy.Set(key::kOpenNetworkConfiguration, policy::POLICY_LEVEL_MANDATORY,
                policy::POLICY_SCOPE_USER, policy::POLICY_SOURCE_CLOUD,
-               std::make_unique<base::Value>(user_policy_blob), nullptr);
+               base::Value(user_policy_blob), nullptr);
     provider_.UpdateChromePolicy(policy);
 
     cert_database_changed_observer.Wait();
