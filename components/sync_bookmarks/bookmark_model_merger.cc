@@ -455,6 +455,13 @@ void BookmarkModelMerger::Merge() {
     MergeSubtree(/*local_subtree_root=*/permanent_folder,
                  /*remote_node=*/tree_tag_and_root.second);
   }
+
+  if (base::FeatureList::IsEnabled(switches::kSyncReuploadBookmarkFullTitles)) {
+    // When the reupload feature is enabled, all new empty trackers are
+    // automatically reuploaded (since there are no entities to reupload). This
+    // is used to disable reupload after initial merge.
+    bookmark_tracker_->SetBookmarksFullTitleReuploaded();
+  }
 }
 
 // static
