@@ -2210,6 +2210,9 @@ extern const char kHelpAppDescription[];
 extern const char kHelpAppReleaseNotesName[];
 extern const char kHelpAppReleaseNotesDescription[];
 
+extern const char kHelpAppSearchServiceIntegrationName[];
+extern const char kHelpAppSearchServiceIntegrationDescription[];
+
 extern const char kHideArcMediaNotificationsName[];
 extern const char kHideArcMediaNotificationsDescription[];
 

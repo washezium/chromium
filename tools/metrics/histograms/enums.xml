@@ -41026,6 +41026,7 @@ from previous Chrome versions.
   <int value="-262122630" label="ArcEnableDocumentsProviderInFilesApp:enabled"/>
   <int value="-258081634" label="AutofillAssistantDirectActions:disabled"/>
   <int value="-257478609" label="TextfieldFocusOnTapUp:enabled"/>
+  <int value="-256940675" label="HelpAppSearchServiceIntegration:disabled"/>
   <int value="-255264176" label="OmniboxSearchEngineLogo:disabled"/>
   <int value="-254887599" label="google-profile-info"/>
   <int value="-254158542" label="SubresourceRedirectPreviews:enabled"/>
@@ -43158,6 +43159,7 @@ from previous Chrome versions.
   <int value="2113804526" label="EnableAppShortcutSearch:enabled"/>
   <int value="2114843059" label="ContextualSuggestionsOptOut:enabled"/>
   <int value="2115848376" label="LacrosSupport:disabled"/>
+  <int value="2118287149" label="HelpAppSearchServiceIntegration:enabled"/>
   <int value="2119964154" label="enable-download-resumption"/>
   <int value="2120659210" label="BackForwardCache:enabled"/>
   <int value="2121056855" label="IncreaseInputAudioBufferSize:disabled"/>

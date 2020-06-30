@@ -227,6 +227,10 @@ const base::Feature kHelpAppFirstRun{"HelpAppFirstRun",
 const base::Feature kHelpAppReleaseNotes{"HelpAppReleaseNotes",
                                          base::FEATURE_DISABLED_BY_DEFAULT};
 
+// Enable the search service integration in the Help app.
+const base::Feature kHelpAppSearchServiceIntegration{
+    "HelpAppSearchServiceIntegration", base::FEATURE_DISABLED_BY_DEFAULT};
+
 // Enable or disable Unified Input Logic for HMM decoder in the IME extension
 // on Chrome OS.
 const base::Feature kImeInputLogicHmm{"ImeInputLogicHmm",

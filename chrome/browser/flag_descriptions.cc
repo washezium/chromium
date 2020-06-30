@@ -3782,6 +3782,12 @@ const char kHelpAppReleaseNotesName[] = "Help App Release Notes";
 const char kHelpAppReleaseNotesDescription[] =
     "Enables release notes in the help app";
 
+const char kHelpAppSearchServiceIntegrationName[] =
+    "Help App search service integration";
+const char kHelpAppSearchServiceIntegrationDescription[] =
+    "Enables the integration between the help app and the local search"
+    " service. Includes using the search service for in app search.";
+
 const char kHideArcMediaNotificationsName[] = "Hide ARC media notifications";
 const char kHideArcMediaNotificationsDescription[] =
     "Hides media notifications for ARC apps. Requires "
