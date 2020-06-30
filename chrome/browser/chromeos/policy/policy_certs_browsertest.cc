@@ -437,7 +437,11 @@ class PolicyProvidedCertsRegularUserTest
     : public InProcessBrowserTest,
       public ::testing::WithParamInterface<bool> {
  protected:
-  PolicyProvidedCertsRegularUserTest() {
+  PolicyProvidedCertsRegularUserTest() = default;
+
+  void SetUpOnMainThread() override {
+    InProcessBrowserTest::SetUpOnMainThread();
+
     // Use the same testing slot as private and public slot for testing.
     test_nss_cert_db_ = std::make_unique<net::NSSCertDatabase>(
         crypto::ScopedPK11Slot(
