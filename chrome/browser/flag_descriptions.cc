@@ -1606,6 +1606,11 @@ const char kEnableDeJellyDescription[] =
     "bugs, visual artifacts, and performance cost. This implementation may be "
     "removed at any time.";
 
+const char kOsSettingsDeepLinkingName[] = "CrOS Settings Deep Linking";
+const char kOsSettingsDeepLinkingDescription[] =
+    "Enables a unique URL for each path in CrOS settings. "
+    "This allows deep linking to individual settings, i.e. in settings search.";
+
 const char kOverlayNewLayoutName[] = "Overlay new layout";
 const char kOverlayNewLayoutDescription[] =
     "Enables a new layout for the "

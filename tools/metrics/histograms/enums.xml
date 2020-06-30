@@ -41947,6 +41947,7 @@ from previous Chrome versions.
   <int value="773743944" label="show-android-files-in-files-app"/>
   <int value="773919225" label="disable-office-editing-component-extension"/>
   <int value="775075949" label="ImeInputLogicHmm:enabled"/>
+  <int value="775148009" label="OsSettingsDeepLinking:disabled"/>
   <int value="777667507" label="DesktopPWAsLinkCapturing:enabled"/>
   <int value="779086132" label="enable-data-reduction-proxy-alt"/>
   <int value="779703052" label="ChromeOSAmbientMode:enabled"/>
@@ -42740,6 +42741,7 @@ from previous Chrome versions.
   <int value="1661925474" label="silent-debugger-extension-api"/>
   <int value="1664401033" label="ColorCorrectRendering:enabled"/>
   <int value="1665349789" label="spurious-power-button-window"/>
+  <int value="1665400247" label="OsSettingsDeepLinking:enabled"/>
   <int value="1667584730" label="WebXR:disabled"/>
   <int value="1668611601" label="enable-encrypted-media"/>
   <int value="1669767166" label="NewTabPageBackgrounds:disabled"/>

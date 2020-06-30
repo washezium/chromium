@@ -129,6 +129,8 @@ extern const base::Feature kNewOsSettingsSearch;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kOobeScreensPriority;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
+extern const base::Feature kOsSettingsDeepLinking;
+COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kParentalControlsSettings;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kPluginVmShowCameraPermissions;
