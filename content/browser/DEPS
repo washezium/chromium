@@ -37,6 +37,7 @@ include_rules = [
   "+components/variations/variations_http_header_provider.h",
   "+components/variations/net",
   "+components/viz",
+  "+components/web_package",
   "+components/cbor",
   "+components/os_crypt/os_crypt_switches.h",
   # *********************************** NOTE ***********************************

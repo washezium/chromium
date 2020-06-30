@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "services/data_decoder/public/cpp/test_support/web_bundle_builder.h"
+#include "components/web_package/test_support/web_bundle_builder.h"
 
-namespace data_decoder {
+namespace web_package {
 namespace test {
 
 namespace {
@@ -146,4 +146,4 @@ int64_t WebBundleBuilder::EncodedLength(const cbor::Value& value) {
 }
 
 }  // namespace test
-}  // namespace data_decoder
+}  // namespace web_package

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "services/data_decoder/web_bundle_parser.h"
+#include "components/web_package/web_bundle_parser.h"
 
 #include "base/files/file_path.h"
 #include "base/files/file_util.h"
@@ -11,11 +11,11 @@
 #include "base/test/bind_test_util.h"
 #include "base/test/task_environment.h"
 #include "components/cbor/writer.h"
+#include "components/web_package/test_support/web_bundle_builder.h"
 #include "mojo/public/cpp/bindings/receiver_set.h"
-#include "services/data_decoder/public/cpp/test_support/web_bundle_builder.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-namespace data_decoder {
+namespace web_package {
 
 namespace {
 
@@ -30,7 +30,7 @@ std::string GetTestFileContents(const base::FilePath& path) {
   base::FilePath test_data_dir;
   base::PathService::Get(base::DIR_SOURCE_ROOT, &test_data_dir);
   test_data_dir = test_data_dir.Append(
-      base::FilePath(FILE_PATH_LITERAL("services/test/data/web_bundle")));
+      base::FilePath(FILE_PATH_LITERAL("components/test/data/web_package")));
 
   std::string contents;
   EXPECT_TRUE(base::ReadFileToString(test_data_dir.Append(path), &contents));
@@ -78,7 +78,7 @@ ParseBundleResult ParseBundle(TestDataSource* data_source) {
   mojo::PendingRemote<mojom::WebBundleParser> parser_remote;
   WebBundleParser parser_impl(parser_remote.InitWithNewPipeAndPassReceiver(),
                               std::move(source_remote));
-  data_decoder::mojom::WebBundleParser& parser = parser_impl;
+  mojom::WebBundleParser& parser = parser_impl;
 
   base::RunLoop run_loop;
   ParseBundleResult result;
@@ -126,7 +126,7 @@ mojom::BundleResponsePtr ParseResponse(
   mojo::PendingRemote<mojom::WebBundleParser> parser_remote;
   WebBundleParser parser_impl(parser_remote.InitWithNewPipeAndPassReceiver(),
                               std::move(source_remote));
-  data_decoder::mojom::WebBundleParser& parser = parser_impl;
+  mojom::WebBundleParser& parser = parser_impl;
 
   base::RunLoop run_loop;
   mojom::BundleResponsePtr result;
@@ -697,4 +697,4 @@ TEST_F(WebBundleParserTest, ParseSignedFile) {
 // TODO(crbug.com/969596): Add a test case that loads a wbn file with variants,
 // once gen-bundle supports variants.
 
-}  // namespace data_decoder
+}  // namespace web_package

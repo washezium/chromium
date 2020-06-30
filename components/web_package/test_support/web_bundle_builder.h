@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef SERVICES_DATA_DECODER_PUBLIC_CPP_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_
-#define SERVICES_DATA_DECODER_PUBLIC_CPP_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_
+#ifndef COMPONENTS_WEB_PACKAGE_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_
+#define COMPONENTS_WEB_PACKAGE_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_
 
 #include <string>
 #include <utility>
@@ -12,7 +12,7 @@
 #include "base/strings/string_piece.h"
 #include "components/cbor/writer.h"
 
-namespace data_decoder {
+namespace web_package {
 namespace test {
 
 // This class can be used to create a Web Bundle binary in tests.
@@ -75,6 +75,6 @@ class WebBundleBuilder {
 };
 
 }  // namespace test
-}  // namespace data_decoder
+}  // namespace web_package
 
-#endif  // SERVICES_DATA_DECODER_PUBLIC_CPP_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_
+#endif  // COMPONENTS_WEB_PACKAGE_TEST_SUPPORT_WEB_BUNDLE_BUILDER_H_

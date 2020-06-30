@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "services/data_decoder/web_bundle_parser_factory.h"
+#include "components/web_package/web_bundle_parser_factory.h"
 
 #include "base/files/file.h"
 #include "base/files/file_path.h"
@@ -16,7 +16,7 @@
 #include "mojo/public/cpp/bindings/remote.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-namespace data_decoder {
+namespace web_package {
 
 namespace {
 
@@ -24,7 +24,7 @@ base::FilePath GetTestFilePath(const base::FilePath& path) {
   base::FilePath test_path;
   base::PathService::Get(base::DIR_SOURCE_ROOT, &test_path);
   test_path = test_path.Append(
-      base::FilePath(FILE_PATH_LITERAL("services/test/data/web_bundle")));
+      base::FilePath(FILE_PATH_LITERAL("components/test/data/web_package")));
   return test_path.Append(path);
 }
 
@@ -187,4 +187,4 @@ TEST_F(WebBundleParserFactoryTest, GetParserForFile) {
   EXPECT_TRUE(responses["https://test.example.org/script.js"]);
 }
 
-}  // namespace data_decoder
+}  // namespace web_package

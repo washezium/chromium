@@ -12,14 +12,14 @@
 #include "base/i18n/icu_util.h"
 #include "base/run_loop.h"
 #include "base/task/single_thread_task_executor.h"
+#include "components/web_package/web_bundle_parser.h"
+#include "components/web_package/web_bundle_parser_factory.h"
 #include "mojo/core/embedder/embedder.h"
 #include "mojo/public/cpp/bindings/receiver_set.h"
-#include "services/data_decoder/web_bundle_parser.h"
-#include "services/data_decoder/web_bundle_parser_factory.h"
 
 namespace {
 
-class DataSource : public data_decoder::mojom::BundleDataSource {
+class DataSource : public web_package::mojom::BundleDataSource {
  public:
   DataSource(const uint8_t* data, size_t size) : data_(data), size_(size) {}
 
@@ -34,14 +34,14 @@ class DataSource : public data_decoder::mojom::BundleDataSource {
   }
 
   void AddReceiver(
-      mojo::PendingReceiver<data_decoder::mojom::BundleDataSource> receiver) {
+      mojo::PendingReceiver<web_package::mojom::BundleDataSource> receiver) {
     receivers_.Add(this, std::move(receiver));
   }
 
  private:
   const uint8_t* data_;
   size_t size_;
-  mojo::ReceiverSet<data_decoder::mojom::BundleDataSource> receivers_;
+  mojo::ReceiverSet<web_package::mojom::BundleDataSource> receivers_;
 };
 
 class WebBundleParserFuzzer {
@@ -50,13 +50,13 @@ class WebBundleParserFuzzer {
       : data_source_(data, size) {}
 
   void FuzzBundle(base::RunLoop* run_loop) {
-    mojo::PendingRemote<data_decoder::mojom::BundleDataSource>
+    mojo::PendingRemote<web_package::mojom::BundleDataSource>
         data_source_remote;
     data_source_.AddReceiver(
         data_source_remote.InitWithNewPipeAndPassReceiver());
 
-    data_decoder::WebBundleParserFactory factory_impl;
-    data_decoder::mojom::WebBundleParserFactory& factory = factory_impl;
+    web_package::WebBundleParserFactory factory_impl;
+    web_package::mojom::WebBundleParserFactory& factory = factory_impl;
     factory.GetParserForDataSource(parser_.BindNewPipeAndPassReceiver(),
                                    std::move(data_source_remote));
 
@@ -65,8 +65,8 @@ class WebBundleParserFuzzer {
         &WebBundleParserFuzzer::OnParseMetadata, base::Unretained(this)));
   }
 
-  void OnParseMetadata(data_decoder::mojom::BundleMetadataPtr metadata,
-                       data_decoder::mojom::BundleMetadataParseErrorPtr error) {
+  void OnParseMetadata(web_package::mojom::BundleMetadataPtr metadata,
+                       web_package::mojom::BundleMetadataParseErrorPtr error) {
     if (!metadata) {
       std::move(quit_loop_).Run();
       return;
@@ -91,16 +91,16 @@ class WebBundleParserFuzzer {
   }
 
   void OnParseResponse(size_t index,
-                       data_decoder::mojom::BundleResponsePtr response,
-                       data_decoder::mojom::BundleResponseParseErrorPtr error) {
+                       web_package::mojom::BundleResponsePtr response,
+                       web_package::mojom::BundleResponseParseErrorPtr error) {
     ParseResponses(index + 1);
   }
 
  private:
-  mojo::Remote<data_decoder::mojom::WebBundleParser> parser_;
+  mojo::Remote<web_package::mojom::WebBundleParser> parser_;
   DataSource data_source_;
   base::OnceClosure quit_loop_;
-  std::vector<data_decoder::mojom::BundleResponseLocationPtr> locations_;
+  std::vector<web_package::mojom::BundleResponseLocationPtr> locations_;
 };
 
 struct Environment {

@@ -2,18 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_FACTORY_H_
-#define SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_FACTORY_H_
+#ifndef COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_FACTORY_H_
+#define COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_FACTORY_H_
 
 #include <memory>
 
 #include "base/files/file.h"
 #include "base/macros.h"
+#include "components/web_package/mojom/web_bundle_parser.mojom.h"
 #include "mojo/public/cpp/bindings/receiver.h"
 #include "mojo/public/cpp/bindings/remote.h"
-#include "services/data_decoder/public/mojom/web_bundle_parser.mojom.h"
 
-namespace data_decoder {
+namespace web_package {
 
 class WebBundleParserFactory : public mojom::WebBundleParserFactory {
  public:
@@ -35,6 +35,6 @@ class WebBundleParserFactory : public mojom::WebBundleParserFactory {
   DISALLOW_COPY_AND_ASSIGN(WebBundleParserFactory);
 };
 
-}  // namespace data_decoder
+}  // namespace web_package
 
-#endif  // SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_FACTORY_H_
+#endif  // COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_FACTORY_H_

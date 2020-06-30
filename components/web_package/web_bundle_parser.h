@@ -2,19 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_H_
-#define SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_H_
+#ifndef COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_H_
+#define COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_H_
 
 #include <memory>
 
 #include "base/containers/flat_set.h"
 #include "base/macros.h"
 #include "base/memory/ref_counted.h"
+#include "components/web_package/mojom/web_bundle_parser.mojom.h"
 #include "mojo/public/cpp/bindings/receiver.h"
 #include "mojo/public/cpp/bindings/remote.h"
-#include "services/data_decoder/public/mojom/web_bundle_parser.mojom.h"
 
-namespace data_decoder {
+namespace web_package {
 
 class WebBundleParser : public mojom::WebBundleParser {
  public:
@@ -66,6 +66,6 @@ class WebBundleParser : public mojom::WebBundleParser {
   DISALLOW_COPY_AND_ASSIGN(WebBundleParser);
 };
 
-}  // namespace data_decoder
+}  // namespace web_package
 
-#endif  // SERVICES_DATA_DECODER_WEB_BUNDLE_PARSER_H_
+#endif  // COMPONENTS_WEB_PACKAGE_WEB_BUNDLE_PARSER_H_

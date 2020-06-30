@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "services/data_decoder/web_bundle_parser_factory.h"
+#include "components/web_package/web_bundle_parser_factory.h"
 
 #include "base/bind_helpers.h"
+#include "components/web_package/web_bundle_parser.h"
 #include "mojo/public/cpp/bindings/remote.h"
 #include "net/http/http_util.h"
-#include "services/data_decoder/web_bundle_parser.h"
 
-namespace data_decoder {
+namespace web_package {
 
 namespace {
 
@@ -76,4 +76,4 @@ void WebBundleParserFactory::GetParserForDataSource(
   parser.release();
 }
 
-}  // namespace data_decoder
+}  // namespace web_package
