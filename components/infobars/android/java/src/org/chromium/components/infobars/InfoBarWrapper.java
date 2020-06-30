@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.infobar;
+package org.chromium.components.infobars;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,19 +10,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import org.chromium.chrome.R;
-import org.chromium.components.infobars.InfoBarUiItem;
-
 /**
  * Layout that holds an infobar's contents and provides a background color and a top shadow.
  */
-class InfoBarWrapper extends FrameLayout {
+public class InfoBarWrapper extends FrameLayout {
     private final InfoBarUiItem mItem;
 
     /**
      * Constructor for inflating from Java.
      */
-    InfoBarWrapper(Context context, InfoBarUiItem item) {
+    public InfoBarWrapper(Context context, InfoBarUiItem item) {
         super(context);
         mItem = item;
         Resources res = context.getResources();
@@ -35,13 +32,13 @@ class InfoBarWrapper extends FrameLayout {
         setPadding(0, shadowHeight, 0, 0);
     }
 
-    InfoBarUiItem getItem() {
+    public InfoBarUiItem getItem() {
         return mItem;
     }
 
     @Override
     public void onViewAdded(View child) {
-        child.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-                Gravity.TOP));
+        child.setLayoutParams(new LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, Gravity.TOP));
     }
 }
