@@ -11,10 +11,18 @@ js_type_check("closure_compile") {
                     "js_module_root=../../chrome/test/data/webui/",
                     "js_module_root=./gen/chrome/test/data/webui/",
                   ]
-  deps = [ ":nearby_confirmation_page_test" ]
+  deps = [
+    ":nearby_confirmation_page_test",
+    ":nearby_progress_test",
+  ]
 }
 
 js_library("nearby_confirmation_page_test") {
   deps = [ "//chrome/browser/resources/nearby_share:nearby_confirmation_page" ]
+  externs_list = [ "$externs_path/mocha-2.5.js" ]
+}
+
+js_library("nearby_progress_test") {
+  deps = [ "//chrome/browser/resources/nearby_share:nearby_progress" ]
   externs_list = [ "$externs_path/mocha-2.5.js" ]
 }

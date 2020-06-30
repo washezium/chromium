@@ -11,6 +11,7 @@ js_type_check("closure_compile") {
     ":app",
     ":nearby_confirmation_page",
     ":nearby_discovery_page",
+    ":nearby_progress",
   ]
 }
 
@@ -26,6 +27,7 @@ js_library("app") {
 
 js_library("nearby_confirmation_page") {
   deps = [
+    ":nearby_progress",
     "//third_party/polymer/v3_0/components-chromium/polymer:polymer_bundled",
   ]
 }
@@ -36,10 +38,19 @@ js_library("nearby_discovery_page") {
   ]
 }
 
+js_library("nearby_progress") {
+  deps = [
+    "//third_party/polymer/v3_0/components-chromium/iron-icon",
+    "//third_party/polymer/v3_0/components-chromium/polymer:polymer_bundled",
+  ]
+}
+
 html_to_js("web_components") {
   js_files = [
     "app.js",
+    "icons.js",
     "nearby_confirmation_page.js",
     "nearby_discovery_page.js",
+    "nearby_progress.js",
   ]
 }

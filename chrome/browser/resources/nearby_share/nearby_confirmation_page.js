@@ -8,6 +8,8 @@
  * are not currently in the contacts of this user.
  */
 
+import './nearby_progress.js';
+
 import {html, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
 Polymer({
