@@ -934,8 +934,7 @@ ManagedNetworkConfigurationHandlerImpl::GetBlockedHexSSIDs() const {
     return std::vector<std::string>();
 
   const base::Value* blocked_value = global_network_config->FindKeyOfType(
-      ::onc::global_network_config::kBlacklistedHexSSIDs,
-      base::Value::Type::LIST);
+      ::onc::global_network_config::kBlockedHexSSIDs, base::Value::Type::LIST);
   if (!blocked_value)
     return std::vector<std::string>();
 

@@ -2,6 +2,7 @@
   "NetworkConfigurations": [
   ],
   "GlobalNetworkConfiguration": {
+    // Deprecated property
     "BlacklistedHexSSIDs": ["476F6F676C65477565737450534B"]
   },
   "Type": "UnencryptedConfiguration"

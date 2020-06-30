@@ -402,7 +402,7 @@ TEST_F(NetworkConnectionHandlerImplTest,
   base::Value::ListStorage blocked;
   blocked.push_back(base::Value("7769666930"));  // hex(wifi0) = 7769666930
   base::DictionaryValue global_config;
-  global_config.SetKey(::onc::global_network_config::kBlacklistedHexSSIDs,
+  global_config.SetKey(::onc::global_network_config::kBlockedHexSSIDs,
                        base::Value(blocked));
   SetupPolicy("[]", global_config, false /* load as device policy */);
   SetupPolicy("[]", base::DictionaryValue(), true /* load as user policy */);

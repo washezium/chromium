@@ -598,7 +598,7 @@ TEST_F(AutoConnectHandlerTest, DisconnectFromBlockedNetwork) {
   base::Value::ListStorage blocked;
   blocked.push_back(base::Value("7769666930"));  // hex(wifi0) = 7769666930
   base::DictionaryValue global_config;
-  global_config.SetKey(::onc::global_network_config::kBlacklistedHexSSIDs,
+  global_config.SetKey(::onc::global_network_config::kBlockedHexSSIDs,
                        base::Value(blocked));
   SetupPolicy(std::string(), global_config, false /* load as device policy */);
   EXPECT_EQ(shill::kStateOnline, GetServiceState(wifi0_service_path));
