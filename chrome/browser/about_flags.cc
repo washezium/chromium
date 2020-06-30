@@ -2234,7 +2234,7 @@ const FeatureEntry kFeatureEntries[] = {
     {"enable-use-hdr-transfer-function",
      flag_descriptions::kEnableUseHDRTransferFunctionName,
      flag_descriptions::kEnableUseHDRTransferFunctionDescription, kOsCrOS,
-     SINGLE_DISABLE_VALUE_TYPE(switches::kEnableUseHDRTransferFunction)},
+     SINGLE_VALUE_TYPE(switches::kEnableUseHDRTransferFunction)},
 #endif  // OS_CHROMEOS
 #if defined(OS_CHROMEOS)
     {"ash-limit-alt-tab-to-active-desk",
