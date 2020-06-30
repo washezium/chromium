@@ -73417,6 +73417,23 @@ Called by update_scheduler_enums.py.-->
   <int value="1" label="NotVisible"/>
 </enum>
 
+<enum name="WelcomeScreenA11yUserAction">
+  <int value="0" label="Enable spoken feedback"/>
+  <int value="1" label="Disable spoken feedback"/>
+  <int value="2" label="Enable large cursor"/>
+  <int value="3" label="Disable large cursor"/>
+  <int value="4" label="Enable high contrast"/>
+  <int value="5" label="Disable high contrast"/>
+  <int value="6" label="Enable screen magnifier"/>
+  <int value="7" label="Disable screen magnifier"/>
+  <int value="8" label="Enable select to speak option"/>
+  <int value="9" label="Disable select to speak option"/>
+  <int value="10" label="Enable docked magnifier"/>
+  <int value="11" label="Disable docked magnifier"/>
+  <int value="12" label="Enable virtual keyboard"/>
+  <int value="13" label="Disable virtual keyboard"/>
+</enum>
+
 <enum name="WelcomeSignInPromptOutcome">
   <int value="0" label="User navigated away from page"/>
   <int value="1" label="User clicked the 'Get Started' button"/>
