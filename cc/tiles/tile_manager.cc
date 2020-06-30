@@ -192,10 +192,11 @@ bool IsForegroundCategory(uint16_t category) {
     case TASK_CATEGORY_FOREGROUND:
       return true;
     case TASK_CATEGORY_BACKGROUND:
+    case TASK_CATEGORY_BACKGROUND_WITH_NORMAL_THREAD_PRIORITY:
       return false;
   }
 
-  DCHECK(false);
+  NOTREACHED();
   return false;
 }
 
