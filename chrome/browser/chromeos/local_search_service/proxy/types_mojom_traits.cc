@@ -75,7 +75,7 @@ bool StructTraits<local_search_service::mojom::ContentDataView,
   if (!data.ReadId(&id) || !data.ReadContent(&content))
     return false;
 
-  *out = local_search_service::Content(id, content);
+  *out = local_search_service::Content(id, content, data.weight());
   return true;
 }
 
@@ -100,9 +100,8 @@ bool StructTraits<local_search_service::mojom::SearchParamsDataView,
          local_search_service::SearchParams* out) {
   *out = local_search_service::SearchParams();
   out->relevance_threshold = data.relevance_threshold();
-  out->partial_match_penalty_rate = data.partial_match_penalty_rate();
-  out->use_prefix_only = data.use_prefix_only();
-  out->use_edit_distance = data.use_edit_distance();
+  out->prefix_threshold = data.prefix_threshold();
+  out->fuzzy_threshold = data.fuzzy_threshold();
   return true;
 }
 
