@@ -120,7 +120,6 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
   ~DocumentLoader() override;
 
   static bool WillLoadUrlAsEmpty(const KURL&);
-  static WebHistoryCommitType LoadTypeToCommitType(WebFrameLoadType);
 
   LocalFrame* GetFrame() const { return frame_; }
 
@@ -200,13 +199,6 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
   // initializes a bunch of state on the Document (e.g., the state based on
   // response headers).
   void CommitNavigation();
-
-  GlobalObjectReusePolicy GetGlobalObjectReusePolicy() const {
-    return global_object_reuse_policy_;
-  }
-
-  // Starts loading the response.
-  void StartLoadingResponse();
 
   // Called when the browser process has asked this renderer process to commit a
   // same document navigation in that frame. Returns false if the navigation
@@ -376,6 +368,7 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
   DocumentPolicy::ParsedDocumentPolicy CreateDocumentPolicy();
 
   void StartLoadingInternal();
+  void StartLoadingResponse();
   void FinishedLoading(base::TimeTicks finish_time);
   void CancelLoadAfterCSPDenied(const ResourceResponse&);
 
@@ -468,8 +461,6 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
   ResourceResponse response_;
 
   WebFrameLoadType load_type_;
-  GlobalObjectReusePolicy global_object_reuse_policy_ =
-      GlobalObjectReusePolicy::kCreateNew;
 
   bool is_client_redirect_;
   bool replaces_current_history_item_;

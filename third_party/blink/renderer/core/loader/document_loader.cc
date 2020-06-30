@@ -404,8 +404,7 @@ void DocumentLoader::MarkAsCommitted() {
 }
 
 // static
-WebHistoryCommitType DocumentLoader::LoadTypeToCommitType(
-    WebFrameLoadType type) {
+WebHistoryCommitType LoadTypeToCommitType(WebFrameLoadType type) {
   switch (type) {
     case WebFrameLoadType::kStandard:
       return kWebStandardCommit;
@@ -1611,9 +1610,9 @@ void DocumentLoader::CommitNavigation() {
   // object.
   init.CalculateAndCacheDocumentOrigin();
 
-  global_object_reuse_policy_ = init.ShouldReuseDOMWindow()
-                                    ? GlobalObjectReusePolicy::kUseExisting
-                                    : GlobalObjectReusePolicy::kCreateNew;
+  GlobalObjectReusePolicy global_object_reuse_policy =
+      init.ShouldReuseDOMWindow() ? GlobalObjectReusePolicy::kUseExisting
+                                  : GlobalObjectReusePolicy::kCreateNew;
 
   if (GetFrameLoader().StateMachine()->IsDisplayingInitialEmptyDocument()) {
     GetFrameLoader().StateMachine()->AdvanceTo(
@@ -1630,7 +1629,7 @@ void DocumentLoader::CommitNavigation() {
   // commits. To make that happen, we "securely transition" the existing
   // LocalDOMWindow to the Document that results from the network load. See also
   // Document::IsSecureTransitionTo.
-  if (global_object_reuse_policy_ != GlobalObjectReusePolicy::kUseExisting) {
+  if (global_object_reuse_policy != GlobalObjectReusePolicy::kUseExisting) {
     // TODO(keishi): Also check if AllowUniversalAccessFromFileURLs might
     // dynamically change.
     bool has_potential_universal_access_privilege =
@@ -1764,6 +1763,38 @@ void DocumentLoader::CommitNavigation() {
     // TODO(yoav): copy the ServerTiming info directly.
     navigation_timing_info_->SetFinalResponse(response_);
   }
+
+  {
+    // Notify the browser process about the commit.
+    FrameNavigationDisabler navigation_disabler(*frame_);
+    if (commit_reason_ == CommitReason::kInitialization) {
+      GetLocalFrameClient().DidCreateInitialEmptyDocument();
+    } else if (IsJavaScriptURLOrXSLTCommit()) {
+      GetLocalFrameClient().DidCommitDocumentReplacementNavigation(this);
+    } else {
+      GetLocalFrameClient().DispatchDidCommitLoad(
+          history_item_.Get(), LoadTypeToCommitType(load_type_),
+          global_object_reuse_policy);
+    }
+    // TODO(dgozman): make DidCreateScriptContext notification call currently
+    // triggered by installing new document happen here, after commit.
+  }
+  // Note: this must be called after DispatchDidCommitLoad() for
+  // metrics to be correctly sent to the browser process.
+  if (commit_reason_ != CommitReason::kInitialization)
+    use_counter_.DidCommitLoad(frame_);
+  if (load_type_ == WebFrameLoadType::kBackForward) {
+    if (Page* page = frame_->GetPage())
+      page->HistoryNavigationVirtualTimePauser().UnpauseVirtualTime();
+  }
+
+  // FeaturePolicy is reset in the browser process on commit, so this needs to
+  // be initialized and replicated to the browser process after commit messages
+  // are sent.
+  document->ApplyPendingFramePolicyHeaders();
+
+  // Load the document if needed.
+  StartLoadingResponse();
 }
 
 void DocumentLoader::CreateParserPostCommit() {
@@ -1843,11 +1874,6 @@ void DocumentLoader::CreateParserPostCommit() {
       parser_->AsScriptableDocumentParser();
   if (scriptable_parser && cached_metadata_handler_)
     scriptable_parser->SetInlineScriptCacheHandler(cached_metadata_handler_);
-
-  // FeaturePolicy is reset in the browser process on commit, so this needs to
-  // be initialized and replicated to the browser process after commit messages
-  // are sent in didCommitNavigation().
-  document->ApplyPendingFramePolicyHeaders();
 
   GetFrameLoader().DispatchDidClearDocumentOfWindowObject();
 
