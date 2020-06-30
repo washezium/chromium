@@ -49,6 +49,7 @@
 #include "components/version_info/version_info.h"
 #include "content/public/browser/browsing_data_remover.h"
 #include "content/public/common/content_switches.h"
+#include "content/public/common/url_constants.h"
 #include "content/public/test/browser_test.h"
 #include "content/public/test/browser_test_utils.h"
 #include "content/public/test/browsing_data_remover_test_util.h"
@@ -1438,6 +1439,28 @@ IN_PROC_BROWSER_TEST_F(UkmBrowserTest, NotMarkSourcesIfNavigationNotCommitted) {
   // New navigation did not commit, thus the source should still be kept alive.
   ui_test_utils::NavigateToURL(sync_browser, test_url_no_commit);
   EXPECT_FALSE(ukm_test_helper.IsSourceObsolete(source_id));
+}
+#endif  // !defined(OS_ANDROID)
+
+#if !defined(OS_ANDROID)
+IN_PROC_BROWSER_TEST_F(UkmBrowserTest, DebugUiRenders) {
+  MetricsConsentOverride metrics_consent(true);
+
+  Profile* profile = ProfileManager::GetActiveUserProfile();
+  std::unique_ptr<ProfileSyncServiceHarness> harness =
+      EnableSyncForProfile(profile);
+  PlatformBrowser browser = CreatePlatformBrowser(profile);
+
+  ukm::UkmService* ukm_service(GetUkmService());
+  EXPECT_TRUE(ukm_service->IsSamplingEnabled());
+
+  // chrome://ukm
+  const GURL debug_url(content::GetWebUIURLString(content::kChromeUIUkmHost));
+
+  content::TestNavigationObserver waiter(debug_url);
+  waiter.WatchExistingWebContents();
+  EXPECT_TRUE(ui_test_utils::NavigateToURL(browser, debug_url));
+  waiter.WaitForNavigationFinished();
 }
 #endif  // !defined(OS_ANDROID)
 
