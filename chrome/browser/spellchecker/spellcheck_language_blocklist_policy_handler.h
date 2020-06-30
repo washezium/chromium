@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLACKLIST_POLICY_HANDLER_H_
-#define CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLACKLIST_POLICY_HANDLER_H_
+#ifndef CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLOCKLIST_POLICY_HANDLER_H_
+#define CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLOCKLIST_POLICY_HANDLER_H_
 
 #include <vector>
 
@@ -11,11 +11,11 @@
 #include "components/policy/core/browser/configuration_policy_handler.h"
 
 // ConfigurationPolicyHandler for the SpellcheckLanguageBlacklist policy.
-class SpellcheckLanguageBlacklistPolicyHandler
+class SpellcheckLanguageBlocklistPolicyHandler
     : public policy::TypeCheckingPolicyHandler {
  public:
-  SpellcheckLanguageBlacklistPolicyHandler();
-  ~SpellcheckLanguageBlacklistPolicyHandler() override;
+  SpellcheckLanguageBlocklistPolicyHandler();
+  ~SpellcheckLanguageBlocklistPolicyHandler() override;
 
   // ConfigurationPolicyHandler:
   bool CheckPolicySettings(const policy::PolicyMap& policies,
@@ -24,11 +24,11 @@ class SpellcheckLanguageBlacklistPolicyHandler
                            PrefValueMap* prefs) override;
 
  private:
-  void SortBlacklistedLanguages(const policy::PolicyMap& policies,
-                                std::vector<base::Value>* const blacklisted,
+  void SortBlocklistedLanguages(const policy::PolicyMap& policies,
+                                std::vector<base::Value>* const blocklisted,
                                 std::vector<std::string>* const unknown,
                                 std::vector<std::string>* const duplicates);
-  DISALLOW_COPY_AND_ASSIGN(SpellcheckLanguageBlacklistPolicyHandler);
+  DISALLOW_COPY_AND_ASSIGN(SpellcheckLanguageBlocklistPolicyHandler);
 };
 
-#endif  // CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLACKLIST_POLICY_HANDLER_H_
+#endif  // CHROME_BROWSER_SPELLCHECKER_SPELLCHECK_LANGUAGE_BLOCKLIST_POLICY_HANDLER_H_

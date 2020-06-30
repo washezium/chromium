@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/spellchecker/spellcheck_language_blacklist_policy_handler.h"
+#include "chrome/browser/spellchecker/spellcheck_language_blocklist_policy_handler.h"
 
 #include <unordered_set>
 #include <utility>
@@ -21,28 +21,28 @@
 #include "components/spellcheck/common/spellcheck_features.h"
 #include "components/strings/grit/components_strings.h"
 
-SpellcheckLanguageBlacklistPolicyHandler::
-    SpellcheckLanguageBlacklistPolicyHandler()
+SpellcheckLanguageBlocklistPolicyHandler::
+    SpellcheckLanguageBlocklistPolicyHandler()
     : TypeCheckingPolicyHandler(policy::key::kSpellcheckLanguageBlacklist,
                                 base::Value::Type::LIST) {}
 
-SpellcheckLanguageBlacklistPolicyHandler::
-    ~SpellcheckLanguageBlacklistPolicyHandler() = default;
+SpellcheckLanguageBlocklistPolicyHandler::
+    ~SpellcheckLanguageBlocklistPolicyHandler() = default;
 
-bool SpellcheckLanguageBlacklistPolicyHandler::CheckPolicySettings(
+bool SpellcheckLanguageBlocklistPolicyHandler::CheckPolicySettings(
     const policy::PolicyMap& policies,
     policy::PolicyErrorMap* errors) {
   const base::Value* value = nullptr;
   bool ok = CheckAndGetValue(policies, errors, &value);
 
-  std::vector<base::Value> blacklisted;
+  std::vector<base::Value> blocklisted;
   std::vector<std::string> unknown;
   std::vector<std::string> duplicates;
-  SortBlacklistedLanguages(policies, &blacklisted, &unknown, &duplicates);
+  SortBlocklistedLanguages(policies, &blocklisted, &unknown, &duplicates);
 
 #if !defined(OS_MACOSX)
   for (const std::string& language : duplicates) {
-    errors->AddError(policy_name(), IDS_POLICY_SPELLCHECK_BLACKLIST_IGNORE,
+    errors->AddError(policy_name(), IDS_POLICY_SPELLCHECK_BLOCKLIST_IGNORE,
                      language);
   }
 
@@ -55,7 +55,7 @@ bool SpellcheckLanguageBlacklistPolicyHandler::CheckPolicySettings(
   return ok;
 }
 
-void SpellcheckLanguageBlacklistPolicyHandler::ApplyPolicySettings(
+void SpellcheckLanguageBlocklistPolicyHandler::ApplyPolicySettings(
     const policy::PolicyMap& policies,
     PrefValueMap* prefs) {
   // Ignore this policy if the SpellcheckEnabled policy disables spellcheck.
@@ -69,18 +69,18 @@ void SpellcheckLanguageBlacklistPolicyHandler::ApplyPolicySettings(
   if (!value)
     return;
 
-  // Set the blacklisted dictionaries preference based on this policy's values,
+  // Set the blocklisted dictionaries preference based on this policy's values,
   // and emit warnings for unknown or duplicate languages.
-  std::vector<base::Value> blacklisted;
+  std::vector<base::Value> blocklisted;
   std::vector<std::string> unknown;
   std::vector<std::string> duplicates;
-  SortBlacklistedLanguages(policies, &blacklisted, &unknown, &duplicates);
+  SortBlocklistedLanguages(policies, &blocklisted, &unknown, &duplicates);
 
   for (const std::string& language : duplicates) {
     SYSLOG(WARNING)
         << "SpellcheckLanguageBlacklist policy: an entry was also found in"
            " the SpellcheckLanguage policy: \""
-        << language << "\". Blacklist entry will be ignored.";
+        << language << "\". Blocklist entry will be ignored.";
   }
 
   for (const std::string& language : unknown) {
@@ -90,12 +90,12 @@ void SpellcheckLanguageBlacklistPolicyHandler::ApplyPolicySettings(
   }
 
   prefs->SetValue(spellcheck::prefs::kSpellCheckBlacklistedDictionaries,
-                  base::Value(std::move(blacklisted)));
+                  base::Value(std::move(blocklisted)));
 }
 
-void SpellcheckLanguageBlacklistPolicyHandler::SortBlacklistedLanguages(
+void SpellcheckLanguageBlocklistPolicyHandler::SortBlocklistedLanguages(
     const policy::PolicyMap& policies,
-    std::vector<base::Value>* const blacklisted,
+    std::vector<base::Value>* const blocklisted,
     std::vector<std::string>* const unknown,
     std::vector<std::string>* const duplicates) {
   const base::Value* value = policies.GetValue(policy_name());
@@ -129,7 +129,7 @@ void SpellcheckLanguageBlacklistPolicyHandler::SortBlacklistedLanguages(
         // wins. Put the language in the list of duplicates.
         duplicates->emplace_back(std::move(current_language));
       } else {
-        blacklisted->emplace_back(std::move(current_language));
+        blocklisted->emplace_back(std::move(current_language));
       }
     }
   }
