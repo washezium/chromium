@@ -1165,6 +1165,13 @@ TEST_F(
     });
 
 TEST_F(
+    'PrintPreviewDestinationDropdownCrosTest', 'DestinationChangeAfterUpDown',
+    function() {
+      this.runMochaTest(destination_dropdown_cros_test.TestNames
+                            .DestinationChangeAfterUpDown);
+    });
+
+TEST_F(
     'PrintPreviewDestinationDropdownCrosTest', 'EnterOpensCloses', function() {
       this.runMochaTest(
           destination_dropdown_cros_test.TestNames.EnterOpensCloses);
