@@ -826,7 +826,7 @@ TEST_F(ManagedNetworkConfigurationHandlerTest,
   EXPECT_FALSE(
       managed_handler()->AllowOnlyPolicyNetworksToConnectIfAvailable());
   EXPECT_FALSE(managed_handler()->AllowOnlyPolicyNetworksToAutoconnect());
-  EXPECT_TRUE(managed_handler()->GetBlacklistedHexSSIDs().empty());
+  EXPECT_TRUE(managed_handler()->GetBlockedHexSSIDs().empty());
 }
 
 TEST_F(ManagedNetworkConfigurationHandlerTest,
@@ -850,7 +850,7 @@ TEST_F(ManagedNetworkConfigurationHandlerTest,
   EXPECT_FALSE(managed_handler()->AllowOnlyPolicyNetworksToConnect());
   EXPECT_TRUE(managed_handler()->AllowOnlyPolicyNetworksToConnectIfAvailable());
   EXPECT_FALSE(managed_handler()->AllowOnlyPolicyNetworksToAutoconnect());
-  EXPECT_TRUE(managed_handler()->GetBlacklistedHexSSIDs().empty());
+  EXPECT_TRUE(managed_handler()->GetBlockedHexSSIDs().empty());
 }
 
 TEST_F(ManagedNetworkConfigurationHandlerTest,
@@ -874,16 +874,16 @@ TEST_F(ManagedNetworkConfigurationHandlerTest,
   EXPECT_FALSE(
       managed_handler()->AllowOnlyPolicyNetworksToConnectIfAvailable());
   EXPECT_TRUE(managed_handler()->AllowOnlyPolicyNetworksToAutoconnect());
-  EXPECT_TRUE(managed_handler()->GetBlacklistedHexSSIDs().empty());
+  EXPECT_TRUE(managed_handler()->GetBlockedHexSSIDs().empty());
 }
 
-TEST_F(ManagedNetworkConfigurationHandlerTest, GetBlacklistedHexSSIDs) {
+TEST_F(ManagedNetworkConfigurationHandlerTest, GetBlockedHexSSIDs) {
   InitializeStandardProfiles();
-  std::vector<std::string> blacklist = {"476F6F676C65477565737450534B"};
+  std::vector<std::string> blocked = {"476F6F676C65477565737450534B"};
 
   // Check transfer to NetworkStateHandler
   EXPECT_CALL(*network_state_handler_,
-              UpdateBlockedWifiNetworks(false, false, blacklist))
+              UpdateBlockedWifiNetworks(false, false, blocked))
       .Times(1);
 
   // Set 'BlacklistedHexSSIDs' policy and a random user policy.
@@ -897,7 +897,7 @@ TEST_F(ManagedNetworkConfigurationHandlerTest, GetBlacklistedHexSSIDs) {
   EXPECT_FALSE(
       managed_handler()->AllowOnlyPolicyNetworksToConnectIfAvailable());
   EXPECT_FALSE(managed_handler()->AllowOnlyPolicyNetworksToAutoconnect());
-  EXPECT_EQ(blacklist, managed_handler()->GetBlacklistedHexSSIDs());
+  EXPECT_EQ(blocked, managed_handler()->GetBlockedHexSSIDs());
 }
 
 // Proxy settings can come from different sources. Proxy enforced by user policy
