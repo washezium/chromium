@@ -6446,7 +6446,6 @@ if (!is_fuchsia && !is_android) {
       "../browser/sync/test/integration/single_client_custom_passphrase_sync_test.cc",
       "../browser/sync/test/integration/single_client_device_info_sync_test.cc",
       "../browser/sync/test/integration/single_client_dictionary_sync_test.cc",
-      "../browser/sync/test/integration/single_client_directory_sync_test.cc",
       "../browser/sync/test/integration/single_client_extension_apps_sync_test.cc",
       "../browser/sync/test/integration/single_client_extensions_sync_test.cc",
       "../browser/sync/test/integration/single_client_history_delete_directives_sync_test.cc",
