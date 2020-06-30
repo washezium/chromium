@@ -288,7 +288,6 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
 
   // UseCounter
   void CountUse(mojom::WebFeature) override;
-  void CountDeprecation(mojom::WebFeature) override;
 
   void SetApplicationCacheHostForTesting(ApplicationCacheHostForFrame* host) {
     application_cache_host_ = host;

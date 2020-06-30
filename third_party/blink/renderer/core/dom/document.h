@@ -1565,7 +1565,6 @@ class CORE_EXPORT Document : public ContainerNode,
 
   // Use counter related functions.
   void CountUse(mojom::WebFeature feature) final;
-  void CountDeprecation(mojom::WebFeature feature) final;
   void CountUse(mojom::WebFeature feature) const;
   void CountProperty(CSSPropertyID property_id) const;
   void CountAnimatedProperty(CSSPropertyID property_id) const;

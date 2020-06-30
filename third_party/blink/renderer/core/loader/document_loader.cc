@@ -1892,10 +1892,6 @@ void DocumentLoader::CountUse(mojom::WebFeature feature) {
   return use_counter_.Count(feature, GetFrame());
 }
 
-void DocumentLoader::CountDeprecation(mojom::WebFeature feature) {
-  return Deprecation::CountDeprecation(this, feature);
-}
-
 void DocumentLoader::ReportPreviewsIntervention() const {
   // Only send reports for main frames.
   if (!frame_->IsMainFrame())

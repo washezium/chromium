@@ -241,7 +241,8 @@ ResourceFetcher* FrameFetchContext::CreateFetcherForCommittedDocument(
       MakeGarbageCollected<FrameFetchContext>(loader, document, properties),
       frame->GetTaskRunner(TaskType::kNetworking),
       MakeGarbageCollected<LoaderFactoryForFrame>(loader, *frame->DomWindow()));
-  init.use_counter = MakeGarbageCollected<DetachableUseCounter>(&document);
+  init.use_counter =
+      MakeGarbageCollected<DetachableUseCounter>(frame->DomWindow());
   init.console_logger = MakeGarbageCollected<DetachableConsoleLogger>(
       document.GetExecutionContext());
   // Frame loading should normally start with |kTight| throttling, as the
@@ -773,7 +774,7 @@ void FrameFetchContext::CountUsage(WebFeature feature) const {
 void FrameFetchContext::CountDeprecation(WebFeature feature) const {
   if (GetResourceFetcherProperties().IsDetached())
     return;
-  Deprecation::CountDeprecation(document_loader_, feature);
+  Deprecation::CountDeprecation(document_->domWindow(), feature);
 }
 
 bool FrameFetchContext::ShouldBlockWebSocketByMixedContentCheck(
