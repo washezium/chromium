@@ -20942,6 +20942,7 @@ Called by update_document_policy_enum.py.-->
   <int value="726" label="SuggestedContentEnabled"/>
   <int value="727" label="ExtensionInstallEventLoggingEnabled"/>
   <int value="728" label="EnterpriseRealTimeUrlCheckMode"/>
+  <int value="729" label="AssistantOnboardingMode"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">

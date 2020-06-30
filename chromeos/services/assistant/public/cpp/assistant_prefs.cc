@@ -47,6 +47,9 @@ const char kAssistantLaunchWithMicOpen[] =
 // This preference should only be changed in browser.
 const char kAssistantNotificationEnabled[] =
     "settings.voice_interaction.notification.enabled";
+// A preference that indicates the mode of the Assistant onboarding experience.
+// This preference should only be changed via policy.
+const char kAssistantOnboardingMode[] = "settings.assistant.onboarding_mode";
 // A preference that indicates the user has allowed the Quick Answers
 // to show info related to the selected content. This preference can be
 // overridden by the VoiceInteractionQuickAnswersEnabled administrator policy.
@@ -64,6 +67,7 @@ void RegisterProfilePrefs(PrefRegistrySimple* registry) {
   registry->RegisterBooleanPref(kAssistantLaunchWithMicOpen, false);
   registry->RegisterBooleanPref(kAssistantNotificationEnabled, true);
   registry->RegisterBooleanPref(kAssistantQuickAnswersEnabled, true);
+  registry->RegisterStringPref(kAssistantOnboardingMode, "Default");
 }
 
 }  // namespace prefs
