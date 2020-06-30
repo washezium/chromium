@@ -406,10 +406,9 @@ class CORE_EXPORT DocumentLoader : public GarbageCollected<DocumentLoader>,
                            bool should_report_corb_blocking,
                            const base::Optional<WebURLError>& error) override;
 
-  // Checks if the origin requested persisting the client hints, and notifies
-  // the |WebContentSettingsClient| with the list of client hints and the
-  // persistence duration.
-  void ParseAndPersistClientHints(const ResourceResponse&);
+  void ApplyClientHintsConfig(
+      const WebVector<network::mojom::WebClientHintsType>&
+          enabled_client_hints);
 
   // For SignedExchangeSubresourcePrefetch feature. If the page was loaded from
   // a signed exchage which has "allowed-alt-sxg" link headers in the inner

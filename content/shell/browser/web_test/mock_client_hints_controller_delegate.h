@@ -7,7 +7,6 @@
 
 #include "content/public/browser/client_hints_controller_delegate.h"
 #include "content/shell/utility/mock_client_hints_utils.h"
-#include "mojo/public/cpp/bindings/associated_receiver_set.h"
 #include "services/network/public/cpp/network_quality_tracker.h"
 #include "third_party/blink/public/platform/web_client_hints_type.h"
 #include "url/origin.h"
@@ -31,20 +30,15 @@ class MockClientHintsControllerDelegate
   bool UserAgentClientHintEnabled() override;
 
   blink::UserAgentMetadata GetUserAgentMetadata() override;
-  // mojom::ClientHints implementation.
   void PersistClientHints(
       const url::Origin& primary_origin,
       const std::vector<::network::mojom::WebClientHintsType>& client_hints,
       base::TimeDelta expiration_duration) override;
 
-  void Bind(mojo::PendingReceiver<client_hints::mojom::ClientHints> receiver)
-      override;
-
   void ResetForTesting() override;
 
  private:
   ClientHintsContainer client_hints_map_;
-  mojo::ReceiverSet<client_hints::mojom::ClientHints> receivers_;
 
   DISALLOW_COPY_AND_ASSIGN(MockClientHintsControllerDelegate);
 };

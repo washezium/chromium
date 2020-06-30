@@ -1251,7 +1251,7 @@ void DocumentLoader::StartLoadingInternal() {
   }
   MixedContentChecker::CheckMixedPrivatePublic(GetFrame(),
                                                response_.RemoteIPAddress());
-  ParseAndPersistClientHints(response_);
+  ApplyClientHintsConfig(params_->enabled_client_hints);
   PreloadHelper::LoadLinksFromHeader(
       response_.HttpHeaderField(http_names::kLink),
       response_.CurrentRequestUrl(), *GetFrame(), nullptr,
@@ -1925,60 +1925,10 @@ void DocumentLoader::ReportPreviewsIntervention() const {
       "https://www.chromestatus.com/feature/5148050062311424");
 }
 
-void DocumentLoader::ParseAndPersistClientHints(
-    const ResourceResponse& response) {
-  const KURL& url = response.CurrentRequestUrl();
-
-  // The accept-ch header is honored only on the navigation responses from a top
-  // level frame.
-  if (!frame_->IsMainFrame())
-    return;
-
-  if (!response.HttpHeaderFields().Contains(http_names::kAcceptCH))
-    return;
-
-  FrameClientHintsPreferencesContext hints_context(GetFrame());
-  // TODO(crbug.com/1017166): Kill ACHL header completely once feature ships.
-  client_hints_preferences_.UpdateFromAcceptClientHintsLifetimeHeader(
-      response.HttpHeaderField(http_names::kAcceptCHLifetime), url,
-      &hints_context);
-  client_hints_preferences_.UpdateFromAcceptClientHintsHeader(
-      response.HttpHeaderField(http_names::kAcceptCH), url,
-      ClientHintsPreferences::UpdateMode::kReplace, &hints_context);
-
-  base::TimeDelta persist_duration;
-
-  // If the FeaturePolicyForClientHints feature is enabled, the lifetime
-  // should not expire. Setting the duration to "max" should essentially
-  // do the same thing.
-
-  if (RuntimeEnabledFeatures::FeaturePolicyForClientHintsEnabled()) {
-    // JSON cannot store "non-finite" values (i.e. NaN or infinite) so
-    // base::TimeDelta::Max cannot be used. As this will be removed once
-    // the FeaturePolicyForClientHints feature is shipped, a reasonably
-    // large was chosen instead
-    persist_duration = base::TimeDelta::FromDays(1000000);
-  } else {
-    persist_duration = client_hints_preferences_.GetPersistDuration();
-  }
-
-  // Notify content settings client of persistent client hints.
-  if (persist_duration.InSeconds() <= 0)
-    return;
-
-  auto* settings_client = frame_->GetContentSettingsClient();
-  if (!settings_client)
-    return;
-
-  // Do not persist client hint preferences if the JavaScript is disabled.
-  // TODO(yoav): this seems buggy, and settings doesn't seem notified in
-  // ClientHintBrowserTest.ClientHintsNoLifetimeScriptNotAllowed.
-  bool allow_script = frame_->GetSettings()->GetScriptEnabled();
-  if (!settings_client->AllowScriptFromSource(allow_script, url))
-    return;
-  settings_client->PersistClientHints(
-      client_hints_preferences_.GetWebEnabledClientHints(), persist_duration,
-      url);
+void DocumentLoader::ApplyClientHintsConfig(
+    const WebVector<network::mojom::WebClientHintsType>& enabled_client_hints) {
+  for (auto ch : enabled_client_hints)
+    client_hints_preferences_.SetShouldSend(ch);
 }
 
 void DocumentLoader::InitializePrefetchedSignedExchangeManager() {

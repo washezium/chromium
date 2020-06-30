@@ -7,7 +7,6 @@
 #include "content/public/common/content_features.h"
 #include "content/public/common/origin_util.h"
 #include "content/shell/browser/shell_content_browser_client.h"
-#include "mojo/public/cpp/bindings/self_owned_receiver.h"
 #include "third_party/blink/public/common/user_agent/user_agent_metadata.h"
 #include "url/gurl.h"
 
@@ -15,11 +14,6 @@ namespace content {
 
 MockClientHintsControllerDelegate::MockClientHintsControllerDelegate() {}
 MockClientHintsControllerDelegate::~MockClientHintsControllerDelegate() {}
-
-void MockClientHintsControllerDelegate::Bind(
-    mojo::PendingReceiver<client_hints::mojom::ClientHints> receiver) {
-  receivers_.Add(this, std::move(receiver));
-}
 
 network::NetworkQualityTracker*
 MockClientHintsControllerDelegate::GetNetworkQualityTracker() {
