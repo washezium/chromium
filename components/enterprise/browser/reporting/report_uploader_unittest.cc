@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/enterprise/reporting/report_uploader.h"
+#include "components/enterprise/browser/reporting/report_uploader.h"
 
 #include <utility>
 
