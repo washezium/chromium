@@ -1185,11 +1185,6 @@
     "expiry_milestone": 74
   },
   {
-    "name": "enable-arc-cups-api",
-    "owners": [ "luum", "skau" ],
-    "expiry_milestone": 76
-  },
-  {
     "name": "enable-arc-unified-audio-focus",
     "owners": [ "beccahughes", "media-dev" ],
     "expiry_milestone": 82
