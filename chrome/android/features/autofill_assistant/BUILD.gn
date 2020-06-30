@@ -231,6 +231,7 @@ android_library("autofill_assistant_java_test_support") {
     "//components/autofill_assistant/browser:proto_java",
     "//content/public/test/android:content_java_test_support",
     "//third_party/android_deps:com_google_protobuf_protobuf_javalite_java",
+    "//third_party/hamcrest:hamcrest_java",
   ]
   annotation_processor_deps = [ "//base/android/jni_generator:jni_processor" ]
 }
