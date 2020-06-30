@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/safe_browsing/aw_safe_browsing_whitelist_manager.h"
+#include "android_webview/browser/safe_browsing/aw_safe_browsing_allowlist_manager.h"
 
 #include <map>
 #include <memory>
@@ -21,10 +21,10 @@
 namespace android_webview {
 
 // This is a simple trie structure designed for handling host/domain matches
-// for Safebrowsing whitelisting. For the match rules, see the class header.
+// for Safebrowsing allowlisting. For the match rules, see the class header.
 //
 // It is easy to visualize the trie edges as hostname components of a url in
-// reverse order. For example a whitelist of google.com will have a tree
+// reverse order. For example an allowlist of google.com will have a tree
 // tree structure as below.
 //                       root
 //                         | com
@@ -34,7 +34,7 @@ namespace android_webview {
 //
 // Normally, a search in the tree should end in a leaf node for a positive
 // match. For example in the tree above com.google and com.example are matches.
-// However, the whitelisting also allows matching subdomains if there is a
+// However, the allowlisting also allows matching subdomains if there is a
 // leading dot,  for example, see ."google.com" and a.google.com below:
 //                       root
 //                         | com
@@ -45,7 +45,7 @@ namespace android_webview {
 //                       Node3
 // Here, both Node2 and Node3 are valid terminal nodes to terminate a match.
 // The boolean is_terminal indicates whether a node can successfully terminate
-// a search (aka. whether this rule was entered to the whitelist) and
+// a search (aka. whether this rule was entered to the allowlist) and
 // match_prefix indicate if this should match exactly, or just do a prefix
 // match.
 
@@ -106,7 +106,7 @@ std::vector<base::StringPiece> SplitHost(const GURL& url) {
 }
 
 // Rule is a UTF-8 wide string.
-bool AddRuleToWhitelist(base::StringPiece rule, TrieNode* root) {
+bool AddRuleToAllowlist(base::StringPiece rule, TrieNode* root) {
   if (rule.empty()) {
     return false;
   }
@@ -147,15 +147,15 @@ bool AddRuleToWhitelist(base::StringPiece rule, TrieNode* root) {
 
 bool AddRules(const std::vector<std::string>& rules, TrieNode* root) {
   for (auto rule : rules) {
-    if (!AddRuleToWhitelist(rule, root)) {
-      LOG(ERROR) << " invalid whitelist rule " << rule;
+    if (!AddRuleToAllowlist(rule, root)) {
+      LOG(ERROR) << " invalid allowlist rule " << rule;
       return false;
     }
   }
   return true;
 }
 
-bool IsWhitelisted(const GURL& url, const TrieNode* node) {
+bool IsAllowed(const GURL& url, const TrieNode* node) {
   std::vector<base::StringPiece> components = SplitHost(url);
   for (auto component = components.rbegin(); component != components.rend();
        ++component) {
@@ -179,64 +179,64 @@ bool IsWhitelisted(const GURL& url, const TrieNode* node) {
 
 }  // namespace
 
-AwSafeBrowsingWhitelistManager::AwSafeBrowsingWhitelistManager(
+AwSafeBrowsingAllowlistManager::AwSafeBrowsingAllowlistManager(
     const scoped_refptr<base::SequencedTaskRunner>& background_task_runner,
     const scoped_refptr<base::SequencedTaskRunner>& io_task_runner)
     : background_task_runner_(background_task_runner),
       io_task_runner_(io_task_runner),
       ui_task_runner_(base::ThreadTaskRunnerHandle::Get()),
-      whitelist_(std::make_unique<TrieNode>()) {}
+      allowlist_(std::make_unique<TrieNode>()) {}
 
-AwSafeBrowsingWhitelistManager::~AwSafeBrowsingWhitelistManager() {}
+AwSafeBrowsingAllowlistManager::~AwSafeBrowsingAllowlistManager() {}
 
-void AwSafeBrowsingWhitelistManager::SetWhitelist(
-    std::unique_ptr<TrieNode> whitelist) {
+void AwSafeBrowsingAllowlistManager::SetAllowlist(
+    std::unique_ptr<TrieNode> allowlist) {
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
-  whitelist_ = std::move(whitelist);
+  allowlist_ = std::move(allowlist);
 }
 
-// A task that builds the whitelist on a background thread.
-void AwSafeBrowsingWhitelistManager::BuildWhitelist(
+// A task that builds the allowlist on a background thread.
+void AwSafeBrowsingAllowlistManager::BuildAllowlist(
     const std::vector<std::string>& rules,
     base::OnceCallback<void(bool)> callback) {
   DCHECK(background_task_runner_->RunsTasksInCurrentSequence());
 
-  std::unique_ptr<TrieNode> whitelist(std::make_unique<TrieNode>());
-  bool success = AddRules(rules, whitelist.get());
-  DCHECK(!whitelist->is_terminal);
-  DCHECK(!whitelist->match_prefix);
+  std::unique_ptr<TrieNode> allowlist(std::make_unique<TrieNode>());
+  bool success = AddRules(rules, allowlist.get());
+  DCHECK(!allowlist->is_terminal);
+  DCHECK(!allowlist->match_prefix);
 
   ui_task_runner_->PostTask(FROM_HERE,
                             base::BindOnce(std::move(callback), success));
 
   if (success) {
-    // use base::Unretained as AwSafeBrowsingWhitelistManager is a singleton and
+    // use base::Unretained as AwSafeBrowsingAllowlistManager is a singleton and
     // not cleaned.
     io_task_runner_->PostTask(
         FROM_HERE,
-        base::BindOnce(&AwSafeBrowsingWhitelistManager::SetWhitelist,
-                       base::Unretained(this), std::move(whitelist)));
+        base::BindOnce(&AwSafeBrowsingAllowlistManager::SetAllowlist,
+                       base::Unretained(this), std::move(allowlist)));
   }
 }
 
-void AwSafeBrowsingWhitelistManager::SetWhitelistOnUIThread(
+void AwSafeBrowsingAllowlistManager::SetAllowlistOnUIThread(
     std::vector<std::string>&& rules,
     base::OnceCallback<void(bool)> callback) {
   DCHECK(ui_task_runner_->RunsTasksInCurrentSequence());
-  // use base::Unretained as AwSafeBrowsingWhitelistManager is a singleton and
+  // use base::Unretained as AwSafeBrowsingAllowlistManager is a singleton and
   // not cleaned.
   background_task_runner_->PostTask(
-      FROM_HERE, base::BindOnce(&AwSafeBrowsingWhitelistManager::BuildWhitelist,
+      FROM_HERE, base::BindOnce(&AwSafeBrowsingAllowlistManager::BuildAllowlist,
                                 base::Unretained(this), std::move(rules),
                                 std::move(callback)));
 }
 
-bool AwSafeBrowsingWhitelistManager::IsURLWhitelisted(const GURL& url) const {
+bool AwSafeBrowsingAllowlistManager::IsUrlAllowed(const GURL& url) const {
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
   if (!url.has_host()) {
     return false;
   }
-  return IsWhitelisted(url, whitelist_.get());
+  return IsAllowed(url, allowlist_.get());
 }
 
 }  // namespace android_webview

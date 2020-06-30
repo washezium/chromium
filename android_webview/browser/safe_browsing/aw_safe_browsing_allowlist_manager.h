@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_WHITELIST_MANAGER_H_
-#define ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_WHITELIST_MANAGER_H_
+#ifndef ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_ALLOWLIST_MANAGER_H_
+#define ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_ALLOWLIST_MANAGER_H_
 
 #include <memory>
 #include <string>
@@ -20,17 +20,17 @@ class SequencedTaskRunner;
 namespace android_webview {
 struct TrieNode;
 
-// This class tracks the whitelisting policies for Safebrowsing. The class
-// interacts with UI thread, where the whitelist is set, and then checks
-// for the URLs in IO thread. The whitelisted entries are not checked for
+// This class tracks the allowlisting policies for Safebrowsing. The class
+// interacts with UI thread, where the allowlist is set, and then checks
+// for the URLs in IO thread. The allowed entries are not checked for
 // Safebrowsing.
 //
 // The class must be constructed on the UI thread.
 //
-// Update whitelist tasks from the UI thread are post to the IO thread.
+// Update allowlist tasks from the UI thread are post to the IO thread.
 //
-// Encoding and the whitelisting rules:
-//    The whitelist is set in Java and plumbed to native through JNI, making
+// Encoding and the allowlisting rules:
+//    The allowlist is set in Java and plumbed to native through JNI, making
 //  them UTF-8 encoded wide strings.
 //
 // Each rule should take one of these:
@@ -50,41 +50,41 @@ struct TrieNode;
 // the size is not enforced here. The list size can be enforced at
 // Java level if necessary.
 //
-class AwSafeBrowsingWhitelistManager {
+class AwSafeBrowsingAllowlistManager {
  public:
   // Must be constructed on the UI thread.
   // |background_task_runner| is used to build the filter list in a background
   // thread.
   // |io_task_runner| must be backed by the IO thread.
-  AwSafeBrowsingWhitelistManager(
+  AwSafeBrowsingAllowlistManager(
       const scoped_refptr<base::SequencedTaskRunner>& background_task_runner,
       const scoped_refptr<base::SequencedTaskRunner>& io_task_runner);
-  virtual ~AwSafeBrowsingWhitelistManager();
+  virtual ~AwSafeBrowsingAllowlistManager();
 
-  // Returns true if |url| is whitelisted by the current whitelist. Must be
+  // Returns true if |url| is allowed by the current allowlist. Must be
   // called from the IO thread.
-  bool IsURLWhitelisted(const GURL& url) const;
+  bool IsUrlAllowed(const GURL& url) const;
 
-  // Replace the current host whitelist with a new one.
-  void SetWhitelistOnUIThread(std::vector<std::string>&& rules,
+  // Replace the current host allowlist with a new one.
+  void SetAllowlistOnUIThread(std::vector<std::string>&& rules,
                               base::OnceCallback<void(bool)> callback);
 
  private:
-  // Builds whitelist on background thread.
-  void BuildWhitelist(const std::vector<std::string>& rules,
+  // Builds allowlist on background thread.
+  void BuildAllowlist(const std::vector<std::string>& rules,
                       base::OnceCallback<void(bool)> callback);
-  // Replaces the current whitelist. Must be called on the IO thread.
-  void SetWhitelist(std::unique_ptr<TrieNode> whitelist);
+  // Replaces the current allowlist. Must be called on the IO thread.
+  void SetAllowlist(std::unique_ptr<TrieNode> allowlist);
 
   scoped_refptr<base::SequencedTaskRunner> background_task_runner_;
   scoped_refptr<base::SequencedTaskRunner> io_task_runner_;
   scoped_refptr<base::SequencedTaskRunner> ui_task_runner_;
 
-  std::unique_ptr<TrieNode> whitelist_;
+  std::unique_ptr<TrieNode> allowlist_;
 
-  DISALLOW_COPY_AND_ASSIGN(AwSafeBrowsingWhitelistManager);
+  DISALLOW_COPY_AND_ASSIGN(AwSafeBrowsingAllowlistManager);
 };
 
 }  // namespace android_webview
 
-#endif  // ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_WHITELIST_MANAGER_H_
+#endif  // ANDROID_WEBVIEW_BROWSER_SAFE_BROWSING_AW_SAFE_BROWSING_ALLOWLIST_MANAGER_H_
