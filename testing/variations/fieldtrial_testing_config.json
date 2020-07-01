@@ -6433,21 +6433,6 @@
             ]
         }
     ],
-    "SlowDCTimerInterruptsWin": [
-        {
-            "platforms": [
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled_20200424",
-                    "enable_features": [
-                        "SlowDCTimerInterruptsWin"
-                    ]
-                }
-            ]
-        }
-    ],
     "SmartDimModelV3": [
         {
             "platforms": [
