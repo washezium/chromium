@@ -149,12 +149,12 @@ std::string GetVaKeyNameForSpkac(CertScope scope, CertProfileId profile_id) {
   }
 }
 
-platform_keys::TokenId GetPlatformKeysTokenId(CertScope scope) {
+const char* GetPlatformKeysTokenId(CertScope scope) {
   switch (scope) {
     case CertScope::kUser:
-      return platform_keys::TokenId::kUser;
+      return platform_keys::kTokenIdUser;
     case CertScope::kDevice:
-      return platform_keys::TokenId::kSystem;
+      return platform_keys::kTokenIdSystem;
   }
 }
 

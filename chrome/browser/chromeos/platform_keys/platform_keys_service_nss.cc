@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "base/optional.h"
 #include "chrome/browser/chromeos/platform_keys/platform_keys_service.h"
 
 #include <cert.h>
@@ -119,9 +118,9 @@ using GetCertDBCallback = base::Callback<void(net::NSSCertDatabase* cert_db)>;
 
 // Used by GetCertDatabaseOnIoThread and called back with the requested
 // NSSCertDatabase.
-// If |token_id| is provided, sets |slot_| of |state| accordingly and calls
+// If |token_id| is not empty, sets |slot_| of |state| accordingly and calls
 // |callback| if the database was successfully retrieved.
-void DidGetCertDbOnIoThread(base::Optional<TokenId> token_id,
+void DidGetCertDbOnIoThread(const std::string& token_id,
                             const GetCertDBCallback& callback,
                             NSSOperationState* state,
                             net::NSSCertDatabase* cert_db) {
@@ -132,19 +131,14 @@ void DidGetCertDbOnIoThread(base::Optional<TokenId> token_id,
     return;
   }
 
-  if (token_id) {
-    switch (token_id.value()) {
-      case TokenId::kUser:
-        state->slot_ = cert_db->GetPrivateSlot();
-        break;
-      case TokenId::kSystem:
-        state->slot_ = cert_db->GetSystemSlot();
-        break;
-    }
+  if (!token_id.empty()) {
+    if (token_id == kTokenIdUser)
+      state->slot_ = cert_db->GetPrivateSlot();
+    else if (token_id == kTokenIdSystem)
+      state->slot_ = cert_db->GetSystemSlot();
 
     if (!state->slot_) {
-      LOG(ERROR) << "Slot for token id '" << static_cast<int>(token_id.value())
-                 << "' not available.";
+      LOG(ERROR) << "Slot for token id '" << token_id << "' not available.";
       state->OnError(FROM_HERE, kErrorInternal);
       return;
     }
@@ -153,10 +147,10 @@ void DidGetCertDbOnIoThread(base::Optional<TokenId> token_id,
   callback.Run(cert_db);
 }
 
-// Retrieves the NSSCertDatabase from |context| and, if |token_id| is provided,
+// Retrieves the NSSCertDatabase from |context| and, if |token_id| is not empty,
 // the slot for |token_id|.
 // Must be called on the IO thread.
-void GetCertDatabaseOnIoThread(base::Optional<TokenId> token_id,
+void GetCertDatabaseOnIoThread(const std::string& token_id,
                                const GetCertDBCallback& callback,
                                content::ResourceContext* context,
                                NSSOperationState* state) {
@@ -170,7 +164,7 @@ void GetCertDatabaseOnIoThread(base::Optional<TokenId> token_id,
 
 // Called by SystemTokenCertDBInitializer on the UI thread with the system token
 // certificate database when it is initialized.
-void DidGetSystemTokenCertDbOnUiThread(base::Optional<TokenId> token_id,
+void DidGetSystemTokenCertDbOnUiThread(const std::string& token_id,
                                        const GetCertDBCallback& callback,
                                        NSSOperationState* state,
                                        net::NSSCertDatabase* cert_db) {
@@ -184,11 +178,11 @@ void DidGetSystemTokenCertDbOnUiThread(base::Optional<TokenId> token_id,
 }
 
 // Asynchronously fetches the NSSCertDatabase for |browser_context| and, if
-// |token_id| is provided, the slot for |token_id|. Stores the slot in |state|
+// |token_id| is not empty, the slot for |token_id|. Stores the slot in |state|
 // and passes the database to |callback|. Will run |callback| on the IO thread.
 // TODO(omorsi): Introduce timeout for retrieving certificate database in
 // platform keys.
-void GetCertDatabase(base::Optional<TokenId> token_id,
+void GetCertDatabase(const std::string& token_id,
                      const GetCertDBCallback& callback,
                      BrowserContext* browser_context,
                      NSSOperationState* state) {
@@ -495,12 +489,13 @@ class GetTokensState : public NSSOperationState {
 
   void OnError(const base::Location& from,
                const std::string& error_message) override {
-    CallBack(from, std::unique_ptr<std::vector<TokenId>>() /* no token ids */,
+    CallBack(from,
+             std::unique_ptr<std::vector<std::string>>() /* no token ids */,
              error_message);
   }
 
   void CallBack(const base::Location& from,
-                std::unique_ptr<std::vector<TokenId>> token_ids,
+                std::unique_ptr<std::vector<std::string>> token_ids,
                 const std::string& error_message) {
     auto bound_callback =
         base::BindOnce(callback_, std::move(token_ids), error_message);
@@ -523,11 +518,11 @@ class GetKeyLocationsState : public NSSOperationState {
 
   void OnError(const base::Location& from,
                const std::string& error_message) override {
-    CallBack(from, std::vector<TokenId>() /* no token ids */, error_message);
+    CallBack(from, std::vector<std::string>(), error_message);
   }
 
   void CallBack(const base::Location& from,
-                const std::vector<TokenId>& token_ids,
+                const std::vector<std::string>& token_ids,
                 const std::string& error_message) {
     auto bound_callback = base::BindOnce(callback_, token_ids, error_message);
     origin_task_runner_->PostTask(
@@ -1252,15 +1247,16 @@ void RemoveKeyWithDb(std::unique_ptr<RemoveKeyState> state,
 void GetTokensWithDB(std::unique_ptr<GetTokensState> state,
                      net::NSSCertDatabase* cert_db) {
   DCHECK_CURRENTLY_ON(BrowserThread::IO);
-  auto token_ids = std::make_unique<std::vector<TokenId>>();
+  std::unique_ptr<std::vector<std::string>> token_ids(
+      new std::vector<std::string>);
 
   // The user token will be unavailable in case of no logged in user in this
   // profile.
   if (cert_db->GetPrivateSlot())
-    token_ids->push_back(TokenId::kUser);
+    token_ids->push_back(kTokenIdUser);
 
   if (cert_db->GetSystemSlot())
-    token_ids->push_back(TokenId::kSystem);
+    token_ids->push_back(kTokenIdSystem);
 
   DCHECK(!token_ids->empty());
 
@@ -1273,7 +1269,7 @@ void GetKeyLocationsWithDB(std::unique_ptr<GetKeyLocationsState> state,
                            net::NSSCertDatabase* cert_db) {
   DCHECK_CURRENTLY_ON(BrowserThread::IO);
 
-  std::vector<TokenId> token_ids;
+  std::vector<std::string> token_ids;
 
   const uint8_t* public_key_uint8 =
       reinterpret_cast<const uint8_t*>(state->public_key_spki_der_.data());
@@ -1285,14 +1281,14 @@ void GetKeyLocationsWithDB(std::unique_ptr<GetKeyLocationsState> state,
         crypto::FindNSSKeyFromPublicKeyInfoInSlot(
             public_key_vector, cert_db->GetPrivateSlot().get());
     if (rsa_key)
-      token_ids.push_back(TokenId::kUser);
+      token_ids.push_back(kTokenIdUser);
   }
   if (token_ids.empty() && cert_db->GetPublicSlot().get()) {
     crypto::ScopedSECKEYPrivateKey rsa_key =
         crypto::FindNSSKeyFromPublicKeyInfoInSlot(
             public_key_vector, cert_db->GetPublicSlot().get());
     if (rsa_key)
-      token_ids.push_back(TokenId::kUser);
+      token_ids.push_back(kTokenIdUser);
   }
 
   if (cert_db->GetSystemSlot().get()) {
@@ -1300,7 +1296,7 @@ void GetKeyLocationsWithDB(std::unique_ptr<GetKeyLocationsState> state,
         crypto::FindNSSKeyFromPublicKeyInfoInSlot(
             public_key_vector, cert_db->GetSystemSlot().get());
     if (rsa_key)
-      token_ids.push_back(TokenId::kSystem);
+      token_ids.push_back(kTokenIdSystem);
   }
 
   state->CallBack(FROM_HERE, std::move(token_ids),
@@ -1402,7 +1398,7 @@ void GetAttributeForKeyWithDb(std::unique_ptr<GetAttributeForKeyState> state,
 }  // namespace
 
 void PlatformKeysServiceImpl::GenerateRSAKey(
-    TokenId token_id,
+    const std::string& token_id,
     unsigned int modulus_length_bits,
     const GenerateKeyCallback& callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -1422,7 +1418,7 @@ void PlatformKeysServiceImpl::GenerateRSAKey(
 }
 
 void PlatformKeysServiceImpl::GenerateECKey(
-    TokenId token_id,
+    const std::string& token_id,
     const std::string& named_curve,
     const GenerateKeyCallback& callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -1437,7 +1433,7 @@ void PlatformKeysServiceImpl::GenerateECKey(
 }
 
 void PlatformKeysServiceImpl::SignRSAPKCS1Digest(
-    base::Optional<TokenId> token_id,
+    const std::string& token_id,
     const std::string& data,
     const std::string& public_key_spki_der,
     HashAlgorithm hash_algorithm,
@@ -1459,7 +1455,7 @@ void PlatformKeysServiceImpl::SignRSAPKCS1Digest(
 }
 
 void PlatformKeysServiceImpl::SignRSAPKCS1Raw(
-    base::Optional<TokenId> token_id,
+    const std::string& token_id,
     const std::string& data,
     const std::string& public_key_spki_der,
     const SignCallback& callback) {
@@ -1480,7 +1476,7 @@ void PlatformKeysServiceImpl::SignRSAPKCS1Raw(
 }
 
 void PlatformKeysServiceImpl::SignECDSADigest(
-    base::Optional<TokenId> token_id,
+    const std::string& token_id,
     const std::string& data,
     const std::string& public_key_spki_der,
     HashAlgorithm hash_algorithm,
@@ -1664,7 +1660,7 @@ bool GetPublicKeyBySpki(const std::string& spki,
 }
 
 void PlatformKeysServiceImpl::GetCertificates(
-    TokenId token_id,
+    const std::string& token_id,
     const GetCertificatesCallback& callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   auto state = std::make_unique<GetCertificatesState>(
@@ -1676,7 +1672,7 @@ void PlatformKeysServiceImpl::GetCertificates(
                   browser_context_, state_ptr);
 }
 
-void PlatformKeysServiceImpl::GetAllKeys(TokenId token_id,
+void PlatformKeysServiceImpl::GetAllKeys(const std::string& token_id,
                                          GetAllKeysCallback callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
 
@@ -1690,7 +1686,7 @@ void PlatformKeysServiceImpl::GetAllKeys(TokenId token_id,
 }
 
 void PlatformKeysServiceImpl::ImportCertificate(
-    TokenId token_id,
+    const std::string& token_id,
     const scoped_refptr<net::X509Certificate>& certificate,
     const ImportCertificateCallback& callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -1708,7 +1704,7 @@ void PlatformKeysServiceImpl::ImportCertificate(
 }
 
 void PlatformKeysServiceImpl::RemoveCertificate(
-    TokenId token_id,
+    const std::string& token_id,
     const scoped_refptr<net::X509Certificate>& certificate,
     const RemoveCertificateCallback& callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -1724,7 +1720,7 @@ void PlatformKeysServiceImpl::RemoveCertificate(
                   browser_context_, state_ptr);
 }
 
-void PlatformKeysServiceImpl::RemoveKey(TokenId token_id,
+void PlatformKeysServiceImpl::RemoveKey(const std::string& token_id,
                                         const std::string& public_key_spki_der,
                                         RemoveKeyCallback callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -1747,7 +1743,7 @@ void PlatformKeysServiceImpl::GetTokens(const GetTokensCallback& callback) {
       std::make_unique<GetTokensState>(weak_factory_.GetWeakPtr(), callback);
   // Get the pointer to |state| before base::Passed releases |state|.
   NSSOperationState* state_ptr = state.get();
-  GetCertDatabase(/*token_id=*/base::nullopt /* don't get any specific slot */,
+  GetCertDatabase(std::string() /* don't get any specific slot */,
                   base::Bind(&GetTokensWithDB, base::Passed(&state)),
                   browser_context_, state_ptr);
 }
@@ -1761,13 +1757,13 @@ void PlatformKeysServiceImpl::GetKeyLocations(
   NSSOperationState* state_ptr = state.get();
 
   GetCertDatabase(
-      /*token_id=*/base::nullopt /* don't get any specific slot */,
+      std::string() /* don't get any specific slot - we need all slots */,
       base::BindRepeating(&GetKeyLocationsWithDB, base::Passed(&state)),
       browser_context_, state_ptr);
 }
 
 void PlatformKeysServiceImpl::SetAttributeForKey(
-    TokenId token_id,
+    const std::string& token_id,
     const std::string& public_key_spki_der,
     KeyAttributeType attribute_type,
     const std::string& attribute_value,
@@ -1794,7 +1790,7 @@ void PlatformKeysServiceImpl::SetAttributeForKey(
 }
 
 void PlatformKeysServiceImpl::GetAttributeForKey(
-    TokenId token_id,
+    const std::string& token_id,
     const std::string& public_key_spki_der,
     KeyAttributeType attribute_type,
     GetAttributeForKeyCallback callback) {

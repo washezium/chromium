@@ -23,21 +23,21 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               GenerateRSAKey,
-              (TokenId token_id,
+              (const std::string& token_id,
                unsigned int modulus_length_bits,
                const GenerateKeyCallback& callback),
               (override));
 
   MOCK_METHOD(void,
               GenerateECKey,
-              (TokenId token_id,
+              (const std::string& token_id,
                const std::string& named_curve,
                const GenerateKeyCallback& callback),
               (override));
 
   MOCK_METHOD(void,
               SignRSAPKCS1Digest,
-              (base::Optional<TokenId> token_id,
+              (const std::string& token_id,
                const std::string& data,
                const std::string& public_key_spki_der,
                HashAlgorithm hash_algorithm,
@@ -46,7 +46,7 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               SignRSAPKCS1Raw,
-              (base::Optional<TokenId> token_id,
+              (const std::string& token_id,
                const std::string& data,
                const std::string& public_key_spki_der,
                const SignCallback& callback),
@@ -54,7 +54,7 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               SignECDSADigest,
-              (base::Optional<TokenId> token_id,
+              (const std::string& token_id,
                const std::string& data,
                const std::string& public_key_spki_der,
                HashAlgorithm hash_algorithm,
@@ -69,31 +69,32 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               GetCertificates,
-              (TokenId token_id, const GetCertificatesCallback& callback),
+              (const std::string& token_id,
+               const GetCertificatesCallback& callback),
               (override));
 
   MOCK_METHOD(void,
               GetAllKeys,
-              (TokenId token_id, GetAllKeysCallback callback),
+              (const std::string& token_id, GetAllKeysCallback callback),
               (override));
 
   MOCK_METHOD(void,
               ImportCertificate,
-              (TokenId token_id,
+              (const std::string& token_id,
                const scoped_refptr<net::X509Certificate>& certificate,
                const ImportCertificateCallback& callback),
               (override));
 
   MOCK_METHOD(void,
               RemoveCertificate,
-              (TokenId token_id,
+              (const std::string& token_id,
                const scoped_refptr<net::X509Certificate>& certificate,
                const RemoveCertificateCallback& callback),
               (override));
 
   MOCK_METHOD(void,
               RemoveKey,
-              (TokenId token_id,
+              (const std::string& token_id,
                const std::string& public_key_spki_der,
                RemoveKeyCallback callback),
               (override));
@@ -108,7 +109,7 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               SetAttributeForKey,
-              (TokenId token_id,
+              (const std::string& token_id,
                const std::string& public_key_spki_der,
                KeyAttributeType attribute_type,
                const std::string& attribute_value,
@@ -117,7 +118,7 @@ class MockPlatformKeysService : public PlatformKeysService {
 
   MOCK_METHOD(void,
               GetAttributeForKey,
-              (TokenId token_id,
+              (const std::string& token_id,
                const std::string& public_key_spki_der,
                KeyAttributeType attribute_type,
                GetAttributeForKeyCallback callback),

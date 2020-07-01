@@ -8,14 +8,12 @@
 #include <string>
 #include <vector>
 
-#include "base/optional.h"
-#include "chrome/browser/chromeos/platform_keys/platform_keys_service.h"
 #include "extensions/browser/extension_function.h"
 
 namespace net {
 class X509Certificate;
 typedef std::vector<scoped_refptr<X509Certificate>> CertificateList;
-}  // namespace net
+}  // net
 
 namespace extensions {
 namespace platform_keys {
@@ -23,15 +21,14 @@ namespace platform_keys {
 extern const char kErrorInvalidToken[];
 extern const char kErrorInvalidX509Cert[];
 
-// Returns a known token if |token_id| is valid and returns nullopt for both
-// empty or unknown |token_id|.
-base::Optional<chromeos::platform_keys::TokenId> ApiIdToPlatformKeysTokenId(
-    const std::string& token_id);
+// Returns whether |token_id| references a known Token.
+bool ValidateToken(const std::string& token_id,
+                   std::string* platform_keys_token_id);
 
 // Converts a token id from ::chromeos::platform_keys to the platformKeys API
 // token id.
 std::string PlatformKeysTokenIdToApiId(
-    chromeos::platform_keys::TokenId platform_keys_token_id);
+    const std::string& platform_keys_token_id);
 
 }  // namespace platform_keys
 

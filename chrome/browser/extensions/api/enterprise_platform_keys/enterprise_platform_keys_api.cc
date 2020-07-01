@@ -7,7 +7,6 @@
 #include <utility>
 
 #include "base/bind.h"
-#include "base/optional.h"
 #include "base/values.h"
 #include "chrome/browser/chromeos/platform_keys/extension_platform_keys_service.h"
 #include "chrome/browser/chromeos/platform_keys/extension_platform_keys_service_factory.h"
@@ -54,9 +53,8 @@ EnterprisePlatformKeysInternalGenerateKeyFunction::Run() {
       api_epki::GenerateKey::Params::Create(*args_));
 
   EXTENSION_FUNCTION_VALIDATE(params);
-  base::Optional<chromeos::platform_keys::TokenId> platform_keys_token_id =
-      platform_keys::ApiIdToPlatformKeysTokenId(params->token_id);
-  if (!platform_keys_token_id)
+  std::string platform_keys_token_id;
+  if (!platform_keys::ValidateToken(params->token_id, &platform_keys_token_id))
     return RespondNow(Error(platform_keys::kErrorInvalidToken));
 
   chromeos::ExtensionPlatformKeysService* service =
@@ -69,7 +67,7 @@ EnterprisePlatformKeysInternalGenerateKeyFunction::Run() {
     EXTENSION_FUNCTION_VALIDATE(params->algorithm.modulus_length &&
                                 *(params->algorithm.modulus_length) >= 0);
     service->GenerateRSAKey(
-        platform_keys_token_id.value(), *(params->algorithm.modulus_length),
+        platform_keys_token_id, *(params->algorithm.modulus_length),
         extension_id(),
         base::Bind(
             &EnterprisePlatformKeysInternalGenerateKeyFunction::OnGeneratedKey,
@@ -77,7 +75,7 @@ EnterprisePlatformKeysInternalGenerateKeyFunction::Run() {
   } else if (params->algorithm.name == "ECDSA") {
     EXTENSION_FUNCTION_VALIDATE(params->algorithm.named_curve);
     service->GenerateECKey(
-        platform_keys_token_id.value(), *(params->algorithm.named_curve),
+        platform_keys_token_id, *(params->algorithm.named_curve),
         extension_id(),
         base::Bind(
             &EnterprisePlatformKeysInternalGenerateKeyFunction::OnGeneratedKey,
@@ -109,16 +107,15 @@ EnterprisePlatformKeysGetCertificatesFunction::Run() {
   std::unique_ptr<api_epk::GetCertificates::Params> params(
       api_epk::GetCertificates::Params::Create(*args_));
   EXTENSION_FUNCTION_VALIDATE(params);
-  base::Optional<chromeos::platform_keys::TokenId> platform_keys_token_id =
-      platform_keys::ApiIdToPlatformKeysTokenId(params->token_id);
-  if (!platform_keys_token_id)
+  std::string platform_keys_token_id;
+  if (!platform_keys::ValidateToken(params->token_id, &platform_keys_token_id))
     return RespondNow(Error(platform_keys::kErrorInvalidToken));
 
   chromeos::platform_keys::PlatformKeysService* platform_keys_service =
       chromeos::platform_keys::PlatformKeysServiceFactory::GetForBrowserContext(
           browser_context());
   platform_keys_service->GetCertificates(
-      platform_keys_token_id.value(),
+      platform_keys_token_id,
       base::Bind(
           &EnterprisePlatformKeysGetCertificatesFunction::OnGotCertificates,
           this));
@@ -156,9 +153,8 @@ EnterprisePlatformKeysImportCertificateFunction::Run() {
   std::unique_ptr<api_epk::ImportCertificate::Params> params(
       api_epk::ImportCertificate::Params::Create(*args_));
   EXTENSION_FUNCTION_VALIDATE(params);
-  base::Optional<chromeos::platform_keys::TokenId> platform_keys_token_id =
-      platform_keys::ApiIdToPlatformKeysTokenId(params->token_id);
-  if (!platform_keys_token_id)
+  std::string platform_keys_token_id;
+  if (!platform_keys::ValidateToken(params->token_id, &platform_keys_token_id))
     return RespondNow(Error(platform_keys::kErrorInvalidToken));
 
   const std::vector<uint8_t>& cert_der = params->certificate;
@@ -179,7 +175,7 @@ EnterprisePlatformKeysImportCertificateFunction::Run() {
   CHECK(platform_keys_service);
 
   platform_keys_service->ImportCertificate(
-      platform_keys_token_id.value(), cert_x509,
+      platform_keys_token_id, cert_x509,
       base::Bind(&EnterprisePlatformKeysImportCertificateFunction::
                      OnImportedCertificate,
                  this));
@@ -203,9 +199,8 @@ EnterprisePlatformKeysRemoveCertificateFunction::Run() {
   std::unique_ptr<api_epk::RemoveCertificate::Params> params(
       api_epk::RemoveCertificate::Params::Create(*args_));
   EXTENSION_FUNCTION_VALIDATE(params);
-  base::Optional<chromeos::platform_keys::TokenId> platform_keys_token_id =
-      platform_keys::ApiIdToPlatformKeysTokenId(params->token_id);
-  if (!platform_keys_token_id)
+  std::string platform_keys_token_id;
+  if (!platform_keys::ValidateToken(params->token_id, &platform_keys_token_id))
     return RespondNow(Error(platform_keys::kErrorInvalidToken));
 
   const std::vector<uint8_t>& cert_der = params->certificate;
@@ -226,7 +221,7 @@ EnterprisePlatformKeysRemoveCertificateFunction::Run() {
   CHECK(platform_keys_service);
 
   platform_keys_service->RemoveCertificate(
-      platform_keys_token_id.value(), cert_x509,
+      platform_keys_token_id, cert_x509,
       base::Bind(&EnterprisePlatformKeysRemoveCertificateFunction::
                      OnRemovedCertificate,
                  this));
@@ -260,8 +255,7 @@ EnterprisePlatformKeysInternalGetTokensFunction::Run() {
 }
 
 void EnterprisePlatformKeysInternalGetTokensFunction::OnGotTokens(
-    std::unique_ptr<std::vector<chromeos::platform_keys::TokenId>>
-        platform_keys_token_ids,
+    std::unique_ptr<std::vector<std::string>> platform_keys_token_ids,
     const std::string& error_message) {
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
   if (!error_message.empty()) {
@@ -270,14 +264,15 @@ void EnterprisePlatformKeysInternalGetTokensFunction::OnGotTokens(
   }
 
   std::vector<std::string> token_ids;
-  for (auto token_id : *platform_keys_token_ids) {
-    std::string api_token_id =
-        platform_keys::PlatformKeysTokenIdToApiId(token_id);
-    if (api_token_id.empty()) {
+  for (std::vector<std::string>::const_iterator it =
+           platform_keys_token_ids->begin();
+       it != platform_keys_token_ids->end(); ++it) {
+    std::string token_id = platform_keys::PlatformKeysTokenIdToApiId(*it);
+    if (token_id.empty()) {
       Respond(Error(kEnterprisePlatformErrorInternal));
       return;
     }
-    token_ids.push_back(api_token_id);
+    token_ids.push_back(token_id);
   }
 
   Respond(ArgumentList(api_epki::GetTokens::Results::Create(token_ids)));

@@ -10,7 +10,6 @@
 
 #include "base/bind.h"
 #include "base/logging.h"
-#include "base/optional.h"
 #include "base/stl_util.h"
 #include "base/strings/string_piece.h"
 #include "base/values.h"
@@ -104,25 +103,29 @@ const char kErrorInvalidX509Cert[] =
 const char kTokenIdUser[] = "user";
 const char kTokenIdSystem[] = "system";
 
-base::Optional<chromeos::platform_keys::TokenId> ApiIdToPlatformKeysTokenId(
-    const std::string& token_id) {
-  if (token_id == kTokenIdUser)
-    return chromeos::platform_keys::TokenId::kUser;
-
-  if (token_id == kTokenIdSystem)
-    return chromeos::platform_keys::TokenId::kSystem;
-
-  return base::nullopt;
+// Returns whether |token_id| references a known Token.
+bool ValidateToken(const std::string& token_id,
+                   std::string* platform_keys_token_id) {
+  platform_keys_token_id->clear();
+  if (token_id == kTokenIdUser) {
+    *platform_keys_token_id = chromeos::platform_keys::kTokenIdUser;
+    return true;
+  }
+  if (token_id == kTokenIdSystem) {
+    *platform_keys_token_id = chromeos::platform_keys::kTokenIdSystem;
+    return true;
+  }
+  return false;
 }
 
 std::string PlatformKeysTokenIdToApiId(
-    chromeos::platform_keys::TokenId platform_keys_token_id) {
-  switch (platform_keys_token_id) {
-    case chromeos::platform_keys::TokenId::kUser:
-      return kTokenIdUser;
-    case chromeos::platform_keys::TokenId::kSystem:
-      return kTokenIdSystem;
-  }
+    const std::string& platform_keys_token_id) {
+  if (platform_keys_token_id == chromeos::platform_keys::kTokenIdUser)
+    return kTokenIdUser;
+  if (platform_keys_token_id == chromeos::platform_keys::kTokenIdSystem)
+    return kTokenIdSystem;
+
+  return std::string();
 }
 
 }  // namespace platform_keys
@@ -361,16 +364,11 @@ ExtensionFunction::ResponseAction PlatformKeysInternalSignFunction::Run() {
   std::unique_ptr<api_pki::Sign::Params> params(
       api_pki::Sign::Params::Create(*args_));
   EXTENSION_FUNCTION_VALIDATE(params);
-
-  base::Optional<chromeos::platform_keys::TokenId> platform_keys_token_id;
-  // If |params->token_id| is not specified (empty string), the key will be
-  // searched for in all available tokens.
-  if (!params->token_id.empty()) {
-    platform_keys_token_id =
-        platform_keys::ApiIdToPlatformKeysTokenId(params->token_id);
-    if (!platform_keys_token_id) {
-      return RespondNow(Error(platform_keys::kErrorInvalidToken));
-    }
+  std::string platform_keys_token_id;
+  if (!params->token_id.empty() &&
+      !platform_keys::ValidateToken(params->token_id,
+                                    &platform_keys_token_id)) {
+    return RespondNow(Error(platform_keys::kErrorInvalidToken));
   }
 
   chromeos::ExtensionPlatformKeysService* service =
