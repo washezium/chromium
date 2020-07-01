@@ -214,8 +214,10 @@ class PasswordManager : public FormSubmissionObserver {
   // Notifies that Credential Management API function store() is called.
   void NotifyStorePasswordCalled();
 
-  // Sets the autofill-assistant mode. Certain prompts will be disabled while
-  // autofill-assistant is running. See |AutofillAssistantMode|.
+  // Sets the Autofill Assistant mode to disable prompts while |mode=kRunning|.
+  // A script start triggers a timer that will reset the mode to |kNotRunning|
+  // (default) to prevent disabling the password manager forever. A script
+  // finish will clear pending credentials in all form managers.
   void SetAutofillAssistantMode(AutofillAssistantMode mode);
 
   // Returns the currently set autofill-assistant mode.
