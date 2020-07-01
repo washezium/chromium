@@ -967,8 +967,6 @@ void UserMediaProcessor::OnStreamGenerated(
     bool pan_tilt_zoom_allowed) {
   DCHECK_CALLED_ON_VALID_THREAD(thread_checker_);
 
-  // TODO(crbug.com/934063): Reject the request if the PTZ permission is denied
-  // and the request requires it.
   if (result != MediaStreamRequestResult::OK) {
     OnStreamGenerationFailed(request_id, result);
     return;
