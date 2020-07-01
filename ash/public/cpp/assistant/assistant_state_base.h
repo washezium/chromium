@@ -35,7 +35,7 @@ class ASH_PUBLIC_EXPORT AssistantStateObserver : public base::CheckedObserver {
   virtual void OnAssistantLaunchWithMicOpen(bool launch_with_mic_open) {}
   virtual void OnAssistantNotificationEnabled(bool notification_enabled) {}
   virtual void OnAssistantOnboardingModeChanged(
-      chromeos::assistant::AssistantOnboardingMode onboarding_mode) {}
+      chromeos::assistant::prefs::AssistantOnboardingMode onboarding_mode) {}
   virtual void OnAssistantStateDestroyed() {}
   virtual void OnAssistantQuickAnswersEnabled(bool quick_answers_enabled) {}
   virtual void OnAssistantStatusChanged(
@@ -90,7 +90,7 @@ class ASH_PUBLIC_EXPORT AssistantStateBase {
     return notification_enabled_;
   }
 
-  const base::Optional<chromeos::assistant::AssistantOnboardingMode>&
+  const base::Optional<chromeos::assistant::prefs::AssistantOnboardingMode>&
   onboarding_mode() const {
     return onboarding_mode_;
   }
@@ -170,7 +170,8 @@ class ASH_PUBLIC_EXPORT AssistantStateBase {
   base::Optional<bool> notification_enabled_;
 
   // The mode for the Assistant onboarding experience.
-  base::Optional<chromeos::assistant::AssistantOnboardingMode> onboarding_mode_;
+  base::Optional<chromeos::assistant::prefs::AssistantOnboardingMode>
+      onboarding_mode_;
 
   // Whether the Assistant feature is allowed or disallowed for what reason.
   // nullopt if the data is not available yet.

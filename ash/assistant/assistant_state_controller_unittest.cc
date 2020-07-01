@@ -12,13 +12,14 @@
 #include "ash/shell.h"
 #include "ash/test/ash_test_base.h"
 #include "base/macros.h"
+#include "chromeos/services/assistant/public/cpp/assistant_prefs.h"
 #include "components/prefs/pref_service.h"
 
 namespace ash {
 
 namespace {
 
-using chromeos::assistant::AssistantOnboardingMode;
+using chromeos::assistant::prefs::AssistantOnboardingMode;
 using chromeos::assistant::prefs::ConsentStatus;
 using chromeos::assistant::prefs::kAssistantConsentStatus;
 using chromeos::assistant::prefs::kAssistantContextEnabled;
@@ -28,6 +29,8 @@ using chromeos::assistant::prefs::kAssistantHotwordEnabled;
 using chromeos::assistant::prefs::kAssistantLaunchWithMicOpen;
 using chromeos::assistant::prefs::kAssistantNotificationEnabled;
 using chromeos::assistant::prefs::kAssistantOnboardingMode;
+using chromeos::assistant::prefs::kAssistantOnboardingModeDefault;
+using chromeos::assistant::prefs::kAssistantOnboardingModeEducation;
 
 class TestAssistantStateObserver : public AssistantStateObserver {
  public:
@@ -120,7 +123,7 @@ TEST_F(AssistantStateControllerTest, InitObserver) {
   prefs()->SetBoolean(kAssistantHotwordEnabled, true);
   prefs()->SetBoolean(kAssistantLaunchWithMicOpen, true);
   prefs()->SetBoolean(kAssistantNotificationEnabled, true);
-  prefs()->SetString(kAssistantOnboardingMode, "Default");
+  prefs()->SetString(kAssistantOnboardingMode, kAssistantOnboardingModeDefault);
 
   // The observer class should get an instant notification about the current
   // pref value.
@@ -219,10 +222,11 @@ TEST_F(AssistantStateControllerTest, NotifyNotificationEnabled) {
 TEST_F(AssistantStateControllerTest, NotifyOnboardingModeChanged) {
   AssistantState::Get()->AddObserver(observer());
 
-  prefs()->SetString(kAssistantOnboardingMode, "Default");
+  prefs()->SetString(kAssistantOnboardingMode, kAssistantOnboardingModeDefault);
   EXPECT_EQ(observer()->onboarding_mode(), AssistantOnboardingMode::kDefault);
 
-  prefs()->SetString(kAssistantOnboardingMode, "Education");
+  prefs()->SetString(kAssistantOnboardingMode,
+                     kAssistantOnboardingModeEducation);
   EXPECT_EQ(observer()->onboarding_mode(), AssistantOnboardingMode::kEducation);
   AssistantState::Get()->RemoveObserver(observer());
 }

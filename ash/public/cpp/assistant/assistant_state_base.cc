@@ -18,7 +18,7 @@ namespace ash {
 
 namespace {
 
-using chromeos::assistant::AssistantOnboardingMode;
+using chromeos::assistant::prefs::AssistantOnboardingMode;
 
 #define PRINT_VALUE(value) PrintValue(&result, #value, value())
 
@@ -41,15 +41,6 @@ void PrintValue(std::stringstream* result,
     PrintValue(result, value);
   else
     *result << ("(no value)");
-}
-
-AssistantOnboardingMode ToAssistantOnboardingMode(
-    const std::string& onboarding_mode) {
-  if (onboarding_mode == "Education")
-    return AssistantOnboardingMode::kEducation;
-  else if (onboarding_mode != "Default")
-    NOTREACHED();
-  return AssistantOnboardingMode::kDefault;
 }
 
 }  // namespace
@@ -264,8 +255,9 @@ void AssistantStateBase::UpdateNotificationEnabled() {
 
 void AssistantStateBase::UpdateOnboardingMode() {
   AssistantOnboardingMode onboarding_mode =
-      ToAssistantOnboardingMode(pref_change_registrar_->prefs()->GetString(
-          chromeos::assistant::prefs::kAssistantOnboardingMode));
+      chromeos::assistant::prefs::ToOnboardingMode(
+          pref_change_registrar_->prefs()->GetString(
+              chromeos::assistant::prefs::kAssistantOnboardingMode));
 
   if (onboarding_mode_ == onboarding_mode)
     return;
