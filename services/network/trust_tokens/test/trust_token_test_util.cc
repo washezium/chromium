@@ -187,6 +187,7 @@ SerializeTrustTokenParametersAndConstructExpectation(
   std::string serialized_parameters;
   JSONStringValueSerializer serializer(&serialized_parameters);
   CHECK(serializer.Serialize(parameters));
+
   return {std::move(trust_token_params), std::move(serialized_parameters)};
 }
 
