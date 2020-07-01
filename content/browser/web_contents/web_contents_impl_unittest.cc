@@ -528,6 +528,10 @@ TEST_F(WebContentsImplTest, CrossSiteBoundaries) {
 // Test that navigating across a site boundary after a crash creates a new
 // RFH without requiring a cross-site transition (i.e., PENDING state).
 TEST_F(WebContentsImplTest, CrossSiteBoundariesAfterCrash) {
+  // Ensure that the cross-site transition will also be cross-process on
+  // Android.
+  IsolateAllSitesForTesting(base::CommandLine::ForCurrentProcess());
+
   TestRenderFrameHost* orig_rfh = main_test_rfh();
 
   int orig_rvh_delete_count = 0;
