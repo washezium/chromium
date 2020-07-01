@@ -1025,7 +1025,17 @@ class FileTransferController {
 
     // Change to the directory after the drag target hover time out.
     const navigate = this.changeToDropTargetDirectory_.bind(this);
-    this.navigateTimer_ = setTimeout(navigate, 2000);
+    this.navigateTimer_ = setTimeout(navigate, this.dragTargetHoverTime_());
+  }
+
+  /**
+   * Return the drag target hover time in milliseconds.
+   *
+   * @private
+   * @return {number}
+   */
+  dragTargetHoverTime_() {
+    return window.IN_TEST ? 500 : 2000;
   }
 
   /**
