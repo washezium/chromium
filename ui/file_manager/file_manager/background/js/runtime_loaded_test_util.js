@@ -857,7 +857,7 @@ test.util.async.fakeDragAndDrop =
             break;
           case 4:
             if (!skipDrop) {
-              event = new DragEvent('dragEnd', sourceOptions);
+              event = new DragEvent('dragend', sourceOptions);
               result = source.dispatchEvent(event);
             }
             break;
