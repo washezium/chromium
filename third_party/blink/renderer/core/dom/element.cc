@@ -76,6 +76,7 @@
 #include "third_party/blink/renderer/core/dom/events/event_dispatch_forbidden_scope.h"
 #include "third_party/blink/renderer/core/dom/events/event_dispatcher.h"
 #include "third_party/blink/renderer/core/dom/first_letter_pseudo_element.h"
+#include "third_party/blink/renderer/core/dom/focus_params.h"
 #include "third_party/blink/renderer/core/dom/layout_tree_builder.h"
 #include "third_party/blink/renderer/core/dom/mutation_observer_interest_group.h"
 #include "third_party/blink/renderer/core/dom/mutation_record.h"
@@ -4143,6 +4144,10 @@ Element* Element::GetFocusableArea() const {
 
   // Slide the focus to its inner node.
   return FocusController::FindFocusableElementInShadowHost(*this);
+}
+
+void Element::focus() {
+  focus(FocusParams());
 }
 
 void Element::focus(const FocusOptions* options) {
