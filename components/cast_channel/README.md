@@ -13,27 +13,17 @@ Build the fuzz target:
 % ninja -C out/libfuzzer $TEST_NAME
 ```
 
-Create an empty corpus directory if you don't have one already.
+Create an empty corpus directory:
 
 ```shell
 % mkdir ${TEST_NAME}_corpus
 ```
 
-Turning off detection of ODR violations that occur in component builds:
+Run the fuzz target, turning off detection of ODR violations that occur in
+component builds:
 
 ```shell
 % export ASAN_OPTIONS=detect_odr_violation=0
-```
-
-If the test has a seed corpus:
-
-```shell
-% ./out/libfuzzer/$TEST_NAME ${TEST_NAME}_corpus out/libfuzzer/gen/components/cast_channel/${TEST_NAME}_corpus
-```
-
-If the test has no seed corpus, omit the last parameter:
-
-```shell
 % ./out/libfuzzer/$TEST_NAME ${TEST_NAME}_corpus
 ```
 
