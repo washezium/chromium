@@ -163,7 +163,7 @@ std::string GetModuleWarningDecisionString(
       return kAllowedSameDirectory;
     case WarningDecision::kAllowedMicrosoft:
       return kAllowedMicrosoftModule;
-    case WarningDecision::kAllowedAllowlisted:
+    case WarningDecision::kAllowedWhitelisted:
       return kAllowedAllowlisted;
     case WarningDecision::kNotAnalyzed:
       return kNotAnalyzed;
@@ -443,7 +443,7 @@ void ConflictsDataFetcher::OnNewModuleFound(const ModuleInfoKey& module_key,
     auto* module_blocklist_cache_updater =
         ModuleDatabase::GetInstance()
             ->third_party_conflicts_manager()
-            ->module_blocklist_cache_updater();
+            ->module_blacklist_cache_updater();
 
     data->SetString(
         "third_party_module_status",
