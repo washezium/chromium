@@ -3372,10 +3372,16 @@ const char kCameraSystemWebAppName[] = "Camera System Web App";
 const char kCameraSystemWebAppDescription[] =
     "Run the Chrome Camera App as a System Web App.";
 
-const char kChromeosVideoDecoderName[] = "New Chrome OS Video Decoder";
-const char kChromeosVideoDecoderDescription[] =
-    "Enables the new Chrome OS video decoder pipeline for hardware accelerated"
-    "video decoding.";
+#if defined(OS_CHROMEOS) && BUILDFLAG(USE_CHROMEOS_MEDIA_ACCELERATION)
+const char kChromeOSDirectVideoDecoderName[] = "ChromeOS Direct Video Decoder";
+const char kChromeOSDirectVideoDecoderDescription[] =
+    "Enables the hardware-accelerated ChromeOS direct media::VideoDecoder "
+    "implementation. Note that this might be entirely disallowed by the "
+    "--force-disable-new-accelerated-video-decoder command line switch which "
+    "is added for platforms where said direct VideoDecoder does not work or is "
+    "not well tested (see the disable_cros_video_decoder USE flag in Chrome "
+    "OS)";
+#endif  // defined(OS_CHROMEOS) && BUILDFLAG(USE_CHROMEOS_MEDIA_ACCELERATION)
 
 const char kContextualNudgesName[] =
     "Contextual nudges for user gesture education";
