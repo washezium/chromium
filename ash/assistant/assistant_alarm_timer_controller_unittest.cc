@@ -916,7 +916,7 @@ TEST_F(AssistantAlarmTimerControllerTest,
   ScopedNotificationModelObserver notification_model_observer;
 
   // Schedule a timer.
-  ScheduleTimer{kTimerId};
+  ScheduleTimer(kTimerId).WithRemainingTime(base::TimeDelta::FromSeconds(10));
 
   // Make assertions about the notification.
   EXPECT_EQ(ExpectedNotification().WithClientId(kClientId).WithPriority(
