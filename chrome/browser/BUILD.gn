@@ -3325,6 +3325,8 @@ static_library("browser") {
       "nearby_sharing/transfer_metadata.cc",
       "nearby_sharing/transfer_metadata.h",
       "nearby_sharing/transfer_update_callback.h",
+      "nearby_sharing/webrtc_signaling_messenger.cc",
+      "nearby_sharing/webrtc_signaling_messenger.h",
       "notifications/notification_system_observer.cc",
       "notifications/notification_system_observer.h",
       "notifications/profile_notification.cc",
