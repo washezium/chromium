@@ -310,6 +310,25 @@ TEST_F(InkDropImplTest, RippleAndHighlightRecreatedOnSizeChange) {
   EXPECT_EQ(bounds.size(), ink_drop_highlight()->layer()->size());
 }
 
+// Verifies that the host's GetHighlighted() method reflects the ink drop's
+// highlight state, and when the state changes the ink drop notifies the host.
+TEST_F(InkDropImplTest, HostTracksHighlightState) {
+  bool callback_called = false;
+  auto subscription =
+      ink_drop_host()->AddHighlightedChangedCallback(base::BindRepeating(
+          [](bool* called) { *called = true; }, &callback_called));
+  EXPECT_FALSE(ink_drop_host()->GetHighlighted());
+
+  test_api()->SetShouldHighlight(true);
+  EXPECT_TRUE(callback_called);
+  EXPECT_TRUE(ink_drop_host()->GetHighlighted());
+  callback_called = false;
+
+  test_api()->SetShouldHighlight(false);
+  EXPECT_TRUE(callback_called);
+  EXPECT_FALSE(ink_drop_host()->GetHighlighted());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Common AutoHighlightMode tests
