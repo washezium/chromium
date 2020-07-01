@@ -1279,18 +1279,22 @@ class FileTransferController {
     if (!clipboardData) {
       return false;
     }
+
     if (!destinationEntry) {
       return false;
     }
+
     const destinationLocationInfo =
         this.volumeManager_.getLocationInfo(destinationEntry);
     if (!destinationLocationInfo || destinationLocationInfo.isReadOnly) {
       return false;
     }
+
     if (destinationLocationInfo.volumeInfo &&
         destinationLocationInfo.volumeInfo.error) {
       return false;
     }
+
     if (!clipboardData.types || clipboardData.types.indexOf('fs/tag') === -1) {
       return false;  // Unsupported type of content.
     }
@@ -1711,7 +1715,6 @@ FileTransferController.PastePlan = class {
     return [];
   }
 };
-
 
 /**
  * Converts list of urls to list of Entries with granting R/W permissions to
