@@ -842,15 +842,18 @@ test.util.async.fakeDragAndDrop =
             result = source.dispatchEvent(event);
             break;
           case 1:
+            targetOptions.relatedTarget = source;
             event = new DragEvent('dragenter', targetOptions);
             result = target.dispatchEvent(event);
             break;
           case 2:
+            targetOptions.relatedTarget = null;
             event = new DragEvent('dragover', targetOptions);
             result = target.dispatchEvent(event);
             break;
           case 3:
             if (!skipDrop) {
+              targetOptions.relatedTarget = null;
               event = new DragEvent('drop', targetOptions);
               result = target.dispatchEvent(event);
             }
