@@ -1640,7 +1640,7 @@ jumbo_component("platform") {
       "text/locale_icu.h",
     ]
 
-    libs = [
+    frameworks = [
       "AppKit.framework",
       "Accelerate.framework",
       "Carbon.framework",
