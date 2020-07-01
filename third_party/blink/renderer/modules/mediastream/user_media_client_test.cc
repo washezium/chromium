@@ -405,9 +405,9 @@ class UserMediaProcessorUnderTest : public UserMediaProcessor {
     return source;
   }
 
-  void GetUserMediaRequestSucceeded(const blink::WebMediaStream& stream,
+  void GetUserMediaRequestSucceeded(MediaStreamDescriptor* descriptor,
                                     UserMediaRequest* request_info) override {
-    last_generated_stream_ = stream;
+    last_generated_stream_ = WebMediaStream(descriptor);
     *state_ = REQUEST_SUCCEEDED;
   }
 
