@@ -546,7 +546,7 @@ class PDFViewerElement extends PDFViewerBaseElement {
     // left side, but the scrollbar is still on the right, so this is not
     // necessary.
     const zoomToolbar = this.getZoomToolbar();
-    if (isRTL()) {
+    if (!isRTL()) {
       zoomToolbar.style.right =
           -verticalScrollbarWidth + (scrollbarWidth / 2) + 'px';
     }
