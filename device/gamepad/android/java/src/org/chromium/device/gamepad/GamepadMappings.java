@@ -46,12 +46,21 @@ abstract class GamepadMappings {
     @VisibleForTesting
     static final int XBOX_ONE_S_2016_FIRMWARE_PRODUCT_ID = 0x02e0;
 
+    @VisibleForTesting
+    static final int BROADCOM_VENDOR_ID = 0x0a5c;
+    @VisibleForTesting
+    static final int SNAKEBYTE_IDROIDCON_PRODUCT_ID = 0x8502;
+
+    private static final float BUTTON_AXIS_DEADZONE = 0.01f;
+
     public static GamepadMappings getMappings(InputDevice device, int[] axes, BitSet buttons) {
         GamepadMappings mappings = null;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mappings = getMappings(device.getProductId(), device.getVendorId());
+            mappings = getMappings(device.getProductId(), device.getVendorId(), axes);
         }
-        if (mappings == null) mappings = getMappings(device.getName());
+        if (mappings == null) {
+            mappings = getMappings(device.getName());
+        }
         if (mappings == null) {
             mappings = new UnknownGamepadMappings(axes, buttons);
         }
@@ -60,7 +69,7 @@ abstract class GamepadMappings {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @VisibleForTesting
-    static GamepadMappings getMappings(int productId, int vendorId) {
+    static GamepadMappings getMappings(int productId, int vendorId, int[] axes) {
         // Device name of a DualShock 4 gamepad is "Wireless Controller". This is not reliably
         // unique so we better go by the product and vendor ids.
         if (vendorId == PS_DUALSHOCK_4_VENDOR_ID
@@ -83,6 +92,9 @@ abstract class GamepadMappings {
         if (vendorId == XBOX_ONE_S_2016_FIRMWARE_VENDOR_ID
                 && productId == XBOX_ONE_S_2016_FIRMWARE_PRODUCT_ID) {
             return new XboxOneS2016FirmwareMappings();
+        }
+        if (vendorId == BROADCOM_VENDOR_ID && productId == SNAKEBYTE_IDROIDCON_PRODUCT_ID) {
+            return new SnakebyteIDroidConMappings(axes);
         }
         return null;
     }
@@ -225,6 +237,12 @@ abstract class GamepadMappings {
         mappedButtons[CanonicalButtonIndex.RIGHT_TRIGGER] = rTrigger;
     }
 
+    private static void mapZAxisToBottomShoulder(float[] mappedButtons, float[] rawAxes) {
+        float z = rawAxes[MotionEvent.AXIS_Z];
+        mappedButtons[CanonicalButtonIndex.LEFT_TRIGGER] = z > BUTTON_AXIS_DEADZONE ? z : 0.0f;
+        mappedButtons[CanonicalButtonIndex.RIGHT_TRIGGER] = -z > BUTTON_AXIS_DEADZONE ? -z : 0.0f;
+    }
+
     private static void mapLowerTriggerButtonsToBottomShoulder(float[] mappedButtons,
             float[] rawButtons) {
         float l2 = rawButtons[KeyEvent.KEYCODE_BUTTON_L2];
@@ -291,6 +309,58 @@ abstract class GamepadMappings {
 
             mapXYAxes(mappedAxes, rawAxes);
             mapZAndRZAxesToRightStick(mappedAxes, rawAxes);
+        }
+    }
+
+    private static class SnakebyteIDroidConMappings extends GamepadMappings {
+        private final boolean mAnalogMode;
+
+        public SnakebyteIDroidConMappings(int[] axes) {
+            // Digital mode has X, Y, Z, RZ, HAT_X, HAT_Y
+            // Analog mode has X, Y, Z, RX, RY, HAT_X, HAT_Y
+            mAnalogMode = arrayContains(axes, MotionEvent.AXIS_RX);
+        }
+
+        private static boolean arrayContains(int[] array, int element) {
+            for (int e : array) {
+                if (e == element) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public int getButtonsLength() {
+            // No meta button.
+            return CanonicalButtonIndex.COUNT - 1;
+        }
+
+        @Override
+        public void mapToStandardGamepad(
+                float[] mappedAxes, float[] mappedButtons, float[] rawAxes, float[] rawButtons) {
+            mapCommonXYABButtons(mappedButtons, rawButtons);
+            mapTriggerButtonsToTopShoulder(mappedButtons, rawButtons);
+            mapCommonStartSelectMetaButtons(mappedButtons, rawButtons);
+            mapXYAxes(mappedAxes, rawAxes);
+            mapHatAxisToDpadButtons(mappedButtons, rawAxes);
+
+            // On older versions of Android the thumbstick buttons are incorrectly mapped to C and
+            // Z. Support either.
+            float thumbL = rawButtons[KeyEvent.KEYCODE_BUTTON_THUMBL];
+            float thumbR = rawButtons[KeyEvent.KEYCODE_BUTTON_THUMBR];
+            float c = rawButtons[KeyEvent.KEYCODE_BUTTON_C];
+            float z = rawButtons[KeyEvent.KEYCODE_BUTTON_Z];
+            mappedButtons[CanonicalButtonIndex.LEFT_THUMBSTICK] = Math.max(thumbL, c);
+            mappedButtons[CanonicalButtonIndex.RIGHT_THUMBSTICK] = Math.max(thumbR, z);
+
+            if (mAnalogMode) {
+                mapZAxisToBottomShoulder(mappedButtons, rawAxes);
+                mapRXAndRYAxesToRightStick(mappedAxes, rawAxes);
+            } else {
+                mapLowerTriggerButtonsToBottomShoulder(mappedButtons, rawButtons);
+                mapZAndRZAxesToRightStick(mappedAxes, rawAxes);
+            }
         }
     }
 

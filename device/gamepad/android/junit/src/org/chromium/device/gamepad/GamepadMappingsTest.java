@@ -361,9 +361,19 @@ public class GamepadMappingsTest {
     @Test
     @Feature({"Gamepad"})
     public void testPS4GamepadMappings() {
+        int[] axes;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            axes = new int[] {MotionEvent.AXIS_X, MotionEvent.AXIS_Y, MotionEvent.AXIS_Z,
+                    MotionEvent.AXIS_RZ, MotionEvent.AXIS_LTRIGGER, MotionEvent.AXIS_RTRIGGER,
+                    MotionEvent.AXIS_HAT_X, MotionEvent.AXIS_HAT_Y};
+        } else {
+            axes = new int[] {MotionEvent.AXIS_X, MotionEvent.AXIS_Y, MotionEvent.AXIS_Z,
+                    MotionEvent.AXIS_RX, MotionEvent.AXIS_RY, MotionEvent.AXIS_RZ,
+                    MotionEvent.AXIS_HAT_X, MotionEvent.AXIS_HAT_Y};
+        }
         GamepadMappings mappings =
                 GamepadMappings.getMappings(GamepadMappings.PS_DUALSHOCK_4_PRODUCT_ID,
-                        GamepadMappings.PS_DUALSHOCK_4_VENDOR_ID);
+                        GamepadMappings.PS_DUALSHOCK_4_VENDOR_ID, axes);
         mappings.mapToStandardGamepad(mMappedAxes, mMappedButtons, mRawAxes, mRawButtons);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -423,9 +433,12 @@ public class GamepadMappingsTest {
     @Feature({"Gamepad"})
     public void testXboxOneSBluetooth2016FirmwareMappings() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int[] axes = new int[] {MotionEvent.AXIS_X, MotionEvent.AXIS_Y, MotionEvent.AXIS_Z,
+                    MotionEvent.AXIS_RZ, MotionEvent.AXIS_LTRIGGER, MotionEvent.AXIS_RTRIGGER,
+                    MotionEvent.AXIS_HAT_X, MotionEvent.AXIS_HAT_Y};
             GamepadMappings mappings =
                     GamepadMappings.getMappings(GamepadMappings.XBOX_ONE_S_2016_FIRMWARE_PRODUCT_ID,
-                            GamepadMappings.XBOX_ONE_S_2016_FIRMWARE_VENDOR_ID);
+                            GamepadMappings.XBOX_ONE_S_2016_FIRMWARE_VENDOR_ID, axes);
             mappings.mapToStandardGamepad(mMappedAxes, mMappedButtons, mRawAxes, mRawButtons);
 
             Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.PRIMARY],
@@ -475,13 +488,84 @@ public class GamepadMappingsTest {
         // Test that Xbox One S gamepads with updated firmware connected over Bluetooth use the
         // default mapping.
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            GamepadMappings deviceIdMappings = GamepadMappings.getMappings(
-                    XBOX_ONE_S_PRODUCT_ID, GamepadMappings.XBOX_ONE_S_2016_FIRMWARE_VENDOR_ID);
+            int[] axes = new int[] {MotionEvent.AXIS_X, MotionEvent.AXIS_Y, MotionEvent.AXIS_Z,
+                    MotionEvent.AXIS_RZ, MotionEvent.AXIS_LTRIGGER, MotionEvent.AXIS_RTRIGGER,
+                    MotionEvent.AXIS_HAT_X, MotionEvent.AXIS_HAT_Y};
+            GamepadMappings deviceIdMappings = GamepadMappings.getMappings(XBOX_ONE_S_PRODUCT_ID,
+                    GamepadMappings.XBOX_ONE_S_2016_FIRMWARE_VENDOR_ID, axes);
             Assert.assertNull(deviceIdMappings);
         }
 
         GamepadMappings deviceNameMappings = GamepadMappings.getMappings(XBOX_WIRELESS_DEVICE_NAME);
         Assert.assertNull(deviceNameMappings);
+    }
+
+    @Test
+    @Feature({"Gamepad"})
+    public void testIDroidConGamepadMappingsDigital() {
+        int[] axes = {
+                MotionEvent.AXIS_X,
+                MotionEvent.AXIS_Y,
+                MotionEvent.AXIS_Z,
+                MotionEvent.AXIS_RZ,
+                MotionEvent.AXIS_HAT_X,
+                MotionEvent.AXIS_HAT_Y,
+        };
+        GamepadMappings mappings =
+                GamepadMappings.getMappings(GamepadMappings.SNAKEBYTE_IDROIDCON_PRODUCT_ID,
+                        GamepadMappings.BROADCOM_VENDOR_ID, axes);
+        mappings.mapToStandardGamepad(mMappedAxes, mMappedButtons, mRawAxes, mRawButtons);
+
+        expectNoMetaButton(mappings);
+        assertMappedCommonXYABButtons();
+        assertMappedTriggerButtonsToTopShoulder();
+        assertMappedCommonThumbstickButtons();
+        assertMappedLowerTriggerButtonsToBottomShoulder();
+        assertMappedHatAxisToDpadButtons();
+        assertMappedXYAxes();
+        assertMappedZAndRZAxesToRightStick();
+        Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.START],
+                mRawButtons[KeyEvent.KEYCODE_BUTTON_START], ERROR_TOLERANCE);
+        Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.BACK_SELECT],
+                mRawButtons[KeyEvent.KEYCODE_BUTTON_SELECT], ERROR_TOLERANCE);
+
+        assertMapping(mappings);
+    }
+
+    @Test
+    @Feature({"Gamepad"})
+    public void testIDroidConGamepadMappingsAnalog() {
+        int[] axes = {
+                MotionEvent.AXIS_X,
+                MotionEvent.AXIS_Y,
+                MotionEvent.AXIS_Z,
+                MotionEvent.AXIS_RX,
+                MotionEvent.AXIS_RY,
+                MotionEvent.AXIS_HAT_X,
+                MotionEvent.AXIS_HAT_Y,
+        };
+        GamepadMappings mappings =
+                GamepadMappings.getMappings(GamepadMappings.SNAKEBYTE_IDROIDCON_PRODUCT_ID,
+                        GamepadMappings.BROADCOM_VENDOR_ID, axes);
+        mappings.mapToStandardGamepad(mMappedAxes, mMappedButtons, mRawAxes, mRawButtons);
+
+        expectNoMetaButton(mappings);
+        assertMappedCommonXYABButtons();
+        assertMappedTriggerButtonsToTopShoulder();
+        assertMappedCommonThumbstickButtons();
+        assertMappedHatAxisToDpadButtons();
+        assertMappedXYAxes();
+        assertMappedRXAndRYAxesToRightStick();
+        Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.START],
+                mRawButtons[KeyEvent.KEYCODE_BUTTON_START], ERROR_TOLERANCE);
+        Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.BACK_SELECT],
+                mRawButtons[KeyEvent.KEYCODE_BUTTON_SELECT], ERROR_TOLERANCE);
+        Assert.assertEquals(
+                mMappedButtons[CanonicalButtonIndex.LEFT_TRIGGER], 0.0, ERROR_TOLERANCE);
+        Assert.assertEquals(mMappedButtons[CanonicalButtonIndex.RIGHT_TRIGGER],
+                -mRawAxes[MotionEvent.AXIS_Z], ERROR_TOLERANCE);
+
+        assertMapping(mappings);
     }
 
     /**
