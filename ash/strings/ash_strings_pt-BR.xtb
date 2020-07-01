@@ -297,7 +297,7 @@
 <translation id="4477892968187500306">O dispositivo pode conter apps que não foram verificados pelo Google.</translation>
 <translation id="4479639480957787382">Ethernet</translation>
 <translation id="4481530544597605423">Dispositvos não pareados</translation>
-<translation id="4505050298327493054">Área de trabalho ativa.</translation>
+<translation id="4505050298327493054">Espaço de trabalho ativo.</translation>
 <translation id="4513946894732546136">Comentários</translation>
 <translation id="4527045527269911712">O dispositivo Bluetooth "<ph name="DEVICE_NAME" />" deseja permissão para realizar o pareamento.</translation>
 <translation id="453661520163887813"><ph name="TIME" /> até completar</translation>
@@ -475,7 +475,7 @@ permanentemente excluídos assim que esse usuário for removido. Os websites vis
 <translation id="6727969043791803658">Conectado, <ph name="BATTERY_PERCENTAGE" />% de bateria</translation>
 <translation id="6751052314767925245">Aplicado pelo seu administrador</translation>
 <translation id="6751826523481687655">O acompanhamento de desempenho está ativado</translation>
-<translation id="6752912906630585008">Área de trabalho <ph name="REMOVED_DESK" /> removida e mesclada com a <ph name="RECEIVE_DESK" /></translation>
+<translation id="6752912906630585008">Espaço de trabalho <ph name="REMOVED_DESK" /> removido e integrado ao <ph name="RECEIVE_DESK" /></translation>
 <translation id="6777216307882431711">Carregando dispositivos USB-C conectados</translation>
 <translation id="6790428901817661496">Reproduzir</translation>
 <translation id="6803622936009808957">Não foi possível espelhar os displays porque não foram encontradas resoluções suportadas. Em vez disso, foi ativada a área de trabalho estendida.</translation>
