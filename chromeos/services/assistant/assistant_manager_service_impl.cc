@@ -1119,8 +1119,9 @@ void AssistantManagerServiceImpl::PostInitAssistant() {
 
   assistant_settings_->UpdateServerDeviceSettings();
 
-  if (base::FeatureList::IsEnabled(assistant::features::kAssistantAppSupport)) {
-    scoped_app_list_event_subscriber.Add(device_actions());
+  if (base::FeatureList::IsEnabled(assistant::features::kAssistantAppSupport) &&
+      !scoped_app_list_event_subscriber_.IsObservingSources()) {
+    scoped_app_list_event_subscriber_.Add(device_actions());
   }
 }
 

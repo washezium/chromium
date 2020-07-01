@@ -377,7 +377,7 @@ class COMPONENT_EXPORT(ASSISTANT_SERVICE) AssistantManagerServiceImpl
                  AppListEventSubscriber,
                  &DeviceActions::AddAppListEventSubscriber,
                  &DeviceActions::RemoveAppListEventSubscriber>
-      scoped_app_list_event_subscriber{this};
+      scoped_app_list_event_subscriber_{this};
   base::ObserverList<CommunicationErrorObserver> error_observers_;
   base::ObserverList<StateObserver> state_observers_;
 
