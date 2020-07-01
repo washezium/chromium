@@ -1835,9 +1835,9 @@ const char kPrefetchPrivacyChangesDescription[] =
 const char kIntensiveWakeUpThrottlingName[] =
     "Throttle Javascript timers in background.";
 const char kIntensiveWakeUpThrottlingDescription[] =
-    "When enabled, wake ups from throttleable TaskQueues are limited to 1 per "
-    "minute in a page that has been backgrounded for 5 minutes. For additional "
-    "details, see https://www.chromestatus.com/feature/4718288976216064.";
+    "When enabled, wake ups from DOM Timers are limited to 1 per minute in a "
+    "page that has been hidden for 5 minutes. For additional details, see "
+    "https://www.chromestatus.com/feature/4718288976216064.";
 
 const char kPrinterStatusName[] = "Show printer Status";
 const char kPrinterStatusDescription[] =

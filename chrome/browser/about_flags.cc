@@ -498,6 +498,15 @@ const FeatureEntry::FeatureVariation
          base::size(kDelayAsyncScriptExecutionFirstPaintOrFinishedParsing),
          nullptr}};
 
+const FeatureEntry::FeatureParam kIntensiveWakeUpThrottlingImmediate[] = {
+    {blink::features::kIntensiveWakeUpThrottling_GracePeriodSeconds_Name, "0"}};
+
+const FeatureEntry::FeatureVariation kIntensiveWakeUpThrottlingVariations[] = {
+    {"immediately when a tab is hidden (facilitates testing)",
+     kIntensiveWakeUpThrottlingImmediate,
+     base::size(kIntensiveWakeUpThrottlingImmediate), nullptr},
+};
+
 #if defined(OS_ANDROID)
 const FeatureEntry::FeatureParam kCloseTabSuggestionsStale_Immediate[] = {
     {"baseline_tab_suggestions", "true"},
@@ -3676,7 +3685,9 @@ const FeatureEntry kFeatureEntries[] = {
     {"intensive-wake-up-throttling",
      flag_descriptions::kIntensiveWakeUpThrottlingName,
      flag_descriptions::kIntensiveWakeUpThrottlingDescription, kOsAll,
-     FEATURE_VALUE_TYPE(blink::features::kIntensiveWakeUpThrottling)},
+     FEATURE_WITH_PARAMS_VALUE_TYPE(blink::features::kIntensiveWakeUpThrottling,
+                                    kIntensiveWakeUpThrottlingVariations,
+                                    "IntensiveWakeUpThrottling")},
 
 #if defined(OS_ANDROID)
     {"omnibox-spare-renderer", flag_descriptions::kOmniboxSpareRendererName,
