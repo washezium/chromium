@@ -1821,6 +1821,31 @@ String AXNodeObject::GetText() const {
   return element ? element->innerText() : String();
 }
 
+ax::mojom::blink::TextAlign AXNodeObject::GetTextAlign() const {
+  if (!GetLayoutObject())
+    return ax::mojom::blink::TextAlign::kNone;
+
+  const ComputedStyle* style = GetLayoutObject()->Style();
+  if (!style)
+    return ax::mojom::blink::TextAlign::kNone;
+
+  switch (style->GetTextAlign()) {
+    case ETextAlign::kLeft:
+    case ETextAlign::kWebkitLeft:
+    case ETextAlign::kStart:
+      return ax::mojom::blink::TextAlign::kLeft;
+    case ETextAlign::kRight:
+    case ETextAlign::kWebkitRight:
+    case ETextAlign::kEnd:
+      return ax::mojom::blink::TextAlign::kRight;
+    case ETextAlign::kCenter:
+    case ETextAlign::kWebkitCenter:
+      return ax::mojom::blink::TextAlign::kCenter;
+    case ETextAlign::kJustify:
+      return ax::mojom::blink::TextAlign::kJustify;
+  }
+}
+
 String AXNodeObject::ImageDataUrl(const IntSize& max_size) const {
   Node* node = GetNode();
   if (!node)
