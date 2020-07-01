@@ -8,15 +8,15 @@
 #include <utility>
 
 #include "ash/assistant/assistant_controller_impl.h"
-#include "ash/assistant/assistant_notification_controller.h"
+#include "ash/assistant/assistant_notification_controller_impl.h"
 #include "ash/assistant/util/deep_link_util.h"
-#include "ash/public/mojom/assistant_controller.mojom.h"
 #include "ash/strings/grit/ash_strings.h"
 #include "base/i18n/message_formatter.h"
 #include "base/stl_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/time/time.h"
+#include "chromeos/services/assistant/public/cpp/assistant_notification.h"
 #include "chromeos/services/assistant/public/cpp/assistant_service.h"
 #include "chromeos/services/assistant/public/cpp/features.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
@@ -32,12 +32,10 @@ namespace ash {
 namespace {
 
 using assistant::util::AlarmTimerAction;
+using chromeos::assistant::AssistantNotification;
+using chromeos::assistant::AssistantNotificationButton;
+using chromeos::assistant::AssistantNotificationPriority;
 using chromeos::assistant::features::IsTimersV2Enabled;
-using chromeos::assistant::mojom::AssistantNotification;
-using chromeos::assistant::mojom::AssistantNotificationButton;
-using chromeos::assistant::mojom::AssistantNotificationButtonPtr;
-using chromeos::assistant::mojom::AssistantNotificationPriority;
-using chromeos::assistant::mojom::AssistantNotificationPtr;
 
 // Grouping key and ID prefix for timer notifications.
 constexpr char kTimerNotificationGroupingKey[] = "assistant/timer";
@@ -170,28 +168,27 @@ GURL CreateTimerNotificationActionUrl(const AssistantTimer& timer) {
 }
 
 // Creates notification buttons for the given |timer|.
-std::vector<AssistantNotificationButtonPtr> CreateTimerNotificationButtons(
+std::vector<AssistantNotificationButton> CreateTimerNotificationButtons(
     const AssistantTimer& timer) {
-  std::vector<AssistantNotificationButtonPtr> buttons;
+  std::vector<AssistantNotificationButton> buttons;
 
   if (!IsTimersV2Enabled()) {
     // "STOP" button.
-    buttons.push_back(AssistantNotificationButton::New(
-        l10n_util::GetStringUTF8(IDS_ASSISTANT_TIMER_NOTIFICATION_STOP_BUTTON),
-        assistant::util::CreateAlarmTimerDeepLink(
-            AlarmTimerAction::kRemoveAlarmOrTimer, timer.id)
-            .value(),
-        /*remove_notification_on_click=*/true));
+    buttons.push_back(
+        {l10n_util::GetStringUTF8(IDS_ASSISTANT_TIMER_NOTIFICATION_STOP_BUTTON),
+         assistant::util::CreateAlarmTimerDeepLink(
+             AlarmTimerAction::kRemoveAlarmOrTimer, timer.id)
+             .value(),
+         /*remove_notification_on_click=*/true});
 
     // "ADD 1 MIN" button.
-    buttons.push_back(AssistantNotificationButton::New(
-        l10n_util::GetStringUTF8(
-            IDS_ASSISTANT_TIMER_NOTIFICATION_ADD_1_MIN_BUTTON),
-        assistant::util::CreateAlarmTimerDeepLink(
-            AlarmTimerAction::kAddTimeToTimer, timer.id,
-            base::TimeDelta::FromMinutes(1))
-            .value(),
-        /*remove_notification_on_click=*/true));
+    buttons.push_back({l10n_util::GetStringUTF8(
+                           IDS_ASSISTANT_TIMER_NOTIFICATION_ADD_1_MIN_BUTTON),
+                       assistant::util::CreateAlarmTimerDeepLink(
+                           AlarmTimerAction::kAddTimeToTimer, timer.id,
+                           base::TimeDelta::FromMinutes(1))
+                           .value(),
+                       /*remove_notification_on_click=*/true});
 
     return buttons;
   }
@@ -201,43 +198,40 @@ std::vector<AssistantNotificationButtonPtr> CreateTimerNotificationButtons(
   if (timer.state != AssistantTimerState::kFired) {
     if (timer.state == AssistantTimerState::kPaused) {
       // "RESUME" button.
-      buttons.push_back(AssistantNotificationButton::New(
-          l10n_util::GetStringUTF8(
-              IDS_ASSISTANT_TIMER_NOTIFICATION_RESUME_BUTTON),
-          assistant::util::CreateAlarmTimerDeepLink(
-              AlarmTimerAction::kResumeTimer, timer.id)
-              .value(),
-          /*remove_notification_on_click=*/false));
+      buttons.push_back({l10n_util::GetStringUTF8(
+                             IDS_ASSISTANT_TIMER_NOTIFICATION_RESUME_BUTTON),
+                         assistant::util::CreateAlarmTimerDeepLink(
+                             AlarmTimerAction::kResumeTimer, timer.id)
+                             .value(),
+                         /*remove_notification_on_click=*/false});
     } else {
       // "PAUSE" button.
-      buttons.push_back(AssistantNotificationButton::New(
-          l10n_util::GetStringUTF8(
-              IDS_ASSISTANT_TIMER_NOTIFICATION_PAUSE_BUTTON),
-          assistant::util::CreateAlarmTimerDeepLink(
-              AlarmTimerAction::kPauseTimer, timer.id)
-              .value(),
-          /*remove_notification_on_click=*/false));
+      buttons.push_back({l10n_util::GetStringUTF8(
+                             IDS_ASSISTANT_TIMER_NOTIFICATION_PAUSE_BUTTON),
+                         assistant::util::CreateAlarmTimerDeepLink(
+                             AlarmTimerAction::kPauseTimer, timer.id)
+                             .value(),
+                         /*remove_notification_on_click=*/false});
     }
   }
 
   // "CANCEL" button.
-  buttons.push_back(AssistantNotificationButton::New(
-      l10n_util::GetStringUTF8(IDS_ASSISTANT_TIMER_NOTIFICATION_CANCEL_BUTTON),
-      assistant::util::CreateAlarmTimerDeepLink(
-          AlarmTimerAction::kRemoveAlarmOrTimer, timer.id)
-          .value(),
-      /*remove_notification_on_click=*/true));
+  buttons.push_back(
+      {l10n_util::GetStringUTF8(IDS_ASSISTANT_TIMER_NOTIFICATION_CANCEL_BUTTON),
+       assistant::util::CreateAlarmTimerDeepLink(
+           AlarmTimerAction::kRemoveAlarmOrTimer, timer.id)
+           .value(),
+       /*remove_notification_on_click=*/true});
 
   if (timer.state == AssistantTimerState::kFired) {
     // "ADD 1 MIN" button.
-    buttons.push_back(AssistantNotificationButton::New(
-        l10n_util::GetStringUTF8(
-            IDS_ASSISTANT_TIMER_NOTIFICATION_ADD_1_MIN_BUTTON),
-        assistant::util::CreateAlarmTimerDeepLink(
-            AlarmTimerAction::kAddTimeToTimer, timer.id,
-            base::TimeDelta::FromMinutes(1))
-            .value(),
-        /*remove_notification_on_click=*/false));
+    buttons.push_back({l10n_util::GetStringUTF8(
+                           IDS_ASSISTANT_TIMER_NOTIFICATION_ADD_1_MIN_BUTTON),
+                       assistant::util::CreateAlarmTimerDeepLink(
+                           AlarmTimerAction::kAddTimeToTimer, timer.id,
+                           base::TimeDelta::FromMinutes(1))
+                           .value(),
+                       /*remove_notification_on_click=*/false});
   }
 
   return buttons;
@@ -270,17 +264,17 @@ AssistantNotificationPriority CreateTimerNotificationPriority(
 }
 
 // Creates a notification for the given |timer|.
-AssistantNotificationPtr CreateTimerNotification(const AssistantTimer& timer) {
-  AssistantNotificationPtr notification = AssistantNotification::New();
-  notification->title = CreateTimerNotificationTitle(timer);
-  notification->message = CreateTimerNotificationMessage(timer);
-  notification->action_url = CreateTimerNotificationActionUrl(timer);
-  notification->buttons = CreateTimerNotificationButtons(timer);
-  notification->client_id = CreateTimerNotificationId(timer);
-  notification->grouping_key = kTimerNotificationGroupingKey;
-  notification->priority = CreateTimerNotificationPriority(timer);
-  notification->remove_on_click = !IsTimersV2Enabled();
-  notification->is_pinned = IsTimersV2Enabled();
+AssistantNotification CreateTimerNotification(const AssistantTimer& timer) {
+  AssistantNotification notification;
+  notification.title = CreateTimerNotificationTitle(timer);
+  notification.message = CreateTimerNotificationMessage(timer);
+  notification.action_url = CreateTimerNotificationActionUrl(timer);
+  notification.buttons = CreateTimerNotificationButtons(timer);
+  notification.client_id = CreateTimerNotificationId(timer);
+  notification.grouping_key = kTimerNotificationGroupingKey;
+  notification.priority = CreateTimerNotificationPriority(timer);
+  notification.remove_on_click = !IsTimersV2Enabled();
+  notification.is_pinned = IsTimersV2Enabled();
   return notification;
 }
 
