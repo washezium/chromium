@@ -2069,7 +2069,6 @@ static_library("browser") {
     "//media/midi",
     "//media/mojo:buildflags",
     "//media/mojo/common",
-    "//media/mojo/mojom:mirror_service_remoting",
     "//media/mojo/mojom:remoting",
     "//media/mojo/services",
     "//media/webrtc",
