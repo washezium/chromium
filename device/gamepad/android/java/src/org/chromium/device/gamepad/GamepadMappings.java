@@ -14,6 +14,8 @@ import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.annotations.JNINamespace;
 
+import java.util.BitSet;
+
 /**
  * Class to manage mapping information related to each supported gamepad controller device.
  */
@@ -44,13 +46,15 @@ abstract class GamepadMappings {
     @VisibleForTesting
     static final int XBOX_ONE_S_2016_FIRMWARE_PRODUCT_ID = 0x02e0;
 
-    public static GamepadMappings getMappings(InputDevice device, int[] axes) {
+    public static GamepadMappings getMappings(InputDevice device, int[] axes, BitSet buttons) {
         GamepadMappings mappings = null;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mappings = getMappings(device.getProductId(), device.getVendorId());
         }
         if (mappings == null) mappings = getMappings(device.getName());
-        if (mappings == null) mappings = new UnknownGamepadMappings(axes);
+        if (mappings == null) {
+            mappings = new UnknownGamepadMappings(axes, buttons);
+        }
         return mappings;
     }
 
@@ -105,8 +109,8 @@ abstract class GamepadMappings {
     }
 
     @VisibleForTesting
-    static GamepadMappings getUnknownGamepadMappings(int[] axes) {
-        return new UnknownGamepadMappings(axes);
+    static GamepadMappings getUnknownGamepadMappings(int[] axes, BitSet buttons) {
+        return new UnknownGamepadMappings(axes, buttons);
     }
 
     /**
@@ -116,6 +120,14 @@ abstract class GamepadMappings {
      */
     public boolean isStandard() {
         return true;
+    }
+
+    /**
+     * Returns the number of mapped buttons. Subclasses which support more or fewer buttons (e.g. no
+     * meta button) should override this.
+     */
+    public int getButtonsLength() {
+        return CanonicalButtonIndex.COUNT;
     }
 
     /**
@@ -342,6 +354,12 @@ abstract class GamepadMappings {
             mapXYAxes(mappedAxes, rawAxes);
             mapRXAndRYAxesToRightStick(mappedAxes, rawAxes);
         }
+
+        @Override
+        public int getButtonsLength() {
+            // No meta button.
+            return CanonicalButtonIndex.COUNT - 1;
+        }
     }
 
     private static class Dualshock3SixAxisGamepadMappingsPreP extends GamepadMappings {
@@ -468,8 +486,11 @@ abstract class GamepadMappings {
         private int mRightStickXAxis = -1;
         private int mRightStickYAxis = -1;
         private boolean mUseHatAxes;
+        private final boolean mHasMetaButton;
 
-        UnknownGamepadMappings(int[] axes) {
+        UnknownGamepadMappings(int[] axes, BitSet buttons) {
+            mHasMetaButton = buttons.get(KeyEvent.KEYCODE_BUTTON_MODE);
+
             int hatAxesFound = 0;
 
             for (int axis : axes) {
@@ -511,6 +532,11 @@ abstract class GamepadMappings {
         public boolean isStandard() {
             // These mappings should not be considered standard
             return false;
+        }
+
+        @Override
+        public int getButtonsLength() {
+            return mHasMetaButton ? CanonicalButtonIndex.COUNT : CanonicalButtonIndex.COUNT - 1;
         }
 
         @Override
