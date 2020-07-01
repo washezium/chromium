@@ -1,19 +1,19 @@
 // Copyright 2019 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-#ifndef CRDTP_GLUE_H_
-#define CRDTP_GLUE_H_
+#ifndef CRDTP_MAYBE_H_
+#define CRDTP_MAYBE_H_
 
 #include <cassert>
 #include <memory>
 
 namespace crdtp {
-namespace glue {
+
 // =============================================================================
-// glue::detail::PtrMaybe, glue::detail::ValueMaybe, templates for optional
+// detail::PtrMaybe, detail::ValueMaybe, templates for optional
 // pointers / values which are used in ../lib/Forward_h.template.
 // =============================================================================
+
 namespace detail {
 template <typename T>
 class PtrMaybe {
@@ -68,13 +68,37 @@ class ValueMaybe {
   bool is_just_;
   T value_;
 };
+
+template <typename T>
+struct MaybeTypedef {
+  typedef PtrMaybe<T> type;
+};
+
+template <>
+struct MaybeTypedef<bool> {
+  typedef ValueMaybe<bool> type;
+};
+
+template <>
+struct MaybeTypedef<int> {
+  typedef ValueMaybe<int> type;
+};
+
+template <>
+struct MaybeTypedef<double> {
+  typedef ValueMaybe<double> type;
+};
+
+template <>
+struct MaybeTypedef<std::string> {
+  typedef ValueMaybe<std::string> type;
+};
+
 }  // namespace detail
-}  // namespace glue
+
+template <typename T>
+using Maybe = typename detail::MaybeTypedef<T>::type;
+
 }  // namespace crdtp
 
-#define PROTOCOL_DISALLOW_COPY(ClassName) \
- private:                                 \
-  ClassName(const ClassName&) = delete;   \
-  ClassName& operator=(const ClassName&) = delete
-
-#endif  // CRDTP_GLUE_H_
+#endif  // CRDTP_MAYBE_H_

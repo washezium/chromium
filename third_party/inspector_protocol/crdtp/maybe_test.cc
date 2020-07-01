@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "glue.h"
+#include "maybe.h"
 
 #include <string>
 #include <vector>
@@ -10,9 +10,9 @@
 #include "test_platform.h"
 
 namespace crdtp {
-namespace glue {
+
 // =============================================================================
-// glue::detail::PtrMaybe, glue::detail::ValueMaybe, templates for optional
+// detail::PtrMaybe, detail::ValueMaybe, templates for optional
 // pointers / values which are used in ../lib/Forward_h.template.
 // =============================================================================
 TEST(PtrMaybeTest, SmokeTest) {
@@ -40,5 +40,5 @@ TEST(PtrValueTest, SmokeTest) {
   int32_t out = example.takeJust();
   EXPECT_EQ(out, 42);
 }
-}  // namespace glue
+
 }  // namespace crdtp
