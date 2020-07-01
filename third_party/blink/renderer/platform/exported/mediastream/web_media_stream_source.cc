@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "third_party/blink/public/platform/web_media_stream_source.h"
+#include "third_party/blink/public/platform/modules/mediastream/web_media_stream_source.h"
 
 #include <memory>
 #include <utility>

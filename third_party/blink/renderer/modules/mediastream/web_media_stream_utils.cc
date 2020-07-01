@@ -10,7 +10,6 @@
 #include "media/capture/video_capturer_source.h"
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_sink.h"
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_track.h"
-#include "third_party/blink/public/platform/web_media_stream_source.h"
 #include "third_party/blink/public/web/modules/mediastream/media_stream_video_source.h"
 #include "third_party/blink/public/web/modules/mediastream/media_stream_video_track.h"
 #include "third_party/blink/renderer/modules/mediastream/media_stream_constraints_util.h"
