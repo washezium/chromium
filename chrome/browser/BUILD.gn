@@ -4843,8 +4843,6 @@ static_library("browser") {
       "signin/dice_tab_helper.h",
       "signin/dice_web_signin_interceptor.cc",
       "signin/dice_web_signin_interceptor.h",
-      "signin/dice_web_signin_interceptor_delegate.cc",
-      "signin/dice_web_signin_interceptor_delegate.h",
       "signin/dice_web_signin_interceptor_factory.cc",
       "signin/dice_web_signin_interceptor_factory.h",
       "signin/logout_tab_helper.cc",
