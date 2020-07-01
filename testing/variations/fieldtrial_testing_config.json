@@ -3320,7 +3320,8 @@
                 {
                     "name": "Enabled",
                     "enable_features": [
-                        "SSLCommittedInterstitials"
+                        "SSLCommittedInterstitials",
+                        "SafeBrowsingAvailableOnIOS"
                     ]
                 }
             ]
@@ -5901,21 +5902,6 @@
                 },
                 {
                     "name": "Control"
-                }
-            ]
-        }
-    ],
-    "SafeBrowsingAvailableOnIOS": [
-        {
-            "platforms": [
-                "ios"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "SafeBrowsingAvailableOnIOS"
-                    ]
                 }
             ]
         }
