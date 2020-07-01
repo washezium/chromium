@@ -621,6 +621,8 @@ WRAPPED_INSTANTIATE_TEST_SUITE_P(
         TestCase("transferFromDownloadsToTeamDrive").FilesNg(),
         TestCase("transferBetweenTeamDrives").DisableFilesNg(),
         TestCase("transferBetweenTeamDrives").FilesNg(),
+        TestCase("transferDragDropActiveLeave"),
+        TestCase("transferDragDropActiveDrop"),
         TestCase("transferDragAndDrop"),
         TestCase("transferDragAndHover"),
         TestCase("transferFromDownloadsToDownloads"),
