@@ -2,13 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// #import {assert, assertNotReached} from 'chrome://resources/js/assert.m.js';
+// #import {loadTimeData} from '../../../js/load_time_data.m.js';
+
 /**
  * @fileoverview Utilities supporting network_config.mojom types. The strings
  * returned in the getFooTypeString methods are used for looking up localized
  * strings and for debugging. They are not intended to be drectly user facing.
  */
 
-class OncMojo {
+/* #export */ class OncMojo {
   /**
    * @param {number|undefined} value
    * @return {string}
