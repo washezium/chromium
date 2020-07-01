@@ -36,6 +36,9 @@ TEST_F(AmbientControllerTest, ShowAmbientScreenUponLock) {
   EXPECT_EQ(AmbientUiModel::Get()->ui_visibility(),
             AmbientUiVisibility::kShown);
   EXPECT_TRUE(ambient_controller()->IsShown());
+
+  // Clean up.
+  CloseAmbientScreen();
 }
 
 TEST_F(AmbientControllerTest, HideAmbientScreen) {
@@ -51,6 +54,9 @@ TEST_F(AmbientControllerTest, HideAmbientScreen) {
   EXPECT_EQ(AmbientUiModel::Get()->ui_visibility(),
             AmbientUiVisibility::kHidden);
   EXPECT_FALSE(container_view()->GetWidget()->IsVisible());
+
+  // Clean up.
+  CloseAmbientScreen();
 }
 
 TEST_F(AmbientControllerTest, CloseAmbientScreenUponUnlock) {
@@ -106,6 +112,9 @@ TEST_F(AmbientControllerTest, ShouldReturnCachedAccessToken) {
       }));
   EXPECT_FALSE(IsAccessTokenRequestPending());
   run_loop.Run();
+
+  // Clean up.
+  CloseAmbientScreen();
 }
 
 TEST_F(AmbientControllerTest, ShouldRefreshAccessTokenAfterFailure) {
@@ -122,6 +131,9 @@ TEST_F(AmbientControllerTest, ShouldRefreshAccessTokenAfterFailure) {
   // the returned token would expire again.
   task_environment()->FastForwardBy(kDefaultTokenExpirationDelay / 2);
   EXPECT_TRUE(IsAccessTokenRequestPending());
+
+  // Clean up.
+  CloseAmbientScreen();
 }
 
 TEST_F(AmbientControllerTest,
@@ -224,6 +236,9 @@ TEST_F(AmbientControllerTest, ShouldDismissContainerViewWhenKeyPressed) {
   GetEventGenerator()->PressKey(ui::VKEY_SPACE, /*flags=*/0);
 
   EXPECT_FALSE(container_view()->GetWidget()->IsVisible());
+
+  // Clean up.
+  CloseAmbientScreen();
 }
 
 }  // namespace ash
