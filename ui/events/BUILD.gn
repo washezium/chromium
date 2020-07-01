@@ -180,7 +180,7 @@ jumbo_component("events_base") {
   }
 
   if (is_mac) {
-    libs = [
+    frameworks = [
       "AppKit.framework",
       "Carbon.framework",
     ]
@@ -380,7 +380,7 @@ jumbo_component("events") {
   }
 
   if (is_mac) {
-    libs = [ "AppKit.framework" ]
+    frameworks = [ "AppKit.framework" ]
   }
 
   if (is_fuchsia) {
@@ -512,7 +512,7 @@ jumbo_static_library("test_support") {
   ]
 
   if (is_mac) {
-    libs = [ "Carbon.framework" ]
+    frameworks = [ "Carbon.framework" ]
   }
 
   if (use_x11 || ozone_platform_x11) {
