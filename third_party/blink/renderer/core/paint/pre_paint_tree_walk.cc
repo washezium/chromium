@@ -547,6 +547,10 @@ void PrePaintTreeWalk::WalkNGChildren(const LayoutObject* parent,
         continue;
       }
     } else if (!object) {
+      const NGPhysicalBoxFragment* box_fragment = (*iterator)->BoxFragment();
+      if (UNLIKELY(box_fragment->IsLayoutObjectDestroyedOrMoved()))
+        continue;
+
       // A fragmentainer doesn't paint anything itself. Just include its offset
       // and descend into children.
       DCHECK((*iterator)->BoxFragment()->IsFragmentainerBox());
