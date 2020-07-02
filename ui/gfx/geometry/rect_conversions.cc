@@ -101,11 +101,10 @@ bool IsNearestRectWithinDistance(const gfx::RectF& rect, float distance) {
   int max_x = ToRoundedInt(float_max_x);
   int max_y = ToRoundedInt(float_max_y);
 
-  return
-      (std::abs(min_x - float_min_x) < distance) &&
-      (std::abs(min_y - float_min_y) < distance) &&
-      (std::abs(max_x - float_max_x) < distance) &&
-      (std::abs(max_y - float_max_y) < distance);
+  return (std::abs(min_x - float_min_x) < distance) &&
+         (std::abs(min_y - float_min_y) < distance) &&
+         (std::abs(max_x - float_max_x) < distance) &&
+         (std::abs(max_y - float_max_y) < distance);
 }
 
 gfx::Rect ToRoundedRect(const gfx::RectF& rect) {

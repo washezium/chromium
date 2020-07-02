@@ -315,8 +315,8 @@ void Canvas::DrawImageInt(const ImageSkia& image,
   ScopedCanvas scoper(this);
   canvas_->scale(SkFloatToScalar(1.0f / bitmap_scale),
                  SkFloatToScalar(1.0f / bitmap_scale));
-  canvas_->translate(std::round(x * bitmap_scale),
-                     std::round(y * bitmap_scale));
+  canvas_->translate(SkFloatToScalar(std::round(x * bitmap_scale)),
+                     SkFloatToScalar(std::round(y * bitmap_scale)));
   canvas_->saveLayer(nullptr, &flags);
   canvas_->drawPicture(image_rep.GetPaintRecord());
   canvas_->restore();

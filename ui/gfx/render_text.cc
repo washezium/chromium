@@ -187,7 +187,7 @@ typename BreakList<T>::const_iterator IncrementBreakListIteratorToPosition(
     typename BreakList<T>::const_iterator iter,
     size_t position) {
   for (; iter != break_list.breaks().end(); ++iter) {
-    const gfx::Range range = break_list.GetRange(iter);
+    const Range range = break_list.GetRange(iter);
     if (position >= range.start() && position < range.end())
       break;
   }
@@ -748,11 +748,11 @@ bool RenderText::SetSelection(const SelectionModel& model) {
   return changed;
 }
 
-bool RenderText::MoveCursorToPoint(const gfx::Point& point,
+bool RenderText::MoveCursorToPoint(const Point& point,
                                    bool select,
-                                   const gfx::Point& drag_origin) {
+                                   const Point& drag_origin) {
   reset_cached_cursor_x();
-  gfx::SelectionModel model = FindCursorPosition(point, drag_origin);
+  SelectionModel model = FindCursorPosition(point, drag_origin);
   if (select)
     model.set_selection_start(selection().start());
   return SetSelection(model);
@@ -1568,8 +1568,8 @@ void RenderText::EnsureLayoutTextUpdated() const {
       }
 
       // Apply an underline to the composition range in |underlines|.
-      const Range grapheme_start_range(gfx::Range(
-          text_grapheme_start_position, text_grapheme_start_position + 1));
+      const Range grapheme_start_range(text_grapheme_start_position,
+                                       text_grapheme_start_position + 1);
       if (composition_range_.Contains(grapheme_start_range))
         layout_styles_[TEXT_STYLE_HEAVY_UNDERLINE].ApplyValue(true, range);
 
@@ -1943,11 +1943,10 @@ int RenderText::DetermineBaselineCenteringText(const int display_height,
 }
 
 // static
-gfx::Rect RenderText::ExpandToBeVerticallySymmetric(
-    const gfx::Rect& rect,
-    const gfx::Rect& display_rect) {
+Rect RenderText::ExpandToBeVerticallySymmetric(const Rect& rect,
+                                               const Rect& display_rect) {
   // Mirror |rect| across the horizontal line dividing |display_rect| in half.
-  gfx::Rect result = rect;
+  Rect result = rect;
   int mid_y = display_rect.CenterPoint().y();
   // The top of the mirror rect must be equidistant with the bottom of the
   // original rect from the mid-line.

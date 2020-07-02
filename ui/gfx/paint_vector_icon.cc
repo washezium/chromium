@@ -568,7 +568,7 @@ void PaintVectorIcon(Canvas* canvas,
 
 ImageSkia CreateVectorIcon(const IconDescription& params) {
   if (params.icon.is_empty())
-    return gfx::ImageSkia();
+    return ImageSkia();
 
   return g_icon_cache.Get().GetOrCreateIcon(params);
 }

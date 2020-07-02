@@ -787,7 +787,7 @@ void ApplyForcedDirection(UBiDiLevel* level) {
 }
 
 internal::TextRunHarfBuzz::FontParams CreateFontParams(
-    const gfx::Font& primary_font,
+    const Font& primary_font,
     UBiDiLevel bidi_level,
     UScriptCode script,
     const internal::StyleIterator& style) {

@@ -9,21 +9,15 @@
 namespace gfx {
 
 Point ToFlooredPoint(const PointF& point) {
-  int x = ToFlooredInt(point.x());
-  int y = ToFlooredInt(point.y());
-  return Point(x, y);
+  return Point(ToFlooredInt(point.x()), ToFlooredInt(point.y()));
 }
 
 Point ToCeiledPoint(const PointF& point) {
-  int x = ToCeiledInt(point.x());
-  int y = ToCeiledInt(point.y());
-  return Point(x, y);
+  return Point(ToCeiledInt(point.x()), ToCeiledInt(point.y()));
 }
 
 Point ToRoundedPoint(const PointF& point) {
-  int x = ToRoundedInt(point.x());
-  int y = ToRoundedInt(point.y());
-  return Point(x, y);
+  return Point(ToRoundedInt(point.x()), ToRoundedInt(point.y()));
 }
 
 }  // namespace gfx

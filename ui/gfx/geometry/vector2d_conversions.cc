@@ -9,21 +9,15 @@
 namespace gfx {
 
 Vector2d ToFlooredVector2d(const Vector2dF& vector2d) {
-  int x = ToFlooredInt(vector2d.x());
-  int y = ToFlooredInt(vector2d.y());
-  return Vector2d(x, y);
+  return Vector2d(ToFlooredInt(vector2d.x()), ToFlooredInt(vector2d.y()));
 }
 
 Vector2d ToCeiledVector2d(const Vector2dF& vector2d) {
-  int x = ToCeiledInt(vector2d.x());
-  int y = ToCeiledInt(vector2d.y());
-  return Vector2d(x, y);
+  return Vector2d(ToCeiledInt(vector2d.x()), ToCeiledInt(vector2d.y()));
 }
 
 Vector2d ToRoundedVector2d(const Vector2dF& vector2d) {
-  int x = ToRoundedInt(vector2d.x());
-  int y = ToRoundedInt(vector2d.y());
-  return Vector2d(x, y);
+  return Vector2d(ToRoundedInt(vector2d.x()), ToRoundedInt(vector2d.y()));
 }
 
 }  // namespace gfx

@@ -902,8 +902,8 @@ void Tab::MaybeAdjustLeftForPinnedTab(gfx::Rect* bounds,
   const int pinned_width = TabStyle::GetPinnedWidth();
   const int ideal_delta = width() - pinned_width;
   const int ideal_x = (pinned_width - visual_width) / 2;
-  // TODO(pkasting): https://crbug.com/533570  This code is broken when the
-  // current width is less than the pinned width.
+  // TODO(crbug.com/533570): This code is broken when the current width is less
+  // than the pinned width.
   bounds->set_x(
       bounds->x() +
       gfx::ToRoundedInt(

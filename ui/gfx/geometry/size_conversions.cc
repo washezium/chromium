@@ -9,21 +9,15 @@
 namespace gfx {
 
 Size ToFlooredSize(const SizeF& size) {
-  int w = ToFlooredInt(size.width());
-  int h = ToFlooredInt(size.height());
-  return Size(w, h);
+  return Size(ToFlooredInt(size.width()), ToFlooredInt(size.height()));
 }
 
 Size ToCeiledSize(const SizeF& size) {
-  int w = ToCeiledInt(size.width());
-  int h = ToCeiledInt(size.height());
-  return Size(w, h);
+  return Size(ToCeiledInt(size.width()), ToCeiledInt(size.height()));
 }
 
 Size ToRoundedSize(const SizeF& size) {
-  int w = ToRoundedInt(size.width());
-  int h = ToRoundedInt(size.height());
-  return Size(w, h);
+  return Size(ToRoundedInt(size.width()), ToRoundedInt(size.height()));
 }
 
 }  // namespace gfx
