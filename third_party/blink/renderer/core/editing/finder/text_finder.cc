@@ -86,15 +86,18 @@ static void ScrollToVisible(Range* match) {
     // this case we are traversing from the start position of the range.
     Element* enclosing_block =
         EnclosingBlock(range.StartPosition(), kCannotCrossEditingBoundary);
-    DCHECK(enclosing_block);
     // Note that we don't check the `range.EndPosition()` since we just activate
     // the beginning of the range. In find-in-page cases, the end position is
     // the same since the matches cannot cross block boundaries. However, in
     // scroll-to-text, the range might be different, but we still just activate
     // the beginning of the range. See
     // https://github.com/WICG/display-locking/issues/125 for more details.
-    enclosing_block->DispatchEvent(
-        *Event::Create(event_type_names::kBeforematch));
+    auto& event = *Event::CreateBubble(event_type_names::kBeforematch);
+    if (enclosing_block) {
+      enclosing_block->DispatchEvent(event);
+    } else {
+      match->FirstNode()->DispatchEvent(event);
+    }
     // TODO(jarhar): Consider what to do based on DOM/style modifications made
     // by the beforematch event here and write tests for it once we decide on a
     // behavior here: https://github.com/WICG/display-locking/issues/150
