@@ -2379,6 +2379,7 @@ static_library("browser") {
       "android/foreign_session_helper.cc",
       "android/foreign_session_helper.h",
       "android/headers_classifier.cc",
+      "android/historical_tab_saver.cc",
       "android/history/browsing_history_bridge.cc",
       "android/history/browsing_history_bridge.h",
       "android/history/history_deletion_bridge.cc",

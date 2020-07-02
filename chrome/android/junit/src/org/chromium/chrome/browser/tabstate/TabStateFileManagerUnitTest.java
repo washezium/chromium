@@ -5,49 +5,35 @@
 package org.chromium.chrome.browser.tabstate;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 import androidx.annotation.Nullable;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
 import org.chromium.base.StreamUtil;
 import org.chromium.base.test.BaseRobolectricTestRunner;
-import org.chromium.base.test.util.JniMocker;
-import org.chromium.chrome.browser.tab.TabImpl;
 import org.chromium.chrome.browser.tab.TabLaunchType;
 import org.chromium.chrome.browser.tab.TabState;
 import org.chromium.chrome.browser.tab.TabStateFileManager;
 import org.chromium.chrome.browser.tab.WebContentsState;
-import org.chromium.chrome.browser.tab.WebContentsStateBridge;
-import org.chromium.chrome.browser.tab.WebContentsStateBridgeJni;
-import org.chromium.content_public.browser.WebContents;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * Unit tests for TabState.
+ * Unit tests for {@link TabStateFileManager}.
  */
 @RunWith(BaseRobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class TabStateUnitTest {
+public class TabStateFileManagerUnitTest {
     private static final byte[] CONTENTS_STATE_BYTES = new byte[] {1, 2, 3};
     private static final long TIMESTAMP = 10L;
     private static final int PARENT_ID = 1;
@@ -59,23 +45,6 @@ public class TabStateUnitTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    @Rule
-    public JniMocker mocker = new JniMocker();
-
-    @Mock
-    WebContentsStateBridge.Natives mWebContentsStateBridgeJni;
-
-    @Mock
-    public TabImpl mTabImplMock;
-    @Mock
-    public WebContents mWebContentsMock;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mocker.mock(WebContentsStateBridgeJni.TEST_HOOKS, mWebContentsStateBridgeJni);
-    }
 
     @Test
     public void testSaveTabStateWithMemoryMappedContentsState() throws IOException {
@@ -139,59 +108,5 @@ public class TabStateUnitTest {
             StreamUtil.closeQuietly(dataOutputStream);
         }
         return file;
-    }
-
-    @Test
-    public void testSaveHistoricalTab_NotFrozen_HistoricalTabCreated() {
-        doReturn(false).when(mTabImplMock).isFrozen();
-        doReturn(mWebContentsMock).when(mTabImplMock).getWebContents();
-
-        TabState.createHistoricalTab(mTabImplMock);
-
-        verify(mWebContentsStateBridgeJni).createHistoricalTabFromContents(eq(mWebContentsMock));
-    }
-
-    @Test
-    public void testSaveHistoricalTab_Frozen_NullWebContentsState_HistoricalTabNotCreated() {
-        doReturn(true).when(mTabImplMock).isFrozen();
-        doReturn(null).when(mTabImplMock).getFrozenContentsState();
-
-        TabState.createHistoricalTab(mTabImplMock);
-
-        verify(mWebContentsStateBridgeJni, never()).createHistoricalTabFromContents(any());
-    }
-
-    @Test
-    public void testSaveHistoricalTab_Frozen_RestoreFailed_HistoricalTabNotCreated() {
-        ByteBuffer buffer = ByteBuffer.allocate(1);
-        WebContentsState webContentsState = new WebContentsState(buffer);
-        webContentsState.setVersion(123);
-
-        doReturn(true).when(mTabImplMock).isFrozen();
-        doReturn(webContentsState).when(mTabImplMock).getFrozenContentsState();
-        doReturn(null)
-                .when(mWebContentsStateBridgeJni)
-                .restoreContentsFromByteBuffer(eq(buffer), eq(123), eq(true));
-
-        TabState.createHistoricalTab(mTabImplMock);
-
-        verify(mWebContentsStateBridgeJni, never()).createHistoricalTabFromContents(any());
-    }
-
-    @Test
-    public void testSaveHistoricalTab_Frozen_Restored_HistoricalTabCreated() {
-        ByteBuffer buffer = ByteBuffer.allocate(1);
-        WebContentsState webContentsState = new WebContentsState(buffer);
-        webContentsState.setVersion(123);
-
-        doReturn(true).when(mTabImplMock).isFrozen();
-        doReturn(webContentsState).when(mTabImplMock).getFrozenContentsState();
-        doReturn(mWebContentsMock)
-                .when(mWebContentsStateBridgeJni)
-                .restoreContentsFromByteBuffer(eq(buffer), eq(123), eq(true));
-
-        TabState.createHistoricalTab(mTabImplMock);
-
-        verify(mWebContentsStateBridgeJni).createHistoricalTabFromContents(eq(mWebContentsMock));
     }
 }
