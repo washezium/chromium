@@ -52925,6 +52925,12 @@ Called by update_net_trust_anchors.py.-->
              account store"/>
 </enum>
 
+<enum name="PasswordBubbleFollowupType">
+  <int value="0" label="Safe state"/>
+  <int value="1" label="More passwords to fix"/>
+  <int value="2" label="Unsafe state"/>
+</enum>
+
 <enum name="PasswordBubbleSignInPromoDismissalReason">
   <int value="0" label="Dismissed"/>
   <int value="1" label="Sign in"/>
