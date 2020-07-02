@@ -43,7 +43,6 @@ import org.chromium.chrome.test.ChromeJUnit4ClassRunner;
 import org.chromium.chrome.test.util.ActivityUtils;
 import org.chromium.chrome.test.util.ApplicationTestUtils;
 import org.chromium.chrome.test.util.ChromeRenderTestRule;
-import org.chromium.chrome.test.util.browser.signin.SigninTestUtil;
 import org.chromium.chrome.test.util.browser.sync.SyncTestUtil;
 import org.chromium.components.signin.ChromeSigninController;
 import org.chromium.components.signin.metrics.SigninAccessPoint;
@@ -98,7 +97,7 @@ public class SigninFragmentTest {
     @Feature("RenderTest")
     public void testSigninFragmentNotDefaultAccountWithPrimaryAccount() throws IOException {
         Account account = mSyncTestRule.setUpTestAccount();
-        SigninTestUtil.addTestAccount("test.second.account@gmail.com");
+        mSyncTestRule.addAccount("test.second.account@gmail.com");
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
                     SigninActivityLauncher.get().launchActivityForPromoChooseAccountFlow(
@@ -115,7 +114,7 @@ public class SigninFragmentTest {
     public void testSigninFragmentNotDefaultAccountWithSecondaryAccount() throws IOException {
         mSyncTestRule.setUpTestAccount();
         String secondAccountName = "test.second.account@gmail.com";
-        SigninTestUtil.addTestAccount(secondAccountName);
+        mSyncTestRule.addAccount(secondAccountName);
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
                     SigninActivityLauncher.get().launchActivityForPromoChooseAccountFlow(
@@ -186,7 +185,7 @@ public class SigninFragmentTest {
     public void testSelectNonDefaultAccountInAccountPickerDialog() {
         Account defaultAccount = mSyncTestRule.setUpTestAccount();
         String nonDefaultAccountName = "test.account.nondefault@gmail.com";
-        SigninTestUtil.addTestAccount(nonDefaultAccountName);
+        mSyncTestRule.addAccount(nonDefaultAccountName);
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
                     SigninActivityLauncher.get().launchActivityForPromoDefaultFlow(
