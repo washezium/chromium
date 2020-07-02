@@ -35,7 +35,9 @@ class PpdProviderImpl : public PpdProvider {
         config_cache_(std::move(config_cache)),
         file_task_runner_(base::ThreadPool::CreateSequencedTaskRunner(
             {base::TaskPriority::USER_VISIBLE, base::MayBlock(),
-             base::TaskShutdownBehavior::SKIP_ON_SHUTDOWN})) {}
+             base::TaskShutdownBehavior::SKIP_ON_SHUTDOWN})) {
+    TryToGetMetadataManagerLocale();
+  }
 
   void ResolveManufacturers(ResolveManufacturersCallback cb) override {
     // TODO(crbug.com/888189): implement this.
@@ -70,6 +72,38 @@ class PpdProviderImpl : public PpdProvider {
   ~PpdProviderImpl() override = default;
 
  private:
+  // Called when |this| is totally ready to go; dequeues
+  // locale-sensitive method calls, including
+  // *  ResolveManufacturers(),
+  // *  ResolvePpdReference(), and
+  // *  ReverseLookup().
+  void FlushQueuedMethodCalls() {
+    // TODO(crbug.com/888189): implement this method.
+  }
+
+  // Readies |metadata_manager_| to call methods which require a
+  // successful callback from PpdMetadataManager::GetLocale().
+  //
+  // |this| is largely useless if its |metadata_manager_| is not ready
+  // to traffick in locale-sensitive PPD metadata, so we want this
+  // method to eventually succeed.
+  void TryToGetMetadataManagerLocale() {
+    auto callback =
+        base::BindOnce(&PpdProviderImpl::OnMetadataManagerLocaleGotten,
+                       weak_factory_.GetWeakPtr());
+    metadata_manager_->GetLocale(std::move(callback));
+  }
+
+  // Callback fed to PpdMetadataManager::GetLocale().
+  void OnMetadataManagerLocaleGotten(bool succeeded) {
+    if (!succeeded) {
+      TryToGetMetadataManagerLocale();
+      return;
+    }
+    metadata_manager_has_gotten_locale_ = true;
+    FlushQueuedMethodCalls();
+  }
+
   // Locale of the browser, as returned by
   // BrowserContext::GetApplicationLocale();
   const std::string browser_locale_;
@@ -82,6 +116,10 @@ class PpdProviderImpl : public PpdProvider {
 
   // Interacts with and controls PPD metadata.
   std::unique_ptr<PpdMetadataManager> metadata_manager_;
+
+  // Denotes whether the |metadata_manager_| has successfully completed
+  // a call to its GetLocale() method.
+  bool metadata_manager_has_gotten_locale_ = false;
 
   // Fetches PPDs from the Chrome OS Printing team's serving root.
   std::unique_ptr<PrinterConfigCache> config_cache_;
