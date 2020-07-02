@@ -78,7 +78,7 @@ public class BookmarkPersonalizedSigninPromoTest {
         doNothing()
                 .when(SigninActivityLauncher.get())
                 .launchActivityForPromoDefaultFlow(any(Context.class), anyInt(), anyString());
-        Account account = mSyncTestRule.setUpTestAccount();
+        Account account = mSyncTestRule.addTestAccount();
         showBookmarkManagerAndCheckSigninPromoIsDisplayed();
         onView(withId(R.id.signin_promo_signin_button)).perform(click());
         verify(mMockSigninActivityLauncher)
@@ -92,7 +92,7 @@ public class BookmarkPersonalizedSigninPromoTest {
         doNothing()
                 .when(SigninActivityLauncher.get())
                 .launchActivityForPromoChooseAccountFlow(any(Context.class), anyInt(), anyString());
-        Account account = mSyncTestRule.setUpTestAccount();
+        Account account = mSyncTestRule.addTestAccount();
         showBookmarkManagerAndCheckSigninPromoIsDisplayed();
         onView(withId(R.id.signin_promo_choose_account_button)).perform(click());
         verify(mMockSigninActivityLauncher)

@@ -96,7 +96,7 @@ public class SigninFragmentTest {
     @LargeTest
     @Feature("RenderTest")
     public void testSigninFragmentNotDefaultAccountWithPrimaryAccount() throws IOException {
-        Account account = mSyncTestRule.setUpTestAccount();
+        Account account = mSyncTestRule.addTestAccount();
         mSyncTestRule.addAccount("test.second.account@gmail.com");
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
@@ -112,7 +112,7 @@ public class SigninFragmentTest {
     @LargeTest
     @Feature("RenderTest")
     public void testSigninFragmentNotDefaultAccountWithSecondaryAccount() throws IOException {
-        mSyncTestRule.setUpTestAccount();
+        mSyncTestRule.addTestAccount();
         String secondAccountName = "test.second.account@gmail.com";
         mSyncTestRule.addAccount(secondAccountName);
         mSigninActivity = ActivityUtils.waitForActivity(
@@ -129,7 +129,7 @@ public class SigninFragmentTest {
     @LargeTest
     @Feature("RenderTest")
     public void testSigninFragmentDefaultAccount() throws IOException {
-        Account account = mSyncTestRule.setUpTestAccount();
+        Account account = mSyncTestRule.addTestAccount();
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
                     SigninActivityLauncher.get().launchActivityForPromoDefaultFlow(
@@ -143,7 +143,7 @@ public class SigninFragmentTest {
     @Test
     @LargeTest
     public void testClickingSettingsDoesNotSetFirstSetupComplete() {
-        Account account = mSyncTestRule.setUpTestAccount();
+        Account account = mSyncTestRule.addTestAccount();
         mSigninActivity = ActivityUtils.waitForActivity(
                 InstrumentationRegistry.getInstrumentation(), SigninActivity.class, () -> {
                     SigninActivityLauncher.get().launchActivityForPromoDefaultFlow(
@@ -183,7 +183,7 @@ public class SigninFragmentTest {
     @Test
     @MediumTest
     public void testSelectNonDefaultAccountInAccountPickerDialog() {
-        Account defaultAccount = mSyncTestRule.setUpTestAccount();
+        Account defaultAccount = mSyncTestRule.addTestAccount();
         String nonDefaultAccountName = "test.account.nondefault@gmail.com";
         mSyncTestRule.addAccount(nonDefaultAccountName);
         mSigninActivity = ActivityUtils.waitForActivity(

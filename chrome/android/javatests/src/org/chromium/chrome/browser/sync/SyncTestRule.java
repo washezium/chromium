@@ -173,7 +173,10 @@ public class SyncTestRule extends ChromeActivityTestRule<ChromeActivity> {
         startMainActivityOnBlankPage();
     }
 
-    public Account setUpTestAccount() {
+    /**
+     * Adds an account of default account name to AccountManagerFacade and waits for the seeding.
+     */
+    public Account addTestAccount() {
         Account account = mAccountManagerTestRule.addAccountAndWaitForSeeding(
                 AccountManagerTestRule.TEST_ACCOUNT_EMAIL);
         Assert.assertFalse(SyncTestUtil.isSyncRequested());
@@ -200,7 +203,7 @@ public class SyncTestRule extends ChromeActivityTestRule<ChromeActivity> {
      * @return the test account that is signed in.
      */
     public Account setUpAccountAndSignInForTesting() {
-        Account account = setUpTestAccount();
+        Account account = addTestAccount();
         signinAndEnableSync(account);
         return account;
     }
@@ -210,7 +213,7 @@ public class SyncTestRule extends ChromeActivityTestRule<ChromeActivity> {
      * @return the test account that is signed in.
      */
     public Account setUpTestAccountAndSignInWithSyncSetupAsIncomplete() {
-        Account account = setUpTestAccount();
+        Account account = addTestAccount();
         signinAndEnableSyncInternal(account, false);
         return account;
     }

@@ -137,7 +137,7 @@ public class FirstRunTest {
     @Test
     @FlakyTest(message = "https://crbug.com/616456")
     public void testSignIn() {
-        Account testAccount = mSyncTestRule.setUpTestAccount();
+        Account testAccount = mSyncTestRule.addTestAccount();
         Assert.assertNull(mSyncTestRule.getCurrentSignedInAccount());
         Assert.assertFalse(SyncTestUtil.isSyncRequested());
 
@@ -155,7 +155,7 @@ public class FirstRunTest {
     @Test
     @FlakyTest(message = "https://crbug.com/616456")
     public void testSignInWithOpenSettings() {
-        final Account testAccount = mSyncTestRule.setUpTestAccount();
+        final Account testAccount = mSyncTestRule.addTestAccount();
         final SettingsActivity settingsActivity =
                 processFirstRun(testAccount.name, true /* ShowSettings */);
 
@@ -181,7 +181,7 @@ public class FirstRunTest {
     @Feature({"Sync"})
     @DisabledTest // https://crbug.com/901488
     public void testNoSignIn() {
-        mSyncTestRule.setUpTestAccount();
+        mSyncTestRule.addTestAccount();
         Assert.assertFalse(SyncTestUtil.isSyncRequested());
         processFirstRun(null, false /* ShowSettings */);
         Assert.assertNull(mSyncTestRule.getCurrentSignedInAccount());
