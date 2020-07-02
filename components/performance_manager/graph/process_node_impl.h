@@ -72,7 +72,7 @@ class ProcessNodeImpl
 
   // Returns the render process id (equivalent to RenderProcessHost::GetID()),
   // or ChildProcessHost::kInvalidUniqueID if this is not a renderer.
-  int GetRenderProcessId() const;
+  RenderProcessHostId GetRenderProcessId() const;
 
   // If this process is associated with only one page, returns that page.
   // Otherwise, returns nullptr.
@@ -135,6 +135,7 @@ class ProcessNodeImpl
   bool GetMainThreadTaskLoadIsLow() const override;
   uint64_t GetPrivateFootprintKb() const override;
   uint64_t GetResidentSetKb() const override;
+  RenderProcessHostId GetRenderProcessHostId() const override;
   const RenderProcessHostProxy& GetRenderProcessHostProxy() const override;
   base::TaskPriority GetPriority() const override;
 

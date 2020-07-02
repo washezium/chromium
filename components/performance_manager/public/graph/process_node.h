@@ -10,6 +10,7 @@
 #include "base/macros.h"
 #include "base/process/process.h"
 #include "base/task/task_traits.h"
+#include "base/util/type_safety/id_type.h"
 #include "components/performance_manager/public/graph/node.h"
 #include "content/public/common/process_type.h"
 
@@ -22,6 +23,9 @@ namespace performance_manager {
 class FrameNode;
 class ProcessNodeObserver;
 class RenderProcessHostProxy;
+
+// A strongly typed wrapper for the id returned by RenderProcessHost::GetID().
+using RenderProcessHostId = util::IdType32<class RenderProcessHostIdTag>;
 
 // A process node follows the lifetime of a RenderProcessHost.
 // It may reference zero or one processes at a time, but during its lifetime, it
@@ -90,6 +94,10 @@ class ProcessNode : public Node {
   // Returns the most recently measured resident set of the process, in
   // kilobytes.
   virtual uint64_t GetResidentSetKb() const = 0;
+
+  // Returns the render process id (equivalent to RenderProcessHost::GetID()),
+  // or ChildProcessHost::kInvalidUniqueID if this is not a renderer.
+  virtual RenderProcessHostId GetRenderProcessHostId() const = 0;
 
   // Returns a proxy to the RenderProcessHost associated with this node. The
   // proxy may only be dereferenced on the UI thread.
