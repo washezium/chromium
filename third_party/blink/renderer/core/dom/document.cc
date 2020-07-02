@@ -988,10 +988,6 @@ const SecurityOrigin* Document::GetSecurityOrigin() const {
   return GetSecurityContext().GetSecurityOrigin();
 }
 
-SecurityOrigin* Document::GetMutableSecurityOrigin() {
-  return GetSecurityContext().GetMutableSecurityOrigin();
-}
-
 ContentSecurityPolicy* Document::GetContentSecurityPolicy() const {
   return GetSecurityContext().GetContentSecurityPolicy();
 }
@@ -5902,7 +5898,7 @@ void Document::setDomain(const String& raw_domain,
         GetFrame()->IsCrossOriginToMainFrame();
     bool was_cross_origin_to_parent_frame =
         GetFrame()->IsCrossOriginToParentFrame();
-    GetMutableSecurityOrigin()->SetDomainFromDOM(new_domain);
+    dom_window_->GetMutableSecurityOrigin()->SetDomainFromDOM(new_domain);
     bool is_cross_origin_to_main_frame = GetFrame()->IsCrossOriginToMainFrame();
     if (FrameScheduler* frame_scheduler = GetFrame()->GetFrameScheduler())
       frame_scheduler->SetCrossOriginToMainFrame(is_cross_origin_to_main_frame);
