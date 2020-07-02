@@ -1058,6 +1058,43 @@
     assertNotReached();
     return 'OncNotConnected';
   }
+
+  /**
+   * Returns true the IPAddress bytes match.
+   * @param {?network.mojom.IPAddress|undefined} a
+   * @param {?network.mojom.IPAddress|undefined} b
+   * @return {boolean}
+   */
+  static ipAddressMatch(a, b) {
+    if (!a || !b) {
+      return !!a === !!b;
+    }
+    const abytes = a.addressBytes;
+    const bbytes = b.addressBytes;
+    if (abytes.length !== bbytes.length) {
+      return false;
+    }
+    for (let i = 0; i < abytes.length; ++i) {
+      if (abytes[i] !== bbytes[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Returns true the SIMLockStatus properties match.
+   * @param {?chromeos.networkConfig.mojom.SIMLockStatus|undefined} a
+   * @param {?chromeos.networkConfig.mojom.SIMLockStatus|undefined} b
+   * @return {boolean}
+   */
+  static simLockStatusMatch(a, b) {
+    if (!a || !b) {
+      return !!a === !!b;
+    }
+    return a.lockType === b.lockType && a.lockEnabled === b.lockEnabled &&
+        a.retriesLeft === b.retriesLeft;
+  }
 }
 
 /** @typedef {chromeos.networkConfig.mojom.DeviceStateProperties} */
