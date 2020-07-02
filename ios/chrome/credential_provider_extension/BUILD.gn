@@ -79,6 +79,7 @@ ios_appex_bundle("credential_provider_extension") {
     "CHROME_CHANNEL_SCHEME=$url_channel_scheme",
     "CHROMIUM_SHORT_NAME=$chromium_short_name",
     "CREDENTIAL_PROVIDER_EXTENSION_BUNDLE_ID=$chromium_bundle_id.CredentialProviderExtension",
+    "CHROMIUM_BUNDLE_ID=$chromium_bundle_id",
   ]
 
   entitlements_target = ":entitlements"

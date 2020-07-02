@@ -34,18 +34,18 @@ using password_manager::PasswordStoreChange;
 using password_manager::PasswordStoreChangeList;
 
 BOOL ShouldSyncAllCredentials() {
-  NSUserDefaults* shared_defaults = app_group::GetGroupUserDefaults();
-  DCHECK(shared_defaults);
-  return ![shared_defaults
+  NSUserDefaults* user_defaults = [NSUserDefaults standardUserDefaults];
+  DCHECK(user_defaults);
+  return ![user_defaults
       boolForKey:kUserDefaultsCredentialProviderFirstTimeSyncCompleted];
 }
 
 BOOL ShouldSyncASIdentityStore() {
-  NSUserDefaults* shared_defaults = app_group::GetGroupUserDefaults();
-  DCHECK(shared_defaults);
-  BOOL isIdentityStoreSynced = [shared_defaults
+  NSUserDefaults* user_defaults = [NSUserDefaults standardUserDefaults];
+  DCHECK(user_defaults);
+  BOOL isIdentityStoreSynced = [user_defaults
       boolForKey:kUserDefaultsCredentialProviderASIdentityStoreSyncCompleted];
-  BOOL areCredentialsSynced = [shared_defaults
+  BOOL areCredentialsSynced = [user_defaults
       boolForKey:kUserDefaultsCredentialProviderFirstTimeSyncCompleted];
   return !isIdentityStoreSynced && areCredentialsSynced;
 }
@@ -64,12 +64,10 @@ void SyncASIdentityStore(ArchivableCredentialStore* credential_store) {
                                        initWithCredential:credential]];
       }
       auto replaceCompletion = ^(BOOL success, NSError* error) {
-        DCHECK(success) << "Failed to update store, error: "
-                        << error.description;
-        NSUserDefaults* shared_defaults = app_group::GetGroupUserDefaults();
+        NSUserDefaults* user_defaults = [NSUserDefaults standardUserDefaults];
         NSString* key =
             kUserDefaultsCredentialProviderASIdentityStoreSyncCompleted;
-        [shared_defaults setBool:success forKey:key];
+        [user_defaults setBool:success forKey:key];
       };
       [ASCredentialIdentityStore.sharedStore
           replaceCredentialIdentitiesWithIdentities:storeIdentities
@@ -160,7 +158,7 @@ void CredentialProviderService::UpdateAccountValidationId() {
   }
   [app_group::GetGroupUserDefaults()
       setObject:account_validation_id_
-         forKey:kUserDefaultsCredentialProviderManagedUserID];
+         forKey:AppGroupUserDefaultsCredentialProviderManagedUserID()];
 }
 
 void CredentialProviderService::SyncStore(void (^completion)(NSError*)) const {
@@ -184,9 +182,9 @@ void CredentialProviderService::OnGetPasswordStoreResults(
   }
   SyncStore(^(NSError* error) {
     if (!error) {
-      [app_group::GetGroupUserDefaults()
-          setBool:YES
-           forKey:kUserDefaultsCredentialProviderFirstTimeSyncCompleted];
+      NSUserDefaults* user_defaults = [NSUserDefaults standardUserDefaults];
+      NSString* key = kUserDefaultsCredentialProviderFirstTimeSyncCompleted;
+      [user_defaults setBool:YES forKey:key];
       SyncASIdentityStore(archivable_credential_store_);
     }
   });
