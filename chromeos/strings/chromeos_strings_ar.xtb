@@ -3,7 +3,7 @@
 <translationbundle lang="ar">
 <translation id="1018656279737460067">تم الإلغاء</translation>
 <translation id="1195447618553298278">خطأ  غير محدّد.</translation>
-<translation id="1413240736185167732">تعذَّرت الطباعة - خلل في تعريف الطابعة</translation>
+<translation id="1413240736185167732">تعذَّرت الطباعة - خلل في عامل تصفية الطباعة</translation>
 <translation id="1468664791493211953">العروض</translation>
 <translation id="1482734542997480527">يدير النطاق <ph name="ENROLLMENT_DOMAIN" /> هذا الجهاز وقد يتمكن من مراقبة نشاطك.</translation>
 <translation id="150962533380566081">‏PUK غير صالح.</translation>
@@ -15,6 +15,7 @@
 <translation id="1947737735496445907">تمت الطباعة</translation>
 <translation id="1979103255016296513">تأخير تغيير كلمة المرور</translation>
 <translation id="2049639323467105390">تتم إدارة هذا الجهاز بواسطة <ph name="DOMAIN" />.</translation>
+<translation id="2161394479394250669">إلغاء مهمة الطباعة</translation>
 <translation id="2338501278241028356">تفعيل البلوتوث لاكتشاف الأجهزة القريبة</translation>
 <translation id="2375079107209812402">المحاولات المتبقية: <ph name="ATTEMPTS_LEFT" /></translation>
 <translation id="2805756323405976993">التطبيقات</translation>

@@ -15,6 +15,7 @@
 <translation id="1947737735496445907">प्रिंट किया गया</translation>
 <translation id="1979103255016296513">पासवर्ड बदलने का समय निकल चुका है</translation>
 <translation id="2049639323467105390">यह डिवाइस <ph name="DOMAIN" /> द्वारा प्रबंधित है.</translation>
+<translation id="2161394479394250669">प्रिंट करना रद्द करें</translation>
 <translation id="2338501278241028356">आस-पास के डिवाइस खोजने के लिए ब्लूटूथ चालू करें</translation>
 <translation id="2375079107209812402"><ph name="ATTEMPTS_LEFT" /> बार और कोशिश कर सकते हैं</translation>
 <translation id="2805756323405976993">ऐप्स</translation>
@@ -34,7 +35,7 @@
 <translation id="4003384961948020559">प्रिंट नहीं हो पाया - प्रिंटर आउटपुट फ़ुल है</translation>
 <translation id="4034824040120875894">प्रिंटर</translation>
 <translation id="4227825898293920515"><ph name="TIME" /> में पासवर्ड की समयसीमा खत्म हो जाएगी</translation>
-<translation id="4238516577297848345">प्रिंट के लिए कोई भी काम चालू नहीं है</translation>
+<translation id="4238516577297848345">फ़िलहाल, कुछ प्रिंट नहीं हो रहा</translation>
 <translation id="428217921675623177">90 दिन पहले प्रिंट की गई चीज़ों की जानकारी हटा दी जाएगी</translation>
 <translation id="4429881212383817840">Kerberos टिकट की समयसीमा जल्द ही खत्म होने वाली है</translation>
 <translation id="445059817448385655">पुराना पासवर्ड</translation>

@@ -15,6 +15,7 @@
 <translation id="1947737735496445907">Prentað</translation>
 <translation id="1979103255016296513">Breyting á aðgangsorði komin fram yfir tíma</translation>
 <translation id="2049639323467105390">Þessu tæki er stjórnað af <ph name="DOMAIN" />.</translation>
+<translation id="2161394479394250669">Hætta við prentverk</translation>
 <translation id="2338501278241028356">Kveiktu á Bluetooth til að uppgötva nálæg tæki</translation>
 <translation id="2375079107209812402"><ph name="ATTEMPTS_LEFT" /> tilraunir eftir</translation>
 <translation id="2805756323405976993">Forrit</translation>
@@ -34,7 +35,7 @@
 <translation id="4003384961948020559">Mistókst – úttakið er fullt</translation>
 <translation id="4034824040120875894">Prentari</translation>
 <translation id="4227825898293920515">Aðgangsorð rennur út eftir <ph name="TIME" /></translation>
-<translation id="4238516577297848345">Engin prentun stendur yfir</translation>
+<translation id="4238516577297848345">Engin prentun í gangi</translation>
 <translation id="428217921675623177">Prentverk sem eru eldri en 90 dagar verða fjarlægð</translation>
 <translation id="4429881212383817840">Kerberos-miði rennur út fljótlega</translation>
 <translation id="445059817448385655">Eldra aðgangsorð</translation>
