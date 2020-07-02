@@ -1055,6 +1055,35 @@ void FillNavigationParamsOriginPolicy(
   }
 }
 
+// Asks RenderProcessHostImpl::CreateURLLoaderFactoryForRendererProcess in the
+// browser process for a URLLoaderFactory.
+//
+// AVOID: see the comment on CreateDefaultURLLoaderFactoryBundle below.
+mojo::PendingRemote<network::mojom::URLLoaderFactory>
+CreateDefaultURLLoaderFactory() {
+  RenderThreadImpl* render_thread = RenderThreadImpl::current();
+  DCHECK(render_thread);
+  mojo::PendingRemote<network::mojom::URLLoaderFactory> factory_remote;
+  ChildThread::Get()->BindHostReceiver(
+      factory_remote.InitWithNewPipeAndPassReceiver());
+  return factory_remote;
+}
+
+// Returns a non-null pointer to a URLLoaderFactory bundle that is not
+// associated with any specific origin, frame or worker.
+//
+// AVOID: prefer to use an origin/frame/worker-specific factory (e.g. via
+// content::RenderFrameImpl::FrameURLLoaderFactory::CreateURLLoader).  See
+// also https://crbug.com/1098938.
+//
+// It is invalid to call this in an incomplete env where
+// RenderThreadImpl::current() returns nullptr (e.g. in some tests).
+scoped_refptr<ChildURLLoaderFactoryBundle>
+CreateDefaultURLLoaderFactoryBundle() {
+  return base::MakeRefCounted<ChildURLLoaderFactoryBundle>(
+      base::BindOnce(&CreateDefaultURLLoaderFactory));
+}
+
 }  // namespace
 
 // This class uses existing WebNavigationBodyLoader to read the whole response
@@ -5739,16 +5768,15 @@ RenderFrameImpl::CreateLoaderFactoryBundle(
       base::MakeRefCounted<HostChildURLLoaderFactoryBundle>(
           GetTaskRunner(blink::TaskType::kInternalLoading));
 
-  // In some tests |render_thread| could be null.
-  RenderThreadImpl* render_thread = RenderThreadImpl::current();
-  if (render_thread && !info) {
+  // CreateDefaultURLLoaderFactoryBundle can't be called if (as in some tests)
+  // RenderThreadImpl::current is null.
+  if (RenderThreadImpl::current() && !info) {
     // This should only happen for a placeholder document or an initial empty
     // document cases.
     DCHECK(GetLoadingUrl().is_empty() ||
            GetLoadingUrl().spec() == url::kAboutBlankURL);
-    loader_factories->Update(render_thread->blink_platform_impl()
-                                 ->CreateDefaultURLLoaderFactoryBundle()
-                                 ->PassInterface());
+    loader_factories->Update(
+        CreateDefaultURLLoaderFactoryBundle()->PassInterface());
   }
 
   if (info) {
