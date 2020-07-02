@@ -3184,8 +3184,9 @@ StyleRecalcChange Element::RecalcOwnStyle(const StyleRecalcChange change) {
   SetComputedStyle(new_style);
 
   if (!child_change.ReattachLayoutTree() &&
-      (GetForceReattachLayoutTree() || ComputedStyle::NeedsReattachLayoutTree(
-                                           old_style.get(), new_style.get()))) {
+      (GetForceReattachLayoutTree() ||
+       ComputedStyle::NeedsReattachLayoutTree(*this, old_style.get(),
+                                              new_style.get()))) {
     child_change = child_change.ForceReattachLayoutTree();
   }
 
