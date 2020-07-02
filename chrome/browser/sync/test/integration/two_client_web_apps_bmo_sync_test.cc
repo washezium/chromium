@@ -182,8 +182,8 @@ IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
   EXPECT_TRUE(AllProfilesHaveSameWebAppIds());
 }
 
-// Flakily fails on Linux TSAN only (crbug.com/1099847)
-#if defined(OS_LINUX)
+// Flakily fails on Mac ASAN, Linux TSAN: crbug.com/1099847
+#if defined(THREAD_SANITIZER) || defined(ADDRESS_SANITIZER)
 #define MAYBE_SyncDoubleInstallationDifferentNames \
   DISABLED_SyncDoubleInstallationDifferentNames
 #else
@@ -219,8 +219,16 @@ IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
   EXPECT_EQ(GetRegistrar(GetProfile(1)).GetAppShortName(app_id), "Test name 2");
 }
 
+// Flakily fails on Mac ASAN: crbug.com/1099847
+#if defined(THREAD_SANITIZER) || defined(ADDRESS_SANITIZER)
+#define MAYBE_SyncDoubleInstallationDifferentUserDisplayMode \
+  DISABLED_SyncDoubleInstallationDifferentUserDisplayMode
+#else
+#define MAYBE_SyncDoubleInstallationDifferentUserDisplayMode \
+  SyncDoubleInstallationDifferentUserDisplayMode
+#endif
 IN_PROC_BROWSER_TEST_F(TwoClientWebAppsBMOSyncTest,
-                       SyncDoubleInstallationDifferentUserDisplayMode) {
+                       MAYBE_SyncDoubleInstallationDifferentUserDisplayMode) {
   ASSERT_TRUE(SetupSync());
   ASSERT_TRUE(AllProfilesHaveSameWebAppIds());
 
