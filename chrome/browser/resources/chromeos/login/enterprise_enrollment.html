@@ -170,7 +170,7 @@
           <hd-iron-icon slot="oobe-icon"
               icon1x="oobe-32:enterprise" icon2x="oobe-64:enterprise">
           </hd-iron-icon>
-          <div slot="footer" class="layout vertical start">
+          <div slot="footer" class="flex layout vertical">
             <div class="step-message">
               <span id="attributePromptMessage">
                 [[i18nDynamic(locale, 'oauthEnrollAttributeExplanation')]]
@@ -180,13 +180,15 @@
                 [[i18nDynamic(locale, 'oauthEnrollExplainAttributeLink')]]
               </a>
             </div>
-            <cr-input id="assetId" type="text" value="{{assetId_}}"
-                class="focus-on-show"
-                label="[[i18nDynamic(locale, 'enrollmentAssetIdLabel')]]">
-            </cr-input>
-            <cr-input id="location" type="text" value="{{deviceLocation_}}"
-                label="[[i18nDynamic(locale, 'enrollmentLocationLabel')]]">
-            </cr-input>
+            <div class="oobe-form">
+              <cr-input id="assetId" type="text" value="{{assetId_}}"
+                  class="focus-on-show"
+                  label="[[i18nDynamic(locale, 'enrollmentAssetIdLabel')]]">
+              </cr-input>
+              <cr-input id="location" type="text" value="{{deviceLocation_}}"
+                  label="[[i18nDynamic(locale, 'enrollmentLocationLabel')]]">
+              </cr-input>
+            </div>
           </div>
           <div slot="bottom-buttons" class="layout horizontal end-justified">
             <oobe-text-button id="attributesSkip"
