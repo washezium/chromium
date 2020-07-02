@@ -53,9 +53,8 @@ class MediaFoundationCdmSessionTest : public testing::Test {
   void Initialize() {
     COM_EXPECT_CALL(mf_cdm_,
                     CreateSession(MF_MEDIAKEYSESSION_TYPE_TEMPORARY, _, _))
-        .WillOnce(DoAll(
-            SaveComPtr<1>(mf_cdm_session_callbacks_.ReleaseAndGetAddressOf()),
-            SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
+        .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_),
+                        SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
     ASSERT_SUCCESS(
         cdm_session_.Initialize(mf_cdm_.Get(), CdmSessionType::kTemporary));
   }
@@ -110,9 +109,8 @@ TEST_F(MediaFoundationCdmSessionTest, Initialize) {
 TEST_F(MediaFoundationCdmSessionTest, Initialize_Failure) {
   COM_EXPECT_CALL(mf_cdm_,
                   CreateSession(MF_MEDIAKEYSESSION_TYPE_TEMPORARY, _, _))
-      .WillOnce(DoAll(
-          SaveComPtr<1>(mf_cdm_session_callbacks_.ReleaseAndGetAddressOf()),
-          SetComPointee<2>(mf_cdm_session_.Get()), Return(E_FAIL)));
+      .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_),
+                      SetComPointee<2>(mf_cdm_session_.Get()), Return(E_FAIL)));
   EXPECT_FAILED(
       cdm_session_.Initialize(mf_cdm_.Get(), CdmSessionType::kTemporary));
 }

@@ -95,9 +95,8 @@ class MediaFoundationCdmTest : public testing::Test {
 
     COM_EXPECT_CALL(mf_cdm_,
                     CreateSession(MF_MEDIAKEYSESSION_TYPE_TEMPORARY, _, _))
-        .WillOnce(DoAll(
-            SaveComPtr<1>(mf_cdm_session_callbacks_.ReleaseAndGetAddressOf()),
-            SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
+        .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_),
+                        SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
 
     SetGenerateRequestExpectations(mf_cdm_session_, kSessionId,
                                    &mf_cdm_session_callbacks_);
@@ -159,12 +158,10 @@ TEST_F(MediaFoundationCdmTest, CreateSessionAndGenerateRequest_Parallel) {
 
   COM_EXPECT_CALL(mf_cdm_,
                   CreateSession(MF_MEDIAKEYSESSION_TYPE_TEMPORARY, _, _))
-      .WillOnce(DoAll(
-          SaveComPtr<1>(mf_cdm_session_callbacks_1.ReleaseAndGetAddressOf()),
-          SetComPointee<2>(mf_cdm_session_1.Get()), Return(S_OK)))
-      .WillOnce(DoAll(
-          SaveComPtr<1>(mf_cdm_session_callbacks_2.ReleaseAndGetAddressOf()),
-          SetComPointee<2>(mf_cdm_session_2.Get()), Return(S_OK)));
+      .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_1),
+                      SetComPointee<2>(mf_cdm_session_1.Get()), Return(S_OK)))
+      .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_2),
+                      SetComPointee<2>(mf_cdm_session_2.Get()), Return(S_OK)));
 
   SetGenerateRequestExpectations(mf_cdm_session_1, kSessionId1,
                                  &mf_cdm_session_callbacks_1);
@@ -209,9 +206,8 @@ TEST_F(MediaFoundationCdmTest,
 
   COM_EXPECT_CALL(mf_cdm_,
                   CreateSession(MF_MEDIAKEYSESSION_TYPE_TEMPORARY, _, _))
-      .WillOnce(DoAll(
-          SaveComPtr<1>(mf_cdm_session_callbacks_.ReleaseAndGetAddressOf()),
-          SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
+      .WillOnce(DoAll(SaveComPtr<1>(&mf_cdm_session_callbacks_),
+                      SetComPointee<2>(mf_cdm_session_.Get()), Return(S_OK)));
 
   COM_EXPECT_CALL(mf_cdm_session_,
                   GenerateRequest(StrEq(L"webm"), NotNull(), init_data.size()))
