@@ -160,7 +160,7 @@
 #include "third_party/blink/renderer/core/events/visual_viewport_scroll_event.h"
 #include "third_party/blink/renderer/core/execution_context/security_context_init.h"
 #include "third_party/blink/renderer/core/execution_context/window_agent.h"
-#include "third_party/blink/renderer/core/feature_policy/dom_document_policy.h"
+#include "third_party/blink/renderer/core/feature_policy/dom_feature_policy.h"
 #include "third_party/blink/renderer/core/feature_policy/feature_policy_parser.h"
 #include "third_party/blink/renderer/core/frame/csp/content_security_policy.h"
 #include "third_party/blink/renderer/core/frame/dom_timer.h"
@@ -8080,8 +8080,8 @@ scoped_refptr<base::SingleThreadTaskRunner> Document::GetTaskRunner(
 }
 
 DOMFeaturePolicy* Document::featurePolicy() {
-  if (!policy_)
-    policy_ = MakeGarbageCollected<DOMDocumentPolicy>(this);
+  if (!policy_ && GetExecutionContext())
+    policy_ = MakeGarbageCollected<DOMFeaturePolicy>(GetExecutionContext());
   return policy_.Get();
 }
 
