@@ -2984,6 +2984,14 @@ group("telemetry_perf_webview_tests") {
   deps = [ "//chrome/test:telemetry_perf_tests" ]
 }
 
+group("standalone_angle_unittests") {
+  testonly = true
+
+  # TODO(jmadill): Move into ANGLE. http://anglebug.com/3162
+  data = [ "//testing/scripts/run_gtest_angle_test.py" ]
+  data_deps = [ "//third_party/angle/src/tests:standalone_angle_unittests" ]
+}
+
 group("angle_perftests") {
   testonly = true
   data_deps = [ "//testing:run_perf_test" ]
