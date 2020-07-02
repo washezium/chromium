@@ -5194,6 +5194,18 @@ def make_install_properties(cg_context, function_name, class_name,
             body.add_template_var(arg_name, arg_name)
     bind_installer_local_vars(body, cg_context)
 
+    if (is_per_context_install
+            and "Global" in cg_context.interface.extended_attributes):
+        body.extend([
+            CxxLikelyIfNode(cond="${instance_object}.IsEmpty()",
+                            body=[
+                                TextNode("""\
+${instance_object} = ${v8_context}->Global()->GetPrototype().As<v8::Object>();\
+"""),
+                            ]),
+            EmptyNode(),
+        ])
+
     if install_prototype_object_node:
         body.extend([
             CxxLikelyIfNode(cond="${feature_selector}.IsAll()",
@@ -6892,27 +6904,6 @@ using InstallFuncType =
             [path_manager.api_path(ext="h")])
 
     # The helper function
-    globals = filter(lambda x: "Global" in x.extended_attributes,
-                     set_of_interfaces)
-    entries = [
-        TextNode("{}::GetWrapperTypeInfo(), ".format(
-            v8_bridge_class_name(interface)))
-        for interface in sorted(globals, key=lambda x: x.identifier)
-    ]
-    has_globals = bool(entries)
-    if has_globals:
-        # TODO(yukishiino): Make WrapperTypeInfo have a bit flag to indicate
-        # whether an interface is a global interface or not.  Then, we can
-        # simplify this implementation.
-        helper_func_def.body.extend([
-            ListNode([
-                TextNode("static const WrapperTypeInfo* globals_body[] = {"),
-                ListNode(entries),
-                TextNode("};"),
-            ]),
-            TextNode("const auto& globals = base::make_span(globals_body);"),
-            EmptyNode(),
-        ])
     helper_func_def.body.append(
         TextNode("""\
 V8PerContextData* per_context_data = script_state->PerContextData();
@@ -6934,17 +6925,7 @@ for (const auto& pair : wrapper_type_info_list) {
           wrapper_type_info, &prototype_object, &interface_object)) {
     continue;
   }
-"""))
-    if has_globals:
-        helper_func_def.body.append(
-            TextNode("""\
-  if (std::find(globals.begin(), globals.end(), wrapper_type_info)
-      != globals.end()) {
-    instance_object = context->Global()->GetPrototype().As<v8::Object>();
-  }
-"""))
-    helper_func_def.body.append(
-        TextNode("""\
+
   interface_template = wrapper_type_info->DomTemplate(isolate, world);
   install_func(context, world, instance_object, prototype_object,
                interface_object, interface_template, feature_selector);
