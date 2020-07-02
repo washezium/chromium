@@ -63,6 +63,8 @@ void AddPrintManagementStrings(content::WebUIDataSource* html_source) {
        IDS_PRINT_MANAGEMENT_CLEAR_ALL_POLICY_PRINT_JOB_INDICATOR_MESSAGE},
       {"cancelPrintJobButtonLabel",
        IDS_PRINT_MANAGEMENT_CANCEL_PRINT_JOB_BUTTON_LABEL},
+      {"cancelledPrintJob",
+       IDS_PRINT_MANAGEMENT_CANCELED_PRINT_JOB_ARIA_ANNOUNCEMENT},
   };
 
   for (const auto& str : kLocalizedStrings) {
