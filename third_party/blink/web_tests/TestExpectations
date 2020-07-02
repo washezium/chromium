@@ -6834,8 +6834,6 @@ crbug.com/1100786 [ Mac10.10 ] storage/indexeddb/transaction-active-flag.html [ 
 # Temporarily disable tests to allow fixing webrtc error logging
 crbug.com/1101699 external/wpt/webrtc/RTCPeerConnection-setLocalDescription-answer.html [ Pass Failure ]
 crbug.com/1101699 external/wpt/webrtc/RTCPeerConnection-setLocalDescription-pranswer.html [ Pass Failure ]
-crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setLocalDescription-answer.html [ Pass Failure ]
-crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setLocalDescription-pranswer.html [ Pass Failure ]
 crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setRemoteDescription-rollback.html [ Pass Failure ]
 
 # Temporarily disable test to allow devtools-frontend changes
