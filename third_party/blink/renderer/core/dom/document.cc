@@ -792,9 +792,9 @@ Document::Document(const DocumentInit& initializer,
       permission_service_(GetExecutionContext()),
       has_trust_tokens_answerer_(GetExecutionContext()),
       font_preload_manager_(*this) {
-  GetOriginTrialContext()->BindExecutionContext(GetExecutionContext());
-
   if (dom_window_) {
+    GetSecurityContext().GetOriginTrialContext()->BindExecutionContext(
+        dom_window_.Get());
     pending_fp_headers_ = security_initializer.FeaturePolicyHeader();
     pending_dp_headers_ = initializer.GetDocumentPolicy().feature_state;
   }
@@ -994,10 +994,6 @@ ContentSecurityPolicy* Document::GetContentSecurityPolicy() const {
 
 SecureContextMode Document::GetSecureContextMode() const {
   return GetSecurityContext().GetSecureContextMode();
-}
-
-OriginTrialContext* Document::GetOriginTrialContext() const {
-  return TreeRootDocument().GetSecurityContext().GetOriginTrialContext();
 }
 
 void Document::SetSecureContextModeForTesting(SecureContextMode mode) {
