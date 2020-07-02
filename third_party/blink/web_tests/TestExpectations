@@ -6832,3 +6832,11 @@ crbug.com/1010170 media/video-played-reset.html [ Pass Failure ]
 crbug.com/1100774 [ Mac10.13 ] virtual/threaded-no-composited-antialiasing/animations/svg-attribute-interpolation/svg-d-interpolation.html [ Pass Failure ]
 crbug.com/1100786 [ Mac10.10 ] fast/scroll-snap/snaps-after-touchpad-scrolling.html [ Failure ]
 crbug.com/1100786 [ Mac10.10 ] storage/indexeddb/transaction-active-flag.html [ Timeout ]
+
+# Temporarily disable tests to allow fixing webrtc error logging
+crbug.com/1101699 external/wpt/webrtc/RTCPeerConnection-setLocalDescription-answer.html [ Pass Failure ]
+crbug.com/1101699 external/wpt/webrtc/RTCPeerConnection-setLocalDescription-pranswer.html [ Pass Failure ]
+crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setLocalDescription-answer.html [ Pass Failure ]
+crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setLocalDescription-pranswer.html [ Pass Failure ]
+crbug.com/1101699 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-setRemoteDescription-rollback.html [ Pass Failure ]
+
