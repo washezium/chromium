@@ -51365,6 +51365,12 @@ Called by update_net_trust_anchors.py.-->
   <int value="1" label="Accepted"/>
 </enum>
 
+<enum name="OOMShutdownHint">
+  <int value="0" label="There is no additional information for this UTE/XTE"/>
+  <int value="1" label="Session restoration was in progress before this UTE"/>
+  <int value="2" label="Session restoration was in progress before this XTE"/>
+</enum>
+
 <enum name="OopRasterGlyphCacheMissType">
   <int value="0"
       label="Missing font metrics, indicating an incorrect SkDescriptor"/>
