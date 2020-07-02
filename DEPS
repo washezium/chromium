@@ -25,6 +25,12 @@
 #  # You should now have a modified DEPS file; commit and upload as normal
 #  git commit -aspv_he
 #  git cl upload
+#
+# For more on the syntax and semantics of this file, see:
+#   https://bit.ly/chromium-gclient-conditionals
+#
+# which is a bit incomplete but the best documentation we have at the
+# moment.
 
 gclient_gn_args_file = 'src/build/config/gclient_args.gni'
 gclient_gn_args = [
