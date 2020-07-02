@@ -2493,7 +2493,7 @@ Postavkama ovog računa možete upravljati instaliranjem aplikacije Family Link 
 <translation id="4058720513957747556">AppSocket (TCP/IP)</translation>
 <translation id="4058793769387728514">Provjeri dokument sada</translation>
 <translation id="406070391919917862">Aplikacije u pozadini</translation>
-<translation id="4061374428807229313">Da podijelite, desnim klikom odaberite folder u aplikaciji Files, a zatim odaberite "Dijeli s aplikacijom Parallels Desktop".</translation>
+<translation id="4061374428807229313">Da podijelite, desnim klikom odaberite folder u aplikaciji Fajlovi, a zatim odaberite "Dijeli s aplikacijom Parallels Desktop".</translation>
 <translation id="4065876735068446555">Mreža koju koristite (<ph name="NETWORK_ID" />) može zahtijevati da posjetite stranicu za prijavu.</translation>
 <translation id="4066207411788646768">Provjerite vezu da vidite dostupne štampače na svojoj mreži</translation>
 <translation id="4068506536726151626">Ova stranica sadrži elemente sa sljedećih stranica koje prate vašu lokaciju:</translation>
@@ -5648,7 +5648,7 @@ Fajl ključa: <ph name="KEY_FILE" />
 <translation id="809792523045608178"><ph name="IDS_SHORT_PRODUCT_NAME" /> koristi proksi postavke iz ekstenzije</translation>
 <translation id="8097959162767603171">Vaš administrator najprije mora prihvatiti uslove korištenja usluge na listi uređaja Chromea u administratorskoj konzoli.</translation>
 <translation id="8101987792947961127">Powerwash je obavezan prilikom sljedećeg pokretanja</translation>
-<translation id="8102139037507939978">Isključite informacije koje mogu poslužiti za ličnu identifikaciju iz fajla system_logs.txt.</translation>
+<translation id="8102139037507939978">Uklonite informacije koje mogu poslužiti za ličnu identifikaciju iz fajla system_logs.txt.</translation>
 <translation id="8102159139658438129">Idite na <ph name="LINK_BEGIN" />Postavke<ph name="LINK_END" /> da vidite opcije za povezani telefon.</translation>
 <translation id="8104696615244072556">Uradite Powerwash na svom <ph name="IDS_SHORT_PRODUCT_NAME" /> uređaju i vratite ga na prethodnu verziju.</translation>
 <translation id="8107015733319732394">Instaliranje Google Play trgovine na vašem uređaju <ph name="DEVICE_TYPE" />. To može potrajati nekoliko minuta.</translation>
@@ -6580,7 +6580,7 @@ Fajl ključa: <ph name="KEY_FILE" />
 <translation id="975893173032473675">Jezik na koji se prevodi</translation>
 <translation id="978146274692397928">Početna širina interpunkcije je "puna"</translation>
 <translation id="97905529126098460">Ovaj prozor će se zatvoriti nakon završetka otkazivanja.</translation>
-<translation id="980731642137034229">Dugme radnje menija</translation>
+<translation id="980731642137034229">Dugme menija s radnjama</translation>
 <translation id="981121421437150478">Van mreže</translation>
 <translation id="983511809958454316">Ova funkcija nije podržana za VR</translation>
 <translation id="984275831282074731">Načini plaćanja</translation>

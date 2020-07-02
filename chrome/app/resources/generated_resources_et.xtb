@@ -2493,7 +2493,7 @@ kasutades juhtpaneeli funktsiooni <ph name="CONTROL_PANEL_APPLET_NAME" />.
 <translation id="4058720513957747556">AppSocket (TCP/IP)</translation>
 <translation id="4058793769387728514">Kontrolli dokumenti kohe</translation>
 <translation id="406070391919917862">Taustarakendused</translation>
-<translation id="4061374428807229313">Jagamiseks klõpsake rakenduses Failid kaustadel ja tehke valik „Jaga üksusega Parallels Desktop”.</translation>
+<translation id="4061374428807229313">Jagamiseks paremklõpsake rakenduses Failid kaustadel ja tehke valik „Jaga üksusega Parallels Desktop”.</translation>
 <translation id="4065876735068446555">Teie kasutatav võrk (<ph name="NETWORK_ID" />) võib nõuda sisselogimislehe külastamist.</translation>
 <translation id="4066207411788646768">Kontrollige oma ühendust, et näha teie võrgus saadaolevaid printereid</translation>
 <translation id="4068506536726151626">See leht sisaldab järgmiste saitide elemente, mis jälgivad teie asukohta:</translation>
@@ -4611,7 +4611,7 @@ kasutades juhtpaneeli funktsiooni <ph name="CONTROL_PANEL_APPLET_NAME" />.
 <translation id="6831043979455480757">Tõlgi</translation>
 <translation id="683373380308365518">Minge üle nutikale ja turvalisele brauserile</translation>
 <translation id="6835762382653651563">Seadme <ph name="DEVICE_TYPE" /> värskendamiseks looge ühendus Internetiga.</translation>
-<translation id="6838034009068684089">Küsi, kui sait soovib teie ekraanikuvadel aknaid avada ja neid sinna paigutada (soovitatav)</translation>
+<translation id="6838034009068684089">Küsi, kui sait soovib ekraanikuvadel aknaid avada ja neid sinna paigutada (soovitatav)</translation>
 <translation id="6839225236531462745">Sertifikaadi kustutamise viga</translation>
 <translation id="6839916869147598086">Sisselogimine on muutunud</translation>
 <translation id="6840155290835956714">Küsi enne saatmist</translation>

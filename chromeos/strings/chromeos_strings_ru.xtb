@@ -30,7 +30,6 @@
 <translation id="38114475217616659">Очистить всю историю</translation>
 <translation id="3820172043799983114">Неверный PIN-код.</translation>
 <translation id="3838338534323494292">Новый пароль</translation>
-<translation id="3953601359945991637">Файл "<ph name="DOCUMENT_TITLE" />", принтер "<ph name="PRINTER_NAME" />", дата – <ph name="CREATION_TIME" />, напечатано страниц: <ph name="PRINTED_PAGE_NUMBER" /> из <ph name="TOTAL_PAGE_NUMBER" /></translation>
 <translation id="4003259559679196451">Это управляемое устройство. Администратору домена <ph name="ENROLLMENT_DOMAIN" /> доступна информация обо всех действиях пользователя, в том числе о посещенных сайтах, используемом адресе электронной почты и введенных паролях.</translation>
 <translation id="4003384961948020559">Сбой: выходной лоток заполнен</translation>
 <translation id="4034824040120875894">Принтер</translation>

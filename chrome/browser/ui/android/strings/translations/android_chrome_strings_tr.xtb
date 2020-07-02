@@ -461,7 +461,7 @@ Diğer Google hizmetlerinden yapılan aramalar ve etkinlikler gibi Google hesab�
 <translation id="4749960740855309258">Yeni sekme açar</translation>
 <translation id="4759238208242260848">İndirilenler</translation>
 <translation id="4763829664323285145">{FILE_COUNT,plural, =1{1 indirme işlemi tamamlandı.}other{# indirme işlemi tamamlandı.}}</translation>
-<translation id="4767937498890654900">{FILE_COUNT,plural, =1{1 indirme işlemi programlandı.}other{# indirme programlandı.}}</translation>
+<translation id="4767937498890654900">{FILE_COUNT,plural, =1{1 indirme işlemi programlandı.}other{# indirme işlemi programlandı.}}</translation>
 <translation id="478981486571169252"><ph name="SITE_NAME" /> sitenizin oturum açma durumunu, tarama verilerini ve site verilerini Chrome'da görürsünüz.</translation>
 <translation id="4802417911091824046">Parolayla şifreleme, Google Pay'deki adresleri ve ödeme yöntemlerini kapsamaz.
 

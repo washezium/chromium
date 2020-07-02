@@ -30,7 +30,6 @@
 <translation id="38114475217616659">Vymazať celú históriu</translation>
 <translation id="3820172043799983114">Neplatný kód PIN.</translation>
 <translation id="3838338534323494292">Nové heslo</translation>
-<translation id="3953601359945991637"><ph name="DOCUMENT_TITLE" />, <ph name="PRINTER_NAME" />, <ph name="CREATION_TIME" />, <ph name="PRINTED_PAGE_NUMBER" /> z <ph name="TOTAL_PAGE_NUMBER" /></translation>
 <translation id="4003259559679196451"><ph name="ENROLLMENT_DOMAIN" /> spravuje toto zariadenie a má prístup k všetkým aktivitám používateľa vrátane navštívených webových stránok, hesiel a pošty.</translation>
 <translation id="4003384961948020559">Nepodarilo sa – výstup je plný</translation>
 <translation id="4034824040120875894">Tlačiareň</translation>
@@ -39,8 +38,10 @@
 <translation id="428217921675623177">Tlačové úlohy staršie ako 90 dní budú odstránené</translation>
 <translation id="4429881212383817840">Platnosť tiketu Kerberos čoskoro uplynie</translation>
 <translation id="445059817448385655">Staré heslo</translation>
+<translation id="4627232916386272576"><ph name="DOCUMENT_TITLE" />, <ph name="PRINTER_NAME" />, <ph name="CREATION_TIME" />, <ph name="PRINTED_PAGE_NUMBER" /> z <ph name="TOTAL_PAGE_NUMBER" />. Tlačovú úlohu zrušíte stlačením klávesa Enter.</translation>
 <translation id="467510802200863975">Heslá sa nezhodujú</translation>
 <translation id="4731797938093519117">Rodičovský prístup</translation>
+<translation id="4808449224298348341">Bola zrušená tlačová úloha <ph name="DOCUMENT_TITLE" /></translation>
 <translation id="4890353053343094602">Okamžite si zvoľte nové heslo</translation>
 <translation id="4932733599132424254">Dátum</translation>
 <translation id="5212543919916444558">Na obrazovke nie je nič, s čím by som mohol pomôcť.

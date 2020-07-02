@@ -30,7 +30,6 @@
 <translation id="38114475217616659">清除所有打印记录</translation>
 <translation id="3820172043799983114">PIN 码无效。</translation>
 <translation id="3838338534323494292">新密码</translation>
-<translation id="3953601359945991637"><ph name="DOCUMENT_TITLE" />，<ph name="PRINTER_NAME" />，<ph name="CREATION_TIME" />，已打印 <ph name="PRINTED_PAGE_NUMBER" /> 页（共 <ph name="TOTAL_PAGE_NUMBER" /> 页）</translation>
 <translation id="4003259559679196451"><ph name="ENROLLMENT_DOMAIN" /> 管理此设备并可查看所有用户活动（包括访问过的网页、密码和电子邮件）。</translation>
 <translation id="4003384961948020559">失败 - 出纸盘已满</translation>
 <translation id="4034824040120875894">打印机</translation>

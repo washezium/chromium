@@ -30,7 +30,6 @@
 <translation id="38114475217616659">清除所有記錄</translation>
 <translation id="3820172043799983114">PIN 無效。</translation>
 <translation id="3838338534323494292">新密碼</translation>
-<translation id="3953601359945991637"><ph name="DOCUMENT_TITLE" />，<ph name="PRINTER_NAME" />，<ph name="CREATION_TIME" />，已列印 <ph name="PRINTED_PAGE_NUMBER" /> 頁 (共 <ph name="TOTAL_PAGE_NUMBER" /> 頁)</translation>
 <translation id="4003259559679196451"><ph name="ENROLLMENT_DOMAIN" /> 會管理這個裝置並可存取所有使用者活動，包括網頁造訪記錄、密碼和電子郵件。</translation>
 <translation id="4003384961948020559">失敗 - 輸出紙匣已滿</translation>
 <translation id="4034824040120875894">印表機</translation>

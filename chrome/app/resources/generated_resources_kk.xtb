@@ -1052,7 +1052,7 @@
 <translation id="2295864384543949385"><ph name="NUM_RESULTS" /> нәтиже</translation>
 <translation id="2297705863329999812">Принтерлерді іздеу</translation>
 <translation id="2299734369537008228">Сырғытқы: <ph name="MIN_LABEL" /> – <ph name="MAX_LABEL" /></translation>
-<translation id="2299941608784654630">debugd арқылы жиналған журнал файлдарын бөлек мұрағат ретінде қамту.</translation>
+<translation id="2299941608784654630">debugd арқылы жиналған барлық журнал файлдарын бөлек мұрағат ретінде қамту.</translation>
 <translation id="2300383962156589922"><ph name="APP_NAME" /> қолданбасын реттеу және басқару</translation>
 <translation id="2301382460326681002">Кеңейтімнің түбір каталогы жарамсыз.</translation>
 <translation id="23030561267973084">"<ph name="EXTENSION_NAME" />" қосымша рұқсат сұрады.</translation>

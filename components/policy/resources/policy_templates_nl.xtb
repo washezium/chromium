@@ -998,9 +998,9 @@ Als dit beleid niet is ingesteld, is het privacyscherm in eerste instantie uitge
 <translation id="2484208301968418871">Met dit beleid wordt de toepassing van het SafeSites URL-filter beheerd.
       Dit filter gebruikt de Google Safe Search API om URL's al dan niet te classificeren als pornografisch.
 
-      Wanneer dit beleid niet is geconfigureerd of is ingesteld op 'Sites niet filteren op content voor volwassenen', worden de sites niet gefilterd.
+      Als dit beleid niet is geconfigureerd of is ingesteld op 'Sites niet filteren op content voor volwassenen', worden de sites niet gefilterd.
 
-      Wanneer dit beleid is ingesteld op 'Sites op hoofdniveau filteren op inhoud voor volwassenen', worden de sites gefilterd die zijn geclassificeerd als pornografisch.</translation>
+      Als dit beleid is ingesteld op 'Sites op hoofdniveau filteren op content voor volwassenen', worden de sites gefilterd die zijn geclassificeerd als pornografisch.</translation>
 <translation id="2484356232170636726">Hiermee kun je een lijst met URL-patronen opgeven van sites waarop JavaScript mag worden uitgevoerd.
 
           Als dit beleid niet is ingesteld, wordt de algemene standaardwaarde gebruikt voor alle sites. Deze vind je in het beleid 'DefaultJavaScriptSetting' (als dit is ingesteld) of in de persoonlijke configuratie van de gebruiker.
@@ -1035,9 +1035,9 @@ Als dit beleid niet is ingesteld, is het privacyscherm in eerste instantie uitge
 
           Als dit beleid niet is ingesteld, is de functie voor markering van het caret-teken in eerste instantie uitgeschakeld, maar kan de gebruiker deze op elk gewenst moment inschakelen.</translation>
 <translation id="2509919237512982967">Verouderde formulierbesturingselementen gebruiken tot M84.</translation>
-<translation id="2514328368635166290">Hiermee specificeer je de URL van het voorkeurspictogram voor de standaardzoekprovider.
+<translation id="2514328368635166290">Hiermee specificeer je de URL van het voorkeursicoon voor de standaardzoekprovider.
 
-          Dit beleid is optioneel. Als je het niet instelt, wordt er geen pictogram weergegeven voor de zoekprovider.
+          Dit beleid is optioneel. Als je het niet instelt, wordt er geen icoon weergegeven voor de zoekprovider.
 
           Dit beleid wordt alleen gerespecteerd als het beleid 'DefaultSearchProviderEnabled' is ingeschakeld.</translation>
 <translation id="2516600974234263142">Hiermee wordt afdrukken in <ph name="PRODUCT_NAME" /> ingeschakeld en wordt voorkomen dat gebruikers deze instelling kunnen wijzigen.
@@ -1823,7 +1823,7 @@ Als dit beleid is ingesteld op False, gebruikt <ph name="PRODUCT_NAME" /> geen n
 <translation id="3639444551396586995">Hiermee wordt toegestaan dat Chrome onveilige gebeurtenissen rapporteert aan Google</translation>
 <translation id="3643284063603988867">Functie 'Wachtwoord onthouden' inschakelen</translation>
 <translation id="3646859102161347133">Het type vergrootglas instellen</translation>
-<translation id="3653237928288822292">Pictogram voor standaardzoekprovider</translation>
+<translation id="3653237928288822292">Icoon voor standaardzoekprovider</translation>
 <translation id="3654906736796256792">Toestaan dat de audiosandbox wordt uitgevoerd</translation>
 <translation id="3657998022005237040">Downloads van niet-ondersteunde bestandstypen blokkeren</translation>
 <translation id="3660510274595679517">
@@ -2636,10 +2636,10 @@ Als dit beleid is ingesteld op False, gebruikt <ph name="PRODUCT_NAME" /> geen n
           Opmerking: <ph name="DEVICE_LOGIN_SCREEN_SPOKEN_FEEDBACK_ENABLED_POLICY_NAME" /> overschrijft dit beleid als het is opgegeven.</translation>
 <translation id="494613465159630803">Cast-receiver</translation>
 <translation id="494924690085329212">Opnieuw opstarten bij uitloggen gebruiker als Android is gestart.</translation>
-<translation id="4950900960525118567">Met deze functie worden suggesties voor nieuwe content om te bekijken ingeschakeld. Omvat apps, webpagina's en meer.
-      Als dit beleid is ingesteld op True, worden suggesties voor nieuwe content om te bekijken ingeschakeld.
-      Als dit beleid is ingesteld op False, worden suggesties voor nieuwe content om te bekijken uitgeschakeld.
-      Als dit beleid niet is ingesteld, worden suggesties voor nieuwe content om te bekijken uitgeschakeld voor beheerde gebruikers.
+<translation id="4950900960525118567">Met deze functie worden suggesties ingeschakeld om nieuwe content te bekijken. Inclusief apps, webpagina's en meer.
+      Als dit beleid is ingesteld op True, worden suggesties voor nieuwe content ingeschakeld.
+      Als dit beleid is ingesteld op False, worden suggesties voor nieuwe content uitgeschakeld.
+      Als dit beleid niet is ingesteld, worden suggesties voor nieuwe content uitgeschakeld voor beheerde gebruikers.
       </translation>
 <translation id="4962262530309732070">Als dit beleid is ingesteld op 'True' of niet wordt geconfigureerd, staat <ph name="PRODUCT_NAME" /> 'Persoon toevoegen' toe vanuit gebruikersbeheer.
 
@@ -4091,7 +4091,7 @@ Geheugengegevens worden in alle gevallen aan de pagina gerapporteerd, afgezien v
           Als dit beleid is ingesteld op 'true', levert de USB-poort van het uitgeschakelde systeem stroom indien het apparaat is aangesloten op een stopcontact. Anders wordt er geen stroom geleverd.
 
           Als dit beleid niet wordt ingesteld, wordt het beleid ingeschakeld en kan de gebruiker het niet uitschakelen.</translation>
-<translation id="7115494316187648452">Hiermee wordt bepaald of een <ph name="PRODUCT_NAME" />-proces wordt gestart bij het inloggen op het besturingssysteem en geactiveerd blijft wanneer het laatste browservenster wordt gesloten, zodat apps op de achtergrond en de huidige browsesessie actief blijven, inclusief de sessiecookies. Het achtergrondproces geeft een pictogram weer in het systeemvak en kan altijd via die weg worden gesloten.
+<translation id="7115494316187648452">Hiermee wordt bepaald of een <ph name="PRODUCT_NAME" />-proces wordt gestart bij het inloggen op het besturingssysteem en geactiveerd blijft wanneer het laatste browservenster wordt gesloten, zodat apps op de achtergrond en de huidige browsesessie actief blijven, inclusief de sessiecookies. Het achtergrondproces geeft een icoon weer in het systeemvak en kan altijd via die weg worden gesloten.
 
       Als dit beleid wordt ingesteld op 'True', wordt de achtergrondmodus ingeschakeld en kan deze niet door de gebruiker worden beheerd in de browserinstellingen.
 

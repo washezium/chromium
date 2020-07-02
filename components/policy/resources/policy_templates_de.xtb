@@ -2609,10 +2609,10 @@ Diese Richtlinie hat keine Auswirkungen darauf, ob die lokalen Nutzerdaten auf d
           Hinweis: Sofern konfiguriert, überschreibt "<ph name="DEVICE_LOGIN_SCREEN_SPOKEN_FEEDBACK_ENABLED_POLICY_NAME" />" diese Richtlinie.</translation>
 <translation id="494613465159630803">Cast Receiver</translation>
 <translation id="494924690085329212">Nach Nutzerabmeldung neu starten, wenn Android gestartet wurde.</translation>
-<translation id="4950900960525118567">Mit dieser Funktion werden Vorschläge zur Erkundung neuer Inhalte aktiviert. Das kann u. a. Apps und Webseiten einschließen.
-      Wenn diese Richtlinie auf "True" gesetzt ist, werden Vorschläge zur Erkundung neuer Inhalte aktiviert.
-      Ist diese Richtlinie auf "False" gesetzt, werden Vorschläge zur Erkundung neuer Inhalte deaktiviert.
-      Ist diese Richtlinie nicht konfiguriert, werden Vorschläge zur Erkundung neuer Inhalte für verwaltete Nutzer deaktiviert.
+<translation id="4950900960525118567">Mit dieser Funktion werden Vorschläge zur Entdeckung neuer Inhalte aktiviert. Das kann u. a. Apps und Webseiten einschließen.
+      Wenn diese Richtlinie auf "True" gesetzt ist, werden Vorschläge zur Entdeckung neuer Inhalte aktiviert.
+      Ist diese Richtlinie auf "False" gesetzt, werden Vorschläge zur Entdeckung neuer Inhalte deaktiviert.
+      Ist diese Richtlinie nicht konfiguriert, werden Vorschläge zur Entdeckung neuer Inhalte für verwaltete Nutzer deaktiviert.
       </translation>
 <translation id="4962262530309732070">Wurde für diese Richtlinie "true" festgelegt oder nichts konfiguriert, ist in <ph name="PRODUCT_NAME" /> die Verwendung der Funktion "Person hinzufügen" über den Nutzermanager zulässig.
 
@@ -4942,7 +4942,7 @@ Unter Windows ist es empfehlenswert, Richtlinien über Gruppenrichtlinienobjekte
 <translation id="8424255554404582727">Standarddrehung des Bildschirms festlegen, die bei jedem Neustart erneut angewendet wird</translation>
 <translation id="8426231401662877819">Bildschirm um 90 Grad im Uhrzeigersinn drehen</translation>
 <translation id="8433186206711564395">Netzwerkeinstellungen</translation>
-<translation id="8433769814000220721">Vorgeschlagenen Inhalt aktivieren</translation>
+<translation id="8433769814000220721">Vorschläge zur Entdeckung neuer Inhalte aktivieren</translation>
 <translation id="843609873781525167">Wenn die Richtlinie auf "True" gesetzt ist, prüft <ph name="PRODUCT_NAME" /> beim Start immer, ob es der Standardbrowser ist. Nach Möglichkeit legt sich die Anwendung dann automatisch als Standard fest. Ist die Richtlinie auf "False" gesetzt, prüft <ph name="PRODUCT_NAME" /> nie, ob es der Standardbrowser ist. Außerdem werden alle Nutzersteuerelemente zum Einstellen dieser Option deaktiviert.
 
       Wenn die Richtlinie nicht konfiguriert ist, kann der Nutzer festlegen, ob <ph name="PRODUCT_NAME" /> der Standardbrowser ist und ob (falls nicht) entsprechende Benachrichtigungen angezeigt werden sollen.

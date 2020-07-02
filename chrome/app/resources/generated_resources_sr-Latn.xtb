@@ -221,7 +221,7 @@
 <translation id="1263490604593716556">Nalogom upravljaju <ph name="FIRST_PARENT_EMAIL" /> i <ph name="SECOND_PARENT_EMAIL" />. Da biste se odjavili sa primarnog naloga na ovom uređaju, kliknite na vreme na ekranu. U meniju koji se pojavljuje kliknite na Odjavi me.</translation>
 <translation id="1263733306853729545">Koristite tastere <ph name="MINUS" /> i <ph name="EQUAL" /> da biste postavili listu kandidata</translation>
 <translation id="126387934568812801">Uvrstite ovaj snimak ekrana i naslove otvorenih kartica</translation>
-<translation id="1264337193001759725">Da biste pregledali evidencije korisničkog interfejsa: <ph name="DEVICE_LOG_LINK" /></translation>
+<translation id="1264337193001759725">Da biste pregledali evidencije mreže korisničkog interfejsa: <ph name="DEVICE_LOG_LINK" /></translation>
 <translation id="126710816202626562">Jezik na koji se prevodi:</translation>
 <translation id="126768002343224824">16x</translation>
 <translation id="1272079795634619415">Zaustavi</translation>
@@ -5053,7 +5053,7 @@ Vodite računa da ne otkrijete nikakve osetljive informacije.</translation>
 <translation id="7388044238629873883">Još malo pa gotovo!</translation>
 <translation id="7392118418926456391">Skeniranje virusa nije uspelo</translation>
 <translation id="7392915005464253525">P&amp;onovo otvori zatvoren prozor</translation>
-<translation id="7393472013449507620">Podešavanja sa džokerski znakom „*“ više nisu podržana. Obratite se programeru dodatka ili administratoru da biste<ph name="BEGIN_LINK" /> promenili ova podešavanja<ph name="END_LINK" />.</translation>
+<translation id="7393472013449507620">Podešavanja sa džokerskim znakom „*“ više nisu podržana. Obratite se programeru dodatka ili administratoru da biste<ph name="BEGIN_LINK" /> promenili ova podešavanja<ph name="END_LINK" />.</translation>
 <translation id="7396017167185131589">Ovde se prikazuju deljeni direktorijumi</translation>
 <translation id="7396845648024431313"><ph name="APP_NAME" /> će se pokrenuti prilikom pokretanja sistema i nastaviti da radi u pozadini čak i kada zatvorite sve ostale <ph name="PRODUCT_NAME" /> prozore.</translation>
 <translation id="7399045143794278225">Prilagodite sinhronizaciju</translation>

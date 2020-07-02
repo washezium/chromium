@@ -5055,7 +5055,7 @@ Annars skaltu skrá þig út núna svo breytingarnar á þessum reikningi taki g
 <translation id="7388044238629873883">Þetta er alveg að klárast!</translation>
 <translation id="7392118418926456391">Vírusleit mistókst</translation>
 <translation id="7392915005464253525">Opna lokaðan glugga aftur</translation>
-<translation id="7393472013449507620">Stillingar með algildisstafnum „*“ eru ekki lengur studdar. Hafðu samband við forritara viðbótarinnar eða stjórnanda þinn til að <ph name="BEGIN_LINK" /> breyta þessum stillingum<ph name="END_LINK" />.</translation>
+<translation id="7393472013449507620">Stillingar með algildisstafnum „*“ eru ekki lengur studdar. Hafðu samband við forritara viðbótarinnar eða kerfisstjórann til að <ph name="BEGIN_LINK" /> breyta þessum stillingum<ph name="END_LINK" />.</translation>
 <translation id="7396017167185131589">Sameiginlegar möppur birtast hér</translation>
 <translation id="7396845648024431313"><ph name="APP_NAME" /> verður opnað þegar kerfið er ræst og heldur áfram að keyra í bakgrunni, jafnvel þegar þú hefur lokað öllum öðrum <ph name="PRODUCT_NAME" /> gluggum.</translation>
 <translation id="7399045143794278225">Sérvalin samstilling</translation>
@@ -5664,7 +5664,7 @@ Geymdu lykilskrána á öruggum stað. Þú þarft hana til að búa til nýjar 
 <translation id="8118515372935001629">Endurnýjunartíðni skjás</translation>
 <translation id="8118860139461251237">Stjórna niðurhali</translation>
 <translation id="811942868379260654"><ph name="RECENT_PERMISSIONS_CHANGE_SENTENCE_START" />, <ph name="RECENT_PERMISSIONS_CHANGE_1" />, <ph name="RECENT_PERMISSIONS_CHANGE_2" /> og fleira</translation>
-<translation id="8119438628456698432">Myndar annálaskrár...</translation>
+<translation id="8119438628456698432">Býr til annálaskrár...</translation>
 <translation id="811994229154425014">Tvö bil til að slá inn punkt</translation>
 <translation id="8123590694679414600">Gögnin voru dulkóðuð með samstillingaraðgangsorðinu þínu
           <ph name="TIME" />. Þetta gildir ekki um greiðslumáta og heimilisföng af Google Pay.</translation>
