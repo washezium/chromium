@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/policy/fake_browser_dm_token_storage.h"
+#include "components/enterprise/browser/controller/fake_browser_dm_token_storage.h"
+
 #include "base/bind.h"
 #include "base/task/post_task.h"
 #include "base/threading/thread_task_runner_handle.h"

@@ -23,13 +23,29 @@ static_library("enterprise") {
   ]
 }
 
+static_library("test_support") {
+  testonly = true
+  sources = [
+    "browser/controller/fake_browser_dm_token_storage.cc",
+    "browser/controller/fake_browser_dm_token_storage.h",
+  ]
+  deps = [
+    ":enterprise",
+    "//base",
+  ]
+}
+
 source_set("unit_tests") {
   testonly = true
 
-  sources = [ "browser/reporting/report_uploader_unittest.cc" ]
+  sources = [
+    "browser/controller/browser_dm_token_storage_unittest.cc",
+    "browser/reporting/report_uploader_unittest.cc",
+  ]
 
   deps = [
     ":enterprise",
+    ":test_support",
     "//base",
     "//base/test:test_support",
     "//components/policy/core/common:test_support",

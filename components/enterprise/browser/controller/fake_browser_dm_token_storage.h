@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_POLICY_FAKE_BROWSER_DM_TOKEN_STORAGE_H_
-#define CHROME_BROWSER_POLICY_FAKE_BROWSER_DM_TOKEN_STORAGE_H_
+#ifndef COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_FAKE_BROWSER_DM_TOKEN_STORAGE_H_
+#define COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_FAKE_BROWSER_DM_TOKEN_STORAGE_H_
+
+#include "components/enterprise/browser/controller/browser_dm_token_storage.h"
 
 #include "base/memory/weak_ptr.h"
-#include "components/enterprise/browser/controller/browser_dm_token_storage.h"
 
 namespace policy {
 
@@ -26,7 +27,7 @@ class FakeBrowserDMTokenStorage : public BrowserDMTokenStorage {
   void SetEnrollmentToken(const std::string& enrollment_token);
   void SetDMToken(const std::string& dm_token);
   void SetEnrollmentErrorOption(bool option);
-  // Determines if SaveDMToken will be succeeded or not.
+  // Determines if SaveDMToken will be successful or not.
   void EnableStorage(bool storage_enabled);
 
  private:
@@ -74,4 +75,4 @@ class FakeBrowserDMTokenStorage : public BrowserDMTokenStorage {
 
 }  // namespace policy
 
-#endif  // CHROME_BROWSER_POLICY_FAKE_BROWSER_DM_TOKEN_STORAGE_H_
+#endif  // COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_FAKE_BROWSER_DM_TOKEN_STORAGE_H_

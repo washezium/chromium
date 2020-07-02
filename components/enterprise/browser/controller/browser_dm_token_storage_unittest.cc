@@ -8,9 +8,9 @@
 #include "base/bind_helpers.h"
 #include "base/macros.h"
 #include "base/run_loop.h"
+#include "base/test/task_environment.h"
 #include "base/threading/thread_task_runner_handle.h"
-#include "chrome/browser/policy/fake_browser_dm_token_storage.h"
-#include "content/public/test/browser_task_environment.h"
+#include "components/enterprise/browser/controller/fake_browser_dm_token_storage.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
@@ -40,7 +40,7 @@ class BrowserDMTokenStorageTestBase {
   FakeBrowserDMTokenStorage storage_;
 
  private:
-  content::BrowserTaskEnvironment task_environment_;
+  base::test::SingleThreadTaskEnvironment task_environment_;
 };
 
 class BrowserDMTokenStorageTest : public BrowserDMTokenStorageTestBase,
