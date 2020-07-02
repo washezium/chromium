@@ -128,11 +128,6 @@ base::Value ProcessNodeImplDescriber::DescribeProcessNodeData(
     ret.SetIntKey("exit_status", impl->exit_status().value());
   }
 
-  if (!impl->expected_task_queueing_duration().is_zero()) {
-    ret.SetDoubleKey("expected_task_queueing_duration_msec",
-                     impl->expected_task_queueing_duration().InMillisecondsF());
-  }
-
   ret.SetBoolKey("main_thread_task_load_is_low",
                  impl->main_thread_task_load_is_low());
 

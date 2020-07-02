@@ -36,11 +36,6 @@ void ProcessNodeImpl::Bind(
   receiver_.Bind(std::move(receiver));
 }
 
-void ProcessNodeImpl::SetExpectedTaskQueueingDuration(
-    base::TimeDelta duration) {
-  expected_task_queueing_duration_.SetAndNotify(this, duration);
-}
-
 void ProcessNodeImpl::SetMainThreadTaskLoadIsLow(
     bool main_thread_task_load_is_low) {
   main_thread_task_load_is_low_.SetAndMaybeNotify(this,
@@ -188,11 +183,6 @@ base::flat_set<const FrameNode*> ProcessNodeImpl::GetFrameNodes() const {
     frames.insert(frame);
   }
   return frames;
-}
-
-base::TimeDelta ProcessNodeImpl::GetExpectedTaskQueueingDuration() const {
-  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  return expected_task_queueing_duration();
 }
 
 bool ProcessNodeImpl::GetMainThreadTaskLoadIsLow() const {

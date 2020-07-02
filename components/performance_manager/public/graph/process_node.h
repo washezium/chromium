@@ -78,11 +78,6 @@ class ProcessNode : public Node {
   // calling this causes the set of nodes to be generated.
   virtual base::flat_set<const FrameNode*> GetFrameNodes() const = 0;
 
-  // Returns the current expected task queuing duration in the process. This is
-  // measure of main thread latency. See
-  // ProcessNodeObserver::OnExpectedTaskQueueingDurationSample.
-  virtual base::TimeDelta GetExpectedTaskQueueingDuration() const = 0;
-
   // Returns true if the main thread task load is low (below some threshold
   // of usage). See ProcessNodeObserver::OnMainThreadTaskLoadIsLow.
   virtual bool GetMainThreadTaskLoadIsLow() const = 0;
@@ -128,11 +123,6 @@ class ProcessNodeObserver {
   virtual void OnBeforeProcessNodeRemoved(const ProcessNode* process_node) = 0;
 
   // Notifications of property changes.
-
-  // Invoked when a new |expected_task_queueing_duration| sample is available.
-  virtual void OnExpectedTaskQueueingDurationSample(
-      const ProcessNode* process_node) = 0;
-
   // Invoked when the |main_thread_task_load_is_low| property changes.
   virtual void OnMainThreadTaskLoadIsLow(const ProcessNode* process_node) = 0;
 
@@ -161,8 +151,6 @@ class ProcessNode::ObserverDefaultImpl : public ProcessNodeObserver {
   void OnProcessNodeAdded(const ProcessNode* process_node) override {}
   void OnProcessLifetimeChange(const ProcessNode* process_node) override {}
   void OnBeforeProcessNodeRemoved(const ProcessNode* process_node) override {}
-  void OnExpectedTaskQueueingDurationSample(
-      const ProcessNode* process_node) override {}
   void OnMainThreadTaskLoadIsLow(const ProcessNode* process_node) override {}
   void OnPriorityChanged(const ProcessNode* process_node,
                          base::TaskPriority previous_value) override {}
