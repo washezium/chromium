@@ -935,14 +935,14 @@ base::Optional<UpdateState> GetLastUpdateState() {
 // Private API exposed for testing. --------------------------------------------
 
 void SetGoogleUpdateFactoryForTesting(
-    const GoogleUpdate3ClassFactory& google_update_factory) {
+    GoogleUpdate3ClassFactory google_update_factory) {
   if (g_google_update_factory) {
     delete g_google_update_factory;
     g_google_update_factory = nullptr;
   }
   if (!google_update_factory.is_null()) {
     g_google_update_factory =
-        new GoogleUpdate3ClassFactory(google_update_factory);
+        new GoogleUpdate3ClassFactory(std::move(google_update_factory));
   }
 }
 
