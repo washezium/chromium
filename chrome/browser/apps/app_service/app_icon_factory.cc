@@ -115,32 +115,6 @@ base::OnceCallback<void(const SkBitmap&)> SkBitmapToImageSkiaCallback(
       std::move(callback));
 }
 
-// Returns a callback that converts compressed data to an ImageSkia.
-base::OnceCallback<void(std::vector<uint8_t> compressed_data)>
-CompressedDataToImageSkiaCallback(
-    base::OnceCallback<void(gfx::ImageSkia)> callback) {
-  return base::BindOnce(
-      [](base::OnceCallback<void(gfx::ImageSkia)> callback,
-         std::vector<uint8_t> compressed_data) {
-        if (compressed_data.empty()) {
-          std::move(callback).Run(gfx::ImageSkia());
-          return;
-        }
-        // DecompressToSkBitmap is a CPU intensive task that must not run on the
-        // UI thread, so post the processing over to the thread pool.
-        base::ThreadPool::PostTaskAndReplyWithResult(
-            FROM_HERE, {base::MayBlock(), base::TaskPriority::USER_VISIBLE},
-            base::BindOnce(
-                [](std::vector<uint8_t> compressed_data) {
-                  return SkBitmapToImageSkia(DecompressToSkBitmap(
-                      compressed_data.data(), compressed_data.size()));
-                },
-                std::move(compressed_data)),
-            std::move(callback));
-      },
-      std::move(callback));
-}
-
 // Returns a callback that converts a gfx::Image to an ImageSkia.
 base::OnceCallback<void(const gfx::Image&)> ImageToImageSkia(
     base::OnceCallback<void(gfx::ImageSkia)> callback) {
@@ -164,7 +138,7 @@ FaviconResultToImageSkia(base::OnceCallback<void(gfx::ImageSkia)> callback) {
         // It would be nice to not do a memory copy here, but
         // DecodeImageIsolated requires a std::vector, and RefCountedMemory
         // doesn't supply that.
-        std::move(CompressedDataToImageSkiaCallback(std::move(callback)))
+        std::move(apps::CompressedDataToImageSkiaCallback(std::move(callback)))
             .Run(std::vector<uint8_t>(
                 result.bitmap_data->front(),
                 result.bitmap_data->front() + result.bitmap_data->size()));
@@ -474,7 +448,7 @@ void IconLoadingPipeline::LoadCompressedIconFromFile(
   base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE, {base::MayBlock(), base::TaskPriority::USER_VISIBLE},
       base::BindOnce(&ReadFileAsCompressedData, path),
-      CompressedDataToImageSkiaCallback(
+      apps::CompressedDataToImageSkiaCallback(
           base::BindOnce(&IconLoadingPipeline::MaybeApplyEffectsAndComplete,
                          base::WrapRefCounted(this))));
 }
@@ -484,7 +458,7 @@ void IconLoadingPipeline::LoadIconFromCompressedData(
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
   std::vector<uint8_t> data(compressed_icon_data.begin(),
                             compressed_icon_data.end());
-  CompressedDataToImageSkiaCallback(
+  apps::CompressedDataToImageSkiaCallback(
       base::BindOnce(&IconLoadingPipeline::MaybeApplyEffectsAndComplete,
                      base::WrapRefCounted(this)))
       .Run(std::move(data));
@@ -551,11 +525,11 @@ void IconLoadingPipeline::LoadCompositeImages(
     std::vector<uint8_t> foreground_data,
     std::vector<uint8_t> background_data) {
 #if defined(OS_CHROMEOS)
-  CompressedDataToImageSkiaCallback(
+  apps::CompressedDataToImageSkiaCallback(
       base::BindOnce(&IconLoadingPipeline::CompositeImagesAndApplyMask,
                      base::WrapRefCounted(this), true /* is_foreground */))
       .Run(std::move(foreground_data));
-  CompressedDataToImageSkiaCallback(
+  apps::CompressedDataToImageSkiaCallback(
       base::BindOnce(&IconLoadingPipeline::CompositeImagesAndApplyMask,
                      base::WrapRefCounted(this), false /* is_foreground */))
       .Run(std::move(background_data));
@@ -717,6 +691,31 @@ void IconLoadingPipeline::MaybeLoadFallbackOrCompleteEmpty() {
 }  // namespace
 
 namespace apps {
+
+base::OnceCallback<void(std::vector<uint8_t> compressed_data)>
+CompressedDataToImageSkiaCallback(
+    base::OnceCallback<void(gfx::ImageSkia)> callback) {
+  return base::BindOnce(
+      [](base::OnceCallback<void(gfx::ImageSkia)> callback,
+         std::vector<uint8_t> compressed_data) {
+        if (compressed_data.empty()) {
+          std::move(callback).Run(gfx::ImageSkia());
+          return;
+        }
+        // DecompressToSkBitmap is a CPU intensive task that must not run on the
+        // UI thread, so post the processing over to the thread pool.
+        base::ThreadPool::PostTaskAndReplyWithResult(
+            FROM_HERE, {base::MayBlock(), base::TaskPriority::USER_VISIBLE},
+            base::BindOnce(
+                [](std::vector<uint8_t> compressed_data) {
+                  return SkBitmapToImageSkia(DecompressToSkBitmap(
+                      compressed_data.data(), compressed_data.size()));
+                },
+                std::move(compressed_data)),
+            std::move(callback));
+      },
+      std::move(callback));
+}
 
 std::vector<uint8_t> EncodeImageToPngBytes(const gfx::ImageSkia image) {
   base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,

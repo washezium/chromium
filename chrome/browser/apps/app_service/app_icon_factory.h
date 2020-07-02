@@ -48,6 +48,11 @@ enum IconEffects : uint32_t {
   kCrOsStandardMask = 0x80,  // Apply the mask to the standard icon.
 };
 
+// Returns a callback that converts compressed data to an ImageSkia.
+base::OnceCallback<void(std::vector<uint8_t> compressed_data)>
+CompressedDataToImageSkiaCallback(
+    base::OnceCallback<void(gfx::ImageSkia)> callback);
+
 // Encode the ImageSkia to the compressed PNG data with the image's 1.0f scale
 // factor representation. Return the encoded PNG data.
 // This function should not be called on the UI thread.
