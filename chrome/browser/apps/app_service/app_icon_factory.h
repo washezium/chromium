@@ -14,6 +14,10 @@
 #include "components/services/app_service/public/mojom/types.mojom.h"
 #include "ui/gfx/image/image_skia.h"
 
+#if defined(OS_CHROMEOS)
+#include "components/arc/mojom/app.mojom.h"
+#endif  // OS_CHROMEOS
+
 namespace content {
 class BrowserContext;
 }
@@ -48,6 +52,13 @@ enum IconEffects : uint32_t {
 // factor representation. Return the encoded PNG data.
 // This function should not be called on the UI thread.
 std::vector<uint8_t> EncodeImageToPngBytes(const gfx::ImageSkia image);
+
+#if defined(OS_CHROMEOS)
+void ArcRawIconPngDataToImageSkia(
+    arc::mojom::RawIconPngDataPtr icon,
+    int size_hint_in_dip,
+    base::OnceCallback<void(const gfx::ImageSkia& icon)> callback);
+#endif  // OS_CHROMEOS
 
 // Modifies |image_skia| to apply icon post-processing effects like badging and
 // desaturation to gray.
