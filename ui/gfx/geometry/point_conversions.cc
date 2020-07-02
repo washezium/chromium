@@ -4,20 +4,20 @@
 
 #include "ui/gfx/geometry/point_conversions.h"
 
-#include "ui/gfx/geometry/safe_integer_conversions.h"
+#include "base/numerics/safe_conversions.h"
 
 namespace gfx {
 
 Point ToFlooredPoint(const PointF& point) {
-  return Point(ToFlooredInt(point.x()), ToFlooredInt(point.y()));
+  return Point(base::Floor(point.x()), base::Floor(point.y()));
 }
 
 Point ToCeiledPoint(const PointF& point) {
-  return Point(ToCeiledInt(point.x()), ToCeiledInt(point.y()));
+  return Point(base::Ceil(point.x()), base::Ceil(point.y()));
 }
 
 Point ToRoundedPoint(const PointF& point) {
-  return Point(ToRoundedInt(point.x()), ToRoundedInt(point.y()));
+  return Point(base::Round(point.x()), base::Round(point.y()));
 }
 
 }  // namespace gfx

@@ -15,6 +15,7 @@
 #include "base/i18n/char_iterator.h"
 #include "base/notreached.h"
 #include "base/numerics/ranges.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/stl_util.h"
 #include "base/strings/string_util.h"
 #include "base/strings/utf_string_conversions.h"
@@ -31,7 +32,6 @@
 #include "third_party/skia/include/effects/SkGradientShader.h"
 #include "ui/gfx/canvas.h"
 #include "ui/gfx/geometry/insets.h"
-#include "ui/gfx/geometry/safe_integer_conversions.h"
 #include "ui/gfx/platform_font.h"
 #include "ui/gfx/render_text_harfbuzz.h"
 #include "ui/gfx/scoped_canvas.h"
@@ -68,7 +68,7 @@ int CalculateFadeGradientWidth(const FontList& font_list, int display_width) {
   // Use a 1/3 of the display width if the display width is very short.
   const int narrow_width = font_list.GetExpectedTextWidth(3);
   const int gradient_width =
-      std::min(narrow_width, gfx::ToRoundedInt(display_width / 3.f));
+      std::min(narrow_width, base::Round(display_width / 3.f));
   DCHECK_GE(gradient_width, 0);
   return gradient_width;
 }
@@ -116,7 +116,7 @@ sk_sp<cc::PaintShader> CreateFadeShader(const FontList& font_list,
   const SkAlpha kAlphaAtZeroWidth = 51;
   const SkAlpha alpha =
       (width_fraction < 1)
-          ? gfx::ToRoundedInt((1 - width_fraction) * kAlphaAtZeroWidth)
+          ? base::Round<SkAlpha>((1 - width_fraction) * kAlphaAtZeroWidth)
           : 0;
   const SkColor fade_color = SkColorSetA(color, alpha);
 
@@ -923,7 +923,7 @@ float RenderText::GetContentWidthF() {
 }
 
 int RenderText::GetContentWidth() {
-  return ToCeiledInt(GetContentWidthF());
+  return base::Ceil(GetContentWidthF());
 }
 
 int RenderText::GetBaseline() {
@@ -2027,9 +2027,8 @@ base::string16 RenderText::Elide(const base::string16& text,
     // |last_guess| is merely used to verify that we're not repeating guesses.
     const size_t last_guess = guess;
     if (hi_width != lo_width) {
-      guess = lo + static_cast<size_t>(
-                       ToRoundedInt((available_width - lo_width) * (hi - lo) /
-                                    (hi_width - lo_width)));
+      guess = lo + base::Round<size_t>((available_width - lo_width) *
+                                       (hi - lo) / (hi_width - lo_width));
     }
     guess = base::ClampToRange(guess, lo, hi);
     DCHECK_NE(last_guess, guess);

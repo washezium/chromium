@@ -4,20 +4,20 @@
 
 #include "ui/gfx/geometry/size_conversions.h"
 
-#include "ui/gfx/geometry/safe_integer_conversions.h"
+#include "base/numerics/safe_conversions.h"
 
 namespace gfx {
 
 Size ToFlooredSize(const SizeF& size) {
-  return Size(ToFlooredInt(size.width()), ToFlooredInt(size.height()));
+  return Size(base::Floor(size.width()), base::Floor(size.height()));
 }
 
 Size ToCeiledSize(const SizeF& size) {
-  return Size(ToCeiledInt(size.width()), ToCeiledInt(size.height()));
+  return Size(base::Ceil(size.width()), base::Ceil(size.height()));
 }
 
 Size ToRoundedSize(const SizeF& size) {
-  return Size(ToRoundedInt(size.width()), ToRoundedInt(size.height()));
+  return Size(base::Round(size.width()), base::Round(size.height()));
 }
 
 }  // namespace gfx

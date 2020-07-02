@@ -8,10 +8,10 @@
 
 #include <algorithm>
 
+#include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "ui/gfx/color_palette.h"
 #include "ui/gfx/geometry/insets.h"
-#include "ui/gfx/geometry/safe_integer_conversions.h"
 #include "ui/gfx/geometry/vector2d_conversions.h"
 
 namespace gfx {
@@ -30,7 +30,7 @@ Insets GetInsets(const ShadowValues& shadows, bool include_inner_blur) {
     double blur = shadow.blur();
     if (!include_inner_blur)
       blur /= 2;
-    int blur_length = ToRoundedInt(blur);
+    int blur_length = base::Round(blur);
 
     left = std::max(left, blur_length - shadow.x());
     top = std::max(top, blur_length - shadow.y());

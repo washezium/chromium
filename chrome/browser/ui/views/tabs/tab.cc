@@ -17,6 +17,7 @@
 #include "base/macros.h"
 #include "base/metrics/user_metrics.h"
 #include "base/numerics/ranges.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/scoped_observer.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/time/time.h"
@@ -906,7 +907,7 @@ void Tab::MaybeAdjustLeftForPinnedTab(gfx::Rect* bounds,
   // than the pinned width.
   bounds->set_x(
       bounds->x() +
-      gfx::ToRoundedInt(
+      base::Round(
           (1 - static_cast<float>(ideal_delta) /
                    static_cast<float>(kPinnedTabExtraWidthToRenderAsNormal)) *
           (ideal_x - bounds->x())));
