@@ -3253,6 +3253,7 @@ Unknown properties are collapsed to zero. -->
   <int value="15" label="Cloud provision flow reporeted internal error"/>
   <int value="16" label="ARC instance is stopped before complete provisioning"/>
   <int value="17" label="Overall sign in timeout"/>
+  <int value="18" label="Chrome server communication error"/>
   <int value="19" label="Network is unavailable"/>
   <int value="20" label="Disabled"/>
   <int value="21" label="Already provisioned"/>
