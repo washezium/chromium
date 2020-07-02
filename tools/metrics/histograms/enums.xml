@@ -68065,6 +68065,13 @@ would be helpful to identify which type is being sent.
   <int value="1835109015" label="patts: Chrome OS Indian English"/>
 </enum>
 
+<enum name="ThermalState">
+  <int value="0" label="Nominal"/>
+  <int value="1" label="Fair"/>
+  <int value="2" label="Serious"/>
+  <int value="3" label="Critical"/>
+</enum>
+
 <enum name="ThirdPartyStatus">
   <int value="0" label="Success"/>
   <int value="1" label="FilePathNotFoundInRegistry"/>
