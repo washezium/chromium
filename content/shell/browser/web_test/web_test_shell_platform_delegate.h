@@ -19,6 +19,8 @@ class WebTestShellPlatformDelegate : public ShellPlatformDelegate {
   void Initialize(const gfx::Size& default_window_size) override;
   void CreatePlatformWindow(Shell* shell,
                             const gfx::Size& initial_size) override;
+  void DidCreateOrAttachWebContents(Shell* shell,
+                                    WebContents* web_contents) override;
   gfx::NativeWindow GetNativeWindow(Shell* shell) override;
   void CleanUp(Shell* shell) override;
   void SetContents(Shell* shell) override;
@@ -28,6 +30,14 @@ class WebTestShellPlatformDelegate : public ShellPlatformDelegate {
   void SetAddressBarURL(Shell* shell, const GURL& url) override;
   void SetTitle(Shell* shell, const base::string16& title) override;
   void RenderViewReady(Shell* shell) override;
+  std::unique_ptr<JavaScriptDialogManager> CreateJavaScriptDialogManager(
+      Shell* shell) override;
+  std::unique_ptr<BluetoothChooser> RunBluetoothChooser(
+      Shell* shell,
+      RenderFrameHost* frame,
+      const BluetoothChooser::EventHandler& event_handler) override;
+  void RendererUnresponsive(Shell* shell) override;
+  bool ShouldAllowRunningInsecureContent(Shell* shell) override;
   bool DestroyShell(Shell* shell) override;
   void ResizeWebContent(Shell* shell, const gfx::Size& content_size) override;
 #if defined(OS_MACOSX)

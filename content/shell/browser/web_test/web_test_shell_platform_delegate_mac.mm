@@ -13,10 +13,8 @@
 namespace content {
 
 // On mac, the WebTestShellPlatformDelegate replaces behaviour in the base class
-// ShellPlatformDelegate when in headless mode. Otherwise it defers to
+// ShellPlatformDelegate when in headless mode. Otherwise it mostly defers to
 // the base class.
-// TODO(danakj): Maybe we should only instatiate a WebTestShellPlatformDelegate
-// when in headless mode? Depends on the needs of other platforms.
 
 struct WebTestShellPlatformDelegate::WebTestShellData {
   gfx::Size initial_size;
