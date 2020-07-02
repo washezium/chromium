@@ -7,13 +7,14 @@ package org.chromium.chrome.browser.password_check;
 import android.content.Context;
 
 /**
- * This component allows to check for passwords leak. It launches a settings page which shows the
- * leaked passwords and exposes actions that will help the users to make safer their credentials.
+ * This component allows to check for compromised passwords. It provides a settings page which shows
+ * the compromised passwords and exposes actions that will help the users to make safer their
+ * credentials.
  */
-public interface PasswordCheckComponent {
+public interface PasswordCheck {
     /**
-     * Initialize the component.
+     * Initializes the PasswordCheck UI and launches it.
      * @param context A {@link Context} to create views and retrieve resources.
      */
-    void initialize(Context context);
+    void showUi(Context context);
 }
