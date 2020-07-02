@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/policy/cloud/chrome_browser_cloud_management_helper.h"
+#include "components/enterprise/browser/controller/chrome_browser_cloud_management_helper.h"
 
 #include <utility>
 #include <vector>

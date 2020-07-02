@@ -4524,8 +4524,6 @@ static_library("browser") {
       "policy/chrome_browser_cloud_management_controller.h",
       "policy/chrome_browser_cloud_management_register_watcher.cc",
       "policy/chrome_browser_cloud_management_register_watcher.h",
-      "policy/cloud/chrome_browser_cloud_management_helper.cc",
-      "policy/cloud/chrome_browser_cloud_management_helper.h",
       "policy/cloud/user_policy_signin_service.cc",
       "policy/cloud/user_policy_signin_service.h",
       "policy/cloud/user_policy_signin_service_internal.h",
