@@ -1769,7 +1769,7 @@ Wenn diese Einstellung auf "Aus" oder kein Wert festgelegt wird, wird der einges
 
           Wenn die Richtlinie nicht konfiguriert ist, wird ein Standardwert verwendet.
 
-          Die empfohlene Vorgehensweise ist, die Bildschirmsperre im Suspend-Modus zu aktivieren und <ph name="PRODUCT_OS_NAME" /> anzuweisen, nach der Inaktivitätsverzögerung in den Suspend-Modus zu wechseln. Diese Richtlinie sollte nur verwendet werden, wenn die Bildschirmsperre erheblich früher als der Suspend-Modus eintreten oder der Suspend-Modus bei Inaktivität gar nicht erfolgen soll.
+          Die empfohlene Vorgehensweise ist, die Bildschirmsperre bei Ruhemodus zu aktivieren und <ph name="PRODUCT_OS_NAME" /> anzuweisen, nach der Inaktivitätsverzögerung in den Ruhemodus zu wechseln. Diese Richtlinie sollte nur verwendet werden, wenn die Bildschirmsperre erheblich früher als der Ruhemodus eintreten oder der Ruhemodus bei Inaktivität gar nicht aktiviert werden soll.
 
           Der Wert für die Richtlinie muss in Millisekunden angegeben werden. Werte müssen kleiner als der Wert für die Inaktivitätsverzögerung sein.</translation>
 <translation id="3550875587920006460">Mit dieser Richtlinie kann ein benutzerdefinierter Zeitplan zum Prüfen auf Updates festgelegt werden. Er gilt für alle Nutzer und alle Oberflächen auf diesem Gerät. Wenn ein Zeitplan aktiviert wird, sucht das Gerät entsprechend nach Updates. Wenn geplante Prüfungen auf Updates nicht mehr durchgeführt werden sollen, muss die Richtlinie entfernt werden.</translation>
@@ -3699,7 +3699,7 @@ Wenn diese Richtlinie nicht konfiguriert ist, können die Nutzer selbst wählen,
 
           Wenn die Richtlinie nicht konfiguriert ist, wird ein Standardwert verwendet.
 
-          Die empfohlene Vorgehensweise ist, die Bildschirmsperre im Suspend-Modus zu aktivieren und <ph name="PRODUCT_OS_NAME" /> anzuweisen, nach der Inaktivitätsverzögerung in den Suspend-Modus zu wechseln. Diese Richtlinie sollte nur verwendet werden, wenn die Bildschirmsperre erheblich früher als der Suspend-Modus eintreten oder der Suspend-Modus bei Inaktivität gar nicht erfolgen soll.
+          Die empfohlene Vorgehensweise ist, die Bildschirmsperre bei Ruhemodus zu aktivieren und <ph name="PRODUCT_OS_NAME" /> anzuweisen, nach der Inaktivitätsverzögerung in den Ruhemodus zu wechseln. Diese Richtlinie sollte nur verwendet werden, wenn die Bildschirmsperre erheblich früher als der Ruhemodus eintreten oder der Ruhemodus bei Inaktivität gar nicht aktiviert werden soll.
 
           Der Wert für die Richtlinie muss in Millisekunden angegeben werden. Werte müssen kleiner als der Wert für die Inaktivitätsverzögerung sein.</translation>
 <translation id="6515357889978918016"><ph name="PLUGIN_VM_NAME" />-Bild</translation>
@@ -4824,9 +4824,9 @@ Wird diese Richtlinie nicht konfiguriert, ist der Datenschutzbildschirm anfangs 
 
           Ist diese Richtlinie konfiguriert, wird damit festgelegt, was <ph name="PRODUCT_OS_NAME" /> tun soll, wenn der Nutzer für die Dauer der Inaktivitätsverzögerung inaktiv bleibt. Diese kann gesondert konfiguriert werden.
 
-          Wenn die Richtlinie nicht konfiguriert ist, wird das Gerät standardmäßig gesperrt.
+          Wenn die Richtlinie nicht konfiguriert ist, wird das Gerät standardmäßig in den Ruhemodus versetzt.
 
-          Falls das Gerät gesperrt werden soll, kann separat konfiguriert werden, ob <ph name="PRODUCT_OS_NAME" /> den Bildschirm vorher sperren soll oder nicht.</translation>
+          Wenn der Ruhemodus aktiviert wird, kann separat konfiguriert werden, ob <ph name="PRODUCT_OS_NAME" /> den Bildschirm vorher sperren soll oder nicht.</translation>
 <translation id="8214600119442850823">Konfiguriert den Passwortmanager.</translation>
 <translation id="8217516105848565518">Diese Richtlinie wurde eingestellt. Bitte verwenden Sie stattdessen "RemoteAccessHostDomainList".</translation>
 <translation id="8244171102276095471">RC4-Verschlüsselungssammlungen in TLS aktivieren</translation>
