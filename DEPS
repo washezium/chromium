@@ -518,17 +518,6 @@ deps = {
       'condition': 'checkout_ios',
   },
 
-  'src/ios/third_party/firebase': {
-      'packages': [
-        {
-          'package': 'chromium/third_party/firebase_ios',
-          'version': 'QmLncusdxHhHwXryoNEHHUGacx1Tg5ij449uwZL2dpAC',
-        },
-      ],
-      'condition': 'checkout_ios',
-      'dep_type': 'cipd',
-  },
-
   'src/ios/third_party/fishhook/src': {
       'url': Var('chromium_git') + '/external/github.com/facebook/fishhook.git' + '@' + '66315a9c251edfe92f669ae2deeac0d75374c948',
       'condition': 'checkout_ios',
