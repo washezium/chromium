@@ -60,6 +60,8 @@ void WebTestShellPlatformDelegate::CleanUp(Shell* shell) {
 
   DCHECK(base::Contains(web_test_shell_data_map_, shell));
   web_test_shell_data_map_.erase(shell);
+  if (shell == activated_headless_shell_)
+    activated_headless_shell_ = nullptr;
 }
 
 void WebTestShellPlatformDelegate::SetContents(Shell* shell) {
@@ -174,6 +176,24 @@ void WebTestShellPlatformDelegate::ActivateContents(Shell* shell,
       top_contents->GetMainFrame()->GetView()->GetRenderWidgetHost();
   main_widget->Focus();
   main_widget->SetActive(true);
+  activated_headless_shell_ = shell;
+}
+
+void WebTestShellPlatformDelegate::DidNavigateMainFramePostCommit(
+    Shell* shell,
+    WebContents* contents) {
+  if (!IsHeadless()) {
+    ShellPlatformDelegate::DidNavigateMainFramePostCommit(shell, contents);
+    return;
+  }
+
+  // Normally RenderFrameHostManager::CommitPending() transfers focus status to
+  // the new RenderWidgetHostView when a navigation creates a new view, but that
+  // doesn't work in Mac headless mode because RenderWidgetHostView depends on
+  // the native window (which doesn't exist in headless mode) to manage focus
+  // status. Instead we manually set focus status of the new RenderWidgetHost.
+  if (shell == activated_headless_shell_)
+    ActivateContents(shell, contents);
 }
 
 bool WebTestShellPlatformDelegate::HandleKeyboardEvent(

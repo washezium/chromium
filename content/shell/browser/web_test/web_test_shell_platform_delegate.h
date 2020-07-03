@@ -42,6 +42,7 @@ class WebTestShellPlatformDelegate : public ShellPlatformDelegate {
   void ResizeWebContent(Shell* shell, const gfx::Size& content_size) override;
 #if defined(OS_MACOSX)
   void ActivateContents(Shell* shell, WebContents* top_contents) override;
+  void DidNavigateMainFramePostCommit(Shell*, WebContents* contents) override;
   bool HandleKeyboardEvent(Shell* shell,
                            WebContents* source,
                            const NativeWebKeyboardEvent& event) override;
@@ -64,6 +65,11 @@ class WebTestShellPlatformDelegate : public ShellPlatformDelegate {
   // implementation.
   struct WebTestPlatformData;
   std::unique_ptr<WebTestPlatformData> web_test_platform_;
+
+#if defined(OS_MACOSX)
+  // The last headless shell that called ActivateContents().
+  Shell* activated_headless_shell_ = nullptr;
+#endif
 };
 
 }  // namespace content

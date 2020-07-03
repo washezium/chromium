@@ -552,6 +552,10 @@ std::unique_ptr<BluetoothScanningPrompt> Shell::ShowBluetoothScanningPrompt(
 }
 
 #if defined(OS_MACOSX)
+void Shell::DidNavigateMainFramePostCommit(WebContents* contents) {
+  g_platform->DidNavigateMainFramePostCommit(this, contents);
+}
+
 bool Shell::HandleKeyboardEvent(WebContents* source,
                                 const NativeWebKeyboardEvent& event) {
   return g_platform->HandleKeyboardEvent(this, source, event);

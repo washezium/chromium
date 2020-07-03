@@ -107,7 +107,9 @@ class ShellPlatformDelegate {
   // Activate (make key) the native window, and focus the web contents.
   virtual void ActivateContents(Shell* shell, WebContents* contents);
 
-  // Handle
+  virtual void DidNavigateMainFramePostCommit(Shell* shell,
+                                              WebContents* contents);
+
   virtual bool HandleKeyboardEvent(Shell* shell,
                                    WebContents* source,
                                    const NativeWebKeyboardEvent& event);
