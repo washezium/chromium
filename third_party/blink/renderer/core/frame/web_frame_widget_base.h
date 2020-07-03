@@ -265,8 +265,11 @@ class CORE_EXPORT WebFrameWidgetBase
       bool never_composited,
       scheduler::WebThreadScheduler* main_thread_scheduler,
       cc::TaskGraphRunner* task_graph_runner,
-      const cc::LayerTreeSettings& settings,
-      std::unique_ptr<cc::UkmRecorderFactory> ukm_recorder_factory) override;
+      bool for_child_local_root_frame,
+      const gfx::Size& initial_screen_size,
+      float initial_device_scale_factor,
+      std::unique_ptr<cc::UkmRecorderFactory> ukm_recorder_factory,
+      const cc::LayerTreeSettings* settings) override;
   void Close(
       scoped_refptr<base::SingleThreadTaskRunner> cleanup_runner) override;
   void DidAcquirePointerLock() override;

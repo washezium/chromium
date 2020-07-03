@@ -346,16 +346,6 @@ class CONTENT_EXPORT RenderWidget
   // Sends a request to the browser to close this RenderWidget.
   void CloseWidgetSoon();
 
-  static cc::LayerTreeSettings GenerateLayerTreeSettings(
-      CompositorDependencies* compositor_deps,
-      bool is_for_subframe,
-      const gfx::Size& initial_screen_size,
-      float initial_device_scale_factor);
-  static cc::ManagedMemoryPolicy GetGpuMemoryPolicy(
-      const cc::ManagedMemoryPolicy& policy,
-      const gfx::Size& initial_screen_size,
-      float initial_device_scale_factor);
-
   cc::LayerTreeHost* layer_tree_host() { return layer_tree_host_; }
   void SetHandlingInputEvent(bool handling_input_event);
 

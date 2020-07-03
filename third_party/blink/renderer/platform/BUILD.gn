@@ -1463,6 +1463,8 @@ jumbo_component("platform") {
     "webrtc/webrtc_video_frame_adapter.h",
     "webrtc/webrtc_video_utils.cc",
     "webrtc/webrtc_video_utils.h",
+    "widget/compositing/layer_tree_settings.cc",
+    "widget/compositing/layer_tree_settings.h",
     "widget/compositing/layer_tree_view.cc",
     "widget/compositing/layer_tree_view.h",
     "widget/compositing/layer_tree_view_delegate.h",
@@ -1591,6 +1593,7 @@ jumbo_component("platform") {
     "//ui/gfx",
   ]
   deps = [
+    "//base:base_static",
     "//base/allocator:buildflags",
     "//cc/ipc",
     "//components/paint_preview/common",
@@ -1630,6 +1633,7 @@ jumbo_component("platform") {
     "//ui/events/ipc",
     "//ui/gfx/geometry",
     "//ui/gfx/mojom",
+    "//ui/native_theme",
   ]
 
   if (is_mac) {
@@ -2035,6 +2039,7 @@ jumbo_source_set("blink_platform_unittests_sources") {
     "weborigin/security_origin_test.cc",
     "weborigin/security_policy_test.cc",
     "webrtc/webrtc_video_frame_adapter_test.cc",
+    "widget/compositing/layer_tree_settings_unittest.cc",
     "widget/compositing/layer_tree_view_unittest.cc",
     "widget/compositing/test/stub_layer_tree_view_delegate.h",
     "widget/input/input_event_prediction_unittest.cc",
