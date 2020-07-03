@@ -8,7 +8,7 @@ if (public_android_sdk) {
   group("monochrome_apk_checker") {
     testonly = true
     data_deps = [
-      "//chrome/android:chrome_modern_public_apk",
+      "//chrome/android:chrome_public_apk",
       "//chrome/android:monochrome_public_apk",
     ]
     if (public_android_sdk) {

@@ -48,7 +48,7 @@ if (android_channel != "default") {
 
 declare_args() {
   # Android package name to use when compiling the public chrome targets
-  # (chrome_modern_public_apk, monochrome_public_apk, etc. as well as the
+  # (chrome_public_apk, monochrome_public_apk, etc. as well as the
   # *_bundle variants). This is particularly useful when using
   # monochrome_public_apk for WebView development, as the OS only accepts
   # WebView providers which declare one of a handful of package names. See
@@ -63,8 +63,6 @@ chrome_public_jinja_variables =
     [ "manifest_package=$chrome_public_manifest_package" ]
 chrome_public_android_manifest =
     "$target_gen_dir/chrome_public_apk/AndroidManifest.xml"
-chrome_modern_public_android_manifest =
-    "$target_gen_dir/chrome_modern_public_apk/AndroidManifest.xml"
 trichrome_library_android_manifest =
     "$target_gen_dir/trichrome_library_apk/AndroidManifest.xml"
 trichrome_library_32_64_android_manifest =
@@ -106,16 +104,6 @@ _enable_manifest_verification =
 jinja_template("chrome_public_android_manifest") {
   input = "java/AndroidManifest.xml"
   output = chrome_public_android_manifest
-  variables = chrome_public_jinja_variables
-  variables += [
-    "min_sdk_version=21",
-    "target_sdk_version=$android_sdk_version",
-  ]
-}
-
-jinja_template("chrome_modern_public_android_manifest") {
-  input = "java/AndroidManifest.xml"
-  output = chrome_modern_public_android_manifest
   variables = chrome_public_jinja_variables
   variables += [
     "min_sdk_version=21",
@@ -1870,9 +1858,8 @@ static_library("browser_test_support") {
 }
 
 # Defines a target that derives from the chrome public application. This
-# can be either an APK or an app bundle module. This supports both the
-# chrome_public_xxx targets (for Android J-K) and chrome_modern_public_xxx
-# ones (for Android L-M). For Android N+, see instead
+# can be either an APK or an app bundle module. This supports
+# chrome_public_xxx targets (for Android L-M). For Android N+, see instead
 # monochrome_public_apk_or_module_tmpl() below.
 #
 # Variables:
@@ -1883,10 +1870,7 @@ static_library("browser_test_support") {
 #  is_base_module: For 'android_app_bundle_module' target types only,
 #     set to true to indicate that this is a base application module
 #     (instead of a feature module).
-#  is_modern: Optional. Set to true to indicate that this is a Chrome-modern
-#    target, intended for Android L and M only.
 template("chrome_public_apk_or_module_tmpl") {
-  _is_modern = defined(invoker.is_modern) && invoker.is_modern
   _is_bundle_module = invoker.target_type == "android_app_bundle_module"
   chrome_public_common_apk_or_module_tmpl(target_name) {
     forward_variables_from(invoker,
@@ -1895,16 +1879,10 @@ template("chrome_public_apk_or_module_tmpl") {
                              "bundle_target",
                              "is_base_module",
                              "jni_registration_header",
-                             "is_modern",
                              "target_type",
                              "enable_multidex",
                              "lint_suppressions_dep",
                              "lint_suppressions_file",
-
-                             # TODO(crbug.com/1076896): remove
-                             # "disable_library_rename" when we remove chrome
-                             # public apk.
-                             "disable_library_rename",
                            ])
     deps = _chrome_public_shared_deps
     if (_is_bundle_module) {
@@ -1913,13 +1891,8 @@ template("chrome_public_apk_or_module_tmpl") {
       deps += [ ":chrome_apk_pak_assets" ]
     }
 
-    if (_is_modern) {
-      android_manifest = chrome_modern_public_android_manifest
-      android_manifest_dep = ":chrome_modern_public_android_manifest"
-    } else {
-      android_manifest = chrome_public_android_manifest
-      android_manifest_dep = ":chrome_public_android_manifest"
-    }
+    android_manifest = chrome_public_android_manifest
+    android_manifest_dep = ":chrome_public_android_manifest"
 
     shared_libraries = [ ":libchrome" ]
 
@@ -1928,38 +1901,21 @@ template("chrome_public_apk_or_module_tmpl") {
     # platform bug, where overzealous SELinux settings prevent mapping some apk
     # file segments with PROT_EXEC (see http://crbug.com/398425). This was
     # fixed for Android L by adding proper CTS tests.
-    load_library_from_apk = _is_modern && chromium_linker_supported
+    load_library_from_apk = chromium_linker_supported
 
     version_name = chrome_version_name
   }
 }
 
-# The chrome_public and chrome_modern_public APKs and bundle modules
-
 chrome_public_apk_or_module_tmpl("chrome_public_apk") {
   target_type = "android_apk"
   apk_name = "ChromePublic"
   enable_multidex = is_java_debug
-  if (android_64bit_target_cpu) {
-    disable_library_rename = true
-  }
-}
-
-android_resource_sizes_test("resource_sizes_chrome_public_apk") {
-  apk_name = "ChromePublic"
-  data_deps = [ ":chrome_public_apk" ]
-}
-
-chrome_public_apk_or_module_tmpl("chrome_modern_public_apk") {
-  target_type = "android_apk"
-  apk_name = "ChromeModernPublic"
-  is_modern = true
 }
 
 chrome_public_apk_or_module_tmpl("chrome_modern_public_base_bundle_module") {
   target_type = "android_app_bundle_module"
   is_base_module = true
-  is_modern = true
   bundle_target = ":chrome_modern_public_bundle"
 }
 
@@ -2448,12 +2404,6 @@ android_test_apk("chrome_smoke_test_apk") {
 
 instrumentation_test_runner("chrome_public_smoke_test") {
   apk_under_test = ":chrome_public_apk"
-  android_test_apk = ":chrome_smoke_test_apk"
-  android_test_apk_name = "ChromeSmokeTest"
-}
-
-instrumentation_test_runner("chrome_modern_public_smoke_test") {
-  apk_under_test = ":chrome_modern_public_apk"
   android_test_apk = ":chrome_smoke_test_apk"
   android_test_apk_name = "ChromeSmokeTest"
 }
