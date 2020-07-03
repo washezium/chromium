@@ -845,8 +845,6 @@ SkiaOutputSurfaceImplOnGpu::~SkiaOutputSurfaceImplOnGpu() {
   // |context_provider_| and clients want either the context to be lost or made
   // current on destruction.
   if (context_state_ && MakeCurrent(false /* need_fbo0 */)) {
-    gl::ScopedProgressReporter scoped_progress_reporter(
-        context_state_->progress_reporter());
     // This ensures any outstanding callbacks for promise images are performed.
     gr_context()->flushAndSubmit();
     release_current_last_.emplace(gl_surface_, context_state_);
@@ -981,12 +979,7 @@ bool SkiaOutputSurfaceImplOnGpu::FinishPaintCurrentFrame(
     if (on_finished)
       gpu::AddCleanupTaskForSkiaFlush(std::move(on_finished), &flush_info);
 
-    GrSemaphoresSubmitted result;
-    {
-      gl::ScopedProgressReporter scoped_progress_reporter(
-          context_state_->progress_reporter());
-      result = output_sk_surface()->flush(flush_info);
-    }
+    auto result = output_sk_surface()->flush(flush_info);
 
     if (result != GrSemaphoresSubmitted::kYes &&
         !(begin_semaphores.empty() && end_semaphores.empty())) {
@@ -1190,8 +1183,6 @@ bool SkiaOutputSurfaceImplOnGpu::CopyOutput(
     paint.setColor(SK_ColorBLACK);
     paint.setBlendMode(SkBlendMode::kDstATop);
     surface->getCanvas()->drawPaint(paint);
-    gl::ScopedProgressReporter scoped_progress_reporter(
-        context_state_->progress_reporter());
     surface->flush();
   }
 
