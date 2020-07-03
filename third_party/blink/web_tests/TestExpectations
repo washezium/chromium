@@ -2069,8 +2069,6 @@ crbug.com/479533 accessibility/show-context-menu.html [ Skip ]
 crbug.com/479533 accessibility/show-context-menu-shadowdom.html [ Skip ]
 crbug.com/483653 accessibility/scroll-containers.html [ Skip ]
 
-crbug.com/491764 http/tests/devtools/service-workers/user-agent-override.js [ Pass Timeout ]
-
 # Temporarily disabled after chromium change
 crbug.com/492511 [ Mac ] virtual/text-antialias/atsui-negative-spacing-features.html [ Failure ]
 crbug.com/492511 [ Mac ] virtual/text-antialias/international/arabic-justify.html [ Failure ]
