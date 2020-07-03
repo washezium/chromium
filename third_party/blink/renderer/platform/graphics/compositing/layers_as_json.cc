@@ -89,7 +89,7 @@ int LayersAsJSON::AddTransformJSON(
 
   int parent_id = 0;
   if (transform.Parent())
-    parent_id = AddTransformJSON(*transform.UnaliasedParent());
+    parent_id = AddTransformJSON(*transform.Parent());
   if (transform.IsIdentity() && !transform.RenderingContextId()) {
     transform_id_map_.Set(&transform, parent_id);
     return parent_id;

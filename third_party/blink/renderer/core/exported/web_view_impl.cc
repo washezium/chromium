@@ -1638,10 +1638,9 @@ void WebViewImpl::PaintContent(cc::PaintCanvas* canvas, const gfx::Rect& rect) {
   // Don't bother to save/restore here as the caller is expecting the canvas
   // to be modified and take care of it.
   canvas->clipRect(gfx::RectToSkRect(rect));
-  builder.EndRecording(*canvas, main_view.GetLayoutView()
-                                    ->FirstFragment()
-                                    .LocalBorderBoxProperties()
-                                    .Unalias());
+  builder.EndRecording(
+      *canvas,
+      main_view.GetLayoutView()->FirstFragment().LocalBorderBoxProperties());
 }
 
 void WebViewImpl::ThemeChanged() {

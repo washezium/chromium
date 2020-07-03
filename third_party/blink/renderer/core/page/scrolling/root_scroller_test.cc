@@ -2357,17 +2357,17 @@ TEST_F(ImplicitRootScrollerSimTest, BottomFixedAffectedByTopControls) {
       child2_document->getElementById("fixed")->GetLayoutObject();
 
   EXPECT_TRUE(fixed->FirstFragment()
-                  .PaintProperties()
-                  ->PaintOffsetTranslation()
-                  ->IsAffectedByOuterViewportBoundsDelta());
+                  .ContentsProperties()
+                  .Transform()
+                  .IsAffectedByOuterViewportBoundsDelta());
   EXPECT_TRUE(fixed1->FirstFragment()
-                  .PaintProperties()
-                  ->PaintOffsetTranslation()
-                  ->IsAffectedByOuterViewportBoundsDelta());
+                  .ContentsProperties()
+                  .Transform()
+                  .IsAffectedByOuterViewportBoundsDelta());
   EXPECT_FALSE(fixed2->FirstFragment()
-                   .PaintProperties()
-                   ->PaintOffsetTranslation()
-                   ->IsAffectedByOuterViewportBoundsDelta());
+                   .ContentsProperties()
+                   .Transform()
+                   .IsAffectedByOuterViewportBoundsDelta());
 }
 
 // Ensure that we're using the content box for an iframe. Promotion will cause

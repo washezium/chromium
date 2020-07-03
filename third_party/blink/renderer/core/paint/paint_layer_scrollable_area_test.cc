@@ -1251,21 +1251,19 @@ TEST_P(PaintLayerScrollableAreaTest, CompositedStickyDescendant) {
     EXPECT_EQ(kPaintsIntoOwnBacking, scroller->Layer()->GetCompositingState());
   auto* sticky = ToLayoutBoxModelObject(GetLayoutObjectByElementId("sticky"));
 
-  EXPECT_EQ(&sticky->FirstFragment().LocalBorderBoxProperties().Transform(),
-            sticky->FirstFragment().PaintProperties()->StickyTranslation());
   EXPECT_TRUE(sticky->FirstFragment()
-                  .PaintProperties()
-                  ->StickyTranslation()
-                  ->IsIdentity());
+                  .LocalBorderBoxProperties()
+                  .Transform()
+                  .IsIdentity());
 
   scrollable_area->SetScrollOffset(ScrollOffset(0, 50),
                                    mojom::blink::ScrollType::kUser);
   UpdateAllLifecyclePhasesForTest();
 
   EXPECT_EQ(FloatSize(0, 50), sticky->FirstFragment()
-                                  .PaintProperties()
-                                  ->StickyTranslation()
-                                  ->Translation2D());
+                                  .LocalBorderBoxProperties()
+                                  .Transform()
+                                  .Translation2D());
 }
 
 // Delayed scroll offset clamping should not crash. https://crbug.com/842495

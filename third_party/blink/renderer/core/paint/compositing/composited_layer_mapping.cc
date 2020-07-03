@@ -1753,15 +1753,15 @@ IntRect CompositedLayerMapping::RecomputeInterestRect(
 
   FloatClipRect mapping_rect((FloatRect(graphics_layer_bounds)));
 
-  auto source_state = graphics_layer->GetPropertyTreeState();
+  PropertyTreeState source_state = graphics_layer->GetPropertyTreeState();
 
   LayoutView* root_view = owning_layer_.GetLayoutObject().View();
   while (root_view->GetFrame()->OwnerLayoutObject())
     root_view = root_view->GetFrame()->OwnerLayoutObject()->View();
 
-  auto root_view_contents_state =
+  PropertyTreeState root_view_contents_state =
       root_view->FirstFragment().ContentsProperties();
-  auto root_view_border_box_state =
+  PropertyTreeState root_view_border_box_state =
       root_view->FirstFragment().LocalBorderBoxProperties();
 
   // 1. Move into local transform space.

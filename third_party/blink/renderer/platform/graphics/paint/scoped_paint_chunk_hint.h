@@ -35,7 +35,7 @@ class ScopedPaintChunkHint {
                              type) {}
 
   ScopedPaintChunkHint(PaintController& paint_controller,
-                       const PropertyTreeStateOrAlias& properties,
+                       const PropertyTreeState& properties,
                        const DisplayItemClient& client,
                        DisplayItem::Type type)
       : paint_controller_(paint_controller),

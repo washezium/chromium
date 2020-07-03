@@ -30,45 +30,8 @@ using CompositorStickyConstraint = cc::StickyPositionConstraint;
 //
 // The transform tree is rooted at a node with no parent. This root node should
 // not be modified.
-class TransformPaintPropertyNode;
-
-class PLATFORM_EXPORT TransformPaintPropertyNodeOrAlias
-    : public PaintPropertyNode<TransformPaintPropertyNodeOrAlias,
-                               TransformPaintPropertyNode> {
- public:
-  // If |relative_to_node| is an ancestor of |this|, returns true if any node is
-  // marked changed, at least significance of |change|, along the path from
-  // |this| to |relative_to_node| (not included). Otherwise returns the combined
-  // changed status of the paths from |this| and |relative_to_node| to the root.
-  bool Changed(PaintPropertyChangeType change,
-               const TransformPaintPropertyNodeOrAlias& relative_to_node) const;
-
- protected:
-  using PaintPropertyNode::PaintPropertyNode;
-};
-
-class TransformPaintPropertyNodeAlias
-    : public TransformPaintPropertyNodeOrAlias {
- public:
-  static scoped_refptr<TransformPaintPropertyNodeAlias> Create(
-      const TransformPaintPropertyNodeOrAlias& parent) {
-    return base::AdoptRef(new TransformPaintPropertyNodeAlias(parent));
-  }
-
-  PaintPropertyChangeType SetParent(
-      const TransformPaintPropertyNodeOrAlias& parent) {
-    DCHECK(IsParentAlias());
-    return PaintPropertyNode::SetParent(parent);
-  }
-
- private:
-  explicit TransformPaintPropertyNodeAlias(
-      const TransformPaintPropertyNodeOrAlias& parent)
-      : TransformPaintPropertyNodeOrAlias(parent, kParentAlias) {}
-};
-
 class PLATFORM_EXPORT TransformPaintPropertyNode
-    : public TransformPaintPropertyNodeOrAlias {
+    : public PaintPropertyNode<TransformPaintPropertyNode> {
  public:
   enum class BackfaceVisibility : unsigned char {
     // backface-visibility is not inherited per the css spec. However, for an
@@ -254,28 +217,38 @@ class PLATFORM_EXPORT TransformPaintPropertyNode
   static const TransformPaintPropertyNode& Root();
 
   static scoped_refptr<TransformPaintPropertyNode> Create(
-      const TransformPaintPropertyNodeOrAlias& parent,
+      const TransformPaintPropertyNode& parent,
       State&& state) {
-    return base::AdoptRef(
-        new TransformPaintPropertyNode(&parent, std::move(state)));
+    return base::AdoptRef(new TransformPaintPropertyNode(
+        &parent, std::move(state), false /* is_parent_alias */));
+  }
+  static scoped_refptr<TransformPaintPropertyNode> CreateAlias(
+      const TransformPaintPropertyNode& parent) {
+    return base::AdoptRef(new TransformPaintPropertyNode(
+        &parent, State{}, true /* is_parent_alias */));
   }
 
-  const TransformPaintPropertyNode& Unalias() const = delete;
-  bool IsParentAlias() const = delete;
-
   PaintPropertyChangeType Update(
-      const TransformPaintPropertyNodeOrAlias& parent,
+      const TransformPaintPropertyNode& parent,
       State&& state,
       const AnimationState& animation_state = AnimationState()) {
-    auto parent_changed = SetParent(parent);
+    auto parent_changed = SetParent(&parent);
     auto state_changed = state_.ComputeChange(state, animation_state);
     if (state_changed != PaintPropertyChangeType::kUnchanged) {
+      DCHECK(!IsParentAlias()) << "Changed the state of an alias node.";
       state_ = std::move(state);
       AddChanged(state_changed);
       Validate();
     }
     return std::max(parent_changed, state_changed);
   }
+
+  // If |relative_to_node| is an ancestor of |this|, returns true if any node is
+  // marked changed, at least significance of |change|, along the path from
+  // |this| to |relative_to_node| (not included). Otherwise returns the combined
+  // changed status of the paths from |this| and |relative_to_node| to the root.
+  bool Changed(PaintPropertyChangeType change,
+               const TransformPaintPropertyNode& relative_to_node) const;
 
   bool IsIdentityOr2DTranslation() const {
     return state_.transform_and_origin.IsIdentityOr2DTranslation();
@@ -371,7 +344,7 @@ class PLATFORM_EXPORT TransformPaintPropertyNode
     const auto* node = this;
     while (node &&
            node->state_.backface_visibility == BackfaceVisibility::kInherited)
-      node = node->UnaliasedParent();
+      node = node->Parent();
     return node &&
            node->state_.backface_visibility == BackfaceVisibility::kHidden;
   }
@@ -428,22 +401,28 @@ class PLATFORM_EXPORT TransformPaintPropertyNode
 
   std::unique_ptr<JSONObject> ToJSON() const;
 
- private:
-  friend class PaintPropertyNode<TransformPaintPropertyNodeOrAlias,
-                                 TransformPaintPropertyNode>;
+  // Returns memory usage of the transform cache of this node plus ancestors.
+  size_t CacheMemoryUsageInBytes() const;
 
-  TransformPaintPropertyNode(const TransformPaintPropertyNodeOrAlias* parent,
-                             State&& state)
-      : TransformPaintPropertyNodeOrAlias(parent), state_(std::move(state)) {
+ private:
+  friend class PaintPropertyNode<TransformPaintPropertyNode>;
+
+  TransformPaintPropertyNode(const TransformPaintPropertyNode* parent,
+                             State&& state,
+                             bool is_parent_alias)
+      : PaintPropertyNode(parent, is_parent_alias), state_(std::move(state)) {
     Validate();
   }
 
   CompositingReasons DirectCompositingReasons() const {
+    DCHECK(!Parent() || !IsParentAlias());
     return state_.direct_compositing_reasons;
   }
 
   void Validate() const {
 #if DCHECK_IS_ON()
+    if (IsParentAlias())
+      DCHECK(IsIdentity());
     if (state_.scroll) {
       // If there is an associated scroll node, this can only be a 2d
       // translation for scroll offset.
@@ -465,7 +444,7 @@ class PLATFORM_EXPORT TransformPaintPropertyNode
       GeometryMapperTransformCache::ClearCache();
       GeometryMapperClipCache::ClearCache();
     }
-    TransformPaintPropertyNodeOrAlias::AddChanged(changed);
+    PaintPropertyNode::AddChanged(changed);
   }
 
   // For access to GetTransformCache() and SetCachedTransform.

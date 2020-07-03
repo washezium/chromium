@@ -1266,8 +1266,10 @@ TEST_F(CompositedLayerMappingTest,
 
   GraphicsLayer* root_scrolling_layer =
       GetDocument().GetLayoutView()->Layer()->GraphicsLayerBacking();
-  const auto& root_layer_state = root_scrolling_layer->GetPropertyTreeState();
-  const auto& sticky_layer_state = main_graphics_layer->GetPropertyTreeState();
+  const PropertyTreeState& root_layer_state =
+      root_scrolling_layer->GetPropertyTreeState();
+  const PropertyTreeState& sticky_layer_state =
+      main_graphics_layer->GetPropertyTreeState();
   auto transform_from_sticky_to_root =
       GeometryMapper::SourceToDestinationProjection(
           sticky_layer_state.Transform(), root_layer_state.Transform());
@@ -1312,8 +1314,10 @@ TEST_F(CompositedLayerMappingTest,
 
   GraphicsLayer* root_scrolling_layer =
       GetDocument().GetLayoutView()->Layer()->GraphicsLayerBacking();
-  const auto& root_layer_state = root_scrolling_layer->GetPropertyTreeState();
-  const auto& sticky_layer_state = main_graphics_layer->GetPropertyTreeState();
+  const PropertyTreeState& root_layer_state =
+      root_scrolling_layer->GetPropertyTreeState();
+  const PropertyTreeState& sticky_layer_state =
+      main_graphics_layer->GetPropertyTreeState();
   auto transform_from_sticky_to_root =
       GeometryMapper::SourceToDestinationProjection(
           sticky_layer_state.Transform(), root_layer_state.Transform());

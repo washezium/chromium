@@ -113,7 +113,7 @@ void CullRect::ApplyTransforms(const TransformPaintPropertyNode& source,
   DCHECK(RuntimeEnabledFeatures::CompositeAfterPaintEnabled());
 
   Vector<const TransformPaintPropertyNode*> scroll_translations;
-  for (const auto* t = &destination; t != &source; t = t->UnaliasedParent()) {
+  for (const auto* t = &destination; t != &source; t = t->Parent()) {
     if (!t) {
       // |source| is not an ancestor of |destination|. Simply map.
       if (!IsInfinite())

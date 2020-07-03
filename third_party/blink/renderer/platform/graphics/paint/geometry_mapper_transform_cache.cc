@@ -36,7 +36,7 @@ void GeometryMapperTransformCache::Update(
   }
 
   const GeometryMapperTransformCache& parent =
-      node.UnaliasedParent()->GetTransformCache();
+      node.Parent()->GetTransformCache();
 
   // screen_transform_ will be updated only when needed.
   screen_transform_ = nullptr;
@@ -118,9 +118,8 @@ void GeometryMapperTransformCache::UpdateScreenTransform(
   // If the node is the root, then its plane root is itself, and we should have
   // returned above.
   DCHECK(!node.IsRoot());
-  auto* parent_node = node.UnaliasedParent();
-  parent_node->UpdateScreenTransform();
-  const auto& parent = parent_node->GetTransformCache();
+  node.Parent()->UpdateScreenTransform();
+  const auto& parent = node.Parent()->GetTransformCache();
 
   screen_transform_.reset(new ScreenTransform());
   parent.ApplyToScreen(screen_transform_->to_screen);

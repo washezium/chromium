@@ -10,28 +10,26 @@
 namespace blink {
 
 const ClipPaintPropertyNode& ClipPaintPropertyNode::Root() {
-  DEFINE_STATIC_REF(
-      ClipPaintPropertyNode, root,
-      base::AdoptRef(new ClipPaintPropertyNode(
-          nullptr, State{&TransformPaintPropertyNode::Root(),
-                         FloatRoundedRect(LayoutRect::InfiniteIntRect())})));
+  DEFINE_STATIC_REF(ClipPaintPropertyNode, root,
+                    base::AdoptRef(new ClipPaintPropertyNode(
+                        nullptr,
+                        State{&TransformPaintPropertyNode::Root(),
+                              FloatRoundedRect(LayoutRect::InfiniteIntRect())},
+                        true /* is_parent_alias */)));
   return *root;
 }
 
-bool ClipPaintPropertyNodeOrAlias::Changed(
+bool ClipPaintPropertyNode::Changed(
     PaintPropertyChangeType change,
     const PropertyTreeState& relative_to_state,
-    const TransformPaintPropertyNodeOrAlias* transform_not_to_check) const {
+    const TransformPaintPropertyNode* transform_not_to_check) const {
   for (const auto* node = this; node && node != &relative_to_state.Clip();
        node = node->Parent()) {
     if (node->NodeChanged() >= change)
       return true;
-    if (node->IsParentAlias())
-      continue;
-    const auto* unaliased = static_cast<const ClipPaintPropertyNode*>(node);
-    if (&unaliased->LocalTransformSpace() != transform_not_to_check &&
-        unaliased->LocalTransformSpace().Changed(change,
-                                                 relative_to_state.Transform()))
+    if (&node->LocalTransformSpace() != transform_not_to_check &&
+        node->LocalTransformSpace().Changed(change,
+                                            relative_to_state.Transform()))
       return true;
   }
 
@@ -39,7 +37,9 @@ bool ClipPaintPropertyNodeOrAlias::Changed(
 }
 
 std::unique_ptr<JSONObject> ClipPaintPropertyNode::ToJSON() const {
-  auto json = ToJSONBase();
+  auto json = std::make_unique<JSONObject>();
+  if (Parent())
+    json->SetString("parent", String::Format("%p", Parent()));
   if (NodeChanged() != PaintPropertyChangeType::kUnchanged)
     json->SetString("changed", PaintPropertyChangeTypeToString(NodeChanged()));
   json->SetString("localTransformSpace",
@@ -54,6 +54,15 @@ std::unique_ptr<JSONObject> ClipPaintPropertyNode::ToJSON() const {
     json->SetBoolean("hasClipPath", true);
   }
   return json;
+}
+
+size_t ClipPaintPropertyNode::CacheMemoryUsageInBytes() const {
+  size_t total_bytes = sizeof(*this);
+  if (clip_cache_)
+    total_bytes += sizeof(*clip_cache_);
+  if (Parent())
+    total_bytes += Parent()->CacheMemoryUsageInBytes();
+  return total_bytes;
 }
 
 }  // namespace blink

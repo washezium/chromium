@@ -59,7 +59,7 @@ class CORE_EXPORT ObjectPaintProperties {
  public:                                                                     \
   const type##PaintPropertyNode* function() const { return variable.get(); } \
   PaintPropertyChangeType Update##function(                                  \
-      const type##PaintPropertyNodeOrAlias& parent,                          \
+      const type##PaintPropertyNode& parent,                                 \
       type##PaintPropertyNode::State&& state,                                \
       const type##PaintPropertyNode::AnimationState& animation_state =       \
           type##PaintPropertyNode::AnimationState()) {                       \
@@ -71,19 +71,17 @@ class CORE_EXPORT ObjectPaintProperties {
   scoped_refptr<type##PaintPropertyNode> variable
   // (End of ADD_NODE definition)
 
-#define ADD_ALIAS_NODE(type, function, variable)           \
- public:                                                   \
-  const type##PaintPropertyNodeOrAlias* function() const { \
-    return variable.get();                                 \
-  }                                                        \
-  PaintPropertyChangeType Update##function(                \
-      const type##PaintPropertyNodeOrAlias& parent) {      \
-    return UpdateAlias(variable, parent);                  \
-  }                                                        \
-  bool Clear##function() { return Clear(variable); }       \
-                                                           \
- private:                                                  \
-  scoped_refptr<type##PaintPropertyNodeAlias> variable
+#define ADD_ALIAS_NODE(type, function, variable)                             \
+ public:                                                                     \
+  const type##PaintPropertyNode* function() const { return variable.get(); } \
+  PaintPropertyChangeType Update##function(                                  \
+      const type##PaintPropertyNode& parent) {                               \
+    return UpdateAlias(variable, parent);                                    \
+  }                                                                          \
+  bool Clear##function() { return Clear(variable); }                         \
+                                                                             \
+ private:                                                                    \
+  scoped_refptr<type##PaintPropertyNode> variable
   // (End of ADD_ALIAS_NODE definition)
 
 #define ADD_TRANSFORM(function, variable) \
@@ -128,7 +126,6 @@ class CORE_EXPORT ObjectPaintProperties {
   ADD_TRANSFORM(Perspective, perspective_);
   ADD_TRANSFORM(ReplacedContentTransform, replaced_content_transform_);
   ADD_TRANSFORM(ScrollTranslation, scroll_translation_);
-  using ScrollPaintPropertyNodeOrAlias = ScrollPaintPropertyNode;
   ADD_NODE(Scroll, Scroll, scroll_);
   ADD_ALIAS_NODE(Transform, TransformIsolationNode, transform_isolation_node_);
 
@@ -255,10 +252,10 @@ class CORE_EXPORT ObjectPaintProperties {
   // Return true if the property tree structure changes (a new node was
   // created), and false otherwise. See the class-level comment ("update & clear
   // implementation note") for details about why this is needed for efficiency.
-  template <typename PaintPropertyNode, typename PaintPropertyNodeOrAlias>
+  template <typename PaintPropertyNode>
   PaintPropertyChangeType Update(
       scoped_refptr<PaintPropertyNode>& field,
-      const PaintPropertyNodeOrAlias& parent,
+      const PaintPropertyNode& parent,
       typename PaintPropertyNode::State&& state,
       const typename PaintPropertyNode::AnimationState& animation_state) {
     if (field) {
@@ -278,13 +275,12 @@ class CORE_EXPORT ObjectPaintProperties {
     return PaintPropertyChangeType::kNodeAddedOrRemoved;
   }
 
-  template <typename PaintPropertyNodeAlias, typename PaintPropertyNodeOrAlias>
-  PaintPropertyChangeType UpdateAlias(
-      scoped_refptr<PaintPropertyNodeAlias>& field,
-      const PaintPropertyNodeOrAlias& parent) {
+  template <typename PaintPropertyNode>
+  PaintPropertyChangeType UpdateAlias(scoped_refptr<PaintPropertyNode>& field,
+                                      const PaintPropertyNode& parent) {
     if (field) {
       DCHECK(field->IsParentAlias());
-      auto changed = field->SetParent(parent);
+      auto changed = field->SetParent(&parent);
 #if DCHECK_IS_ON()
       DCHECK(!is_immutable_ || changed == PaintPropertyChangeType::kUnchanged)
           << "Parent changed while immutable. New state:\n"
@@ -292,7 +288,7 @@ class CORE_EXPORT ObjectPaintProperties {
 #endif
       return changed;
     }
-    field = PaintPropertyNodeAlias::Create(parent);
+    field = PaintPropertyNode::CreateAlias(parent);
 #if DCHECK_IS_ON()
     DCHECK(!is_immutable_) << "Node added while immutable. New state:\n"
                            << *field;

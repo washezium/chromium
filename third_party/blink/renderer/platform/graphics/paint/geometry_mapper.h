@@ -139,12 +139,6 @@ class PLATFORM_EXPORT GeometryMapper {
   // Not every cases outlined above are supported!
   // Read implementation comments for specific restrictions.
   static Translation2DOrMatrix SourceToDestinationProjection(
-      const TransformPaintPropertyNodeOrAlias& source,
-      const TransformPaintPropertyNodeOrAlias& destination) {
-    return SourceToDestinationProjection(source.Unalias(),
-                                         destination.Unalias());
-  }
-  static Translation2DOrMatrix SourceToDestinationProjection(
       const TransformPaintPropertyNode& source,
       const TransformPaintPropertyNode& destination);
 
@@ -153,15 +147,7 @@ class PLATFORM_EXPORT GeometryMapper {
   // |mapping_rect| is both input and output. Its type can be FloatRect,
   // LayoutRect or IntRect.
   template <typename Rect>
-  static void SourceToDestinationRect(
-      const TransformPaintPropertyNodeOrAlias& source,
-      const TransformPaintPropertyNodeOrAlias& destination,
-      Rect& mapping_rect) {
-    SourceToDestinationRect(source.Unalias(), destination.Unalias(),
-                            mapping_rect);
-  }
-  template <typename Rect>
-  static void SourceToDestinationRect(
+  ALWAYS_INLINE static void SourceToDestinationRect(
       const TransformPaintPropertyNode& source,
       const TransformPaintPropertyNode& destination,
       Rect& mapping_rect) {
@@ -209,14 +195,6 @@ class PLATFORM_EXPORT GeometryMapper {
   // in the presences of transforms.
 
   static FloatClipRect LocalToAncestorClipRect(
-      const PropertyTreeStateOrAlias& local_state,
-      const PropertyTreeStateOrAlias& ancestor_state,
-      OverlayScrollbarClipBehavior behavior =
-          kIgnorePlatformOverlayScrollbarSize) {
-    return LocalToAncestorClipRect(local_state.Unalias(),
-                                   ancestor_state.Unalias(), behavior);
-  }
-  static FloatClipRect LocalToAncestorClipRect(
       const PropertyTreeState& local_state,
       const PropertyTreeState& ancestor_state,
       OverlayScrollbarClipBehavior = kIgnorePlatformOverlayScrollbarSize);
@@ -256,18 +234,6 @@ class PLATFORM_EXPORT GeometryMapper {
   // return value will be true only if the clipped rect has non-zero area.
   // See the documentation for FloatRect::InclusiveIntersect for more
   // information.
-  static bool LocalToAncestorVisualRect(
-      const PropertyTreeStateOrAlias& local_state,
-      const PropertyTreeStateOrAlias& ancestor_state,
-      FloatClipRect& mapping_rect,
-      OverlayScrollbarClipBehavior clip = kIgnorePlatformOverlayScrollbarSize,
-      InclusiveIntersectOrNot intersect = kNonInclusiveIntersect,
-      ExpandVisualRectForAnimationOrNot animation =
-          kDontExpandVisualRectForAnimation) {
-    return LocalToAncestorVisualRect(local_state.Unalias(),
-                                     ancestor_state.Unalias(), mapping_rect,
-                                     clip, intersect, animation);
-  }
   static bool LocalToAncestorVisualRect(
       const PropertyTreeState& local_state,
       const PropertyTreeState& ancestor_state,

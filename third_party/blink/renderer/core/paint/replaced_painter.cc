@@ -43,8 +43,9 @@ ScopedReplacedContentPaintState::ScopedReplacedContentPaintState(
   if (!paint_properties)
     return;
 
-  auto new_properties = input_paint_info_.context.GetPaintController()
-                            .CurrentPaintChunkProperties();
+  PropertyTreeState new_properties =
+      input_paint_info_.context.GetPaintController()
+          .CurrentPaintChunkProperties();
   bool property_changed = false;
 
   const auto* content_transform = paint_properties->ReplacedContentTransform();

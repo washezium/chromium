@@ -59,8 +59,7 @@ sk_sp<PaintRecord> SVGFilterRecordingContext::GetPaintRecord(
   paint_controller_->CommitNewDisplayItems();
   return paint_controller_->GetPaintArtifact().GetPaintRecord(
       initial_paint_info.context.GetPaintController()
-          .CurrentPaintChunkProperties()
-          .Unalias());
+          .CurrentPaintChunkProperties());
 }
 
 static void PaintFilteredContent(GraphicsContext& context,
@@ -163,7 +162,7 @@ void ScopedSVGPaintState::ApplyPaintPropertyState() {
     return;
 
   auto& paint_controller = GetPaintInfo().context.GetPaintController();
-  auto state = paint_controller.CurrentPaintChunkProperties();
+  PropertyTreeState state = paint_controller.CurrentPaintChunkProperties();
   if (const auto* effect = properties->Effect())
     state.SetEffect(*effect);
   if (const auto* mask_clip = properties->MaskClip())

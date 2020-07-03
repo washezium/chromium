@@ -51,8 +51,9 @@ void RecordGraphicsLayer(GraphicsContext& context,
 
   // This is like ScopedPaintChunkProperties but uses null id because graphics
   // layer chunk doesn't need an id nor a client.
-  const auto& properties = graphics_layer.GetPropertyTreeState();
-  auto previous_properties = paint_controller.CurrentPaintChunkProperties();
+  const PropertyTreeState& properties = graphics_layer.GetPropertyTreeState();
+  PropertyTreeState previous_properties(
+      paint_controller.CurrentPaintChunkProperties());
   paint_controller.UpdateCurrentPaintChunkProperties(nullptr, properties);
   paint_controller.CreateAndAppend<GraphicsLayerDisplayItem>(graphics_layer);
   paint_controller.UpdateCurrentPaintChunkProperties(nullptr,

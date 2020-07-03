@@ -20,11 +20,10 @@ class Layer;
 
 namespace blink {
 
-class ClipPaintPropertyNodeOrAlias;
-class EffectPaintPropertyNodeOrAlias;
+class ClipPaintPropertyNode;
+class EffectPaintPropertyNode;
 class PaintArtifact;
 class TransformPaintPropertyNode;
-class TransformPaintPropertyNodeOrAlias;
 
 class DummyRectClient : public FakeDisplayItemClient {
  public:
@@ -78,24 +77,23 @@ class TestPaintArtifact {
   // artifact.
   TestPaintArtifact& Chunk(int id);
 
-  TestPaintArtifact& Properties(const PropertyTreeStateOrAlias&);
-  TestPaintArtifact& Properties(
-      const TransformPaintPropertyNodeOrAlias& transform,
-      const ClipPaintPropertyNodeOrAlias& clip,
-      const EffectPaintPropertyNodeOrAlias& effect) {
-    return Properties(PropertyTreeStateOrAlias(transform, clip, effect));
+  TestPaintArtifact& Properties(const PropertyTreeState&);
+  TestPaintArtifact& Properties(const TransformPaintPropertyNode& transform,
+                                const ClipPaintPropertyNode& clip,
+                                const EffectPaintPropertyNode& effect) {
+    return Properties(PropertyTreeState(transform, clip, effect));
   }
   TestPaintArtifact& Properties(const RefCountedPropertyTreeState& properties) {
     return Properties(properties.GetPropertyTreeState());
   }
 
   // Shorthands of Chunk().Properties(...).
-  TestPaintArtifact& Chunk(const TransformPaintPropertyNodeOrAlias& transform,
-                           const ClipPaintPropertyNodeOrAlias& clip,
-                           const EffectPaintPropertyNodeOrAlias& effect) {
+  TestPaintArtifact& Chunk(const TransformPaintPropertyNode& transform,
+                           const ClipPaintPropertyNode& clip,
+                           const EffectPaintPropertyNode& effect) {
     return Chunk().Properties(transform, clip, effect);
   }
-  TestPaintArtifact& Chunk(const PropertyTreeStateOrAlias& properties) {
+  TestPaintArtifact& Chunk(const PropertyTreeState& properties) {
     return Chunk().Properties(properties);
   }
   TestPaintArtifact& Chunk(const RefCountedPropertyTreeState& properties) {

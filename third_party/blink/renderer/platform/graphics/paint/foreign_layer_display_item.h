@@ -69,7 +69,7 @@ PLATFORM_EXPORT void RecordForeignLayer(
     DisplayItem::Type type,
     scoped_refptr<cc::Layer> layer,
     const FloatPoint& offset,
-    const PropertyTreeStateOrAlias* properties = nullptr);
+    const PropertyTreeState* properties = nullptr);
 
 }  // namespace blink
 

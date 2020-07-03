@@ -1166,11 +1166,8 @@ std::unique_ptr<DragImage> DragController::DragImageForSelection(
       builder.Context(), paint_flags,
       CullRect(EnclosingIntRect(painting_rect)));
 
-  auto property_tree_state = frame.View()
-                                 ->GetLayoutView()
-                                 ->FirstFragment()
-                                 .LocalBorderBoxProperties()
-                                 .Unalias();
+  PropertyTreeState property_tree_state =
+      frame.View()->GetLayoutView()->FirstFragment().LocalBorderBoxProperties();
   return DataTransfer::CreateDragImageForFrame(
       frame, opacity, kRespectImageOrientation, painting_rect.Size(),
       painting_rect.Location(), builder, property_tree_state);

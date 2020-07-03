@@ -74,6 +74,10 @@ bool SmallerThanRegionGranularity(const FloatRect& rect) {
   return rect.Width() < 0.5 || rect.Height() < 0.5;
 }
 
+const PropertyTreeState PropertyTreeStateFor(const LayoutObject& object) {
+  return object.FirstFragment().LocalBorderBoxProperties();
+}
+
 void RectToTracedValue(const IntRect& rect,
                        TracedValue& value,
                        const char* key = nullptr) {
@@ -122,7 +126,7 @@ LayoutShiftTracker::LayoutShiftTracker(LocalFrameView* frame_view)
 
 void LayoutShiftTracker::ObjectShifted(
     const LayoutObject& source,
-    const PropertyTreeStateOrAlias& property_tree_state,
+    const PropertyTreeState& property_tree_state,
     FloatRect old_rect,
     FloatRect new_rect,
     FloatSize paint_offset_delta) {
@@ -155,8 +159,8 @@ void LayoutShiftTracker::ObjectShifted(
       return;
   }
 
-  const auto& root_state =
-      source.View()->FirstFragment().LocalBorderBoxProperties();
+  const auto root_state = PropertyTreeStateFor(*source.View());
+
   FloatClipRect clip_rect =
       GeometryMapper::LocalToAncestorClipRect(property_tree_state, root_state);
 
@@ -278,7 +282,7 @@ void LayoutShiftTracker::MaybeRecordAttribution(
 
 void LayoutShiftTracker::NotifyObjectPrePaint(
     const LayoutObject& object,
-    const PropertyTreeStateOrAlias& property_tree_state,
+    const PropertyTreeState& property_tree_state,
     const IntRect& old_visual_rect,
     const IntRect& new_visual_rect,
     FloatSize paint_offset_delta) {

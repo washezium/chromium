@@ -77,8 +77,8 @@ class PLATFORM_EXPORT PaintController {
   // items. If id is nullptr, the id of the first display item will be used as
   // the id of the paint chunk if needed.
   void UpdateCurrentPaintChunkProperties(const PaintChunk::Id*,
-                                         const PropertyTreeStateOrAlias&);
-  const PropertyTreeStateOrAlias& CurrentPaintChunkProperties() const {
+                                         const PropertyTreeState&);
+  const PropertyTreeState& CurrentPaintChunkProperties() const {
     return new_paint_chunks_.CurrentPaintChunkProperties();
   }
   // See PaintChunker for documentation of the following methods.
@@ -179,7 +179,7 @@ class PLATFORM_EXPORT PaintController {
   // controller is transient with and this function provides a hook for clearing
   // the property tree changed state after paint.
   // TODO(pdr): Remove this when CompositeAfterPaint ships.
-  void ClearPropertyTreeChangedStateTo(const PropertyTreeStateOrAlias&);
+  void ClearPropertyTreeChangedStateTo(const PropertyTreeState&);
 
   // Returns the approximate memory usage, excluding memory likely to be
   // shared with the embedder after copying to WebPaintController.
@@ -220,7 +220,7 @@ class PLATFORM_EXPORT PaintController {
   DisplayItemList& NewDisplayItemList() { return new_display_item_list_; }
 
   void AppendDebugDrawingAfterCommit(sk_sp<const PaintRecord>,
-                                     const PropertyTreeStateOrAlias&);
+                                     const PropertyTreeState&);
 
 #if DCHECK_IS_ON()
   void ShowCompactDebugData() const;
