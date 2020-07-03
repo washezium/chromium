@@ -14,30 +14,29 @@ namespace blink {
 class ComputedStyle;
 struct NGTextFragmentPaintInfo;
 
-// Represents an ink-overflow rectangle. Used for:
-// - Objects without children, such as text runs.
-// - Objects that has only self or contents ink-overflow.
-struct NGSingleInkOverflow {
-  USING_FAST_MALLOC(NGSingleInkOverflow);
+// Represents an ink-overflow rectangle. Used for objects without children, such
+// as text runs.
+struct NGSelfInkOverflow {
+  USING_FAST_MALLOC(NGSelfInkOverflow);
 
  public:
-  explicit NGSingleInkOverflow(const PhysicalRect& ink_overflow)
-      : ink_overflow(ink_overflow) {}
+  explicit NGSelfInkOverflow(const PhysicalRect& ink_overflow)
+      : self_ink_overflow(ink_overflow) {}
 
-  PhysicalRect ink_overflow;
+  PhysicalRect self_ink_overflow;
 };
 
 // Represents two ink-overflow rectangles, to keep self and contents ink
 // overflow separately. Used for objects with children, such as boxes.
-struct NGContainerInkOverflow : NGSingleInkOverflow {
+struct NGContainerInkOverflow : NGSelfInkOverflow {
   USING_FAST_MALLOC(NGContainerInkOverflow);
 
  public:
   NGContainerInkOverflow(const PhysicalRect& self, const PhysicalRect& contents)
-      : NGSingleInkOverflow(self), contents_ink_overflow(contents) {}
+      : NGSelfInkOverflow(self), contents_ink_overflow(contents) {}
 
   PhysicalRect SelfAndContentsInkOverflow() const {
-    return UnionRect(ink_overflow, contents_ink_overflow);
+    return UnionRect(self_ink_overflow, contents_ink_overflow);
   }
 
   PhysicalRect contents_ink_overflow;
@@ -59,8 +58,6 @@ class CORE_EXPORT NGInkOverflow {
     kNone,
     kSmallSelf,
     kSelf,
-    kSmallContents,
-    kContents,
     kSelfAndContents
     // When adding values, make sure |NGFragmentItem| has enough storage.
   };
@@ -86,14 +83,7 @@ class CORE_EXPORT NGInkOverflow {
   Type Reset(Type type);
 
   // Set self ink overflow rect.
-  // If |this| had contents ink overflow, it is cleared.
   Type SetSelf(Type type, const PhysicalRect& self, const PhysicalSize& size);
-
-  // Set contents ink overflow rect.
-  // If |this| had self ink overflow, it is cleared.
-  Type SetContents(Type type,
-                   const PhysicalRect& contents,
-                   const PhysicalSize& size);
 
   // Set self and contents ink overflow rects.
   Type Set(Type type,
@@ -142,12 +132,12 @@ class CORE_EXPORT NGInkOverflow {
 
   union {
     // When only self or contents overflow.
-    NGSingleInkOverflow* single_;
+    NGSelfInkOverflow* self_;
     // When both self and contents overflow.
     NGContainerInkOverflow* container_;
     // Outsets in small |LayoutUnit|s when overflow is small.
     SmallRawValue outsets_[4];
-    static_assert(sizeof(outsets_) == sizeof(single_),
+    static_assert(sizeof(outsets_) == sizeof(self_),
                   "outsets should be the size of a pointer");
   };
 

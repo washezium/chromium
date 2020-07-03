@@ -46,18 +46,16 @@ NGInkOverflow::NGInkOverflow(Type source_type, const NGInkOverflow& source) {
     case kNone:
       break;
     case kSmallSelf:
-    case kSmallContents:
-      static_assert(sizeof(outsets_) == sizeof(single_),
+      static_assert(sizeof(outsets_) == sizeof(self_),
                     "outsets should be the size of a pointer");
-      single_ = source.single_;
+      self_ = source.self_;
 #if DCHECK_IS_ON()
       for (wtf_size_t i = 0; i < base::size(outsets_); ++i)
         DCHECK_EQ(outsets_[i], source.outsets_[i]);
 #endif
       break;
     case kSelf:
-    case kContents:
-      single_ = new NGSingleInkOverflow(*source.single_);
+      self_ = new NGSelfInkOverflow(*source.self_);
       break;
     case kSelfAndContents:
       container_ = new NGContainerInkOverflow(*source.container_);
@@ -71,13 +69,11 @@ NGInkOverflow::Type NGInkOverflow::Reset(Type type) {
   switch (type) {
     case kNotSet:
     case kSmallSelf:
-    case kSmallContents:
       break;
     case kNone:
       return kNone;
     case kSelf:
-    case kContents:
-      delete single_;
+      delete self_;
       break;
     case kSelfAndContents:
       delete container_;
@@ -105,15 +101,13 @@ PhysicalRect NGInkOverflow::Self(Type type, const PhysicalSize& size) const {
   switch (type) {
     case kNotSet:
     case kNone:
-    case kSmallContents:
-    case kContents:
       return {PhysicalOffset(), size};
     case kSmallSelf:
       return FromOutsets(size);
     case kSelf:
     case kSelfAndContents:
-      DCHECK(single_);
-      return single_->ink_overflow;
+      DCHECK(self_);
+      return self_->self_ink_overflow;
   }
   NOTREACHED();
   return {PhysicalOffset(), size};
@@ -130,12 +124,10 @@ PhysicalRect NGInkOverflow::SelfAndContents(Type type,
     case kNone:
       return {PhysicalOffset(), size};
     case kSmallSelf:
-    case kSmallContents:
       return FromOutsets(size);
     case kSelf:
-    case kContents:
-      DCHECK(single_);
-      return single_->ink_overflow;
+      DCHECK(self_);
+      return self_->self_ink_overflow;
     case kSelfAndContents:
       DCHECK(container_);
       return container_->SelfAndContentsInkOverflow();
@@ -190,13 +182,11 @@ NGInkOverflow::Type NGInkOverflow::SetSingle(Type type,
     case kNotSet:
     case kNone:
     case kSmallSelf:
-    case kSmallContents:
-      single_ = new NGSingleInkOverflow(ink_overflow);
+      self_ = new NGSelfInkOverflow(ink_overflow);
       return SetType(new_type);
     case kSelf:
-    case kContents:
-      DCHECK(single_);
-      single_->ink_overflow = ink_overflow;
+      DCHECK(self_);
+      self_->self_ink_overflow = ink_overflow;
       return SetType(new_type);
   }
   NOTREACHED();
@@ -211,43 +201,24 @@ NGInkOverflow::Type NGInkOverflow::SetSelf(Type type,
   return SetSingle(type, ink_overflow, size, kSelf, kSmallSelf);
 }
 
-NGInkOverflow::Type NGInkOverflow::SetContents(Type type,
-                                               const PhysicalRect& ink_overflow,
-                                               const PhysicalSize& size) {
-  CheckType(type);
-  if (!HasOverflow(ink_overflow, size))
-    return Reset(type);
-  return SetSingle(type, ink_overflow, size, kContents, kSmallContents);
-}
-
 NGInkOverflow::Type NGInkOverflow::Set(Type type,
                                        const PhysicalRect& self,
                                        const PhysicalRect& contents,
                                        const PhysicalSize& size) {
   CheckType(type);
 
-  if (!HasOverflow(self, size)) {
-    if (!HasOverflow(contents, size))
-      return Reset(type);
-    return SetSingle(type, contents, size, kContents, kSmallContents);
-  }
-  if (!HasOverflow(contents, size))
-    return SetSingle(type, self, size, kSelf, kSmallSelf);
-
   switch (type) {
     case kSelf:
-    case kContents:
       Reset(type);
       FALLTHROUGH;
     case kNotSet:
     case kNone:
     case kSmallSelf:
-    case kSmallContents:
       container_ = new NGContainerInkOverflow(self, contents);
       return SetType(kSelfAndContents);
     case kSelfAndContents:
       DCHECK(container_);
-      container_->ink_overflow = self;
+      container_->self_ink_overflow = self;
       container_->contents_ink_overflow = contents;
       return kSelfAndContents;
   }
