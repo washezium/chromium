@@ -596,7 +596,7 @@
 <translation id="1725149567830788547">Besturingselementen &amp;weergeven</translation>
 <translation id="1726100011689679555">Naamservers</translation>
 <translation id="1729533290416704613">Hiermee wordt ook gecontroleerd welke pagina wordt weergegeven wanneer je vanuit de omnibox zoekt.</translation>
-<translation id="1730917990259790240"><ph name="BEGIN_PARAGRAPH1" />Als je apps wilt verwijderen, ga je naar Instellingen &gt; Google Play Store &gt; Android-voorkeuren beheren &gt; Apps of App-beheer en tik je op de app die je wilt verwijderen (je moet mogelijk naar rechts of links vegen om de app te vinden). Tik vervolgens op Verwijderen of Uitschakelen.<ph name="END_PARAGRAPH1" /></translation>
+<translation id="1730917990259790240"><ph name="BEGIN_PARAGRAPH1" />Als je apps wilt verwijderen, ga je naar Instellingen &gt; Google Play Store &gt; Android-voorkeuren beheren &gt; Apps of App-beheer en tik je op de app die je wilt verwijderen (je moet mogelijk naar rechts of links swipen om de app te vinden). Tik vervolgens op Verwijderen of Uitschakelen.<ph name="END_PARAGRAPH1" /></translation>
 <translation id="1731911755844941020">Aanvraag wordt verstuurd...</translation>
 <translation id="1733383495376208985">Gesynchroniseerde gegevens versleutelen met je eigen <ph name="BEGIN_LINK" />wachtwoordzin voor synchronisatie<ph name="END_LINK" />. Hieronder vallen geen betaalmethoden en adressen van Google Pay.</translation>
 <translation id="1734212868489994726">Lichtblauw</translation>
@@ -2223,7 +2223,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="3742666961763734085">Kan geen organisatie-eenheid met die naam vinden. Probeer het opnieuw.</translation>
 <translation id="3744111561329211289">Synchronisatie op de achtergrond</translation>
 <translation id="3746127522257263495">Toevoeging van G Suite for Education-account aan Android-apps wordt niet ondersteund.</translation>
-<translation id="3747077776423672805">Als je apps wilt verwijderen, ga je naar Instellingen &gt; Google Play Store &gt; Android-voorkeuren beheren &gt; Apps of App-beheer. Tik op de app die je wilt verwijderen (je moet mogelijk naar rechts of links vegen om de app te vinden). Tik vervolgens op Verwijderen of Uitschakelen.</translation>
+<translation id="3747077776423672805">Als je apps wilt verwijderen, ga je naar Instellingen &gt; Google Play Store &gt; Android-voorkeuren beheren &gt; Apps of App-beheer. Tik op de app die je wilt verwijderen (je moet mogelijk naar rechts of links swipen om de app te vinden). Tik vervolgens op Verwijderen of Uitschakelen.</translation>
 <translation id="3748026146096797577">Niet verbonden</translation>
 <translation id="3748706263662799310">Een fout melden</translation>
 <translation id="3752582316358263300">OK...</translation>
@@ -3281,7 +3281,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="5131591206283983824">Tikken en slepen op touchpad</translation>
 <translation id="5133483819862530305">Zonsondergang tot zonsopgang</translation>
 <translation id="5135085122826131075">Activeer je Assistent als je 'Oké Google' zegt.</translation>
-<translation id="5135533361271311778">Kan bladwijzeritem niet maken.</translation>
+<translation id="5135533361271311778">Kan bookmarkitem niet maken.</translation>
 <translation id="5137501176474113045">Dit item verwijderen</translation>
 <translation id="5139112070765735680"><ph name="QUERY_NAME" />, zoeken in <ph name="DEFAULT_SEARCH_ENGINE_NAME" /></translation>
 <translation id="5139823398361067371">Geef de pincode van je beveiligingssleutel op. Als je de pincode niet weet, moet je de beveiligingssleutel resetten.</translation>
@@ -3640,7 +3640,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
     <ph name="BEGIN_PARAGRAPH2" />Ook als je deze functie uitschakelt, is het mogelijk dat er via dit apparaat informatie wordt verzonden die nodig is voor essentiële services (zoals systeemupdates en beveiliging).<ph name="END_PARAGRAPH2" />
     <ph name="BEGIN_PARAGRAPH3" />De eigenaar kan deze functie beheren via Instellingen &gt; Geavanceerd &gt; Automatisch diagnostische en gebruiksgegevens verzenden naar Google.<ph name="END_PARAGRAPH3" />
     <ph name="BEGIN_PARAGRAPH4" />Als je de instelling 'Aanvullende web- en app-activiteit' hebt ingeschakeld, kunnen deze gegevens worden opgeslagen in je Google-account. Je kunt je gegevens bekijken, deze verwijderen en je accountinstellingen wijzigen op account.google.com.<ph name="END_PARAGRAPH4" /></translation>
-<translation id="5585118885427931890">Kan bladwijzermap niet maken.</translation>
+<translation id="5585118885427931890">Kan bookmarkmap niet maken.</translation>
 <translation id="558563010977877295">Een specifieke pagina of reeks pagina's openen</translation>
 <translation id="5585898376467608182">Op je apparaat is weinig opslagruimte beschikbaar. Je hebt ten minste <ph name="MINIMUM_SPACE" /> vrije opslagruimte nodig om <ph name="APP_NAME" /> te gebruiken. Verwijder bestanden op het apparaat om opslagruimte vrij te maken.</translation>
 <translation id="5585912436068747822">Formatteren mislukt</translation>
@@ -3721,7 +3721,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="5687326903064479980">Tijdzone</translation>
 <translation id="5689516760719285838">Locatie</translation>
 <translation id="56907980372820799">Gegevens koppelen</translation>
-<translation id="5691511426247308406">Familie</translation>
+<translation id="5691511426247308406">Gezin</translation>
 <translation id="5691772641933328258">Vingerafdruk niet herkend</translation>
 <translation id="5692183275898619210">Afdrukken voltooid</translation>
 <translation id="569425414730375234">Huidige incognitosessie: <ph name="RECENT_PERMISSIONS_CHANGE_SENTENCE_START" /></translation>
@@ -5027,7 +5027,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="7356908624372060336">Netwerklogboeken</translation>
 <translation id="735745346212279324">Verbinding met VPN verbroken</translation>
 <translation id="7359588939039777303">Advertenties geblokkeerd.</translation>
-<translation id="7360183604634508679">Bladwijzermenu</translation>
+<translation id="7360183604634508679">Bookmarkmenu</translation>
 <translation id="7360233684753165754"><ph name="PAGE_NUMBER" /> pagina's naar <ph name="PRINTER_NAME" /></translation>
 <translation id="7361297102842600584">Klik met de rechtermuisknop om <ph name="PLUGIN_NAME" /> uit te voeren</translation>
 <translation id="7363117941401515667"><ph name="HOURS" /> uur geleden geüpdatet</translation>
@@ -5292,7 +5292,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="7691077781194517083">Kan deze beveiligingssleutel niet resetten. Fout <ph name="ERROR_CODE" />.</translation>
 <translation id="7691698019618282776">Crostini upgraden</translation>
 <translation id="7696063401938172191">Op je '<ph name="PHONE_NAME" />':</translation>
-<translation id="7698408911093959127">{COUNT,plural, =1{Eén item in bladwijzerlijst}other{# items in bladwijzerlijst}}</translation>
+<translation id="7698408911093959127">{COUNT,plural, =1{Eén item in bookmarklijst}other{# items in bookmarklijst}}</translation>
 <translation id="7699968112832915395">Account kan niet worden toegevoegd</translation>
 <translation id="7701040980221191251">Geen</translation>
 <translation id="770157826141786566">De deadline voor het retourneren van dit apparaat is verstreken.</translation>
@@ -5303,7 +5303,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="7704305437604973648">Taak</translation>
 <translation id="7704317875155739195">Zoekopdrachten en URL's automatisch aanvullen</translation>
 <translation id="7704521324619958564">Play Store openen</translation>
-<translation id="7705276765467986571">Kan bladwijzermodel niet laden.</translation>
+<translation id="7705276765467986571">Kan bookmarkmodel niet laden.</translation>
 <translation id="7705524343798198388">VPN</translation>
 <translation id="7706963867324547089">Lezermodus in-/uitschakelen</translation>
 <translation id="7707108266051544351">Deze site mag je bewegingssensoren niet gebruiken.</translation>
@@ -5783,8 +5783,8 @@ Bewaar je sleutelbestand op een veilige plaats. Je hebt het bestand nodig om nie
 <translation id="826511437356419340">Modus voor vensteroverzicht ingeschakeld. Swipe om te navigeren of druk op Tab op een toetsenbord.</translation>
 <translation id="8267539814046467575">Printer toevoegen</translation>
 <translation id="8267961145111171918"><ph name="BEGIN_PARAGRAPH1" />Dit is algemene informatie over dit apparaat en hoe het wordt gebruikt (zoals batterijniveau, systeem- en app-activiteit en fouten). De gegevens worden gebruikt om Android te verbeteren voor iedereen. Daarnaast helpen bepaalde verzamelde gegevens Google-apps en -partners (zoals Android-ontwikkelaars) bij het verbeteren van hun apps en producten.<ph name="END_PARAGRAPH1" />
-    <ph name="BEGIN_PARAGRAPH2" />Ook als je deze functie uitschakelt, is het mogelijk dat er via dit apparaat informatie wordt verzonden die nodig is voor essentiële services (zoals systeemupdates en beveiliging).<ph name="END_PARAGRAPH2" />
-    <ph name="BEGIN_PARAGRAPH3" />De eigenaar kan deze functie beheren via Instellingen &gt; Geavanceerd &gt; Automatisch diagnostische en gebruiksgegevens verzenden naar Google.<ph name="END_PARAGRAPH3" />
+    <ph name="BEGIN_PARAGRAPH2" />Ook als je deze functie uitschakelt, is het mogelijk dat er via dit apparaat informatie wordt verstuurd die nodig is voor essentiële services (zoals systeemupdates en beveiliging).<ph name="END_PARAGRAPH2" />
+    <ph name="BEGIN_PARAGRAPH3" />De eigenaar kan deze functie beheren via Instellingen &gt; Geavanceerd &gt; Automatisch diagnostische en gebruiksgegevens naar Google sturen.<ph name="END_PARAGRAPH3" />
     <ph name="BEGIN_PARAGRAPH4" />Als de instelling 'Aanvullende web- en app-activiteit' is ingeschakeld voor je kind, kunnen deze gegevens worden opgeslagen in het Google-account van je kind. Ga naar families.google.com voor meer informatie over deze instellingen en hoe je ze kunt aanpassen.<ph name="END_PARAGRAPH4" /></translation>
 <translation id="826905130698769948">Ongeldig clientcertificaat</translation>
 <translation id="8270242299912238708">Pdf-documenten</translation>
@@ -6290,7 +6290,7 @@ Bewaar je sleutelbestand op een veilige plaats. Je hebt het bestand nodig om nie
 <translation id="8892168913673237979">Helemaal klaar!</translation>
 <translation id="8893801527741465188">Verwijderen voltooid</translation>
 <translation id="8893928184421379330">Het apparaat <ph name="DEVICE_LABEL" /> kan niet worden herkend.</translation>
-<translation id="8895454554629927345">Bladwijzerlijst</translation>
+<translation id="8895454554629927345">Bookmarklijst</translation>
 <translation id="8896022254727357590">De pincode moet ten minste vier tekens bevatten</translation>
 <translation id="8898786835233784856">Selecteer volgend tabblad</translation>
 <translation id="8898822736010347272">Stuurt URL's van sommige pagina's die je bezoekt, beperkte systeeminformatie en bepaalde paginacontent naar Google om nieuwe dreigingen te ontdekken en iedereen op internet te beschermen.</translation>

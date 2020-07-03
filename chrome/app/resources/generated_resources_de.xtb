@@ -77,7 +77,7 @@
 <translation id="1091767800771861448">Drücken Sie die Esc-Taste, um die Aktualisierung zu überspringen (nur inoffizielle Builds).</translation>
 <translation id="1093457606523402488">Sichtbare Netzwerke:</translation>
 <translation id="1094607894174825014">Auf folgendem Gerät wurde ein Lese- oder Schreibvorgang mit ungültiger Abweichung angefordert: "<ph name="DEVICE_NAME" />".</translation>
-<translation id="109647177154844434">Durch die Deinstallation von Parallels Desktop wird Ihr Windows-Image gelöscht. Dazu gehören auch seine Anwendungen, Einstellungen und Daten. Möchten Sie wirklich fortfahren?</translation>
+<translation id="109647177154844434">Durch die Deinstallation von Parallels Desktop wird Ihr Windows-Image gelöscht. Dazu gehören auch die darin enthaltenen Anwendungen, Einstellungen und Daten. Möchten Sie wirklich fortfahren?</translation>
 <translation id="1097658378307015415">Melden Sie vor der Anmeldung als Gast an, um das Netzwerk <ph name="NETWORK_ID" /> zu aktivieren.</translation>
 <translation id="1099962274138857708">Bild kopiert von <ph name="DEVICE_NAME" /></translation>
 <translation id="1102187190604780492">Zulassen, dass Assistant Ihnen proaktiv Informationen zu Inhalten auf dem Bildschirm anzeigt</translation>
@@ -1958,7 +1958,7 @@ Servernachricht: <ph name="SERVER_MSG" /></translation>
 <translation id="3441653493275994384">Bildschirm</translation>
 <translation id="3445047461171030979">Schnelle Antworten bei Google Assistant</translation>
 <translation id="3445925074670675829">USB-C-Gerät</translation>
-<translation id="3446274660183028131">Starten Sie Parallels Desktop, um Windows zu installieren.</translation>
+<translation id="3446274660183028131">Bitte Parallels Desktop starten, um Windows zu installieren.</translation>
 <translation id="344630545793878684">Ihre Daten auf verschiedenen Websites lesen</translation>
 <translation id="3446650212859500694">Diese Datei enthält vertrauliche Inhalte</translation>
 <translation id="3448086340637592206">Google Chrome und Chrome OS – zusätzliche Nutzungsbedingungen</translation>
@@ -2489,7 +2489,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="4058720513957747556">AppSocket (TCP/IP)</translation>
 <translation id="4058793769387728514">Dokument jetzt prüfen</translation>
 <translation id="406070391919917862">Apps im Hintergrund</translation>
-<translation id="4061374428807229313">Wenn Sie einen Ordner freigeben möchten, rechtsklicken Sie in der App "Dateien" darauf und wählen Sie dann "Share with Parallels Desktop" aus.</translation>
+<translation id="4061374428807229313">Wenn Sie einen Ordner freigeben möchten, rechtsklicken Sie in der App "Dateien" darauf und wählen Sie dann "Teilen mit Parallels Desktop" aus.</translation>
 <translation id="4065876735068446555">Eventuell müssen Sie die Anmeldeseite des verwendeten Netzwerks (<ph name="NETWORK_ID" />) aufrufen.</translation>
 <translation id="4066207411788646768">Stellen Sie eine Internetverbindung her, damit Sie verfügbare Drucker im Netzwerk sehen können</translation>
 <translation id="4068506536726151626">Diese Seite enthält Elemente von folgenden Websites, die Ihren Standort nachverfolgen:</translation>
@@ -3778,7 +3778,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="5769519078756170258">Auszuschließende Host oder Domain</translation>
 <translation id="5770125698810550803">Navigationsschaltflächen anzeigen</translation>
 <translation id="5771816112378578655">Einrichtung läuft...</translation>
-<translation id="5772114492540073460"><ph name="PARALLELS_NAME" /> erlaubt Ihnen, Windows®-Apps auf dem Chromebook auszuführen. <ph name="MINIMUM_SPACE" /> freier Speicherplatz wird für die Installation empfohlen.</translation>
+<translation id="5772114492540073460">Mit <ph name="PARALLELS_NAME" /> können Windows®-Apps auf Chromebook ausgeführt werden. <ph name="MINIMUM_SPACE" /> freier Speicherplatz wird für die Installation empfohlen.</translation>
 <translation id="5772265531560382923">{NUM_PAGES,plural, =1{Sie können warten, bis die Seite wieder reagiert, oder sie schließen.}other{Sie können warten, bis die Seiten wieder reagieren, oder sie schließen.}}</translation>
 <translation id="577322787686508614">Der Lesevorgang ist auf folgendem Gerät nicht erlaubt: "<ph name="DEVICE_NAME" />".</translation>
 <translation id="5774295353725270860">App "Dateien" öffnen</translation>
@@ -4607,7 +4607,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="6831043979455480757">Übersetzen</translation>
 <translation id="683373380308365518">Steigen Sie auf einen intelligenten und sicheren Browser um</translation>
 <translation id="6835762382653651563">Stellen Sie eine Internetverbindung her, um Ihr Gerät (<ph name="DEVICE_TYPE" />) zu aktualisieren.</translation>
-<translation id="6838034009068684089">Nachfragen, wenn eine Website Fenster auf Ihren Bildschirmen öffnen und platzieren möchte (empfohlen)</translation>
+<translation id="6838034009068684089">Nachfragen, wenn eine Website Fenster auf meinen Bildschirmen öffnen und platzieren möchte (empfohlen)</translation>
 <translation id="6839225236531462745">Fehler beim Löschen des Zertifikats</translation>
 <translation id="6839916869147598086">Anmeldung hat sich geändert</translation>
 <translation id="6840155290835956714">Vor dem Senden nachfragen</translation>
@@ -6539,7 +6539,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="935490618240037774">Lesezeichen, Verlauf, Passwörter und andere Einstellungen werden mit Ihrem Google-Konto synchronisiert, damit Sie sie auf all Ihren Geräten nutzen können.</translation>
 <translation id="935854577147268200">Das Smartphone für Smart Lock wurde geändert. Geben Sie Ihr Passwort ein, um Smart Lock zu aktualisieren. Das nächste Mal wird Ihr <ph name="DEVICE_TYPE" /> von Ihrem Smartphone entsperrt. Sie können Smart Lock in den Einstellungen deaktivieren.</translation>
 <translation id="93610034168535821">Von Websites belegter Speicherplatz insgesamt:</translation>
-<translation id="936801553271523408">Diagnosedaten des Systems</translation>
+<translation id="936801553271523408">Fehlerberichte des Systems</translation>
 <translation id="93766956588638423">Erweiterung reparieren</translation>
 <translation id="938339467127511841">Linux-Speicher (Beta)</translation>
 <translation id="938470336146445890">Installieren Sie ein Nutzerzertifikat.</translation>
@@ -6575,7 +6575,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="975893173032473675">Sprache, in die übersetzt wird</translation>
 <translation id="978146274692397928">Anfängliche Punktbreite ist "Voll".</translation>
 <translation id="97905529126098460">Dieses Fenster wird nach Abbruch der Installation geschlossen.</translation>
-<translation id="980731642137034229">Aktionsmenü-Taste</translation>
+<translation id="980731642137034229">Aktionsmenü-Schaltfläche</translation>
 <translation id="981121421437150478">Offline</translation>
 <translation id="983511809958454316">Diese Funktion wird im VR-Modus nicht unterstützt</translation>
 <translation id="984275831282074731">Zahlungsmethoden</translation>

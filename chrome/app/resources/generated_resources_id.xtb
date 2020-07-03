@@ -77,7 +77,7 @@
 <translation id="1091767800771861448">Tekan ESCAPE untuk melewati (Khusus bentukan tidak resmi).</translation>
 <translation id="1093457606523402488">Jaringan yang Terlihat:</translation>
 <translation id="1094607894174825014">Operasi baca atau tulis diminta dengan offset yang tidak valid di: "<ph name="DEVICE_NAME" />".</translation>
-<translation id="109647177154844434">Meng-uninstal Desktop Paralel akan menghapus image Windows Anda. Ini termasuk aplikasi, setelan, dan datanya. Yakin ingin melanjutkan?</translation>
+<translation id="109647177154844434">Meng-uninstal Parallels Desktop akan menghapus image Windows Anda. Ini termasuk aplikasi, setelan, dan datanya. Yakin ingin melanjutkan?</translation>
 <translation id="1097658378307015415">Sebelum masuk, masuklah sebagai Tamu untuk mengaktifkan jaringan <ph name="NETWORK_ID" /></translation>
 <translation id="1099962274138857708">Gambar disalin dari <ph name="DEVICE_NAME" /></translation>
 <translation id="1102187190604780492">Izinkan Asisten secara proaktif menampilkan info terkait hal-hal yang ditampilkan di layar</translation>
@@ -221,7 +221,7 @@
 <translation id="1263490604593716556">Akun dikelola oleh <ph name="FIRST_PARENT_EMAIL" /> dan <ph name="SECOND_PARENT_EMAIL" />. Untuk logout dari akun utama di perangkat ini, klik waktu di layar Anda. Di menu yang muncul, klik "Logout".</translation>
 <translation id="1263733306853729545">Gunakan tombol <ph name="MINUS" /> dan <ph name="EQUAL" /> untuk memanggil daftar kandidat</translation>
 <translation id="126387934568812801">Sertakan screenshot ini dan judul tab yang aktif</translation>
-<translation id="1264337193001759725">Untuk menampilkan log UI, buka: <ph name="DEVICE_LOG_LINK" /></translation>
+<translation id="1264337193001759725">Untuk menampilkan log UI jaringan, buka: <ph name="DEVICE_LOG_LINK" /></translation>
 <translation id="126710816202626562">Bahasa terjemahan:</translation>
 <translation id="126768002343224824">16x</translation>
 <translation id="1272079795634619415">Berhenti</translation>
@@ -963,7 +963,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="2187675480456493911">Disinkronkan dengan perangkat lain di akun Anda. Setelan yang diubah oleh pengguna lain tidak akan disinkronkan. <ph name="LINK_BEGIN" />Pelajari lebih lanjut<ph name="LINK_END" /></translation>
 <translation id="2187895286714876935">Kesalahan Impor Sertifikat Server</translation>
 <translation id="2187906491731510095">Ekstensi diupdate</translation>
-<translation id="2188100037674302806">Desktop Paralel</translation>
+<translation id="2188100037674302806">Parallels Desktop</translation>
 <translation id="2188881192257509750">Buka <ph name="APPLICATION" /></translation>
 <translation id="2190069059097339078">Pembuka Kredensial Wi-Fi</translation>
 <translation id="219008588003277019">Modul Klien Asli: <ph name="NEXE_NAME" /></translation>
@@ -1962,7 +1962,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="3441653493275994384">Layar</translation>
 <translation id="3445047461171030979">Jawaban cepat Asisten Google</translation>
 <translation id="3445925074670675829">Perangkat USB-C</translation>
-<translation id="3446274660183028131">Luncurkan Desktop Paralel untuk menginstal Windows.</translation>
+<translation id="3446274660183028131">Luncurkan Parallels Desktop untuk menginstal Windows.</translation>
 <translation id="344630545793878684">Membaca data Anda di sejumlah situs</translation>
 <translation id="3446650212859500694">File ini berisi konten sensitif</translation>
 <translation id="3448086340637592206">Persyaratan Tambahan Google Chrome dan Chrome OS</translation>
@@ -2493,7 +2493,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="4058720513957747556">AppSocket (TCP/IP)</translation>
 <translation id="4058793769387728514">Periksa Dokumen Sekarang</translation>
 <translation id="406070391919917862">Aplikasi Latar Belakang</translation>
-<translation id="4061374428807229313">Untuk berbagi, klik kanan pada folder di aplikasi File, lalu pilih "Bagikan dengan Desktop Paralel".</translation>
+<translation id="4061374428807229313">Untuk berbagi, klik kanan pada folder di aplikasi File, lalu pilih "Bagikan ke Parallels Desktop".</translation>
 <translation id="4065876735068446555">Jaringan yang digunakan (<ph name="NETWORK_ID" />) mungkin mewajibkan Anda mengunjungi halaman masuk jaringan.</translation>
 <translation id="4066207411788646768">Periksa koneksi untuk melihat printer yang tersedia dalam jaringan Anda</translation>
 <translation id="4068506536726151626">Halaman ini berisi elemen dari situs berikut yang melacak lokasi Anda:</translation>

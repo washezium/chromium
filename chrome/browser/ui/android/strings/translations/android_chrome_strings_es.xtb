@@ -461,7 +461,7 @@ Es posible que tu cuenta de Google tenga otros tipos de historial de navegación
 <translation id="4749960740855309258">Abre una pestaña nueva</translation>
 <translation id="4759238208242260848">Descargas</translation>
 <translation id="4763829664323285145">{FILE_COUNT,plural, =1{Se ha completado 1 descarga.}other{Se han completado # descargas.}}</translation>
-<translation id="4767937498890654900">{FILE_COUNT,plural, =1{1 descarga programada.}other{# descargas programadas.}}</translation>
+<translation id="4767937498890654900">{FILE_COUNT,plural, =1{1 descarga programada.}other{# descargas programadas.}}</translation>
 <translation id="478981486571169252">Verás tu estado de inicio de sesión, datos de navegación y datos del sitio de <ph name="SITE_NAME" /> en Chrome.</translation>
 <translation id="4802417911091824046">El cifrado mediante frase de contraseña no incluye los métodos de pago ni las direcciones de Google Pay.
 

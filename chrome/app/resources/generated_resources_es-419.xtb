@@ -1261,7 +1261,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="2540449034743108469">Presiona "Comenzar" para escuchar las actividades de la extensión</translation>
 <translation id="2541002089857695151">¿Quieres optimizar la transmisión en pantalla completa?</translation>
 <translation id="2541706104884128042">Se estableció una nueva hora de dormir</translation>
-<translation id="2542050502251273923">Establece el nivel de depuración del administrador de conexiones de redes y otros servicios mediante ff_debug.</translation>
+<translation id="2542050502251273923">Establece el nivel de depuración del administrador de conexiones de red y otros servicios mediante ff_debug.</translation>
 <translation id="2544853746127077729">Certificado de autenticación rechazado por la red</translation>
 <translation id="2546229857744484369">Tienes 1 contraseña guardada en este dispositivo</translation>
 <translation id="2546283357679194313">Datos de sitios y cookies</translation>
@@ -2877,7 +2877,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="4582563038311694664">Restablecer toda la configuración</translation>
 <translation id="4585793705637313973">Editar página</translation>
 <translation id="4586275095964870617">No se pudo abrir <ph name="URL" /> en otro navegador. Comunícate con tu administrador del sistema.</translation>
-<translation id="4589713469967853491">Se escribieron correctamente los registros en el directorio de descargas.</translation>
+<translation id="4589713469967853491">Se escribieron correctamente los registros en el directorio Descargas.</translation>
 <translation id="4590324241397107707">Almacenamiento en bases de datos</translation>
 <translation id="4592891116925567110">App de dibujo con la pluma stylus</translation>
 <translation id="4593021220803146968">&amp;Ir a <ph name="URL" /></translation>
@@ -4225,7 +4225,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="6317318380444133405">Ya no es compatible.</translation>
 <translation id="6317369057005134371">Esperando ventana de la aplicación…</translation>
 <translation id="6317608858038767920">Nameserver personalizado <ph name="INPUT_INDEX" /></translation>
-<translation id="6318125393809743217">Incluye un archivo policies.json en la configuración de la política.</translation>
+<translation id="6318125393809743217">Incluye un archivo policies.json con la configuración de las políticas.</translation>
 <translation id="6318407754858604988">Comenzó la descarga</translation>
 <translation id="6318944945640833942">No se detectó ninguna impresora. Vuelve a ingresar la dirección de una impresora.</translation>
 <translation id="6322653941595359182">Enviar y recibir mensajes de texto en tu Chromebook</translation>
@@ -4406,7 +4406,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="6557290421156335491">Mis accesos directos</translation>
 <translation id="6561560012278703671">Usar un tipo de aviso más discreto (bloquear las notificaciones emergentes para evitar interrupciones)</translation>
 <translation id="6561726789132298588">ingresar</translation>
-<translation id="6562117348069327379">Almacena los registros del sistema en el directorio de descargas.</translation>
+<translation id="6562117348069327379">Almacena los registros del sistema en el directorio Descargas.</translation>
 <translation id="656293578423618167">La ruta de acceso o el nombre del archivo es demasiado largo. Guarda con un nombre más corto o en otra ubicación.</translation>
 <translation id="6563469144985748109">Tu administrador aún no lo aprobó</translation>
 <translation id="6569934958368283244">Otras personas</translation>
@@ -4608,7 +4608,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="6831043979455480757">Traducir</translation>
 <translation id="683373380308365518">Cambia a un navegador inteligente y seguro</translation>
 <translation id="6835762382653651563">Conéctate a Internet para actualizar tu <ph name="DEVICE_TYPE" />.</translation>
-<translation id="6838034009068684089">Preguntar si deseas que un sitio abra y ubique ventanas en tus pantallas (recomendado)</translation>
+<translation id="6838034009068684089">Preguntar cuando un sitio web quiera abrir y colocar ventanas en tus pantallas (recomendado)</translation>
 <translation id="6839225236531462745">Error en la eliminación del certificado</translation>
 <translation id="6839916869147598086">Se modificó el acceso</translation>
 <translation id="6840155290835956714">Preguntar antes de enviar</translation>
@@ -5052,7 +5052,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="7388044238629873883">Falta muy poco</translation>
 <translation id="7392118418926456391">Error en el análisis antivirus</translation>
 <translation id="7392915005464253525">Volver a abrir una ventana cerrada</translation>
-<translation id="7393472013449507620">Ya no se admiten las opciones de configuración con los comodines "*". Para <ph name="BEGIN_LINK" />cambiarlas<ph name="END_LINK" />, comunícate con el desarrollador de extensiones o tu administrador.</translation>
+<translation id="7393472013449507620">Ya no se admiten las opciones de configuración con los comodines "*". Para <ph name="BEGIN_LINK" />cambiarlas<ph name="END_LINK" />, comunícate con el desarrollador de la extensión o tu administrador.</translation>
 <translation id="7396017167185131589">Aquí aparecerán las carpetas compartidas</translation>
 <translation id="7396845648024431313"><ph name="APP_NAME" /> empezará a ejecutarse cuando se inicie el sistema y seguirá ejecutándose en segundo plano aunque cierres todas las demás ventanas de <ph name="PRODUCT_NAME" />.</translation>
 <translation id="7399045143794278225">Personalizar la sincronización</translation>
@@ -6577,7 +6577,7 @@ Mantén el archivo de clave en un lugar seguro. Debes crear las nuevas versiones
 <translation id="975893173032473675">Idioma de destino de la traducción</translation>
 <translation id="978146274692397928">El ancho de la puntuación inicial está completo</translation>
 <translation id="97905529126098460">Cuando se complete la cancelación, se cerrará esta ventana.</translation>
-<translation id="980731642137034229">Botón de menú de Acción</translation>
+<translation id="980731642137034229">Botón del menú de Acción</translation>
 <translation id="981121421437150478">Sin conexión</translation>
 <translation id="983511809958454316">Esta función no es compatible con RV</translation>
 <translation id="984275831282074731">Formas de pago</translation>

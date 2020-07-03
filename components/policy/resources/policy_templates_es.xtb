@@ -2674,7 +2674,7 @@ Si esta política se establece en False, el usuario no podrá canjear ofertas.</
           Nota: <ph name="DEVICE_LOGIN_SCREEN_SPOKEN_FEEDBACK_ENABLED_POLICY_NAME" /> anula esta política si se especifica la anterior.</translation>
 <translation id="494613465159630803">Cast Receiver</translation>
 <translation id="494924690085329212">Reiniciar al cerrar sesión si se ha iniciado Android.</translation>
-<translation id="4950900960525118567">Esta función habilita sugerencias sobre contenidos nuevos por descubrir. Incluye aplicaciones, páginas web y más.
+<translation id="4950900960525118567">Esta función habilita sugerencias sobre contenido nuevo por descubrir. Incluye aplicaciones, páginas web y más.
       Si se le asigna el valor "True" a esta política, se habilitarán las sugerencias sobre contenido nuevo por descubrir.
       Si se le asigna el valor "False", se inhabilitarán las sugerencias sobre contenido nuevo por descubrir.
       Si no se le asigna ningún valor a esta política, las sugerencias sobre contenido nuevo por descubrir se inhabilitarán para los usuarios administrados.

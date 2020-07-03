@@ -243,7 +243,7 @@ Berühren und halten Sie ein Wort, um eine Suche damit zu starten. Sie können I
 <translation id="2905036901251765993">Bitten Sie Leute in der Nähe, diesen QR-Code zu scannen, um Inhalte mit Ihnen zu teilen</translation>
 <translation id="2909615210195135082">Google-Benachrichtigungsplattform</translation>
 <translation id="2923908459366352541">Der Name ist ungültig</translation>
-<translation id="2927707377793151377">Anderen Dienstleister auswählen:</translation>
+<translation id="2927707377793151377">Anderen Anbieter auswählen:</translation>
 <translation id="2932150158123903946">Google <ph name="APP_NAME" />-Speicher</translation>
 <translation id="2942036813789421260">Vorschau-Tab ist geschlossen</translation>
 <translation id="2956410042958133412">Dieses Konto wird von <ph name="PARENT_NAME_1" /> und <ph name="PARENT_NAME_2" /> verwaltet.</translation>
@@ -298,7 +298,7 @@ Berühren und halten Sie ein Wort, um eine Suche damit zu starten. Sie können I
 <translation id="3341058695485821946">Erfahren Sie, wie viel Datenvolumen Sie eingespart haben</translation>
 <translation id="3350687908700087792">Alle Inkognito-Tabs schließen</translation>
 <translation id="3353615205017136254">Lite-Modus-Seite von Google bereitgestellt. Zum Laden der Originalseite auf die Schaltfläche "Original laden" tippen.</translation>
-<translation id="3359667936385849800">Ihren aktuellen Dienstanbieter verwenden</translation>
+<translation id="3359667936385849800">Aktuellen Anbieter verwenden</translation>
 <translation id="3367813778245106622">Melden Sie sich nochmals an, um die Synchronisierung zu starten</translation>
 <translation id="337236281855091893">Wenn Sie ein Wort suchen, berühren und halten Sie es, statt darauf zu tippen</translation>
 <translation id="3373979091428520308">Wenn Sie diese Seite mit einem anderen Gerät teilen möchten, aktivieren Sie auf dem anderen Gerät in den Chrome-Einstellungen die Synchronisierung</translation>
@@ -832,7 +832,7 @@ Einige Websites schalten möglicherweise Werbeanzeigen, deren Auswahl nicht dara
 <translation id="7619072057915878432"><ph name="FILE_NAME" /> konnte aufgrund von Netzwerkfehlern nicht heruntergeladen werden.</translation>
 <translation id="7624880197989616768"><ph name="BEGIN_LINK1" />Hilfe aufrufen<ph name="END_LINK1" /> oder <ph name="BEGIN_LINK2" />noch einmal suchen<ph name="END_LINK2" /></translation>
 <translation id="7626032353295482388">Willkommen bei Chrome</translation>
-<translation id="7630202231528827509">Dienstleister-URL</translation>
+<translation id="7630202231528827509">Anbieter-URL</translation>
 <translation id="7638584964844754484">Falsche Passphrase</translation>
 <translation id="7641339528570811325">Browserdaten löschen…</translation>
 <translation id="7648422057306047504">Passwörter mit Google-Anmeldedaten verschlüsseln</translation>
@@ -860,7 +860,7 @@ Einige Websites schalten möglicherweise Werbeanzeigen, deren Auswahl nicht dara
 <translation id="7846296061357476882">Google-Dienste</translation>
 <translation id="784934925303690534">Zeitraum</translation>
 <translation id="7851858861565204677">Andere Geräte</translation>
-<translation id="7857691613771368249">Fragen, wann Dateien gespeichert werden sollen</translation>
+<translation id="7857691613771368249">Nachfragen, wann Dateien gespeichert werden sollen</translation>
 <translation id="7875915731392087153">E-Mail erstellen</translation>
 <translation id="7876243839304621966">Alle entfernen</translation>
 <translation id="7882131421121961860">Kein Verlauf gefunden</translation>

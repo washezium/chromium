@@ -461,7 +461,7 @@ Baliteke Google kontuak arakatze-historiako bestelako datu batzuk (adibidez, bil
 <translation id="4749960740855309258">Ireki beste fitxa bat</translation>
 <translation id="4759238208242260848">Deskargak</translation>
 <translation id="4763829664323285145">{FILE_COUNT,plural, =1{1 deskarga amaitu da.}other{# deskarga amaitu dira.}}</translation>
-<translation id="4767937498890654900">{FILE_COUNT,plural, =1{Deskarga programatu bat.}other{# deskarga programatu.}}</translation>
+<translation id="4767937498890654900">{FILE_COUNT,plural, =1{1 deskarga programatu.}other{# deskarga programatu.}}</translation>
 <translation id="478981486571169252"><ph name="SITE_NAME" /> webgunean saioa hasi duzun ala ez, arakatze-datuak, eta webguneko datuak ikusiko dituzu Chrome-n.</translation>
 <translation id="4802417911091824046">Pasaesaldi bidezko enkriptatzeak ez ditu hartzen barne Google Pay-ko ordainketa-metodoak eta helbideak.
 
@@ -860,7 +860,7 @@ Esaterako, bisitatu dituzun webguneetan oinarritzen ez diren iragarkiak bidalita
 <translation id="7846296061357476882">Google-ren zerbitzuak</translation>
 <translation id="784934925303690534">Denbora tartea</translation>
 <translation id="7851858861565204677">Beste gailu batzuk</translation>
-<translation id="7857691613771368249">Galdetu fitxategiak noiz gorde behar diren</translation>
+<translation id="7857691613771368249">Galdetu noiz gorde behar diren fitxategiak</translation>
 <translation id="7875915731392087153">Sortu mezu elektronikoa</translation>
 <translation id="7876243839304621966">Kendu guztiak</translation>
 <translation id="7882131421121961860">Ez da aurkitu historiarik</translation>

@@ -1047,7 +1047,7 @@ Als dit beleid niet is ingesteld, is het privacyscherm in eerste instantie uitge
       Als deze instelling is uitgeschakeld, kunnen gebruikers niet afdrukken via <ph name="PRODUCT_NAME" />. Afdrukken is uitgeschakeld in het menu 'Gereedschap', extensies, JavaScript-applicaties, enzovoort. Het is nog steeds mogelijk af te drukken via plug-ins die <ph name="PRODUCT_NAME" /> omzeilen tijdens het afdrukken. Bij Flash-applicaties bevindt de afdrukoptie zich in het contextmenu, wat niet onder dit beleid valt.</translation>
 <translation id="2517466659416174529">Toestaan dat tabbladen op de achtergrond worden vastgezet</translation>
 <translation id="2518231489509538392">Het afspelen van audio toestaan</translation>
-<translation id="2521581787935130926">De snelkoppeling voor apps weergeven op de bladwijzerbalk</translation>
+<translation id="2521581787935130926">De snelkoppeling voor apps weergeven op de bookmarkbalk</translation>
 <translation id="2528659559494311776">Met dit beleid wordt een beveiligingsfunctie in TLS 1.3 beheerd waarmee verbindingen worden beschermd tegen downgrade-aanvallen. De functie is compatibel met eerdere versies en heeft geen invloed op verbindingen met servers of proxy's die voldoen aan TLS 1.2. Oudere versies van bepaalde proxy's die TLS onderscheppen, bevatten een implementatiefout waardoor ze incompatibel zijn.
 
       Als dit beleid is ingesteld op True of niet is ingesteld, schakelt <ph name="PRODUCT_NAME" /> deze beveiligingsmaatregelen in voor alle verbindingen.
@@ -3097,7 +3097,7 @@ Als dit beleid is ingesteld op False, gebruikt <ph name="PRODUCT_NAME" /> geen n
 
       De beleidswaarde moet worden opgegeven in milliseconden.</translation>
 <translation id="5508307164752647432">Kerberos-functionaliteit inschakelen</translation>
-<translation id="5511702823008968136">Bladwijzerbalk inschakelen</translation>
+<translation id="5511702823008968136">Bookmarkbalk inschakelen</translation>
 <translation id="5512418063782665071">URL van homepage</translation>
 <translation id="551639594034811656">Dit beleid definieert een lijst van percentages. Deze percentages bepalen welk deel van <ph name="PRODUCT_OS_NAME" />-apparaten in de OE per week moet worden geüpdatet vanaf de dag waarop de update voor het eerst wordt ontdekt. De update wordt later ontdekt dan deze wordt gepubliceerd, aangezien het even kan duren voordat het apparaat controleert op updates.
 
@@ -4227,7 +4227,7 @@ Geheugengegevens worden in alle gevallen aan de pagina gerapporteerd, afgezien v
         Als een beleid in de lijst staat, wordt het beleid met de hoogste prioriteit toegepast als er een conflict tussen twee bronnen is, maar ook als het bereik en/of het niveau verschilt.
 
         Als een beleid niet in de lijst staat, wordt het beleid met de hoogste prioriteit toegepast als er een conflict tussen bronnen, het bereik en/of het niveau is.</translation>
-<translation id="7229975860249300121">Bevat een reguliere expressie die wordt gebruikt om te bepalen welke Google-accounts kunnen worden ingesteld als primair browseraccount in <ph name="PRODUCT_NAME" /> (oftewel het account dat wordt gekozen wanneer de gebruiker zich aanmeldt voor synchronisatie).
+<translation id="7229975860249300121">Bevat een reguliere expressie die wordt gebruikt om te bepalen welke Google-accounts kunnen worden ingesteld als primair browseraccount in <ph name="PRODUCT_NAME" /> (oftewel het account dat wordt gekozen als de gebruiker synchronisatie toestaat).
 
       Er wordt een fout weergegeven als een gebruiker probeert een primair browseraccount in te stellen met een gebruikersnaam die niet met dit patroon overeenkomt.
 
@@ -5115,7 +5115,7 @@ Dit beleid wordt verwijderd in M75.</translation>
           De beleidswaarde moet worden gespecificeerd in milliseconden.</translation>
 <translation id="8606263947930257189">Bepaalt of <ph name="PRODUCT_NAME" /> tabbladen kan vastzetten die minimaal vijf minuten op de achtergrond actief zijn.
 
-      Als het beleid is ingesteld op 'True', kunnen tabbladen die minimaal vijf minuten op de achtergrond actief zijn worden vastgezet. Het vastzetten van tabbladen verlaagt het CPU-, batterij- en geheugengebruik. <ph name="PRODUCT_NAME" /> gebruikt bepaalde methoden om te voorkomen dat tabbladen worden vastgezet die nuttig werk op de achtergrond leveren (zoals meldingen weergeven, geluid afspelen en video streamen). Webontwikkelaars kunnen daarnaast hun site afmelden voor vastzetten (https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/performance_manager/docs/freezing_opt_out_opt_in.md).
+      Als het beleid is ingesteld op 'True', kunnen tabbladen die minimaal vijf minuten op de achtergrond actief zijn worden vastgezet. Het vastzetten van tabbladen verlaagt het CPU-, batterij- en geheugengebruik. <ph name="PRODUCT_NAME" /> gebruikt bepaalde methoden om te voorkomen dat tabbladen worden vastgezet die nuttig werk op de achtergrond leveren (zoals meldingen weergeven, geluid afspelen en video streamen). Webontwikkelaars kunnen daarnaast hun toestemming intrekken voor het vastzetten van hun site (https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/performance_manager/docs/freezing_opt_out_opt_in.md).
 
       Als het beleid is ingesteld op 'False', worden er geen tabbladen vastgezet.</translation>
 <translation id="8615400197788843468">Hiermee wordt de beperkte inlogfunctie van <ph name="PRODUCT_NAME" /> in G Suite ingeschakeld en wordt voorkomen dat gebruikers deze instelling wijzigen.

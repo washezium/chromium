@@ -3193,7 +3193,7 @@ Wenn diese Richtlinie zu "false" geändert wird, wirkt sich dies auf den Start n
 <translation id="5646234199535103501">Konfigurationsrichtlinie für den Chrome Enterprise Connector "OnBulkDataEntry"</translation>
 <translation id="5656177735561364047">Mit dieser Richtlinie wird die Funktion "Geteilte Zwischenablage" aktiviert.</translation>
 <translation id="5666457529647159548">Nutzern erlauben, installierte Clientzertifikate zu verwalten.</translation>
-<translation id="567377007899266033">Wenn die Richtlinie auf "True" gesetzt ist, werden Berichte über wichtige richtlinienbasierte Installationsereignisse der Erweiterung an Google gesendet. Wenn die Richtlinie auf "False" gesetzt ist, werden keine Ereignisse erfasst. Ist die Richtlinie nicht konfiguriert, ist der Standardwert "True".</translation>
+<translation id="567377007899266033">Wenn die Richtlinie auf "True" gesetzt ist, werden Berichte über wichtige richtlinienbasierte Erweiterungsinstallationen an Google gesendet. Wenn die Richtlinie auf "False" gesetzt ist, werden keine diesbezüglichen Ereignisse erfasst. Ist die Richtlinie nicht konfiguriert, ist der Standardwert "True".</translation>
 <translation id="5676740747107495269">Optionen für Bedienungshilfen im Taskleistenmenü auf dem Anmeldebildschirm anzeigen</translation>
 <translation id="5679540979548648200">Nutzer des Geräts daran hindern, ADB-Sideloading zu verwenden, und ein Powerwash für das Gerät erzwingen, wenn Sideloading zuvor aktiviert war</translation>
 <translation id="5689430183304951538">Standardmäßige Druckseitengröße</translation>
@@ -4330,10 +4330,10 @@ Wenn diese Richtlinie zu "false" geändert wird, wirkt sich dies auf den Start n
 Wird diese Richtlinie festgelegt, wird die ursprüngliche Displayhelligkeit an den Richtlinienwert angepasst. Der Nutzer kann dies später wieder ändern. Funktionen zur automatischen Anpassung der Displayhelligkeit sind deaktiviert.
 Wird diese Richtlinie nicht festgelegt, hat dies keine Auswirkungen auf die Steuerung des Displays durch den Nutzer und auf die Funktionen zur automatischen Anpassung der Displayhelligkeit.
 Die Richtlinienwerte sollten in % angegeben werden und zwischen 0 und 100 liegen.</translation>
-<translation id="7517846421386644905">Hiermit kann ein Administrator festlegen, ob Telemetrie- und Diagnosedaten vom Wilco Diagnostics and Telemetry Controller (DTC) erfasst, verarbeitet und gemeldet werden sollen.
+<translation id="7517846421386644905">Hiermit kann ein Administrator festlegen, ob Telemetrie- und Fehlerberichte vom Wilco Diagnostics and Telemetry Controller (DTC) erfasst, verarbeitet und gemeldet werden sollen.
 
-      Wenn diese Richtlinie auf "false" gesetzt oder nicht konfiguriert ist, wird DTC deaktiviert und kann keine Telemetrie- und Diagnosedaten des Geräts erfassen, verarbeiten und melden.
-      Wenn Wilco DTC auf einem Gerät verfügbar und die Richtlinie auf "true" gesetzt ist, wird die Erfassung, Verarbeitung und Meldung von Telemetrie- und Diagnosedaten aktiviert.</translation>
+      Wenn diese Richtlinie auf "false" gesetzt oder nicht konfiguriert ist, wird DTC deaktiviert und kann keine Telemetrie- und Fehlerberichte des Geräts erfassen, verarbeiten und melden.
+      Wenn Wilco DTC auf einem Gerät verfügbar und die Richtlinie auf "true" gesetzt ist, wird die Erfassung, Verarbeitung und Meldung von Telemetrie- und Fehlerberichte aktiviert.</translation>
 <translation id="7519251620064708155">Schlüsselgenerierung auf diesen Websites zulassen</translation>
 <translation id="7529144158022474049">Streufaktor automatisch aktualisieren</translation>
 <translation id="7534199150025803530">Diese Richtlinie hat keine Auswirkungen auf die Android Google Drive App. Wenn Sie die Nutzung von Google Drive über Mobilfunkverbindungen verhindern möchten, sollten Sie das Installieren der Android Google Drive App nicht zulassen.</translation>

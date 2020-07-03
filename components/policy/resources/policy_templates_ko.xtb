@@ -2662,7 +2662,7 @@ False로 설정하면 <ph name="PRODUCT_NAME" />에서 기본 알림을 사용�
           참고: <ph name="DEVICE_LOGIN_SCREEN_SPOKEN_FEEDBACK_ENABLED_POLICY_NAME" />이(가) 지정된 경우 이 정책을 재정의합니다.</translation>
 <translation id="494613465159630803">Cast 수신기</translation>
 <translation id="494924690085329212">Android가 시작되었을 때 사용자가 로그아웃하면 재부팅</translation>
-<translation id="4950900960525118567">이 기능을 사용하면 볼 만한 새 콘텐츠 추천이 표시됩니다. 여기에는 앱, 웹페이지 등이 포함됩니다.
+<translation id="4950900960525118567">이 기능을 사용하면 볼 만한 새 추천 콘텐츠가 표시됩니다. 여기에는 앱, 웹페이지 등이 포함됩니다.
       이 정책을 True로 설정하면 볼 만한 새 콘텐츠 추천 기능이 사용 설정됩니다.
       False로 설정하면 볼 만한 새 콘텐츠 추천 기능이 사용 중지됩니다.
       정책이 설정되지 않으면 볼 만한 새 콘텐츠 추천 기능이 관리 사용자를 대상으로 사용 중지됩니다.
