@@ -364,16 +364,6 @@ class CONTENT_EXPORT RenderWidget
   // the new value will be sent to the browser process.
   void UpdateSelectionBounds();
 
-  void GetSelectionBounds(gfx::Rect* start, gfx::Rect* end);
-
-  // Checks if the composition range or composition character bounds have been
-  // changed. If they are changed, the new value will be sent to the browser
-  // process. This method does nothing when the browser process is not able to
-  // handle composition range and composition character bounds.
-  // If immediate_request is true, render sends the latest composition info to
-  // the browser even if the composition info is not changed.
-  void UpdateCompositionInfo();
-
   // Called when the Widget has changed size as a result of an auto-resize.
   void DidAutoResize(const gfx::Size& new_size);
 
@@ -423,17 +413,6 @@ class CONTENT_EXPORT RenderWidget
   using PresentationTimeCallback =
       base::OnceCallback<void(const gfx::PresentationFeedback&)>;
   virtual void RequestPresentation(PresentationTimeCallback callback);
-
-  // Forces a redraw after any ongoing scroll-animation ends, and invokes the
-  // callback once the frame is displayed to the user.
-  void RequestPresentationAfterScrollAnimationEnd(
-      PresentationTimeCallback callback);
-
-  base::WeakPtr<RenderWidget> AsWeakPtr();
-
-  // This method returns the WebLocalFrame which is currently focused and
-  // belongs to the frame tree associated with this RenderWidget.
-  blink::WebLocalFrame* GetFocusedWebLocalFrameInWidget() const;
 
  protected:
   // Notify subclasses that we handled OnUpdateVisualProperties.
@@ -782,8 +761,6 @@ class CONTENT_EXPORT RenderWidget
   gfx::Rect compositor_visible_rect_;
 
   uint32_t last_capture_sequence_number_ = 0u;
-
-  base::WeakPtrFactory<RenderWidget> weak_ptr_factory_{this};
 
   DISALLOW_COPY_AND_ASSIGN(RenderWidget);
 };

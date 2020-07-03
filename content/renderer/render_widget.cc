@@ -982,13 +982,6 @@ void RenderWidget::RequestPresentation(PresentationTimeCallback callback) {
   layer_tree_host_->SetNeedsCommitWithForcedRedraw();
 }
 
-void RenderWidget::RequestPresentationAfterScrollAnimationEnd(
-    PresentationTimeCallback callback) {
-  layer_tree_host_->RequestScrollAnimationEndNotification(
-      base::BindOnce(&RenderWidget::RequestPresentation,
-                     weak_ptr_factory_.GetWeakPtr(), std::move(callback)));
-}
-
 viz::FrameSinkId RenderWidget::GetFrameSinkIdAtPoint(const gfx::PointF& point,
                                                      gfx::PointF* local_point) {
   blink::WebHitTestResult result = GetHitTestResultAtPoint(point);
@@ -2100,12 +2093,6 @@ void RenderWidget::DisableAutoResizeForTesting(const gfx::Size& new_size) {
   }
 }
 
-blink::WebLocalFrame* RenderWidget::GetFocusedWebLocalFrameInWidget() const {
-  if (auto* frame_widget = GetFrameWidget())
-    return frame_widget->FocusedWebLocalFrameInWidget();
-  return nullptr;
-}
-
 #if BUILDFLAG(ENABLE_PLUGINS)
 PepperPluginInstanceImpl* RenderWidget::GetFocusedPepperPluginInsideWidget() {
   blink::WebFrameWidget* frame_widget = GetFrameWidget();
@@ -2138,10 +2125,6 @@ gfx::Rect RenderWidget::ViewportVisibleRect() {
   if (for_child_local_root_frame_)
     return compositor_visible_rect_;
   return CompositorViewportRect();
-}
-
-base::WeakPtr<RenderWidget> RenderWidget::AsWeakPtr() {
-  return weak_ptr_factory_.GetWeakPtr();
 }
 
 }  // namespace content
