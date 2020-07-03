@@ -347,15 +347,12 @@ class CORE_EXPORT WebFrameWidgetBase
                          WebDragOperation) override;
   void DragSourceSystemDragEnded() override;
   void SetBackgroundOpaque(bool opaque) override;
-
   // For both mainframe and childframe change the text direction of the
   // currently selected input field (if any).
   void SetTextDirection(base::i18n::TextDirection direction) override;
-
   // Sets the inherited effective touch action on an out-of-process iframe.
   void SetInheritedEffectiveTouchActionForSubFrame(
       WebTouchAction touch_action) override {}
-
   // Toggles render throttling for an out-of-process iframe. Local frames are
   // throttled based on their visibility in the viewport, but remote frames
   // have to have throttling information propagated from parent to child
@@ -363,10 +360,13 @@ class CORE_EXPORT WebFrameWidgetBase
   void UpdateRenderThrottlingStatusForSubFrame(
       bool is_throttled,
       bool subtree_throttled) override {}
-
   // Sets the inert bit on an out-of-process iframe, causing it to ignore
   // input.
   void SetIsInertForSubFrame(bool inert) override {}
+#if defined(OS_MACOSX)
+  void GetStringAtPoint(const gfx::Point& point_in_local_root,
+                        GetStringAtPointCallback callback) override;
+#endif
 
   // Called when the FrameView for this Widget's local root is created.
   virtual void DidCreateLocalRootView() {}
