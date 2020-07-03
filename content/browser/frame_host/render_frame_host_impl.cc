@@ -682,10 +682,8 @@ void RecordCrossOriginIsolationMetrics(RenderFrameHostImpl* rfh) {
         rfh, blink::mojom::WebFeature::kCrossOriginEmbedderPolicyRequireCorp);
   }
 
-  if ((rfh->cross_origin_opener_policy().value ==
-       network::mojom::CrossOriginOpenerPolicyValue::kSameOrigin) &&
-      (rfh->cross_origin_embedder_policy().value ==
-       network::mojom::CrossOriginEmbedderPolicyValue::kRequireCorp)) {
+  if (rfh->cross_origin_opener_policy().value ==
+      network::mojom::CrossOriginOpenerPolicyValue::kSameOriginPlusCoep) {
     client->LogWebFeatureForCurrentPage(
         rfh, blink::mojom::WebFeature::kCoopAndCoepIsolated);
   }
@@ -4915,7 +4913,7 @@ void RenderFrameHostImpl::CreateNewWindow(
     main_frame->set_coop_reporter(
         std::make_unique<CrossOriginOpenerPolicyReporter>(
             GetProcess()->GetStoragePartition(), this, GetLastCommittedURL(),
-            popup_coop, popup_coep));
+            popup_coop));
   }
 
   if (main_frame->waiting_for_init_) {

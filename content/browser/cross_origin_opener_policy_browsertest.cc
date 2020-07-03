@@ -28,6 +28,13 @@ network::CrossOriginOpenerPolicy CoopSameOrigin() {
   return coop;
 }
 
+network::CrossOriginOpenerPolicy CoopSameOriginPlusCoep() {
+  network::CrossOriginOpenerPolicy coop;
+  coop.value =
+      network::mojom::CrossOriginOpenerPolicyValue::kSameOriginPlusCoep;
+  return coop;
+}
+
 network::CrossOriginOpenerPolicy CoopSameOriginAllowPopups() {
   network::CrossOriginOpenerPolicy coop;
   coop.value =
@@ -292,7 +299,7 @@ IN_PROC_BROWSER_TEST_P(CrossOriginOpenerPolicyBrowserTest,
   CrossOriginPolicyHeadersObserver obs(
       web_contents(),
       network::mojom::CrossOriginEmbedderPolicyValue::kRequireCorp,
-      CoopSameOrigin());
+      CoopSameOriginPlusCoep());
 
   EXPECT_TRUE(
       NavigateToURL(shell(), redirect_initial_page, redirect_final_page));
@@ -875,8 +882,9 @@ IN_PROC_BROWSER_TEST_P(CrossOriginOpenerPolicyBrowserTest,
 
     EXPECT_FALSE(current_frame_host()->GetSiteInstance()->IsRelatedSiteInstance(
         initial_site_instance.get()));
-    EXPECT_EQ(current_frame_host()->cross_origin_opener_policy().value,
-              network::mojom::CrossOriginOpenerPolicyValue::kSameOrigin);
+    EXPECT_EQ(
+        current_frame_host()->cross_origin_opener_policy().value,
+        network::mojom::CrossOriginOpenerPolicyValue::kSameOriginPlusCoep);
   }
 
   // COOP into non-COOP.
@@ -933,8 +941,9 @@ IN_PROC_BROWSER_TEST_P(CrossOriginOpenerPolicyBrowserTest,
 
     EXPECT_TRUE(current_frame_host()->GetSiteInstance()->IsRelatedSiteInstance(
         initial_site_instance.get()));
-    EXPECT_EQ(current_frame_host()->cross_origin_opener_policy().value,
-              network::mojom::CrossOriginOpenerPolicyValue::kSameOrigin);
+    EXPECT_EQ(
+        current_frame_host()->cross_origin_opener_policy().value,
+        network::mojom::CrossOriginOpenerPolicyValue::kSameOriginPlusCoep);
   }
 }
 
