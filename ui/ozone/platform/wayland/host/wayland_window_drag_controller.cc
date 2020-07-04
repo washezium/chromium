@@ -167,10 +167,22 @@ void WaylandWindowDragController::OnDragLeave() {
 }
 
 void WaylandWindowDragController::OnDragDrop() {
-  // Not used for window dragging sessions. Handling of drop events is fully
-  // done at OnDataSourceFinish function, i.e: wl_data_source::{cancel,finish}.
+  DCHECK_GE(state_, State::kAttached);
+  VLOG(1) << "Dropped. state=" << state_;
+
+  // Some compositors, e.g: Exo, may delay the wl_data_source::cancelled event
+  // delivery for some seconds, when the drop happens within a toplevel surface.
+  // Such event is handled by OnDataSourceFinish() function below, which is the
+  // single entry point for the drop event in window drag controller. In order
+  // to prevent such delay, the current data offer must be destroyed here.
+  DCHECK(data_offer_);
+  data_offer_.reset();
 }
 
+// This function is called when either 'cancelled' or 'finished' data source
+// events is received during a window dragging session. It is used to detect
+// when drop happens, since it is the only event sent by the server regardless
+// where it happens, inside or outside toplevel surfaces.
 void WaylandWindowDragController::OnDataSourceFinish(bool completed) {
   DCHECK_GE(state_, State::kAttached);
   DCHECK(data_source_);
