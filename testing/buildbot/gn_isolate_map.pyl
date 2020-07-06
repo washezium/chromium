@@ -701,7 +701,7 @@
       "--test-launcher-jobs=1",
       "--test-launcher-retry-limit=0",
     ],
-    "label": "//chrome/test:dawn_perf_tests",
+    "label": "//third_party/dawn/src/tests:dawn_perf_tests",
     "script": "//testing/scripts/run_performance_tests.py",
     "type": "script",
   },
