@@ -3304,6 +3304,8 @@ static_library("browser") {
       "nearby_sharing/instantmessaging/stream_parser.h",
       "nearby_sharing/instantmessaging/token_fetcher.cc",
       "nearby_sharing/instantmessaging/token_fetcher.h",
+      "nearby_sharing/logging/log_buffer.h",
+      "nearby_sharing/logging/logging.h",
       "nearby_sharing/nearby_connection.h",
       "nearby_sharing/nearby_connections_manager.h",
       "nearby_sharing/nearby_connections_manager_impl.cc",
