@@ -10,8 +10,8 @@
 #include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
 #include "chrome/browser/chromeos/input_method/ui/assistive_delegate.h"
 #include "chrome/browser/chromeos/input_method/ui/suggestion_view.h"
+#include "chrome/test/views/chrome_views_test_base.h"
 #include "testing/gtest/include/gtest/gtest.h"
-#include "ui/views/test/views_test_base.h"
 
 namespace ui {
 namespace ime {
@@ -23,14 +23,14 @@ class MockAssistiveDelegate : public AssistiveDelegate {
       const ui::ime::AssistiveWindowButton& button) const override {}
 };
 
-class SuggestionWindowViewTest : public views::ViewsTestBase {
+class SuggestionWindowViewTest : public ChromeViewsTestBase {
  public:
   SuggestionWindowViewTest() {}
   ~SuggestionWindowViewTest() override {}
 
  protected:
   void SetUp() override {
-    views::ViewsTestBase::SetUp();
+    ChromeViewsTestBase::SetUp();
     InitCandidates();
     window_.candidates = candidates_;
 
@@ -44,7 +44,7 @@ class SuggestionWindowViewTest : public views::ViewsTestBase {
 
   void TearDown() override {
     suggestion_window_view_->GetWidget()->CloseNow();
-    views::ViewsTestBase::TearDown();
+    ChromeViewsTestBase::TearDown();
   }
 
   void InitCandidates() {
