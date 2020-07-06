@@ -2684,6 +2684,8 @@ static_library("browser") {
       "download/download_crx_util_android.cc",
       "engagement/site_engagement_service_android.cc",
       "engagement/site_engagement_service_android.h",
+      "enterprise/util/android_enterprise_info.cc",
+      "enterprise/util/android_enterprise_info.h",
       "file_select_helper_contacts_android.cc",
       "file_select_helper_contacts_android.h",
       "first_run/android/first_run_utils.cc",
