@@ -1083,6 +1083,8 @@ source_set("chromeos") {
     "external_protocol_dialog.cc",
     "external_protocol_dialog.h",
     "file_manager/app_id.h",
+    "file_manager/app_service_file_tasks.cc",
+    "file_manager/app_service_file_tasks.h",
     "file_manager/arc_file_tasks.cc",
     "file_manager/arc_file_tasks.h",
     "file_manager/documents_provider_root_manager.cc",
