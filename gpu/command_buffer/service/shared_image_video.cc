@@ -19,7 +19,6 @@
 #include "gpu/command_buffer/service/shared_context_state.h"
 #include "gpu/command_buffer/service/shared_image_representation.h"
 #include "gpu/command_buffer/service/shared_image_representation_skia_gl.h"
-#include "gpu/command_buffer/service/shared_image_representation_skia_vk_android.h"
 #include "gpu/command_buffer/service/skia_utils.h"
 #include "gpu/command_buffer/service/texture_manager.h"
 #include "gpu/command_buffer/service/texture_owner.h"
@@ -43,7 +42,7 @@ SharedImageVideo::SharedImageVideo(
     std::unique_ptr<gles2::AbstractTexture> abstract_texture,
     scoped_refptr<SharedContextState> context_state,
     bool is_thread_safe)
-    : SharedImageBackingAndroid(
+    : SharedImageBacking(
           mailbox,
           viz::RGBA_8888,
           size,
@@ -51,8 +50,7 @@ SharedImageVideo::SharedImageVideo(
           (SHARED_IMAGE_USAGE_DISPLAY | SHARED_IMAGE_USAGE_GLES2),
           viz::ResourceSizes::UncheckedSizeInBytes<size_t>(size,
                                                            viz::RGBA_8888),
-          is_thread_safe,
-          base::ScopedFD()),
+          is_thread_safe),
       stream_texture_sii_(std::move(stream_texture_sii)),
       abstract_texture_(std::move(abstract_texture)),
       context_state_(std::move(context_state)) {
@@ -68,16 +66,6 @@ SharedImageVideo::~SharedImageVideo() {
   stream_texture_sii_->ReleaseResources();
   if (context_state_)
     context_state_->RemoveContextLostObserver(this);
-}
-
-bool SharedImageVideo::BeginWrite(base::ScopedFD* fd_to_wait_on) {
-  // Writes are not supported by this backing.
-  NOTREACHED();
-  return false;
-}
-
-void SharedImageVideo::EndWrite(base::ScopedFD end_write_fd) {
-  NOTREACHED();
 }
 
 gfx::Rect SharedImageVideo::ClearedRect() const {
@@ -212,6 +200,185 @@ class SharedImageRepresentationGLTexturePassthroughVideo
   DISALLOW_COPY_AND_ASSIGN(SharedImageRepresentationGLTexturePassthroughVideo);
 };
 
+// Vulkan backed Skia representation of SharedImageVideo.
+class SharedImageRepresentationVideoSkiaVk
+    : public SharedImageRepresentationSkia {
+ public:
+  SharedImageRepresentationVideoSkiaVk(
+      SharedImageManager* manager,
+      SharedImageBacking* backing,
+      scoped_refptr<SharedContextState> context_state,
+      MemoryTypeTracker* tracker)
+      : SharedImageRepresentationSkia(manager, backing, tracker),
+        context_state_(std::move(context_state)) {
+    DCHECK(context_state_);
+    DCHECK(context_state_->vk_context_provider());
+  }
+
+  ~SharedImageRepresentationVideoSkiaVk() override {
+    DCHECK(end_access_semaphore_ == VK_NULL_HANDLE);
+
+    // |promise_texture_| could be null if we never being read.
+    if (!vulkan_image_)
+      return;
+    VulkanFenceHelper* fence_helper = context_state_->vk_context_provider()
+                                          ->GetDeviceQueue()
+                                          ->GetFenceHelper();
+    fence_helper->EnqueueVulkanObjectCleanupForSubmittedWork(
+        std::move(vulkan_image_));
+  }
+
+  sk_sp<SkSurface> BeginWriteAccess(
+      int final_msaa_count,
+      const SkSurfaceProps& surface_props,
+      std::vector<GrBackendSemaphore>* begin_semaphores,
+      std::vector<GrBackendSemaphore>* end_semaphores) override {
+    // Writes are not intended to used for video backed representations.
+    NOTIMPLEMENTED();
+    return nullptr;
+  }
+
+  void EndWriteAccess(sk_sp<SkSurface> surface) override { NOTIMPLEMENTED(); }
+
+  sk_sp<SkPromiseImageTexture> BeginReadAccess(
+      std::vector<GrBackendSemaphore>* begin_semaphores,
+      std::vector<GrBackendSemaphore>* end_semaphores) override {
+    DCHECK(!scoped_hardware_buffer_);
+    auto* video_backing = static_cast<SharedImageVideo*>(backing());
+    DCHECK(video_backing);
+    auto* stream_texture_sii = video_backing->stream_texture_sii_.get();
+
+    // GetAHardwareBuffer() renders the latest image and gets AHardwareBuffer
+    // from it.
+    scoped_hardware_buffer_ = stream_texture_sii->GetAHardwareBuffer();
+    if (!scoped_hardware_buffer_) {
+      LOG(ERROR) << "Failed to get the hardware buffer.";
+      return nullptr;
+    }
+    DCHECK(scoped_hardware_buffer_->buffer());
+
+    // Wait on the sync fd attached to the buffer to make sure buffer is
+    // ready before the read. This is done by inserting the sync fd semaphore
+    // into begin_semaphore vector which client will wait on.
+    base::ScopedFD sync_fd = scoped_hardware_buffer_->TakeFence();
+    if (!BeginRead(begin_semaphores, end_semaphores, std::move(sync_fd))) {
+      return nullptr;
+    }
+
+    if (!vulkan_image_) {
+      DCHECK(!promise_texture_);
+
+      vulkan_image_ =
+          CreateVkImageFromAhbHandle(scoped_hardware_buffer_->TakeBuffer(),
+                                     context_state_.get(), size(), format());
+      if (!vulkan_image_)
+        return nullptr;
+
+      // We always use VK_IMAGE_TILING_OPTIMAL while creating the vk image in
+      // VulkanImplementationAndroid::CreateVkImageAndImportAHB. Hence pass the
+      // tiling parameter as VK_IMAGE_TILING_OPTIMAL to below call rather than
+      // passing |vk_image_info.tiling|. This is also to ensure that the promise
+      // image created here at [1] as well the fullfil image created via the
+      // current function call are consistent and both are using
+      // VK_IMAGE_TILING_OPTIMAL. [1] -
+      // https://cs.chromium.org/chromium/src/components/viz/service/display_embedder/skia_output_surface_impl.cc?rcl=db5ffd448ba5d66d9d3c5c099754e5067c752465&l=789.
+      DCHECK_EQ(static_cast<int32_t>(vulkan_image_->image_tiling()),
+                static_cast<int32_t>(VK_IMAGE_TILING_OPTIMAL));
+
+      // TODO(bsalomon): Determine whether it makes sense to attempt to reuse
+      // this if the vk_info stays the same on subsequent calls.
+      promise_texture_ = SkPromiseImageTexture::Make(
+          GrBackendTexture(size().width(), size().height(),
+                           CreateGrVkImageInfo(vulkan_image_.get())));
+      DCHECK(promise_texture_);
+    }
+    return promise_texture_;
+  }
+
+  void EndReadAccess() override {
+    DCHECK(scoped_hardware_buffer_);
+    DCHECK(end_access_semaphore_ != VK_NULL_HANDLE);
+
+    SemaphoreHandle semaphore_handle = vk_implementation()->GetSemaphoreHandle(
+        vk_device(), end_access_semaphore_);
+    auto sync_fd = semaphore_handle.TakeHandle();
+    DCHECK(sync_fd.is_valid());
+
+    // Pass the end access sync fd to the scoped hardware buffer. This will make
+    // sure that the AImage associated with the hardware buffer will be deleted
+    // only when the read access is ending.
+    scoped_hardware_buffer_->SetReadFence(std::move(sync_fd), true);
+    fence_helper()->EnqueueSemaphoreCleanupForSubmittedWork(
+        end_access_semaphore_);
+    end_access_semaphore_ = VK_NULL_HANDLE;
+    scoped_hardware_buffer_ = nullptr;
+  }
+
+ private:
+  bool BeginRead(std::vector<GrBackendSemaphore>* begin_semaphores,
+                 std::vector<GrBackendSemaphore>* end_semaphores,
+                 base::ScopedFD sync_fd) {
+    DCHECK(begin_semaphores);
+    DCHECK(end_semaphores);
+    DCHECK(end_access_semaphore_ == VK_NULL_HANDLE);
+
+    VkSemaphore begin_access_semaphore = VK_NULL_HANDLE;
+    if (sync_fd.is_valid()) {
+      begin_access_semaphore = vk_implementation()->ImportSemaphoreHandle(
+          vk_device(),
+          SemaphoreHandle(VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SYNC_FD_BIT,
+                          std::move(sync_fd)));
+      if (begin_access_semaphore == VK_NULL_HANDLE) {
+        DLOG(ERROR) << "Failed to import semaphore from sync_fd.";
+        return false;
+      }
+    }
+
+    end_access_semaphore_ =
+        vk_implementation()->CreateExternalSemaphore(vk_device());
+
+    if (end_access_semaphore_ == VK_NULL_HANDLE) {
+      DLOG(ERROR) << "Failed to create the external semaphore.";
+      if (begin_access_semaphore != VK_NULL_HANDLE) {
+        vkDestroySemaphore(vk_device(), begin_access_semaphore,
+                           nullptr /* pAllocator */);
+      }
+      return false;
+    }
+    end_semaphores->emplace_back();
+    end_semaphores->back().initVulkan(end_access_semaphore_);
+
+    if (begin_access_semaphore != VK_NULL_HANDLE) {
+      begin_semaphores->emplace_back();
+      begin_semaphores->back().initVulkan(begin_access_semaphore);
+    }
+    return true;
+  }
+
+  VkDevice vk_device() {
+    return context_state_->vk_context_provider()
+        ->GetDeviceQueue()
+        ->GetVulkanDevice();
+  }
+
+  VulkanImplementation* vk_implementation() {
+    return context_state_->vk_context_provider()->GetVulkanImplementation();
+  }
+
+  VulkanFenceHelper* fence_helper() {
+    return context_state_->vk_context_provider()
+        ->GetDeviceQueue()
+        ->GetFenceHelper();
+  }
+
+  std::unique_ptr<VulkanImage> vulkan_image_;
+  sk_sp<SkPromiseImageTexture> promise_texture_;
+  scoped_refptr<SharedContextState> context_state_;
+  std::unique_ptr<base::android::ScopedHardwareBufferFenceSync>
+      scoped_hardware_buffer_;
+  VkSemaphore end_access_semaphore_ = VK_NULL_HANDLE;
+};
+
 // TODO(vikassoni): Currently GLRenderer doesn't support overlays with shared
 // image. Add support for overlays in GLRenderer as well as overlay
 // representations of shared image.
@@ -271,27 +438,8 @@ std::unique_ptr<SharedImageRepresentationSkia> SharedImageVideo::ProduceSkia(
     return nullptr;
 
   if (context_state->GrContextIsVulkan()) {
-    // GetAHardwareBuffer() renders the latest image and gets AHardwareBuffer
-    // from it.
-    auto scoped_hardware_buffer = stream_texture_sii_->GetAHardwareBuffer();
-    if (!scoped_hardware_buffer) {
-      LOG(ERROR) << "Failed to get the hardware buffer.";
-      return nullptr;
-    }
-    DCHECK(scoped_hardware_buffer->buffer());
-
-    // Wait on the sync fd attached to the buffer to make sure buffer is
-    // ready before the read. This is done by inserting the sync fd semaphore
-    // into begin_semaphore vector which client will wait on.
-    base::ScopedFD sync_fd = scoped_hardware_buffer->TakeFence();
-    auto vulkan_image =
-        CreateVkImageFromAhbHandle(scoped_hardware_buffer->TakeBuffer(),
-                                   context_state.get(), size(), format());
-    if (!vulkan_image)
-      return nullptr;
-    return std::make_unique<SharedImageRepresentationSkiaVkAndroid>(
-        manager, this, std::move(context_state), std::move(vulkan_image),
-        std::move(sync_fd), tracker);
+    return std::make_unique<SharedImageRepresentationVideoSkiaVk>(
+        manager, this, std::move(context_state), tracker);
   }
 
   DCHECK(context_state->GrContextIsGL());
