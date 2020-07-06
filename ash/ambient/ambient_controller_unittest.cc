@@ -168,7 +168,7 @@ TEST_F(AmbientControllerTest,
 }
 
 TEST_F(AmbientControllerTest,
-       CheckAcquireAndReleaseWakeLockWhenBatteryChargingStateChanged) {
+       CheckAcquireAndReleaseWakeLockWhenBatteryStateChanged) {
   // Flush the loop first to ensure the |PowerStatus| has picked up the initial
   // status.
   base::RunLoop().RunUntilIdle();
@@ -177,6 +177,8 @@ TEST_F(AmbientControllerTest,
   power_manager::PowerSupplyProperties proto;
   proto.set_battery_state(
       power_manager::PowerSupplyProperties_BatteryState_DISCHARGING);
+  proto.set_external_power(
+      power_manager::PowerSupplyProperties_ExternalPower_DISCONNECTED);
   PowerStatus::Get()->SetProtoForTesting(proto);
   // Lock screen to start ambient mode.
   LockScreen();
@@ -188,6 +190,8 @@ TEST_F(AmbientControllerTest,
   // Connect the device with a charger.
   proto.set_battery_state(
       power_manager::PowerSupplyProperties_BatteryState_CHARGING);
+  proto.set_external_power(
+      power_manager::PowerSupplyProperties_ExternalPower_AC);
   PowerStatus::Get()->SetProtoForTesting(proto);
   // Notify the controller about the power status change, and flush the loop to
   // ensure the wake lock request has reached the wake lock provider.
@@ -198,9 +202,23 @@ TEST_F(AmbientControllerTest,
   EXPECT_EQ(1, GetNumOfActiveWakeLocks(
                    device::mojom::WakeLockType::kPreventDisplaySleep));
 
+  // Simulates a full battery.
+  proto.set_battery_state(
+      power_manager::PowerSupplyProperties_BatteryState_FULL);
+  proto.set_external_power(
+      power_manager::PowerSupplyProperties_ExternalPower_AC);
+  PowerStatus::Get()->SetProtoForTesting(proto);
+  ambient_controller()->OnPowerStatusChanged();
+
+  // Should keep the wake lock as the charger is still connected.
+  EXPECT_EQ(1, GetNumOfActiveWakeLocks(
+                   device::mojom::WakeLockType::kPreventDisplaySleep));
+
   // Disconnects the charger again.
   proto.set_battery_state(
       power_manager::PowerSupplyProperties_BatteryState_DISCHARGING);
+  proto.set_external_power(
+      power_manager::PowerSupplyProperties_ExternalPower_DISCONNECTED);
   PowerStatus::Get()->SetProtoForTesting(proto);
   ambient_controller()->OnPowerStatusChanged();
   base::RunLoop().RunUntilIdle();
