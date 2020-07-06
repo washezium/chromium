@@ -1491,6 +1491,7 @@ static_library("ui") {
       "//device/bluetooth",
       "//device/bluetooth/strings:strings_grit",
       "//device/fido",
+      "//ppapi/c",
       "//services/device/public/mojom",
       "//services/metrics/public/cpp:metrics_cpp",
       "//services/preferences/public/mojom:mojom",
