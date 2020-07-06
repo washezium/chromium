@@ -3,12 +3,12 @@
         {
             "idiom": "universal",
             "scale": "2x",
-            "filename": "empty_history@2x.png"
+            "filename": "legacy_empty_history@2x.png"
         },
         {
             "idiom": "universal",
             "scale": "3x",
-            "filename": "empty_history@3x.png"
+            "filename": "legacy_empty_history@3x.png"
         }
     ],
     "info": {
