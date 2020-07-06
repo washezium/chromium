@@ -2,20 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/enterprise/reporting/browser_report_generator.h"
+#include "components/enterprise/browser/reporting/browser_report_generator.h"
 
-#include <string>
+#include <memory>
 #include <utility>
 
-#include "base/files/file_path.h"
-#include "base/path_service.h"
-#include "base/strings/utf_string_conversions.h"
 #include "base/version.h"
 #include "build/build_config.h"
 #include "components/policy/core/common/cloud/cloud_policy_util.h"
-#include "components/version_info/channel.h"
 #include "components/version_info/version_info.h"
-#include "content/public/common/webplugininfo.h"
 
 namespace em = ::enterprise_management;
 

@@ -4353,6 +4353,7 @@ test("unit_tests") {
       "//chrome/services/sharing/public/cpp:unit_tests",
       "//chrome/services/speech:unit_tests",
       "//components/chrome_cleaner/test:test_name_helper",
+      "//components/enterprise",
       "//components/enterprise:test_support",
       "//components/feature_engagement/test:test_support",
       "//components/safety_check:test_support",

@@ -3109,8 +3109,6 @@ static_library("browser") {
       "enterprise/connectors/reporting_service_settings.h",
       "enterprise/connectors/service_provider_config.cc",
       "enterprise/connectors/service_provider_config.h",
-      "enterprise/reporting/browser_report_generator.cc",
-      "enterprise/reporting/browser_report_generator.h",
       "enterprise/reporting/browser_report_generator_desktop.cc",
       "enterprise/reporting/browser_report_generator_desktop.h",
       "enterprise/reporting/extension_info.cc",
