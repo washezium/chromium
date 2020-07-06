@@ -352,7 +352,7 @@ vars = {
   # revisions.
 
   # GN CIPD package version.
-  'gn_version': 'git_revision:b6203d186bff6b39ac25af6c1e80e1d3f96c949a',
+  'gn_version': 'git_revision:d585128cdaf3e6ff7bfd58641965e60c12618eb1',
 
   # Also, if you change these, update buildtools/DEPS too. Also update the
   # libc++ svn_revision in //buildtools/deps_revisions.gni.
