@@ -27,6 +27,8 @@ std::string IndexIdBasedHistogramPrefix(IndexId index_id) {
   switch (index_id) {
     case IndexId::kCrosSettings:
       return prefix + "CrosSettings";
+    case IndexId::kHelpApp:
+      return prefix + "HelpApp";
     default:
       return "";
   }
