@@ -1,9 +1,9 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_DECISION_TREE_PREDICTION_MODEL_H_
-#define CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_DECISION_TREE_PREDICTION_MODEL_H_
+#ifndef COMPONENTS_OPTIMIZATION_GUIDE_DECISION_TREE_PREDICTION_MODEL_H_
+#define COMPONENTS_OPTIMIZATION_GUIDE_DECISION_TREE_PREDICTION_MODEL_H_
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@
 #include "base/containers/flat_set.h"
 #include "base/macros.h"
 #include "base/sequence_checker.h"
-#include "chrome/browser/optimization_guide/prediction/prediction_model.h"
+#include "components/optimization_guide/prediction_model.h"
 #include "components/optimization_guide/proto/models.pb.h"
 
 namespace optimization_guide {
@@ -98,4 +98,4 @@ class DecisionTreePredictionModel : public PredictionModel {
 
 }  // namespace optimization_guide
 
-#endif  // CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_DECISION_TREE_PREDICTION_MODEL_H_
+#endif  // COMPONENTS_OPTIMIZATION_GUIDE_DECISION_TREE_PREDICTION_MODEL_H_

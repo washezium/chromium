@@ -1,4 +1,4 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -7,8 +7,8 @@
 
 #include "base/containers/flat_map.h"
 #include "base/containers/flat_set.h"
-#include "chrome/browser/optimization_guide/prediction/decision_tree_prediction_model.h"
-#include "chrome/browser/optimization_guide/prediction/prediction_model.h"
+#include "components/optimization_guide/decision_tree_prediction_model.h"
+#include "components/optimization_guide/prediction_model.h"
 #include "components/optimization_guide/proto/models.pb.h"
 #include "testing/gtest/include/gtest/gtest.h"
 

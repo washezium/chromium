@@ -1,9 +1,9 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_PREDICTION_MODEL_H_
-#define CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_PREDICTION_MODEL_H_
+#ifndef COMPONENTS_OPTIMIZATION_GUIDE_PREDICTION_MODEL_H_
+#define COMPONENTS_OPTIMIZATION_GUIDE_PREDICTION_MODEL_H_
 
 #include <stdint.h>
 #include <memory>
@@ -73,4 +73,4 @@ class PredictionModel {
 
 }  // namespace optimization_guide
 
-#endif  // CHROME_BROWSER_OPTIMIZATION_GUIDE_PREDICTION_PREDICTION_MODEL_H_
+#endif  // COMPONENTS_OPTIMIZATION_GUIDE_PREDICTION_MODEL_H_

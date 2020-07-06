@@ -1,12 +1,12 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/optimization_guide/prediction/prediction_model.h"
+#include "components/optimization_guide/prediction_model.h"
 
 #include <utility>
 
-#include "chrome/browser/optimization_guide/prediction/decision_tree_prediction_model.h"
+#include "components/optimization_guide/decision_tree_prediction_model.h"
 
 namespace optimization_guide {
 
