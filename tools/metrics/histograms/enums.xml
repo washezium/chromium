@@ -52988,6 +52988,8 @@ Called by update_net_trust_anchors.py.-->
   <int value="1" label="Password Settings"/>
   <int value="2" label="Phish Guard Dialog"/>
   <int value="3" label="Password Breach Dialog"/>
+  <int value="4" label="More passwords to fix bubble"/>
+  <int value="5" label="Unsafe state bubble"/>
 </enum>
 
 <enum name="PasswordDecryptionResult">
