@@ -36,6 +36,7 @@ class SuggestionWindowViewTest : public views::ViewsTestBase {
         new SuggestionWindowView(GetContext(), delegate_.get());
     candidate_button_.id = ButtonId::kSuggestion;
     setting_link_view_.id = ButtonId::kSmartInputsSettingLink;
+    learn_more_button_.id = ButtonId::kLearnMore;
     suggestion_window_view_->InitWidget();
   }
 
@@ -75,6 +76,7 @@ class SuggestionWindowViewTest : public views::ViewsTestBase {
   std::vector<base::string16> candidates_;
   AssistiveWindowButton candidate_button_;
   AssistiveWindowButton setting_link_view_;
+  AssistiveWindowButton learn_more_button_;
 
   DISALLOW_COPY_AND_ASSIGN(SuggestionWindowViewTest);
 };
@@ -216,6 +218,46 @@ TEST_F(SuggestionWindowViewTest,
 
   EXPECT_TRUE(
       suggestion_window_view_->GetSettingLinkViewForTesting()->background() ==
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest, HighlightsLearnMoreButtonWhenNotHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() !=
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest,
+       HighlightsLearnMoreButtonWhenAlreadyHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() !=
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest, UnhighlightsLearnMoreButtonWhenHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() ==
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest,
+       UnhighlightsKeepLearnMoreButtonUnhighlightedWhenAlreadyNotHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
+  suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() ==
       nullptr);
 }
 

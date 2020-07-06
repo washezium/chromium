@@ -221,11 +221,23 @@ void AssistiveWindowController::SetAssistiveWindowProperties(
 
 void AssistiveWindowController::AssistiveWindowButtonClicked(
     const ui::ime::AssistiveWindowButton& button) const {
+  // TODO(crbug/1101688): Move handling of buttons to NativeInputMethodEngine.
   if (button.id == ui::ime::ButtonId::kSmartInputsSettingLink) {
-    base::RecordAction(base::UserMetricsAction("OpenSmartInputsSettings"));
+    base::RecordAction(base::UserMetricsAction(
+        "ChromeOS.Settings.SmartInputs.PersonalInfoSuggestions.Open"));
+    // TODO(crbug/1101689): Add subpath for personal info suggestions settings.
     chrome::SettingsWindowManager::GetInstance()->ShowOSSettings(
         ProfileManager::GetActiveUserProfile(),
         chromeos::settings::mojom::kSmartInputsSubpagePath);
+  } else if (button.id == ui::ime::ButtonId::kLearnMore) {
+    if (button.window_type == ui::ime::AssistiveWindowType::kEmojiSuggestion) {
+      base::RecordAction(base::UserMetricsAction(
+          "ChromeOS.Settings.SmartInputs.EmojiSuggestions.Open"));
+      // TODO(crbug/1101689): Add subpath for emoji suggestions settings.
+      chrome::SettingsWindowManager::GetInstance()->ShowOSSettings(
+          ProfileManager::GetActiveUserProfile(),
+          chromeos::settings::mojom::kSmartInputsSubpagePath);
+    }
   } else {
     delegate_->AssistiveWindowButtonClicked(button);
   }
