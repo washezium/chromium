@@ -109,12 +109,15 @@
   <cr-icon-button iron-icon="pdf:rotate-left"></cr-icon-button>
 </div>
 <div id="end">
-  <cr-icon-button id="download" iron-icon="cr:file-download"
-      aria-label$="$i18n{tooltipDownload}"
-      title="$i18n{tooltipDownload}"></cr-icon-button>
+  <viewer-download-controls id="downloads"
+      has-edits="[[hasEdits]]"
+      has-entered-annotation-mode="[[hasEnteredAnnotationMode]]"
+      is-form-field-focused="[[isFormFieldFocused]]"
+      pdf-form-save-enabled="[[pdfFormSaveEnabled]]">
+  </viewer-download-controls>
   <cr-icon-button id="print" iron-icon="cr:print"
-      aria-label$="$i18n{tooltipPrint}"
-      title="$i18n{tooltipPrint}"></cr-icon-button>
+      aria-label$="$i18n{tooltipPrint}" hidden="[[!printingEnabled]]"
+      title="$i18n{tooltipPrint}" on-click="onPrintClick_"></cr-icon-button>
   <cr-icon-button id="actionMenuTrigger"
       iron-icon="cr:more-vert"></cr-icon-button>
 </div>

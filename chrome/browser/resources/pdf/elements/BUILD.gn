@@ -99,6 +99,7 @@ js_library("viewer-pdf-toolbar") {
 
 js_library("viewer-pdf-toolbar-new") {
   deps = [
+    ":viewer-download-controls",
     "//third_party/polymer/v3_0/components-chromium/polymer:polymer_bundled",
   ]
 }
