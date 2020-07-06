@@ -380,6 +380,16 @@ void LayoutBox::StyleWillChange(StyleDifference diff,
         // recalculation.
         SetNeedsLayoutAndIntrinsicWidthsRecalc(
             layout_invalidation_reason::kStyleChange);
+
+        if (IsInLayoutNGInlineFormattingContext() &&
+            RuntimeEnabledFeatures::LayoutNGFragmentItemEnabled() &&
+            FirstInlineFragmentItemIndex()) {
+          // Out of flow are not part of |NGFragmentItems|, and that further
+          // changes including destruction cannot be tracked. Mark it is moved
+          // out from this IFC.
+          NGFragmentItems::LayoutObjectWillBeMoved(*this);
+          ClearFirstInlineFragmentItemIndex();
+        }
       } else {
         MarkContainerChainForLayout();
       }
