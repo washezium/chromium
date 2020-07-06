@@ -5255,6 +5255,18 @@ be describing additional metrics about the same event.
       100.
     </summary>
   </metric>
+  <metric name="NavigationStartToNavigationCommit">
+    <summary>
+      The time (in milliseconds) that elapsed between navigation start and the
+      commit finished.
+    </summary>
+  </metric>
+  <metric name="NavigationStartToOptimizationGuidePredictionArrived">
+    <summary>
+      The time (in milliseconds) that elapsed between navigation start and the
+      optimization guide prediction arriving for the navigation.
+    </summary>
+  </metric>
   <metric name="OptimizationGuidePredictionCorrectlyPredictedOrigins">
     <summary>
       The number of subresource origins that were correctly predicted by the
