@@ -160,11 +160,9 @@ void AssistiveWindowController::ShowSuggestion(
   suggestion_window_view_->Show(details);
 }
 
+// TODO(crbug/1102219): Method unused. Remove all definitions and references.
 void AssistiveWindowController::ShowMultipleSuggestions(
     const std::vector<base::string16>& suggestions) {
-  if (!suggestion_window_view_)
-    InitSuggestionWindow();
-  suggestion_window_view_->ShowMultipleCandidates(suggestions);
 }
 
 void AssistiveWindowController::SetButtonHighlighted(
@@ -205,7 +203,7 @@ void AssistiveWindowController::SetAssistiveWindowProperties(
       if (!suggestion_window_view_)
         InitSuggestionWindow();
       if (window_.visible) {
-        suggestion_window_view_->ShowMultipleCandidates(window.candidates);
+        suggestion_window_view_->ShowMultipleCandidates(window);
       } else {
         HideSuggestion();
       }

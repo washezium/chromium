@@ -27,7 +27,12 @@ class TestSuggestionHandler : public SuggestionHandlerInterface {
       int context_id,
       const AssistiveWindowProperties& assistive_window,
       std::string* error) override {
-    return false;
+    show_indices_ = assistive_window.show_indices;
+    return true;
+  }
+
+  void VerifyShowIndices(bool show_indices) {
+    EXPECT_EQ(show_indices_, show_indices);
   }
 
   bool DismissSuggestion(int context_id, std::string* error) override {
@@ -60,6 +65,9 @@ class TestSuggestionHandler : public SuggestionHandlerInterface {
                      std::string* error) override {
     return false;
   }
+
+ private:
+  bool show_indices_ = false;
 };
 
 class EmojiSuggesterTest : public testing::Test {
@@ -71,6 +79,12 @@ class EmojiSuggesterTest : public testing::Test {
     chrome_keyboard_controller_client_ =
         ChromeKeyboardControllerClient::CreateForTest();
     chrome_keyboard_controller_client_->set_keyboard_enabled_for_test(false);
+  }
+
+  SuggestionStatus Press(std::string event_key) {
+    InputMethodEngineBase::KeyboardEvent event;
+    event.key = event_key;
+    return emoji_suggester_->HandleKeyEvent(event);
   }
 
   std::unique_ptr<EmojiSuggester> emoji_suggester_;
@@ -210,6 +224,42 @@ TEST_F(EmojiSuggesterTest,
   event2.key = "Enter";
   EXPECT_EQ(SuggestionStatus::kAccept,
             emoji_suggester_->HandleKeyEvent(event2));
+}
+
+TEST_F(EmojiSuggesterTest, DoesNotShowIndicesWhenFirstSuggesting) {
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+
+  engine_->VerifyShowIndices(false);
+}
+
+TEST_F(EmojiSuggesterTest, ShowsIndexAfterPressingUp) {
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+  Press("Up");
+
+  engine_->VerifyShowIndices(true);
+}
+
+TEST_F(EmojiSuggesterTest, ShowsIndexAfterPressingDown) {
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+  Press("Down");
+
+  engine_->VerifyShowIndices(true);
+}
+
+TEST_F(EmojiSuggesterTest, DoesNotShowIndicesAfterGettingSuggestionsTwice) {
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+
+  engine_->VerifyShowIndices(false);
+}
+
+TEST_F(EmojiSuggesterTest,
+       DoesNotShowIndicesAfterPressingDownThenGetNewSuggestions) {
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+  Press("Down");
+  EXPECT_TRUE(emoji_suggester_->Suggest(base::UTF8ToUTF16("happy ")));
+
+  engine_->VerifyShowIndices(false);
 }
 
 }  // namespace chromeos

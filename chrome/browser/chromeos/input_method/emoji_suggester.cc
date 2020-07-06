@@ -135,6 +135,9 @@ SuggestionStatus EmojiSuggester::HandleKeyEvent(
     if (AcceptSuggestion(current_candidate_.index))
       status = SuggestionStatus::kAccept;
   } else if (event.key == "Down") {
+    if (!properties_.show_indices) {
+      ShowSuggestionWindowWithIndices(true);
+    }
     current_candidate_.index < candidates_.size() - 1
         ? current_candidate_.index++
         : current_candidate_.index = 0;
@@ -143,6 +146,9 @@ SuggestionStatus EmojiSuggester::HandleKeyEvent(
                                   &error);
     status = SuggestionStatus::kBrowsing;
   } else if (event.key == "Up") {
+    if (!properties_.show_indices) {
+      ShowSuggestionWindowWithIndices(true);
+    }
     current_candidate_.index > 0 && current_candidate_.index != INT_MAX
         ? current_candidate_.index--
         : current_candidate_.index = candidates_.size() - 1;
@@ -192,6 +198,12 @@ void EmojiSuggester::ShowSuggestion(const std::string& text) {
   properties_.visible = true;
   properties_.candidates = candidates_;
   properties_.announce_string = kShowEmojiSuggestionMessage;
+  ShowSuggestionWindowWithIndices(false);
+}
+
+void EmojiSuggester::ShowSuggestionWindowWithIndices(bool show_indices) {
+  properties_.show_indices = show_indices;
+  std::string error;
   engine_->SetAssistiveWindowProperties(context_id_, properties_, &error);
   if (!error.empty()) {
     LOG(ERROR) << "Fail to show suggestion. " << error;
