@@ -2354,6 +2354,7 @@ def _ParseDeps(contents):
   local_scope = {}
   global_scope = {
       'Var': _VarImpl(local_scope).Lookup,
+      'Str': str,
   }
   exec contents in global_scope, local_scope
   return local_scope
