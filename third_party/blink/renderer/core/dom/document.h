@@ -336,11 +336,6 @@ class CORE_EXPORT Document : public ContainerNode,
 
   // Helpers for getting state off of SecurityContext.
   const SecurityOrigin* GetSecurityOrigin() const;
-  SecurityOrigin* GetMutableSecurityOrigin();
-  network::mojom::blink::WebSandboxFlags GetSandboxFlags() const;
-  bool IsSandboxed(network::mojom::blink::WebSandboxFlags mask) const;
-  SecureContextMode GetSecureContextMode() const;
-  void SetSecureContextModeForTesting(SecureContextMode);
 
   String addressSpaceForBindings(ScriptState*) const;
 

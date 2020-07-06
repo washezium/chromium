@@ -988,14 +988,6 @@ const SecurityOrigin* Document::GetSecurityOrigin() const {
   return GetSecurityContext().GetSecurityOrigin();
 }
 
-SecureContextMode Document::GetSecureContextMode() const {
-  return GetSecurityContext().GetSecureContextMode();
-}
-
-void Document::SetSecureContextModeForTesting(SecureContextMode mode) {
-  GetSecurityContext().SetSecureContextModeForTesting(mode);
-}
-
 String Document::addressSpaceForBindings(ScriptState* script_state) const {
   // "public" is the lowest-privilege value.
   if (!script_state->ContextIsValid())

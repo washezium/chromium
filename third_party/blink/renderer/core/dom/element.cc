@@ -6146,9 +6146,12 @@ inline void Element::SetInlineStyleFromString(
   } else {
     DCHECK(inline_style->IsMutable());
     static_cast<MutableCSSPropertyValueSet*>(inline_style.Get())
-        ->ParseDeclarationList(new_style_string,
-                               GetDocument().GetSecureContextMode(),
-                               GetDocument().ElementSheet().Contents());
+        ->ParseDeclarationList(
+            new_style_string,
+            GetExecutionContext()
+                ? GetExecutionContext()->GetSecureContextMode()
+                : SecureContextMode::kInsecureContext,
+            GetDocument().ElementSheet().Contents());
   }
 }
 
@@ -6234,11 +6237,14 @@ bool Element::SetInlineStyleProperty(CSSPropertyID property_id,
                                      const String& value,
                                      bool important) {
   DCHECK(IsStyledElement());
-  bool did_change = EnsureMutableInlineStyle()
-                        .SetProperty(property_id, value, important,
-                                     GetDocument().GetSecureContextMode(),
-                                     GetDocument().ElementSheet().Contents())
-                        .did_change;
+  bool did_change =
+      EnsureMutableInlineStyle()
+          .SetProperty(property_id, value, important,
+                       GetExecutionContext()
+                           ? GetExecutionContext()->GetSecureContextMode()
+                           : SecureContextMode::kInsecureContext,
+                       GetDocument().ElementSheet().Contents())
+          .did_change;
   if (did_change)
     InlineStyleChanged();
   return did_change;
@@ -6315,9 +6321,11 @@ void Element::AddPropertyToPresentationAttributeStyle(
     CSSPropertyID property_id,
     const String& value) {
   DCHECK(IsStyledElement());
-  Document& document = GetDocument();
-  style->SetProperty(property_id, value, false, document.GetSecureContextMode(),
-                     document.ElementSheet().Contents());
+  style->SetProperty(property_id, value, false,
+                     GetExecutionContext()
+                         ? GetExecutionContext()->GetSecureContextMode()
+                         : SecureContextMode::kInsecureContext,
+                     GetDocument().ElementSheet().Contents());
 }
 
 void Element::AddPropertyToPresentationAttributeStyle(
