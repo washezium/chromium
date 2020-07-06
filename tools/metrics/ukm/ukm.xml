@@ -80,6 +80,50 @@ be describing additional metrics about the same event.
   </metric>
 </event>
 
+<event name="Accessibility.ImageDescriptions">
+  <owner>dmazzoni@chromium.org</owner>
+  <summary>
+    Tracks automatic image descriptions provided to blind users.
+  </summary>
+  <metric name="Description" enum="Boolean">
+    <summary>
+      Whether the image description included a description.
+    </summary>
+    <aggregation>
+      <history>
+        <statistics>
+          <enumeration/>
+        </statistics>
+      </history>
+    </aggregation>
+  </metric>
+  <metric name="ImageAlreadyHasLabel" enum="Boolean">
+    <summary>
+      Whether the image already had label text before it was augmented with an
+      additional description.
+    </summary>
+    <aggregation>
+      <history>
+        <statistics>
+          <enumeration/>
+        </statistics>
+      </history>
+    </aggregation>
+  </metric>
+  <metric name="OCR" enum="Boolean">
+    <summary>
+      Whether the image description included OCR text.
+    </summary>
+    <aggregation>
+      <history>
+        <statistics>
+          <enumeration/>
+        </statistics>
+      </history>
+    </aggregation>
+  </metric>
+</event>
+
 <event name="Accessibility.Renderer">
   <owner>dmazzoni@chromium.org</owner>
   <summary>
