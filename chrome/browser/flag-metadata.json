@@ -610,7 +610,7 @@
     "expiry_milestone": 88
   },
   {
-    "name": "context-menu-performance-info",
+    "name": "context-menu-performance-info-and-remote-hints-fetching",
     "owners": [ "jds" ],
     "expiry_milestone": 90
   },

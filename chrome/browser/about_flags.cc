@@ -37,6 +37,7 @@
 #include "chrome/browser/net/stub_resolver_config_reader.h"
 #include "chrome/browser/net/system_network_context_manager.h"
 #include "chrome/browser/notifications/scheduler/public/features.h"
+#include "chrome/browser/performance_hints/performance_hints_features.h"
 #include "chrome/browser/performance_manager/policies/policy_features.h"
 #include "chrome/browser/permissions/quiet_notification_permission_ui_config.h"
 #include "chrome/browser/predictors/loading_predictor_config.h"
@@ -5553,17 +5554,19 @@ const FeatureEntry kFeatureEntries[] = {
                                     kPasswordChangeFeatureVariations,
                                     "PasswordChangeFeatureVariations.")},
 
-    {"context-menu-performance-info",
-     flag_descriptions::kContextMenuPerformanceInfoName,
-     flag_descriptions::kContextMenuPerformanceInfoDescription, kOsAndroid,
-     FEATURE_VALUE_TYPE(chrome::android::kContextMenuPerformanceInfo)},
+    {"context-menu-performance-info-and-remote-hints-fetching",
+     flag_descriptions::kContextMenuPerformanceInfoAndRemoteHintFetchingName,
+     flag_descriptions::
+         kContextMenuPerformanceInfoAndRemoteHintFetchingDescription,
+     kOsAndroid,
+     FEATURE_VALUE_TYPE(kContextMenuPerformanceInfoAndRemoteHintFetching)},
 #endif  // !defined(OS_ANDROID)
 
 #if defined(OS_ANDROID)
     {"page-info-performance-hints",
      flag_descriptions::kPageInfoPerformanceHintsName,
      flag_descriptions::kPageInfoPerformanceHintsDescription, kOsAndroid,
-     FEATURE_VALUE_TYPE(chrome::android::kPageInfoPerformanceHints)},
+     FEATURE_VALUE_TYPE(kPageInfoPerformanceHints)},
 #endif  // !defined(OS_ANDROID)
 
 #if defined(OS_ANDROID)
