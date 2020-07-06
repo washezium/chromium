@@ -9,6 +9,7 @@ import 'chrome://resources/polymer/v3_0/paper-progress/paper-progress.js';
 
 import './icons.js';
 import './viewer-page-selector.js';
+import './shared-css.js';
 
 import {html, PolymerElement} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
