@@ -2308,6 +2308,7 @@ Unknown properties are collapsed to zero. -->
   <int value="5" label="NOT_SENT_FAILED_TO_SERIALIZE"/>
   <int value="6" label="NOT_SENT_FEATURE_NOT_ENABLED"/>
   <int value="7" label="SENT"/>
+  <int value="8" label="NOT_SENT_UNCONSENTED"/>
 </enum>
 
 <enum name="AppBannersBeforeInstallEvent">
