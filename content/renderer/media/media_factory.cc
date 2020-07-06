@@ -12,7 +12,7 @@
 #include "base/command_line.h"
 #include "base/memory/ptr_util.h"
 #include "base/metrics/field_trial_params.h"
-#include "base/metrics/histogram_macros.h"
+#include "base/metrics/histogram_functions.h"
 #include "base/task_runner_util.h"
 #include "base/threading/thread_task_runner_handle.h"
 #include "build/build_config.h"
@@ -185,7 +185,7 @@ void LogRoughness(media::MediaLog* media_log,
 
   // Only report known FPS buckets, on 60Hz displays and at least HD quality.
   if (suffix != nullptr && refresh_rate_hz == 60 && frame_size.height() > 700) {
-    UMA_HISTOGRAM_CUSTOM_TIMES(
+    base::UmaHistogramCustomTimes(
         base::JoinString({kRoughnessHistogramName, suffix}, "."),
         base::TimeDelta::FromMillisecondsD(roughness),
         base::TimeDelta::FromMilliseconds(1),
