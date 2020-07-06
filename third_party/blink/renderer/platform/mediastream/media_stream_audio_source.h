@@ -42,7 +42,7 @@ class MediaStreamComponent;
 // needed, and/or calls to DeliverDataToTracks() must be made at very specific
 // times.
 //
-// An instance of this class is owned by WebMediaStreamSource.
+// An instance of this class is owned by MediaStreamSource.
 //
 // Usage example:
 //
@@ -74,7 +74,7 @@ class PLATFORM_EXPORT MediaStreamAudioSource
 
   // Returns the MediaStreamAudioSource instance owned by the given blink
   // |source| or null.
-  static MediaStreamAudioSource* From(const WebMediaStreamSource& source);
+  static MediaStreamAudioSource* From(MediaStreamSource* source);
 
   // Provides a weak reference to this MediaStreamAudioSource. The weak pointer
   // may only be dereferenced on the main thread.
