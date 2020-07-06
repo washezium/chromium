@@ -4308,6 +4308,11 @@ be describing additional metrics about the same event.
       True when a rAF-driven animation was active this frame.
     </summary>
   </metric>
+  <metric name="ScrollbarScroll" enum="Boolean">
+    <summary>
+      True when a scrollbar driven interaction was active this frame.
+    </summary>
+  </metric>
   <metric name="SendBeginMainFrameToCommit">
     <summary>
       The time from when the BeginMainFrame is sent to the beginning of the
@@ -4552,6 +4557,12 @@ be describing additional metrics about the same event.
       animation.
     </summary>
   </metric>
+  <metric name="CompositorThread.ScrollbarScroll">
+    <summary>
+      The throughput of the compositor thread during scrollbar scroll driven
+      interactions.
+    </summary>
+  </metric>
   <metric name="CompositorThread.TouchScroll">
     <summary>
       The throughput of the compositor thread during touchscroll driven
@@ -4592,6 +4603,12 @@ be describing additional metrics about the same event.
   <metric name="MainThread.RAF">
     <summary>
       The throughput of the main thread during rAF callback driven animation.
+    </summary>
+  </metric>
+  <metric name="MainThread.ScrollbarScroll">
+    <summary>
+      The throughput of the main thread during scrollbar scroll driven
+      interactions.
     </summary>
   </metric>
   <metric name="MainThread.TouchScroll">
@@ -4661,6 +4678,20 @@ be describing additional metrics about the same event.
     <summary>
       The worse throughput of the main and the compositor thread during rAF
       callback driven animation.
+    </summary>
+    <aggregation>
+      <history>
+        <index fields="profile.country"/>
+        <statistics>
+          <quantiles type="std-percentiles"/>
+        </statistics>
+      </history>
+    </aggregation>
+  </metric>
+  <metric name="SlowerThread.ScrollbarScroll">
+    <summary>
+      The worse throughput of the main and the compositor thread during
+      scrollbar driven interactions.
     </summary>
     <aggregation>
       <history>
