@@ -35,6 +35,7 @@ class SuggestionWindowViewTest : public views::ViewsTestBase {
     suggestion_window_view_ =
         new SuggestionWindowView(GetContext(), delegate_.get());
     candidate_button_.id = ButtonId::kSuggestion;
+    setting_link_view_.id = ButtonId::kSmartInputsSettingLink;
     suggestion_window_view_->InitWidget();
   }
 
@@ -73,6 +74,7 @@ class SuggestionWindowViewTest : public views::ViewsTestBase {
       std::make_unique<MockAssistiveDelegate>();
   std::vector<base::string16> candidates_;
   AssistiveWindowButton candidate_button_;
+  AssistiveWindowButton setting_link_view_;
 
   DISALLOW_COPY_AND_ASSIGN(SuggestionWindowViewTest);
 };
@@ -175,6 +177,46 @@ TEST_F(SuggestionWindowViewTest, DoesNotUnhighlightCandidateIfOutOfRange) {
     EXPECT_EQ(1u, GetHighlightedCount());
     EXPECT_EQ(highlight_index, GetHighlightedIndex());
   }
+}
+
+TEST_F(SuggestionWindowViewTest, HighlightsSettingLinkViewWhenNotHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetSettingLinkViewForTesting()->background() !=
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest,
+       HighlightsSettingLinkViewWhenAlreadyHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetSettingLinkViewForTesting()->background() !=
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest, UnhighlightsSettingLinkViewWhenHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetSettingLinkViewForTesting()->background() ==
+      nullptr);
+}
+
+TEST_F(SuggestionWindowViewTest,
+       UnhighlightsKeepSettingLinkViewUnhighlightedWhenAlreadyNotHighlighted) {
+  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
+  suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
+
+  EXPECT_TRUE(
+      suggestion_window_view_->GetSettingLinkViewForTesting()->background() ==
+      nullptr);
 }
 
 }  // namespace ime

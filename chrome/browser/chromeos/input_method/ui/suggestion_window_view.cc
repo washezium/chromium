@@ -39,6 +39,8 @@ const int kSettingLinkFontSize = 13;
 // TODO(crbug/1094843): Add localised string.
 const char kSettingLinkLabel[] = "Why am I seeing this suggestion?";
 
+// TODO(crbug/1102175): Rename setting to settings since there can be multiple
+// things to set.
 class SettingLinkView : public views::View {
  public:
   explicit SettingLinkView(AssistiveDelegate* delegate) : delegate_(delegate) {
@@ -53,9 +55,21 @@ class SettingLinkView : public views::View {
         &SettingLinkView::LinkClicked, base::Unretained(this)));
   }
 
+  void SetHighlighted(bool highlighted) {
+    if (highlighted_ == highlighted)
+      return;
+
+    SetBackground(highlighted
+                      ? views::CreateSolidBackground(kButtonHighlightColor)
+                      : nullptr);
+    highlighted_ = highlighted;
+    SchedulePaint();
+  }
+
  private:
   AssistiveDelegate* delegate_;
   views::Link* setting_link_;
+  bool highlighted_ = false;
 
   void LinkClicked() {
     AssistiveWindowButton button;
@@ -169,6 +183,9 @@ void SuggestionWindowView::SetButtonHighlighted(
         UnhighlightCandidate(button.index);
       }
       break;
+    case ButtonId::kSmartInputsSettingLink:
+      setting_link_view_->SetHighlighted(highlighted);
+      break;
     default:
       break;
   }
@@ -234,6 +251,10 @@ void SuggestionWindowView::OnStateChanged(
 
 views::View* SuggestionWindowView::GetCandidateAreaForTesting() {
   return candidate_area_;
+}
+
+views::View* SuggestionWindowView::GetSettingLinkViewForTesting() {
+  return setting_link_view_;
 }
 
 const char* SuggestionWindowView::GetClassName() const {

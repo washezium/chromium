@@ -50,6 +50,7 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   void SetBounds(const gfx::Rect& cursor_bounds);
 
   views::View* GetCandidateAreaForTesting();
+  views::View* GetSettingLinkViewForTesting();
 
  private:
   // Overridden from views::ButtonListener:
