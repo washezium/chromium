@@ -73,6 +73,8 @@ class TestSuggestionHandler : public SuggestionHandlerInterface {
     return false;
   }
 
+  void ClickButton(const ui::ime::AssistiveWindowButton& button) override {}
+
   bool SetButtonHighlighted(int context_id,
                             const ui::ime::AssistiveWindowButton& button,
                             bool highlighted,
