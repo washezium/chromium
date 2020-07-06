@@ -157,9 +157,9 @@ public final class EnterpriseInfo {
     private static void recordManagementHistograms(OwnedState state) {
         if (state == null) return;
 
-        RecordHistogram.recordBooleanHistogram("EnterpriseCheck.IsManaged", state.mProfileOwned);
+        RecordHistogram.recordBooleanHistogram("EnterpriseCheck.IsManaged2", state.mProfileOwned);
         RecordHistogram.recordBooleanHistogram(
-                "EnterpriseCheck.IsFullyManaged", state.mDeviceOwned);
+                "EnterpriseCheck.IsFullyManaged2", state.mDeviceOwned);
     }
 
     @NativeMethods
