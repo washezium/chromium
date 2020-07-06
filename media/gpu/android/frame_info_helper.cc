@@ -30,6 +30,8 @@ class FrameInfoHelperImpl : public FrameInfoHelper,
       stub_->AddDestructionObserver(this);
   }
 
+  FrameInfoHelperImpl() = default;
+
   ~FrameInfoHelperImpl() override {
     if (stub_)
       stub_->RemoveDestructionObserver(this);
@@ -115,6 +117,10 @@ base::SequenceBound<FrameInfoHelper> FrameInfoHelper::Create(
     SharedImageVideoProvider::GetStubCB get_stub_cb) {
   return base::SequenceBound<FrameInfoHelperImpl>(std::move(gpu_task_runner),
                                                   std::move(get_stub_cb));
+}
+
+std::unique_ptr<FrameInfoHelper> FrameInfoHelper::CreateForTesting() {
+  return std::make_unique<FrameInfoHelperImpl>();
 }
 
 }  // namespace media
