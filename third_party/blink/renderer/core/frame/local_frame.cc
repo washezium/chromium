@@ -2698,7 +2698,7 @@ void LocalFrame::ReportContentSecurityPolicyViolation(
           ? this
           : nullptr;
 
-  GetDocument()->GetContentSecurityPolicy()->ReportViolation(
+  DomWindow()->GetContentSecurityPolicy()->ReportViolation(
       violation->directive, directive_type, violation->console_message,
       violation->blocked_url, violation->report_endpoints,
       violation->use_reporting_api, violation->header, violation->type,

@@ -4769,8 +4769,11 @@ void Element::HideNonce() {
     return;
   if (!InActiveDocument())
     return;
-  if (GetDocument().GetContentSecurityPolicy()->HasHeaderDeliveredPolicy())
+  if (GetExecutionContext()
+          ->GetContentSecurityPolicy()
+          ->HasHeaderDeliveredPolicy()) {
     setAttribute(html_names::kNonceAttr, g_empty_atom);
+  }
 }
 
 ElementIntersectionObserverData* Element::IntersectionObserverData() const {
