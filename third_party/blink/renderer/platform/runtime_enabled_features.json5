@@ -427,6 +427,7 @@
     },
     {
       name: "CSSFoldables",
+      status: "experimental",
     },
     {
       name: "CSSFontSizeAdjust",
@@ -2074,7 +2075,7 @@
     },
     {
       name: "WindowSegments",
-      status: "test"
+      status: "experimental",
     },
     {
       name: "XSLT",
