@@ -3,18 +3,22 @@
 // found in the LICENSE file.
 
 /**
- * @fileoverview The 'nearby-confirmation-page' component shows a confirmation
- * screen when sending data to a stranger. Strangers are devices of people that
- * are not currently in the contacts of this user.
+ * @fileoverview The 'nearby-preview' component shows a preview of data to be
+ * sent to a remote device. The data might be some plain text, a URL or a file.
  */
-
-import './nearby_preview.js';
-import './nearby_progress.js';
 
 import {html, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
 Polymer({
-  is: 'nearby-confirmation-page',
+  is: 'nearby-preview',
 
   _template: html`{__html_template__}`,
+
+  properties: {
+    /** The title to show below the preview graphic. */
+    title: {
+      type: String,
+      value: '',
+    },
+  },
 });
