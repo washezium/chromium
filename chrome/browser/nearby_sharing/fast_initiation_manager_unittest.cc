@@ -29,6 +29,14 @@ const int64_t kFastInitAdvertisingInterval = 100;
 const int64_t kDefaultAdvertisingInterval = 0;
 #endif
 
+// Metadata bytes translate to 0b00000000 and 0b10111110, indicating "version
+// 0", "type 0 (notify)", and "transmission power of -66".
+const uint8_t kFastInitMetadataTypeNotify[] = {0x00, 0xBE};
+
+// Metadata bytes translate to 0b00000100 and 0b10111110, indicating "version
+// 0", "type 1 (silent)", and "transmission power of -66".
+const uint8_t kFastInitMetadataTypeSilent[] = {0x04, 0xBE};
+
 }  // namespace
 
 struct RegisterAdvertisementArgs {
@@ -117,10 +125,9 @@ class NearbySharingFastInitiationManagerTest : public testing::Test {
     register_args_ = base::WrapUnique(args);
   }
 
-  uint8_t GenerateFastInitV1Metadata() { return 0x00; }
-
-  void StartAdvertising() {
+  void StartAdvertising(FastInitiationManager::FastInitType type) {
     fast_initiation_manager_->StartAdvertising(
+        type,
         base::BindOnce(
             &NearbySharingFastInitiationManagerTest::OnStartAdvertising,
             base::Unretained(this)),
@@ -131,11 +138,22 @@ class NearbySharingFastInitiationManagerTest : public testing::Test {
         std::make_unique<device::BluetoothAdvertisement::UUIDList>();
     service_uuid_list->push_back(kNearbySharingFastInitiationServiceUuid);
     EXPECT_EQ(*service_uuid_list, register_args_->service_uuids);
-    auto payload = std::vector<uint8_t>(std::begin(kNearbySharingFastPairId),
-                                        std::end(kNearbySharingFastPairId));
-    payload.push_back(GenerateFastInitV1Metadata());
+
+    auto expected_payload =
+        std::vector<uint8_t>(std::begin(kNearbySharingFastPairId),
+                             std::end(kNearbySharingFastPairId));
+    if (type == FastInitiationManager::FastInitType::kNotify) {
+      expected_payload.insert(std::end(expected_payload),
+                              std::begin(kFastInitMetadataTypeNotify),
+                              std::end(kFastInitMetadataTypeNotify));
+    } else {
+      expected_payload.insert(std::end(expected_payload),
+                              std::begin(kFastInitMetadataTypeSilent),
+                              std::end(kFastInitMetadataTypeSilent));
+    }
+
     EXPECT_EQ(
-        payload,
+        expected_payload,
         register_args_->service_data[kNearbySharingFastInitiationServiceUuid]);
   }
 
@@ -184,8 +202,25 @@ class NearbySharingFastInitiationManagerTest : public testing::Test {
   int64_t last_advertising_interval_max_ = 0;
 };
 
-TEST_F(NearbySharingFastInitiationManagerTest, TestStartAdvertising_Success) {
-  StartAdvertising();
+TEST_F(NearbySharingFastInitiationManagerTest,
+       TestStartAdvertising_Success_TypeNotify) {
+  StartAdvertising(FastInitiationManager::FastInitType::kNotify);
+
+  register_args_->callback.Run(
+      base::MakeRefCounted<device::MockBluetoothAdvertisement>());
+  EXPECT_TRUE(called_on_start_advertising());
+  EXPECT_FALSE(called_on_start_advertising_error());
+  EXPECT_FALSE(called_on_stop_advertising());
+#if defined(CHROME_OS)
+  EXPECT_EQ(1u, set_advertising_interval_call_count());
+  EXPECT_EQ(kFastInitAdvertisingInterval, last_advertising_interval_min());
+  EXPECT_EQ(kFastInitAdvertisingInterval, last_advertising_interval_max());
+#endif
+}
+
+TEST_F(NearbySharingFastInitiationManagerTest,
+       TestStartAdvertising_Success_TypeSilent) {
+  StartAdvertising(FastInitiationManager::FastInitType::kSilent);
   register_args_->callback.Run(
       base::MakeRefCounted<device::MockBluetoothAdvertisement>());
   EXPECT_TRUE(called_on_start_advertising());
@@ -199,7 +234,7 @@ TEST_F(NearbySharingFastInitiationManagerTest, TestStartAdvertising_Success) {
 }
 
 TEST_F(NearbySharingFastInitiationManagerTest, TestStartAdvertising_Error) {
-  StartAdvertising();
+  StartAdvertising(FastInitiationManager::FastInitType::kNotify);
   register_args_->error_callback.Run(device::BluetoothAdvertisement::ErrorCode::
                                          INVALID_ADVERTISEMENT_ERROR_CODE);
   EXPECT_FALSE(called_on_start_advertising());
@@ -213,7 +248,7 @@ TEST_F(NearbySharingFastInitiationManagerTest, TestStartAdvertising_Error) {
 }
 
 TEST_F(NearbySharingFastInitiationManagerTest, TestStopAdvertising) {
-  StartAdvertising();
+  StartAdvertising(FastInitiationManager::FastInitType::kNotify);
   register_args_->callback.Run(
       base::MakeRefCounted<device::MockBluetoothAdvertisement>());
 #if defined(CHROME_OS)
