@@ -3966,6 +3966,10 @@
     "owners": [ "kerrnel", "mnissler" ],
     "expiry_milestone": 88
   },
+  {"name": "schemeful-same-site",
+    "owners": [ "bingler", "chlily" ],
+    "expiry_milestone": 90
+  },
   {
     "name": "scroll-unification",
     "owners": [ "bokan@chromium.org", "input-dev@chromium.org" ],

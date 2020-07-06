@@ -1855,6 +1855,12 @@ const char kSameSiteByDefaultCookiesDescription[] =
     "SameSite=Lax. Sites must specify SameSite=None in order to enable "
     "third-party usage.";
 
+const char kSchemefulSameSiteName[] = "Schemeful Same-Site";
+const char kSchemefulSameSiteDescription[] =
+    "Modify the same-site computation such that origins with the same "
+    "registrable domain but different schemes are considered cross-site. This "
+    "change only applies to cookies with the 'SameSite' attribute.";
+
 const char kScrollableTabStripName[] = "Scrollable TabStrip";
 const char kScrollableTabStripDescription[] =
     "Allows users to access tabs by scrolling when they no longer fit in the "

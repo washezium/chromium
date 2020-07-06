@@ -42999,6 +42999,7 @@ from previous Chrome versions.
   <int value="1812978232" label="ContextMenuPerformanceInfo:disabled"/>
   <int value="1814671708" label="disable-password-manager-reauthentication"/>
   <int value="1816174635" label="RequestUnbufferedDispatch:enabled"/>
+  <int value="1816723085" label="SchemefulSameSite:enabled"/>
   <int value="1816843861" label="ServiceWorkerServicification:enabled"/>
   <int value="1817312143" label="num-raster-threads"/>
   <int value="1818829958" label="IdentityDisc:enabled"/>
@@ -43173,6 +43174,7 @@ from previous Chrome versions.
   <int value="1988810119" label="AutofillDropdownLayout:enabled"/>
   <int value="1989051182" label="view-passwords:enabled"/>
   <int value="1989877708" label="PostScriptPrinting:enabled"/>
+  <int value="1990528959" label="SchemefulSameSite:disabled"/>
   <int value="1990562608"
       label="LinkManagedNoticeToChromeUIManagementURL:enabled"/>
   <int value="1990670943"
