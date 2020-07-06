@@ -1535,10 +1535,6 @@
       status: "stable",
     },
     {
-      name: "RestrictAppCacheToSecureContexts",
-      status: "stable",
-    },
-    {
       name: "RestrictAutomaticLazyFrameLoadingToDataSaver",
       depends_on: ["AutomaticLazyFrameLoading"],
       status: "stable",
