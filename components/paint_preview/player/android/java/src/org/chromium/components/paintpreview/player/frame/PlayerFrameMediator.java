@@ -402,6 +402,8 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate {
         // Ignore if there is no active overscroll and the direction is down.
         if (!mIsOverscrolling && distanceY <= 0) return false;
 
+        // TODO(crbug/1100338): Propagate this state to child mediators to
+        // support easing.
         mOverscrollAmount += distanceY;
 
         // If the overscroll is completely eased off the cancel the event.
