@@ -76,6 +76,11 @@ FastInitiationManager::~FastInitiationManager() {
   StopAdvertising(base::DoNothing());
 }
 
+void FastInitiationManager::AdvertisementReleased(
+    device::BluetoothAdvertisement* advertisement) {
+  StopAdvertising(base::DoNothing());
+}
+
 void FastInitiationManager::StartAdvertising(
     FastInitType type,
     base::OnceCallback<void()> callback,
@@ -120,11 +125,6 @@ void FastInitiationManager::StopAdvertising(
 #else
   UnregisterAdvertisement();
 #endif
-}
-
-void FastInitiationManager::AdvertisementReleased(
-    device::BluetoothAdvertisement* advertisement) {
-  // TODO(hansenmichael): Handle advertisement released appropriately.
 }
 
 void FastInitiationManager::OnSetAdvertisingInterval(
@@ -214,7 +214,7 @@ void FastInitiationManager::OnUnregisterAdvertisementError(
       << "FastInitiationManager::StopAdvertising() failed with error code = "
       << error_code;
   advertisement_.reset();
-  stop_callback_.Reset();
+  std::move(stop_callback_).Run();
 }
 
 std::vector<uint8_t> FastInitiationManager::GenerateFastInitV1Metadata(

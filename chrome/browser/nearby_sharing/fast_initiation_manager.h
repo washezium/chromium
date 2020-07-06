@@ -16,7 +16,7 @@
 // 0xFC128E along with 2 additional bytes of metadata at the end. Some remote
 // devices background scan for Fast Initiation advertisements, as a signal to
 // begin advertising via Nearby Connections.
-class FastInitiationManager : device::BluetoothAdvertisement::Observer {
+class FastInitiationManager : public device::BluetoothAdvertisement::Observer {
  public:
   enum class FastInitType : uint8_t {
     kNotify = 0,
