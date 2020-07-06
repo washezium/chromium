@@ -120,29 +120,35 @@
 - (void)cancelAddAccountWithAnimation:(BOOL)animated
                            completion:(void (^)(void))completion {
   [self dismissAndRunCompletionCallbackWithError:[self canceledError]
-                                        animated:animated];
+                                        animated:animated
+                                      completion:completion];
 }
 
 - (void)addAccountViewControllerDidTapSignIn {
   ios::FakeChromeIdentityService::GetInstanceFromChromeProvider()
       ->AddIdentity(_fakeIdentity);
-  [self dismissAndRunCompletionCallbackWithError:nil animated:YES];
+  [self dismissAndRunCompletionCallbackWithError:nil
+                                        animated:YES
+                                      completion:nil];
 }
 
 - (void)addAccountViewControllerDidTapCancel {
   [self dismissAndRunCompletionCallbackWithError:[self canceledError]
-                                        animated:YES];
+                                        animated:YES
+                                      completion:nil];
 }
 
 - (void)addAccountViewControllerDidThrowUnhandledError {
   [self dismissAndRunCompletionCallbackWithError:[self unhandledError]
-                                        animated:YES];
+                                        animated:YES
+                                      completion:nil];
 }
 
 #pragma mark Helper
 
 - (void)dismissAndRunCompletionCallbackWithError:(NSError*)error
-                                        animated:(BOOL)animated {
+                                        animated:(BOOL)animated
+                                      completion:(void (^)(void))completion {
   if (!_viewController) {
     [self runCompletionCallbackWithError:error];
     return;
@@ -151,6 +157,9 @@
       dismissViewControllerAnimated:animated
                          completion:^{
                            [self runCompletionCallbackWithError:error];
+                           if (completion) {
+                             completion();
+                           }
                          }];
 }
 
