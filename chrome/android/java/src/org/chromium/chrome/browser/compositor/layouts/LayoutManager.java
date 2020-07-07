@@ -390,8 +390,11 @@ public class LayoutManager implements LayoutUpdateHost, LayoutProvider,
             ContextualSearchManagementDelegate contextualSearchDelegate,
             DynamicResourceLoader dynamicResourceLoader) {
         LayoutRenderHost renderHost = mHost.getLayoutRenderHost();
-        mToolbarOverlay = new ToolbarSceneLayer(
-                mContext, this, renderHost, controlContainer, () -> mCurrentTab);
+        mToolbarOverlay = new ToolbarSceneLayer(mContext, this, renderHost, controlContainer,
+                () -> mCurrentTab, getFullscreenManager(),
+                () -> getActiveLayout() != null
+                        ? getActiveLayout().getViewportMode()
+                        : Layout.ViewportMode.USE_PREVIOUS_BROWSER_CONTROLS_STATE);
 
         // Initialize Layouts
         mStaticLayout.onFinishNativeInitialization();
