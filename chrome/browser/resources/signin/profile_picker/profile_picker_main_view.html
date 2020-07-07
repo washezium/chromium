@@ -1,11 +1,33 @@
 <style>
   :host {
     --avatar-icon-size: 74px;
+    --banner-img-height: 628px;
+    --banner-img-width: 250px;
+  }
+
+  .banner {
+    bottom: 0;
+    height: var(--banner-img-height);
+    margin: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: var(--banner-img-width);
+    z-index: -1;
+  }
+
+  #leftBanner {
+    background: url(left_banner_image.svg);
+    left: 0;
+  }
+
+  #rightBanner {
+    background: url(right_banner_image.svg);
+    right: 0;
   }
 
  .profiles-container {
     --grid-gutter: 24px;
-    --max-columns: 4;
     --profile-item-height:178px;
     --profile-item-width: 162px;
     align-items: center;
@@ -15,9 +37,8 @@
     grid-template-columns: repeat(auto-fit, var(--profile-item-width));
     justify-content: center;
     margin: auto;
-    max-width: calc(var(--profile-item-width) * var(--max-columns) +
-        var(--grid-gutter) * var(--max-columns));
-    padding: 20px;
+    margin-inline-end: 140px;
+    margin-inline-start: 140px;
  }
 
  .profile-item {
@@ -48,6 +69,8 @@
   /* TODO(msalama): Dark mode mocks not ready yet.*/
  }
 </style>
+
+<div id="leftBanner" class="banner"></div>
 <div class="profiles-container">
   <template is="dom-repeat"
       hidden="[[!profilesList_]]" items="[[profilesList_]]">
@@ -60,3 +83,4 @@
     </cr-icon-button>
   </div>
 </div>
+<div id="rightBanner" class="banner"></div>
