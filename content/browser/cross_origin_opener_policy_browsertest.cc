@@ -58,7 +58,8 @@ class CrossOriginOpenerPolicyBrowserTest
     feature_list_.InitWithFeatures(
         {network::features::kCrossOriginOpenerPolicy,
          network::features::kCrossOriginOpenerPolicyReporting,
-         network::features::kCrossOriginEmbedderPolicy},
+         network::features::kCrossOriginEmbedderPolicy,
+         network::features::kCrossOriginIsolated},
         {});
     InitAndEnableRenderDocumentFeature(&feature_list_for_render_document_,
                                        GetParam());
