@@ -30,9 +30,10 @@
 #include "base/test/simple_test_tick_clock.h"
 #include "base/test/test_timeouts.h"
 #include "base/threading/thread_restrictions.h"
-#include "base/values.h"
+//#include "base/values.h"
 #include "build/build_config.h"
-#include "chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h"
+//#include
+//"chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h"
 #include "chrome/browser/chrome_content_browser_client.h"
 #include "chrome/browser/content_settings/host_content_settings_map_factory.h"
 #include "chrome/browser/extensions/api/web_navigation/web_navigation_api.h"
@@ -92,7 +93,7 @@
 #include "content/public/browser/browser_message_filter.h"
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
-#include "content/public/browser/browsing_data_remover.h"
+//#include "content/public/browser/browsing_data_remover.h"
 #include "content/public/browser/navigation_controller.h"
 #include "content/public/browser/navigation_entry.h"
 #include "content/public/browser/render_frame_host.h"
@@ -106,7 +107,7 @@
 #include "content/public/common/url_constants.h"
 #include "content/public/test/browser_test.h"
 #include "content/public/test/browser_test_utils.h"
-#include "content/public/test/browsing_data_remover_test_util.h"
+//#include "content/public/test/browsing_data_remover_test_util.h"
 #include "content/public/test/no_renderer_crashes_assertion.h"
 #include "content/public/test/ppapi_test_utils.h"
 #include "content/public/test/test_navigation_observer.h"
@@ -208,18 +209,6 @@ class FaviconUpdateWatcher : public favicon::FaviconDriverObserver {
 std::string CreateServerRedirect(const std::string& dest_url) {
   const char* const kServerRedirectBase = "/server-redirect?";
   return kServerRedirectBase + net::EscapeQueryParamValue(dest_url, false);
-}
-
-// Clears the specified data using BrowsingDataRemover.
-void ClearBrowsingData(Browser* browser, uint64_t remove_mask) {
-  content::BrowsingDataRemover* remover =
-      content::BrowserContext::GetBrowsingDataRemover(browser->profile());
-  content::BrowsingDataRemoverCompletionObserver observer(remover);
-  remover->RemoveAndReply(
-      base::Time(), base::Time::Max(), remove_mask,
-      content::BrowsingDataRemover::ORIGIN_TYPE_UNPROTECTED_WEB, &observer);
-  observer.BlockUntilCompletion();
-  // BrowsingDataRemover deletes itself.
 }
 
 // Returns true if the prerender is expected to abort on its own, before
@@ -690,18 +679,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
     return GetPrerenderLinkManager()->CountRunningPrerenders();
   }
 
-  // Returns length of |prerender_manager_|'s history, or SIZE_MAX on failure.
-  size_t GetHistoryLength() const {
-    std::unique_ptr<base::DictionaryValue> prerender_dict =
-        GetPrerenderManager()->CopyAsValue();
-    if (!prerender_dict)
-      return std::numeric_limits<size_t>::max();
-    base::ListValue* history_list;
-    if (!prerender_dict->GetList("history", &history_list))
-      return std::numeric_limits<size_t>::max();
-    return history_list->GetSize();
-  }
-
   void SetLoaderHostOverride(const std::string& host) {
     loader_host_override_ = host;
   }
@@ -1102,37 +1079,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderFavicon) {
     favicon_update_watcher.Wait();
   }
   EXPECT_TRUE(favicon_driver->FaviconIsValid());
-}
-
-// Checks that when the history is cleared, prerendering is cancelled and
-// prerendering history is cleared.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClearHistory) {
-  std::unique_ptr<TestPrerender> prerender =
-      PrerenderTestURL("/prerender/prerender_page.html",
-                       FINAL_STATUS_CACHE_OR_HISTORY_CLEARED, 1);
-
-  ClearBrowsingData(current_browser(),
-                    ChromeBrowsingDataRemoverDelegate::DATA_TYPE_HISTORY);
-  prerender->WaitForStop();
-
-  // Make sure prerender history was cleared.
-  EXPECT_EQ(0U, GetHistoryLength());
-}
-
-// Checks that when the cache is cleared, prerenders are cancelled but
-// prerendering history is not cleared.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClearCache) {
-  std::unique_ptr<TestPrerender> prerender =
-      PrerenderTestURL("/prerender/prerender_page.html",
-                       FINAL_STATUS_CACHE_OR_HISTORY_CLEARED, 1);
-
-  ClearBrowsingData(current_browser(),
-                    content::BrowsingDataRemover::DATA_TYPE_CACHE);
-  prerender->WaitForStop();
-
-  // Make sure prerender history was not cleared.  Not a vital behavior, but
-  // used to compare with PrerenderClearHistory test.
-  EXPECT_EQ(1U, GetHistoryLength());
 }
 
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderCancelAll) {
