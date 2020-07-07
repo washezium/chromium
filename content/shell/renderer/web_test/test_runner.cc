@@ -1871,33 +1871,24 @@ void TestRunnerBindings::GetManifestThen(v8::Local<v8::Function> v8_callback) {
       base::BindOnce(GetManifestReply, WrapV8Callback(std::move(v8_callback))));
 }
 
-static void CapturePrintingPixelsThenReply(
-    base::WeakPtr<TestRunnerBindings> test_runner,
-    blink::WebLocalFrame* frame,
-    BoundV8Callback callback,
-    const SkBitmap& bitmap) {
-  if (!test_runner)  // This guards the validity of the |frame|.
+void TestRunnerBindings::CapturePrintingPixelsThen(
+    v8::Local<v8::Function> v8_callback) {
+  if (invalid_)
     return;
+  SkBitmap bitmap = PrintFrameToBitmap(GetWebFrame());
 
   v8::Isolate* isolate = blink::MainThreadIsolate();
   v8::HandleScope handle_scope(isolate);
 
   // ConvertBitmapToV8() requires a v8::Context.
-  v8::Local<v8::Context> context = frame->MainWorldScriptContext();
+  v8::Local<v8::Context> context = GetWebFrame()->MainWorldScriptContext();
   CHECK(!context.IsEmpty());
   v8::Context::Scope context_scope(context);
 
-  std::move(callback).Run(ConvertBitmapToV8(context_scope, bitmap));
-}
-
-void TestRunnerBindings::CapturePrintingPixelsThen(
-    v8::Local<v8::Function> v8_callback) {
-  if (invalid_)
-    return;
-  PrintFrameAsync(GetWebFrame(),
-                  base::BindOnce(&CapturePrintingPixelsThenReply,
-                                 weak_ptr_factory_.GetWeakPtr(), GetWebFrame(),
-                                 WrapV8Callback(std::move(v8_callback))));
+  WrapV8Callback(std::move(v8_callback))
+      .Run({
+          ConvertBitmapToV8(context_scope, bitmap),
+      });
 }
 
 void TestRunnerBindings::CheckForLeakedWindows() {
@@ -2368,25 +2359,21 @@ bool TestRunner::CanDumpPixelsFromRenderer() const {
          web_test_runtime_flags_.is_printing();
 }
 
-void TestRunner::DumpPixelsAsync(
-    content::RenderView* render_view,
-    base::OnceCallback<void(const SkBitmap&)> callback) {
+SkBitmap TestRunner::DumpPixelsInRenderer(content::RenderView* render_view) {
   auto* view_proxy = static_cast<WebViewTestProxy*>(render_view);
   DCHECK(view_proxy->GetWebView()->MainFrame());
   DCHECK(CanDumpPixelsFromRenderer());
 
   if (web_test_runtime_flags_.dump_drag_image()) {
-    if (!drag_image_.isNull()) {
-      std::move(callback).Run(drag_image_);
-    } else {
-      // This means the test called dumpDragImage but did not initiate a drag.
-      // Return a blank image so that the test fails.
-      SkBitmap bitmap;
-      bitmap.allocN32Pixels(1, 1);
-      bitmap.eraseColor(0);
-      std::move(callback).Run(bitmap);
-    }
-    return;
+    if (!drag_image_.isNull())
+      return drag_image_;
+
+    // This means the test called dumpDragImage but did not initiate a drag.
+    // Return a blank image so that the test fails.
+    SkBitmap bitmap;
+    bitmap.allocN32Pixels(1, 1);
+    bitmap.eraseColor(0);
+    return bitmap;
   }
 
   blink::WebLocalFrame* frame =
@@ -2399,7 +2386,7 @@ void TestRunner::DumpPixelsAsync(
     if (frame_to_print && frame_to_print->IsWebLocalFrame())
       target_frame = frame_to_print->ToWebLocalFrame();
   }
-  PrintFrameAsync(target_frame, std::move(callback));
+  return PrintFrameToBitmap(target_frame);
 }
 
 void TestRunner::ReplicateWebTestRuntimeFlagsChanges(

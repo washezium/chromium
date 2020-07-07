@@ -97,7 +97,6 @@ class BlinkTestRunner {
   mojom::WebTestRenderFrame::CaptureDumpCallback dump_callback_;
   mojom::WebTestDumpPtr dump_result_;
   bool waiting_for_layout_dump_results_ = false;
-  bool waiting_for_pixels_dump_result_ = false;
 
   DISALLOW_COPY_AND_ASSIGN(BlinkTestRunner);
 };

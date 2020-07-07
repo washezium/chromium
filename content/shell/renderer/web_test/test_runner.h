@@ -138,14 +138,13 @@ class TestRunner {
   bool ShouldDumpSelectionRect() const;
 
   // Returns false if the browser should capture the pixel output, true if it
-  // can be done locally in the renderer via DumpPixelsAsync().
+  // can be done locally in the renderer via DumpPixelsInRenderer().
   bool CanDumpPixelsFromRenderer() const;
 
   // Snapshots the content of |render_view| using the mode requested by the
   // current test and calls |callback| with the result.  Caller needs to ensure
   // that |render_view| stays alive until |callback| is called.
-  void DumpPixelsAsync(content::RenderView* render_view,
-                       base::OnceCallback<void(const SkBitmap&)> callback);
+  SkBitmap DumpPixelsInRenderer(content::RenderView* render_view);
 
   // Replicates changes to web test runtime flags (i.e. changes that happened in
   // another renderer). See also BlinkTestRunner::OnWebTestRuntimeFlagsChanged.

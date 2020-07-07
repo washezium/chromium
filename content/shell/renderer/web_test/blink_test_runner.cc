@@ -140,13 +140,21 @@ void BlinkTestRunner::CaptureLocalPixelsDump() {
   // with the current, non-swapped-out RenderView.
   DCHECK(web_view_test_proxy_->GetMainRenderFrame());
 
-  waiting_for_pixels_dump_result_ = true;
-
   TestRunner* test_runner = web_view_test_proxy_->GetTestRunner();
-  test_runner->DumpPixelsAsync(
-      web_view_test_proxy_,
-      base::BindOnce(&BlinkTestRunner::OnPixelsDumpCompleted,
-                     base::Unretained(this)));
+  SkBitmap snapshot = test_runner->DumpPixelsInRenderer(web_view_test_proxy_);
+
+  DCHECK_GT(snapshot.info().width(), 0);
+  DCHECK_GT(snapshot.info().height(), 0);
+
+  base::MD5Digest digest;
+  base::MD5Sum(snapshot.getPixels(), snapshot.computeByteSize(), &digest);
+  std::string actual_pixel_hash = base::MD5DigestToBase16(digest);
+
+  dump_result_->actual_pixel_hash = actual_pixel_hash;
+  if (actual_pixel_hash != test_config_->expected_pixel_hash)
+    dump_result_->pixels = snapshot;
+
+  CaptureDumpComplete();
 }
 
 void BlinkTestRunner::OnLayoutDumpCompleted(std::string completed_layout_dump) {
@@ -156,30 +164,9 @@ void BlinkTestRunner::OnLayoutDumpCompleted(std::string completed_layout_dump) {
   CaptureDumpComplete();
 }
 
-void BlinkTestRunner::OnPixelsDumpCompleted(const SkBitmap& snapshot) {
-  CHECK(waiting_for_pixels_dump_result_);
-  DCHECK_NE(0, snapshot.info().width());
-  DCHECK_NE(0, snapshot.info().height());
-
-  // The snapshot arrives from the GPU process via shared memory. Because MSan
-  // can't track initializedness across processes, we must assure it that the
-  // pixels are in fact initialized.
-  MSAN_UNPOISON(snapshot.getPixels(), snapshot.computeByteSize());
-  base::MD5Digest digest;
-  base::MD5Sum(snapshot.getPixels(), snapshot.computeByteSize(), &digest);
-  std::string actual_pixel_hash = base::MD5DigestToBase16(digest);
-
-  dump_result_->actual_pixel_hash = actual_pixel_hash;
-  if (actual_pixel_hash != test_config_->expected_pixel_hash)
-    dump_result_->pixels = snapshot;
-
-  waiting_for_pixels_dump_result_ = false;
-  CaptureDumpComplete();
-}
-
 void BlinkTestRunner::CaptureDumpComplete() {
   // Abort if we're still waiting for some results.
-  if (waiting_for_layout_dump_results_ || waiting_for_pixels_dump_result_)
+  if (waiting_for_layout_dump_results_)
     return;
 
   // Abort if the browser didn't ask us for the dump yet.
