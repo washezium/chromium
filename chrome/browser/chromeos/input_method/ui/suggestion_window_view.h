@@ -13,6 +13,10 @@
 #include "ui/views/controls/button/button.h"
 #include "ui/views/controls/button/button_observer.h"
 
+namespace chromeos {
+struct AssistiveWindowProperties;
+}  // namespace chromeos
+
 namespace views {
 class ImageButton;
 }
@@ -44,7 +48,8 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   // Shows suggestion text.
   void Show(const SuggestionDetails& details);
 
-  void ShowMultipleCandidates(const std::vector<base::string16>& candidates);
+  void ShowMultipleCandidates(
+      const chromeos::AssistiveWindowProperties& properties);
 
   // This highlights/unhighlights a valid button based on the given params.
   // Only one button of the same id will be highlighted at anytime.

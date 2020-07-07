@@ -7,6 +7,7 @@
 #include <string>
 
 #include "base/strings/string_number_conversions.h"
+#include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
 #include "chrome/browser/chromeos/input_method/ui/assistive_delegate.h"
 #include "chrome/browser/chromeos/input_method/ui/suggestion_view.h"
 #include "chrome/test/views/chrome_views_test_base.h"
@@ -31,6 +32,7 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
   void SetUp() override {
     ChromeViewsTestBase::SetUp();
     InitCandidates();
+    window_.candidates = candidates_;
 
     suggestion_window_view_ =
         new SuggestionWindowView(GetContext(), delegate_.get());
@@ -74,6 +76,7 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
   std::unique_ptr<MockAssistiveDelegate> delegate_ =
       std::make_unique<MockAssistiveDelegate>();
   std::vector<base::string16> candidates_;
+  chromeos::AssistiveWindowProperties window_;
   AssistiveWindowButton candidate_button_;
   AssistiveWindowButton setting_link_view_;
   AssistiveWindowButton learn_more_button_;
@@ -82,7 +85,7 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
 };
 
 TEST_F(SuggestionWindowViewTest, HighlightOneCandidateWhenIndexIsValid) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   for (int index = 0; index < static_cast<int>(candidates_.size()); index++) {
     candidate_button_.index = index;
     suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -93,7 +96,7 @@ TEST_F(SuggestionWindowViewTest, HighlightOneCandidateWhenIndexIsValid) {
 }
 
 TEST_F(SuggestionWindowViewTest, HighlightNoCandidateWhenIndexIsInvalid) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int invalid[] = {kInvalid, candidates_.size()};
   for (int index : invalid) {
     candidate_button_.index = index;
@@ -105,7 +108,7 @@ TEST_F(SuggestionWindowViewTest, HighlightNoCandidateWhenIndexIsInvalid) {
 }
 
 TEST_F(SuggestionWindowViewTest, HighlightTheSameCandidateWhenCalledTwice) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int highlight_index = 0;
   candidate_button_.index = highlight_index;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -117,7 +120,7 @@ TEST_F(SuggestionWindowViewTest, HighlightTheSameCandidateWhenCalledTwice) {
 
 TEST_F(SuggestionWindowViewTest,
        HighlightValidCandidateAfterGivingInvalidIndexThenValidIndex) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int valid_index = 0;
   candidate_button_.index = candidates_.size();
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -130,7 +133,7 @@ TEST_F(SuggestionWindowViewTest,
 
 TEST_F(SuggestionWindowViewTest,
        KeepHighlightingValidCandidateWhenGivingValidThenInvalidIndex) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int valid_index = 0;
   candidate_button_.index = valid_index;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -142,7 +145,7 @@ TEST_F(SuggestionWindowViewTest,
 }
 
 TEST_F(SuggestionWindowViewTest, UnhighlightCandidateIfCurrentlyHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   candidate_button_.index = 0;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, false);
@@ -153,7 +156,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightCandidateIfCurrentlyHighlighted) {
 
 TEST_F(SuggestionWindowViewTest,
        DoesNotUnhighlightCandidateIfNotCurrentlyHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int highlight_index = 0;
   candidate_button_.index = highlight_index;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -165,7 +168,7 @@ TEST_F(SuggestionWindowViewTest,
 }
 
 TEST_F(SuggestionWindowViewTest, DoesNotUnhighlightCandidateIfOutOfRange) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   int highlight_index = 0;
   candidate_button_.index = highlight_index;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
@@ -182,7 +185,7 @@ TEST_F(SuggestionWindowViewTest, DoesNotUnhighlightCandidateIfOutOfRange) {
 }
 
 TEST_F(SuggestionWindowViewTest, HighlightsSettingLinkViewWhenNotHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
 
   EXPECT_TRUE(
@@ -192,7 +195,7 @@ TEST_F(SuggestionWindowViewTest, HighlightsSettingLinkViewWhenNotHighlighted) {
 
 TEST_F(SuggestionWindowViewTest,
        HighlightsSettingLinkViewWhenAlreadyHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
 
@@ -202,7 +205,7 @@ TEST_F(SuggestionWindowViewTest,
 }
 
 TEST_F(SuggestionWindowViewTest, UnhighlightsSettingLinkViewWhenHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
 
   EXPECT_TRUE(
@@ -212,7 +215,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightsSettingLinkViewWhenHighlighted) {
 
 TEST_F(SuggestionWindowViewTest,
        UnhighlightsKeepSettingLinkViewUnhighlightedWhenAlreadyNotHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
 
@@ -222,7 +225,7 @@ TEST_F(SuggestionWindowViewTest,
 }
 
 TEST_F(SuggestionWindowViewTest, HighlightsLearnMoreButtonWhenNotHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
 
   EXPECT_TRUE(
@@ -232,7 +235,7 @@ TEST_F(SuggestionWindowViewTest, HighlightsLearnMoreButtonWhenNotHighlighted) {
 
 TEST_F(SuggestionWindowViewTest,
        HighlightsLearnMoreButtonWhenAlreadyHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
 
@@ -242,7 +245,7 @@ TEST_F(SuggestionWindowViewTest,
 }
 
 TEST_F(SuggestionWindowViewTest, UnhighlightsLearnMoreButtonWhenHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
 
   EXPECT_TRUE(
@@ -252,7 +255,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightsLearnMoreButtonWhenHighlighted) {
 
 TEST_F(SuggestionWindowViewTest,
        UnhighlightsKeepLearnMoreButtonUnhighlightedWhenAlreadyNotHighlighted) {
-  suggestion_window_view_->ShowMultipleCandidates(candidates_);
+  suggestion_window_view_->ShowMultipleCandidates(window_);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
 

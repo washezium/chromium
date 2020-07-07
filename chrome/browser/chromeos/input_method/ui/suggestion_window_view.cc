@@ -11,6 +11,7 @@
 #include "base/i18n/number_formatting.h"
 #include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
+#include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
 #include "chrome/browser/chromeos/input_method/ui/assistive_delegate.h"
 #include "chrome/browser/chromeos/input_method/ui/border_factory.h"
 #include "chrome/browser/chromeos/input_method/ui/suggestion_details.h"
@@ -166,11 +167,19 @@ void SuggestionWindowView::Show(const SuggestionDetails& details) {
 }
 
 void SuggestionWindowView::ShowMultipleCandidates(
-    const std::vector<base::string16>& candidates) {
+    const chromeos::AssistiveWindowProperties& properties) {
+  const std::vector<base::string16>& candidates = properties.candidates;
   MaybeInitializeSuggestionViews(candidates.size());
   for (size_t i = 0; i < candidates.size(); i++) {
     SuggestionView* candidate_view = candidate_views_[i].get();
-    candidate_view->SetViewWithIndex(base::FormatNumber(i + 1), candidates[i]);
+    if (properties.show_indices) {
+      candidate_view->SetViewWithIndex(base::FormatNumber(i + 1),
+                                       candidates[i]);
+    } else {
+      SuggestionDetails details;
+      details.text = candidates[i];
+      candidate_view->SetView(details);
+    }
     candidate_view->SetEnabled(true);
   }
   learn_more_button_->SetVisible(true);
