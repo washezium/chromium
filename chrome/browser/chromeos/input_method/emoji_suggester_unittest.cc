@@ -47,6 +47,8 @@ class TestSuggestionHandler : public SuggestionHandlerInterface {
     return false;
   }
 
+  void ClickButton(const ui::ime::AssistiveWindowButton& button) override {}
+
   bool AcceptSuggestionCandidate(int context_id,
                                  const base::string16& candidate,
                                  std::string* error) override {
