@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/autofill_assistant/generic_ui_controller_android.h"
+#include "chrome/browser/android/autofill_assistant/generic_ui_nested_controller_android.h"
+
 #include "base/android/jni_string.h"
 #include "chrome/android/features/autofill_assistant/jni_headers/AssistantViewFactory_jni.h"
 #include "chrome/browser/android/autofill_assistant/assistant_generic_ui_delegate.h"
@@ -12,6 +13,7 @@
 #include "chrome/browser/android/autofill_assistant/ui_controller_android_utils.h"
 #include "chrome/browser/android/autofill_assistant/view_handler_android.h"
 #include "components/autofill_assistant/browser/event_handler.h"
+#include "components/autofill_assistant/browser/field_formatter.h"
 #include "components/autofill_assistant/browser/generic_ui_java_generated_enums.h"
 #include "components/autofill_assistant/browser/radio_button_controller.h"
 #include "components/autofill_assistant/browser/ui_delegate.h"
@@ -28,7 +30,29 @@ base::android::ScopedJavaGlobalRef<jobject> CreateViewHierarchy(
     const ViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller);
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback);
+
+void RegisterRadioButton(
+    std::vector<std::pair<std::string, std::string>>* radio_buttons,
+    RadioButtonController* radio_button_controller,
+    InteractionHandlerAndroid* interaction_handler,
+    const std::string& radio_group,
+    const std::string& model_identifier) {
+  radio_buttons->emplace_back(radio_group, model_identifier);
+  radio_button_controller->AddRadioButtonToGroup(radio_group, model_identifier);
+
+  auto update_radio_button_callback = base::BindRepeating(
+      &android_interactions::UpdateRadioButtonGroup,
+      radio_button_controller->GetWeakPtr(), radio_group, model_identifier);
+  auto run_callback_when_selected = base::BindRepeating(
+      &android_interactions::RunConditionalCallback,
+      interaction_handler->GetBasicInteractions()->GetWeakPtr(),
+      model_identifier, update_radio_button_callback);
+  interaction_handler->AddInteraction(
+      {EventProto::kOnValueChanged, model_identifier},
+      run_callback_when_selected);
+}
 
 base::android::ScopedJavaLocalRef<jobject> CreateJavaViewContainer(
     JNIEnv* env,
@@ -77,12 +101,13 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaVerticalExpander(
     const VerticalExpanderViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller) {
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback) {
   base::android::ScopedJavaGlobalRef<jobject> jtitle_view = nullptr;
   if (proto.has_title_view()) {
-    jtitle_view = CreateViewHierarchy(env, jcontext, jdelegate,
-                                      proto.title_view(), interaction_handler,
-                                      view_handler, radio_button_controller);
+    jtitle_view = CreateViewHierarchy(
+        env, jcontext, jdelegate, proto.title_view(), interaction_handler,
+        view_handler, register_radio_button_callback);
     if (!jtitle_view) {
       return nullptr;
     }
@@ -91,7 +116,7 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaVerticalExpander(
   if (proto.has_collapsed_view()) {
     jcollapsed_view = CreateViewHierarchy(
         env, jcontext, jdelegate, proto.collapsed_view(), interaction_handler,
-        view_handler, radio_button_controller);
+        view_handler, register_radio_button_callback);
     if (!jcollapsed_view) {
       return nullptr;
     }
@@ -100,7 +125,7 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaVerticalExpander(
   if (proto.has_expanded_view()) {
     jexpanded_view = CreateViewHierarchy(
         env, jcontext, jdelegate, proto.expanded_view(), interaction_handler,
-        view_handler, radio_button_controller);
+        view_handler, register_radio_button_callback);
     if (!jexpanded_view) {
       return nullptr;
     }
@@ -133,14 +158,15 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaToggleButton(
     const ToggleButtonViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller) {
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback) {
   if (proto.model_identifier().empty()) {
-    VLOG(1) << "Failed to create ToggleButtonViewProto: model_identifier not "
+    VLOG(1) << "Failed to create ToggleButton: model_identifier not "
                "specified";
     return nullptr;
   }
   if (proto.kind_case() == ToggleButtonViewProto::KIND_NOT_SET) {
-    VLOG(1) << "Failed to create ToggleButtonViewProto: kind not set";
+    VLOG(1) << "Failed to create ToggleButton: kind not set";
     return nullptr;
   }
 
@@ -148,7 +174,7 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaToggleButton(
   if (proto.has_left_content_view()) {
     jcontent_left_view = CreateViewHierarchy(
         env, jcontext, jdelegate, proto.left_content_view(),
-        interaction_handler, view_handler, radio_button_controller);
+        interaction_handler, view_handler, register_radio_button_callback);
     if (!jcontent_left_view) {
       return nullptr;
     }
@@ -157,7 +183,7 @@ base::android::ScopedJavaLocalRef<jobject> CreateJavaToggleButton(
   if (proto.has_right_content_view()) {
     jcontent_right_view = CreateViewHierarchy(
         env, jcontext, jdelegate, proto.right_content_view(),
-        interaction_handler, view_handler, radio_button_controller);
+        interaction_handler, view_handler, register_radio_button_callback);
     if (!jcontent_right_view) {
       return nullptr;
     }
@@ -185,7 +211,8 @@ base::android::ScopedJavaGlobalRef<jobject> CreateJavaView(
     const ViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller) {
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback) {
   auto jidentifier =
       base::android::ConvertUTF8ToJavaString(env, proto.identifier());
   base::android::ScopedJavaLocalRef<jobject> jview = nullptr;
@@ -216,7 +243,7 @@ base::android::ScopedJavaGlobalRef<jobject> CreateJavaView(
     case ViewProto::kVerticalExpanderView: {
       jview = CreateJavaVerticalExpander(
           env, jcontext, jdelegate, jidentifier, proto.vertical_expander_view(),
-          interaction_handler, view_handler, radio_button_controller);
+          interaction_handler, view_handler, register_radio_button_callback);
       break;
     }
     case ViewProto::kTextInputView: {
@@ -237,7 +264,7 @@ base::android::ScopedJavaGlobalRef<jobject> CreateJavaView(
     case ViewProto::kToggleButtonView:
       jview = CreateJavaToggleButton(
           env, jcontext, jdelegate, jidentifier, proto.toggle_button_view(),
-          interaction_handler, view_handler, radio_button_controller);
+          interaction_handler, view_handler, register_radio_button_callback);
       break;
     case ViewProto::VIEW_NOT_SET:
       NOTREACHED();
@@ -280,7 +307,8 @@ bool CreateImplicitInteractionsForView(
     const ViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller) {
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback) {
   switch (proto.view_case()) {
     case ViewProto::kTextInputView: {
       // Auto-update the text of the view whenever the corresponding value in
@@ -329,39 +357,23 @@ bool CreateImplicitInteractionsForView(
       break;
     }
     case ViewProto::kToggleButtonView: {
-      if (proto.identifier().empty()) {
-        VLOG(1) << "Failed to create toggle button: view_identifier not set, "
-                   "but mandatory for toggle buttons";
-        return false;
-      }
       // Auto-update toggle state.
-      auto model_identifier = proto.toggle_button_view().model_identifier();
       auto toggle_callback = base::BindRepeating(
           &android_interactions::SetToggleButtonChecked,
           interaction_handler->GetUserModel()->GetWeakPtr(), proto.identifier(),
-          model_identifier, view_handler);
+          proto.toggle_button_view().model_identifier(), view_handler);
       interaction_handler->AddInteraction(
-          {EventProto::kOnValueChanged, model_identifier}, toggle_callback);
+          {EventProto::kOnValueChanged,
+           proto.toggle_button_view().model_identifier()},
+          toggle_callback);
       if (proto.toggle_button_view().kind_case() !=
           ToggleButtonViewProto::kRadioButton) {
         break;
       }
-      auto radio_group =
-          proto.toggle_button_view().radio_button().radio_group_identifier();
-      radio_button_controller->AddRadioButtonToGroup(radio_group,
-                                                     model_identifier);
 
-      // De-select all other radio buttons whenever |model_identifier| is set to
-      // true.
-      auto radio_callback = base::BindRepeating(
-          &android_interactions::UpdateRadioButtonGroup,
-          radio_button_controller->GetWeakPtr(), radio_group, model_identifier);
-      radio_callback = base::BindRepeating(
-          &android_interactions::RunConditionalCallback,
-          interaction_handler->GetBasicInteractions()->GetWeakPtr(),
-          model_identifier, radio_callback);
-      interaction_handler->AddInteraction(
-          {EventProto::kOnValueChanged, model_identifier}, radio_callback);
+      register_radio_button_callback.Run(
+          proto.toggle_button_view().radio_button().radio_group_identifier(),
+          proto.toggle_button_view().model_identifier());
       break;
     }
     case ViewProto::kViewContainer:
@@ -376,7 +388,7 @@ bool CreateImplicitInteractionsForView(
   }
 
   return true;
-}
+}  // namespace
 
 // Recursively runs through all views defined in |proto| in a depth-first
 // manner and inflates and configures each view. Implicit interactions will be
@@ -390,10 +402,11 @@ base::android::ScopedJavaGlobalRef<jobject> CreateViewHierarchy(
     const ViewProto& proto,
     InteractionHandlerAndroid* interaction_handler,
     ViewHandlerAndroid* view_handler,
-    RadioButtonController* radio_button_controller) {
+    base::RepeatingCallback<void(const std::string&, const std::string&)>
+        register_radio_button_callback) {
   auto jview =
       CreateJavaView(env, jcontext, jdelegate, proto, interaction_handler,
-                     view_handler, radio_button_controller);
+                     view_handler, register_radio_button_callback);
   if (!jview) {
     VLOG(1) << "View inflation failed for '" << proto.identifier() << "'";
     return nullptr;
@@ -402,7 +415,7 @@ base::android::ScopedJavaGlobalRef<jobject> CreateViewHierarchy(
     for (const auto& child : proto.view_container().views()) {
       auto jchild = CreateViewHierarchy(env, jcontext, jdelegate, child,
                                         interaction_handler, view_handler,
-                                        radio_button_controller);
+                                        register_radio_button_callback);
       if (!jchild) {
         return nullptr;
       }
@@ -410,8 +423,9 @@ base::android::ScopedJavaGlobalRef<jobject> CreateViewHierarchy(
     }
   }
 
-  if (!CreateImplicitInteractionsForView(
-          proto, interaction_handler, view_handler, radio_button_controller)) {
+  if (!CreateImplicitInteractionsForView(proto, interaction_handler,
+                                         view_handler,
+                                         register_radio_button_callback)) {
     VLOG(1) << "Implicit interaction creation failed for '"
             << proto.identifier() << "'";
     return nullptr;
@@ -426,43 +440,53 @@ base::android::ScopedJavaGlobalRef<jobject> CreateViewHierarchy(
 
 }  // namespace
 
-GenericUiControllerAndroid::GenericUiControllerAndroid(
+GenericUiNestedControllerAndroid::GenericUiNestedControllerAndroid(
     base::android::ScopedJavaGlobalRef<jobject> jroot_view,
     std::unique_ptr<ViewHandlerAndroid> view_handler,
     std::unique_ptr<InteractionHandlerAndroid> interaction_handler,
-    std::unique_ptr<RadioButtonController> radio_button_controller)
+    RadioButtonController* radio_button_controller,
+    const std::vector<std::pair<std::string, std::string>>& radio_buttons)
     : jroot_view_(jroot_view),
       view_handler_(std::move(view_handler)),
       interaction_handler_(std::move(interaction_handler)),
-      radio_button_controller_(std::move(radio_button_controller)) {}
+      radio_button_controller_(radio_button_controller),
+      radio_buttons_(radio_buttons) {}
 
-GenericUiControllerAndroid::~GenericUiControllerAndroid() {
+GenericUiNestedControllerAndroid::~GenericUiNestedControllerAndroid() {
   interaction_handler_->StopListening();
+  for (const auto& radio_button : radio_buttons_) {
+    radio_button_controller_->RemoveRadioButtonFromGroup(radio_button.first,
+                                                         radio_button.second);
+  }
 }
 
 // static
-std::unique_ptr<GenericUiControllerAndroid>
-GenericUiControllerAndroid::CreateFromProto(
+std::unique_ptr<GenericUiNestedControllerAndroid>
+GenericUiNestedControllerAndroid::CreateFromProto(
     const GenericUserInterfaceProto& proto,
     base::android::ScopedJavaGlobalRef<jobject> jcontext,
     base::android::ScopedJavaGlobalRef<jobject> jdelegate,
     EventHandler* event_handler,
     UserModel* user_model,
-    BasicInteractions* basic_interactions) {
+    BasicInteractions* basic_interactions,
+    RadioButtonController* radio_button_controller) {
   // Create view layout.
   auto view_handler = std::make_unique<ViewHandlerAndroid>();
   auto interaction_handler = std::make_unique<InteractionHandlerAndroid>(
       event_handler, user_model, basic_interactions, view_handler.get(),
-      jcontext, jdelegate);
-  auto radio_button_controller =
-      std::make_unique<RadioButtonController>(user_model);
+      radio_button_controller, jcontext, jdelegate);
+  std::vector<std::pair<std::string, std::string>> created_radio_buttons;
+  auto register_radio_button_callback =
+      base::BindRepeating(&RegisterRadioButton, &created_radio_buttons,
+                          radio_button_controller, interaction_handler.get());
+
   JNIEnv* env = base::android::AttachCurrentThread();
   auto jroot_view =
       proto.has_root_view()
           ? CreateViewHierarchy(
                 env, base::android::ScopedJavaLocalRef<jobject>(jcontext),
                 jdelegate, proto.root_view(), interaction_handler.get(),
-                view_handler.get(), radio_button_controller.get())
+                view_handler.get(), register_radio_button_callback)
           : nullptr;
 
   if (proto.has_root_view() && !jroot_view) {
@@ -491,9 +515,9 @@ GenericUiControllerAndroid::CreateFromProto(
   interaction_handler->StartListening();
   interaction_handler->RunValueChangedCallbacks();
 
-  return std::make_unique<GenericUiControllerAndroid>(
+  return std::make_unique<GenericUiNestedControllerAndroid>(
       jroot_view, std::move(view_handler), std::move(interaction_handler),
-      std::move(radio_button_controller));
+      radio_button_controller, created_radio_buttons);
 }
 
 }  // namespace autofill_assistant
