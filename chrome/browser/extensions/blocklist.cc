@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist.h"
+#include "chrome/browser/extensions/blocklist.h"
 
 #include <algorithm>
 #include <iterator>
@@ -16,8 +16,8 @@
 #include "base/stl_util.h"
 #include "base/threading/thread_task_runner_handle.h"
 #include "chrome/browser/browser_process.h"
-#include "chrome/browser/extensions/blacklist_factory.h"
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist_factory.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 #include "chrome/browser/safe_browsing/safe_browsing_service.h"
 #include "components/prefs/pref_service.h"
 #include "components/safe_browsing/buildflags.h"
@@ -47,9 +47,7 @@ class LazySafeBrowsingDatabaseManager {
 #endif
   }
 
-  scoped_refptr<SafeBrowsingDatabaseManager> get() {
-    return instance_;
-  }
+  scoped_refptr<SafeBrowsingDatabaseManager> get() { return instance_; }
 
   void set(scoped_refptr<SafeBrowsingDatabaseManager> instance) {
     instance_ = instance;
@@ -81,9 +79,8 @@ class SafeBrowsingClientImpl
 
   // Constructs a client to query the database manager for |extension_ids| and
   // run |callback| with the IDs of those which have been blacklisted.
-  static void Start(
-      const std::set<std::string>& extension_ids,
-      const OnResultCallback& callback) {
+  static void Start(const std::set<std::string>& extension_ids,
+                    const OnResultCallback& callback) {
     auto safe_browsing_client = base::WrapRefCounted(
         new SafeBrowsingClientImpl(extension_ids, callback));
     content::GetIOThreadTaskRunner({})->PostTask(
@@ -131,9 +128,8 @@ class SafeBrowsingClientImpl
   DISALLOW_COPY_AND_ASSIGN(SafeBrowsingClientImpl);
 };
 
-void CheckOneExtensionState(
-    const Blacklist::IsBlacklistedCallback& callback,
-    const Blacklist::BlacklistStateMap& state_map) {
+void CheckOneExtensionState(const Blacklist::IsBlacklistedCallback& callback,
+                            const Blacklist::BlacklistStateMap& state_map) {
   callback.Run(state_map.empty() ? NOT_BLOCKLISTED : state_map.begin()->second);
 }
 
@@ -184,8 +180,7 @@ Blacklist::Blacklist(ExtensionPrefs* prefs) {
   ObserveNewDatabase();
 }
 
-Blacklist::~Blacklist() {
-}
+Blacklist::~Blacklist() {}
 
 // static
 Blacklist* Blacklist::Get(content::BrowserContext* context) {
@@ -213,10 +208,9 @@ void Blacklist::GetBlacklistedIDs(const std::set<std::string>& ids,
 
 void Blacklist::GetMalwareIDs(const std::set<std::string>& ids,
                               const GetMalwareIDsCallback& callback) {
-  GetBlacklistedIDs(ids, base::Bind(&GetMalwareFromBlacklistStateMap,
-                                    callback));
+  GetBlacklistedIDs(ids,
+                    base::Bind(&GetMalwareFromBlacklistStateMap, callback));
 }
-
 
 void Blacklist::IsBlacklisted(const std::string& extension_id,
                               const IsBlacklistedCallback& callback) {
@@ -309,7 +303,7 @@ void Blacklist::OnBlacklistStateReceived(const std::string& id,
 
     if (have_all_in_cache) {
       std::move(requests_it->second).Run();
-      requests_it = state_requests_.erase(requests_it); // returns next element
+      requests_it = state_requests_.erase(requests_it);  // returns next element
     } else {
       ++requests_it;
     }

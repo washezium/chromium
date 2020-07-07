@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist.h"
-#include "chrome/browser/extensions/blacklist_factory.h"
+#include "chrome/browser/extensions/blocklist_factory.h"
+#include "chrome/browser/extensions/blocklist.h"
 #include "components/keyed_service/content/browser_context_dependency_manager.h"
 #include "extensions/browser/extension_prefs.h"
 #include "extensions/browser/extension_prefs_factory.h"
@@ -31,8 +31,7 @@ BlacklistFactory::BlacklistFactory()
   DependsOn(extensions::ExtensionPrefsFactory::GetInstance());
 }
 
-BlacklistFactory::~BlacklistFactory() {
-}
+BlacklistFactory::~BlacklistFactory() {}
 
 KeyedService* BlacklistFactory::BuildServiceInstanceFor(
     BrowserContext* context) const {
@@ -46,4 +45,3 @@ BrowserContext* BlacklistFactory::GetBrowserContextToUse(
 }
 
 }  // namespace extensions
-

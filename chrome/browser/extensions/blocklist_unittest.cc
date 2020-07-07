@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist.h"
+#include "chrome/browser/extensions/blocklist.h"
 
 #include "base/bind.h"
 #include "base/run_loop.h"
 #include "base/stl_util.h"
 #include "base/threading/thread_task_runner_handle.h"
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 #include "chrome/browser/extensions/fake_safe_browsing_database_manager.h"
-#include "chrome/browser/extensions/test_blacklist.h"
-#include "chrome/browser/extensions/test_blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/test_blocklist.h"
+#include "chrome/browser/extensions/test_blocklist_state_fetcher.h"
 #include "chrome/browser/extensions/test_extension_prefs.h"
 #include "content/public/test/browser_task_environment.h"
 #include "extensions/browser/extension_prefs.h"
@@ -22,13 +22,10 @@ namespace {
 
 class BlacklistTest : public testing::Test {
  public:
-  BlacklistTest()
-      : test_prefs_(base::ThreadTaskRunnerHandle::Get()) {}
+  BlacklistTest() : test_prefs_(base::ThreadTaskRunnerHandle::Get()) {}
 
  protected:
-  ExtensionPrefs* prefs() {
-    return test_prefs_.prefs();
-  }
+  ExtensionPrefs* prefs() { return test_prefs_.prefs(); }
 
   std::string AddExtension(const std::string& id) {
     return test_prefs_.AddExtension(id)->id();
@@ -40,8 +37,8 @@ class BlacklistTest : public testing::Test {
   TestExtensionPrefs test_prefs_;
 };
 
-template<typename T>
-void Assign(T *to, const T& from) {
+template <typename T>
+void Assign(T* to, const T& from) {
   *to = from;
 }
 
@@ -169,7 +166,7 @@ TEST_F(BlacklistTest, FetchBlacklistStates) {
       {a, b, c}, base::Bind(&Assign<Blacklist::BlacklistStateMap>, &states));
   base::RunLoop().RunUntilIdle();
 
-   // Two fetchers should be created.
+  // Two fetchers should be created.
   EXPECT_TRUE(fetcher_tester.HandleFetcher(a));
   EXPECT_TRUE(fetcher_tester.HandleFetcher(b));
 

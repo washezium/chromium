@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist_check.h"
+#include "chrome/browser/extensions/blocklist_check.h"
 
 #include "base/threading/thread_task_runner_handle.h"
-#include "chrome/browser/extensions/blacklist.h"
-#include "chrome/browser/extensions/test_blacklist.h"
+#include "chrome/browser/extensions/blocklist.h"
+#include "chrome/browser/extensions/test_blocklist.h"
 #include "chrome/browser/extensions/test_extension_prefs.h"
 #include "content/public/test/browser_task_environment.h"
 #include "extensions/browser/extension_prefs.h"

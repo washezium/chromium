@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_STATE_FETCHER_H_
-#define CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_STATE_FETCHER_H_
+#ifndef CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_STATE_FETCHER_H_
+#define CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_STATE_FETCHER_H_
 
 #include <string>
 
 #include "base/macros.h"
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 #include "chrome/common/safe_browsing/crx_info.pb.h"
 
 namespace extensions {
@@ -41,4 +41,4 @@ class TestBlacklistStateFetcher {
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_STATE_FETCHER_H_
+#endif  // CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_STATE_FETCHER_H_

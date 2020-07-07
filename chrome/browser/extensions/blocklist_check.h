@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_BLACKLIST_CHECK_H_
-#define CHROME_BROWSER_EXTENSIONS_BLACKLIST_CHECK_H_
+#ifndef CHROME_BROWSER_EXTENSIONS_BLOCKLIST_CHECK_H_
+#define CHROME_BROWSER_EXTENSIONS_BLOCKLIST_CHECK_H_
 
 #include "base/macros.h"
 #include "base/memory/weak_ptr.h"
@@ -37,4 +37,4 @@ class BlacklistCheck : public PreloadCheck {
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_BLACKLIST_CHECK_H_
+#endif  // CHROME_BROWSER_EXTENSIONS_BLOCKLIST_CHECK_H_

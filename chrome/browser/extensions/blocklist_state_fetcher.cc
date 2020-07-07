@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 
 #include "base/bind.h"
 #include "base/strings/stringprintf.h"

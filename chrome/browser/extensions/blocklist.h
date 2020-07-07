@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_BLACKLIST_H_
-#define CHROME_BROWSER_EXTENSIONS_BLACKLIST_H_
+#ifndef CHROME_BROWSER_EXTENSIONS_BLOCKLIST_H_
+#define CHROME_BROWSER_EXTENSIONS_BLOCKLIST_H_
 
 #include <list>
 #include <map>
@@ -31,8 +31,7 @@ class BlacklistStateFetcher;
 class ExtensionPrefs;
 
 // The blacklist of extensions backed by safe browsing.
-class Blacklist : public KeyedService,
-                  public base::SupportsWeakPtr<Blacklist> {
+class Blacklist : public KeyedService, public base::SupportsWeakPtr<Blacklist> {
  public:
   class Observer {
    public:
@@ -121,7 +120,7 @@ class Blacklist : public KeyedService,
       scoped_refptr<safe_browsing::SafeBrowsingDatabaseManager>
           database_manager);
   static scoped_refptr<safe_browsing::SafeBrowsingDatabaseManager>
-      GetDatabaseManager();
+  GetDatabaseManager();
 
   void ObserveNewDatabase();
 
@@ -165,4 +164,4 @@ class Blacklist : public KeyedService,
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_BLACKLIST_H_
+#endif  // CHROME_BROWSER_EXTENSIONS_BLOCKLIST_H_

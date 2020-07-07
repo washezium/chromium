@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_BLACKLIST_STATE_FETCHER_H_
-#define CHROME_BROWSER_EXTENSIONS_BLACKLIST_STATE_FETCHER_H_
+#ifndef CHROME_BROWSER_EXTENSIONS_BLOCKLIST_STATE_FETCHER_H_
+#define CHROME_BROWSER_EXTENSIONS_BLOCKLIST_STATE_FETCHER_H_
 
 #include <algorithm>
 #include <memory>
@@ -72,4 +72,4 @@ class BlacklistStateFetcher {
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_BLACKLIST_STATE_FETCHER_H_
+#endif  // CHROME_BROWSER_EXTENSIONS_BLOCKLIST_STATE_FETCHER_H_

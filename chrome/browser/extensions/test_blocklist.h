@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_H_
-#define CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_H_
+#ifndef CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_H_
+#define CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_H_
 
 #include <map>
 #include <string>
 
 #include "base/macros.h"
-#include "chrome/browser/extensions/blacklist.h"
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 
 namespace extensions {
 
@@ -35,7 +35,6 @@ class BlacklistStateFetcherMock : public BlacklistStateFetcher {
   std::map<std::string, BlocklistState> states_;
   int request_count_;
 };
-
 
 // A wrapper for an extensions::Blacklist that provides functionality for
 // testing. It sets up mocks for SafeBrowsing database and BlacklistFetcher,
@@ -94,4 +93,4 @@ class TestBlacklist {
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_TEST_BLACKLIST_H_
+#endif  // CHROME_BROWSER_EXTENSIONS_TEST_BLOCKLIST_H_

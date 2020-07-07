@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/test_blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/test_blocklist_state_fetcher.h"
 
 #include "base/stl_util.h"
 #include "base/threading/thread_task_runner_handle.h"
@@ -55,18 +55,19 @@ class DummySharedURLLoaderFactory : public network::SharedURLLoaderFactory {
 }  // namespace
 
 TestBlacklistStateFetcher::TestBlacklistStateFetcher(
-    BlacklistStateFetcher* fetcher) : fetcher_(fetcher) {
+    BlacklistStateFetcher* fetcher)
+    : fetcher_(fetcher) {
   fetcher_->SetSafeBrowsingConfig(safe_browsing::GetTestV4ProtocolConfig());
 
   url_loader_factory_ = base::MakeRefCounted<DummySharedURLLoaderFactory>();
   fetcher_->url_loader_factory_ = url_loader_factory_.get();
 }
 
-TestBlacklistStateFetcher::~TestBlacklistStateFetcher() {
-}
+TestBlacklistStateFetcher::~TestBlacklistStateFetcher() {}
 
 void TestBlacklistStateFetcher::SetBlacklistVerdict(
-    const std::string& id, ClientCRXListInfoResponse_Verdict state) {
+    const std::string& id,
+    ClientCRXListInfoResponse_Verdict state) {
   verdicts_[id] = state;
 }
 

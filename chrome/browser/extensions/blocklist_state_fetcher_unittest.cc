@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/blocklist_state_fetcher.h"
 
 #include "base/bind.h"
 #include "base/run_loop.h"
-#include "chrome/browser/extensions/test_blacklist_state_fetcher.h"
+#include "chrome/browser/extensions/test_blocklist_state_fetcher.h"
 #include "chrome/common/safe_browsing/crx_info.pb.h"
 #include "content/public/test/browser_task_environment.h"
 #include "testing/gtest/include/gtest/gtest.h"
@@ -45,8 +45,7 @@ TEST_F(BlacklistStateFetcherTest, RequestMultipleBlacklistStates) {
 
   tester.SetBlacklistVerdict(
       "a", ClientCRXListInfoResponse_Verdict_NOT_IN_BLACKLIST);
-  tester.SetBlacklistVerdict(
-      "b", ClientCRXListInfoResponse_Verdict_MALWARE);
+  tester.SetBlacklistVerdict("b", ClientCRXListInfoResponse_Verdict_MALWARE);
   tester.SetBlacklistVerdict(
       "c", ClientCRXListInfoResponse_Verdict_SECURITY_VULNERABILITY);
   tester.SetBlacklistVerdict(
