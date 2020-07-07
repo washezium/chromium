@@ -607,6 +607,9 @@ std::vector<std::unique_ptr<autofill::PasswordForm>> CopyOf(
 - (void)savePasswordsSwitchChanged:(UISwitch*)switchView {
   // Update the setting.
   [_passwordManagerEnabled setValue:switchView.on];
+
+  // Update the item.
+  _savePasswordsItem.on = [_passwordManagerEnabled value];
 }
 
 // Called when the user clicks on the information button of the managed
@@ -1449,8 +1452,10 @@ std::vector<std::unique_ptr<autofill::PasswordForm>> CopyOf(
 // Sets the save passwords switch item's enabled status to |enabled| and
 // reconfigures the corresponding cell.
 - (void)setSavePasswordsSwitchItemEnabled:(BOOL)enabled {
-  [_savePasswordsItem setEnabled:enabled];
-  [self reconfigureCellsForItems:@[ _savePasswordsItem ]];
+  if (_savePasswordsItem) {
+    [_savePasswordsItem setEnabled:enabled];
+    [self reconfigureCellsForItems:@[ _savePasswordsItem ]];
+  }
 }
 
 // Enables/disables search bar.
