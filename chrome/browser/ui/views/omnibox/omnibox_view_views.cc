@@ -1729,8 +1729,8 @@ void OmniboxViewViews::DidFinishNavigation(
     // Handling same-document or non-main-frame navigations is a bit tricky
     // because they shouldn't change the current elision/unelision state:
     // - If the user hadn't interacted with the previous page, then we don't
-    // need to do anything: the URL is already unelided and we're waiting for a
-    // user interaction to animate it to the simplified domain.
+    // need to do anything: the URL is currently unelided and we're waiting for
+    // a user interaction to animate it to the simplified domain.
     // - If the user interacted with the page, and we are currently animating to
     // the simplified domain as a result, we want to let the animation run
     // undisturbed, eventually ending up in the elided state.
@@ -1770,9 +1770,8 @@ void OmniboxViewViews::DidGetUserInteraction(
   // designed to draw the user's attention and suggest that they can return to
   // the omnibox to uncover the full URL.
 
-  // If the animation already exists, we've already processed a user interaction
-  // on this navigation and elided to the simplified domain (or are in the
-  // process of doing so). There's no need to do anything in this case.
+  // Only create and run the animation if we haven't already done so on an
+  // earlier call to this method.
   if (IsURLEligibleForSimplifiedDomainEliding() &&
       !elide_after_interaction_animation_) {
     GetRenderText()->SetElideBehavior(gfx::NO_ELIDE);
@@ -1783,7 +1782,8 @@ void OmniboxViewViews::DidGetUserInteraction(
                                               0 /* delay_ms */);
   }
   // Now that the URL is being elided, create the animation to bring it back on
-  // hover (if enabled via field trial).
+  // hover (if enabled via field trial), if it hasn't already been created on an
+  // earlier call to this method.
   if (OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover() &&
       !hover_elide_or_unelide_animation_) {
     hover_elide_or_unelide_animation_ =
