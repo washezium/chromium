@@ -52,6 +52,7 @@ namespace {
 bool RunOneTest(const content::TestInfo& test_info,
                 content::WebTestControlHost* web_test_control_host,
                 content::BrowserMainRunner* main_runner) {
+  TRACE_EVENT0("shell", "WebTestBrowserMainRunner::RunOneTest");
   DCHECK(web_test_control_host);
 
   if (!web_test_control_host->PrepareForWebTest(test_info))
@@ -63,6 +64,7 @@ bool RunOneTest(const content::TestInfo& test_info,
 }
 
 void RunTests(content::BrowserMainRunner* main_runner) {
+  TRACE_EVENT0("shell", "WebTestBrowserMainRunner::RunTests");
   content::WebTestControlHost test_controller;
   {
     // We're outside of the message loop here, and this is a test.
