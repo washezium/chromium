@@ -21041,6 +21041,8 @@ Called by update_document_policy_enum.py.-->
   <int value="727" label="ExtensionInstallEventLoggingEnabled"/>
   <int value="728" label="EnterpriseRealTimeUrlCheckMode"/>
   <int value="729" label="AssistantOnboardingMode"/>
+  <int value="730" label="DeviceExternalPrintServers"/>
+  <int value="731" label="DeviceExternalPrintServersAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
