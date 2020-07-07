@@ -4683,6 +4683,15 @@ HRESULT AXPlatformNodeWin::GetTextAttributeValue(TEXTATTRIBUTEID attribute_id,
       V_VT(result) = VT_I4;
       V_I4(result) = ComputeUIAStyleId();
       break;
+    case UIA_HorizontalTextAlignmentAttributeId: {
+      base::Optional<HorizontalTextAlignment> horizontal_text_alignment =
+          AXTextAlignToUIAHorizontalTextAlignment(GetData().GetTextAlign());
+      if (horizontal_text_alignment) {
+        V_VT(result) = VT_I4;
+        V_I4(result) = *horizontal_text_alignment;
+      }
+      break;
+    }
     case UIA_UnderlineStyleAttributeId:
       V_VT(result) = VT_I4;
       V_I4(result) = GetUIATextDecorationStyle(
@@ -4772,6 +4781,24 @@ LONG AXPlatformNodeWin::ComputeUIAStyleId() const {
   } while (current_node);
 
   return StyleId_Normal;
+}
+
+// static
+base::Optional<HorizontalTextAlignment>
+AXPlatformNodeWin::AXTextAlignToUIAHorizontalTextAlignment(
+    ax::mojom::TextAlign text_align) {
+  switch (text_align) {
+    case ax::mojom::TextAlign::kNone:
+      return base::nullopt;
+    case ax::mojom::TextAlign::kLeft:
+      return HorizontalTextAlignment_Left;
+    case ax::mojom::TextAlign::kRight:
+      return HorizontalTextAlignment_Right;
+    case ax::mojom::TextAlign::kCenter:
+      return HorizontalTextAlignment_Centered;
+    case ax::mojom::TextAlign::kJustify:
+      return HorizontalTextAlignment_Justified;
+  }
 }
 
 // static
