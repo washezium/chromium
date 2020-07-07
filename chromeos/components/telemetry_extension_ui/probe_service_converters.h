@@ -56,6 +56,12 @@ std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> Convert(
 health::mojom::NonRemovableBlockDeviceResultPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceResultPtr input);
 
+health::mojom::CachedVpdInfoPtr Convert(
+    cros_healthd::mojom::CachedVpdInfoPtr input);
+
+health::mojom::CachedVpdResultPtr Convert(
+    cros_healthd::mojom::CachedVpdResultPtr input);
+
 health::mojom::TelemetryInfoPtr Convert(
     cros_healthd::mojom::TelemetryInfoPtr input);
 

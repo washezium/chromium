@@ -59,7 +59,8 @@ UNTRUSTED_TEST('UntrustedCanSpawnWorkers', async () => {
 UNTRUSTED_TEST('UntustedRequestTelemetryInfo', async () => {
   /** @type {!ProbeTelemetryInfoResponse} */
   const response = await requestTelemetryInfo();
-  assertDeepEquals(
-      response,
-      {'telemetryInfo': {'batteryResult': null, 'blockDeviceResult': null}});
+  assertDeepEquals(response, {
+    'telemetryInfo':
+        {'batteryResult': null, 'blockDeviceResult': null, 'vpdResult': null}
+  });
 });

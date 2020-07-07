@@ -20,6 +20,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kBattery;
     case health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices:
       return cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices;
+    case health::mojom::ProbeCategoryEnum::kCachedVpdData:
+      return cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData;
   }
   NOTREACHED();
 }
@@ -182,6 +184,36 @@ health::mojom::NonRemovableBlockDeviceResultPtr Convert(
   return output;
 }
 
+health::mojom::CachedVpdInfoPtr Convert(
+    cros_healthd::mojom::CachedVpdInfoPtr input) {
+  if (!input) {
+    return nullptr;
+  }
+
+  auto output = health::mojom::CachedVpdInfo::New();
+
+  output->sku_number = std::move(input->sku_number);
+
+  return output;
+}
+
+health::mojom::CachedVpdResultPtr Convert(
+    cros_healthd::mojom::CachedVpdResultPtr input) {
+  if (!input) {
+    return nullptr;
+  }
+
+  auto output = health::mojom::CachedVpdResult::New();
+
+  if (input->is_error()) {
+    output->set_error(Convert(std::move(input->get_error())));
+  } else if (input->is_vpd_info()) {
+    output->set_vpd_info(Convert(std::move(input->get_vpd_info())));
+  }
+
+  return output;
+}
+
 health::mojom::TelemetryInfoPtr Convert(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   if (!input) {
@@ -190,7 +222,8 @@ health::mojom::TelemetryInfoPtr Convert(
 
   return health::mojom::TelemetryInfo::New(
       Convert(std::move(input->battery_result)),
-      Convert(std::move(input->block_device_result)));
+      Convert(std::move(input->block_device_result)),
+      Convert(std::move(input->vpd_result)));
 }
 
 }  // namespace probe_service_converters

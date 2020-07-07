@@ -49,6 +49,7 @@ interface ProbeService {
 enum ProbeCategoryEnum {
   kBattery,
   kNonRemovableBlockDevices,
+  kCachedVpdData,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -187,6 +188,21 @@ union NonRemovableBlockDeviceResult {
   ProbeError error;
 };
 
+// Cached VPD read from sysfs.
+struct CachedVpdInfo {
+  // Contents of /sys/firmware/vpd/ro/sku_number, if the device supports it.
+  string? sku_number;
+};
+
+// Cached VPD probe result. Can either be populated with the CachedVpdInfo or an
+// error retrieving the information.
+union CachedVpdResult {
+  // Valid CachedVpdInfo.
+  CachedVpdInfo vpd_info;
+  // The error that occurred attempting to retrieve the CachedVpdInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -202,4 +218,7 @@ struct TelemetryInfo {
   // present when kNonRemovableBlockDevices was included in the categories input
   // to ProbeTelemetryInfo.
   NonRemovableBlockDeviceResult? block_device_result;
+  // Only present when kCachedVpdData was included in the categories input to
+  // ProbeTelemetryInfo.
+  CachedVpdResult? vpd_result;
 };
