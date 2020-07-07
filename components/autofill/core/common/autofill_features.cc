@@ -124,6 +124,12 @@ const base::Feature kAutofillImportPrefilledCountryAndStateValues{
 const base::Feature kAutofillKeepInitialFormValuesInCache{
     "AutofillKeepCachedFormValues", base::FEATURE_ENABLED_BY_DEFAULT};
 
+// When enabled, Autofill will use FieldRendererIds instead of unique_names
+// to align forms in FormStructure::RetrieveFromCache().
+const base::Feature kAutofillRetrieveFromCacheWithRendererIds{
+    "AutofillRetrieveFromCacheWithRendererIds",
+    base::FEATURE_DISABLED_BY_DEFAULT};
+
 // When enabled, autofill suggestions are displayed in the keyboard accessory
 // instead of the regular popup.
 const base::Feature kAutofillKeyboardAccessory{
