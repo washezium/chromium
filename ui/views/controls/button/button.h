@@ -312,8 +312,7 @@ class VIEWS_EXPORT Button : public InkDropHostView,
     ~WidgetObserverButtonBridge() override;
 
     // WidgetObserver:
-    void OnWidgetPaintAsActiveChanged(Widget* widget,
-                                      bool paint_as_active) override;
+    void OnWidgetPaintAsActiveChanged(Widget* widget) override;
     void OnWidgetDestroying(Widget* widget) override;
 
    private:
@@ -325,7 +324,7 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   void OnEnabledChanged();
 
   // Called when the widget's "paint as active" state has changed.
-  void WidgetPaintAsActiveChanged(Widget* widget, bool active);
+  void WidgetPaintAsActiveChanged();
 
   // The text shown in a tooltip.
   base::string16 tooltip_text_;

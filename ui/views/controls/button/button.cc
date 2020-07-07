@@ -45,10 +45,10 @@ DEFINE_UI_CLASS_PROPERTY_KEY(bool, kIsButtonProperty, false)
 
 }  // namespace
 
-Button::WidgetObserverButtonBridge::WidgetObserverButtonBridge(Button* button)
-    : owner_(button) {
-  DCHECK(button->GetWidget());
-  button->GetWidget()->AddObserver(this);
+Button::WidgetObserverButtonBridge::WidgetObserverButtonBridge(Button* owner)
+    : owner_(owner) {
+  DCHECK(owner_->GetWidget());
+  owner_->GetWidget()->AddObserver(this);
 }
 
 Button::WidgetObserverButtonBridge::~WidgetObserverButtonBridge() {
@@ -58,9 +58,8 @@ Button::WidgetObserverButtonBridge::~WidgetObserverButtonBridge() {
 }
 
 void Button::WidgetObserverButtonBridge::OnWidgetPaintAsActiveChanged(
-    Widget* widget,
-    bool paint_as_active) {
-  owner_->WidgetPaintAsActiveChanged(widget, paint_as_active);
+    Widget* widget) {
+  owner_->WidgetPaintAsActiveChanged();
 }
 
 void Button::WidgetObserverButtonBridge::OnWidgetDestroying(Widget* widget) {
@@ -619,7 +618,7 @@ void Button::OnEnabledChanged() {
   }
 }
 
-void Button::WidgetPaintAsActiveChanged(Widget* widget, bool paint_as_active) {
+void Button::WidgetPaintAsActiveChanged() {
   StateChanged(state());
 }
 
