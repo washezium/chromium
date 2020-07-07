@@ -199,6 +199,9 @@ class ShellSurfaceBase : public SurfaceTreeHost,
   }
 
   Surface* surface_for_testing() { return root_surface(); }
+  bool get_shadow_bounds_changed_for_testing() {
+    return shadow_bounds_changed_;
+  }
 
  protected:
   // Creates the |widget_| for |surface_|. |show_state| is the initial state
@@ -248,6 +251,8 @@ class ShellSurfaceBase : public SurfaceTreeHost,
       views::Widget* widget,
       bool client_controlled);
 
+  virtual void OnPostWidgetCommit();
+
   views::Widget* widget_ = nullptr;
   aura::Window* parent_ = nullptr;
   bool movement_disabled_ = false;
@@ -284,7 +289,6 @@ class ShellSurfaceBase : public SurfaceTreeHost,
 
   // Commit is deferred if this returns false.
   virtual bool OnPreWidgetCommit() = 0;
-  virtual void OnPostWidgetCommit();
 
   void CommitWidget();
 
