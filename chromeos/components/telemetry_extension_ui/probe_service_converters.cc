@@ -13,6 +13,8 @@
 namespace chromeos {
 namespace probe_service_converters {
 
+namespace {
+
 cros_healthd::mojom::ProbeCategoryEnum Convert(
     health::mojom::ProbeCategoryEnum input) {
   switch (input) {
@@ -26,14 +28,7 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
   NOTREACHED();
 }
 
-std::vector<cros_healthd::mojom::ProbeCategoryEnum> Convert(
-    const std::vector<health::mojom::ProbeCategoryEnum>& input) {
-  std::vector<cros_healthd::mojom::ProbeCategoryEnum> output;
-  for (auto category : input) {
-    output.push_back(Convert(category));
-  }
-  return output;
-}
+}  // namespace
 
 health::mojom::ErrorType Convert(cros_healthd::mojom::ErrorType input) {
   switch (input) {
@@ -128,10 +123,6 @@ health::mojom::BatteryResultPtr Convert(
 
 health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr input) {
-  DCHECK(input) << "NonRemovableBlockDeviceInfoPtr must never be nullptr since "
-                   "its always item in the array, so originally array must not "
-                   "contain nullptr items.";
-
   auto output = health::mojom::NonRemovableBlockDeviceInfo::New();
 
   output->path = std::move(input->path);
@@ -157,15 +148,6 @@ health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
   return output;
 }
 
-std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> Convert(
-    std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> input) {
-  std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> output;
-  for (size_t i = 0; i < input.size(); ++i) {
-    output.push_back(Convert(std::move(input[i])));
-  }
-  return output;
-}
-
 health::mojom::NonRemovableBlockDeviceResultPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceResultPtr input) {
   if (!input) {
@@ -178,7 +160,8 @@ health::mojom::NonRemovableBlockDeviceResultPtr Convert(
     output->set_error(Convert(std::move(input->get_error())));
   } else if (input->is_block_device_info()) {
     output->set_block_device_info(
-        Convert(std::move(input->get_block_device_info())));
+        ConvertPtrVector<health::mojom::NonRemovableBlockDeviceInfoPtr>(
+            std::move(input->get_block_device_info())));
   }
 
   return output;
@@ -224,6 +207,15 @@ health::mojom::TelemetryInfoPtr Convert(
       Convert(std::move(input->battery_result)),
       Convert(std::move(input->block_device_result)),
       Convert(std::move(input->vpd_result)));
+}
+
+std::vector<cros_healthd::mojom::ProbeCategoryEnum> ConvertCategoryVector(
+    const std::vector<health::mojom::ProbeCategoryEnum>& input) {
+  std::vector<cros_healthd::mojom::ProbeCategoryEnum> output;
+  for (const auto element : input) {
+    output.push_back(Convert(element));
+  }
+  return output;
 }
 
 }  // namespace probe_service_converters

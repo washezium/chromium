@@ -17,21 +17,17 @@ using testing::ElementsAre;
 namespace chromeos {
 namespace probe_service_converters {
 
-TEST(ProbeServiceConvertors, ProbeCategoryEnum) {
-  EXPECT_EQ(Convert(health::mojom::ProbeCategoryEnum::kBattery),
-            cros_healthd::mojom::ProbeCategoryEnum::kBattery);
-  EXPECT_EQ(
-      Convert(health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices),
-      cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices);
-  EXPECT_EQ(Convert(health::mojom::ProbeCategoryEnum::kCachedVpdData),
-            cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData);
-}
-
-TEST(ProbeServiceConvertors, ProbeCategoryEnumVector) {
+TEST(ProbeServiceConvertors, ConvertCategoryVector) {
   const std::vector<health::mojom::ProbeCategoryEnum> kInput{
-      health::mojom::ProbeCategoryEnum::kBattery};
-  EXPECT_THAT(Convert(kInput),
-              ElementsAre(cros_healthd::mojom::ProbeCategoryEnum::kBattery));
+      health::mojom::ProbeCategoryEnum::kBattery,
+      health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
+      health::mojom::ProbeCategoryEnum::kCachedVpdData};
+  EXPECT_THAT(
+      ConvertCategoryVector(kInput),
+      ElementsAre(
+          cros_healthd::mojom::ProbeCategoryEnum::kBattery,
+          cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
+          cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData));
 }
 
 TEST(ProbeServiceConvertors, ErrorType) {

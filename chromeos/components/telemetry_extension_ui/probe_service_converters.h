@@ -9,8 +9,10 @@
 #error Probe service convertors should only be included in unofficial builds.
 #endif
 
+#include <cstdint>
 #include <vector>
 
+#include "base/check.h"
 #include "chromeos/components/telemetry_extension_ui/mojom/probe_service.mojom-forward.h"
 #include "chromeos/services/cros_healthd/public/mojom/cros_healthd_probe.mojom-forward.h"
 
@@ -19,12 +21,6 @@ namespace probe_service_converters {
 
 // This file contains helper functions used by ProbeService to convert its
 // types to/from cros_healthd ProbeService types.
-
-cros_healthd::mojom::ProbeCategoryEnum Convert(
-    health::mojom::ProbeCategoryEnum input);
-
-std::vector<cros_healthd::mojom::ProbeCategoryEnum> Convert(
-    const std::vector<health::mojom::ProbeCategoryEnum>& input);
 
 health::mojom::ErrorType Convert(cros_healthd::mojom::ErrorType type);
 
@@ -50,9 +46,6 @@ health::mojom::BatteryResultPtr Convert(
 health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr input);
 
-std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> Convert(
-    std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> input);
-
 health::mojom::NonRemovableBlockDeviceResultPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceResultPtr input);
 
@@ -64,6 +57,19 @@ health::mojom::CachedVpdResultPtr Convert(
 
 health::mojom::TelemetryInfoPtr Convert(
     cros_healthd::mojom::TelemetryInfoPtr input);
+
+template <class OutputT, class InputT>
+std::vector<OutputT> ConvertPtrVector(std::vector<InputT> input) {
+  std::vector<OutputT> output;
+  for (auto&& element : input) {
+    DCHECK(!element.is_null());
+    output.push_back(Convert(std::move(element)));
+  }
+  return output;
+}
+
+std::vector<cros_healthd::mojom::ProbeCategoryEnum> ConvertCategoryVector(
+    const std::vector<health::mojom::ProbeCategoryEnum>& input);
 
 }  // namespace probe_service_converters
 }  // namespace chromeos
