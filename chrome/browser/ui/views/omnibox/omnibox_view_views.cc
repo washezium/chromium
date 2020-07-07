@@ -184,9 +184,16 @@ void OmniboxViewViews::ElideAnimation::Start(const gfx::Range& elide_to_bounds,
   elide_to_rect_ = gfx::Rect();
   for (const auto& rect : render_text_->GetSubstringBounds(elide_to_bounds))
     elide_to_rect_.Union(rect);
+  // The URL should never shift vertically while eliding to/from simplified
+  // domain.
+  elide_to_rect_.set_y(elide_from_rect_.y());
+  elide_to_rect_.set_height(elide_from_rect_.height());
 
   starting_display_offset_ = render_text_->GetUpdatedDisplayOffset().x();
-  ending_display_offset_ = starting_display_offset_ + -1 * (elide_to_rect_.x());
+  // Shift the text to where |elide_to_bounds| starts, relative to the current
+  // display rect.
+  ending_display_offset_ =
+      starting_display_offset_ - (elide_to_rect_.x() - elide_from_rect_.x());
 
   animation_->Start();
 }
@@ -216,12 +223,18 @@ void OmniboxViewViews::ElideAnimation::AnimationProgressed(
     return;
 
   // |bounds| contains the interpolated substring to show for this frame. Shift
-  // it to x=0 position because the animation should gradually bring the desired
-  // string into view at the leftmost position.
+  // it to line up with the x position of the previous frame (|old_bounds|),
+  // because the animation should gradually bring the desired string into view
+  // at the leading edge. The y/height values shouldn't change because
+  // |elide_to_rect_| is set to have the same y and height values as
+  // |elide_to_rect_|.
+  gfx::Rect old_bounds = render_text_->display_rect();
   gfx::Rect bounds = gfx::Tween::RectValueBetween(
       animation->GetCurrentValue(), elide_from_rect_, elide_to_rect_);
-  gfx::Rect shifted_bounds(/*x=*/0, bounds.y(), bounds.width(),
-                           bounds.height());
+  DCHECK_EQ(bounds.y(), old_bounds.y());
+  DCHECK_EQ(bounds.height(), old_bounds.height());
+  gfx::Rect shifted_bounds(old_bounds.x(), old_bounds.y(), bounds.width(),
+                           old_bounds.height());
   render_text_->SetDisplayRect(shifted_bounds);
 
   render_text_->SetDisplayOffset(gfx::Tween::IntValueBetween(
@@ -430,7 +443,7 @@ void OmniboxViewViews::EmphasizeURLComponents() {
     } else {
       // If the text isn't eligible to be elided to a simplified domain, then
       // ensure that as much of it is visible as will fit.
-      GetRenderText()->SetDisplayRect(GetLocalBounds());
+      FitToLocalBounds();
     }
   }
 }
@@ -1675,9 +1688,9 @@ void OmniboxViewViews::OnBlur() {
       if (IsURLEligibleForSimplifiedDomainEliding()) {
         ElideToSimplifiedDomain();
       } else {
-        // If the text isn't a URL that can be elided to a simplified domain,
-        // then ensure that as much of it is visible as possible.
-        GetRenderText()->SetDisplayRect(GetLocalBounds());
+        // If the text isn't eligible to be elided to a simplified domain, then
+        // ensure that as much of it is visible as will fit.
+        FitToLocalBounds();
       }
     } else if (OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction()) {
       // When hide-on-interaction is enabled, this method ensures that, once the
@@ -2354,17 +2367,22 @@ void OmniboxViewViews::ElideToSimplifiedDomain() {
   }
 
   // |simplified_domain_rect| gives us the current bounds of the simplified
-  // domain substring. We shift it to the leftmost edge of the omnibox, and then
-  // scroll to where the simplified domain begins, so that the simplified domain
+  // domain substring. We shift it to the leftmost edge of the omnibox (as
+  // determined by the x position of the current display rect), and then scroll
+  // to where the simplified domain begins, so that the simplified domain
   // appears at the leftmost edge.
-  gfx::Rect shifted_simplified_domain_rect(/*x=*/0, simplified_domain_rect.y(),
+  gfx::Rect old_bounds = GetRenderText()->display_rect();
+  // Use |old_bounds| for y and height values because the URL should never shift
+  // vertically while eliding to/from simplified domain.
+  gfx::Rect shifted_simplified_domain_rect(old_bounds.x(), old_bounds.y(),
                                            simplified_domain_rect.width(),
-                                           simplified_domain_rect.height());
-
+                                           old_bounds.height());
   GetRenderText()->SetDisplayRect(shifted_simplified_domain_rect);
+  // Scroll the text to where the simplified domain begins, relative to the
+  // leftmost edge of the current display rect.
   GetRenderText()->SetDisplayOffset(
       GetRenderText()->GetUpdatedDisplayOffset().x() -
-      simplified_domain_rect.x());
+      (simplified_domain_rect.x() - old_bounds.x()));
 }
 
 void OmniboxViewViews::UnelideFromSimplifiedDomain() {
@@ -2378,9 +2396,8 @@ void OmniboxViewViews::UnelideFromSimplifiedDomain() {
   if (elide_after_interaction_animation_)
     elide_after_interaction_animation_->Stop();
   ApplyCaretVisibility();
+  FitToLocalBounds();
   GetRenderText()->SetElideBehavior(gfx::ELIDE_TAIL);
-  GetRenderText()->SetDisplayRect(GetLocalBounds());
-  GetRenderText()->SetDisplayOffset(0);
 }
 
 OmniboxViewViews::ElideAnimation*

@@ -1823,6 +1823,67 @@ TEST_P(OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
   EXPECT_FALSE(elide_animation->IsAnimating());
 }
 
+// Tests that vertical and horizontal positioning doesn't change when eliding
+// to/from simplified domain. Regression test for https://crbug.com/1101674.
+TEST_P(OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+       VerticalAndHorizontalPosition) {
+  const base::string16 kDisplayUrl = base::ASCIIToUTF16("foo.example.test/bar");
+  location_bar_model()->set_url(GURL("https://foo.example.test/bar"));
+  location_bar_model()->set_url_for_display(kDisplayUrl);
+  omnibox_view()->model()->ResetDisplayTexts();
+  omnibox_view()->RevertAll();
+  gfx::RenderText* render_text = omnibox_view()->GetRenderText();
+
+  // Call OnThemeChanged() to create the animations.
+  omnibox_view()->OnThemeChanged();
+
+  const gfx::Rect& original_display_rect = render_text->display_rect();
+
+  content::MockNavigationHandle navigation;
+  navigation.set_is_same_document(false);
+  omnibox_view()->DidFinishNavigation(&navigation);
+  ASSERT_NO_FATAL_FAILURE(ExpectUnelidedFromSimplifiedDomain(
+      omnibox_view()->GetRenderText(), kDisplayUrl));
+
+  // After a navigation, the URL should not be elided to the simplified domain,
+  // and the display rect (including vertical and horizontal position) should be
+  // unchanged.
+  ASSERT_NO_FATAL_FAILURE(ExpectUnelidedFromSimplifiedDomain(
+      omnibox_view()->GetRenderText(), kDisplayUrl));
+  EXPECT_EQ(original_display_rect, render_text->display_rect());
+
+  // Simulate a user interaction to elide to simplified domain and advance
+  // through the animation; the vertical position should still be unchanged, and
+  // the text should still start at the some position (the same x value).
+  omnibox_view()->DidGetUserInteraction(
+      blink::WebInputEvent::Type::kGestureScrollBegin);
+  OmniboxViewViews::ElideAnimation* elide_animation =
+      omnibox_view()->GetElideAfterInteractionAnimationForTesting();
+  gfx::AnimationContainerElement* elide_as_element =
+      elide_animation->GetAnimationForTesting();
+  elide_as_element->SetStartTime(base::TimeTicks());
+  elide_as_element->Step(base::TimeTicks() + base::TimeDelta::FromSeconds(1));
+  const gfx::Rect& elided_display_rect = render_text->display_rect();
+  EXPECT_EQ(original_display_rect.y(), elided_display_rect.y());
+  EXPECT_EQ(original_display_rect.height(), elided_display_rect.height());
+  EXPECT_EQ(original_display_rect.x(), elided_display_rect.x());
+
+  // Now hover over the omnibox to trigger an unelide and check that the display
+  // rect (including vertical and horizontal position) is back to what it was
+  // originally.
+  omnibox_view()->OnMouseMoved(CreateMouseEvent(ui::ET_MOUSE_MOVED, {0, 0}));
+  OmniboxViewViews::ElideAnimation* unelide_animation =
+      omnibox_view()->GetHoverElideOrUnelideAnimationForTesting();
+  ASSERT_TRUE(unelide_animation);
+  gfx::AnimationContainerElement* unelide_as_element =
+      static_cast<gfx::AnimationContainerElement*>(
+          unelide_animation->GetAnimationForTesting());
+  unelide_as_element->SetStartTime(base::TimeTicks());
+  unelide_as_element->Step(base::TimeTicks() + base::TimeDelta::FromSeconds(1));
+  const gfx::Rect& unelided_display_rect = render_text->display_rect();
+  EXPECT_EQ(original_display_rect, unelided_display_rect);
+}
+
 // Tests that in the hide-on-interaction field trial, the URL is simplified on
 // cross-document main-frame navigations, but not on same-document navigations.
 TEST_P(OmniboxViewViewsHideOnInteractionTest, SameDocNavigations) {
