@@ -200,8 +200,6 @@ class WebApp {
   bool is_in_sync_install_ = false;
   std::vector<WebApplicationIconInfo> icon_infos_;
   std::vector<SquareSizePx> downloaded_icon_sizes_;
-  // TODO(https://crbug.com/1069312): Serialize shortcut_infos_ and
-  // downloaded_shortcuts_menu_icons_sizes_ fields in WebAppDatabase.
   std::vector<WebApplicationShortcutsMenuItemInfo> shortcut_infos_;
   std::vector<std::vector<SquareSizePx>> downloaded_shortcuts_menu_icons_sizes_;
   apps::FileHandlers file_handlers_;
