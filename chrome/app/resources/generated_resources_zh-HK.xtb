@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">已知網絡</translation>
 <translation id="123578888592755962">磁碟空間已滿</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">顯示輸入個人資料建議</translation>
 <translation id="1239594683407221485">在「檔案」應用程式中探索裝置內容。</translation>
 <translation id="124116460088058876">更多語言</translation>
 <translation id="1241753985463165747">調用時讀取及變更您在目前網站上的所有資料</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">如要復原帳戶資料，請前往：google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">系統安全性設定</translation>
 <translation id="2091887806945687916">音效</translation>
-<translation id="2096478741073211388">個人資料建議可在您輸入部分特定字詞時建議名字、地址或電話號碼，從而提高輸入速度。只有您能夠看見您帳戶的私人個人化建議。</translation>
 <translation id="2096715839409389970">清除第三方 Cookie</translation>
 <translation id="2097372108957554726">您必須登入 Chrome 以註冊新裝置</translation>
 <translation id="2099172618127234427">您即將啟用 Chrome 作業系統偵錯功能；啟用後，系統會設定 sshd 協助程式，並啟用 USB 記憶體開機功能。</translation>
@@ -1372,6 +1370,7 @@
 <translation id="2682498795777673382">您的家長已更新設定</translation>
 <translation id="2683638487103917598">資料夾已排序</translation>
 <translation id="2684004000387153598">如要繼續操作，請按一下 [確定]，然後按一下 [新增使用者]，即可為您的電郵地址建立新的設定檔。</translation>
+<translation id="2686222346846590368">這是此 <ph name="DEVICE_TYPE" /> 最後一次自動更新軟件和安全性。如要取得後續更新，請升級為較新的型號。&lt;a target="_blank" href="<ph name="URL" />"&gt;瞭解詳情<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">封鎖所有 Cookie (不建議)</translation>
 <translation id="2687407218262674387">Google 服務條款</translation>
 <translation id="2688196195245426394">向伺服器註冊裝置時發生錯誤：<ph name="CLIENT_ERROR" />。</translation>
@@ -1394,6 +1393,7 @@
 <translation id="2712173769900027643">要求權限</translation>
 <translation id="2713444072780614174">白色</translation>
 <translation id="2714393097308983682">Google Play 商店</translation>
+<translation id="2714997332747470971">個人資料建議可提供關於姓名、地址或電話號碼等建議，從而提高輸入速度。只有您會看到自己帳戶的私人和個人化建議。</translation>
 <translation id="2715751256863167692">此升級操作會重設您的 Chromebook 硬件，並刪除目前的使用者資料。</translation>
 <translation id="2716986496990888774">此設定由家長管理。</translation>
 <translation id="2718395828230677721">夜燈模式</translation>
@@ -2893,6 +2893,7 @@
 <translation id="4608520674724523647">成功註冊嘅插圖</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> 含有敏感內容</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> 發生錯誤</translation>
+<translation id="4610178114344604329">顯示個人資料建議</translation>
 <translation id="4610637590575890427">您的意思是想瀏覽 <ph name="SITE" /> 嗎？</translation>
 <translation id="4611114513649582138">可使用數據連線</translation>
 <translation id="4613144866899789710">正在取消安裝 Linux…</translation>
@@ -6203,6 +6204,7 @@
 <translation id="8798441408945964110">供應商名稱</translation>
 <translation id="8800004011501252845">顯示以下地址的目的地：</translation>
 <translation id="8800034312320686233">網站無法正常運作嗎？</translation>
+<translation id="880069872639153240">根據輸入內容取得 Emoji 建議</translation>
 <translation id="8803953437405899238">按一下即可開啟新分頁</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{將分頁移至其他視窗}other{將分頁移至其他視窗}}</translation>
 <translation id="8805140816472474147">如要開始同步處理，請確認同步處理設定。</translation>
@@ -6404,7 +6406,6 @@
 <translation id="9033765790910064284">仍要繼續</translation>
 <translation id="9033857511263905942">貼上(&amp;P)</translation>
 <translation id="9037965129289936994">顯示原文</translation>
-<translation id="903797871439633902">這是此 <ph name="DEVICE_TYPE" /> 最後一次自動更新軟件和安全性。如要取得後續更新，請升級為較新的型號。&lt;a target="_blank" href="<ph name="URL" />"&gt;瞭解詳情&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{您還可再試 1 次。}other{您還可再試 # 次。}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">要更新 <ph name="ORIGIN" /> 的密碼嗎？</translation>

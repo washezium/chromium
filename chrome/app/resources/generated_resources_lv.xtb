@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Zināmie tīkli</translation>
 <translation id="123578888592755962">Disks ir pilns.</translation>
 <translation id="1238191093934674082">Atvērt VPN</translation>
-<translation id="1239439601391236986">Rādīt personas informācijas ievades ieteikumus</translation>
 <translation id="1239594683407221485">Pārlūkojiet ierīces saturu lietotnē Faili.</translation>
 <translation id="124116460088058876">Citas valodas…</translation>
 <translation id="1241753985463165747">Lasīt un mainīt visus jūsu datus pašreizējā vietnē, kad aktivizēts</translation>
@@ -886,7 +885,6 @@ Varat pārvaldīt šī konta iestatījumus, savā ierīcē instalējot lietotni 
 <translation id="2090165459409185032">Lai atgūtu konta informāciju, apmeklējiet vietni google.com/accounts/recovery.</translation>
 <translation id="2090876986345970080">Sistēmas drošības iestatījumi</translation>
 <translation id="2091887806945687916">Signāls</translation>
-<translation id="2096478741073211388">Personas informācijas ieteikumi palīdz jums rakstīt ātrāk, parādot jūsu vārdu, adresi vai tālruņa numuru, kad rakstāt konkrētus vārdus. Jūsu konta privātie, personalizētie ieteikumi ir redzami tikai jums.</translation>
 <translation id="2096715839409389970">Notīrīt trešo pušu sīkfailus</translation>
 <translation id="2097372108957554726">Lai reģistrētu jaunas ierīces, jums ir jāpierakstās pārlūkā Chrome.</translation>
 <translation id="2099172618127234427">Jūs iespējojat operētājsistēmas Chrome OS atkļūdošanas funkcijas, kas iestatīs sshd dēmonu un iespējos palaišanu no USB diskiem.</translation>
@@ -1373,6 +1371,7 @@ Varat pārvaldīt šī konta iestatījumus, savā ierīcē instalējot lietotni 
 <translation id="2682498795777673382">Atjauninājums no vecākiem</translation>
 <translation id="2683638487103917598">Mape ir sakārtota</translation>
 <translation id="2684004000387153598">Lai turpinātu, noklikšķiniet uz “Labi”, pēc tam noklikšķiniet uz “Pievienot personu” vai izveidojiet jaunu profilu savai e-pasta adresei.</translation>
+<translation id="2686222346846590368">Šis ir pēdējais automātiskais programmatūras un drošības atjauninājums šai ierīcei (<ph name="DEVICE_TYPE" />). Lai saņemtu turpmākus atjauninājumus, veiciet jaunināšanu uz jaunāku modeli. &lt;a target="_blank" href="<ph name="URL" />"&gt;Uzzināt vairāk<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloķēt visus sīkfailus (nav ieteicams)</translation>
 <translation id="2687407218262674387">Google pakalpojumu sniegšanas noteikumi</translation>
 <translation id="2688196195245426394">Reģistrējot ierīci serverī, radās kļūda: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Varat pārvaldīt šī konta iestatījumus, savā ierīcē instalējot lietotni 
 <translation id="2712173769900027643">Lūgt atļauju</translation>
 <translation id="2713444072780614174">Balta</translation>
 <translation id="2714393097308983682">Google Play veikals</translation>
+<translation id="2714997332747470971">Personas informācijas ieteikumi palīdz rakstīt ātrāk. Var tikt parādīti tādi ieteikumi kā jūsu vārds, adrese vai tālruņa numurs. Jūsu konta privātie, personalizētie ieteikumi ir redzami tikai jums.</translation>
 <translation id="2715751256863167692">Šis jauninājums atiestata jūsu Chromebook datoru un noņem pašreizējos lietotāju datus.</translation>
 <translation id="2716986496990888774">Šo iestatījumu pārvalda viens no vecākiem.</translation>
 <translation id="2718395828230677721">Nakts režīms</translation>
@@ -2894,6 +2894,7 @@ Vai vēlaties palaist rīku <ph name="CONTROL_PANEL_APPLET_NAME" />?</translatio
 <translation id="4608520674724523647">Ilustrācija: veiksmīga reģistrēšanās</translation>
 <translation id="4608703838363792434">Fails <ph name="FILE_NAME" /> ietver sensitīvu saturu.</translation>
 <translation id="4610162781778310380">Spraudnī <ph name="PLUGIN_NAME" /> radās kļūda.</translation>
+<translation id="4610178114344604329">Rādīt personas informācijas ieteikumus</translation>
 <translation id="4610637590575890427">Vai jūs vēlējāties doties uz <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Ir pieejams datu savienojums</translation>
 <translation id="4613144866899789710">Notiek Linux instalēšanas atcelšana...</translation>
@@ -6204,6 +6205,7 @@ Glabājiet atslēgas failu drošā vietā. Tas būs vajadzīgs, lai izveidotu ja
 <translation id="8798441408945964110">Pakalpojumu sniedzēja nosaukums</translation>
 <translation id="8800004011501252845">Tiek rādīti printeri šim:</translation>
 <translation id="8800034312320686233">Vai vietne nedarbojas?</translation>
+<translation id="880069872639153240">Saņemiet emocijzīmju ieteikumus atbilstoši jūsu rakstītajam tekstam</translation>
 <translation id="8803953437405899238">Atveriet jaunu cilni tikai ar vienu klikšķi</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Cilnes pārvietošana uz citu logu}zero{Ciļņu pārvietošana uz citu logu}one{Ciļņu pārvietošana uz citu logu}other{Ciļņu pārvietošana uz citu logu}}</translation>
 <translation id="8805140816472474147">Lai sāktu sinhronizēšanu, apstipriniet sinhronizēšanas iestatījumus.</translation>
@@ -6405,7 +6407,6 @@ Glabājiet atslēgas failu drošā vietā. Tas būs vajadzīgs, lai izveidotu ja
 <translation id="9033765790910064284">Tik un tā turpināt</translation>
 <translation id="9033857511263905942">&amp;Ielīmēt</translation>
 <translation id="9037965129289936994">Rādīt sākotnējo tekstu</translation>
-<translation id="903797871439633902">Šis ir pēdējais automātiskais programmatūras un drošības atjauninājums šai ierīcei (<ph name="DEVICE_TYPE" />). Lai saņemtu turpmākus atjauninājumus, veiciet jaunināšanu uz jaunāku modeli. &lt;a target="_blank" href="<ph name="URL" />"&gt;Uzzināt vairāk&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Ir atlicis viens mēģinājums.}zero{Ir atlikuši # mēģinājumi.}one{Ir atlicis # mēģinājums.}other{Ir atlikuši # mēģinājumi.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Vai atjaunināt paroli vietnei <ph name="ORIGIN" />?</translation>

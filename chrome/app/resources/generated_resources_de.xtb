@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Bekannte Netzwerke</translation>
 <translation id="123578888592755962">Datenträger voll</translation>
 <translation id="1238191093934674082">OpenVPN</translation>
-<translation id="1239439601391236986">Vorschläge zu personenbezogenen Daten anzeigen</translation>
 <translation id="1239594683407221485">Geräteinhalte in der App "Dateien" ansehen.</translation>
 <translation id="124116460088058876">Weitere Sprachen</translation>
 <translation id="1241753985463165747">Beim Aufrufen alle Ihre Daten auf der aktuellen Website lesen und ändern</translation>
@@ -883,7 +882,6 @@ Wenn Sie die Family Link App auf Ihrem Gerät installieren, können Sie die Eins
 <translation id="2090165459409185032">Besuchen Sie die folgende Seite, um Ihre Kontoinformationen wiederzuherstellen: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Sicherheitseinstellung des Systems</translation>
 <translation id="2091887806945687916">Ton</translation>
-<translation id="2096478741073211388">Vorschläge zu personenbezogenen Daten helfen Ihnen dabei, Text schneller einzugeben, indem Ihr Name, Ihre Adresse oder Ihre Telefonnummer vorgeschlagen werden, wenn Sie bestimmte Wörter eingeben. Sie sind nur in Ihrem Konto sichtbar.</translation>
 <translation id="2096715839409389970">Cookies von Drittanbietern löschen</translation>
 <translation id="2097372108957554726">Melden Sie sich in Chrome an, um neue Geräte zu registrieren.</translation>
 <translation id="2099172618127234427">Sie aktivieren Debugging-Funktionen für Chrome OS. Dadurch wird der SSHD-Daemon eingerichtet und das Starten über USB aktiviert.</translation>
@@ -1369,6 +1367,7 @@ Wenn Sie die Family Link App auf Ihrem Gerät installieren, können Sie die Eins
 <translation id="2682498795777673382">Deine Eltern haben etwas geändert</translation>
 <translation id="2683638487103917598">Ordner sortiert</translation>
 <translation id="2684004000387153598">Um fortzufahren, klicken Sie auf Ok. Klicken Sie dann auf "Person hinzufügen", um ein neues Profil für Ihre E-Mail-Adresse zu erstellen.</translation>
+<translation id="2686222346846590368">Das ist das letzte automatische Software- und Sicherheitsupdate für dieses <ph name="DEVICE_TYPE" />. Wenn Sie weiter Updates erhalten möchten, ist ein neueres Modell erforderlich. &lt;a target="_blank" href="<ph name="URL" />"&gt;Weitere Informationen<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Alle Cookies blockieren (nicht empfohlen)</translation>
 <translation id="2687407218262674387">Nutzungsbedingungen von Google</translation>
 <translation id="2688196195245426394">Fehler bei der Registrierung des Geräts auf dem Server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1391,6 +1390,7 @@ Wenn Sie die Family Link App auf Ihrem Gerät installieren, können Sie die Eins
 <translation id="2712173769900027643">Berechtigung anfordern</translation>
 <translation id="2713444072780614174">Weiß</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Vorschläge zu personenbezogenen Daten helfen Ihnen durch Vorschlagen Ihres Namens, Ihrer Adresse oder Ihrer Telefonnummer dabei, Text schneller einzugeben. Sie sind nur in Ihrem Konto sichtbar.</translation>
 <translation id="2715751256863167692">Durch dieses Upgrade wird Ihr Chromebook zurückgesetzt und die aktuellen Nutzerdaten werden entfernt.</translation>
 <translation id="2716986496990888774">Diese Einstellung wird von einem Elternteil verwaltet.</translation>
 <translation id="2718395828230677721">Nachtlicht</translation>
@@ -2890,6 +2890,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="4608520674724523647">Illustration zur Anmeldung</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> enthält vertrauliche Inhalte</translation>
 <translation id="4610162781778310380">Bei <ph name="PLUGIN_NAME" /> ist ein Fehler aufgetreten</translation>
+<translation id="4610178114344604329">Vorschläge zu personenbezogenen Daten anzeigen</translation>
 <translation id="4610637590575890427">Wollten Sie <ph name="SITE" /> aufrufen?</translation>
 <translation id="4611114513649582138">Datenverbindung verfügbar</translation>
 <translation id="4613144866899789710">Linux-Installation wird abgebrochen…</translation>
@@ -3205,7 +3206,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="5039804452771397117">Zulassen</translation>
 <translation id="5040823038948176460">Zusätzliche Inhaltseinstellungen</translation>
 <translation id="5042282098504489593">"Einstellungen" öffnen, um <ph name="USB_DEVICE_NAME" /> mit Linux zu verbinden</translation>
-<translation id="5043913660911154449">Oder Sie können die PPD für den Drucker auswählen <ph name="LINK_BEGIN" />Weitere Informationen<ph name="LINK_END" /></translation>
+<translation id="5043913660911154449">Oder wählen Sie die PPD für den Drucker <ph name="LINK_BEGIN" />Weitere Informationen<ph name="LINK_END" /></translation>
 <translation id="5045550434625856497">Falsches Passwort</translation>
 <translation id="504561833207953641">Wird in einer aktuellen Browsersitzung geöffnet.</translation>
 <translation id="5047421709274785093">Verwendung von Bewegungs- und Lichtsensoren für Websites blockieren</translation>
@@ -6200,6 +6201,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="8798441408945964110">Name des Anbieters</translation>
 <translation id="8800004011501252845">Ziele werden angezeigt für</translation>
 <translation id="8800034312320686233">Website funktioniert nicht?</translation>
+<translation id="880069872639153240">Sie erhalten Vorschläge für Emojis basierend auf Ihrer Eingabe</translation>
 <translation id="8803953437405899238">Neuen Tab mit nur einem Klick öffnen</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Tab in ein anderes Fenster verschieben}other{Tabs in ein anderes Fenster verschieben}}</translation>
 <translation id="8805140816472474147">Synchronisierungseinstellungen bestätigen, um die Synchronisierung zu starten.</translation>
@@ -6401,7 +6403,6 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="9033765790910064284">Trotzdem fortfahren</translation>
 <translation id="9033857511263905942">&amp;Einfügen</translation>
 <translation id="9037965129289936994">Original anzeigen</translation>
-<translation id="903797871439633902">Das ist das letzte automatische Software- und Sicherheitsupdate für dieses <ph name="DEVICE_TYPE" />. Wenn Sie weiter Updates erhalten möchten, ist ein neueres Modell erforderlich. &lt;a target="_blank" href="<ph name="URL" />"&gt;Weitere Informationen&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Sie haben noch einen Eingabeversuch.}other{Sie haben noch # Eingabeversuche.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Passwort für <ph name="ORIGIN" /> aktualisieren?</translation>

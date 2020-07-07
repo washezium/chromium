@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">পরিচিত নেটওয়ার্কগুলি</translation>
 <translation id="123578888592755962">ডিস্ক পূর্ণ</translation>
 <translation id="1238191093934674082">VPN খুলুন</translation>
-<translation id="1239439601391236986">ব্যক্তিগত তথ্য ইনপুট করার ক্ষেত্রে সাজেশন টগল করুন</translation>
 <translation id="1239594683407221485">Files অ্যাপে ডিভাইসের কন্টেন্ট ঘুরে দেখুন।</translation>
 <translation id="124116460088058876">আরও ভাষা</translation>
 <translation id="1241753985463165747">চালু করলে বর্তমান ওয়েবসাইটের সব ডেটা পড়ে ও পরিবর্তন করে</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">আপনার অ্যাকাউন্ট তথ্য পুনরুদ্ধার করতে, google.com/accounts/recovery-তে যান</translation>
 <translation id="2090876986345970080">সিস্টেম সুরক্ষা সেটিং</translation>
 <translation id="2091887806945687916">আওয়াজ</translation>
-<translation id="2096478741073211388">আপনি কিছু নির্দিষ্ট শব্দ টাইপ করলেই ব্যক্তিগত তথ্যের সাজেশন আপনার নাম, ঠিকানা বা ফোন নম্বর সাজেস্ট করে, যাতে অতি দ্রুত আপনি সেগুলি লিখে ফেলতে পারেন। আপনার অ্যাকাউন্টে আপনি শুধুমাত্র নিজের ব্যক্তিগত, পছন্দসই সাজেশনই দেখতে পাবেন।</translation>
 <translation id="2096715839409389970">থার্ড-পার্টি কুকিজ মুছুন</translation>
 <translation id="2097372108957554726">নতুন ডিভাইস রেজিস্টার করতে আপনাকে Chrome-এ সাইন-ইন করতে হবে</translation>
 <translation id="2099172618127234427">আপনি Chrome OS ডিবাগিং বৈশিষ্ট্যগুলি চালু করছেন যা sshd daemon সেট-আপ করবে এবং USB ড্রাইভগুলি থেকে বুট করা চালু করবে৷</translation>
@@ -1372,6 +1370,7 @@
 <translation id="2682498795777673382">তোমার অভিভাবকের থেকে আপডেট</translation>
 <translation id="2683638487103917598">ফোল্ডার সাজানো হয়েছে</translation>
 <translation id="2684004000387153598">চালিয়ে যেতে 'ঠিক আছে' বোতামে ক্লিক করুন, তারপর আপনার ইমেল আইডির জন্য নতুন প্রোফাইল তৈরি করতে 'কাউকে যোগ করুন' বোতামে ক্লিক করুন।</translation>
+<translation id="2686222346846590368">এই <ph name="DEVICE_TYPE" />-এর জন্য এটি হল সফ্টওয়্যার এবং নিরাপত্তা সংক্রান্ত শেষ অটোমেটিক আপডেট। আগামী আপডেটগুলি পেতে, কোনও নতুন মডেলে আপগ্রেড করুন। &lt;a target="_blank" href="<ph name="URL" />"&gt;আরও জানুন<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">সব কুকি ব্লক করুন (সাজেস্ট করা হচ্ছে না)</translation>
 <translation id="2687407218262674387">Google পরিষেবার শর্তাবলী</translation>
 <translation id="2688196195245426394">ডিভাইসটি সার্ভারে নথিভুক্ত করার সময়ে ত্রুটি: <ph name="CLIENT_ERROR" />৷</translation>
@@ -1394,6 +1393,7 @@
 <translation id="2712173769900027643">অনুমতি নিন</translation>
 <translation id="2713444072780614174">সাদা</translation>
 <translation id="2714393097308983682">Google Play স্টোর</translation>
+<translation id="2714997332747470971">ব্যক্তিগত তথ্যের সাজেশন ফিচারটি আপনার নাম, ঠিকানা বা ফোন নম্বরের মতো বিষয়গুলি সাজেস্ট করে আপনাকে দ্রুত লিখতে সাহায্য করে। আপনার অ্যাকাউন্টে শুধুমাত্র আপনিই নিজের ব্যক্তিগত, পছন্দসই সাজেশন দেখতে পাবেন।</translation>
 <translation id="2715751256863167692">এই আপগ্রেডটি আপনার Chromebook রিসেট করে এবং বর্তমান ব্যবহারকারীর ডেটা সরিয়ে দেয়।</translation>
 <translation id="2716986496990888774">এই সেটিং একজন অভিভাবক ম্যানেজ করেন।</translation>
 <translation id="2718395828230677721">নাইট লাইট</translation>
@@ -2892,6 +2892,7 @@
 <translation id="4608520674724523647">নথিভুক্ত করার সচিত্র বিবরণ</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" />-এ সংবেদনশীল কন্টেন্ট আছে</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> এ সমস্যা হয়েছে</translation>
+<translation id="4610178114344604329">ব্যক্তিগত তথ্যের সাজেশন দেখুন</translation>
 <translation id="4610637590575890427">আপনি <ph name="SITE" />-এ যাওয়ার কথা বলছেন কি?</translation>
 <translation id="4611114513649582138">ডেটা সংযোগ উপলভ্য নেই৷</translation>
 <translation id="4613144866899789710">Linux ইনস্টলেশন বাতিল করা হচ্ছে…</translation>
@@ -6203,6 +6204,7 @@
 <translation id="8798441408945964110">পরিষেবা প্রদানকারীর নাম</translation>
 <translation id="8800004011501252845">এর জন্য দেখানো গন্তব্যস্থল</translation>
 <translation id="8800034312320686233">সাইট কি কাজ করছে না?</translation>
+<translation id="880069872639153240">আপনি যা টাইপ করছেন তার উপর ভিত্তি করে ইমোজির সাজেশন পান</translation>
 <translation id="8803953437405899238">এক ক্লিকেই একটি নতুন ট্যাব খুলুন</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{অন্য উইন্ডোতে ট্যাব সরিয়ে নিয়ে যান}one{অন্য উইন্ডোতে ট্যাবগুলি সরিয়ে নিয়ে যান}other{অন্য উইন্ডোতে ট্যাবগুলি সরিয়ে নিয়ে যান}}</translation>
 <translation id="8805140816472474147">সিঙ্ক করার জন্য সিঙ্ক সেটিংস নিশ্চিত করুন।</translation>
@@ -6404,7 +6406,6 @@
 <translation id="9033765790910064284">যাই হোক, চালিয়ে যান</translation>
 <translation id="9033857511263905942">&amp;প্রতিলেপন</translation>
 <translation id="9037965129289936994">প্রকৃত রূপ দেখান</translation>
-<translation id="903797871439633902">এই <ph name="DEVICE_TYPE" />-এর জন্য এটি হল সফ্টওয়্যার এবং নিরাপত্তা সংক্রান্ত শেষ অটোমেটিক আপডেট। আগামী আপডেটগুলি পেতে, কোনও নতুন মডেলে আপগ্রেড করুন। &lt;a target="_blank" href="<ph name="URL" />"&gt;আরও জানুন&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{আপনি আর মাত্র একবার চেষ্টা করতে পারবেন।}one{আপনি আর মাত্র # বার চেষ্টা করতে পারবেন।}other{আপনি আর # বার চেষ্টা করতে পারবেন।}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" />-এর জন্য পাসওয়ার্ড আপডেট করবেন?</translation>

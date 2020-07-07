@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Rețele cunoscute</translation>
 <translation id="123578888592755962">Disc plin</translation>
 <translation id="1238191093934674082">VPN deschisă</translation>
-<translation id="1239439601391236986">Afișează sugestii de informații cu caracter personal pentru introducere</translation>
 <translation id="1239594683407221485">Explorează conținutul dispozitivului în aplicația Fișiere.</translation>
 <translation id="124116460088058876">Mai multe limbi</translation>
 <translation id="1241753985463165747">Citește și modifică toate datele tale de pe site-ul actual (când se invocă)</translation>
@@ -886,7 +885,6 @@ Poți gestiona setările contului dacă instalezi aplicația Family Link pe disp
 <translation id="2090165459409185032">Pentru a recupera informațiile despre cont, accesează: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Setare de securitate a sistemului</translation>
 <translation id="2091887806945687916">Sunet</translation>
-<translation id="2096478741073211388">Scrii mai rapid cu ajutorul sugestiilor de informații cu caracter personal, deoarece poți introduce numele, adresa sau numărul de telefon atunci când tastezi anumite cuvinte. Doar tu poți vedea sugestiile private, personalizate pentru contul tău.</translation>
 <translation id="2096715839409389970">Șterge cookie-urile terță parte</translation>
 <translation id="2097372108957554726">Pentru a înregistra dispozitive noi, este necesar să vă conectați la Chrome</translation>
 <translation id="2099172618127234427">În prezent, activezi funcțiile de remediere a erorilor în sistemul de operare Chrome, care vor configura SSH daemon și vor activa pornirea de pe dispozitive USB.</translation>
@@ -1373,6 +1371,7 @@ Poți gestiona setările contului dacă instalezi aplicația Family Link pe disp
 <translation id="2682498795777673382">Actualizare de la părintele tău</translation>
 <translation id="2683638487103917598">Dosar sortat</translation>
 <translation id="2684004000387153598">Pentru a continua, dă clic pe OK, apoi pe Adaugă o persoană pentru a crea un profil nou pentru adresa de e-mail.</translation>
+<translation id="2686222346846590368">Aceasta este ultima actualizare automată de software și de securitate pentru acest dispozitiv <ph name="DEVICE_TYPE" />. Pentru a primi actualizări viitoare, fă upgrade la un model mai nou. &lt;a target="_blank" href="<ph name="URL" />"&gt;Află mai multe<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blochează toate cookie-urile (nu este recomandat)</translation>
 <translation id="2687407218262674387">Termenii și condițiile Google</translation>
 <translation id="2688196195245426394">Eroare la înregistrarea gadgetului pe server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Poți gestiona setările contului dacă instalezi aplicația Family Link pe disp
 <translation id="2712173769900027643">Solicită permisiunea</translation>
 <translation id="2713444072780614174">Alb</translation>
 <translation id="2714393097308983682">Magazinul Google Play</translation>
+<translation id="2714997332747470971">Scrii mai rapid cu ajutorul sugestiilor de informații cu caracter personal, cum ar fi numele, adresa sau numărul de telefon. Doar tu poți vedea sugestiile private, personalizate pentru contul tău.</translation>
 <translation id="2715751256863167692">Acest upgrade resetează Chromebookul și elimină datele actuale ale utilizatorului.</translation>
 <translation id="2716986496990888774">Această setare este gestionată de un părinte.</translation>
 <translation id="2718395828230677721">Lumină de noapte</translation>
@@ -2894,6 +2894,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="4608520674724523647">Ilustrație pentru înregistrare</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> include conținut sensibil</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> a întâmpinat o eroare</translation>
+<translation id="4610178114344604329">Afișează sugestii de informații cu caracter personal</translation>
 <translation id="4610637590575890427">Ai vrut să accesezi <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Conexiune de date disponibilă</translation>
 <translation id="4613144866899789710">Se anulează instalarea Linux…</translation>
@@ -6205,6 +6206,7 @@ Păstrează fișierul cu cheia într-un loc sigur. Acesta va fi necesar la crear
 <translation id="8798441408945964110">Numele furnizorului</translation>
 <translation id="8800004011501252845">Se afișează destinații pentru</translation>
 <translation id="8800034312320686233">Site-ul nu funcționează?</translation>
+<translation id="880069872639153240">Primește sugestii de emoji în funcție de ce tastezi</translation>
 <translation id="8803953437405899238">Deschide o filă nouă cu un singur clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mută fila în altă fereastră}few{Mută filele în altă fereastră}other{Mută filele în altă fereastră}}</translation>
 <translation id="8805140816472474147">Pentru a începe sincronizarea, confirmă setările de sincronizare.</translation>
@@ -6406,7 +6408,6 @@ Păstrează fișierul cu cheia într-un loc sigur. Acesta va fi necesar la crear
 <translation id="9033765790910064284">Continuă oricum</translation>
 <translation id="9033857511263905942">&amp;Inserați</translation>
 <translation id="9037965129289936994">Afișează versiunea originală</translation>
-<translation id="903797871439633902">Aceasta este ultima actualizare automată de software și de securitate pentru acest dispozitiv <ph name="DEVICE_TYPE" />. Pentru a primi actualizări viitoare, fă upgrade la un model mai nou. &lt;a target="_blank" href="<ph name="URL" />"&gt;Află mai multe&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Mai ai o încercare.}few{Mai ai # încercări.}other{Mai ai # de încercări.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Actualizezi parola pentru <ph name="ORIGIN" />?</translation>

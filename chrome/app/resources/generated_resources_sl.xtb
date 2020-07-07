@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Znana omrežja</translation>
 <translation id="123578888592755962">Disk je poln</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Prikaz predlogov osebnih podatkov pri vnašanju</translation>
 <translation id="1239594683407221485">Vsebino naprave raziščite v aplikaciji Datoteke.</translation>
 <translation id="124116460088058876">Več jezikov</translation>
 <translation id="1241753985463165747">Branje in spreminjanje vseh vaših podatkov na trenutnem spletnem mestu, če je zagnano</translation>
@@ -886,7 +885,6 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="2090165459409185032">Če želite obnoviti podatke računa, pojdite na: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Varnostna nastavitev sistema</translation>
 <translation id="2091887806945687916">Zvok</translation>
-<translation id="2096478741073211388">Predlogi osebnih podatkov vam pomagajo hitreje vnašati, tako da vam predlagajo ime, naslov ali telefonsko številko, ko vnesete nekatere določene besede. Ti zasebni, prilagojeni predlogi v vašem računu so prikazani samo vam.</translation>
 <translation id="2096715839409389970">Izbriši piškotke drugih spletnih mest</translation>
 <translation id="2097372108957554726">Za registracijo novih naprav se morate prijaviti v Chrome</translation>
 <translation id="2099172618127234427">Omogočili boste funkcije za odpravljanje napak sistema Chrome OS, tako da boste nastavili sshd daemon in omogočili zagon prek pogonov USB.</translation>
@@ -1373,6 +1371,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="2682498795777673382">Starš je izvedel posodobitev</translation>
 <translation id="2683638487103917598">Mapa je razvrščena</translation>
 <translation id="2684004000387153598">Če želite nadaljevati, kliknite »V redu«, nato »Dodajanje osebe«, če želite za e-poštni naslov ustvariti nov profil.</translation>
+<translation id="2686222346846590368">To je zadnja samodejna posodobitev programske opreme in varnostna posodobitev za to napravo <ph name="DEVICE_TYPE" />. Če želite v prihodnje prejemati posodobitve, nadgradite na novejši model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Več o tem<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokiranje vseh piškotkov (ni priporočljivo)</translation>
 <translation id="2687407218262674387">Googlovi pogoji storitve</translation>
 <translation id="2688196195245426394">Napaka pri registraciji naprave v strežniku: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="2712173769900027643">Zahtevaj dovoljenje</translation>
 <translation id="2713444072780614174">Bela</translation>
 <translation id="2714393097308983682">Trgovina Google Play</translation>
+<translation id="2714997332747470971">Predlogi osebnih podatkov vam pomagajo hitreje vnašati, tako da vam predlagajo na primer ime, naslov ali telefonsko številko. Ti zasebni, osebno prilagojeni predlogi v vašem računu so prikazani samo vam.</translation>
 <translation id="2715751256863167692">S to nadgradnjo bo ponastavljen Chromebook in odstranjeni bodo trenutni uporabniški podatki.</translation>
 <translation id="2716986496990888774">To nastavitev upravlja starš.</translation>
 <translation id="2718395828230677721">Nočna svetloba</translation>
@@ -2894,6 +2894,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="4608520674724523647">Slika uspešne včlanitve</translation>
 <translation id="4608703838363792434">V datoteki <ph name="FILE_NAME" /> je občutljiva vsebina</translation>
 <translation id="4610162781778310380">Pri vtičniku <ph name="PLUGIN_NAME" /> je prišlo do napake</translation>
+<translation id="4610178114344604329">Prikaz predlogov osebnih podatkov</translation>
 <translation id="4610637590575890427">Ali ste nameravali obiskati <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Podatkovna povezava je na voljo</translation>
 <translation id="4613144866899789710">Preklic namestitve Linuxa …</translation>
@@ -6207,6 +6208,7 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="8798441408945964110">Ime ponudnika</translation>
 <translation id="8800004011501252845">Prikaz ciljev za</translation>
 <translation id="8800034312320686233">Ali spletno mesto ne deluje?</translation>
+<translation id="880069872639153240">Prejemanje predlogov za emodžije na podlagi tega, kaj vnesete</translation>
 <translation id="8803953437405899238">Odpiranje novega zavihka z enim klikom</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Premakni zavihek v drugo okno}one{Premakni zavihke v drugo okno}two{Premakni zavihke v drugo okno}few{Premakni zavihke v drugo okno}other{Premakni zavihke v drugo okno}}</translation>
 <translation id="8805140816472474147">Potrdite nastavitve sinhronizacije, če želite začeti sinhronizacijo.</translation>
@@ -6408,7 +6410,6 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="9033765790910064284">Vseeno nadaljuj</translation>
 <translation id="9033857511263905942">&amp;Prilepi</translation>
 <translation id="9037965129289936994">Pokaži izvirno besedilo</translation>
-<translation id="903797871439633902">To je zadnja samodejna posodobitev programske opreme in varnostna posodobitev za to napravo <ph name="DEVICE_TYPE" />. Če želite v prihodnje prejemati posodobitve, nadgradite na novejši model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Več o tem&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Imate še en poskus.}one{Imate še # poskus.}two{Imate še # poskusa.}few{Imate še # poskuse.}other{Imate še # poskusov.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Želite posodobiti geslo za <ph name="ORIGIN" />?</translation>

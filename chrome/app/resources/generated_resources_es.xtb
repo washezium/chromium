@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Redes conocidas</translation>
 <translation id="123578888592755962">Disco lleno</translation>
 <translation id="1238191093934674082">OpenVPN</translation>
-<translation id="1239439601391236986">Mostrar sugerencias de información personal</translation>
 <translation id="1239594683407221485">Explora el contenido del dispositivo con la aplicación Archivos.</translation>
 <translation id="124116460088058876">Más idiomas</translation>
 <translation id="1241753985463165747">Leer y modificar todos los datos del sitio web actual cuando se ejecute</translation>
@@ -886,7 +885,6 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="2090165459409185032">Para recuperar la información de tu cuenta, accede a la página google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Configuración de seguridad del sistema</translation>
 <translation id="2091887806945687916">Sonido</translation>
-<translation id="2096478741073211388">Las sugerencias de información personal te ayudan a escribir más rápido, puesto que sugieren tu nombre, dirección o número de teléfono cuando escribes ciertas palabras. Solo tú puedes ver las sugerencias privadas y personalizadas de tu cuenta.</translation>
 <translation id="2096715839409389970">Borrar cookies de terceros</translation>
 <translation id="2097372108957554726">Debes iniciar sesión en Chrome para registrar nuevos dispositivos</translation>
 <translation id="2099172618127234427">Vas a habilitar las funciones de depuración de Chrome OS, que configurarán el daemon sshd y habilitará el arranque desde unidades USB.</translation>
@@ -1373,6 +1371,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="2682498795777673382">Actualizado por tu padre o madre</translation>
 <translation id="2683638487103917598">Carpeta ordenada</translation>
 <translation id="2684004000387153598">Para continuar, haz clic en Aceptar y, a continuación, en Añadir perfil para crear un perfil con tu dirección de correo electrónico.</translation>
+<translation id="2686222346846590368">Esta es la última actualización automática de software y seguridad que recibirá este <ph name="DEVICE_TYPE" />. Para recibir las futuras actualizaciones, cambia este modelo por otro más reciente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Más información<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloquear todas las cookies (no recomendado)</translation>
 <translation id="2687407218262674387">Términos del Servicio de Google</translation>
 <translation id="2688196195245426394">Error al registrar el dispositivo en el servidor (<ph name="CLIENT_ERROR" />)</translation>
@@ -1395,6 +1394,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="2712173769900027643">Solicitar permiso</translation>
 <translation id="2713444072780614174">Blanco</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Las sugerencias de información personal te ayudan a escribir más rápido. Por ejemplo, pueden sugerirte tu nombre, dirección o número de teléfono. Solo tú puedes ver las sugerencias privadas y personalizadas de tu cuenta.</translation>
 <translation id="2715751256863167692">Esta actualización recupera la configuración de tu Chromebook y elimina los datos de usuario actuales.</translation>
 <translation id="2716986496990888774">Este ajuste está gestionado por un padre o una madre.</translation>
 <translation id="2718395828230677721">Luz nocturna</translation>
@@ -2893,6 +2893,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="4608520674724523647">Ilustración de registro completado</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> incluye contenido sensible</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ha detectado un error</translation>
+<translation id="4610178114344604329">Mostrar sugerencias de información personal</translation>
 <translation id="4610637590575890427">¿Tal vez quieres ir a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Conexión de datos disponible</translation>
 <translation id="4613144866899789710">Cancelando la instalación de Linux...</translation>
@@ -6204,6 +6205,7 @@ Guarda tu archivo de clave en un lugar seguro, ya que lo necesitarás para crear
 <translation id="8798441408945964110">Nombre del proveedor</translation>
 <translation id="8800004011501252845">Mostrando destinos para</translation>
 <translation id="8800034312320686233">¿El sitio web no funciona?</translation>
+<translation id="880069872639153240">Recibe sugerencias de emojis basadas en lo que escribas</translation>
 <translation id="8803953437405899238">Abre una nueva pestaña con solo un clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mover pestaña a otra ventana}other{Mover pestañas a otra ventana}}</translation>
 <translation id="8805140816472474147">Confirma los ajustes de sincronización para iniciarla.</translation>
@@ -6405,7 +6407,6 @@ Guarda tu archivo de clave en un lugar seguro, ya que lo necesitarás para crear
 <translation id="9033765790910064284">Continuar de todos modos</translation>
 <translation id="9033857511263905942">&amp;Pegar</translation>
 <translation id="9037965129289936994">Mostrar original</translation>
-<translation id="903797871439633902">Esta es la última actualización automática de software y seguridad que recibirá este <ph name="DEVICE_TYPE" />. Para recibir las futuras actualizaciones, cambia este modelo por otro más reciente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Más información&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Te queda 1 intento.}other{Te quedan # intentos.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">¿Quieres actualizar la contraseña de <ph name="ORIGIN" />?</translation>

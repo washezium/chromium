@@ -1299,7 +1299,7 @@ Als dit beleid niet is ingesteld, is het privacyscherm in eerste instantie uitge
 
       Als dit beleid niet is ingesteld, wordt er niet gefilterd en wordt er rekening gehouden met alle afdrukservers.</translation>
 <translation id="2877225735001246144">CNAME-lookup uitschakelen bij het verwerken van Kerberos-authenticatie</translation>
-<translation id="2890645751406497668">Automatisch toestemming verlenen aan deze sites om verbinding te maken met USB-apparaten met de opgegeven leveranciers- en product-ID's.</translation>
+<translation id="2890645751406497668">Automatisch rechten verlenen aan deze sites om verbinding te maken met USB-apparaten met de opgegeven leveranciers- en product-ID's.</translation>
 <translation id="2892414556511568464">Hiermee beperk je afdrukken in de duplexmodus. Als er geen beleid is ingesteld of de instelling leeg is, gelden er geen beperkingen.</translation>
 <translation id="2893546967669465276">Systeemlogboeken naar de beheerserver verzenden</translation>
 <translation id="2899002520262095963">Android-apps kunnen de netwerkconfiguraties en CA-certificaten gebruiken die via dit beleid zijn ingesteld, maar hebben geen toegang tot bepaalde configuratieopties.</translation>
@@ -2840,7 +2840,7 @@ Als dit beleid is ingesteld op False, gebruikt <ph name="PRODUCT_NAME" /> geen n
       Gedurende deze periode krijgt de gebruiker regelmatig de melding dat er een update moet worden uitgevoerd. Voor <ph name="PRODUCT_OS_NAME" />-apparaten wordt een melding over opnieuw opstarten weergegeven in het systeemvak, in overeenstemming met het <ph name="RELAUNCH_HEADS_UP_PERIOD_POLICY_NAME" />-beleid. Voor <ph name="PRODUCT_NAME" />-browsers wordt het app-menu gewijzigd om aan te geven dat er opnieuw moet worden opgestart zodra een derde van de meldingsperiode is verstreken. Deze melding krijgt een andere kleur zodra twee derde van de meldingsperiode is verstreken en dit gebeurt nogmaals als de volledige periode is verstreken. Hetzelfde schema wordt gehanteerd voor aanvullende meldingen die door het <ph name="RELAUNCH_NOTIFICATION_POLICY_NAME" />-beleid zijn ingeschakeld.
 
       Als dit beleid niet is ingesteld, wordt de standaardperiode van 604.800.000 milliseconden (één week) gebruikt.</translation>
-<translation id="5212810195096589189">Toestemming voor VM-CLI specificeren</translation>
+<translation id="5212810195096589189">Rechten voor VM-CLI specificeren</translation>
 <translation id="5213038356678567351">Websites die nooit een schakeling tussen browsers veroorzaken.</translation>
 <translation id="5219844027738217407">Voor Android-apps is dit beleid alleen van invloed op de microfoon. Wanneer dit beleid is ingesteld op 'True', wordt voor alle Android-apps, zonder uitzondering, de microfoon gedempt.</translation>
 <translation id="5220124265517241823">Een lijst met URL-patronen waarvoor geüploade bestanden, gegevens die zijn geplakt vanaf het klembord of gegevens die zijn gesleept en neergezet niet hoeven te worden gecontroleerd op schendingen van de beveiligingsregels voor gevoelige gegevens.  Dit beleid wordt alleen gebruikt als <ph name="CHECK_CONTENT_COMPLIANCE_POLICY_NAME" /> is ingeschakeld.
@@ -3868,7 +3868,7 @@ Als dit beleid is ingesteld op False, gebruikt <ph name="PRODUCT_NAME" /> geen n
 <translation id="6704515759227307131">Dit beleid is beëindigd en is vervangen door AdvancedProtectionAllowed.
 
       Met dit beleid wordt bepaald of gebruikers die zijn ingeschreven bij 'Geavanceerde beveiliging' hun downloads naar Google mogen sturen om ze te laten scannen. Als dit beleid is ingesteld op True of niet is ingesteld, wordt ingeschreven gebruikers gevraagd hun bestanden naar Google te sturen voor een uitgebreide scan. Als gebruikers 'Scannen' selecteren, worden hun downloads naar Google gestuurd. Als dit beleid is ingesteld op False, ontvangen gebruikers geen melding en worden hun downloads niet naar Google gestuurd.</translation>
-<translation id="670597451099978576">Automatisch toestemming verlenen aan deze sites om verbinding te maken met USB-apparaten met de opgegeven leveranciers- en product-ID's op het inlogscherm.</translation>
+<translation id="670597451099978576">Automatisch rechten verlenen aan deze sites om verbinding te maken met USB-apparaten met de opgegeven leveranciers- en product-ID's op het inlogscherm.</translation>
 <translation id="6720080634516505446"><ph name="PRODUCT_NAME" /> zorgt ervoor dat extensies veilig kunnen worden geüpdatet en geïnstalleerd. De content van sommige extensies die buiten de Chrome Web Store worden gehost, wordt echter mogelijk alleen beschermd door onbeveiligde ondertekening of hashingalgoritmen zoals SHA1. Wanneer dit beleid is uitgeschakeld, wordt het door Chrome niet toegestaan om dergelijke extensies opnieuw te installeren of te updaten (totdat de ontwerpers van die extensie deze opnieuw samenstellen met krachtigere algoritmen). Wanneer dit beleid is ingeschakeld, is het toegestaan om dergelijke extensies te installeren en te updaten.
 
           Het ingeschakelde gedrag wordt standaard gebruikt wanneer het beleid niet is ingesteld.
@@ -5162,7 +5162,7 @@ Dit beleid wordt verwijderd in M75.</translation>
 <translation id="8665314828727504286">Safe Browsing-beveiligingsniveau</translation>
 <translation id="8672321184841719703">Doelversie voor automatische updates</translation>
 <translation id="867410340948518937">U2F (Universal Second Factor)</translation>
-<translation id="8680488165461049026">Dit beleid geeft 'Snelle antwoorden' toegang tot geselecteerde content en toestemming om de informatie naar de server te sturen.
+<translation id="8680488165461049026">Dit beleid geeft 'Snelle antwoorden' toegang tot geselecteerde content en rechten om de informatie naar de server te sturen.
 
       Als het beleid is ingeschakeld, heeft 'Snelle antwoorden' toegang tot geselecteerde content.
       Als het beleid is uitgeschakeld, heeft 'Snelle antwoorden' geen toegang tot geselecteerde content.
@@ -5492,12 +5492,11 @@ Dit beleid wordt verwijderd in M75.</translation>
 <translation id="9117826695152538214">Als het beleid is ingesteld op True, blijven plaktoetsen ingeschakeld. Als het beleid is ingesteld op False, blijven plaktoetsen uitgeschakeld.
 
       Als je dit beleid instelt, kunnen gebruikers het niet wijzigen. Als je het beleid niet instelt, zijn plaktoetsen in eerste instantie uitgeschakeld, maar kunnen gebruikers deze op elk moment inschakelen.</translation>
-<translation id="91196902572559194">Dit beleid geeft de Google Assistent toestemming om te luisteren naar de spraakactiveringszin.
+<translation id="91196902572559194">Dit beleid geeft de Google Assistent rechten om te luisteren naar de spraakactiveringszin.
 
       Als het beleid is ingeschakeld, luistert de Google Assistent naar de spraakactiveringszin.
       Als het beleid is uitgeschakeld, luistert de Google Assistent niet naar de spraakactiveringszin.
-      Als het beleid niet is ingesteld, kunnen gebruikers beslissen of ze de Google Assistent toestemming geven om naar de spraakactiveringszin te luisteren.
-      </translation>
+      Als het beleid niet is ingesteld, kunnen gebruikers beslissen of ze de Google Assistent rechten geven om naar de spraakactiveringszin te luisteren.</translation>
 <translation id="9123211093995421438">Geeft aan hoeveel mijlpalen van <ph name="PRODUCT_OS_NAME" /> minimaal op elk gewenst moment mogen worden hersteld vanaf de stabiele versie.
 
       De standaardinstelling is 0 voor consumentenapparaten of 4 (circa een half jaar) voor bedrijfsapparaten.

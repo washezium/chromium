@@ -199,7 +199,6 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="1235458158152011030">معلوم نیٹ ورکس</translation>
 <translation id="123578888592755962">ڈسک بھری ہوئی ہے</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">ان پٹ کی ذاتی معلومات کی تجاویز دکھائیں</translation>
 <translation id="1239594683407221485">فائلز ایپ میں آلے کے مواد کا پتہ لگائیں۔</translation>
 <translation id="124116460088058876">مزید زبانیں</translation>
 <translation id="1241753985463165747">موجودہ ویب سائٹ پر موجود اپنے سبھی ڈیٹا کو چلائے جانے پر پڑھیں اور انہیں تبدیل کریں</translation>
@@ -887,7 +886,6 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="2090165459409185032">‏اپنے اکاؤنٹ کی معلومات کی بازیابی کیلئے، اس پر جائیں: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">سسٹم سیکیورٹی کی ترتیبات</translation>
 <translation id="2091887806945687916">آواز</translation>
-<translation id="2096478741073211388">جب آپ کچھ مخصوص الفاظ ٹائپ کرتے ہیں تو ذاتی معلومات کی تجاویز آپ کا نام، پتہ یا فون نمبر تجویز کرکے آپ کو تیزی سے لکھنے میں مدد کرتی ہیں۔ اپنے اکاؤنٹ کے لئے صرف آپ اپنی نجی، ذاتی نوعیت کی بنائی گئی تجاویز دیکھتے ہیں۔</translation>
 <translation id="2096715839409389970">فریق ثالث کوکیز صاف کریں</translation>
 <translation id="2097372108957554726">‏نئے آلات رجسٹر کرنے کیلئے آپ کو Chrome میں سائن ان کرنے کی ضرورت ہے</translation>
 <translation id="2099172618127234427">‏آپ Chrome OS ڈیبگنگ کی خصوصیات فعال کر رہے رہیں جو sshd daemon تشکیل دیں گی اور USB ڈرائیورز سے بوٹنگ کو فعال کریں گی۔</translation>
@@ -1374,6 +1372,7 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="2682498795777673382">آپ کے والدین کی جانب سے اپ ڈیٹ</translation>
 <translation id="2683638487103917598">فولڈر ترتیب شدہ ہیں</translation>
 <translation id="2684004000387153598">جاری رکھنے کے لیے،'ٹھیک ہے' پر کلک کریں، پھر اپنے ای میل پتہ کے لیے ایک نیا پروفائل تخلیق کرنے کی خاطر 'فرد شامل کریں' پر کلک کریں۔</translation>
+<translation id="2686222346846590368">‏یہ اس <ph name="DEVICE_TYPE" /> کے لیے آخری خودکار سافٹ ویئر اور سیکیورٹی اپ ڈیٹ ہے۔ آئندہ کے اپ ڈیٹس حاصل کرنے کے لیے، نئے ماڈل پر اپ گریڈ کریں۔ &lt;a target="_blank" href="<ph name="URL" />"&gt;مزید جانیں<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">سبھی کوکیز مسدود کریں (تجویز نہیں کی جاتی ہے)</translation>
 <translation id="2687407218262674387">‏Google کی سروس کی شرائط</translation>
 <translation id="2688196195245426394">سرور کے ساتھ آلہ رجسٹر کرتے وقت خرابی پیش آ گئی: <ph name="CLIENT_ERROR" />۔</translation>
@@ -1396,6 +1395,7 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="2712173769900027643">اجازت طلب کریں</translation>
 <translation id="2713444072780614174">سفید</translation>
 <translation id="2714393097308983682">‏‫Google Play اسٹور</translation>
+<translation id="2714997332747470971">ذاتی معلومات کی تجاویز آپ کا نام، پتہ یا فون نمبر جیسی تجاویز کے ساتھ تیزی سے لکھنے میں آپ کی مدد کرتی ہیں۔ اپنے اکاؤنٹ کے لئے صرف آپ اپنی نجی، ذاتی نوعیت کی بنائی گئی تجاویز دیکھتے ہیں۔</translation>
 <translation id="2715751256863167692">‏یہ اپ گریڈ آپ کے Chromebook کو ری سیٹ کرتا ہے اور موجودہ صارف ڈیٹا کو ہٹاتا ہے۔</translation>
 <translation id="2716986496990888774">یہ ترتیب والد/والدہ کے زیر انتظام ہے۔</translation>
 <translation id="2718395828230677721">نائٹ لائٹ</translation>
@@ -2895,6 +2895,7 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="4608520674724523647">کامیاب اندراج کا خاکہ</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> میں حساس مواد ہے</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> میں ایک خرابی پیش آ گئی ہے</translation>
+<translation id="4610178114344604329">ذاتی معلومات کی تجاویز دکھائیں</translation>
 <translation id="4610637590575890427">کیا آپ کا مطلب <ph name="SITE" /> پر جانے سے ہے؟</translation>
 <translation id="4611114513649582138">ڈیٹا کنکشن دستیاب ہے</translation>
 <translation id="4613144866899789710">‏Linux کی انسٹالیشن کا عمل منسوخ ہو رہا ہے...</translation>
@@ -6206,6 +6207,7 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="8798441408945964110">فراہم کنندہ کا نام</translation>
 <translation id="8800004011501252845">منزلیں دکھائی جا رہی ہیں برائے</translation>
 <translation id="8800034312320686233">سائٹ کام نہیں کر رہی ہے؟</translation>
+<translation id="880069872639153240">آپ جو ٹائپ کررہے ہیں کی بنیاد پر ایموجی تجاویز حاصل کریں</translation>
 <translation id="8803953437405899238">ایک کلک سے ایک نیا ٹیب کھولیں</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{ٹیب کو دوسری ونڈو میں منتقل کریں}other{ٹیبز کو دوسری ونڈو میں منتقل کریں}}</translation>
 <translation id="8805140816472474147">مطابقت پذیری کا آغاز کرنے کیلئے مطابقت پذیری کی ترتیبات کی تصدیق کریں۔</translation>
@@ -6407,7 +6409,6 @@ myaccount.google.com/activitycontrols/search پر تبدیل کر سکتے ہي�
 <translation id="9033765790910064284">بہرصورت جاری رکھیں</translation>
 <translation id="9033857511263905942">&amp;پیسٹ کریں</translation>
 <translation id="9037965129289936994">اصل دکھائیں</translation>
-<translation id="903797871439633902">‏یہ اس <ph name="DEVICE_TYPE" /> کے لیے آخری خودکار سافٹ ویئر اور سیکیورٹی اپ ڈیٹ ہے۔ آئندہ کے اپ ڈیٹس حاصل کرنے کے لیے، نئے ماڈل پر اپ گریڈ کریں۔ &lt;a target="_blank" href="<ph name="URL" />"&gt;مزید جانیں&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{آپ کے پاس ایک کوشش باقی ہے۔}other{آپ کے پاس # کوششیں باقی ہیں۔}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> کے لیے پاس ورڈ کو اپ ڈیٹ کریں؟</translation>

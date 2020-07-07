@@ -199,7 +199,6 @@ xizmatlarini sizga moslashtirish maqsadlarida foydalanishi mumkin. Bu ruxsatni m
 <translation id="1235458158152011030">Tanish tarmoqlar</translation>
 <translation id="123578888592755962">Diskda bo‘sh joy juda kam qoldi</translation>
 <translation id="1238191093934674082">OpenVPN</translation>
-<translation id="1239439601391236986">Kiritilgan shaxsiy axborot takliflarini chiqarish</translation>
 <translation id="1239594683407221485">Qurilmadagi kontekt bilan Fayllar ilovasida tanishing.</translation>
 <translation id="124116460088058876">Boshqa tillar</translation>
 <translation id="1241753985463165747">Chaqirilganda joriy sayt ma’lumotlarini ko‘rish va o‘zgartirishga ruxsat berish</translation>
@@ -884,7 +883,6 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="2090165459409185032">Hisob ma’lumotini tiklash uchun bu yerga o‘ting: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Tizim xavfsizlik sozlamasi</translation>
 <translation id="2091887806945687916">Tovush</translation>
-<translation id="2096478741073211388">Shaxsiy axborot takliflari maxsus soʻzlarni kiritayotganingizda ism, manzil yoki telefon raqamini taklif qilish orqali tezkor yozishga yordam beradi. Faqat siz hisobingiz uchun maxfiy, moslashtirilgan takliflarni koʻrishingiz mumkin.</translation>
 <translation id="2096715839409389970">Tashqi cookie fayllarni tozalash</translation>
 <translation id="2097372108957554726">Yangi qurilmani ro‘yxatdan o‘tkazish uchun Chrome hisobingizga kiring</translation>
 <translation id="2099172618127234427">Siz Chrome OS tuzatish xususiyatlarini ishga tushirmoqdasiz, ular debugging features which sshd xizmatini o‘rnatib, USB disklardan yuklanishni xususiyatini yoqadi.</translation>
@@ -1371,6 +1369,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="2682498795777673382">Ota-onangiz sozlamalarni yangiladi</translation>
 <translation id="2683638487103917598">Jild tarkibi saralandi</translation>
 <translation id="2684004000387153598">Davom etish uchun OK tugmasini bosing. Keyin esa “Foydalanuvchi qo‘shish” bandi orqali e-pochta manzilingiz uchun yangi profil yarating.</translation>
+<translation id="2686222346846590368">Bu <ph name="DEVICE_TYPE" /> qurilmasidagi DT va xavfsizlik sozlamalari uchun oxirgi avtomatik yangilanish. Keyingi chiqadigan yangilanishlar uchun qurilmaning yangiroq modeli kerak boʻladi. &lt;a target="_blank" href="<ph name="URL" />"&gt;Batafsil<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Barcha cookie fayllarini taqiqlash (tavsiya etilmaydi)</translation>
 <translation id="2687407218262674387">Google xizmat shartlari</translation>
 <translation id="2688196195245426394">Qurilmani server ro‘yxatidan o‘tkazishda xatolik: <ph name="CLIENT_ERROR" />.</translation>
@@ -1393,6 +1392,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="2712173769900027643">Ruxsat so‘rash</translation>
 <translation id="2713444072780614174">Oq</translation>
 <translation id="2714393097308983682">Google Play Market</translation>
+<translation id="2714997332747470971">Shaxsiy axborot takliflari ism, manzil yoki telefon raqamini taklif qilish orqali tezkor yozishga yordam beradi. Faqat siz hisobingiz uchun maxfiy, moslashtirilgan takliflarni koʻrishingiz mumkin.</translation>
 <translation id="2715751256863167692">Bu yangilanish Chromebook qurilmangizni ilk sozlamalarga qaytaradi va undagi foydalanuvchi ma’lumotlarini tozalaydi.</translation>
 <translation id="2716986496990888774">Bu sozlamani ota-ona boshqaradi.</translation>
 <translation id="2718395828230677721">Tungi rejim</translation>
@@ -2892,6 +2892,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="4608520674724523647">Muvaffaqiyatli registratsiyaga namuna</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> faylida maxfiy kontent bor</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> jarayonida xatolik yuz berdi</translation>
+<translation id="4610178114344604329">Shaxsiy axborot takliflarini chiqarish</translation>
 <translation id="4610637590575890427">Balki <ph name="SITE" /> saytiga o‘tmoqchi bo‘lgandirsiz?</translation>
 <translation id="4611114513649582138">Mobil internet mavjud</translation>
 <translation id="4613144866899789710">Linux tizimini oʻrnatish bekor qilinmoqda...</translation>
@@ -6201,6 +6202,7 @@ Kalit faylini ishonchli joyda saqlang. U kengaytmaning yangi versiyalarini yarat
 <translation id="8798441408945964110">Ta’minotchi nomi</translation>
 <translation id="8800004011501252845">Bu uchun manzillar ko‘rsatilmoqda:</translation>
 <translation id="8800034312320686233">Sayt ishlamayaptimi?</translation>
+<translation id="880069872639153240">Kiritilayotgan matn asosida emoji kulgichlar taklif qilinsin</translation>
 <translation id="8803953437405899238">Yangi varaqni bir bosishda ochish</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Varaqni boshqa oynaga olish}other{Varaqlarni boshqa oynaga olish}}</translation>
 <translation id="8805140816472474147">Sinxronizatsiyani boshlash uchun sozlamalarni tasdiqlang.</translation>
@@ -6402,7 +6404,6 @@ Kalit faylini ishonchli joyda saqlang. U kengaytmaning yangi versiyalarini yarat
 <translation id="9033765790910064284">Baribir davom ettirilsin</translation>
 <translation id="9033857511263905942">&amp;Joylash</translation>
 <translation id="9037965129289936994">Asl tilda ko‘rsatish</translation>
-<translation id="903797871439633902">Bu <ph name="DEVICE_TYPE" /> qurilmasidagi DT va xavfsizlik sozlamalari uchun oxirgi avtomatik yangilanish. Keyingi chiqadigan yangilanishlar uchun qurilmaning yangiroq modeli kerak boʻladi. &lt;a target="_blank" href="<ph name="URL" />"&gt;Batafsil&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Yana bir marta urinishingiz mumkin.}other{Yana # marta urinishingiz mumkin.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> uchun parol yangilansinmi?</translation>

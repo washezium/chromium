@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">شبکه‌های شناخته‌شده</translation>
 <translation id="123578888592755962">دیسک پر است</translation>
 <translation id="1238191093934674082">‏باز کردن VPN</translation>
-<translation id="1239439601391236986">نمایش پیشنهادهای اطلاعات شخصی ورودی</translation>
 <translation id="1239594683407221485">‏محتوای دستگاه را در برنامه Files کاوش کنید.</translation>
 <translation id="124116460088058876">زبان‌های بیشتر</translation>
 <translation id="1241753985463165747">خواندن و تغییر همه داده‌های شما در وب‌سایت کنونی هنگام فراخوانی</translation>
@@ -883,7 +882,6 @@
 <translation id="2090165459409185032">‏برای بازیابی اطلاعات حساب‌تان به اینجا بروید: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">تنظیم امنیتی سیستم</translation>
 <translation id="2091887806945687916">صدا</translation>
-<translation id="2096478741073211388">هنگام تایپ کردن کلمه‌هایی خاص، پیشنهادهای اطلاعات شخصی با پیشنهاد دادن نام، نشانی، و شماره تلفنتان به شما کمک می‌کند سریع‌تر بنویسید. تنها شما پیشنهادهای شخصی‌شده و خصوصی خود را برای حسابتان می‌بینید.</translation>
 <translation id="2096715839409389970">پاک کردن کوکی‌های شخص ثالث</translation>
 <translation id="2097372108957554726">‏برای ثبت دستگاه‌های جدید باید به سیستم Chrome وارد شوید</translation>
 <translation id="2099172618127234427">‏ویژگی‌های رفع اشکال سیستم عامل Chrome را فعال می‌کنید که sshd daemon را تنظیم خواهد کرد و راه‌اندازی از درایوهای USB را فعال می‌کند.</translation>
@@ -1370,6 +1368,7 @@
 <translation id="2682498795777673382">به‌روزرسانی ازطرف والدین شما</translation>
 <translation id="2683638487103917598">پوشه مرتب شد</translation>
 <translation id="2684004000387153598">برای ادامه، روی «تأیید» کلیک کنید و سپس برای ایجاد نمایه‌ای جدید برای نشانی رایانامه‌تان، روی «افزودن شخص» کلیک کنید.</translation>
+<translation id="2686222346846590368">‏این آخرین به‌روزرسانی خودکار امنیتی و نرم‌افزار برای این <ph name="DEVICE_TYPE" /> است. برای دریافت به‌روزرسانی‌های بعدی، به مدل جدیدتری ارتقا دهید. &lt;a target="_blank" href="<ph name="URL" />"&gt;بیشتر بدانید<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">مسدود کردن همه کوکی‌ها (توصیه نمی‌شود)</translation>
 <translation id="2687407218262674387">‏شرایط خدمات Google</translation>
 <translation id="2688196195245426394">خطا هنگام ثبت دستگاه با سرور: <ph name="CLIENT_ERROR" />.</translation>
@@ -1392,6 +1391,7 @@
 <translation id="2712173769900027643">درخواست اجازه</translation>
 <translation id="2713444072780614174">سفید</translation>
 <translation id="2714393097308983682">‏فروشگاه Google Play</translation>
+<translation id="2714997332747470971">پیشنهادهای اطلاعات شخصی با پیشنهاد دادن نام، نشانی، یا شماره تلفنتان به شما کمک می‌کند سریع‌تر بنویسید. تنها شما پیشنهادهای شخصی‌شده و خصوصی خود را برای حسابتان می‌بینید.</translation>
 <translation id="2715751256863167692">‏این ارتقا Chromebook را بازنشانی می‌کند و داده‌های کاربر کنونی را برمی‌دارد.</translation>
 <translation id="2716986496990888774">این تنظیم توسط والدین مدیریت می‌شود.</translation>
 <translation id="2718395828230677721">نور شب</translation>
@@ -2891,6 +2891,7 @@
 <translation id="4608520674724523647">تصویر ثبت‌نام موفق</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> محتوای حساس دارد</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> با خطایی مواجه شده است</translation>
+<translation id="4610178114344604329">نمایش پیشنهادهای اطلاعات شخصی</translation>
 <translation id="4610637590575890427">آیا می‌خواستید به <ph name="SITE" /> بروید؟</translation>
 <translation id="4611114513649582138">اتصال داده دردسترس است</translation>
 <translation id="4613144866899789710">‏درحال لغو کردن نصب Linux…</translation>
@@ -6202,6 +6203,7 @@
 <translation id="8798441408945964110">نام ارائه‌دهنده</translation>
 <translation id="8800004011501252845">نمایش مقصدها برای</translation>
 <translation id="8800034312320686233">سایت کار نمی‌کند؟</translation>
+<translation id="880069872639153240">دریافت پیشنهادهای اموجی براساس آنچه تایپ می‌کنید</translation>
 <translation id="8803953437405899238">با یک کلیک، برگه جدیدی باز کنید</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{انتقال برگه به پنجره‌ای دیگر}one{انتقال برگه‌ها به پنجره‌ای دیگر}other{انتقال برگه‌ها به پنجره‌ای دیگر}}</translation>
 <translation id="8805140816472474147">برای شروع همگام‌سازی، تنظیمات همگام‌سازی را تأیید کنید.</translation>
@@ -6403,7 +6405,6 @@
 <translation id="9033765790910064284">ادامه درهرصورت</translation>
 <translation id="9033857511263905942">&amp;جای‌گذاری</translation>
 <translation id="9037965129289936994">نمایش مورد اصلی</translation>
-<translation id="903797871439633902">‏این آخرین به‌روزرسانی خودکار نرم‌افزار و امنیتی برای این <ph name="DEVICE_TYPE" /> است. برای دریافت به‌روزرسانی‌های بعدی، به مدل جدیدتری ارتقا دهید. &lt;a target="_blank" href="<ph name="URL" />"&gt;بیشتر بدانید&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{یک بار دیگر می‌توانید امتحان کنید.}one{# بار دیگر می‌توانید امتحان کنید.}other{# بار دیگر می‌توانید امتحان کنید.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">گذرواژه <ph name="ORIGIN" /> به‌روزرسانی شود؟</translation>

@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Ismert hálózatok</translation>
 <translation id="123578888592755962">A lemez megtelt</translation>
 <translation id="1238191093934674082">OpenVPN</translation>
-<translation id="1239439601391236986">Személyes adatokra vonatkozó javaslatok megjelenítése bevitelkor</translation>
 <translation id="1239594683407221485">Fedezze fel az eszköz tartalmát a Fájlok alkalmazással.</translation>
 <translation id="124116460088058876">További nyelvek…</translation>
 <translation id="1241753985463165747">Összes adat olvasása és módosítása az aktuális webhelyen meghívás esetén</translation>
@@ -886,7 +885,6 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="2090165459409185032">Fiókadatainak helyreállításához lépjen a következő oldalra: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Rendszerbiztonsági beállítás</translation>
 <translation id="2091887806945687916">Hang</translation>
-<translation id="2096478741073211388">A személyes adatokra vonatkozó javaslatok segítségével gyorsabban gépelhet, mivel bizonyos szavak beírásakor a rendszer javaslatot tesz a nevére, címére vagy telefonszámára. Csak Ön látja a fiókjához tartozó, privát és személyre szabott javaslatait.</translation>
 <translation id="2096715839409389970">Harmadik féltől származó cookie-k törlése</translation>
 <translation id="2097372108957554726">Új eszközök regisztrálásához be kell jelentkeznie a Chrome-ba</translation>
 <translation id="2099172618127234427">Ön engedélyezi a Chrome OS hibakeresési funkcióit, melyek be fogják állítani az sshd daemon szolgáltatást, és engedélyezni fogják az USB-meghajtókról való indítást.</translation>
@@ -1373,6 +1371,7 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="2682498795777673382">Frissítés a szülőtől</translation>
 <translation id="2683638487103917598">A mappa rendezése kész</translation>
 <translation id="2684004000387153598">A folytatáshoz kattintson az OK gombra, majd a Személy hozzáadása lehetőségre. Ekkor létrehozhatja az e-mail-címéhez tartozó új profilt.</translation>
+<translation id="2686222346846590368">Ez az utolsó automatikus szoftver- és biztonsági frissítés ehhez a <ph name="DEVICE_TYPE" /> eszközhöz. Ha a jövőben is szeretne frissítéseket kapni, váltson újabb modellre. &lt;a target="_blank" href="<ph name="URL" />"&gt;További információ<ph name="LINK_END" />.</translation>
 <translation id="2687403674020088961">Az összes cookie letiltása (nem ajánlott)</translation>
 <translation id="2687407218262674387">Google Szerződési Feltételek</translation>
 <translation id="2688196195245426394">Hiba az eszköz szerveren való regisztrálásakor: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="2712173769900027643">Engedély kérése</translation>
 <translation id="2713444072780614174">Fehér</translation>
 <translation id="2714393097308983682">Google Play Áruház</translation>
+<translation id="2714997332747470971">A személyes adatokra vonatkozó javaslatok segítségével gyorsabban gépelhet, mivel a rendszer közben javaslatot tesz például a nevére, címére vagy telefonszámára. Csak Ön látja a fiókjához tartozó privát és személyre szabott javaslatokat.</translation>
 <translation id="2715751256863167692">Ez a frissítés visszaállítja a Chromebookot, és eltávolítja a jelenlegi felhasználói adatokat.</translation>
 <translation id="2716986496990888774">Ezt a beállítást szülő kezeli.</translation>
 <translation id="2718395828230677721">Éjszakai fény</translation>
@@ -2893,6 +2893,7 @@ Elindítja a következőt: <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation
 <translation id="4608520674724523647">Sikeres regisztráció illusztrációja</translation>
 <translation id="4608703838363792434">A(z) <ph name="FILE_NAME" /> fájlban bizalmas tartalom található.</translation>
 <translation id="4610162781778310380">A(z) <ph name="PLUGIN_NAME" /> hibába ütközött</translation>
+<translation id="4610178114344604329">Személyes adatokra vonatkozó javaslatok megjelenítése</translation>
 <translation id="4610637590575890427">Valójában ide szeretett volna menni: <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Rendelkezésre áll adatkapcsolat</translation>
 <translation id="4613144866899789710">Linux-telepítés megszakítása…</translation>
@@ -6206,6 +6207,7 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="8798441408945964110">Szolgáltató neve</translation>
 <translation id="8800004011501252845">Célhelyek megjelenítése a következőhöz:</translation>
 <translation id="8800034312320686233">Nem működik a webhely?</translation>
+<translation id="880069872639153240">Emoji-javaslatok megjelenítése az Ön által beírt szöveg alapján</translation>
 <translation id="8803953437405899238">Nyisson új lapot egy kattintással</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Lap áthelyezése másik ablakba}other{Lapok áthelyezése másik ablakba}}</translation>
 <translation id="8805140816472474147">A szinkronizálás megkezdéséhez meg kell erősítenie a szinkronizálási beállításokat.</translation>
@@ -6407,7 +6409,6 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="9033765790910064284">Ennek ellenére folytatom</translation>
 <translation id="9033857511263905942">&amp;Beillesztés</translation>
 <translation id="9037965129289936994">Eredeti megjelenítése</translation>
-<translation id="903797871439633902">Ez az utolsó automatikus szoftver- és biztonsági frissítés ehhez a <ph name="DEVICE_TYPE" /> eszközhöz. Ha a jövőben is szeretne frissítéseket kapni, váltson újabb modellre. &lt;a target="_blank" href="<ph name="URL" />"&gt;További információ.&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{1 kísérlete maradt.}other{# kísérlete maradt.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Szeretné frissíteni a(z) <ph name="ORIGIN" /> jelszavát?</translation>

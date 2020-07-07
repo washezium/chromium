@@ -197,7 +197,6 @@
 <translation id="1235458158152011030">የታወቁ አውታረ መረቦች</translation>
 <translation id="123578888592755962">ዲስክ ሙሉ ነው</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">የግቤት የግል መረጃ አስተያየት ጥቆማዎችን አሳይ</translation>
 <translation id="1239594683407221485">የመሣሪያውን ይዘት በፋይሎች መተግበሪያው ውስጥ ያስሱት።</translation>
 <translation id="124116460088058876">ተጨማሪ ቋንቋዎች</translation>
 <translation id="1241753985463165747">ሲጠራ በአሁኑ ድር ጣቢያ ላይ ያለውን ውሂብ ሁሉ ያነብባል እና ይቀይራል</translation>
@@ -883,7 +882,6 @@
 <translation id="2090165459409185032">የጠፋብዎትን የመለያ መረጃ መልሶ ለማግኘት፣ ወደዚህ ይሂዱ፦ google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">የስርዓት ደህንነት ቅንብር</translation>
 <translation id="2091887806945687916">ድምፅ</translation>
-<translation id="2096478741073211388">የግል መረጃ አስተያየት ጥቆማዎች እርስዎ የተወሰኑ ቃላትን ሲተይቡ የእርስዎን ስም፣ አድራሻ ወይም የስልክ ቁጥር በመጠቆም በፍትነት እንዲጽፉ ያግዝዎታል። እርስዎ ብቻ ነዎት የራስዎን የግል፣ ለመለያዎ ግላዊነት የተላበሱ የአስተያየት ጥቆማዎችን ማየት የሚችሉት።</translation>
 <translation id="2096715839409389970">የሦስተኛ ወገን ኩኪዎችን አጽዳ</translation>
 <translation id="2097372108957554726">አዲስ መሣሪያዎችን ለማስመዝገብ በመለያ ወደ Chrome መግባት አለብዎት</translation>
 <translation id="2099172618127234427">የsshd ስውር አገልጋይን የሚያዋቅሩ እና ከዩኤስቢ አንጻፊዎች ማስነሳትን የሚያነቁ የChrome OS ማረሚያ ባህሪያትን እያነቁ ነው።</translation>
@@ -6382,7 +6380,6 @@ nil</translation>
 <translation id="9033765790910064284">ለማንኛውም ቀጥል</translation>
 <translation id="9033857511263905942">&amp;ለጥፍ</translation>
 <translation id="9037965129289936994">የመጀመሪያውን አሳይ</translation>
-<translation id="903797871439633902">ይህ ለዚህ <ph name="DEVICE_TYPE" /> የመጨረሻው ራስ-ሰር የሶፍትዌር እና የደህንነት ዝማኔ ነው። የወደፊት ዝማኔዎችን ለማግኘት ወደ ይበልጥ አዲሱ ሞዴል ያልቁ። &lt;a target="_blank" href="<ph name="URL" />"&gt;የበለጠ ለመረዳት&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{አንድ ቀሪ ሙከራ አለዎት።}one{# ቀሪ ሙከራዎች አለዎት።}other{# ቀሪ ሙከራዎች አለዎት።}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">ለ<ph name="ORIGIN" /> የይለፍ ቃል ይዘምን?</translation>

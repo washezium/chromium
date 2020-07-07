@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Rrjetet e njohura</translation>
 <translation id="123578888592755962">Disku është plot</translation>
 <translation id="1238191093934674082">VPN e hapur</translation>
-<translation id="1239439601391236986">Shfaq sugjerimet e informacionit personal të hyrjes</translation>
 <translation id="1239594683407221485">Eksploro përmbajtjen e pajisjes në aplikacionin "Skedarët".</translation>
 <translation id="124116460088058876">Gjuhë të tjera</translation>
 <translation id="1241753985463165747">Lexo dhe ndrysho të gjitha të dhënat në sajtin aktual të uebit kur të kërkohet</translation>
@@ -883,7 +882,6 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="2090165459409185032">Për të rikuperuar informacionet e llogarisë tënde, shko te: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Cilësimi i sigurisë së sistemit</translation>
 <translation id="2091887806945687916">Tingulli</translation>
-<translation id="2096478741073211388">Sugjerimet e informacionit personal të ndihmojnë të shkruash më shpejt duke sugjeruar emrin, adresën ose numrin e telefonit kur shkruan disa fjalë specifike. Vetëm ti i shikon sugjerimet e tua private dhe të personalizuara për llogarinë tënde.</translation>
 <translation id="2096715839409389970">Pastro kukit e palëve të treta</translation>
 <translation id="2097372108957554726">Duhet të identifikohesh te Chrome për të regjistruar pajisjet e tua</translation>
 <translation id="2099172618127234427">Po aktivizon funksionet e korrigjimit të sistemit operativ Chrome që do të konfigurojnë sshd daemon dhe do të aktivizojnë fillimin nga disqet USB.</translation>
@@ -1370,6 +1368,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="2682498795777673382">Përditësim nga prindi</translation>
 <translation id="2683638487103917598">Dosja u sistemua</translation>
 <translation id="2684004000387153598">Për të vazhduar, kliko te "Në rregull" dhe më pas kliko te "Shto person" për të krijuar një profil të ri për adresën tënde të email-it.</translation>
+<translation id="2686222346846590368">Ky është përditësimi i fundit automatik i softuerit dhe i sigurisë për këtë pajisje <ph name="DEVICE_TYPE" />. Për të marrë përditësime të ardhshme, përmirësoje në një model më të ri. &lt;a target="_blank" href="<ph name="URL" />"&gt;Mëso më shumë<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blloko të gjitha kukit (nuk rekomandohet)</translation>
 <translation id="2687407218262674387">Kushtet e shërbimit të Google</translation>
 <translation id="2688196195245426394">Gabim gjatë regjistrimit të pajisjes në server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1392,6 +1391,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="2712173769900027643">Kërko për leje</translation>
 <translation id="2713444072780614174">E bardhë</translation>
 <translation id="2714393097308983682">Dyqani i "Luaj me Google"</translation>
+<translation id="2714997332747470971">Sugjerimet e informacionit personal të ndihmojnë të shkruash më shpejt me sugjerime të tilla si emri, adresa ose numri yt i telefonit. Vetëm ti i shikon sugjerimet e tua private dhe të personalizuara për llogarinë tënde.</translation>
 <translation id="2715751256863167692">Ky përmirësim e rivendos pajisjen tënde Chromebook dhe heq të dhënat e përdoruesit aktual.</translation>
 <translation id="2716986496990888774">Ky cilësim menaxhohet nga një prind.</translation>
 <translation id="2718395828230677721">Drita e natës</translation>
@@ -2891,6 +2891,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="4608520674724523647">Ilustrim i regjistrimit të suksesshëm</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> ka përmbajtje delikate</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ka hasur në një gabim</translation>
+<translation id="4610178114344604329">Shfaq sugjerimet e informacionit personal</translation>
 <translation id="4610637590575890427">Mos dëshiron të shkosh te <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Lidhja e të dhënave e disponueshme</translation>
 <translation id="4613144866899789710">Po anulohet instalimi i sistemit Linux...</translation>
@@ -6200,6 +6201,7 @@ Mbaje skedarin e çelësit tënd në një vend të sigurt. Do të të duhet për
 <translation id="8798441408945964110">Emri i ofruesit</translation>
 <translation id="8800004011501252845">Po shfaq destinacionet për</translation>
 <translation id="8800034312320686233">Sajti nuk funksionon?</translation>
+<translation id="880069872639153240">Merr sugjerime për emoji bazuar në atë që po shkruan</translation>
 <translation id="8803953437405899238">Hap një skedë të re me një klikim</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Zhvendose skedën në një dritare të re}other{Zhvendosi skedat në një dritare të re}}</translation>
 <translation id="8805140816472474147">Konfirmo cilësimet e sinkronizimit për të nisur sinkronizimin.</translation>
@@ -6401,7 +6403,6 @@ Mbaje skedarin e çelësit tënd në një vend të sigurt. Do të të duhet për
 <translation id="9033765790910064284">Vazhdo gjithsesi</translation>
 <translation id="9033857511263905942">&amp;Ngjite</translation>
 <translation id="9037965129289936994">Shfaq origjinalin</translation>
-<translation id="903797871439633902">Ky është përditësimi i fundit automatik i softuerit dhe i sigurisë për këtë pajisje <ph name="DEVICE_TYPE" />. Për të marrë përditësime të ardhshme, përmirësoje në një model më të ri. &lt;a target="_blank" href="<ph name="URL" />"&gt;Mëso më shumë&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Të ka mbetur një përpjekje.}other{Të kanë mbetur # përpjekje.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Të përditësohet fjalëkalimi për <ph name="ORIGIN" />?</translation>

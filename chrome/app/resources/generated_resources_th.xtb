@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">เครือข่ายที่รู้จัก</translation>
 <translation id="123578888592755962">ดิสก์เต็ม</translation>
 <translation id="1238191093934674082">เปิด VPN</translation>
-<translation id="1239439601391236986">แสดงการแนะนำข้อมูลส่วนบุคคลเพื่อช่วยป้อนข้อมูล</translation>
 <translation id="1239594683407221485">สำรวจเนื้อหาของอุปกรณ์ในแอป Files</translation>
 <translation id="124116460088058876">ภาษาเพิ่มเติม</translation>
 <translation id="1241753985463165747">อ่านและเปลี่ยนแปลงข้อมูลทั้งหมดในเว็บไซต์ปัจจุบันเมื่อเรียกใช้</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">หากต้องการกู้คืนข้อมูลบัญชี โปรดไปที่ google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">การตั้งค่าความปลอดภัยของระบบ</translation>
 <translation id="2091887806945687916">เสียง</translation>
-<translation id="2096478741073211388">การแนะนำข้อมูลส่วนบุคคลจะแนะนำชื่อ ที่อยู่ หรือหมายเลขโทรศัพท์ขณะที่คุณพิมพ์เพื่อช่วยให้ป้อนข้อมูลได้เร็วขึ้น มีเพียงคุณเท่านั้นที่จะเห็นการแนะนำแบบส่วนตัวที่ปรับให้เหมาะกับคุณสำหรับบัญชี</translation>
 <translation id="2096715839409389970">ล้างคุกกี้ของบุคคลที่สาม</translation>
 <translation id="2097372108957554726">คุณต้องลงชื่อเข้าใช้ Chrome เพื่อลงทะเบียนอุปกรณ์ใหม่</translation>
 <translation id="2099172618127234427">คุณกำลังเปิดใช้ฟีเจอร์การแก้ไขข้อบกพร่องของ Chrome OS ซึ่งจะตั้งค่า sshd daemon และเปิดใช้การเปิดเครื่องจากไดรฟ์ USB</translation>
@@ -1373,6 +1371,7 @@
 <translation id="2682498795777673382">อัปเดตจากผู้ปกครองของคุณ</translation>
 <translation id="2683638487103917598">จัดเรียงโฟลเดอร์แล้ว</translation>
 <translation id="2684004000387153598">หากต้องการดำเนินการต่อ ให้คลิก "ตกลง" จากนั้นคลิก "เพิ่มบุคคล" เพื่อสร้างโปรไฟล์ใหม่สำหรับที่อยู่อีเมล</translation>
+<translation id="2686222346846590368">นี่เป็นการอัปเดตซอฟต์แวร์และความปลอดภัยอัตโนมัติครั้งสุดท้ายสำหรับ <ph name="DEVICE_TYPE" /> เครื่องนี้ โปรดอัปเกรดเป็นรุ่นที่ใหม่กว่าเพื่อรับการอัปเดตในอนาคต &lt;a target="_blank" href="<ph name="URL" />"&gt;ดูข้อมูลเพิ่มเติม<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">บล็อกคุกกี้ทั้งหมด (ไม่แนะนำ)</translation>
 <translation id="2687407218262674387">ข้อกำหนดในการให้บริการ Google</translation>
 <translation id="2688196195245426394">เกิดข้อผิดพลาดขณะลงทะเบียนอุปกรณ์กับเซิร์ฟเวอร์: <ph name="CLIENT_ERROR" /></translation>
@@ -1395,6 +1394,7 @@
 <translation id="2712173769900027643">ขออนุญาต</translation>
 <translation id="2713444072780614174">สีขาว</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">การแนะนำข้อมูลส่วนบุคคลจะแนะนำข้อมูลอย่างเช่น ชื่อ ที่อยู่ หรือหมายเลขโทรศัพท์ เพื่อช่วยให้คุณป้อนข้อมูลได้เร็วขึ้น มีเพียงคุณเท่านั้นที่จะเห็นการแนะนำแบบส่วนตัวที่ปรับให้เหมาะกับคุณสำหรับบัญชี</translation>
 <translation id="2715751256863167692">การอัปเกรดนี้จะรีเซ็ต Chromebook และนำข้อมูลผู้ใช้ปัจจุบันออก</translation>
 <translation id="2716986496990888774">การตั้งค่านี้จัดการโดยผู้ปกครอง</translation>
 <translation id="2718395828230677721">แสงตอนกลางคืน</translation>
@@ -2894,6 +2894,7 @@
 <translation id="4608520674724523647">ภาพการลงทะเบียนสำเร็จ</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> มีเนื้อหาที่ละเอียดอ่อน</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> พบข้อผิดพลาด</translation>
+<translation id="4610178114344604329">แสดงการแนะนำข้อมูลส่วนบุคคล</translation>
 <translation id="4610637590575890427">คุณหมายความว่าต้องการไปที่ <ph name="SITE" /> หรือไม่</translation>
 <translation id="4611114513649582138">มีการเชื่อมต่อข้อมูลพร้อมใช้งาน</translation>
 <translation id="4613144866899789710">กำลังยกเลิกการติดตั้ง Linux...</translation>
@@ -6205,6 +6206,7 @@
 <translation id="8798441408945964110">ชื่อผู้ให้บริการ</translation>
 <translation id="8800004011501252845">แสดงปลายทางสำหรับ</translation>
 <translation id="8800034312320686233">หากเว็บไซต์ไม่ทำงาน</translation>
+<translation id="880069872639153240">รับคำแนะนำอีโมจิตามคำที่คุณกำลังพิมพ์</translation>
 <translation id="8803953437405899238">เปิดแท็บใหม่ในคลิกเดียว</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{ย้ายแท็บไปที่หน้าต่างใหม่}other{ย้ายหลายแท็บไปที่หน้าต่างใหม่}}</translation>
 <translation id="8805140816472474147">ยืนยันการตั้งค่าการซิงค์เพื่อเริ่มซิงค์</translation>
@@ -6406,7 +6408,6 @@
 <translation id="9033765790910064284">ดำเนินการต่อ</translation>
 <translation id="9033857511263905942">&amp;วาง</translation>
 <translation id="9037965129289936994">แสดงหน้าเว็บเดิม</translation>
-<translation id="903797871439633902">นี่เป็นการอัปเดตซอฟต์แวร์และความปลอดภัยอัตโนมัติครั้งสุดท้ายสำหรับ <ph name="DEVICE_TYPE" /> เครื่องนี้ โปรดอัปเกรดเป็นรุ่นที่ใหม่กว่าเพื่อรับการอัปเดตในอนาคต &lt;a target="_blank" href="<ph name="URL" />"&gt;ดูข้อมูลเพิ่มเติม&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{คุณใช้ลายนิ้วมือได้อีก 1 ครั้ง}other{คุณใช้ลายนิ้วมือได้อีก # ครั้ง}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">อัปเดตรหัสผ่านสำหรับ <ph name="ORIGIN" /> ไหม</translation>

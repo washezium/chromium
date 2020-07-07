@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Redes conocidas</translation>
 <translation id="123578888592755962">Disco lleno</translation>
 <translation id="1238191093934674082">OpenVPN</translation>
-<translation id="1239439601391236986">Mostrar sugerencias de entrada con información personal</translation>
 <translation id="1239594683407221485">Explora el contenido del dispositivo en la app Archivos.</translation>
 <translation id="124116460088058876">Más idiomas</translation>
 <translation id="1241753985463165747">Leer y modificar todos los datos del sitio web actual cuando se invoca</translation>
@@ -883,7 +882,6 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="2090165459409185032">Para recuperar la información de la cuenta, accede a google.com/accounts/recovery.</translation>
 <translation id="2090876986345970080">Configuración de seguridad del sistema</translation>
 <translation id="2091887806945687916">Sonido</translation>
-<translation id="2096478741073211388">Cuando escribes palabras específicas, las sugerencias de información personal te proponen tu nombre, dirección o número de teléfono, lo que te permite escribir más rápido. Solo tú verás las sugerencias privadas y personalizadas para tu cuenta.</translation>
 <translation id="2096715839409389970">Borrar cookies de terceros</translation>
 <translation id="2097372108957554726">Debes acceder a Chrome para registrar nuevos dispositivos.</translation>
 <translation id="2099172618127234427">Estás habilitando las funciones de depuración del Sistema operativo Chrome que configurarán el daemon sshd y habilitarán el inicio desde unidades USB.</translation>
@@ -1370,6 +1368,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="2682498795777673382">Actualización por parte de uno de tus padres</translation>
 <translation id="2683638487103917598">Se ordenó la carpeta</translation>
 <translation id="2684004000387153598">Para continuar, haz clic en Aceptar y, luego, en Agregar un usuario para crear un nuevo perfil para tu dirección de correo electrónico.</translation>
+<translation id="2686222346846590368">Esta es la última actualización automática de software y seguridad para el dispositivo <ph name="DEVICE_TYPE" />. Para recibir futuras actualizaciones, obtén un modelo más nuevo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Más información<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloquear todas las cookies (opción no recomendada)</translation>
 <translation id="2687407218262674387">Condiciones del Servicio de Google</translation>
 <translation id="2688196195245426394">Se produjo un error al registrar el dispositivo en el servidor: <ph name="CLIENT_ERROR" />.</translation>
@@ -1392,6 +1391,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="2712173769900027643">Solicitar permiso</translation>
 <translation id="2713444072780614174">Blanco</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Las sugerencias de información personal te brindan propuestas, como tu nombre, dirección o número de teléfono, para que puedas escribir más rápido. Solo tú verás las sugerencias privadas y personalizadas para tu cuenta.</translation>
 <translation id="2715751256863167692">Esta actualización restablece tu Chromebook y quita los datos del usuario actual.</translation>
 <translation id="2716986496990888774">Esta configuración la administra uno de tus padres.</translation>
 <translation id="2718395828230677721">Luz nocturna</translation>
@@ -2891,6 +2891,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="4608520674724523647">Ilustración de inscripción correcta</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> incluye contenido sensible</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> detectó un error</translation>
+<translation id="4610178114344604329">Mostrar sugerencias de información personal</translation>
 <translation id="4610637590575890427">¿Tal vez quieres ir a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Conexión de datos disponible</translation>
 <translation id="4613144866899789710">Cancelando la instalación de Linux…</translation>
@@ -5326,7 +5327,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="7737115349420013392">Vinculando con "<ph name="DEVICE_NAME" />"…</translation>
 <translation id="7737238973539693982">Borrar Linux (Beta)</translation>
 <translation id="7740996059027112821">Estándar</translation>
-<translation id="774377079771918250">Elige dónde guardarlo</translation>
+<translation id="774377079771918250">Elige dónde guardarla</translation>
 <translation id="7744047395460924128">Ver tu historial de impresión</translation>
 <translation id="7744192722284567281">Se encontró en una violación de la seguridad de los datos</translation>
 <translation id="7750228210027921155">Pantalla en pantalla</translation>
@@ -6202,6 +6203,7 @@ Mantén el archivo de clave en un lugar seguro. Debes crear las nuevas versiones
 <translation id="8798441408945964110">Nombre del proveedor</translation>
 <translation id="8800004011501252845">Mostrando destinos para</translation>
 <translation id="8800034312320686233">¿No funciona el sitio?</translation>
+<translation id="880069872639153240">Obtén sugerencias de emojis basadas en lo que escribes</translation>
 <translation id="8803953437405899238">Abre una pestaña nueva con un solo clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mover la pestaña a otra ventana}other{Mover las pestañas a otra ventana}}</translation>
 <translation id="8805140816472474147">Confirma la configuración para comenzar la sincronización.</translation>
@@ -6403,7 +6405,6 @@ Mantén el archivo de clave en un lugar seguro. Debes crear las nuevas versiones
 <translation id="9033765790910064284">Continuar de todos modos</translation>
 <translation id="9033857511263905942">&amp;Pegar</translation>
 <translation id="9037965129289936994">Mostrar original</translation>
-<translation id="903797871439633902">Esta es la última actualización automática de software y seguridad para el dispositivo <ph name="DEVICE_TYPE" />. Si quieres recibir actualizaciones futuras, obtén un modelo más nuevo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Más información&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Te queda un intento.}other{Te quedan # intentos.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">¿Quieres actualizar la contraseña para <ph name="ORIGIN" />?</translation>

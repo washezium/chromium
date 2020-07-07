@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Redes coñecidas</translation>
 <translation id="123578888592755962">Disco cheo</translation>
 <translation id="1238191093934674082">Abrir VPN</translation>
-<translation id="1239439601391236986">Mostrar suxestións de información persoal</translation>
 <translation id="1239594683407221485">Explora o contido do dispositivo na aplicación Ficheiros.</translation>
 <translation id="124116460088058876">Máis idiomas</translation>
 <translation id="1241753985463165747">Ler e cambiar todos os teus datos no sitio web actual cando se invoque</translation>
@@ -885,7 +884,6 @@ Instala a aplicación Family Link no teu dispositivo e poderás xestionar a conf
 <translation id="2090165459409185032">Para recuperar a información da túa conta, accede  a: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Configuración de seguranza do sistema</translation>
 <translation id="2091887806945687916">Son</translation>
-<translation id="2096478741073211388">As suxestións de información persoal axúdanche a escribir máis rápido ao suxerirche o teu nome, enderezo ou número de teléfono cando escribes algunhas palabras específicas. Só ti podes ver as túas propias suxestións privadas e personalizadas para a túa conta.</translation>
 <translation id="2096715839409389970">Borrar cookies de terceiros</translation>
 <translation id="2097372108957554726">Tes que iniciar sesión en Chrome para rexistrar novos dispositivos</translation>
 <translation id="2099172618127234427">Vas activar as funcións de depuración de Chrome OS que configurarán o daemon sshd e activarán o arranque desde unidades USB.</translation>
@@ -1372,6 +1370,7 @@ Instala a aplicación Family Link no teu dispositivo e poderás xestionar a conf
 <translation id="2682498795777673382">Cambio feito polo teu pai ou nai</translation>
 <translation id="2683638487103917598">Cartafol ordenado</translation>
 <translation id="2684004000387153598">Para continuar, fai clic en Aceptar e despois en Engadir persoa se queres crear un novo perfil para o teu enderezo de correo electrónico.</translation>
+<translation id="2686222346846590368">Esta é a última actualización automática de software e seguranza para este dispositivo (<ph name="DEVICE_TYPE" />). Se queres obter futuras actualizacións, cambia a un modelo máis novo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Máis información<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloquear todas as cookies (non recomendado)</translation>
 <translation id="2687407218262674387">Condicións de servizo de Google</translation>
 <translation id="2688196195245426394">Produciuse un erro ao rexistrar o dispositivo co servidor: <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@ Instala a aplicación Family Link no teu dispositivo e poderás xestionar a conf
 <translation id="2712173769900027643">Solicitar permiso</translation>
 <translation id="2713444072780614174">Branco</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">As suxestións de información persoal axúdanche a escribir máis rápido grazas a suxestións como o teu nome, enderezo ou número de teléfono. Só ti podes ver as túas propias suxestións privadas e personalizadas para a túa conta.</translation>
 <translation id="2715751256863167692">Esta actualización restablece o teu dispositivo Chromebook e elimina os datos do usuario actual.</translation>
 <translation id="2716986496990888774">O teu pai ou nai xestiona esta opción de configuración.</translation>
 <translation id="2718395828230677721">Luz nocturna</translation>
@@ -2893,6 +2893,7 @@ Instala a aplicación Family Link no teu dispositivo e poderás xestionar a conf
 <translation id="4608520674724523647">Ilustración de inscrición correcta</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> inclúe contido confidencial</translation>
 <translation id="4610162781778310380">O complemento <ph name="PLUGIN_NAME" /> detectou un erro</translation>
+<translation id="4610178114344604329">Mostrar suxestións de información persoal</translation>
 <translation id="4610637590575890427">Talvez querías acceder a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Está dispoñible a conexión de datos</translation>
 <translation id="4613144866899789710">Cancelando instalación de Linux…</translation>
@@ -6203,6 +6204,7 @@ Mantén o ficheiro de clave nun lugar seguro, xa que o precisarás para crear no
 <translation id="8798441408945964110">Nome do fornecedor</translation>
 <translation id="8800004011501252845">Mostrando destinos para</translation>
 <translation id="8800034312320686233">O sitio non funciona?</translation>
+<translation id="880069872639153240">Obtén suxestións de emojis baseadas no que escribas</translation>
 <translation id="8803953437405899238">Abre unha pestana nova cun só clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mover pestana a outra ventá}other{Mover pestanas a outra ventá}}</translation>
 <translation id="8805140816472474147">Para poder iniciar a sincronización debes confirmar a súa configuración.</translation>
@@ -6404,7 +6406,6 @@ Mantén o ficheiro de clave nun lugar seguro, xa que o precisarás para crear no
 <translation id="9033765790910064284">Continuar igualmente</translation>
 <translation id="9033857511263905942">&amp;Pegar</translation>
 <translation id="9037965129289936994">Mostrar orixinal</translation>
-<translation id="903797871439633902">Esta é a última actualización automática de software e seguranza para este <ph name="DEVICE_TYPE" />. Para obter futuras actualizacións, cambia a un modelo máis novo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Máis información&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Quédache un intento.}other{Quédanche # intentos.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Queres actualizar o contrasinal de <ph name="ORIGIN" />?</translation>

@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Poznate mreže</translation>
 <translation id="123578888592755962">Disk je pun</translation>
 <translation id="1238191093934674082">Otvoreni VPN</translation>
-<translation id="1239439601391236986">Prikaži prijedloge unosa ličnih informacija</translation>
 <translation id="1239594683407221485">Istražite sadržaj uređaja u aplikaciji Fajlovi.</translation>
 <translation id="124116460088058876">Više jezika</translation>
 <translation id="1241753985463165747">Čita i mijenja sve vaše podatke na trenutnoj web lokaciji kada se pozove</translation>
@@ -886,7 +885,6 @@ Postavkama ovog računa možete upravljati instaliranjem aplikacije Family Link 
 <translation id="2090165459409185032">Za oporavak podataka o računu otvorite: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Postavke sigurnosnog sistema</translation>
 <translation id="2091887806945687916">Zvuk</translation>
-<translation id="2096478741073211388">Prijedlozi ličnih informacija vam pomažu da brže pišete predlaganjem vašeg imena, adrese ili broja telefona kada pišete neke određene riječi. Samo vi možete vidjeti privatne, personalizirane prijedloge za svoj račun.</translation>
 <translation id="2096715839409389970">Izbriši kolačiće trećih strana</translation>
 <translation id="2097372108957554726">Morate se prijaviti na Chrome da registrirate nove uređaje</translation>
 <translation id="2099172618127234427">Omogućujete funkcije za otklanjanje grešaka na Chrome OS-u kojim će se postaviti sshd daemon i omogućiti pokretanje sistema s USB uređaja.</translation>
@@ -1373,6 +1371,7 @@ Postavkama ovog računa možete upravljati instaliranjem aplikacije Family Link 
 <translation id="2682498795777673382">Roditelj je izvršio ažuriranje</translation>
 <translation id="2683638487103917598">Folder je sortiran</translation>
 <translation id="2684004000387153598">Da nastavite, kliknite na Uredu, a zatim kliknite na Dodaj osobu da kreirate novi profil za svoju adresu e-pošte.</translation>
+<translation id="2686222346846590368">To je posljednje automatsko ažuriranje softvera i sigurnosno ažuriranje za uređaj <ph name="DEVICE_TYPE" />. Da dobijete buduća ažuriranja, nadogradite uređaj na noviji model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saznajte više<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokiraj sve kolačiće (nije preporučeno)</translation>
 <translation id="2687407218262674387">Googleovi uslovi korištenja usluge</translation>
 <translation id="2688196195245426394">Pogreška pri registraciji uređaja na poslužitelju: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Postavkama ovog računa možete upravljati instaliranjem aplikacije Family Link 
 <translation id="2712173769900027643">Zatraži odobrenje</translation>
 <translation id="2713444072780614174">Bijela</translation>
 <translation id="2714393097308983682">Google Play trgovina</translation>
+<translation id="2714997332747470971">Prijedlozi ličnih informacija vam pomažu da brže pišete pomoću prijedloga kao što su vaše ime, adresa ili broj telefona. Samo vi možete vidjeti privatne, personalizirane prijedloge za svoj račun.</translation>
 <translation id="2715751256863167692">Ovom nadogradnjom vaš Chromebook se vraća na zadane postavke i uklanjaju se podaci trenutnog korisnika.</translation>
 <translation id="2716986496990888774">Ovom postavkom upravlja roditelj.</translation>
 <translation id="2718395828230677721">Noćno svjetlo</translation>
@@ -2894,6 +2894,7 @@ Postavkama ovog računa možete upravljati instaliranjem aplikacije Family Link 
 <translation id="4608520674724523647">Ilustracija uspješne prijave</translation>
 <translation id="4608703838363792434">U fajlu <ph name="FILE_NAME" /> postoji osjetljiv sadržaj</translation>
 <translation id="4610162781778310380">Dodatak <ph name="PLUGIN_NAME" /> naišao je na pogrešku</translation>
+<translation id="4610178114344604329">Prikaži prijedloge ličnih informacija</translation>
 <translation id="4610637590575890427">Htjeli ste ići na <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Veza za prijenos podataka je dostupna</translation>
 <translation id="4613144866899789710">Otkazivanje instaliranja Linuxa...</translation>
@@ -6205,6 +6206,7 @@ Fajl ključa: <ph name="KEY_FILE" />
 <translation id="8798441408945964110">Naziv pružaoca usluge</translation>
 <translation id="8800004011501252845">Prikaz odredišta za</translation>
 <translation id="8800034312320686233">Web lokacija ne funkcionira?</translation>
+<translation id="880069872639153240">Primajte prijedloge za emoji sličice na osnovu teksta koji unosite</translation>
 <translation id="8803953437405899238">Otvori novu karticu jednim klikom</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Premjesti karticu u drugi prozor}one{Premjesti kartice u drugi prozor}few{Premjesti kartice u drugi prozor}other{Premjesti kartice u drugi prozor}}</translation>
 <translation id="8805140816472474147">Potvrdite postavke za sinhronizaciju da biste je pokrenuli.</translation>
@@ -6406,7 +6408,6 @@ Fajl ključa: <ph name="KEY_FILE" />
 <translation id="9033765790910064284">Ipak nastavi</translation>
 <translation id="9033857511263905942">Zalije&amp;pi</translation>
 <translation id="9037965129289936994">Prikaži original</translation>
-<translation id="903797871439633902">To je posljednje automatsko ažuriranje softvera i sigurnosno ažuriranje za uređaj <ph name="DEVICE_TYPE" />. Da dobijete buduća ažuriranja, nadogradite uređaj na noviji model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saznajte više&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Preostao vam je još jedan pokušaj.}one{Preostao vam je još # pokušaj.}few{Preostala su vam još # pokušaja.}other{Preostalo vam je još # pokušaja.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Ažurirati lozinku za <ph name="ORIGIN" />?</translation>

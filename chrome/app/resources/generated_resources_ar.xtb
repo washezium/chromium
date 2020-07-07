@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">الشبكات المعروفة</translation>
 <translation id="123578888592755962">القرص ممتلئ</translation>
 <translation id="1238191093934674082">‏فتح الشبكة الظاهرية الخاصة (VPN)</translation>
-<translation id="1239439601391236986">إظهار اقتراحات المعلومات الشخصية المُدخَلة</translation>
 <translation id="1239594683407221485">يمكنك استكشاف محتوى الجهاز في تطبيق الملفات.</translation>
 <translation id="124116460088058876">مزيد من اللغات</translation>
 <translation id="1241753985463165747">قراءة جميع بياناتك وتغييرها على الموقع الإلكتروني الحالي عند الاستدعاء</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">‏لاسترداد معلومات حسابك، انتقل إلى: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">إعداد أمان النظام</translation>
 <translation id="2091887806945687916">الصوت</translation>
-<translation id="2096478741073211388">تساعدك اقتراحات المعلومات الشخصية على الكتابة بشكلٍ أسرع من خلال تقديم اقتراح لاسمك أو عنوانك أو رقم هاتفك عند كتابتك لكلمات معيّنة. ولن يتمكّن أحدٌ سواك من الاطّلاع على اقتراحاتك الخاصة والمخصّصة لحسابك.</translation>
 <translation id="2096715839409389970">حذف ملفات تعريف الارتباط التابعة لجهات خارجية</translation>
 <translation id="2097372108957554726">‏يلزمك تسجيل الدخول إلى Chrome لتسجيل الأجهزة الجديدة</translation>
 <translation id="2099172618127234427">‏أنت تمكن ميزات تصحيح الأخطاء لنظام التشغيل Chrome التي ستثبّت البرنامج الخفي لـ sshd وتمكن التشغيل من محركات الأقراص USB.</translation>
@@ -1373,6 +1371,7 @@
 <translation id="2682498795777673382">تحديث من أحد والديك</translation>
 <translation id="2683638487103917598">تم تصنيف المجلد</translation>
 <translation id="2684004000387153598">للمتابعة، انقر على "موافقة" ثم انقر على "إضافة شخص" لإنشاء ملف شخصي جديد لعنوان بريدك الإلكتروني.</translation>
+<translation id="2686222346846590368">‏هذا هو آخر تحديث تلقائي للبرنامج والأمان لجهاز <ph name="DEVICE_TYPE" />. للحصول على التحديثات في المستقبل، يُمكنك الترقية إلى طراز أحدث. &lt;a target="_blank" herf="<ph name="URL" />"&gt;مزيد من المعلومات<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">حظر كل ملفات تعريف الارتباط (غير مُستحسَن)</translation>
 <translation id="2687407218262674387">‏بنود خدمة Google</translation>
 <translation id="2688196195245426394">حدث خطأ عند تسجيل الجهاز مع الخادم: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@
 <translation id="2712173769900027643">طلب إذن</translation>
 <translation id="2713444072780614174">أبيض</translation>
 <translation id="2714393097308983682">‏متجر Google Play</translation>
+<translation id="2714997332747470971">تساعدك اقتراحات المعلومات الشخصية على الكتابة بشكلٍ أسرع من خلال تقديم اقتراحات لك، مثل اسمك أو عنوانك أو رقم هاتفك. ولن يتمكّن أحدٌ سواك من الاطّلاع على اقتراحاتك الخاصّة والمخصّصة لحسابك.</translation>
 <translation id="2715751256863167692">‏تؤدي هذه الترقية إلى إعادة ضبط جهاز Chromebook وإزالة بيانات المستخدمين الحالية.</translation>
 <translation id="2716986496990888774">يتولى إدارة هذا الإعداد أحد الوالدين.</translation>
 <translation id="2718395828230677721">الإضاءة الليلية</translation>
@@ -2070,7 +2070,7 @@
 <translation id="3576324189521867626">تم التثبيت بنجاح</translation>
 <translation id="3578594933904494462">تجري مشاركة محتوى علامة التبويب هذه.</translation>
 <translation id="357886715122934472">‏يريد &lt;strong&gt;<ph name="SENDER" />&lt;/strong&gt; مشاركة طابعة &lt;strong&gt;<ph name="PRINTER_NAME" />&lt;/strong&gt; مع مجموعة تمتلكها: &lt;strong&gt;<ph name="GROUP_NAME" />&lt;/strong&gt;. في حال موافقتك، سيتمكن جميع أعضاء المجموعة من الطباعة بهذه الطابعة.</translation>
-<translation id="357889014807611375">‏شبكة Wi-Fi ذات السعة المحدودة</translation>
+<translation id="357889014807611375">‏شبكة Wi-Fi تفرض تكلفة استخدام</translation>
 <translation id="3581605050355435601">‏ضبط عنوان IP تلقائيًا</translation>
 <translation id="3582057310199111521">تم إدخال كلمة المرور على موقع إلكتروني مريب وتبيّن أنها مستخدَمة في عملية اختراق البيانات.</translation>
 <translation id="3584169441612580296">التعرّف على الصور، والموسيقى، والوسائط الأخرى من الكمبيوتر وتغييرها</translation>
@@ -2891,6 +2891,7 @@
 <translation id="4608520674724523647">صورة توضيحية للتسجيل بنجاح</translation>
 <translation id="4608703838363792434">الملف <ph name="FILE_NAME" /> به محتوى حسّاس.</translation>
 <translation id="4610162781778310380">حدث خطأ في <ph name="PLUGIN_NAME" />.</translation>
+<translation id="4610178114344604329">عرض اقتراحات المعلومات الشخصية</translation>
 <translation id="4610637590575890427">هل قصدت الذهاب إلى الموقع <ph name="SITE" />؟</translation>
 <translation id="4611114513649582138">اتصال البيانات متاح</translation>
 <translation id="4613144866899789710">‏جارٍ إلغاء عملية تثبيت Linux...</translation>
@@ -6204,6 +6205,7 @@
 <translation id="8798441408945964110">اسم مقدم الخدمة</translation>
 <translation id="8800004011501252845">عرض الوجهات لـ</translation>
 <translation id="8800034312320686233">هل الموقع الإلكتروني لا يعمل؟</translation>
+<translation id="880069872639153240">يمكنك الحصول على اقتراحات الرموز التعبيرية بناءً على النص الذي تتم كتابته.</translation>
 <translation id="8803953437405899238">يمكنك فتح علامة تبويب جديدة بنقرة واحدة</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{نقل علامة تبويب واحدة إلى نافذة أخرى}zero{نقل علامات تبويب إلى نافذة أخرى}two{نقل علامتَي تبويب إلى نافذة أخرى}few{نقل علامات تبويب إلى نافذة أخرى}many{نقل علامات تبويب إلى نافذة أخرى}other{نقل علامات تبويب إلى نافذة أخرى}}</translation>
 <translation id="8805140816472474147">يُرجى تأكيد إعدادات المزامنة لبدء المزامنة.</translation>
@@ -6405,7 +6407,6 @@
 <translation id="9033765790910064284">متابعة على أي حال</translation>
 <translation id="9033857511263905942">ل&amp;صق</translation>
 <translation id="9037965129289936994">عرض الصفحة الأصلية</translation>
-<translation id="903797871439633902">‏هذا هو آخر تحديث تلقائي للبرامج والأمان لهذا <ph name="DEVICE_TYPE" />. للحصول على التحديثات في المستقبل، قم بالترقية إلى طراز أحدث. &lt;a target="_blank" href="<ph name="URL" />"&gt;مزيد من المعلومات&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{يتبقى لديك محاولة واحدة.}zero{يتبقى لديك # محاولة.}two{يتبقى لديك محاولتان.}few{يتبقى لديك # محاولات.}many{يتبقى لديك # محاولةً.}other{يتبقى لديك # محاولة.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">هل تريد تحديث كلمة المرور لـ <ph name="ORIGIN" />؟</translation>

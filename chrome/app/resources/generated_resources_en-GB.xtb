@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Known networks</translation>
 <translation id="123578888592755962">Disk full</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Show input personal information suggestions</translation>
 <translation id="1239594683407221485">Explore the device’s content in the Files app.</translation>
 <translation id="124116460088058876">More languages</translation>
 <translation id="1241753985463165747">Read and change all your data on the current website when invoked</translation>
@@ -886,7 +885,6 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="2090165459409185032">To recover your account information, go to: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">System security setting</translation>
 <translation id="2091887806945687916">Sound</translation>
-<translation id="2096478741073211388">Personal information suggestions help you write faster by suggesting your name, address or phone number when you type some specific words. Only you see your own private, personalised suggestions for your account.</translation>
 <translation id="2096715839409389970">Clear third-party cookies</translation>
 <translation id="2097372108957554726">You need to sign in to Chrome to register new devices</translation>
 <translation id="2099172618127234427">You are enabling Chrome OS debugging features which will set up sshd daemon and enable booting from USB drives.</translation>
@@ -1373,6 +1371,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="2682498795777673382">Update from a parent</translation>
 <translation id="2683638487103917598">Folder sorted</translation>
 <translation id="2684004000387153598">To continue, click OK, then click Add Person to create a new profile for your email address.</translation>
+<translation id="2686222346846590368">This is the last automatic software and security update for this <ph name="DEVICE_TYPE" />. To get future updates, upgrade to a newer model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Learn more<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Block all cookies (not recommended)</translation>
 <translation id="2687407218262674387">Google Terms of Service</translation>
 <translation id="2688196195245426394">Error when registering the device with the server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="2712173769900027643">Ask permission</translation>
 <translation id="2713444072780614174">White</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Personal information suggestions help you write faster with suggestions such as your name, address or phone number. Only you see your own private, personalised suggestions for your account.</translation>
 <translation id="2715751256863167692">This upgrade resets your Chromebook and removes current user data.</translation>
 <translation id="2716986496990888774">This setting is managed by a parent.</translation>
 <translation id="2718395828230677721">Night Light</translation>
@@ -2894,6 +2894,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="4608520674724523647">Successful enrolment illustration</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> has sensitive content</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> has encountered an error</translation>
+<translation id="4610178114344604329">Show personal information suggestions</translation>
 <translation id="4610637590575890427">Did you mean to go to <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Data connection available</translation>
 <translation id="4613144866899789710">Cancelling Linux installation...</translation>
@@ -6205,6 +6206,7 @@ Keep your key file in a safe place. You will need it to create new versions of y
 <translation id="8798441408945964110">Provider name</translation>
 <translation id="8800004011501252845">Showing destinations for</translation>
 <translation id="8800034312320686233">Site not working?</translation>
+<translation id="880069872639153240">Get emoji suggestions based on what you are typing</translation>
 <translation id="8803953437405899238">Open a new tab with one click</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Move tab to another window}other{Move tabs to another window}}</translation>
 <translation id="8805140816472474147">Confirm sync settings to start sync.</translation>
@@ -6406,7 +6408,6 @@ Keep your key file in a safe place. You will need it to create new versions of y
 <translation id="9033765790910064284">Continue anyway</translation>
 <translation id="9033857511263905942">&amp;Paste</translation>
 <translation id="9037965129289936994">Show Original</translation>
-<translation id="903797871439633902">This is the last automatic software and security update for this <ph name="DEVICE_TYPE" />. To get future updates, upgrade to a newer model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Learn more&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{You have one attempt remaining.}other{You have # attempts remaining.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Update password for <ph name="ORIGIN" />?</translation>

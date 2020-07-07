@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">רשתות מוכרות</translation>
 <translation id="123578888592755962">הדיסק מלא</translation>
 <translation id="1238191093934674082">‏VPN פתוח</translation>
-<translation id="1239439601391236986">הצגה של הצעות להזנת מידע אישי</translation>
 <translation id="1239594683407221485">באפליקציה 'קבצים' אפשר לעיין בתוכן של המכשיר.</translation>
 <translation id="124116460088058876">שפות נוספות</translation>
 <translation id="1241753985463165747">קרא ושנה את כל הנתונים שלך באתר הנוכחי בעת הקריאה</translation>
@@ -883,7 +882,6 @@
 <translation id="2090165459409185032">‏כדי לשחזר את המידע מהחשבון, עבור אל: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">הגדרה של אבטחת מערכת</translation>
 <translation id="2091887806945687916">צליל</translation>
-<translation id="2096478741073211388">הצעות של מידע אישי עוזרות לכתוב מהר יותר בכך שהן מאפשרות להזין את השם, הכתובת או מספר הטלפון שלך בעת הקלדה של מילים ספציפיות. ההצעות הפרטיות והמותאמות אישית עבור החשבון שלך מוצגות רק לך.</translation>
 <translation id="2096715839409389970">‏ניקוי קובצי cookie של צד שלישי</translation>
 <translation id="2097372108957554726">‏עליך להיכנס מחדש ל-Chrome כדי לרשום מכשירים חדשים</translation>
 <translation id="2099172618127234427">‏אתה מאפשר תכונות ניפוי באגים במערכת ההפעלה של Chrome שיגדירו sshd daemon ויאפשרו אתחול מכונני USB.</translation>
@@ -1370,6 +1368,7 @@
 <translation id="2682498795777673382">בוצע עדכון על-ידי הורה</translation>
 <translation id="2683638487103917598">התיקיה מוינה</translation>
 <translation id="2684004000387153598">כדי להמשיך יש ללחוץ על 'אישור' ולאחר מכן ללחוץ על 'הוספת משתמש' כדי ליצור פרופיל חדש בשביל כתובת האימייל שלך.</translation>
+<translation id="2686222346846590368">‏אחרי העדכון הנוכחי, מכשיר <ph name="DEVICE_TYPE" /> זה לא יקבל יותר עדכוני תוכנה ועדכוני אבטחה אוטומטיים. כדי לקבל עדכונים בעתיד, יש לשדרג לדגם חדש יותר. &lt;a target="_blank" href="<ph name="URL" />"&gt;מידע נוסף<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">‏חסימה של כל קובצי ה-cookie (לא מומלץ)</translation>
 <translation id="2687407218262674387">‏תנאים והגבלות של Google</translation>
 <translation id="2688196195245426394">אירעה שגיאה בעת רישום המכשיר בשרת: <ph name="CLIENT_ERROR" />.</translation>
@@ -1392,6 +1391,7 @@
 <translation id="2712173769900027643">בקש רשות</translation>
 <translation id="2713444072780614174">לבן</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">הצעות למידע אישי עוזרות לך לכתוב מהר יותר, באמצעות הצעות כמו השם, הכתובת או מספר הטלפון שלך. ההצעות הפרטיות שמותאמות אישית לחשבון שלך גלויות רק לך.</translation>
 <translation id="2715751256863167692">‏השדרוג הזה מאפס את ה-Chromebook ומסיר את נתוני המשתמש הנוכחיים.</translation>
 <translation id="2716986496990888774">ההגדרה הזו מנוהלת על-ידי הורה.</translation>
 <translation id="2718395828230677721">תאורת לילה</translation>
@@ -2892,6 +2892,7 @@
 <translation id="4608520674724523647">איור של הרשמה מוצלחת</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> מכיל תוכן רגיש</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> נתקל בשגיאה</translation>
+<translation id="4610178114344604329">הצגת הצעות למידע אישי</translation>
 <translation id="4610637590575890427">האם התכוונת לעבור אל <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">יש חיבורי נתונים זמינים</translation>
 <translation id="4613144866899789710">‏ביטול ההתקנה של Linux...</translation>
@@ -6204,6 +6205,7 @@
 <translation id="8798441408945964110">שם ספק</translation>
 <translation id="8800004011501252845">מציג יעדים עבור</translation>
 <translation id="8800034312320686233">האתר לא פועל?</translation>
+<translation id="880069872639153240">קבלת הצעות לאמוג'י לפי מה שמקלידים</translation>
 <translation id="8803953437405899238">פתח כרטיסייה חדשה בקליק אחד</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{העברת כרטיסייה לחלון אחר}two{העברת כרטיסיות לחלון אחר}many{העברת כרטיסיות לחלון אחר}other{העברת כרטיסיות לחלון אחר}}</translation>
 <translation id="8805140816472474147">אשר הגדרות סינכרון כדי להתחיל בסינכרון.</translation>
@@ -6405,7 +6407,6 @@
 <translation id="9033765790910064284">אני רוצה להמשיך בכל זאת</translation>
 <translation id="9033857511263905942">&amp;הדבק</translation>
 <translation id="9037965129289936994">הצג מקור</translation>
-<translation id="903797871439633902">‏זהו העדכון האוטומטי האחרון של התוכנה והאבטחה עבור מכשיר <ph name="DEVICE_TYPE" /> זה. כדי לקבל עדכונים עתידיים, יש לשדרג לדגם חדש יותר. &lt;a target="_blank" href="<ph name="URL" />"&gt;מידע נוסף&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{נשאר לך ניסיון אחד.}two{נשארו לך # ניסיונות.}many{נשארו לך # ניסיונות.}other{נשארו לך # ניסיונות.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">האם לעדכן את הסיסמה של <ph name="ORIGIN" />?</translation>

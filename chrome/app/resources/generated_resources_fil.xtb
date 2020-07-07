@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Mga kilalang network</translation>
 <translation id="123578888592755962">Puno na ang disk</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Ipakita ang mga suhestyon sa input na personal na impormasyon</translation>
 <translation id="1239594683407221485">I-explore ang content ng device sa app na Mga File.</translation>
 <translation id="124116460088058876">Higit pang wika</translation>
 <translation id="1241753985463165747">Basahin at baguhin ang lahat ng iyong data sa kasalukuyang website kapag na-invoke</translation>
@@ -886,7 +885,6 @@ Puwede mong pamahalaan ang mga setting ng account na ito sa pamamagitan ng pag-i
 <translation id="2090165459409185032">Upang i-recover ang impormasyon ng iyong account, pumunta sa: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Setting ng seguridad ng system</translation>
 <translation id="2091887806945687916">Tunog</translation>
-<translation id="2096478741073211388">Ang mga suhestyon sa personal na impormasyon ay nakakatulong sa iyong magsulat nang mas mabilis sa pamamagitan ng pagmumungkahi ng iyong pangalan, address, o numero ng telepono kapag nagta-type ka ng ilang partikular na salita. Ikaw lang ang makakakita ng iyong sariling pribado at naka-personalize na mga suhestyon para sa account mo.</translation>
 <translation id="2096715839409389970">I-clear ang cookies ng third party</translation>
 <translation id="2097372108957554726">Kailangan mong mag-sign in sa Chrome upang makapagrehistro ng mga bagong device</translation>
 <translation id="2099172618127234427">Ie-enable mo ang mga feature para sa pagde-debug ng Chrome OS na magse-set up ng sshd daemon at mag-e-enable ng pagbu-boot mula sa mga USB drive.</translation>
@@ -1373,6 +1371,7 @@ Puwede mong pamahalaan ang mga setting ng account na ito sa pamamagitan ng pag-i
 <translation id="2682498795777673382">Update mula sa iyong magulang</translation>
 <translation id="2683638487103917598">Pinagbukod-bukod ang folder</translation>
 <translation id="2684004000387153598">Upang magpatuloy, i-click ang OK, tapos i-click ang Magdagdag ng Tao upang gumawa ng bagong profile para sa iyong email address.</translation>
+<translation id="2686222346846590368">Ito na ang huling awtomatikong pag-update ng software at seguridad para sa ganitong <ph name="DEVICE_TYPE" />. Para makakuha ng mga update sa hinaharap, mag-upgrade sa mas bagong modelo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Matuto pa<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">I-block ang lahat ng cookies (hindi inirerekomenda)</translation>
 <translation id="2687407218262674387">Mga tuntunin ng serbisyo ng Google</translation>
 <translation id="2688196195245426394">Error kapag inirerehistro ang device sa server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Puwede mong pamahalaan ang mga setting ng account na ito sa pamamagitan ng pag-i
 <translation id="2712173769900027643">Humingi ng pahintulot</translation>
 <translation id="2713444072780614174">Puti</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Tinutulungan ka ng mga suhestyon sa personal na impormasyon na magsulat nang mas mabilis sa pamamagitan ng mga suhestyong gaya ng pangalan, address, o numero ng telepono mo. Ikaw lang ang makakakita ng iyong sariling pribado at naka-personalize na mga suhestyon para sa account mo.</translation>
 <translation id="2715751256863167692">Ire-reset ng pag-upgrade na ito ang iyong Chromebook at aalisin nito ang kasalukuyang data ng user.</translation>
 <translation id="2716986496990888774">Pinapamahalaan ng magulang ang setting na ito.</translation>
 <translation id="2718395828230677721">Night Light</translation>
@@ -2894,6 +2894,7 @@ Puwede mong pamahalaan ang mga setting ng account na ito sa pamamagitan ng pag-i
 <translation id="4608520674724523647">Paglalarawan ng matagumpay na pag-enroll</translation>
 <translation id="4608703838363792434">May sensitibong content ang <ph name="FILE_NAME" /></translation>
 <translation id="4610162781778310380">Nagkaroon ng error ang <ph name="PLUGIN_NAME" /></translation>
+<translation id="4610178114344604329">Magpakita ng mga suhestyon sa personal na impormasyon</translation>
 <translation id="4610637590575890427">Ibig mo bang sabihin ay pumunta sa <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Available ang koneksyon sa data</translation>
 <translation id="4613144866899789710">Kinakansela ang pag-install ng Linux...</translation>
@@ -6206,6 +6207,7 @@ Ilagay ang iyong key file sa ligtas na lugar. Kailangan mo ito upang lumikha ng 
 <translation id="8798441408945964110">Pangalan ng provider</translation>
 <translation id="8800004011501252845">Nagpapakita ng mga patutunguhan para sa</translation>
 <translation id="8800034312320686233">Hindi gumagana ang site?</translation>
+<translation id="880069872639153240">Makakuha ng mga suhestyong emoji batay sa kung ano ang tina-type mo</translation>
 <translation id="8803953437405899238">Magbukas ng bagong tab sa isang pag-click</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Ilipat ang Tab sa Isa Pang Window}one{Ilipat ang Mga Tab sa Isa Pang Window}other{Ilipat ang Mga Tab sa Isa Pang Window}}</translation>
 <translation id="8805140816472474147">Kumpirmahin ang mga setting ng pag-sync upang simulan ang pag-sync.</translation>
@@ -6408,7 +6410,6 @@ Ilagay ang iyong key file sa ligtas na lugar. Kailangan mo ito upang lumikha ng 
 <translation id="9033765790910064284">Magpatuloy pa rin</translation>
 <translation id="9033857511263905942">I-&amp;paste</translation>
 <translation id="9037965129289936994">Ipakita Ang Orihinal</translation>
-<translation id="903797871439633902">Ito ang huling awtomatikong pag-update ng software at seguridad para sa ganitong <ph name="DEVICE_TYPE" />. Para makakuha ng mga update sa hinaharap, mag-upgrade sa mas bagong modelo. &lt;a target="_blank" href="<ph name="URL" />"&gt;Matuto pa&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{May isa kang pagtatangkang natitira.}one{May # kang pagtatangkang natitira.}other{May # kang pagtatangkang natitira.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">I-update ang password para sa <ph name="ORIGIN" />?</translation>

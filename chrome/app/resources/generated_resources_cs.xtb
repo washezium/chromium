@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Známé sítě</translation>
 <translation id="123578888592755962">Disk je plný</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Zobrazovat návrhy zadávaných osobních údajů</translation>
 <translation id="1239594683407221485">Prozkoumejte obsah zařízení v aplikaci Soubory.</translation>
 <translation id="124116460088058876">Další jazyky</translation>
 <translation id="1241753985463165747">Při zavolání číst a měnit všechna data na aktuálním webu</translation>
@@ -886,7 +885,6 @@ Chcete-li spravovat nastavení tohoto účtu, nainstalujte si do zařízení apl
 <translation id="2090165459409185032">Chcete-li obnovit informace o svém účtu, přejděte na web google.com/accounts/recovery.</translation>
 <translation id="2090876986345970080">Bezpečnostní nastavení systému</translation>
 <translation id="2091887806945687916">Zvuk</translation>
-<translation id="2096478741073211388">Návrhy osobních údajů vám pomáhají psát rychleji, protože vám zobrazují návrhy jména, adresy nebo telefonního čísla, když zadáváte určitá slova. Návrhy personalizované pro váš účet jsou soukromé, takže je vidíte jen vy.</translation>
 <translation id="2096715839409389970">Vymazat soubory cookie třetích stran</translation>
 <translation id="2097372108957554726">Chcete-li zaregistrovat nová zařízení, musíte se přihlásit do Chromu.</translation>
 <translation id="2099172618127234427">Aktivujete funkce ladění systému Chrome OS, které nastaví démona sshd a umožní spouštění z jednotek USB.</translation>
@@ -1372,6 +1370,7 @@ Chcete-li spravovat nastavení tohoto účtu, nainstalujte si do zařízení apl
 <translation id="2682498795777673382">Novinka od rodiče</translation>
 <translation id="2683638487103917598">Složka je seřazena</translation>
 <translation id="2684004000387153598">Chcete-li pokračovat, klikněte na OK a poté kliknutím na Přidat uživatele vytvořte nový profil pro svou novou e-mailovou adresu.</translation>
+<translation id="2686222346846590368">Toto je poslední automatická aktualizace softwaru a zabezpečení pro toto zařízení typu <ph name="DEVICE_TYPE" />. Chcete-li dostávat budoucí aktualizace, upgradujte na novější model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Další informace<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokovat všechny soubory cookie (nedoporučujeme)</translation>
 <translation id="2687407218262674387">Smluvní podmínky Google</translation>
 <translation id="2688196195245426394">Při registraci zařízení na serveru došlo k chybě: <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@ Chcete-li spravovat nastavení tohoto účtu, nainstalujte si do zařízení apl
 <translation id="2712173769900027643">Požádat o oprávnění</translation>
 <translation id="2713444072780614174">Bílá</translation>
 <translation id="2714393097308983682">Obchod Google Play</translation>
+<translation id="2714997332747470971">Návrhy osobních údajů pomáhají psát rychleji, protože zobrazují návrhy, jako je jméno, adresa, nebo telefonní číslo. Návrhy personalizované pro váš účet jsou soukromé, takže je vidíte jen vy.</translation>
 <translation id="2715751256863167692">Tento upgrade váš Chromebook resetuje a odstraní z něj uživatelská data.</translation>
 <translation id="2716986496990888774">Toto nastavení spravuje rodič.</translation>
 <translation id="2718395828230677721">Noční režim</translation>
@@ -2892,6 +2892,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="4608520674724523647">Ilustrace úspěšné registrace</translation>
 <translation id="4608703838363792434">Obsah souboru <ph name="FILE_NAME" /> je citlivý</translation>
 <translation id="4610162781778310380">Plugin <ph name="PLUGIN_NAME" /> narazil na chybu</translation>
+<translation id="4610178114344604329">Zobrazovat návrhy osobních údajů</translation>
 <translation id="4610637590575890427">Chtěli jste přejít na <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Je k dispozici datové připojení</translation>
 <translation id="4613144866899789710">Rušení instalace Linuxu...</translation>
@@ -6202,6 +6203,7 @@ Svůj soubor klíče uchovávejte na bezpečném místě. Budete jej potřebovat
 <translation id="8798441408945964110">Název poskytovatele</translation>
 <translation id="8800004011501252845">Zobrazují se cíle pro</translation>
 <translation id="8800034312320686233">Web nefunguje?</translation>
+<translation id="880069872639153240">Zobrazovat návrhy emodži podle toho, co píšete</translation>
 <translation id="8803953437405899238">Otevírejte novou kartu jedním kliknutím</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Přesunout kartu do jiného okna}few{Přesunout karty do jiného okna}many{Přesunout karty do jiného okna}other{Přesunout karty do jiného okna}}</translation>
 <translation id="8805140816472474147">Chcete-li zahájit synchronizaci, potvrďte nastavení synchronizace.</translation>
@@ -6403,7 +6405,6 @@ Svůj soubor klíče uchovávejte na bezpečném místě. Budete jej potřebovat
 <translation id="9033765790910064284">Přesto pokračovat</translation>
 <translation id="9033857511263905942">&amp;Vložit</translation>
 <translation id="9037965129289936994">Zobrazit originál</translation>
-<translation id="903797871439633902">Toto je poslední automatická aktualizace softwaru a zabezpečení pro toto zařízení typu <ph name="DEVICE_TYPE" />. Chcete-li dostávat budoucí aktualizace, upgradujte na novější model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Další informace&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Zbývá ještě jeden pokus.}few{Zbývají vám # pokusy.}many{Zbývá vám # pokusu.}other{Zbývá vám # pokusů.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Aktualizovat heslo pro web <ph name="ORIGIN" />?</translation>

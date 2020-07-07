@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Kända nätverk</translation>
 <translation id="123578888592755962">Enheten är full</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Visa personuppgiftsförslag vid inmatning</translation>
 <translation id="1239594683407221485">Utforska innehållet på den här enheten i appen Filer.</translation>
 <translation id="124116460088058876">Fler språk</translation>
 <translation id="1241753985463165747">Läsa och ändra all din data på den aktuella webbplatsen när den anropas</translation>
@@ -886,7 +885,6 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="2090165459409185032">Återställ kontoinformationen på google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Systemets säkerhetsinställning</translation>
 <translation id="2091887806945687916">Ljud</translation>
-<translation id="2096478741073211388">Med personuppgiftsförslag kan du skriva snabbare genom att ditt namn, din adress eller ditt telefonnummer ges som förslag när du skriver vissa ord. Det är bara du som ser de privata, anpassade förslagen för kontot.</translation>
 <translation id="2096715839409389970">Rensa cookies från tredje part</translation>
 <translation id="2097372108957554726">Du måste logga in i Chrome för att kunna registrera nya enheter</translation>
 <translation id="2099172618127234427">Du aktiverar felsökningsfunktioner i Chrome OS som konfigurerar sshd daemon och aktiverar start från USB-enheter.</translation>
@@ -1373,6 +1371,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="2682498795777673382">Uppdatering från din förälder</translation>
 <translation id="2683638487103917598">Mappens innehåll har sorterats</translation>
 <translation id="2684004000387153598">Fortsätt genom att klicka på OK. Skapa sedan en ny profil för din e-postadress genom att klicka på Lägg till person.</translation>
+<translation id="2686222346846590368">Detta är den sista automatiska programvaru- och säkerhetsuppdateringen för <ph name="DEVICE_TYPE" />. Uppgradera till en nyare modell om du vill få uppdateringar i framtiden. &lt;a target="_blank" href="<ph name="URL" />"&gt;Läs mer<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blockera alla cookies (rekommenderas inte)</translation>
 <translation id="2687407218262674387">Googles användarvillkor</translation>
 <translation id="2688196195245426394">Det uppstod ett fel när enheten registrerades med servern: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="2712173769900027643">Be om tillstånd</translation>
 <translation id="2713444072780614174">Vit</translation>
 <translation id="2714393097308983682">Google Play Butik</translation>
+<translation id="2714997332747470971">Med personuppgiftsförslag kan du skriva snabbare genom att till exempel ditt namn, din adress eller ditt telefonnummer ges som förslag. Det är bara du som ser de privata, anpassade förslagen för kontot.</translation>
 <translation id="2715751256863167692">Med den här uppgraderingen återställs Chromebook och nuvarande användardata tas bort.</translation>
 <translation id="2716986496990888774">Den här inställningen hanteras av en förälder.</translation>
 <translation id="2718395828230677721">Nattljus</translation>
@@ -2894,6 +2894,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="4608520674724523647">Illustration av att registreringen är klar</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> har känsligt innehåll</translation>
 <translation id="4610162781778310380">Ett fel har uppstått i <ph name="PLUGIN_NAME" /></translation>
+<translation id="4610178114344604329">Visa personuppgiftsförslag</translation>
 <translation id="4610637590575890427">Ville du besöka <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Dataanslutningar är tillgängliga</translation>
 <translation id="4613144866899789710">Linux-installationen avbryts …</translation>
@@ -6205,6 +6206,7 @@ Spara nyckelfilen på ett säkert ställe. Den behövs om du ska skapa nya versi
 <translation id="8798441408945964110">Leverantörens namn</translation>
 <translation id="8800004011501252845">Visar platser för</translation>
 <translation id="8800034312320686233">Fungerar inte webbplatsen?</translation>
+<translation id="880069872639153240">Få emoji-förslag utifrån det du skriver</translation>
 <translation id="8803953437405899238">Öppna en ny flik med ett klick</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Flytta fliken till ett annat fönster}other{Flytta flikarna till ett annat fönster}}</translation>
 <translation id="8805140816472474147">Bekräfta synkroniseringsinställningarna för att börja synkronisera.</translation>
@@ -6406,7 +6408,6 @@ Spara nyckelfilen på ett säkert ställe. Den behövs om du ska skapa nya versi
 <translation id="9033765790910064284">Fortsätt ändå</translation>
 <translation id="9033857511263905942">K&amp;listra in</translation>
 <translation id="9037965129289936994">Visa original</translation>
-<translation id="903797871439633902">Detta är den sista automatiska programvaru- och säkerhetsuppdateringen för <ph name="DEVICE_TYPE" />. Uppgradera till en nyare modell om du vill få uppdateringar i framtiden. &lt;a target="_blank" href="<ph name="URL" />"&gt;Läs mer&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Du har ett försök kvar.}other{Du har # försök kvar.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Vill du uppdatera lösenordet för <ph name="ORIGIN" />?</translation>

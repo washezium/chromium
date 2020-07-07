@@ -39,7 +39,7 @@
 <translation id="1039337018183941703">चुकीची किंवा दूषित फाइल</translation>
 <translation id="1041175011127912238">हे पेज प्रतिसाद देत नाही</translation>
 <translation id="1041263367839475438">उपलब्ध असलेली डिव्हाइस</translation>
-<translation id="1042174272890264476">तुमचा कॉंप्युटर देखील <ph name="SHORT_PRODUCT_NAME" />च्या RLZ वाचनालयासह बिल्ट-इन आला आहे. एका विशिष्ट जाहिरात मोहीमेद्वारे चालविलेला शोध आणि <ph name="SHORT_PRODUCT_NAME" /> वापर मोजण्यासाठी RLZ एक अद्वितीय-नसलेला, वैयक्तिकरित्या-ओळखता न येणारा टॅग नियुक्त करते. <ph name="PRODUCT_NAME" /> मधील Google शोध क्वेरींमध्ये ही लेबल काहीवेळा दिसतात.</translation>
+<translation id="1042174272890264476">तुमचा कॉंप्युटर देखील <ph name="SHORT_PRODUCT_NAME" />च्या RLZ वाचनालयासह बिल्ट-इन आला आहे. एका विशिष्ट जाहिरात मोहीमेद्वारे चालविलेला शोध आणि <ph name="SHORT_PRODUCT_NAME" /> वापर मोजण्यासाठी RLZ एक अद्वितीय-नसलेला, वैयक्तिकरित्या-ओळखता न येणारा टॅग नियुक्त करते. <ph name="PRODUCT_NAME" /> मधील Google Search क्वेरींमध्ये ही लेबल काहीवेळा दिसतात.</translation>
 <translation id="1043818413152647937">तसेच या अ‍ॅप्समधून डेटा साफ करायचा?</translation>
 <translation id="1046635659603195359">असे दिसते की, तुम्ही दुसर्‍या डिव्हाइसवर आधीपासून Google असिस्टंटसह Voice Match सेट केले आहे. या डिव्हाइसवर आवाजाचा नमुना बनवण्यासाठी या मागील रेकॉर्डिंग वापरल्या जाऊ शकतात. याला एका मिनिटापेक्षा कमी वेळ लागेल.</translation>
 <translation id="104710386808485638">Linux रीस्टार्ट करायचे?</translation>
@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">ज्ञात नेटवर्क</translation>
 <translation id="123578888592755962">डिस्क भरली</translation>
 <translation id="1238191093934674082">VPN उघडा</translation>
-<translation id="1239439601391236986">इनपुट वैयक्तिक माहिती सूचना दाखवा</translation>
 <translation id="1239594683407221485">Files ॲप मधील डिव्हाइसचा आशय एक्सप्लोर करा.</translation>
 <translation id="124116460088058876">आणखी भाषा...</translation>
 <translation id="1241753985463165747">विनंती केल्यावर सध्याच्या वेबसाइटवर असलेला सर्व डेटा वाचू आणि बदलू शकता</translation>
@@ -885,7 +884,6 @@
 <translation id="2090165459409185032">तुमची खाते माहिती पुनर्प्राप्त करण्यासाठी, यावर जा: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">सिस्टम सुरक्षा सेटिंग्ज</translation>
 <translation id="2091887806945687916">ध्वनी</translation>
-<translation id="2096478741073211388">तुम्ही काही विशिष्ट शब्द टाइप करत असताना तुमचे नाव, पत्ता किंवा फोन नंबर सुचवून वैयक्तिक माहिती सूचना तुम्हाला आणखी जलद लिहिण्यात मदत करतात. तुमच्या खात्यासाठीच्या तुमच्या स्वतःच्या खाजगी, पर्सनलाइझ केलेल्या सूचना फक्त तुम्हाला दिसतात.</translation>
 <translation id="2096715839409389970">तृतीय पक्ष कुकी साफ करा</translation>
 <translation id="2097372108957554726">नवीन डिव्हाइसेसची नोंदणी करण्यासाठी तुम्हाला Chrome वर साइन इन करणे आवश्यक आहे</translation>
 <translation id="2099172618127234427">तुम्ही Chrome OS डीबगिंग वैशिष्ट्ये सुरू करत आहात जी ssh केलेल्या daemon सेट आणि USB ड्राइव्हवरून बूट करणे सुरू करतील.</translation>
@@ -1372,6 +1370,7 @@
 <translation id="2682498795777673382">तुमच्या पालकाकडून अपडेट करा</translation>
 <translation id="2683638487103917598">क्रमवारी लावलेला फोल्डर</translation>
 <translation id="2684004000387153598">पुढे सुरू ठेवण्यासाठी ठीक आहे वर क्लिक करा, नंतर तुम्हाला ईमेल ॲड्रेससाठी नवीन प्रोफाइल तयार करण्याकरता व्यक्तीला जोडावर क्लिक करा.</translation>
+<translation id="2686222346846590368">या <ph name="DEVICE_TYPE" /> साठी हे शेवटचे ऑटोमेटिक सॉफ्टवेअर आणि सुरक्षा अपडेट आहे. भविष्यामधील अपडेट मिळवण्यासाठी नवीन मॉडेलवर अपग्रेड करा. &lt;a target="_blank" href="<ph name="URL" />"&gt;अधिक जाणून घ्या<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">सर्व कुकी ब्लॉक करा (शिफारस केली जात नाही)</translation>
 <translation id="2687407218262674387">Google सेवा अटी</translation>
 <translation id="2688196195245426394">सर्व्हरवर डिव्हाइसची नोंदणी करताना एरर: <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@
 <translation id="2712173769900027643">परवानगी मागा</translation>
 <translation id="2713444072780614174">पांढरा</translation>
 <translation id="2714393097308983682">Google Play स्टोअर</translation>
+<translation id="2714997332747470971">तुमचे नाव, पत्ता किंवा फोन नंबर यांसारख्या सूचना वापरून वैयक्तिक माहिती सूचना तुम्हाला आणखी जलद लिहिण्यात मदत करतात. तुमच्या खात्यासाठीच्या तुमच्या स्वतःच्या खाजगी, पर्सनलाइझ केलेल्या सूचना फक्त तुम्हाला दिसतात.</translation>
 <translation id="2715751256863167692">हे अपडेट तुमचे Chromebook रीसेट करते आणि तुमचा सद्य वापरकर्ता डेटा काढून टाकते.</translation>
 <translation id="2716986496990888774">हे सेटिंग पालकांकडून व्यवस्थापित केले आहे.</translation>
 <translation id="2718395828230677721">रात्रीचा प्रकाश</translation>
@@ -2891,6 +2891,7 @@
 <translation id="4608520674724523647">यशस्वी नोंदणीचे उदाहरण</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> मध्ये संवेदनशील आशय आहे</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ला एरर आली</translation>
+<translation id="4610178114344604329">वैयक्तिक माहिती सूचना दाखवा</translation>
 <translation id="4610637590575890427">तुम्हाला <ph name="SITE" /> कडे जायचे असे म्हणायचे होते काय?</translation>
 <translation id="4611114513649582138">डेटा कनेक्शन उपलब्ध आहे</translation>
 <translation id="4613144866899789710">Linux चे इंस्टॉलेशन रद्द करत आहे…</translation>
@@ -4901,7 +4902,7 @@
 <translation id="7193051357671784796">हे ॲप तुमच्या संस्थेमध्ये जोडले गेले आहे. इंस्टॉल करणे पूर्ण करण्यासाठी ॲप रीस्टार्ट करा.</translation>
 <translation id="7193374945610105795"><ph name="ORIGIN" /> चे कोणतेही पासवर्ड सेव्ह केलेले नाहीत</translation>
 <translation id="7196913789568937443">Google ड्राइव्ह मध्ये बॅकअप घ्या. तुमचा डेटा कधीही सहजपणे रिस्टोअर करा किंवा डिव्हाइस बदला. तुमच्या बॅकअपमध्ये ॲप डेटाचा समावेश असतो. तुमचे बॅकअप Google वर अपलोड केले आहेत आणि ते तुमचा Google खाते पासवर्ड वापरून एंक्रिप्ट केले आहेत. <ph name="BEGIN_LINK1" />अधिक जाणून घ्या<ph name="END_LINK1" /></translation>
-<translation id="7197190419934240522">प्रत्येक वेळी ब्राउझ करताना Google शोध आणि Google स्मार्ट मिळवा</translation>
+<translation id="7197190419934240522">प्रत्येक वेळी ब्राउझ करताना Google Search आणि Google स्मार्ट मिळवा</translation>
 <translation id="7197632491113152433">आम्हाला या डिव्हाइसवर वापरता येतील अशी <ph name="NUMBER_OF_APPS" /> ॲप्स तुमच्या खात्यात सापडली आहेत.</translation>
 <translation id="7199158086730159431">म&amp;दत मिळवा</translation>
 <translation id="7200083590239651963">काँफिगरेशन निवडा</translation>
@@ -5107,7 +5108,7 @@
 <translation id="7454548535253569100">पोर्टल: <ph name="SUBFRAME_SITE" /></translation>
 <translation id="7456142309650173560">dev</translation>
 <translation id="7456847797759667638">स्थान उघडा...</translation>
-<translation id="7458168200501453431">Google शोध मध्ये वापरत असेलेले स्पेल चेकर वापरले जाते. तुम्ही ब्राउझरमध्ये टाइप करत असलेला मजकूर Google कडे पाठवला जातो.</translation>
+<translation id="7458168200501453431">Google Search मध्ये वापरत असेलेले स्पेल चेकर वापरले जाते. तुम्ही ब्राउझरमध्ये टाइप करत असलेला मजकूर Google कडे पाठवला जातो.</translation>
 <translation id="7460045493116006516">तुम्ही इंस्टॉल केलेली सध्याची थीम</translation>
 <translation id="7461924472993315131">पिन</translation>
 <translation id="746216226901520237">पुढील वेळेस तुमचा फोन तुमचे <ph name="DEVICE_TYPE" /> अनलॉक करेल. तुम्ही सेटिंग्जमधून Smart Lock बंद करू शकता.</translation>
@@ -6201,6 +6202,7 @@ https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/debugging-featu
 <translation id="8798441408945964110">प्रदात्याचे नाव</translation>
 <translation id="8800004011501252845">यासाठी गंतव्ये दर्शवत आहे</translation>
 <translation id="8800034312320686233">साइट काम करत नाही का?</translation>
+<translation id="880069872639153240">तुम्ही काय टाइप करत आहात यावर आधारित इमोजी सूचना मिळवा</translation>
 <translation id="8803953437405899238">एका क्लिकने एक नवीन टॅब उघडा</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{टॅब दुसर्‍या विंडोवर हलवा}other{टॅब दुसर्‍या विंडोवर हलवा}}</translation>
 <translation id="8805140816472474147">सिंक करणे सुरू करण्यासाठी सिंक सेटिंग्जची पुष्टी करा.</translation>
@@ -6403,7 +6405,6 @@ https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/debugging-featu
 <translation id="9033765790910064284">तरीही सुरू ठेवा</translation>
 <translation id="9033857511263905942">&amp;पेस्ट करा</translation>
 <translation id="9037965129289936994">मूळ दर्शवा</translation>
-<translation id="903797871439633902">या <ph name="DEVICE_TYPE" /> साठी हे शेवटचे ऑटोमेटिक सॉफ्टवेअर आणि सुरक्षितता अपडेट आहे. भविष्यातील अपडेट मिळवण्यासाठी, आणखी नवीन मॉडेलवर अपग्रेड करा. &lt;a target="_blank" href="<ph name="URL" />"&gt;अधिक जाणून घ्या&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{तुमच्याकडे एक प्रयत्न शिल्लक आहे.}other{तुमच्याकडे # प्रयत्न शिल्लक आहेत.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> साठी पासवर्ड अपडेट करायचा आहे का?</translation>

@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Poznate mreže</translation>
 <translation id="123578888592755962">Disk je pun</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Prikazivanje prijedloga unosa osobnih podataka</translation>
 <translation id="1239594683407221485">Istražite sadržaj ovog uređaja u aplikaciji Datoteke.</translation>
 <translation id="124116460088058876">Više jezika</translation>
 <translation id="1241753985463165747">čitati i mijenjati sve vaše podatke na trenutačnoj web-lokaciji pri pozivanju</translation>
@@ -886,7 +885,6 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="2090165459409185032">Za oporavak podataka o računu otvorite: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Postavka sigurnosti sustava</translation>
 <translation id="2091887806945687916">Zvuk</translation>
-<translation id="2096478741073211388">Prijedlozi osobnih podataka pomažu vam brže pisati zahvaljujući prijedlozima vašeg imena, adrese ili telefonskog broja kad utipkate određene riječi. Samo vi možete vidjeti privatne i prilagođene prijedloge za svoj račun.</translation>
 <translation id="2096715839409389970">Izbrišite kolačiće treće strane</translation>
 <translation id="2097372108957554726">Morate se prijaviti na Chrome da biste registrirali nove uređaje</translation>
 <translation id="2099172618127234427">Omogućujete značajke za otklanjanje pogrešaka OS-a Chrome koje će postaviti sshd daemon i omogućiti pokretanje s USB pogona.</translation>
@@ -1373,6 +1371,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="2682498795777673382">Ažuriranje tvog roditelja</translation>
 <translation id="2683638487103917598">Mapa je sortirana</translation>
 <translation id="2684004000387153598">Za nastavak kliknite U radu, a zatim kliknite Dodaj osobu da biste izradili novi profil za svoju e-adresu.</translation>
+<translation id="2686222346846590368">To je posljednje automatsko ažuriranje softvera i sigurnosno ažuriranje za taj <ph name="DEVICE_TYPE" />. Za buduća ažuriranja potrebna je nadogradnja na noviji model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saznajte više<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokiranje svih kolačića (ne preporučuje se)</translation>
 <translation id="2687407218262674387">Googleovi uvjeti pružanja usluge</translation>
 <translation id="2688196195245426394">Pogreška pri registraciji uređaja na poslužitelju: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="2712173769900027643">Traži dopuštenje</translation>
 <translation id="2713444072780614174">Bijela</translation>
 <translation id="2714393097308983682">Trgovina Google Play</translation>
+<translation id="2714997332747470971">Prijedlozi osobnih podataka pomažu vam brže pisati zahvaljujući prijedlozima kao što su vaše ime, adresa ili telefonski broj. Samo vi možete vidjeti privatne i prilagođene prijedloge za svoj račun.</translation>
 <translation id="2715751256863167692">Ovom nadogradnjom Chromebook se vraća na zadano, a trenutačni korisnički podaci se uklanjaju.</translation>
 <translation id="2716986496990888774">Tom postavkom upravlja roditelj.</translation>
 <translation id="2718395828230677721">Noćno svjetlo</translation>
@@ -2894,6 +2894,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="4608520674724523647">Ilustracija uspješne prijave</translation>
 <translation id="4608703838363792434">Datoteka <ph name="FILE_NAME" /> ima osjetljiv sadržaj</translation>
 <translation id="4610162781778310380">Dodatak <ph name="PLUGIN_NAME" /> naišao je na pogrešku</translation>
+<translation id="4610178114344604329">Prikazivanje prijedloga osobnih podataka</translation>
 <translation id="4610637590575890427">Jeste li mislili <ph name="SITE" /></translation>
 <translation id="4611114513649582138">Dostupna je podatkovna veza</translation>
 <translation id="4613144866899789710">Otkazivanje instalacije Linuxa...</translation>
@@ -6205,6 +6206,7 @@ Mislim da ta web-lokacija ne bi trebala biti blokirana!</translation>
 <translation id="8798441408945964110">Naziv davatelja usluge</translation>
 <translation id="8800004011501252845">Prikazuju se odredišta za korisnika</translation>
 <translation id="8800034312320686233">Web-lokacija ne funkcionira?</translation>
+<translation id="880069872639153240">Primajte prijedloge emojija na temelju onoga što upisujete</translation>
 <translation id="8803953437405899238">Otvaranje nove kartice jednim klikom</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Premjesti karticu u neki drugi prozor}one{Premjesti kartice u neki drugi prozor}few{Premjesti kartice u neki drugi prozor}other{Premjesti kartice u neki drugi prozor}}</translation>
 <translation id="8805140816472474147">Potvrdite postavke sinkronizacije da biste pokrenuli sinkronizaciju.</translation>
@@ -6406,7 +6408,6 @@ Mislim da ta web-lokacija ne bi trebala biti blokirana!</translation>
 <translation id="9033765790910064284">Ipak nastavi</translation>
 <translation id="9033857511263905942">&amp;Zalijepi</translation>
 <translation id="9037965129289936994">Prikaži izvornik</translation>
-<translation id="903797871439633902">To je posljednje automatsko ažuriranje softvera i sigurnosno ažuriranje za taj <ph name="DEVICE_TYPE" />. Za buduća ažuriranja potrebna je nadogradnja na noviji model. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saznajte više&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Preostao vam je još jedan pokušaj.}one{Preostao vam je još # pokušaj.}few{Preostala su vam još # pokušaja.}other{Preostalo vam je još # pokušaja.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Želite li ažurirati zaporku za <ph name="ORIGIN" />?</translation>

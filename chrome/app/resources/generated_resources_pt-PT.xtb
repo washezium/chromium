@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Redes conhecidas</translation>
 <translation id="123578888592755962">Disco cheio</translation>
 <translation id="1238191093934674082">VPN aberta</translation>
-<translation id="1239439601391236986">Mostrar sugestões de introdução de informações pessoais</translation>
 <translation id="1239594683407221485">Explore o conteúdo do dispositivo na aplicação Ficheiros.</translation>
 <translation id="124116460088058876">Mais idiomas</translation>
 <translation id="1241753985463165747">Ler e alterar todos os dados no Website atual quando invocado</translation>
@@ -886,7 +885,6 @@ Pode gerir as definições desta conta ao instalar a aplicação Family Link no 
 <translation id="2090165459409185032">Para recuperar a sua informação da conta, aceda a google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Definição de segurança do sistema</translation>
 <translation id="2091887806945687916">Som</translation>
-<translation id="2096478741073211388">As sugestões de informações pessoais ajudam a escrever mais rápido ao sugerir o seu nome, endereço ou número de telefone quando escreve algumas palavras específicas. É o único que pode ver as sugestões privadas e personalizadas da sua conta.</translation>
 <translation id="2096715839409389970">Limpar cookies de terceiros</translation>
 <translation id="2097372108957554726">É necessário iniciar sessão no Chrome para registar novos dispositivos</translation>
 <translation id="2099172618127234427">Está a ativar as funcionalidades de depuração do Chrome OS, o que vai configurar o sshd daemon e ativar o arranque a partir de unidades USB.</translation>
@@ -1372,6 +1370,7 @@ Pode gerir as definições desta conta ao instalar a aplicação Family Link no 
 <translation id="2682498795777673382">Atualização de um dos pais</translation>
 <translation id="2683638487103917598">Pasta ordenada</translation>
 <translation id="2684004000387153598">Para continuar, clique em OK e, de seguida, clique em Adicionar pessoa para criar um novo perfil para o seu endereço de email.</translation>
+<translation id="2686222346846590368">Esta é a última atualização automática de software e de segurança deste <ph name="DEVICE_TYPE" />. Para obter atualizações futuras, atualize para um modelo mais recente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saiba mais<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloquear todos os cookies (não recomendado).</translation>
 <translation id="2687407218262674387">Termos de Utilização do Google</translation>
 <translation id="2688196195245426394">Erro ao registar o dispositivo no servidor: <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@ Pode gerir as definições desta conta ao instalar a aplicação Family Link no 
 <translation id="2712173769900027643">Pedir autorização</translation>
 <translation id="2713444072780614174">Branco</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">As sugestões de informações pessoais ajudam a escrever mais rapidamente ao sugerir, por exemplo, o seu nome, endereço ou número de telefone. É a única pessoa que pode ver as suas próprias sugestões privadas e personalizadas da sua conta.</translation>
 <translation id="2715751256863167692">Esta atualização repõe o Chromebook e remove os dados do utilizador atuais.</translation>
 <translation id="2716986496990888774">Esta definição é gerida por um dos pais.</translation>
 <translation id="2718395828230677721">Luz noturna</translation>
@@ -2894,6 +2894,7 @@ Pretende pará-lo?</translation>
 <translation id="4608520674724523647">Ilustração de inscrição com êxito</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> tem conteúdo sensível</translation>
 <translation id="4610162781778310380">O plug-in <ph name="PLUGIN_NAME" /> encontrou um erro.</translation>
+<translation id="4610178114344604329">Mostrar sugestões de informações pessoais</translation>
 <translation id="4610637590575890427">Pretendia aceder a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Ligação de dados disponível</translation>
 <translation id="4613144866899789710">A cancelar a instalação do Linux…</translation>
@@ -6205,6 +6206,7 @@ Mantenha o seu ficheiro de chave num local seguro, pois irá precisar dele para 
 <translation id="8798441408945964110">Nome do fornecedor</translation>
 <translation id="8800004011501252845">A mostrar destinos para</translation>
 <translation id="8800034312320686233">O site não funciona?</translation>
+<translation id="880069872639153240">Obtenha sugestões de emojis com base no que está a escrever.</translation>
 <translation id="8803953437405899238">Abra um novo separador com um clique.</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mover separador para outra janela}other{Mover separadores para outra janela}}</translation>
 <translation id="8805140816472474147">Confirme as definições de sincronização para iniciar a sincronização.</translation>
@@ -6406,7 +6408,6 @@ Mantenha o seu ficheiro de chave num local seguro, pois irá precisar dele para 
 <translation id="9033765790910064284">Continuar mesmo assim</translation>
 <translation id="9033857511263905942">C&amp;olar</translation>
 <translation id="9037965129289936994">Mostrar original</translation>
-<translation id="903797871439633902">Esta é a última atualização automática de software e de segurança deste <ph name="DEVICE_TYPE" />. Para obter atualizações futuras, atualize para um modelo mais recente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Saber mais&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Tem mais uma tentativa.}other{Tem mais # tentativas.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Pretende atualizar a palavra-passe para <ph name="ORIGIN" />?</translation>

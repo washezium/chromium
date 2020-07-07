@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Jaringan yang dikenal</translation>
 <translation id="123578888592755962">Disk penuh</translation>
 <translation id="1238191093934674082">VPN Terbuka</translation>
-<translation id="1239439601391236986">Tampilkan masukan saran informasi pribadi</translation>
 <translation id="1239594683407221485">Jelajahi konten perangkat di aplikasi File.</translation>
 <translation id="124116460088058876">Bahasa lainnya</translation>
 <translation id="1241753985463165747">Membaca dan mengubah semua data di situs saat ini jika diminta</translation>
@@ -886,7 +885,6 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="2090165459409185032">Untuk memulihkan informasi akun Anda, buka: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Setelan keamanan sistem</translation>
 <translation id="2091887806945687916">Suara</translation>
-<translation id="2096478741073211388">Saran informasi pribadi membantu Anda menulis lebih cepat dengan menyarankan nama, alamat, atau nomor telepon saat Anda mengetik kata tertentu. Hanya Anda yang dapat melihat saran pribadi yang dipersonalisasi untuk akun Anda.</translation>
 <translation id="2096715839409389970">Hapus cookie pihak ketiga</translation>
 <translation id="2097372108957554726">Anda perlu masuk ke Chrome untuk mendaftarkan perangkat baru</translation>
 <translation id="2099172618127234427">Anda mengaktifkan fitur debug Chrome OS yang akan menyiapkan daemon sshd dan memungkinkan booting dari perangkat USB.</translation>
@@ -1373,6 +1371,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="2682498795777673382">Pembaruan dari orang tua</translation>
 <translation id="2683638487103917598">Folder diurutkan</translation>
 <translation id="2684004000387153598">Untuk melanjutkan, klik Oke, lalu klik Tambahkan Pengguna guna membuat profil baru untuk alamat email Anda.</translation>
+<translation id="2686222346846590368">Ini adalah update otomatis keamanan dan software terakhir untuk <ph name="DEVICE_TYPE" /> ini. Untuk mendapatkan update mendatang, upgrade ke model yang lebih baru. &lt;a target="_blank" href="<ph name="URL" />"&gt;Pelajari lebih lanjut<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokir semua cookie (tidak direkomendasikan)</translation>
 <translation id="2687407218262674387">Persyaratan layanan Google</translation>
 <translation id="2688196195245426394">Terjadi kesalahan saat mendaftarkan perangkat dengan server: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="2712173769900027643">Minta izin</translation>
 <translation id="2713444072780614174">Putih</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Saran informasi pribadi membantu Anda menulis lebih cepat dengan menyarankan nama, alamat, atau nomor telepon. Hanya Anda yang dapat melihat saran pribadi yang dipersonalisasi untuk akun Anda.</translation>
 <translation id="2715751256863167692">Upgrade ini menyetel ulang Chromebook dan menghapus data pengguna saat ini.</translation>
 <translation id="2716986496990888774">Setelan ini dikelola oleh orang tua.</translation>
 <translation id="2718395828230677721">Cahaya Malam</translation>
@@ -2894,6 +2894,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="4608520674724523647">Ilustrasi pendaftaran yang berhasil</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> berisi konten sensitif</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> telah mengalami error</translation>
+<translation id="4610178114344604329">Tampilkan saran informasi pribadi</translation>
 <translation id="4610637590575890427">Apakah maksud Anda ingin mengunjungi <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Koneksi data tersedia</translation>
 <translation id="4613144866899789710">Membatalkan penginstalan Linux...</translation>
@@ -6205,6 +6206,7 @@ Simpan file kunci Anda di tempat yang aman. Anda akan membutuhkannya untuk membu
 <translation id="8798441408945964110">Nama penyedia</translation>
 <translation id="8800004011501252845">Menunjukkan tujuan untuk</translation>
 <translation id="8800034312320686233">Situs tidak berfungsi?</translation>
+<translation id="880069872639153240">Dapatkan saran emoji berdasarkan apa yang Anda ketikkan</translation>
 <translation id="8803953437405899238">Buka tab baru dengan sekali klik</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Pindahkan Tab ke Jendela Lain}other{Pindahkan Beberapa Tab ke Jendela Lain}}</translation>
 <translation id="8805140816472474147">Konfirmasi setelan sinkronisasi untuk memulai sinkronisasi.</translation>
@@ -6406,7 +6408,6 @@ Simpan file kunci Anda di tempat yang aman. Anda akan membutuhkannya untuk membu
 <translation id="9033765790910064284">Tetap lanjutkan</translation>
 <translation id="9033857511263905942">&amp;Tempel</translation>
 <translation id="9037965129289936994">Tampilkan Halaman Asli</translation>
-<translation id="903797871439633902">Ini adalah update otomatis keamanan dan software terakhir untuk <ph name="DEVICE_TYPE" /> ini. Untuk mendapatkan update mendatang, upgrade ke model yang lebih baru. &lt;a target="_blank" href="<ph name="URL" />"&gt;Pelajari lebih lanjut&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Anda memiliki satu kesempatan lagi.}other{Anda memiliki # kesempatan lagi.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Perbarui sandi untuk <ph name="ORIGIN" />?</translation>

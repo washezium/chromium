@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">알려진 네트워크</translation>
 <translation id="123578888592755962">디스크가 가득 참</translation>
 <translation id="1238191093934674082">공개 VPN</translation>
-<translation id="1239439601391236986">입력 중 개인정보 기반 추천 표시</translation>
 <translation id="1239594683407221485">파일 앱에서 기기의 콘텐츠를 탐색하세요.</translation>
 <translation id="124116460088058876">다른 언어</translation>
 <translation id="1241753985463165747">호출할 경우 현재 웹사이트에 있는 모든 데이터를 읽고 변경합니다.</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">계정 정보를 복구하려면 google.com/accounts/recovery 페이지로 이동하세요.</translation>
 <translation id="2090876986345970080">시스템 보안 설정</translation>
 <translation id="2091887806945687916">소리</translation>
-<translation id="2096478741073211388">개인정보를 기반으로 한 추천 기능은 특정 단어를 입력할 때 이름, 주소 또는 전화번호를 추천하여 사용자가 더 빠르게 작성할 수 있도록 도와줍니다. 이러한 추천 항목은 내 계정을 기반으로 맞춤설정되며 나만 볼 수 있습니다.</translation>
 <translation id="2096715839409389970">타사 쿠키 삭제</translation>
 <translation id="2097372108957554726">새 기기를 등록하려면 Chrome에 로그인하세요.</translation>
 <translation id="2099172618127234427">sshd 데몬을 설정하고 USB 드라이브에서 부팅하도록 사용 설정하는 Chrome OS 디버깅 기능을 사용 설정 중입니다.</translation>
@@ -1373,6 +1371,7 @@
 <translation id="2682498795777673382">보호자가 업데이트한 내용</translation>
 <translation id="2683638487103917598">폴더가 정렬됨</translation>
 <translation id="2684004000387153598">계속하려면 확인을 클릭한 다음 사용자 추가를 클릭하여 이메일 주소로 새로운 프로필을 만드세요.</translation>
+<translation id="2686222346846590368"><ph name="DEVICE_TYPE" />의 마지막 자동 소프트웨어 및 보안 업데이트입니다. 향후 업데이트를 받으려면 최신 모델로 업그레이드하세요. &lt;a target="_blank" href="<ph name="URL" />"&gt;자세히 알아보기<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">모든 쿠키 차단(권장되지 않음)</translation>
 <translation id="2687407218262674387">Google 서비스 약관</translation>
 <translation id="2688196195245426394">기기를 서버에 등록하는 중에 오류 발생: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@
 <translation id="2712173769900027643">권한 요청</translation>
 <translation id="2713444072780614174">흰색</translation>
 <translation id="2714393097308983682">Google Play 스토어</translation>
+<translation id="2714997332747470971">개인 정보를 기반으로 한 추천 기능을 사용하면 이름, 주소, 전화번호와 같은 항목을 추천해 주므로 더 빠르게 작성할 수 있습니다. 이러한 추천 항목은 내 계정을 기반으로 맞춤설정되며 나만 볼 수 있습니다.</translation>
 <translation id="2715751256863167692">이 업그레이드를 설치하면 Chromebook이 재설정되며, 현재 사용자 데이터가 삭제됩니다.</translation>
 <translation id="2716986496990888774">보호자가 관리하는 설정입니다.</translation>
 <translation id="2718395828230677721">야간 조명</translation>
@@ -2892,6 +2892,7 @@
 <translation id="4608520674724523647">등록 성공 그림</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" />에 민감한 콘텐츠가 있습니다.</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" />에 오류가 발생했습니다</translation>
+<translation id="4610178114344604329">개인 정보 기반 추천 표시</translation>
 <translation id="4610637590575890427"><ph name="SITE" />(으)로 이동하려고 하셨나요?</translation>
 <translation id="4611114513649582138">데이터 연결을 사용할 수 있습니다.</translation>
 <translation id="4613144866899789710">Linux 설치를 취소하는 중...</translation>
@@ -6203,6 +6204,7 @@
 <translation id="8798441408945964110">공급자 이름</translation>
 <translation id="8800004011501252845">해당 목적지 사용자 표시</translation>
 <translation id="8800034312320686233">사이트가 작동하지 않나요?</translation>
+<translation id="880069872639153240">입력 내용을 기반으로 이모티콘 추천 받기</translation>
 <translation id="8803953437405899238">클릭 한 번으로 새 탭을 열 수 있습니다.</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{탭을 다른 창으로 이동}other{탭을 다른 창으로 이동}}</translation>
 <translation id="8805140816472474147">동기화를 시작하려면 동기화 설정을 확인하세요.</translation>
@@ -6404,7 +6406,6 @@
 <translation id="9033765790910064284">무시하고 계속</translation>
 <translation id="9033857511263905942">붙여넣기(&amp;P)</translation>
 <translation id="9037965129289936994">원본 보기</translation>
-<translation id="903797871439633902">이 <ph name="DEVICE_TYPE" />의 마지막 자동 소프트웨어 및 보안 업데이트입니다. 향후 업데이트를 받으려면 최신 모델로 업그레이드하세요. &lt;a target="_blank" href="<ph name="URL" />"&gt;자세히 알아보기&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{앞으로 1번 더 시도할 수 있습니다.}other{앞으로 #번 더 시도할 수 있습니다.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> 비밀번호를 업데이트하시겠습니까?</translation>

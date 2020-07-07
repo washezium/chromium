@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Sare ezagunak</translation>
 <translation id="123578888592755962">Diskoa beteta dago</translation>
 <translation id="1238191093934674082">VPN sare irekia</translation>
-<translation id="1239439601391236986">Erakutsi informazio pertsonalari buruzko iradokizunak</translation>
 <translation id="1239594683407221485">Arakatu gailuko edukia Fitxategiak aplikazioan.</translation>
 <translation id="124116460088058876">Hizkuntza gehiago</translation>
 <translation id="1241753985463165747">Abiarazitakoan, irakurri eta aldatu uneko webgunean dituzun datu guztiak</translation>
@@ -886,7 +885,6 @@ Kontu honen ezarpenak kudeatzeko, instalatu Family Link aplikazioa zure gailuan.
 <translation id="2090165459409185032">Kontuko informazioa berreskuratzeko, joan hona: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Sistemaren segurtasun-ezarpena</translation>
 <translation id="2091887806945687916">Soinua</translation>
-<translation id="2096478741073211388">Informazio pertsonalari buruzko iradokizunek izena, helbidea edo telefono-zenbakia iradokitzen dizute hitz zehatz batzuk azkarrago idatz ditzazun. Kontuan gorde dituzun iradokizun pribatuak eta pertsonalizatuak zuk bakarrik ikusten dituzu.</translation>
 <translation id="2096715839409389970">Garbitu hirugarrenen cookieak</translation>
 <translation id="2097372108957554726">Gailu gehiago erregistratzeko, saioa hasi behar duzu Chrome-n</translation>
 <translation id="2099172618127234427">Chrome OS sistemarekin arazte-eginbideak gaitzen ari zara. Eginbide horiek sshd daemon konfiguratuko dute, eta USB memorietatik abiaraztea gaitu.</translation>
@@ -1373,6 +1371,7 @@ Kontu honen ezarpenak kudeatzeko, instalatu Family Link aplikazioa zure gailuan.
 <translation id="2682498795777673382">Gurasoak aldaketa bat egin du</translation>
 <translation id="2683638487103917598">Ordenatu da karpeta</translation>
 <translation id="2684004000387153598">Aurrera egiteko, sakatu Ados eta sakatu Gehitu pertsona bat zure helbide elektronikorako profila sortzeko.</translation>
+<translation id="2686222346846590368"><ph name="DEVICE_TYPE" /> gailurako azken software- eta segurtasun-eguneratze automatikoa da hau. Eguneratze gehiago jasotzeko, lortu modelo berriago bat. &lt;a target="_blank" href="<ph name="URL" />"&gt;Lortu informazio gehiago<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokeatu cookie guztiak (ez da gomendatzen)</translation>
 <translation id="2687407218262674387">Google-ren Zerbitzu-baldintzak</translation>
 <translation id="2688196195245426394">Errore bat gertatu da gailua zerbitzariarekin erregistratzean: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Kontu honen ezarpenak kudeatzeko, instalatu Family Link aplikazioa zure gailuan.
 <translation id="2712173769900027643">Eskatu baimena</translation>
 <translation id="2713444072780614174">Zuria</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Informazio pertsonalari buruzko iradokizunek izena, helbidea, telefono-zenbakia eta antzekoak idazteko laguntza eskaintzen dizute. Kontuan gorde dituzun iradokizun pribatuak eta pertsonalizatuak zeuk bakarrik ikusten dituzu.</translation>
 <translation id="2715751256863167692">Bertsio-berritze honekin berrezarri egingo da Chromebook-a, eta kendu egingo dira bertan dauden erabiltzaile-datuak.</translation>
 <translation id="2716986496990888774">Guraso batek kudeatzen du ezarpen hau.</translation>
 <translation id="2718395828230677721">Gaueko argia</translation>
@@ -2894,6 +2894,7 @@ Kontu honen ezarpenak kudeatzeko, instalatu Family Link aplikazioa zure gailuan.
 <translation id="4608520674724523647">Behar bezala erregistratu dela irudikatzeko ilustrazioa</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> fitxategiak kontuzko edukia dauka</translation>
 <translation id="4610162781778310380">Errore bat gertatu da <ph name="PLUGIN_NAME" /> pluginarekin</translation>
+<translation id="4610178114344604329">Erakutsi informazio pertsonalari buruzko iradokizunak</translation>
 <translation id="4610637590575890427"><ph name="SITE" /> webgunera joan nahi al zenuen?</translation>
 <translation id="4611114513649582138">Datu-konexioa erabil dezakezu</translation>
 <translation id="4613144866899789710">Linux instalatzeari uzten…</translation>
@@ -6204,6 +6205,7 @@ Gorde gakoen fitxategia leku seguru batean. Zure luzapenaren bertsio berriak sor
 <translation id="8798441408945964110">Hornitzailearen izena</translation>
 <translation id="8800004011501252845">Honetarako inprimagailuak erakusten</translation>
 <translation id="8800034312320686233">Ez al du funtzionatzen webguneak?</translation>
+<translation id="880069872639153240">Lortu emojien iradokizunak, idazten ari zarenaren arabera</translation>
 <translation id="8803953437405899238">Ireki fitxa berri bat klik bakarrarekin</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Eraman fitxa beste leiho batera}other{Eraman fitxak beste leiho batera}}</translation>
 <translation id="8805140816472474147">Sinkronizatzen hasteko, berretsi sinkronizazio-ezarpenak.</translation>
@@ -6405,7 +6407,6 @@ Gorde gakoen fitxategia leku seguru batean. Zure luzapenaren bertsio berriak sor
 <translation id="9033765790910064284">Jarraitu, halere</translation>
 <translation id="9033857511263905942">It&amp;satsi</translation>
 <translation id="9037965129289936994">Ikusi jatorrizkoa</translation>
-<translation id="903797871439633902"><ph name="DEVICE_TYPE" /> gailurako azken software- eta segurtasun-eguneratze automatikoa da hau. Eguneratze gehiago jasotzeko, lortu modelo berriago bat. &lt;a target="_blank" href="<ph name="URL" />"&gt;Lortu informazio gehiago&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Saiakera bakarra geratzen zaizu.}other{# saiakera geratzen zaizkizu.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> webguneko pasahitza eguneratu nahi duzu?</translation>

@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Réseaux connus</translation>
 <translation id="123578888592755962">Le disque est plein</translation>
 <translation id="1238191093934674082">RPV ouvert</translation>
-<translation id="1239439601391236986">Afficher les suggestions d'entrée de renseignements personnels</translation>
 <translation id="1239594683407221485">Explorer le contenu de l'appareil dans l'application Fichiers.</translation>
 <translation id="124116460088058876">Plus de langues</translation>
 <translation id="1241753985463165747">Lire et modifier toutes vos données sur le site Web actuel, lorsqu'il est invoqué</translation>
@@ -886,7 +885,6 @@ Vous pouvez gérer les paramètres de ce compte en installant l'application Fami
 <translation id="2090165459409185032">Pour récupérer les données de votre compte, accédez à l'adresse google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Paramètre de sécurité du système</translation>
 <translation id="2091887806945687916">Son</translation>
-<translation id="2096478741073211388">Les suggestions de renseignements personnels vous aident à entrer plus rapidement votre nom, votre adresse ou votre numéro de téléphone lorsque vous tapez certains mots. Vous seul verrez vos suggestions privées et personnalisées pour votre compte.</translation>
 <translation id="2096715839409389970">Effacer les témoins tiers</translation>
 <translation id="2097372108957554726">Vous devez vous connecter à Chrome pour enregistrer de nouveaux appareils.</translation>
 <translation id="2099172618127234427">Vous activez les fonctions de débogage de Chrome OS qui vont installer le démon sshd et activer le démarrage depuis les appareils USB.</translation>
@@ -1374,6 +1372,7 @@ https://support.google.com/chrome/?p=applescript</translation>
 <translation id="2682498795777673382">Demande à un parent d'effectuer la mise à jour</translation>
 <translation id="2683638487103917598">Dossier trié</translation>
 <translation id="2684004000387153598">Pour continuer, cliquez sur OK, puis sur Ajouter une personne pour créer un nouveau profil pour votre adresse de courriel.</translation>
+<translation id="2686222346846590368">Il s'agit de la dernière mise à jour logicielle et de sécurité pour cet appareil <ph name="DEVICE_TYPE" />. Pour recevoir les mises à jour ultérieures, procurez-vous un modèle plus récent. &lt;a target="_blank" href="<ph name="URL" />"&gt;En savoir plus<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloquer tous les témoins (non recommandé)</translation>
 <translation id="2687407218262674387">Conditions d'utilisation de Google</translation>
 <translation id="2688196195245426394">Erreur lors de l'enregistrement de l'appareil avec le serveur : <ph name="CLIENT_ERROR" />.</translation>
@@ -1396,6 +1395,7 @@ https://support.google.com/chrome/?p=applescript</translation>
 <translation id="2712173769900027643">Demander l’autorisation</translation>
 <translation id="2713444072780614174">Blanc</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Les suggestions de renseignements personnels vous aident à entrer plus rapidement votre nom, votre adresse ou votre numéro de téléphone lorsque vous entrez du texte. Vous seul verrez vos suggestions privées et personnalisées pour votre compte.</translation>
 <translation id="2715751256863167692">Cette mise à niveau réinitialise votre Chromebook et supprime les données de l'utilisateur actuel.</translation>
 <translation id="2716986496990888774">Ce paramètre est géré par un parent.</translation>
 <translation id="2718395828230677721">Éclairage nocturne</translation>
@@ -2895,6 +2895,7 @@ Souhaitez-vous lancer <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="4608520674724523647">Illustration d'inscription réussie</translation>
 <translation id="4608703838363792434">Le contenu du fichier <ph name="FILE_NAME" /> est délicat</translation>
 <translation id="4610162781778310380">Le plugiciel <ph name="PLUGIN_NAME" /> a rencontré une erreur</translation>
+<translation id="4610178114344604329">Afficher les suggestions de renseignements personnels</translation>
 <translation id="4610637590575890427">Vouliez-vous accéder à <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Connexion de données possible</translation>
 <translation id="4613144866899789710">Annulation de l'installation Linux en cours…</translation>
@@ -6205,6 +6206,7 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="8798441408945964110">Nom du fournisseur</translation>
 <translation id="8800004011501252845">Affichage des destinations pour</translation>
 <translation id="8800034312320686233">Le site ne fonctionne pas?</translation>
+<translation id="880069872639153240">Recevez des suggestions d'émojis en fonction de ce que vous tapez au clavier</translation>
 <translation id="8803953437405899238">Ouvrez un nouvel onglet en un clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Déplacer l'onglet vers une autre fenêtre}one{Déplacer l'onglet vers une autre fenêtre}other{Déplacer les onglets vers une autre fenêtre}}</translation>
 <translation id="8805140816472474147">Confirmez les paramètres de synchronisation pour lancer la synchronisation.</translation>
@@ -6406,7 +6408,6 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="9033765790910064284">Continuer quand même</translation>
 <translation id="9033857511263905942">C&amp;oller</translation>
 <translation id="9037965129289936994">Afficher la version d'origine</translation>
-<translation id="903797871439633902">Il s'agit de la dernière mise à jour logicielle et de sécurité pour ce <ph name="DEVICE_TYPE" />. Pour recevoir les mises à jour ultérieures, procurez-vous un modèle plus récent. &lt;a target="_blank" href="<ph name="URL" />"&gt;En savoir plus&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Il vous reste une tentative.}one{Il vous reste # tentative.}other{Il vous reste # tentatives.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Mettre à jour le mot de passe pour <ph name="ORIGIN" />?</translation>

@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">既知のネットワーク</translation>
 <translation id="123578888592755962">ディスクがいっぱいです</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">個人情報の入力候補を表示する</translation>
 <translation id="1239594683407221485">ファイルアプリでデバイスのコンテンツを検索します。</translation>
 <translation id="124116460088058876">その他の言語</translation>
 <translation id="1241753985463165747">呼び出しの時点でアクセスしているウェブサイト上の全データの読み取りと変更</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">アカウント情報を復旧するには google.com/accounts/recovery に移動します。</translation>
 <translation id="2090876986345970080">システム セキュリティの設定</translation>
 <translation id="2091887806945687916">音声</translation>
-<translation id="2096478741073211388">個人情報の候補表示を有効にすると、特定の単語を入力したときに、あなたの名前や住所、電話番号が候補として表示され、すばやく入力できるようになります。個人用にカスタマイズされた候補は、そのアカウントを使用するユーザーにのみ表示されます。</translation>
 <translation id="2096715839409389970">サードパーティの Cookie を消去</translation>
 <translation id="2097372108957554726">新しいデバイスを登録するには、Chrome にログインする必要があります</translation>
 <translation id="2099172618127234427">Chrome OS デバッグ機能を有効にしています。この機能を有効にすると、sshd デーモンが設定され USB デバイスからの起動が可能になります。</translation>
@@ -1373,6 +1371,7 @@
 <translation id="2682498795777673382">保護者の方による更新</translation>
 <translation id="2683638487103917598">フォルダが並べ替えられました</translation>
 <translation id="2684004000387153598">利用を続けるには、[OK]、[ユーザーを追加] の順にクリックして、お使いのメールアドレス用の新しいプロフィールを作成してください。</translation>
+<translation id="2686222346846590368">この <ph name="DEVICE_TYPE" /> でソフトウェアとセキュリティの自動アップデートが行われるのは今回が最後です。今後もアップデートを取得するには、新しいモデルにアップグレードしてください。&lt;a target="_blank" href="<ph name="URL" />"&gt;詳細<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">すべての Cookie をブロックする（推奨されません）</translation>
 <translation id="2687407218262674387">Google 利用規約</translation>
 <translation id="2688196195245426394">デバイスをサーバーに登録するときにエラーが発生しました: <ph name="CLIENT_ERROR" />。</translation>
@@ -1395,6 +1394,7 @@
 <translation id="2712173769900027643">許可をリクエスト</translation>
 <translation id="2713444072780614174">白</translation>
 <translation id="2714393097308983682">Google Play ストア</translation>
+<translation id="2714997332747470971">個人情報の候補表示を有効にすると、あなたの名前や住所、電話番号が候補として表示され、すばやく入力できるようになります。個人用にカスタマイズされた候補は、そのアカウントを使用するユーザーにのみ表示されます。</translation>
 <translation id="2715751256863167692">このアップグレードを行うと、Chromebook がリセットされ、現在のユーザーデータは削除されます。</translation>
 <translation id="2716986496990888774">この設定は保護者によって管理されています。</translation>
 <translation id="2718395828230677721">夜間モード</translation>
@@ -2894,6 +2894,7 @@
 <translation id="4608520674724523647">登録が完了したことを示す画像</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> にはデリケートなコンテンツが含まれています</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> でエラーが発生しました</translation>
+<translation id="4610178114344604329">個人情報の候補を表示する</translation>
 <translation id="4610637590575890427">もしかして: <ph name="SITE" /></translation>
 <translation id="4611114513649582138">データ接続が可能です</translation>
 <translation id="4613144866899789710">Linux のインストールをキャンセルしています...</translation>
@@ -6205,6 +6206,7 @@
 <translation id="8798441408945964110">プロバイダ名</translation>
 <translation id="8800004011501252845">送信先を表示しています:</translation>
 <translation id="8800034312320686233">サイトが動作していない場合</translation>
+<translation id="880069872639153240">入力内容に基づく絵文字の候補表示</translation>
 <translation id="8803953437405899238">新しいタブをワンクリックで開くことができます</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{タブを別のウィンドウに移動}other{タブを別のウィンドウに移動}}</translation>
 <translation id="8805140816472474147">同期を開始するには同期設定を確認してください。</translation>
@@ -6406,7 +6408,6 @@
 <translation id="9033765790910064284">続行</translation>
 <translation id="9033857511263905942">貼り付け(&amp;P)</translation>
 <translation id="9037965129289936994">原文のページを表示</translation>
-<translation id="903797871439633902">この <ph name="DEVICE_TYPE" /> でソフトウェアとセキュリティの自動アップデートが行われるのは今回が最後です。今後もアップデートを取得するには、新しいモデルにアップグレードしてください。&lt;a target="_blank" href="<ph name="URL" />"&gt;詳細&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{あと 1 回試行できます。}other{あと # 回試行できます。}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> のパスワードを更新しますか？</translation>

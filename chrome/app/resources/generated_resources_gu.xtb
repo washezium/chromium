@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">જાણીતા નેટવર્ક્સ</translation>
 <translation id="123578888592755962">ડિસ્ક સંપૂર્ણ ભરેલી છે</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">વ્યક્તિગત માહિતીના સૂચનો ઇનપુટ કરો બતાવો</translation>
 <translation id="1239594683407221485">Files ઍપમાં ડિવાઇસના કન્ટેન્ટ વિશે શોધખોળ કરો.</translation>
 <translation id="124116460088058876">વધુ ભાષાઓ</translation>
 <translation id="1241753985463165747">માગવામાં આવે ત્યારે વર્તમાન વેબસાઇટ પર તમારો બધો ડેટા વાંચો અને બદલો</translation>
@@ -882,7 +881,6 @@
 <translation id="2090165459409185032">તમારી એકાઉન્ટ માહિતી ફરીથી મેળવવા માટે, આના પર જાઓ: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">સિસ્ટમ સુરક્ષા સેટિંગ</translation>
 <translation id="2091887806945687916">ધ્વનિ</translation>
-<translation id="2096478741073211388">જ્યારે તમે કેટલાક વિશેષ શબ્દો ટાઇપ કરો ત્યારે વ્યક્તિગત માહિતીના સૂચનો તમારું નામ, સરનામું અથવા ફોન નંબર સૂચવીને તમને વધુ ઝડપથી લખવામાં સહાય કરે છે. તમને માત્ર તમારા એકાઉન્ટ માટેના ખાનગી તેમજ વ્યક્તિગત કરેલા સૂચનો દેખાય છે.</translation>
 <translation id="2096715839409389970">ત્રીજા પક્ષની કુકીને સાફ કરો</translation>
 <translation id="2097372108957554726">નવા ડિવાઇસને નોંધવા માટે તમારે Chromeમાં સાઇન ઇન કરવાની જરૂર છે</translation>
 <translation id="2099172618127234427">તમે Chrome OS ડિબગીંગ સુવિધાઓને ચાલુ કરી રહ્યાં છો જે sshd daemon સેટ કરશે અને USB ડ્રાઇવથી બૂટ કરવું ચાલુ કરશે.</translation>
@@ -1369,6 +1367,7 @@
 <translation id="2682498795777673382">તમારા માતાપિતા પાસે અપડેટ કરાવો</translation>
 <translation id="2683638487103917598">ફોલ્ડર સૉર્ટ કર્યુ</translation>
 <translation id="2684004000387153598">ચાલુ રાખવા માટે, ઓકે ક્લિક કરો, પછી તમારા ઇમેઇલ ઍડ્રેસ માટે નવી પ્રોફાઇલ બનાવવા માટે વ્યક્તિ ઉમેરો પર ક્લિક કરો.</translation>
+<translation id="2686222346846590368">આ <ph name="DEVICE_TYPE" /> માટે આ છેલ્લું ઑટોમૅટિક સૉફ્ટવેર અને સુરક્ષા અપડેટ છે. ભાવિ અપડેટ મેળવવા માટે, નવા મૉડલ પર અપગ્રેડ કરો. &lt;a target="_blank" href="<ph name="URL" />"&gt;વધુ જાણો<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">બધી કુકીને બ્લૉક કરો (સુઝાવ આપતા નથી)</translation>
 <translation id="2687407218262674387">Googleની સેવાની શરતો</translation>
 <translation id="2688196195245426394">સર્વર સાથે ઉપકરણની નોંધણી કરતી વખતે ભૂલ: <ph name="CLIENT_ERROR" />.</translation>
@@ -1391,6 +1390,7 @@
 <translation id="2712173769900027643">પરવાનગી માગો</translation>
 <translation id="2713444072780614174">શ્વેત</translation>
 <translation id="2714393097308983682">Google Play સ્ટોર</translation>
+<translation id="2714997332747470971">વ્યક્તિગત માહિતીના સૂચનો તમને તમારું નામ, સરનામું અથવા ફોન નંબર જેવા સૂચનો વડે વધુ ઝડપથી લખવામાં સહાય કરી શકે છે. માત્ર તમે જ તમારા એકાઉન્ટ માટેના ખાનગી તેમજ વ્યક્તિગત કરેલા સૂચનો જોઈ શકો છો.</translation>
 <translation id="2715751256863167692">આ અપગ્રેડ તમારી Chromebookને રીસેટ કરે છે અને હાલનો વપરાશકર્તા ડેટા કાઢી નાખે છે.</translation>
 <translation id="2716986496990888774">આ સેટિંગને માતાપિતા મેનેજ કરે છે.</translation>
 <translation id="2718395828230677721">રાત્રિ પ્રકાશ</translation>
@@ -2890,6 +2890,7 @@
 <translation id="4608520674724523647">સફળ નોંધણીનું ચિત્ર</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" />માં સંવેદનશીલ કન્ટેન્ટ છે</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" />માં એક ભૂલ આવી છે</translation>
+<translation id="4610178114344604329">વ્યક્તિગત માહિતીના સૂચનો બતાવો</translation>
 <translation id="4610637590575890427">શું તમારી ઈચ્છા <ph name="SITE" /> પર જવાની હતી?</translation>
 <translation id="4611114513649582138">ડેટા કનેક્શન ઉપલબ્ધ</translation>
 <translation id="4613144866899789710">Linuxનું ઇન્સ્ટૉલેશન રદ કરી રહ્યાં છીએ...</translation>
@@ -6197,6 +6198,7 @@ USB ડિવાઇસ</translation>
 <translation id="8798441408945964110">પ્રદાતાનું નામ</translation>
 <translation id="8800004011501252845">આના માટે ગંતવ્યો બતાવી રહ્યું છે</translation>
 <translation id="8800034312320686233">સાઇટ કામ નથી કરતી?</translation>
+<translation id="880069872639153240">તમે ટાઇપ કરી રહ્યાં હો, તેના આધારે ઇમોજીના સૂચનો મેળવો</translation>
 <translation id="8803953437405899238">એક નવી ટૅબ એક ક્લિકમાં ખોલો</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{ટૅબને બીજી વિંડોમાં ખસેડો}one{ટૅબને બીજી વિંડોમાં ખસેડો}other{ટૅબને બીજી વિંડોમાં ખસેડો}}</translation>
 <translation id="8805140816472474147">સમન્વયન શરૂ કરવા સમન્વયન સેટિંગ્સની પુષ્ટિ કરો.</translation>
@@ -6398,7 +6400,6 @@ USB ડિવાઇસ</translation>
 <translation id="9033765790910064284">તો પણ ચાલુ રાખો</translation>
 <translation id="9033857511263905942">&amp;પેસ્ટ કરો</translation>
 <translation id="9037965129289936994">મૂળ બતાવો</translation>
-<translation id="903797871439633902">આ <ph name="DEVICE_TYPE" /> માટે આ છેલ્લું ઑટોમૅટિક સૉફ્ટવેર અને સુરક્ષા અપડેટ છે. ભાવિ અપડેટ મેળવવા માટે, નવા મૉડલ પર અપગ્રેડ કરો. &lt;a target="_blank" href="<ph name="URL" />"&gt;વધુ જાણો&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{તમારી પાસે હવે એક પ્રયાસ બાકી છે.}one{તમારી પાસે હવે # પ્રયાસ બાકી છે.}other{તમારી પાસે હવે # પ્રયાસો બાકી છે.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> માટેનો પાસવર્ડ અપડેટ કરીએ?</translation>

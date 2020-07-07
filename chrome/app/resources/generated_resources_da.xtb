@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Kendte netværk</translation>
 <translation id="123578888592755962">Disken er fuld</translation>
 <translation id="1238191093934674082">Åben VPN</translation>
-<translation id="1239439601391236986">Vis forslag til angivelse af personlige oplysninger</translation>
 <translation id="1239594683407221485">Udforsk enhedens indhold i appen Filer.</translation>
 <translation id="124116460088058876">Flere sprog</translation>
 <translation id="1241753985463165747">Læse og redigere alle dine data på det aktuelle website, når dette er aktiveret</translation>
@@ -886,7 +885,6 @@ Du kan administrere indstillingerne for denne konto ved at installere Family Lin
 <translation id="2090165459409185032">Du gendanner dine kontooplysninger ved at gå til: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Indstillinger for systemsikkerhed</translation>
 <translation id="2091887806945687916">Lyd</translation>
-<translation id="2096478741073211388">Forslag til personlige oplysninger hjælper dig med at skrive hurtigere ved at foreslå dit navn, din adresse eller dit telefonnummer, når du skriver visse ord. Det er kun dig, der kan se din egne private, tilpassede forslag til din konto.</translation>
 <translation id="2096715839409389970">Slet cookies fra tredjeparter</translation>
 <translation id="2097372108957554726">Du skal logge ind i Chrome for at registrere nye enheder</translation>
 <translation id="2099172618127234427">Du aktiverer Chrome OS-fejlretningsfunktioner, som konfigurerer sshd daemon og aktiverer systemgenstart via USB-drev.</translation>
@@ -1373,6 +1371,7 @@ Du kan administrere indstillingerne for denne konto ved at installere Family Lin
 <translation id="2682498795777673382">Opdatering fra din forælder</translation>
 <translation id="2683638487103917598">Mappen er sorteret</translation>
 <translation id="2684004000387153598">Hvis du vil fortsætte, skal du klikke på OK og derefter klikke på Tilføj person for at oprette en ny profil til din mailadresse.</translation>
+<translation id="2686222346846590368">Dette er den sidste automatiske software- og sikkerhedsopdatering til denne <ph name="DEVICE_TYPE" />. Opgrader til en nyere model for at få opdateringer fremover. &lt;a target="_blank" href="<ph name="URL" />"&gt;Få flere oplysninger<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloker alle cookies (anbefales ikke)</translation>
 <translation id="2687407218262674387">Googles servicevilkår</translation>
 <translation id="2688196195245426394">Fejl ved registrering af enheden med serveren: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Du kan administrere indstillingerne for denne konto ved at installere Family Lin
 <translation id="2712173769900027643">Spørg om tilladelse</translation>
 <translation id="2713444072780614174">Hvid</translation>
 <translation id="2714393097308983682">Google Play Butik</translation>
+<translation id="2714997332747470971">Forslag til personlige oplysninger hjælper dig med at skrive hurtigere med forslag til f.eks. dit navn, din adresse eller dit telefonnummer. Det er kun dig, der kan se dine egne private, tilpassede forslag til din konto.</translation>
 <translation id="2715751256863167692">Denne opgradering nulstiller din Chromebook og fjerner aktuelle brugerdata.</translation>
 <translation id="2716986496990888774">Denne indstilling administreres af en forælder.</translation>
 <translation id="2718395828230677721">Nattelys</translation>
@@ -2894,6 +2894,7 @@ Vil du starte <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="4608520674724523647">Illustration af fuldført tilmelding</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> har følsomt indhold</translation>
 <translation id="4610162781778310380">Der opstod en fejl i <ph name="PLUGIN_NAME" /></translation>
+<translation id="4610178114344604329">Vis forslag til personlige oplysninger</translation>
 <translation id="4610637590575890427">Ville du gå til <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Tilgængelig dataforbindelse</translation>
 <translation id="4613144866899789710">Annullerer Linux-installation...</translation>
@@ -4771,7 +4772,7 @@ slettes permanent, når den administrerede bruger fjernes. Besøgte websites og 
 <translation id="7022562585984256452">Din startside er blevet konfigureret.</translation>
 <translation id="7025082428878635038">En ny måde at navigere på ved hjælp af bevægelser</translation>
 <translation id="7025190659207909717">Administration af mobildatatjeneste</translation>
-<translation id="7029307918966275733">Crostini er ikke installeret. Installer Crostini for at se kreditter.</translation>
+<translation id="7029307918966275733">Crostini er ikke installeret. Installer Crostini for at se krediteringer.</translation>
 <translation id="7029809446516969842">Adgangskoder</translation>
 <translation id="7031608529463141342"><ph name="WINDOW_TITLE" /> – tilsluttet en serieport</translation>
 <translation id="7031962166228839643">TPM forberedes. Vent lidt (dette kan tage et par minutter)...</translation>
@@ -6206,6 +6207,7 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="8798441408945964110">Navn på udbyder</translation>
 <translation id="8800004011501252845">Viser destinationer for</translation>
 <translation id="8800034312320686233">Fungerer websitet ikke?</translation>
+<translation id="880069872639153240">Få forslag til emojis baseret på, hvad du skriver</translation>
 <translation id="8803953437405899238">Åbn en ny fane med et enkelt klik</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Flyt fanen til et andet vindue}one{Flyt fanen til et andet vindue}other{Flyt fanerne til et andet vindue}}</translation>
 <translation id="8805140816472474147">Bekræft synkroniseringsindstillingerne for at starte synkronisering.</translation>
@@ -6407,7 +6409,6 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="9033765790910064284">Fortsæt alligevel</translation>
 <translation id="9033857511263905942">&amp;Indsæt</translation>
 <translation id="9037965129289936994">Vis oprindelig</translation>
-<translation id="903797871439633902">Dette er den sidste automatiske software- og sikkerhedsopdatering til denne <ph name="DEVICE_TYPE" />. Opgrader til en nyere model for at få fremtidige opdateringer. &lt;a target="_blank" href="<ph name="URL" />"&gt;Få flere oplysninger&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Du har ét forsøg tilbage.}one{Du har # forsøg tilbage.}other{Du har # forsøg tilbage.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Vil du opdatere adgangskoden til <ph name="ORIGIN" />?</translation>

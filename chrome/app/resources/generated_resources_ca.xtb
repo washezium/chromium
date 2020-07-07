@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Xarxes conegudes</translation>
 <translation id="123578888592755962">El disc és ple</translation>
 <translation id="1238191093934674082">VPN oberta</translation>
-<translation id="1239439601391236986">Mostra els suggeriments sobre informació personal</translation>
 <translation id="1239594683407221485">Explora el contingut del dispositiu a l'aplicació Fitxers.</translation>
 <translation id="124116460088058876">Més idiomes</translation>
 <translation id="1241753985463165747">Llegir i modificar totes les teves dades del lloc web que estàs visitant quan s'invoqui</translation>
@@ -886,7 +885,6 @@ Pots gestionar la configuració d'aquest compte instal·lant l'aplicació Family
 <translation id="2090165459409185032">Per recuperar la informació del compte, accediu a: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Configuració de seguretat del sistema</translation>
 <translation id="2091887806945687916">So</translation>
-<translation id="2096478741073211388">Els suggeriments sobre informació personal t'ajuden a escriure més ràpidament, ja que et suggereixen el teu nom, la teva adreça o el teu telèfon quan escrius determinades paraules. Ets l'única persona que pot veure els suggeriments personalitzats privats del teu compte.</translation>
 <translation id="2096715839409389970">Esborra les galetes de tercers</translation>
 <translation id="2097372108957554726">Inicieu la sessió a Chrome per registrar dispositius nous</translation>
 <translation id="2099172618127234427">Esteu activant les funcions de depuració de Chrome OS, de manera que es configurarà el dimoni sshd i es permetrà iniciar el sistema des d'unitats USB.</translation>
@@ -1372,6 +1370,7 @@ Pots gestionar la configuració d'aquest compte instal·lant l'aplicació Family
 <translation id="2682498795777673382">El pare o la mare han introduït un canvi</translation>
 <translation id="2683638487103917598">Carpeta ordenada</translation>
 <translation id="2684004000387153598">Per continuar, fes clic a D'acord i, a continuació, a Afegeix una persona per crear un perfil per a la teva adreça electrònica.</translation>
+<translation id="2686222346846590368">Aquesta actualització de programari i seguretat és l'última que rebràs per a aquest <ph name="DEVICE_TYPE" />. Per obtenir actualitzacions en el futur, canvia el dispositiu per un model més nou. &lt;a target="_blank" href="<ph name="URL" />"&gt;Més informació<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bloqueja totes les galetes (opció no recomanada)</translation>
 <translation id="2687407218262674387">Condicions del servei de Google</translation>
 <translation id="2688196195245426394">S'ha produït un error en registrar el dispositiu amb el servidor: <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@ Pots gestionar la configuració d'aquest compte instal·lant l'aplicació Family
 <translation id="2712173769900027643">Demana permís</translation>
 <translation id="2713444072780614174">Blanc</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Els suggeriments sobre informació personal t'ajuden a escriure més ràpidament amb suggeriments com el teu nom, la teva adreça o el teu número de telèfon. Ets l'única persona que pot veure els suggeriments personalitzats privats del teu compte.</translation>
 <translation id="2715751256863167692">Amb aquesta actualització es restableix el dispositiu Chromebook i se suprimeixen les dades d'usuari actuals.</translation>
 <translation id="2716986496990888774">El teu pare o la teva mare gestiona aquesta opció de configuració.</translation>
 <translation id="2718395828230677721">Llum nocturna</translation>
@@ -2892,6 +2892,7 @@ Pots gestionar la configuració d'aquest compte instal·lant l'aplicació Family
 <translation id="4608520674724523647">Il·lustració d'inscripció correcta</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> inclou contingut sensible</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ha detectat un error</translation>
+<translation id="4610178114344604329">Mostra els suggeriments sobre informació personal</translation>
 <translation id="4610637590575890427">Volíeu anar a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Connexió de dades disponible</translation>
 <translation id="4613144866899789710">S'està cancel·lant la instal·lació de Linux...</translation>
@@ -6205,6 +6206,7 @@ Deseu el fitxer de clau en una ubicació segura. El necessitareu per crear versi
 <translation id="8798441408945964110">Nom del proveïdor</translation>
 <translation id="8800004011501252845">S'estan mostrant les destinacions per a</translation>
 <translation id="8800034312320686233">El lloc web no funciona?</translation>
+<translation id="880069872639153240">Obtén suggeriments d'emojis basats en el que escrius</translation>
 <translation id="8803953437405899238">Obre una pestanya nova amb un sol clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Mou la pestanya a una altra finestra}other{Mou les pestanyes a una altra finestra}}</translation>
 <translation id="8805140816472474147">Confirma la configuració de sincronització per començar a sincronitzar.</translation>
@@ -6406,7 +6408,6 @@ Deseu el fitxer de clau en una ubicació segura. El necessitareu per crear versi
 <translation id="9033765790910064284">Continua igualment</translation>
 <translation id="9033857511263905942">&amp;Enganxa</translation>
 <translation id="9037965129289936994">Mostra l'original</translation>
-<translation id="903797871439633902">Aquesta actualització de programari i seguretat és l'última que rebràs per a aquest <ph name="DEVICE_TYPE" />. Per obtenir actualitzacions en el futur, canvia el dispositiu per un model més nou. &lt;a target="_blank" href="<ph name="URL" />"&gt;Més informació&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Et queda un intent.}other{Et queden # intents.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Vols actualitzar la contrasenya per a <ph name="ORIGIN" />?</translation>

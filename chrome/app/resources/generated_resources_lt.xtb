@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Žinomi tinklai</translation>
 <translation id="123578888592755962">Diskas pilnas</translation>
 <translation id="1238191093934674082">Atidaryti VPN</translation>
-<translation id="1239439601391236986">Rodyti asmens informacijos įvesčių pasiūlymus</translation>
 <translation id="1239594683407221485">Naršykite įrenginio turinį programoje „Failai“.</translation>
 <translation id="124116460088058876">Daugiau kalbų</translation>
 <translation id="1241753985463165747">Skaityti ir keisti visus dabartinės svetainės duomenis, kai suaktyvinama</translation>
@@ -886,7 +885,6 @@ Jei nenorite, dabar atsijunkite, kad šios paskyros pakeitimai būtų matomi ši
 <translation id="2090165459409185032">Jei norite atkurti paskyros informaciją, apsilankykite adresu google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Sistemos saugos nustatymas</translation>
 <translation id="2091887806945687916">Garsas</translation>
-<translation id="2096478741073211388">Pasinaudoję asmens informacijos pasiūlymais galėsite rašyti greičiau. Pradėjus vesti konkrečius žodžius, bus pasiūlytas jūsų vardas, pavardė, adresas ar telefono numeris. Privačius, suasmenintus jūsų paskyrai skirtus pasiūlymus matote tik jūs.</translation>
 <translation id="2096715839409389970">Išvalyti trečiųjų šalių slapukus</translation>
 <translation id="2097372108957554726">Reikia prisijungti prie „Chrome“, kad būtų galima užregistruoti naujus įrenginius</translation>
 <translation id="2099172618127234427">Įgalinsite „Chrome“ OS derinimo funkcijas ir bus nustatyta „sshd daemon“, kad būtų galima paleisti programas iš atmintuko.</translation>
@@ -1373,6 +1371,7 @@ Jei nenorite, dabar atsijunkite, kad šios paskyros pakeitimai būtų matomi ši
 <translation id="2682498795777673382">Vieno iš tėvų naujinys</translation>
 <translation id="2683638487103917598">Aplankas surūšiuotas</translation>
 <translation id="2684004000387153598">Jei norite tęsti, spustelėkite „Gerai“, tada – „Pridėti asmenį“, kad sukurtumėte naują profilį naudodami savo el. pašto adresą.</translation>
+<translation id="2686222346846590368">Tai yra paskutinis automatinis programinės įrangos ir saugos naujinys, skirtas „<ph name="DEVICE_TYPE" />“. Kad gautumėte būsimus naujinius, įsigykite naujesnį modelį. &lt;a target="_blank" href="<ph name="URL" />"&gt;Sužinokite daugiau<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokuoti visus slapukus (nerekomenduojama)</translation>
 <translation id="2687407218262674387">„Google“ paslaugų teikimo sąlygos</translation>
 <translation id="2688196195245426394">Įrenginio registravimo serveryje klaida: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Jei nenorite, dabar atsijunkite, kad šios paskyros pakeitimai būtų matomi ši
 <translation id="2712173769900027643">Prašyti leidimo</translation>
 <translation id="2713444072780614174">Balta</translation>
 <translation id="2714393097308983682">„Google Play“ parduotuvė</translation>
+<translation id="2714997332747470971">Pasinaudoję asmens informacijos pasiūlymais galėsite rašyti greičiau, nes bus pasiūlytas jūsų vardas, pavardė, adresas ar telefono numeris. Privačius, suasmenintus jūsų paskyrai skirtus pasiūlymus matote tik jūs.</translation>
 <translation id="2715751256863167692">Šis naujovinimas iš naujo nustato „Chromebook“ ir pašalina dabartinio naudotojo duomenis.</translation>
 <translation id="2716986496990888774">Šį nustatymą tvarko vienas iš tėvų.</translation>
 <translation id="2718395828230677721">Nakties šviesa</translation>
@@ -2894,6 +2894,7 @@ Ar norite paleisti „<ph name="CONTROL_PANEL_APPLET_NAME" />“?</translation>
 <translation id="4608520674724523647">Sėkmingos registracijos iliustracija</translation>
 <translation id="4608703838363792434">Faile „<ph name="FILE_NAME" />“ yra neskelbtino turinio</translation>
 <translation id="4610162781778310380">Įvyko papildinio „<ph name="PLUGIN_NAME" />“ klaida</translation>
+<translation id="4610178114344604329">Rodyti asmens informacijos pasiūlymus</translation>
 <translation id="4610637590575890427">Ar norėjote eiti į <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Pasiekiamas duomenų ryšys</translation>
 <translation id="4613144866899789710">Atšaukiamas „Linux“ diegimas…</translation>
@@ -6206,6 +6207,7 @@ Rakto failą laikykite saugioje vietoje. Jo reikės, kai norėsite sukurti nauja
 <translation id="8798441408945964110">Teikėjo pavadinimas</translation>
 <translation id="8800004011501252845">Rodomos paskirties vietos</translation>
 <translation id="8800034312320686233">Neveikia svetainė?</translation>
+<translation id="880069872639153240">Gaukite jaustukų pasiūlymų pagal renkamą tekstą</translation>
 <translation id="8803953437405899238">Atidarykite naują skirtuką vienu paspaudimu</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Perkelti skirtuką į kitą langą}one{Perkelti skirtukus į kitą langą}few{Perkelti skirtukus į kitą langą}many{Perkelti skirtukus į kitą langą}other{Perkelti skirtukus į kitą langą}}</translation>
 <translation id="8805140816472474147">Patvirtinkite sinchronizavimo nustatymus, kad galėtumėte pradėti sinchronizuoti.</translation>
@@ -6407,7 +6409,6 @@ Rakto failą laikykite saugioje vietoje. Jo reikės, kai norėsite sukurti nauja
 <translation id="9033765790910064284">Vis tiek tęsti</translation>
 <translation id="9033857511263905942">&amp;Įklijuoti</translation>
 <translation id="9037965129289936994">Rodyti originalą</translation>
-<translation id="903797871439633902">Tai yra paskutinis automatinis programinės įrangos ir saugos naujinys, skirtas „<ph name="DEVICE_TYPE" />“. Kad gautumėte būsimus naujinius, įsigykite naujesnį modelį. &lt;a target="_blank" href="<ph name="URL" />"&gt;Sužinokite daugiau&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Jums liko vienas bandymas.}one{Jums liko # bandymas.}few{Jums liko # bandymai.}many{Jums liko # bandymo.}other{Jums liko # bandymų.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Atnaujinti <ph name="ORIGIN" /> slaptažodį?</translation>

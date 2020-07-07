@@ -77,7 +77,7 @@
 <translation id="1091767800771861448">ਛੱਡਣ ਲਈ ESCAPE ਦਬਾਓ (ਕੇਵਲ ਗੈਰ-ਅਧਿਕਾਰਤ ਬਿਲਡ)।</translation>
 <translation id="1093457606523402488">ਦ੍ਰਿਸ਼ਮਾਨ ਨੈਟਵਰਕ:</translation>
 <translation id="1094607894174825014">ਇਸ 'ਤੇ ਇੱਕ ਅਵੈਧ ਫ਼ਰਕ ਨਾਲ ਪੜ੍ਹਨ ਜਾਂ ਲਿਖਣ ਦੀ ਬੇਨਤੀ ਕੀਤੀ ਗਈ: "<ph name="DEVICE_NAME" />"।</translation>
-<translation id="109647177154844434">Parallels Desktop ਅਣਸਥਾਪਤ ਕਰਨ ਨਾਲ ਤੁਹਾਡਾ Windows ਇਮੇਜ ਹਟ ਜਾਵੇਗਾ। ਇਸ ਵਿੱਚ ਇਸਦੀਆਂ ਐਪਲੀਕੇਸ਼ਨਾਂ, ਸੈਟਿੰਗਾਂ ਅਤੇ ਡਾਟਾ ਸ਼ਾਮਲ ਹੁੰਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?</translation>
+<translation id="109647177154844434">Parallels Desktop ਅਣਸਥਾਪਤ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ Windows ਇਮੇਜ ਮਿਟ ਜਾਵੇਗੀ। ਇਸ ਵਿੱਚ ਇਸਦੀਆਂ ਐਪਲੀਕੇਸ਼ਨਾਂ, ਸੈਟਿੰਗਾਂ ਅਤੇ ਡਾਟਾ ਸ਼ਾਮਲ ਹੁੰਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?</translation>
 <translation id="1097658378307015415">ਸਾਈਨ-ਇਨ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ, ਕਿਰਪਾ ਕਰਕੇ ਨੈੱਟਵਰਕ <ph name="NETWORK_ID" /> ਨੂੰ ਸਰਗਰਮ ਕਰਨ ਲਈ ਮਹਿਮਾਨ ਦੇ ਤੌਰ 'ਤੇ ਦਰਜ ਕਰੋ</translation>
 <translation id="1099962274138857708"><ph name="DEVICE_NAME" /> ਤੋਂ ਚਿੱਤਰ ਕਾਪੀ ਕੀਤਾ ਗਿਆ</translation>
 <translation id="1102187190604780492">ਆਪਣੀ Assistant ਨੂੰ ਸਕ੍ਰੀਨ 'ਤੇ ਮੌਜੂਦ ਚੀਜ਼ਾਂ ਨਾਲ ਸੰਬੰਧਿਤ ਜਾਣਕਾਰੀ ਚੁਸਤੀ ਨਾਲ ਦਿਖਾਉਣ ਦਿਓ</translation>
@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">ਗਿਆਤ ਨੈੱਟਵਰਕ</translation>
 <translation id="123578888592755962">ਡਿਸਕ ਪੂਰੀ</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੰਬੰਧੀ ਇਨਪੁੱਟ ਸੁਝਾਅ ਦਿਖਾਓ</translation>
 <translation id="1239594683407221485">Files ਐਪ ਵਿੱਚ ਡੀਵਾਈਸ ਦੀ ਸਮੱਗਰੀ ਦੀ ਪੜਚੋਲ ਕਰੋ।</translation>
 <translation id="124116460088058876">ਹੋਰ ਭਾਸ਼ਾਵਾਂ</translation>
 <translation id="1241753985463165747">ਚਲਾਏ ਜਾਣ 'ਤੇ ਵਰਤਮਾਨ ਵੈੱਬਸਾਈਟ ਦਾ ਸਾਰਾ ਡਾਟਾ ਪੜ੍ਹੋ ਅਤੇ ਬਦਲੋ</translation>
@@ -886,7 +885,6 @@
 <translation id="2090165459409185032">ਆਪਣੀ ਖਾਤਾ ਜਾਣਕਾਰੀ ਨੂੰ ਰਿਕਵਰ ਕਰਨ ਲਈ, ਇੱਥੇ ਜਾਓ: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">ਸਿਸਟਮ ਸੁਰੱਖਿਆ ਸੈਟਿੰਗਾ</translation>
 <translation id="2091887806945687916">ਧੁਨੀ</translation>
-<translation id="2096478741073211388">ਜਦੋਂ ਤੁਸੀਂ ਕੁਝ ਖਾਸ ਸ਼ਬਦ ਟਾਈਪ ਕਰਦੇ ਹੋ, ਤਾਂ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੰਬੰਧੀ ਸੁਝਾਅ ਤੁਹਾਡੇ ਨਾਮ, ਪਤੇ ਜਾਂ ਫ਼ੋਨ ਨੰਬਰ ਦਾ ਸੁਝਾਅ ਦੇ ਕੇ ਵਧੇਰੇ ਤੇਜ਼ੀ ਨਾਲ ਲਿਖਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੇ ਹਨ। ਆਪਣੇ ਖਾਤੇ ਲਈ ਆਪਣੇ ਖੁਦ ਦੇ ਨਿੱਜੀ, ਵਿਅਕਤੀਗਤ ਬਣਾਏ ਸੁਝਾਵਾਂ ਨੂੰ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਦੇਖ ਸਕਦੇ ਹੋ।</translation>
 <translation id="2096715839409389970">ਤੀਜੀ-ਧਿਰ ਦੀਆਂ ਕੁਕੀਜ਼ ਕਲੀਅਰ ਕਰੋ</translation>
 <translation id="2097372108957554726">ਤੁਹਾਨੂੰ ਨਵੇਂ ਡੀਵਾਈਸਾਂ ਨੂੰ ਰਜਿਸਟਰ ਕਰਨ ਲਈ Chrome 'ਤੇ ਸਾਈਨ-ਇਨ ਕਰਨ ਦੀ ਲੋੜ ਹੈ</translation>
 <translation id="2099172618127234427">ਤੁਸੀਂ Chrome OS ਡੀਬੱਗਿੰਗ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਚਾਲੂ ਕਰ ਰਹੇ ਹੋ, ਜੋ sshd daemon ਨੂੰ ਸੈੱਟ ਕਰਨਗੀਆਂ ਅਤੇ USB ਡਰਾਈਵ ਵਿੱਚੋਂ ਬੂਟਿੰਗ ਨੂੰ ਚਾਲੂ ਕਰਨਗੀਆਂ।</translation>
@@ -1372,6 +1370,7 @@
 <translation id="2682498795777673382">ਤੁਹਾਡੇ ਮਾਂ-ਪਿਓ ਵੱਲੋਂ ਨਵੀਂ ਜਾਣਕਾਰੀ</translation>
 <translation id="2683638487103917598">ਫੋਲਡਰ ਕ੍ਰਮਵਾਰ ਕੀਤੇ ਗਏ</translation>
 <translation id="2684004000387153598">ਜਾਰੀ ਰੱਖਣ ਲਈ, OK 'ਤੇ ਕਲਿੱਕ ਕਰੋ, ਫਿਰ ਆਪਣੇ ਈਮੇਲ ਪਤੇ ਵਾਸਤੇ ਇੱਕ ਨਵਾਂ ਪ੍ਰੋਫਾਈਲ ਬਣਾਉਣ ਲਈ 'ਵਿਅਕਤੀ ਸ਼ਾਮਲ ਕਰੋ' 'ਤੇ ਕਲਿੱਕ ਕਰੋ।</translation>
+<translation id="2686222346846590368">ਇਹ ਇਸ <ph name="DEVICE_TYPE" /> ਲਈ ਆਖਰੀ ਸਵੈਚਲਿਤ ਸਾਫ਼ਟਵੇਅਰ ਅਤੇ ਸੁਰੱਖਿਆ ਅੱਪਡੇਟ ਹੈ। ਭਵਿੱਖ ਵਿੱਚ ਅੱਪਡੇਟ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ, ਨਵੇਂ ਮਾਡਲ 'ਤੇ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। &lt;a target="_blank" href="<ph name="URL" />"&gt;ਹੋਰ ਜਾਣੋ<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">ਸਾਰੀਆਂ ਕੁਕੀਜ਼ ਨੂੰ ਬਲਾਕ ਕਰੋ (ਇਸਦੀ ਸਿਫ਼ਾਰਸ਼ ਨਹੀਂ ਕੀਤੀ ਜਾਂਦੀ)</translation>
 <translation id="2687407218262674387">Google ਦੀ ਸੇਵਾ ਦੇ ਨਿਯਮ</translation>
 <translation id="2688196195245426394">ਡੀਵਾਈਸ ਨੂੰ ਸਰਵਰ ਨਾਲ ਰਜਿਸਟਰ ਕਰਦੇ ਸਮੇਂ ਗੜਬੜ: <ph name="CLIENT_ERROR" />।</translation>
@@ -1394,6 +1393,7 @@
 <translation id="2712173769900027643">ਅਨੁਮਤੀ ਲਓ</translation>
 <translation id="2713444072780614174">ਸਫ਼ੈਦ</translation>
 <translation id="2714393097308983682">Google Play ਸਟੋਰ</translation>
+<translation id="2714997332747470971">ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੰਬੰਧੀ ਸੁਝਾਅ ਤੁਹਾਡੇ ਨਾਮ, ਪਤੇ ਜਾਂ ਫ਼ੋਨ ਨੰਬਰ ਵਰਗੇ ਸੁਝਾਵਾਂ ਨਾਲ ਵਧੇਰੇ ਤੇਜ਼ੀ ਨਾਲ ਲਿਖਣ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੇ ਹਨ। ਆਪਣੇ ਖਾਤੇ ਲਈ ਆਪਣੇ ਖੁਦ ਦੇ ਨਿੱਜੀ, ਵਿਅਕਤੀਗਤ ਬਣਾਏ ਸੁਝਾਵਾਂ ਨੂੰ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਦੇਖ ਸਕਦੇ ਹੋ।</translation>
 <translation id="2715751256863167692">ਇਹ ਅੱਪਗ੍ਰੇਡ ਤੁਹਾਡੀ Chromebook ਨੂੰ ਰੀਸੈੱਟ ਕਰਦਾ ਹੈ ਅਤੇ ਵਰਤਮਾਨ ਵਰਤੋਂਕਾਰ ਡਾਟੇ ਨੂੰ ਹਟਾਉਂਦਾ ਹੈ।</translation>
 <translation id="2716986496990888774">ਇਸ ਸੈਟਿੰਗ ਦਾ ਪ੍ਰਬੰਧਨ ਮਾਂ-ਪਿਓ ਵੱਲੋਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।</translation>
 <translation id="2718395828230677721">ਰਾਤ ਦੀ ਰੋਸ਼ਨੀ</translation>
@@ -2892,6 +2892,7 @@
 <translation id="4608520674724523647">ਸਫਲ ਦਾਖਲੇ ਦਾ ਚਿੱਤਰ</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> ਵਿੱਚ ਸੰਵੇਦਨਸ਼ੀਲ ਸਮੱਗਰੀ ਹੈ</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ਵਿੱਚ ਕੋਈ ਗੜਬੜ ਹੋਈ</translation>
+<translation id="4610178114344604329">ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੰਬੰਧੀ ਸੁਝਾਅ ਦਿਖਾਓ</translation>
 <translation id="4610637590575890427">ਕੀ ਤੁਸੀਂ <ph name="SITE" /> ਤੇ ਜਾਣਾ ਸੀ?</translation>
 <translation id="4611114513649582138">ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਉਪਲਬਧ ਹੈ</translation>
 <translation id="4613144866899789710">Linux ਦੀ ਸਥਾਪਨਾ ਨੂੰ ਰੱਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...</translation>
@@ -6200,6 +6201,7 @@
 <translation id="8798441408945964110">ਪ੍ਰਦਾਨਕ ਦਾ ਨਾਮ</translation>
 <translation id="8800004011501252845">ਲਈ ਨਿਯਤ ਥਾਂਵਾਂ ਦਿਖਾ ਰਿਹਾ ਹੈ</translation>
 <translation id="8800034312320686233">ਕੀ ਸਾਈਟ ਕੰਮ ਨਹੀਂ ਕਰ ਰਹੀ ਹੈ?</translation>
+<translation id="880069872639153240">ਜੋ ਵੀ ਤੁਸੀਂ ਟਾਈਪ ਕਰ ਰਹੇ ਹੋ ਉਸ ਆਧਾਰ 'ਤੇ ਇਮੋਜੀ ਸੁਝਾਅ ਪ੍ਰਾਪਤ ਕਰੋ</translation>
 <translation id="8803953437405899238">ਇੱਕ ਕਲਿੱਕ ਨਾਲ ਇੱਕ ਨਵਾਂ ਟੈਬ ਖੋਲ੍ਹੋ</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{ਟੈਬ ਨੂੰ ਕਿਸੇ ਹੋਰ ਵਿੰਡੋ ਵਿੱਚ ਲਿਜਾਓ}one{ਟੈਬ ਨੂੰ ਕਿਸੇ ਹੋਰ ਵਿੰਡੋ ਵਿੱਚ ਲਿਜਾਓ}other{ਟੈਬਾਂ ਨੂੰ ਕਿਸੇ ਹੋਰ ਵਿੰਡੋ ਵਿੱਚ ਲਿਜਾਓ}}</translation>
 <translation id="8805140816472474147">ਸਮਕਾਲੀਕਰਨ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਸਮਕਾਲੀਕਰਨ ਸੈਟਿੰਗਾਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ।</translation>
@@ -6401,7 +6403,6 @@
 <translation id="9033765790910064284">ਫਿਰ ਵੀ ਜਾਰੀ ਰੱਖੋ</translation>
 <translation id="9033857511263905942">&amp;ਪੇਸਟ ਕਰੋ</translation>
 <translation id="9037965129289936994">ਮੂਲ  ਦਿਖਾਓ </translation>
-<translation id="903797871439633902">ਇਹ ਇਸ <ph name="DEVICE_TYPE" /> ਲਈ ਆਖਰੀ ਸਵੈਚਲਿਤ ਸਾਫ਼ਟਵੇਅਰ ਅਤੇ ਸੁਰੱਖਿਆ ਅੱਪਡੇਟ ਹੈ। ਭਵਿੱਖ ਵਿੱਚ ਅੱਪਡੇਟ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ, ਨਵੇਂ ਮਾਡਲ 'ਤੇ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। &lt;a target="_blank" href="<ph name="URL" />"&gt;ਹੋਰ ਜਾਣੋ&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਕੋਸ਼ਿਸ਼ ਬਾਕੀ ਹੈ।}one{ਤੁਹਾਡੇ ਕੋਲ # ਕੋਸ਼ਿਸ਼ ਬਾਕੀ ਹੈ।}other{ਤੁਹਾਡੇ ਕੋਲ # ਕੋਸ਼ਿਸ਼ਾਂ ਬਾਕੀ ਹਨ।}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">ਕੀ <ph name="ORIGIN" /> ਲਈ ਪਾਸਵਰਡ ਅੱਪਡੇਟ ਕਰਨਾ ਹੈ?</translation>

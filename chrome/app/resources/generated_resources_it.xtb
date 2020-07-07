@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Reti note</translation>
 <translation id="123578888592755962">Disco pieno</translation>
 <translation id="1238191093934674082">VPN aperta</translation>
-<translation id="1239439601391236986">Mostra suggerimenti per l'inserimento di informazioni personali</translation>
 <translation id="1239594683407221485">Esplora i contenuti del dispositivo nell'app File.</translation>
 <translation id="124116460088058876">Altre lingue</translation>
 <translation id="1241753985463165747">Lettura e modifica di tutti i dati sul sito web corrente (se richiamato)</translation>
@@ -886,7 +885,6 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="2090165459409185032">Visita il sito google.com/accounts/recovery per recuperare i dati del tuo account</translation>
 <translation id="2090876986345970080">Impostazioni di sicurezza del sistema</translation>
 <translation id="2091887806945687916">Audio</translation>
-<translation id="2096478741073211388">I suggerimenti di informazioni personali ti aiutano a scrivere più rapidamente suggerendoti il tuo nome, il tuo indirizzo o il tuo numero di telefono quando digiti parole specifiche. Solo tu vedi i suggerimenti privati e personalizzati per il tuo account.</translation>
 <translation id="2096715839409389970">Cancella cookie di terze parti</translation>
 <translation id="2097372108957554726">Devi accedere a Chrome per registrare nuovi dispositivi</translation>
 <translation id="2099172618127234427">Stai attivando le funzioni di debug di Chrome OS, che a loro volta impostano il daemon sshd e abilitano l'avvio da unità USB.</translation>
@@ -1372,6 +1370,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="2682498795777673382">Aggiornato da un genitore</translation>
 <translation id="2683638487103917598">Cartella ordinata</translation>
 <translation id="2684004000387153598">Per continuare, fai clic su OK, quindi fai clic su Aggiungi persona per creare un nuovo profilo per il tuo indirizzo email.</translation>
+<translation id="2686222346846590368">Questo è l'ultimo aggiornamento software e di sicurezza automatico per il dispositivo <ph name="DEVICE_TYPE" />. Per ricevere gli aggiornamenti futuri, esegui l'upgrade a un modello più recente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ulteriori informazioni<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blocca tutti i cookie (non consigliato)</translation>
 <translation id="2687407218262674387">Termini di servizio di Google</translation>
 <translation id="2688196195245426394">Errore durante la registrazione del dispositivo con il server. <ph name="CLIENT_ERROR" />.</translation>
@@ -1394,6 +1393,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="2712173769900027643">Chiedi autorizzazione</translation>
 <translation id="2713444072780614174">Bianco</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">I suggerimenti di informazioni personali ti aiutano a scrivere più rapidamente suggerendoti dati quali il tuo nome, il tuo indirizzo o il tuo numero di telefono. Solo tu vedi i suggerimenti privati e personalizzati per il tuo account.</translation>
 <translation id="2715751256863167692">Questo upgrade ripristina il Chromebook e rimuove i dati utente correnti.</translation>
 <translation id="2716986496990888774">Questa impostazione è gestita da un genitore.</translation>
 <translation id="2718395828230677721">Luminosità notturna</translation>
@@ -2893,6 +2893,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="4608520674724523647">Immagine della registrazione andata a buon fine</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> include contenuti sensibili</translation>
 <translation id="4610162781778310380">Si è verificato un errore in <ph name="PLUGIN_NAME" /></translation>
+<translation id="4610178114344604329">Mostra suggerimenti di informazioni personali</translation>
 <translation id="4610637590575890427">Forse intendevi accedere a <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Connessione dati disponibile</translation>
 <translation id="4613144866899789710">Annullamento dell'installazione di Linux…</translation>
@@ -6203,6 +6204,7 @@ Conserva il file di chiave in un luogo sicuro. Ti servirà per creare nuove vers
 <translation id="8798441408945964110">Nome provider</translation>
 <translation id="8800004011501252845">Destinazioni per</translation>
 <translation id="8800034312320686233">Il sito non funziona?</translation>
+<translation id="880069872639153240">Ricevi suggerimenti per emoji basati sul testo digitato</translation>
 <translation id="8803953437405899238">Apri una nuova scheda con un clic</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Sposta scheda in un'altra finestra}other{Sposta schede in un'altra finestra}}</translation>
 <translation id="8805140816472474147">Conferma le impostazioni di sincronizzazione per avviare l'operazione.</translation>
@@ -6404,7 +6406,6 @@ Conserva il file di chiave in un luogo sicuro. Ti servirà per creare nuove vers
 <translation id="9033765790910064284">Continua comunque</translation>
 <translation id="9033857511263905942">&amp;Incolla</translation>
 <translation id="9037965129289936994">Mostra originale</translation>
-<translation id="903797871439633902">Questo è l'ultimo aggiornamento software e di sicurezza automatico per il dispositivo <ph name="DEVICE_TYPE" />. Per ricevere gli aggiornamenti futuri, esegui l'upgrade a un modello più recente. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ulteriori informazioni&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Hai ancora a disposizione un tentativo.}other{Hai ancora a disposizione # tentativi.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Aggiornare la password per <ph name="ORIGIN" />?</translation>

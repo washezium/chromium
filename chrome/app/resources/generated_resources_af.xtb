@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Bekende netwerke</translation>
 <translation id="123578888592755962">Skyf vol</translation>
 <translation id="1238191093934674082">Oop VPN (virtuele private netwerk)</translation>
-<translation id="1239439601391236986">Wys voorstelle oor die invoer van persoonlike inligting</translation>
 <translation id="1239594683407221485">Verken die toestel se inhoud in die Lêers-program.</translation>
 <translation id="124116460088058876">Meer tale</translation>
 <translation id="1241753985463165747">Lees en verander al jou data op die huidige webwerf wanneer dit opgeroep word</translation>
@@ -886,7 +885,6 @@ Jy kan hierdie rekening se instellings bestuur deur die Family Link-program op j
 <translation id="2090165459409185032">Om jou rekeninginligting te herwin, gaan na: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Stelselsekuriteitsinstelling</translation>
 <translation id="2091887806945687916">Klank</translation>
-<translation id="2096478741073211388">Voorstelle oor persoonlike inligting help jou om vinniger te skryf deur jou naam, adres of foonnommer voor te stel wanneer jy sekere spesifieke woorde intik. Net jy kan jou private, gepersonaliseerde voorstelle vir jou rekening sien.</translation>
 <translation id="2096715839409389970">Vee derdeparty-webkoekies uit</translation>
 <translation id="2097372108957554726">Jy moet by Chrome aanmeld om nuwe toestelle te registreer.</translation>
 <translation id="2099172618127234427">Jy aktiveer tans Chrome-bedryfstelselontfoutingkenmerke wat sshd daemon sal opstel en selflaai van USB-datastokkies af moontlik sal maak.</translation>
@@ -1373,6 +1371,7 @@ Jy kan hierdie rekening se instellings bestuur deur die Family Link-program op j
 <translation id="2682498795777673382">Opdatering van jou ouer af</translation>
 <translation id="2683638487103917598">Vouer is gerangskik</translation>
 <translation id="2684004000387153598">Om voort te gaan, klik OK en klik dan Voeg Persoon By om 'n nuwe profiel vir jou e-posadres te skep.</translation>
+<translation id="2686222346846590368">Dit is die laaste outomatiese sagteware- en sekuriteitopdatering vir hierdie <ph name="DEVICE_TYPE" />. Gradeer na 'n nuwer model toe op om toekomstige opdaterings te kry. &lt;a target="_blank" href="<ph name="URL" />"&gt;Kom meer te wete<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Blokkeer alle webkoekies (nie aanbeveel nie)</translation>
 <translation id="2687407218262674387">Google se diensbepalings</translation>
 <translation id="2688196195245426394">Kon nie die toestel by die bediener registreer nie: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Jy kan hierdie rekening se instellings bestuur deur die Family Link-program op j
 <translation id="2712173769900027643">Vra toestemming</translation>
 <translation id="2713444072780614174">Wit</translation>
 <translation id="2714393097308983682">Google Play Winkel</translation>
+<translation id="2714997332747470971">Voorstelle vir persoonlike inligting help jou om vinniger te skryf met voorstelle soos jou naam, adres of foonnommer. Net jy kan jou private, gepersonaliseerde voorstelle vir jou rekening sien.</translation>
 <translation id="2715751256863167692">Hierdie opgradering stel jou Chromebook terug en verwyder huidige gebruikerdata.</translation>
 <translation id="2716986496990888774">'n Ouer bestuur hierdie instelling.</translation>
 <translation id="2718395828230677721">Aandbeligting</translation>
@@ -2894,6 +2894,7 @@ Jy kan hierdie rekening se instellings bestuur deur die Family Link-program op j
 <translation id="4608520674724523647">Illustrasie van suksesvolle inskrywing</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> het sensitiewe inhoud</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> het 'n fout ondervind</translation>
+<translation id="4610178114344604329">Wys voorstelle vir persoonlike inligting</translation>
 <translation id="4610637590575890427">Het jy bedoel om na <ph name="SITE" /> te gaan?</translation>
 <translation id="4611114513649582138">Dataverbinding beskikbaar</translation>
 <translation id="4613144866899789710">Kanselleer tans Linux-installering …</translation>
@@ -6205,6 +6206,7 @@ Hou jou sleutellêer op 'n veilige plek. Jy gaan dit nodig hê om nuwe weergawes
 <translation id="8798441408945964110">Verskaffer se naam</translation>
 <translation id="8800004011501252845">Wys tans bestemmings vir</translation>
 <translation id="8800034312320686233">Werk werf nie?</translation>
+<translation id="880069872639153240">Kry emosiekoonvoorstelle op grond van wat jy tik</translation>
 <translation id="8803953437405899238">Maak 'n nuwe oortjie met een klik oop</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Skuif oortjie na 'n ander venster toe}other{Skuif oortjies na 'n ander venster toe}}</translation>
 <translation id="8805140816472474147">Bevestig sinkroniseringinstellings om sinkronisering te begin.</translation>
@@ -6406,7 +6408,6 @@ Hou jou sleutellêer op 'n veilige plek. Jy gaan dit nodig hê om nuwe weergawes
 <translation id="9033765790910064284">Gaan in elk geval voort</translation>
 <translation id="9033857511263905942">Plak</translation>
 <translation id="9037965129289936994">Wys oorspronklike</translation>
-<translation id="903797871439633902">Dit is die laaste outomatiese sagteware- en sekuriteitopdatering vir hierdie <ph name="DEVICE_TYPE" />. Gradeer na 'n nuwer model toe op om toekomstige opdaterings te kry. &lt;a target="_blank" href="<ph name="URL" />"&gt;Kom meer te wete&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Jy het een poging oor.}other{Jy het # pogings oor.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Dateer wagwoord op vir <ph name="ORIGIN" />?</translation>

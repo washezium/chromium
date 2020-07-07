@@ -196,7 +196,6 @@
 <translation id="1235458158152011030">Tanış şəbəkələr</translation>
 <translation id="123578888592755962">Disk doludur</translation>
 <translation id="1238191093934674082">VPN-ni açın</translation>
-<translation id="1239439601391236986">Daxiletmə əsasında şəxsi məlumat təkliflərini göstərin</translation>
 <translation id="1239594683407221485">Fayllar tətbiqində cihazın kontentini kəşf edin.</translation>
 <translation id="124116460088058876">Digər dillər</translation>
 <translation id="1241753985463165747">Lazım gəldiyi zaman cari veb səhifədə olan datanı oxuyun və dəyişdirin</translation>
@@ -882,7 +881,6 @@ Cihazda Family Link tətbiqini quraşdırmaqla bu hesabın ayarlarını idarə e
 <translation id="2090165459409185032">Hesab məlumatlarını bərpa üçün getmək üçün: Google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Sistem güvənlik ayarı</translation>
 <translation id="2091887806945687916">Səs</translation>
-<translation id="2096478741073211388">Şəxsi məlumat təklifləri müəyyən sözləri yazdığınız zaman adınız, ünvanınız və ya telefon nömrənizi təklif etməklə sürətli yazmanıza yardım edir. Hesabınız üçün şəxsi təklifləri yalnız siz görürsünüz.</translation>
 <translation id="2096715839409389970">Üçüncü tərəf kukilərini təmizləyin</translation>
 <translation id="2097372108957554726">Yeni cihazları qeydiyyat etmək üçün Chrome'a daxil olmalısınız</translation>
 <translation id="2099172618127234427">Chrome OS baq ləğvini aktivləşdirirsiniz ki, sshd daemon quraşdırır və USB cihazlarından yüklənməyə imkan verir.</translation>
@@ -1368,6 +1366,7 @@ Cihazda Family Link tətbiqini quraşdırmaqla bu hesabın ayarlarını idarə e
 <translation id="2682498795777673382">Valideyninizdən yeniləmə</translation>
 <translation id="2683638487103917598">Qovluq çeşidləndi</translation>
 <translation id="2684004000387153598">Davam etmək üçün "OK" seçiminə klikləyin, sonra e-poçt ünvanında yeni profil yaratmaq üçün "Şəxs Əlavə Edin" əmrini seçin.</translation>
+<translation id="2686222346846590368">Bu, <ph name="DEVICE_TYPE" /> cihazı üçün sonuncu avtomatik proqram təminatı və təhlükəsizlik güncəlləməsidir. Növbəti güncəlləmələri əldə etmək üçün cihazı yeni modelə güncəlləşdirin. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ətraflı məlumat<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Bütün kukiləri bloklayın (tövsiyə edilmir)</translation>
 <translation id="2687407218262674387">Google xidmət şərtləri</translation>
 <translation id="2688196195245426394">Cihazı server ilə qeydiyyat edərkən xəta: <ph name="CLIENT_ERROR" />.</translation>
@@ -1390,6 +1389,7 @@ Cihazda Family Link tətbiqini quraşdırmaqla bu hesabın ayarlarını idarə e
 <translation id="2712173769900027643">İcazə istəyin</translation>
 <translation id="2713444072780614174">Ağ</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Şəxsi məlumat təklifləri adınız, ünvanınız və ya telefon nömrəniz kimi təkliflərlə daha sürətli yazmanıza yardım edir. Hesabınız üçün şəxsi təklifləri yalnız siz görürsünüz.</translation>
 <translation id="2715751256863167692">Bu güncəlləmə Chromebook'u sıfırlayır və cari istifadəçi datasını silir.</translation>
 <translation id="2716986496990888774">Bu ayar valideyn tərəfindən idarə edilir.</translation>
 <translation id="2718395828230677721">Gecə İşığı</translation>
@@ -2887,6 +2887,7 @@ Cihazda Family Link tətbiqini quraşdırmaqla bu hesabın ayarlarını idarə e
 <translation id="4608520674724523647">Qeydiyyatdan keçdiniz</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> həssas məzmun ehtiva edir</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> ilə bağlı xəta oldu</translation>
+<translation id="4610178114344604329">Şəxsi məlumat təkliflərini göstərin</translation>
 <translation id="4610637590575890427"><ph name="SITE" /> saytına keçməyi nəzərdə tuturdunuz?</translation>
 <translation id="4611114513649582138">Data bağlantısı əlçatandır</translation>
 <translation id="4613144866899789710">Linux'un quraşdırılması ləğv edilir...</translation>
@@ -6192,6 +6193,7 @@ Bu saytın blok edilməsini düşünmürəm!</translation>
 <translation id="8798441408945964110">Provayder adı</translation>
 <translation id="8800004011501252845">Üçün istiqamətlərə Göstər</translation>
 <translation id="8800034312320686233">Sayt işləmir?</translation>
+<translation id="880069872639153240">Yazdıqlarınıza əsasən emoji təklifləri alın</translation>
 <translation id="8803953437405899238">Bir klik ilə yeni tab açın</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Tabı Başqa Pəncərəyə Köçürün}other{Tabları Başqa Pəncərəyə Köçürün}}</translation>
 <translation id="8805140816472474147">Sinxronizasiyaya başlamaq üçün sinxronizasiyanı təsdiq edin.</translation>
@@ -6393,7 +6395,6 @@ Bu saytın blok edilməsini düşünmürəm!</translation>
 <translation id="9033765790910064284">Yenə də davam edin</translation>
 <translation id="9033857511263905942">&amp;Yerləşdirin</translation>
 <translation id="9037965129289936994">Orijinalı Göstərin</translation>
-<translation id="903797871439633902">Bu, <ph name="DEVICE_TYPE" /> cihazı üçün sonuncu avtomatik proqram təminatı və təhlükəsizlik güncəlləməsidir. Növbəti güncəlləmələri əldə etmək üçün cihazı yeni modelə güncəlləşdirin. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ətraflı məlumat&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Bir cəhdiniz qalıb.}other{# cəhdiniz qalıb.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571"><ph name="ORIGIN" /> üçün parol yenilənsin?</translation>

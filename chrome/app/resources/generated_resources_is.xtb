@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Þekkt netkerfi</translation>
 <translation id="123578888592755962">Diskurinn er fullur</translation>
 <translation id="1238191093934674082">Opið VPN</translation>
-<translation id="1239439601391236986">Sýna tillögur að persónuupplýsingum</translation>
 <translation id="1239594683407221485">Skoða efni tækisins í skráaforritinu.</translation>
 <translation id="124116460088058876">Fleiri tungumál</translation>
 <translation id="1241753985463165747">Lesa og breyta öllum gögnum á núverandi vefsvæði þegar þetta er virkjað</translation>
@@ -886,7 +885,6 @@ Annars skaltu skrá þig út núna svo breytingarnar á þessum reikningi taki g
 <translation id="2090165459409185032">Til að endurheimta reikningsupplýsingarnar þínar skaltu fara á: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Öryggisstilling kerfis</translation>
 <translation id="2091887806945687916">Hljóð</translation>
-<translation id="2096478741073211388">Tillögur að persónuupplýsingum hjálpa þér að skrifa hraðar með því að stinga upp á nafni þínu, heimilisfangi eða símanúmeri þegar þú slærð inn tiltekin orð. Aðeins þú sérð sérsníddu tillögurnar fyrir reikninginn þinn.</translation>
 <translation id="2096715839409389970">Hreinsa fótspor þriðju aðila</translation>
 <translation id="2097372108957554726">Þú þarft að skrá þig inn í Chrome til að skrá ný tæki.</translation>
 <translation id="2099172618127234427">Þú ert að gera villuleitareiginleika Chrome OS virka en við það verður sett upp sshd-bakgrunnsforrit og ræsing af USB-drifum gerð virk.</translation>
@@ -1373,6 +1371,7 @@ Annars skaltu skrá þig út núna svo breytingarnar á þessum reikningi taki g
 <translation id="2682498795777673382">Uppfærsla frá foreldri þínu</translation>
 <translation id="2683638487103917598">Mappa röðuð</translation>
 <translation id="2684004000387153598">Smelltu á Í lagi til að halda áfram og smelltu svo á Bæta notanda við til að búa til nýjan prófíl fyrir netfangið þitt.</translation>
+<translation id="2686222346846590368">Þetta er síðasta sjálfvirka hugbúnaðar- og öryggisuppfærslan fyrir þetta <ph name="DEVICE_TYPE" /> tæki. Uppfærðu í nýrri útgáfu til að fá frekari uppfærslur. &lt;a target="_blank" href="<ph name="URL" />"&gt;Frekari upplýsingar<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Loka á öll fótspor (ekki mælt með)</translation>
 <translation id="2687407218262674387">Þjónustuskilmálar Google</translation>
 <translation id="2688196195245426394">Villa við að skrá tækið á þjóninum: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Annars skaltu skrá þig út núna svo breytingarnar á þessum reikningi taki g
 <translation id="2712173769900027643">Biðja um leyfi</translation>
 <translation id="2713444072780614174">Hvítur</translation>
 <translation id="2714393097308983682">Google Play Store</translation>
+<translation id="2714997332747470971">Tillögur að persónuupplýsingum hjálpa þér að skrifa hraðar með því að stinga upp á nafni þínu, heimilisfangi eða símanúmeri. Aðeins þú sérð sérsníddu tillögurnar fyrir reikninginn þinn.</translation>
 <translation id="2715751256863167692">Þessi uppfærsla endurstillir Chromebook og fjarlægir núverandi notandagögn.</translation>
 <translation id="2716986496990888774">Þessari stillingu er stjórnað af foreldri.</translation>
 <translation id="2718395828230677721">Næturljós</translation>
@@ -2894,6 +2894,7 @@ Annars skaltu skrá þig út núna svo breytingarnar á þessum reikningi taki g
 <translation id="4608520674724523647">Skýringarmynd við lok skráningar</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> inniheldur viðkvæmt efni</translation>
 <translation id="4610162781778310380">Villa kom upp í <ph name="PLUGIN_NAME" /></translation>
+<translation id="4610178114344604329">Sýna tillögur að persónuupplýsingum</translation>
 <translation id="4610637590575890427">Ætlaðirðu að fara á <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Gagnatenging í boði</translation>
 <translation id="4613144866899789710">Hættir við Linux-uppsetningu...</translation>
@@ -6204,6 +6205,7 @@ Geymdu lykilskrána á öruggum stað. Þú þarft hana til að búa til nýjar 
 <translation id="8798441408945964110">Heiti veitu</translation>
 <translation id="8800004011501252845">Sýnir áfangastaði fyrir</translation>
 <translation id="8800034312320686233">Virkar vefsvæðið ekki?</translation>
+<translation id="880069872639153240">Fáðu tillögur að emoji-táknum út frá því sem þú skrifar</translation>
 <translation id="8803953437405899238">Opna nýjan flipa með einum smelli</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Færa flipa í annan glugga}one{Færa flipa í aðra glugga}other{Færa flipa í aðra glugga}}</translation>
 <translation id="8805140816472474147">Staðfestu samstillingarkosti til að hefja samstillingu.</translation>
@@ -6405,7 +6407,6 @@ Geymdu lykilskrána á öruggum stað. Þú þarft hana til að búa til nýjar 
 <translation id="9033765790910064284">Halda samt áfram</translation>
 <translation id="9033857511263905942">Líma</translation>
 <translation id="9037965129289936994">Sýna frumtexta</translation>
-<translation id="903797871439633902">Þetta er síðasta sjálfvirka hugbúnaðar- og öryggisuppfærslan fyrir þetta <ph name="DEVICE_TYPE" /> tæki. Uppfærðu í nýrri útgáfu til að fá frekari uppfærslur. &lt;a target="_blank" href="<ph name="URL" />"&gt;Frekari upplýsingar&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Þú átt eina tilraun eftir.}one{Þú átt # tilraun eftir.}other{Þú átt # tilraunir eftir.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Uppfæra aðgangsorð fyrir <ph name="ORIGIN" />?</translation>

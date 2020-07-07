@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Tunnetut verkot</translation>
 <translation id="123578888592755962">Levy on täynnä</translation>
 <translation id="1238191093934674082">Open VPN</translation>
-<translation id="1239439601391236986">Näytä henkilötietojen syöttöehdotukset</translation>
 <translation id="1239594683407221485">Tutustu laitteen sisältöön Tiedostot-sovelluksen kautta.</translation>
 <translation id="124116460088058876">Lisää kieliä</translation>
 <translation id="1241753985463165747">lukea ja muokata kaikkia avoimen verkkosivuston tietojasi kutsuttaessa</translation>
@@ -886,7 +885,6 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="2090165459409185032">Saat tilisi tiedot takaisin käyttöön osoitteessa google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Järjestelmän turva-asetus</translation>
 <translation id="2091887806945687916">Ääni</translation>
-<translation id="2096478741073211388">Henkilötietoehdotusten avulla voit kirjoittaa nopeammin, sillä ne tarjoavat nimeäsi, osoitettasi tai puhelinnumeroasi, kun kirjoitat tiettyjä sanoja. Vain sinä voit nähdä tilisi henkilökohtaiset ja personoidut ehdotukset.</translation>
 <translation id="2096715839409389970">Poista kolmannen osapuolen evästeet</translation>
 <translation id="2097372108957554726">Sinun on kirjauduttava sisään Chromeen, jos haluat rekisteröidä uusia laitteita</translation>
 <translation id="2099172618127234427">Olet ottamassa käyttöön Chrome-käyttöjärjestelmän viankorjausominaisuudet, jotka määrittävät sshd daemon -toiminnon ja ottavat käyttöön USB-muistitikulta käynnistyksen.</translation>
@@ -1373,6 +1371,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="2682498795777673382">Päivitys vanhemmalta</translation>
 <translation id="2683638487103917598">Kansio lajiteltu</translation>
 <translation id="2684004000387153598">Jos haluat jatkaa, valitse OK, Lisää henkilö ja luo sähköpostiosoitteellasi uusi profiili.</translation>
+<translation id="2686222346846590368">Tämä on viimeinen automaattinen ohjelmisto- ja tietoturvapäivitys, jonka <ph name="DEVICE_TYPE" /> saa. Vaihda uudempaan malliin, jos haluat jatkossa päivityksiä. &lt;a target="_blank" href="<ph name="URL" />"&gt;Lue lisää<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Estä kaikki evästeet (ei suositella)</translation>
 <translation id="2687407218262674387">Googlen käyttöehdot</translation>
 <translation id="2688196195245426394">Virhe rekisteröitäessä laitetta palvelimelle: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="2712173769900027643">Pyydä käyttölupaa</translation>
 <translation id="2713444072780614174">Valkoinen</translation>
 <translation id="2714393097308983682">Google Play Kauppa</translation>
+<translation id="2714997332747470971">Henkilötietoehdotusten avulla voit kirjoittaa nopeammin, sillä ne tarjoavat esimerkiksi nimeäsi, osoitettasi tai puhelinnumeroasi. Vain sinä voit nähdä tilisi henkilökohtaiset ja personoidut ehdotukset.</translation>
 <translation id="2715751256863167692">Tämä päivitys nollaa Chromebookisi ja poistaa nykyiset käyttäjätiedot.</translation>
 <translation id="2716986496990888774">Vanhempi ylläpitää tätä asetusta.</translation>
 <translation id="2718395828230677721">Yövalo</translation>
@@ -2891,6 +2891,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="4608520674724523647">Onnistuneen rekisteröinnin kuvitus</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> sisältää arkaluontoista sisältöä</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> on havainnut virheen.</translation>
+<translation id="4610178114344604329">Näytä henkilötietoehdotukset</translation>
 <translation id="4610637590575890427">Halusitko siirtyä osoitteeseen <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Datayhteys käytettävissä</translation>
 <translation id="4613144866899789710">Peruutetaan Linux-asennusta…</translation>
@@ -6203,6 +6204,7 @@ Tallenna avaintiedosto suojattuun sijaintiin. Tarvitset sitä, jos haluat luoda 
 <translation id="8798441408945964110">Palveluntarjoajan nimi</translation>
 <translation id="8800004011501252845">Näytetään kohteita sähköpostiosoitteelle</translation>
 <translation id="8800034312320686233">Eikö sivusto toimi?</translation>
+<translation id="880069872639153240">Voit saada emojiehdotuksia kirjoittamasi tekstin perusteella</translation>
 <translation id="8803953437405899238">Avaa uusi välilehti yhdellä klikkauksella.</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Siirrä välilehti toiseen ikkunaan}other{Siirrä välilehdet toiseen ikkunaan}}</translation>
 <translation id="8805140816472474147">Vahvista synkronointiasetukset, niin synkronointi voidaan aloittaa.</translation>
@@ -6404,7 +6406,6 @@ Tallenna avaintiedosto suojattuun sijaintiin. Tarvitset sitä, jos haluat luoda 
 <translation id="9033765790910064284">Jatka silti</translation>
 <translation id="9033857511263905942">&amp;Liitä</translation>
 <translation id="9037965129289936994">Näytä alkuperäinen</translation>
-<translation id="903797871439633902">Tämä on viimeinen automaattinen ohjelmisto- ja tietoturvapäivitys, jonka <ph name="DEVICE_TYPE" /> saa. Vaihda uudempaan malliin, jos haluat jatkossa päivityksiä. &lt;a target="_blank" href="<ph name="URL" />"&gt;Lue lisää&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Jäljellä on yksi yritys.}other{Jäljellä on # yritystä.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Päivitetäänkö salasana: <ph name="ORIGIN" />?</translation>

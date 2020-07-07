@@ -198,7 +198,6 @@
 <translation id="1235458158152011030">Rangkaian yang diketahui</translation>
 <translation id="123578888592755962">Cakera penuh</translation>
 <translation id="1238191093934674082">VPN Terbuka</translation>
-<translation id="1239439601391236986">Tunjukkan cadangan maklumat peribadi input</translation>
 <translation id="1239594683407221485">Teroka kandungan peranti dalam apl Fail.</translation>
 <translation id="124116460088058876">Lagi bahasa</translation>
 <translation id="1241753985463165747">Baca dan ubah semua data anda pada tapak web semasa apabila digunakan</translation>
@@ -886,7 +885,6 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="2090165459409185032">Untuk memulihkan maklumat akaun anda, pergi ke: google.com/accounts/recovery</translation>
 <translation id="2090876986345970080">Tetapan keselamatan sistem</translation>
 <translation id="2091887806945687916">Bunyi</translation>
-<translation id="2096478741073211388">Cadangan maklumat peribadi membantu anda menulis lebih cepat dengan mencadangkan nama, alamat atau nombor telefon anda apabila anda menaip beberapa perkataan tertentu. Hanya anda yang dapat melihat cadangan peribadi anda yang diperibadikan untuk akaun anda.</translation>
 <translation id="2096715839409389970">Padamkan kuki pihak ketiga</translation>
 <translation id="2097372108957554726">Anda perlu log masuk ke Chrome untuk mendaftarkan peranti baharu</translation>
 <translation id="2099172618127234427">Anda mendayakan ciri penyahpepijatan OS Chrome yang akan menetapkan daemon sshd dan mendayakan pengebutan dari pemacu USB.</translation>
@@ -1373,6 +1371,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="2682498795777673382">Kemas kini daripada ibu atau bapa anda</translation>
 <translation id="2683638487103917598">Folder diisih</translation>
 <translation id="2684004000387153598">Klik OK untuk meneruskan, kemudian klik Tambah Orang untuk membuat profil baharu untuk alamat e-mel anda.</translation>
+<translation id="2686222346846590368">Ini ialah kemas kini perisian dan keselamatan automatik yang terakhir untuk <ph name="DEVICE_TYPE" /> ini. Untuk mendapatkan kemas kini pada masa akan datang, tingkatkan kepada model yang lebih baharu. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ketahui lebih lanjut<ph name="LINK_END" /></translation>
 <translation id="2687403674020088961">Sekat semua kuki (tidak disyorkan)</translation>
 <translation id="2687407218262674387">Syarat perkhidmatan Google</translation>
 <translation id="2688196195245426394">Ralat semasa mendaftarkan peranti dengan pelayan: <ph name="CLIENT_ERROR" />.</translation>
@@ -1395,6 +1394,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="2712173769900027643">Minta kebenaran</translation>
 <translation id="2713444072780614174">Putih</translation>
 <translation id="2714393097308983682">Gedung Google Play</translation>
+<translation id="2714997332747470971">Cadangan maklumat peribadi membantu anda menulis dengan lebih cepat dengan cadangan seperti nama, alamat atau nombor telefon anda. Hanya anda yang dapat melihat cadangan peribadi anda yang diperibadikan untuk akaun anda.</translation>
 <translation id="2715751256863167692">Peningkatan ini akan menetapkan semula Chromebook anda dan mengalih keluar data pengguna semasa.</translation>
 <translation id="2716986496990888774">Tetapan ini diurus oleh ibu/bapa.</translation>
 <translation id="2718395828230677721">Cahaya Malam</translation>
@@ -2894,6 +2894,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="4608520674724523647">Ilustrasi pendaftaran berjaya</translation>
 <translation id="4608703838363792434"><ph name="FILE_NAME" /> mengandungi kandungan sensitif</translation>
 <translation id="4610162781778310380"><ph name="PLUGIN_NAME" /> telah mengalami ralat</translation>
+<translation id="4610178114344604329">Tunjukkan cadangan maklumat peribadi</translation>
 <translation id="4610637590575890427">Adakah anda maksudkan pergi ke <ph name="SITE" />?</translation>
 <translation id="4611114513649582138">Sambungan data tersedia</translation>
 <translation id="4613144866899789710">Membatalkan pemasangan Linux...</translation>
@@ -6206,6 +6207,7 @@ perubahan ini berlaku, anda mungkin tidak mahukannya.</translation>
 <translation id="8798441408945964110">Nama penyedia</translation>
 <translation id="8800004011501252845">Menunjukkan destinasi untuk</translation>
 <translation id="8800034312320686233">Tapak tidak berfungsi?</translation>
+<translation id="880069872639153240">Dapatkan cadangan emoji berdasarkan teks yang anda taip</translation>
 <translation id="8803953437405899238">Buka tab baharu dengan satu klik</translation>
 <translation id="8804999695258552249">{NUM_TABS,plural, =1{Alihkan Tab ke Tetingkap Lain}other{Alihkan Tab ke Tetingkap Lain}}</translation>
 <translation id="8805140816472474147">Sahkan tetapan penyegerakan untuk memulakan penyegerakan.</translation>
@@ -6407,7 +6409,6 @@ perubahan ini berlaku, anda mungkin tidak mahukannya.</translation>
 <translation id="9033765790910064284">Teruskan juga</translation>
 <translation id="9033857511263905942">&amp;Tampal</translation>
 <translation id="9037965129289936994">Tunjukkan Yang Asal</translation>
-<translation id="903797871439633902">Ini ialah kemas kini perisian dan keselamatan yang terakhir untuk <ph name="DEVICE_TYPE" /> ini. Untuk mendapatkan kemas kini pada masa akan datang, tingkatkan kepada model yang lebih baharu. &lt;a target="_blank" href="<ph name="URL" />"&gt;Ketahui lebih lanjut&lt;/a&gt;</translation>
 <translation id="9039014462651733343">{NUM_ATTEMPTS,plural, =1{Anda mempunyai satu percubaan lagi.}other{Anda mempunyai # percubaan lagi.}}</translation>
 <translation id="9039663905644212491">PEAP</translation>
 <translation id="9040661932550800571">Kemas kini kata laluan untuk <ph name="ORIGIN" />?</translation>

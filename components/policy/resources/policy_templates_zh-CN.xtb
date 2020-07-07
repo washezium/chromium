@@ -126,7 +126,7 @@
       如果您设置了此政策，用户便无法更改它。如果您未设置此政策，高对比度模式会处于关闭状态，但用户可随时开启它。</translation>
 <translation id="1197437816436565375">您无法强制 Android 应用使用代理。一小部分代理设置已可供 Android 应用使用，此类应用可能会主动选择使用这些设置。有关详情，请参阅 <ph name="PROXY_MODE_POLICY_NAME" /> 政策。</translation>
 <translation id="1198183996903759302">如果此政策设为 True（或者 <ph name="HARDWARE_ACCELERATION_MODE_ENABLED_POLICY_NAME" /> 设为 False），网页会无法访问 WebGL API，而且插件会无法使用 Pepper 3D API。
-      如果此政策设为 False 或未设置，网页会使用 WebGL API，而且插件会使用 Pepper 3D API，但浏览器的默认设置可能仍然需要传递命令行参数才能使用这些 API。</translation>
+      如果此政策设为 False 或未设置，网页可以使用 WebGL API，而且插件可以使用 Pepper 3D API，但浏览器的默认设置可能仍然要求在使用这些 API 前先传递命令行参数。</translation>
 <translation id="1198465924256827162">发送设备状态上传内容的频率（以毫秒为单位）。
 
       如果此政策未设置，默认频率为 3 小时。允许的最低频率为 60 秒。</translation>
@@ -378,7 +378,7 @@
 
       如果此政策未设置（或设为 True），系统将会发送下载的文件以供安全浏览功能进行分析，即使来源可信也是如此。
 
-      请注意，这些限制适用于从网页内容以及“下载链接…”上下文菜单选项触发的下载内容，但不适用于保存/下载当前显示的页面，也不适用于通过打印选项另存为 PDF 文件。
+      请注意，这些限制适用于从网页内容以及“下载链接…”上下文菜单选项触发的下载，但不适用于保存/下载当前显示的页面，也不适用于通过打印选项另存为 PDF 文件。
 
       此政策仅适用于已加入 <ph name="MS_AD_NAME" /> 网域的 Windows 实例，或者已注册设备管理服务的 Windows 10 专业版或企业版实例，以及通过 MDM 进行管理或通过 MCX 加入网域的 macOS 实例。</translation>
 <translation id="1700811900332333712">允许设备请求 Powerwash</translation>
@@ -494,7 +494,7 @@
 
       如果此政策设为 False 或未设置，<ph name="PRODUCT_NAME" /> 不会在 <ph name="PRODUCT_NAME" /> 19 和更高版本中执行在线撤消检查。
 
-      请注意：<ph name="OCSP_CRL_LABEL" /> 检查并不会有助于增强安全性。</translation>
+      请注意：<ph name="OCSP_CRL_LABEL" /> 检查并不能有效增强安全性。</translation>
 <translation id="1906888171268104594">控制是否要将使用情况指标和诊断数据（包括崩溃报告）反馈给 Google。
 
       如果此政策设为 true，<ph name="PRODUCT_OS_NAME" />将会报告使用情况指标和诊断数据。
@@ -1285,7 +1285,7 @@
       如果未设置此政策，系统将会默认使用 <ph name="PRINTERS_ALLOW_ALL" />。
       </translation>
 <translation id="2908277604670530363">可同时连接到代理服务器的连接数上限</translation>
-<translation id="2921222258441684334">如果此政策设为 1，系统会默认允许网站跟踪用户的实际位置。如果此政策设为 2，系统会默认禁止此类跟踪。您可通过设置此政策，让网站每当想跟踪用户的实际位置时都先询问用户的意见。
+<translation id="2921222258441684334">如果此政策设为 1，系统会默认允许网站跟踪用户的实际位置。如果此政策设为 2，系统会默认禁止此类跟踪。您可通过设置此政策，让网站在每次想要跟踪用户的实际位置时都先询问用户的意见。
 
       如果此政策未设置，则意味着 <ph name="ASK_GEOLOCATION_POLICY_NAME" /> 政策适用，但用户可以更改此设置。</translation>
 <translation id="2952347049958405264">限制：</translation>
@@ -2230,7 +2230,7 @@
 
       如果您不设置此政策，系统会为所有网站使用 <ph name="DEFAULT_COOKIES_SETTINGS_POLICY_NAME" />（若已设置）。否则，系统会应用用户的个人设置。
 
-      虽然不涉及应优先执行哪项政策，请也查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_SESSION_ONLY_FOR_URLS_POLICY_NAME" />。这 3 项政策中的网址格式不得存在冲突。
+      请另外查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_SESSION_ONLY_FOR_URLS_POLICY_NAME" />（这三项政策并无优先级差异）。这 3 项政策中的网址格式不得存在冲突。
 
       如需详细了解有效的 <ph name="URL_LABEL" /> 格式，请访问 https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns。</translation>
 <translation id="4243336580717651045">对 <ph name="PRODUCT_NAME" /> 启用以网址为键的匿名化数据收集功能，并阻止用户更改此设置。
@@ -3297,11 +3297,11 @@
           如果您已停用或未配置此设置，那么系统将不会经由代理处理gnubby身份验证请求。</translation>
 <translation id="5893688850352887219">允许使用默认的搜索服务提供商。
 
-          如果您启用了此设置，当用户在多功能框中输入的内容不是网址时，系统将会执行默认搜索。
+          如果您启用了此设置，当用户在多功能框中输入不是网址的文字时，系统将会执行默认搜索。
 
           您可以通过设置其余的默认搜索政策来指定要使用的默认搜索服务提供商。如果您不设置这些政策，用户便可自行选择默认提供商。
 
-          如果您停用了此设置，当用户在多功能框中输入的内容不是网址时，系统将不会执行任何搜索。
+          如果您停用了此设置，当用户在多功能框中输入不是网址的文字时，系统将不会执行任何搜索。
 
           如果您启用或停用了此设置，用户将无法在 <ph name="PRODUCT_NAME" /> 中更改或覆盖此设置。
 
@@ -3342,7 +3342,7 @@
 <translation id="5961137303188584693">设备的内置 NIC MAC 地址</translation>
 <translation id="5966615072639944554">允许扩展程序使用 Remote Attestation API</translation>
 <translation id="5983708779415553259">非任何内容包内的网站的默认行为</translation>
-<translation id="599133751116473806">启用后，<ph name="PRODUCT_NAME" /> 功能会发送精细的请求标头，从中提供关于用户浏览器和环境的信息。
+<translation id="599133751116473806">启用后，<ph name="PRODUCT_NAME" /> 功能会发送精细的请求标头，在其中提供关于用户浏览器和环境的信息。
 
       这是一项附加功能，但如果某些网站限制了请求中可包含的字符，新标头可能会导致这些网站无法正常运作。
 
@@ -4068,7 +4068,7 @@
 
       如果 <ph name="PRODUCT_NAME" /> 是以“后台模式”运行，会话可能会保持进行中的状态，直到用户退出浏览器（而不仅仅是关闭最后一个窗口）。若要详细了解如何配置此行为，请参阅 <ph name="BACKGROUND_MODE_ENABLED_POLICY_NAME" />。
 
-      虽然不涉及应优先执行哪项政策，请也查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_ALLOWED_FOR_URLS_POLICY_NAME" />。这 3 项政策中的网址格式不得存在冲突。
+      请另外查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_ALLOWED_FOR_URLS_POLICY_NAME" />（这三项政策并无优先级差异）。这 3 项政策中的网址格式不得存在冲突。
 
       如需详细了解有效的 <ph name="URL_LABEL" /> 格式，请访问 https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns。</translation>
 <translation id="7173856672248996428">临时个人资料</translation>
@@ -4419,7 +4419,7 @@
 <translation id="7724161903134898864">如果此政策设为 1，系统会允许网站显示弹出式窗口。如果此政策设为 2，系统会禁止网站显示弹出式窗口。
 
       如果此政策未设置，则意味着 <ph name="BLOCK_POPUPS_POLICY_NAME" /> 政策适用，但用户可以更改此设置。</translation>
-<translation id="7724592140967451156">如果此政策设为 True，系统会阻止并非来自浏览器地址栏所含网域的网页元素设置 Cookie。如果此政策设为 False，系统会允许这些元素设置 Cookie，并阻止用户更改此设置。
+<translation id="7724592140967451156">如果此政策设为 True，系统会阻止来自浏览器地址栏中的网域之外的网页元素设置 Cookie。如果此政策设为 False，系统会允许这些元素设置 Cookie，并阻止用户更改此设置。
 
       如果此政策未设置，系统会启用第三方 Cookie，但用户可以更改此设置。</translation>
 <translation id="7724652568947700864">如果设置了此政策，所有指定的数据类型都会从同步操作（无论是 Google 同步还是漫游个人资料同步）中排除。这有助于缩减漫游个人资料的大小或限制向 Google 同步服务器上传的数据类型。
@@ -4514,7 +4514,7 @@
 
       如果 <ph name="PRODUCT_NAME" /> 是以“后台模式”运行，会话可能会保持进行中的状态，直到用户退出浏览器（而不仅仅是关闭最后一个窗口）。若要详细了解如何配置此行为，请参阅 <ph name="BACKGROUND_MODE_ENABLED_POLICY_NAME" />。
 
-      虽然不涉及应优先执行哪项政策，请也查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_ALLOWED_FOR_URLS_POLICY_NAME" />。这 3 项政策中的网址格式不得存在冲突。</translation>
+      请另外查看一下 <ph name="COOKIES_BLOCKED_FOR_URLS_POLICY_NAME" /> 和 <ph name="COOKIES_ALLOWED_FOR_URLS_POLICY_NAME" />（这三项政策并无优先级差异）。这 3 项政策中的网址格式不得存在冲突。</translation>
 <translation id="7889788745439330797">控制用户是否可以添加 Kerberos 帐号。
 
           如果启用了或未设置此政策，则用户可以通过“用户设置”页面的“Kerberos 帐号”设置添加 Kerberos 帐号。用户对自己添加的帐号拥有完全控制权，可以修改或移除这些帐号。
@@ -4647,8 +4647,8 @@
 <translation id="8101381354936029836">政策原子组：</translation>
 <translation id="8101937907822293485">允许向 Google 报告与 <ph name="PRODUCT_NAME" /> 的使用情况和崩溃情况相关的匿名数据，并禁止用户更改此设置。
 
-      如果您启用了此设置，系统将会向 Google 发送与该浏览器的使用情况和崩溃情况相关的匿名数据报告。如果您停用了此设置，系统将不会向 Google 发送此类信息。无论您是启用了还是停用了此设置，用户都无法更改或覆盖它。
-      如果此政策未设置，系统将会采用用户在安装/首次运行该浏览器时选择的设置。
+      如果您启用了此设置，系统将会向 Google 发送与使用情况和崩溃情况相关的匿名数据报告。如果您停用了此设置，系统将不会向 Google 发送此类信息。无论您是启用还是停用此设置，用户都无法更改或覆盖它。
+      如果此政策未设置，系统将会采用用户在安装/首次运行时选择的设置。
 
       此政策仅适用于已加入 <ph name="MS_AD_NAME" /> 网域的 Windows 实例，或者已注册设备管理服务的 Windows 10 专业版或企业版实例，以及通过 MDM 进行管理或通过 MCX 加入网域的 macOS 实例。
 
