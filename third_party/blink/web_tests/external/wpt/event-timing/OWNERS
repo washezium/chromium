@@ -1,4 +1,4 @@
 # TEAM: speed-metrics-dev@chromium.org
-# COMPONENT: Blink>PageLifecycle
+# COMPONENT: Blink>PerformanceAPIs
 # WPT-NOTIFY: true
-panicker@chromium.org
+npm@chromium.org
