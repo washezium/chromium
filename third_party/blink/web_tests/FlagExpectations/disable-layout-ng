@@ -431,9 +431,6 @@ virtual/controls-refresh/* [ Skip ]
 ### virtual/controls-refresh-hc/
 virtual/controls-refresh-hc/* [ Skip ]
 
-### virtual/form-controls-refresh-disabled/
-virtual/form-controls-refresh-disabled/* [ Skip ]
-
 ### virtual/layout_ng_block_frag/
 virtual/layout_ng_block_frag/* [ Skip ]
 
