@@ -34,8 +34,10 @@ bool AccessContextAuditService::Init(
 
   if (!database_task_runner_->PostTask(
           FROM_HERE,
-          base::BindOnce(&AccessContextAuditDatabase::Init, database_)))
+          base::BindOnce(&AccessContextAuditDatabase::Init, database_,
+                         profile_->ShouldRestoreOldSessionCookies()))) {
     return false;
+  }
 
   cookie_manager->AddGlobalChangeListener(
       cookie_listener_receiver_.BindNewPipeAndPassRemote());
@@ -49,14 +51,14 @@ void AccessContextAuditService::RecordCookieAccess(
   auto now = base::Time::Now();
   std::vector<AccessContextAuditDatabase::AccessRecord> access_records;
   for (const auto& cookie : accessed_cookies) {
-    // Do not record access for already expired or non-persistent cookies. This
-    // is more than an optimisation, deletion events will not be fired for them.
-    if (cookie.ExpiryDate() < now || !cookie.IsPersistent())
+    // Do not record accesses to already expired cookies. This service is
+    // informed of deletion via OnCookieChange.
+    if (cookie.ExpiryDate() < now && cookie.IsPersistent())
       continue;
 
     access_records.emplace_back(top_frame_origin, cookie.Name(),
                                 cookie.Domain(), cookie.Path(),
-                                cookie.LastAccessDate());
+                                cookie.LastAccessDate(), cookie.IsPersistent());
   }
   database_task_runner_->PostTask(
       FROM_HERE, base::BindOnce(&AccessContextAuditDatabase::AddRecords,

@@ -24,28 +24,43 @@
 
 namespace {
 
-// Checks that info in |record| matches both |cookie| and |top_frame_origin|.
-void CheckCookieMatchesRecord(
+// Checks that a record exists in |records| that matches both |cookie| and
+// |top_frame_origin|.
+void CheckContainsCookieRecord(
     net::CanonicalCookie* cookie,
     GURL top_frame_origin,
-    const AccessContextAuditDatabase::AccessRecord& record) {
-  EXPECT_EQ(top_frame_origin.GetOrigin(), record.top_frame_origin);
-  EXPECT_EQ(AccessContextAuditDatabase::StorageAPIType::kCookie, record.type);
-  EXPECT_EQ(cookie->Name(), record.name);
-  EXPECT_EQ(cookie->Domain(), record.domain);
-  EXPECT_EQ(cookie->Path(), record.path);
+    const std::vector<AccessContextAuditDatabase::AccessRecord>& records) {
+  EXPECT_NE(
+      std::find_if(
+          records.begin(), records.end(),
+          [=](const AccessContextAuditDatabase::AccessRecord& record) {
+            return record.type ==
+                       AccessContextAuditDatabase::StorageAPIType::kCookie &&
+                   record.top_frame_origin == top_frame_origin &&
+                   record.name == cookie->Name() &&
+                   record.domain == cookie->Domain() &&
+                   record.path == cookie->Path() &&
+                   record.last_access_time == cookie->LastAccessDate() &&
+                   record.is_persistent == cookie->IsPersistent();
+          }),
+      records.end());
 }
 
 // Checks that info in |record| matches storage API access defined by
 // |storage_origin|, |type| and |top_frame_origin|
-void CheckStorageAPIMatchesRecord(
+void CheckContainsStorageAPIRecord(
     GURL storage_origin,
     AccessContextAuditDatabase::StorageAPIType type,
     GURL top_frame_origin,
-    const AccessContextAuditDatabase::AccessRecord& record) {
-  EXPECT_EQ(top_frame_origin.GetOrigin(), record.top_frame_origin);
-  EXPECT_EQ(type, record.type);
-  EXPECT_EQ(storage_origin, record.origin);
+    const std::vector<AccessContextAuditDatabase::AccessRecord>& records) {
+  EXPECT_NE(
+      std::find_if(records.begin(), records.end(),
+                   [=](const AccessContextAuditDatabase::AccessRecord& record) {
+                     return record.type == type &&
+                            record.origin == storage_origin &&
+                            record.top_frame_origin == top_frame_origin;
+                   }),
+      records.end());
 }
 
 }  // namespace
@@ -134,42 +149,80 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   // Check that cookie access records are successfully stored and deleted.
   GURL kTestCookieURL("https://example.com");
   std::string kTestCookieName = "test";
-  auto test_cookie = net::CanonicalCookie::Create(
-      kTestCookieURL, kTestCookieName + "=1; max-age=3600", base::Time::Now(),
-      base::nullopt /* server_time */);
-  // Record access to this cookie against a URL.
-  GURL kTopFrameURL("https://test.com");
-  service()->RecordCookieAccess({*test_cookie}, kTopFrameURL);
+  std::string kTestNonPersistentCookieName = "test-non-persistent";
+  base::Time initial_cookie_access_time = base::Time::Now();
 
-  // Ensure that the record of this access is correctly returned.
+  auto test_cookie = net::CanonicalCookie::Create(
+      kTestCookieURL, kTestCookieName + "=1; max-age=3600",
+      initial_cookie_access_time, base::nullopt /* server_time */);
+  auto test_non_persistent_cookie = net::CanonicalCookie::Create(
+      kTestCookieURL, kTestNonPersistentCookieName + "=1",
+      initial_cookie_access_time, base::nullopt /* server_time */);
+  // Record access to these cookies against a URL.
+  GURL kTopFrameURL("https://test.com");
+  service()->RecordCookieAccess({*test_cookie, *test_non_persistent_cookie},
+                                kTopFrameURL);
+
+  // Ensure that the record of these accesses is correctly returned.
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
                      base::Unretained(this)));
   browser_task_environment_.RunUntilIdle();
 
-  EXPECT_EQ(1u, GetReturnedRecords().size());
-  CheckCookieMatchesRecord(test_cookie.get(), kTopFrameURL,
-                           GetReturnedRecords()[0]);
+  EXPECT_EQ(2u, GetReturnedRecords().size());
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
 
-  // Check that informing the service of access to the cookie is a no-op.
+  // Check that informing the service of non-deletion changes to the cookies
+  // via the CookieChangeInterface is a no-op.
   service()->OnCookieChange(
       net::CookieChangeInfo(*test_cookie, net::CookieAccessSemantics::UNKNOWN,
                             net::CookieChangeCause::OVERWRITE));
+  service()->OnCookieChange(net::CookieChangeInfo(
+      *test_non_persistent_cookie, net::CookieAccessSemantics::UNKNOWN,
+      net::CookieChangeCause::OVERWRITE));
+
+  service()->GetAllAccessRecords(
+      base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
+                     base::Unretained(this)));
+  browser_task_environment_.RunUntilIdle();
+
+  EXPECT_EQ(2u, GetReturnedRecords().size());
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
+
+  // Check that a repeated access correctly updates associated timestamp.
+  base::Time repeat_cookie_access_time =
+      initial_cookie_access_time + base::TimeDelta::FromHours(2);
+  test_cookie->SetLastAccessDate(repeat_cookie_access_time);
+  test_non_persistent_cookie->SetLastAccessDate(repeat_cookie_access_time);
+  service()->RecordCookieAccess({*test_cookie, *test_non_persistent_cookie},
+                                kTopFrameURL);
+
   ClearReturnedRecords();
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
                      base::Unretained(this)));
   browser_task_environment_.RunUntilIdle();
 
-  EXPECT_EQ(1u, GetReturnedRecords().size());
-  CheckCookieMatchesRecord(test_cookie.get(), kTopFrameURL,
-                           GetReturnedRecords()[0]);
+  EXPECT_EQ(2u, GetReturnedRecords().size());
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+                            GetReturnedRecords());
 
-  // Inform the service the cookie has been deleted and check it is no longer
-  // returned.
+  // Inform the service the cookies have been deleted and check they are no
+  // longer returned.
   service()->OnCookieChange(
       net::CookieChangeInfo(*test_cookie, net::CookieAccessSemantics::UNKNOWN,
                             net::CookieChangeCause::EXPLICIT));
+  service()->OnCookieChange(net::CookieChangeInfo(
+      *test_non_persistent_cookie, net::CookieAccessSemantics::UNKNOWN,
+      net::CookieChangeCause::EXPLICIT));
   ClearReturnedRecords();
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
@@ -179,18 +232,14 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   EXPECT_EQ(0u, GetReturnedRecords().size());
 }
 
-TEST_F(AccessContextAuditServiceTest, ExpiredNonPersistentCookies) {
-  // Check that no accesses are recorded for cookies which have already expired,
-  // or which are set as non-persistent.
+TEST_F(AccessContextAuditServiceTest, ExpiredCookies) {
+  // Check that no accesses are recorded for cookies which have already expired.
   const GURL kTestURL("https://test.com");
   auto test_cookie_expired = net::CanonicalCookie::Create(
       kTestURL, "test_1=1; expires=Thu, 01 Jan 1970 00:00:00 GMT",
       base::Time::Now(), base::nullopt /* server_time */);
-  auto test_cookie_non_persistent = net::CanonicalCookie::Create(
-      kTestURL, "test_2=2", base::Time::Now(), base::nullopt /* server_time */);
 
-  service()->RecordCookieAccess(
-      {*test_cookie_expired, *test_cookie_non_persistent}, kTestURL);
+  service()->RecordCookieAccess({*test_cookie_expired}, kTestURL);
 
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
@@ -203,37 +252,55 @@ TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {
   // Check that data for cookie domains and storage origins are cleared on
   // service shutdown when the associated content settings indicate they should.
   const GURL kTestPersistentURL("https://persistent.com");
-  const GURL kTestSessionOnlyURL("https://session-only.com");
+  const GURL kTestSessionOnlyExplicitURL("https://explicit-session-only.com");
+  const GURL kTestSessionOnlyContentSettingURL("https://content-setting.com");
   const GURL kTopFrameURL("https://test.com");
-
   std::string kTestCookieName = "test";
+  const auto kTestStorageType =
+      AccessContextAuditDatabase::StorageAPIType::kWebDatabase;
+
+  // Create a cookie that will persist after shutdown.
   auto test_cookie_persistent = net::CanonicalCookie::Create(
       kTestPersistentURL, kTestCookieName + "=1; max-age=3600",
       base::Time::Now(), base::nullopt /* server_time */);
-  auto test_cookie_session_only = net::CanonicalCookie::Create(
-      kTestSessionOnlyURL, kTestCookieName + "=1; max-age=3600",
-      base::Time::Now(), base::nullopt /* server_time */);
-  service()->RecordCookieAccess(
-      {*test_cookie_persistent, *test_cookie_session_only}, kTopFrameURL);
 
-  const auto kTestStorageType =
-      AccessContextAuditDatabase::StorageAPIType::kWebDatabase;
+  // Create a cookie that will persist (be cleared on next startup) because it
+  // is explicitly session only.
+  auto test_cookie_session_only_explicit = net::CanonicalCookie::Create(
+      kTestSessionOnlyExplicitURL, kTestCookieName + "=1", base::Time::Now(),
+      base::nullopt /* server_time */);
+
+  // Create a cookie that will be cleared because the content setting associated
+  // with the cookie domain is set to session only.
+  auto test_cookie_session_only_content_setting = net::CanonicalCookie::Create(
+      kTestSessionOnlyContentSettingURL, kTestCookieName + "=1; max-age=3600",
+      base::Time::Now(), base::nullopt /* server_time */);
+
+  service()->RecordCookieAccess(
+      {*test_cookie_persistent, *test_cookie_session_only_explicit,
+       *test_cookie_session_only_content_setting},
+      kTopFrameURL);
+
+  // Record storage APIs for both persistent and content setting based session
+  // only URLs.
   service()->RecordStorageAPIAccess(kTestPersistentURL, kTestStorageType,
                                     kTopFrameURL);
-  service()->RecordStorageAPIAccess(kTestSessionOnlyURL, kTestStorageType,
-                                    kTopFrameURL);
+  service()->RecordStorageAPIAccess(kTestSessionOnlyContentSettingURL,
+                                    kTestStorageType, kTopFrameURL);
 
+  // Ensure all records have been initially recorded.
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
                      base::Unretained(this)));
   browser_task_environment_.RunUntilIdle();
-  EXPECT_EQ(4u, GetReturnedRecords().size());
+  EXPECT_EQ(5u, GetReturnedRecords().size());
 
   // Apply Session Only exception.
   HostContentSettingsMapFactory::GetForProfile(profile())
       ->SetContentSettingDefaultScope(
-          kTestSessionOnlyURL, GURL(), ContentSettingsType::COOKIES,
-          std::string(), ContentSetting::CONTENT_SETTING_SESSION_ONLY);
+          kTestSessionOnlyContentSettingURL, GURL(),
+          ContentSettingsType::COOKIES, std::string(),
+          ContentSetting::CONTENT_SETTING_SESSION_ONLY);
 
   // Instruct service to clear session only records and check that they are
   // correctly removed.
@@ -245,18 +312,11 @@ TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {
                      base::Unretained(this)));
   browser_task_environment_.RunUntilIdle();
 
-  // No guarantee is made on the order of returned records, sort them based on
-  // type to simplify checking the expected records are present.
-  auto records = GetReturnedRecords();
-  std::sort(records.begin(), records.end(),
-            [](const AccessContextAuditDatabase::AccessRecord& a,
-               const AccessContextAuditDatabase::AccessRecord& b) {
-              return static_cast<int>(a.type) < static_cast<int>(b.type);
-            });
-
-  ASSERT_EQ(2u, GetReturnedRecords().size());
-  CheckCookieMatchesRecord(test_cookie_persistent.get(), kTopFrameURL,
-                           records[0]);
-  CheckStorageAPIMatchesRecord(kTestPersistentURL, kTestStorageType,
-                               kTopFrameURL, records[1]);
+  ASSERT_EQ(3u, GetReturnedRecords().size());
+  CheckContainsCookieRecord(test_cookie_persistent.get(), kTopFrameURL,
+                            GetReturnedRecords());
+  CheckContainsCookieRecord(test_cookie_session_only_explicit.get(),
+                            kTopFrameURL, GetReturnedRecords());
+  CheckContainsStorageAPIRecord(kTestPersistentURL, kTestStorageType,
+                                kTopFrameURL, GetReturnedRecords());
 }

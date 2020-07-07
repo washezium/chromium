@@ -11,6 +11,7 @@
 #include "net/cookies/canonical_cookie.h"
 #include "sql/database.h"
 #include "sql/init_status.h"
+#include "sql/meta_table.h"
 #include "sql/test/test_helpers.h"
 #include "url/gurl.h"
 
@@ -41,13 +42,16 @@ class AccessContextAuditDatabase
                  const std::string& name,
                  const std::string& domain,
                  const std::string& path,
-                 const base::Time& last_access_time);
+                 const base::Time& last_access_time,
+                 bool is_persistent);
     AccessRecord(const GURL& top_frame_origin,
                  const StorageAPIType& type,
                  const GURL& origin,
                  const base::Time& last_access_time);
-    AccessRecord(const AccessRecord& other);
     ~AccessRecord();
+    AccessRecord(const AccessRecord& other);
+    AccessRecord& operator=(const AccessRecord& other);
+
     GURL top_frame_origin;
     StorageAPIType type;
 
@@ -60,13 +64,17 @@ class AccessContextAuditDatabase
     GURL origin;
 
     base::Time last_access_time;
+
+    // When |type| is kCookie, indicates the record will be cleared on startup
+    // unless the database is started with restore_non_persistent_cookies.
+    bool is_persistent;
   };
 
   explicit AccessContextAuditDatabase(
       const base::FilePath& path_to_database_dir);
 
   // Initialises internal database. Must be called prior to any other usage.
-  void Init();
+  void Init(bool restore_non_persistent_cookies);
 
   // Persists the provided list of |records| in the database.
   void AddRecords(const std::vector<AccessRecord>& records);
@@ -100,6 +108,7 @@ class AccessContextAuditDatabase
   bool InitializeSchema();
 
   sql::Database db_;
+  sql::MetaTable meta_table_;
   base::FilePath db_file_path_;
 };
 
