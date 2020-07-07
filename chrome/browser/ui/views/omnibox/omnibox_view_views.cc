@@ -1292,6 +1292,10 @@ bool OmniboxViewViews::OnMousePressed(const ui::MouseEvent& event) {
 
   bool handled = views::Textfield::OnMousePressed(event);
 
+  // Reset next double click length
+  if (event.GetClickCount() == 1)
+    next_double_click_selection_len_ = 0;
+
   if (!select_all_on_mouse_release_) {
     if (UnapplySteadyStateElisions(UnelisionGesture::OTHER)) {
       // This ensures that when the user makes a double-click partial select, we
@@ -1299,7 +1303,7 @@ bool OmniboxViewViews::OnMousePressed(const ui::MouseEvent& event) {
       // selection, which is on mousedown.
       TextChanged();
       filter_drag_events_for_unelision_ = true;
-    } else if (event.GetClickCount() == 1) {
+    } else if (event.GetClickCount() == 1 && event.IsLeftMouseButton()) {
       // Select the current word and record it for later. Selection will be
       // immediately reset to cursor position, so no need to clean up. This is
       // done to handle an edge case where the wrong word is selected on a
@@ -1318,11 +1322,8 @@ bool OmniboxViewViews::OnMousePressed(const ui::MouseEvent& event) {
           next_double_click_selection_offset_ =
               offset + GetCursorPosition() - next_double_click_selection_len_;
         }
-      } else {
-        // Clear length so we don't try to use it again on later double clicks.
-        next_double_click_selection_len_ = 0;
       }
-    } else if (event.GetClickCount() == 2) {
+    } else if (event.GetClickCount() == 2 && event.IsLeftMouseButton()) {
       // If the user double clicked and we unelided between the first and second
       // click, offset double click.
       if (next_double_click_selection_len_ != 0) {

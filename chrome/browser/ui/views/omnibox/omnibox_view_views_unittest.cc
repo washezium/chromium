@@ -254,9 +254,11 @@ class OmniboxViewViewsTest : public OmniboxViewViewsTestBase {
     return test_api_->GetRenderText()->cursor_enabled();
   }
 
-  ui::MouseEvent CreateMouseEvent(ui::EventType type, const gfx::Point& point) {
+  ui::MouseEvent CreateMouseEvent(ui::EventType type,
+                                  const gfx::Point& point,
+                                  int event_flags = ui::EF_LEFT_MOUSE_BUTTON) {
     return ui::MouseEvent(type, point, point, ui::EventTimeForNow(),
-                          ui::EF_LEFT_MOUSE_BUTTON, ui::EF_LEFT_MOUSE_BUTTON);
+                          event_flags, event_flags);
   }
 
  protected:
@@ -919,11 +921,15 @@ class OmniboxViewViewsSteadyStateElisionsTest : public OmniboxViewViewsTest {
 
   // Sends a mouse down and mouse up event at a point
   // beginning of the RenderText.
-  void SendMouseClickAtPoint(gfx::Point point, int click_count) {
-    auto mouse_pressed = CreateMouseEvent(ui::ET_MOUSE_PRESSED, point);
+  void SendMouseClickAtPoint(gfx::Point point,
+                             int click_count,
+                             int event_flags = ui::EF_LEFT_MOUSE_BUTTON) {
+    auto mouse_pressed =
+        CreateMouseEvent(ui::ET_MOUSE_PRESSED, point, event_flags);
     mouse_pressed.SetClickCount(click_count);
     omnibox_textfield()->OnMousePressed(mouse_pressed);
-    auto mouse_released = CreateMouseEvent(ui::ET_MOUSE_RELEASED, point);
+    auto mouse_released =
+        CreateMouseEvent(ui::ET_MOUSE_RELEASED, point, event_flags);
     mouse_released.SetClickCount(click_count);
     omnibox_textfield()->OnMouseReleased(mouse_released);
   }
@@ -1119,6 +1125,27 @@ TEST_F(OmniboxViewViewsSteadyStateElisionsTest, MouseSingleThenDoubleClick) {
   omnibox_view()->GetSelectionBounds(&start, &end);
   EXPECT_EQ(12U, start);
   EXPECT_EQ(19U, end);
+}
+
+TEST_F(OmniboxViewViewsSteadyStateElisionsTest, MouseSingleThenRightClick) {
+  EXPECT_TRUE(IsElidedUrlDisplayed());
+  auto point = GetPointInTextAtXOffset(4 * kCharacterWidth);
+  SendMouseClickAtPoint(point, 1);
+  EXPECT_TRUE(IsElidedUrlDisplayed());
+  EXPECT_EQ(base::ASCIIToUTF16("example.com"), omnibox_view()->GetText());
+
+  // Verify that the whole full URL is selected.
+  EXPECT_TRUE(omnibox_view()->IsSelectAll());
+
+  // Advance the clock 5 seconds so the next click is not interpreted as a
+  // double click.
+  clock()->Advance(base::TimeDelta::FromSeconds(5));
+
+  // Right click
+  SendMouseClickAtPoint(point, 1, ui::EF_RIGHT_MOUSE_BUTTON);
+  EXPECT_TRUE(IsElidedUrlDisplayed());
+  EXPECT_TRUE(omnibox_view()->IsSelectAll());
+  EXPECT_TRUE(omnibox_view()->HasFocus());
 }
 
 TEST_F(OmniboxViewViewsSteadyStateElisionsTest, MouseTripleClick) {
