@@ -54,34 +54,37 @@ class ShillPropertyObserver : public ShillPropertyChangedObserver {
   typedef base::Callback<void(ManagedState::ManagedType type,
                               const std::string& service,
                               const std::string& name,
-                              const base::Value& value)> Handler;
+                              const base::Value& value)>
+      Handler;
 
   ShillPropertyObserver(ManagedState::ManagedType type,
                         const std::string& path,
                         const Handler& handler)
       : type_(type), path_(path), handler_(handler) {
-    if (type_ == ManagedState::MANAGED_TYPE_NETWORK) {
-      DVLOG(2) << "ShillPropertyObserver: Network: " << path;
-      ShillServiceClient::Get()->AddPropertyChangedObserver(
-          dbus::ObjectPath(path_), this);
-    } else if (type_ == ManagedState::MANAGED_TYPE_DEVICE) {
-      DVLOG(2) << "ShillPropertyObserver: Device: " << path;
-      ShillDeviceClient::Get()->AddPropertyChangedObserver(
-          dbus::ObjectPath(path_), this);
-    } else {
-      NOTREACHED();
+    switch (type_) {
+      case ManagedState::MANAGED_TYPE_NETWORK:
+        DVLOG(2) << "ShillPropertyObserver: Network: " << path;
+        ShillServiceClient::Get()->AddPropertyChangedObserver(
+            dbus::ObjectPath(path_), this);
+        break;
+      case ManagedState::MANAGED_TYPE_DEVICE:
+        DVLOG(2) << "ShillPropertyObserver: Device: " << path;
+        ShillDeviceClient::Get()->AddPropertyChangedObserver(
+            dbus::ObjectPath(path_), this);
+        break;
     }
   }
 
   ~ShillPropertyObserver() override {
-    if (type_ == ManagedState::MANAGED_TYPE_NETWORK) {
-      ShillServiceClient::Get()->RemovePropertyChangedObserver(
-          dbus::ObjectPath(path_), this);
-    } else if (type_ == ManagedState::MANAGED_TYPE_DEVICE) {
-      ShillDeviceClient::Get()->RemovePropertyChangedObserver(
-          dbus::ObjectPath(path_), this);
-    } else {
-      NOTREACHED();
+    switch (type_) {
+      case ManagedState::MANAGED_TYPE_NETWORK:
+        ShillServiceClient::Get()->RemovePropertyChangedObserver(
+            dbus::ObjectPath(path_), this);
+        break;
+      case ManagedState::MANAGED_TYPE_DEVICE:
+        ShillDeviceClient::Get()->RemovePropertyChangedObserver(
+            dbus::ObjectPath(path_), this);
+        break;
     }
   }
 
@@ -279,19 +282,21 @@ void ShillPropertyHandler::RequestProperties(ManagedState::ManagedType type,
 
   NET_LOG(DEBUG) << "Request Properties for: " << NetworkPathId(path);
   pending_updates_[type].insert(path);
-  if (type == ManagedState::MANAGED_TYPE_NETWORK) {
-    ShillServiceClient::Get()->GetProperties(
-        dbus::ObjectPath(path),
-        base::BindOnce(&ShillPropertyHandler::GetPropertiesCallback,
-                       AsWeakPtr(), type, path));
-  } else if (type == ManagedState::MANAGED_TYPE_DEVICE) {
-    ShillDeviceClient::Get()->GetProperties(
-        dbus::ObjectPath(path),
-        base::BindOnce(&ShillPropertyHandler::GetPropertiesCallback,
-                       AsWeakPtr(), type, path));
-  } else {
-    NOTREACHED();
+  switch (type) {
+    case ManagedState::MANAGED_TYPE_NETWORK:
+      ShillServiceClient::Get()->GetProperties(
+          dbus::ObjectPath(path),
+          base::BindOnce(&ShillPropertyHandler::GetPropertiesCallback,
+                         AsWeakPtr(), type, path));
+      return;
+    case ManagedState::MANAGED_TYPE_DEVICE:
+      ShillDeviceClient::Get()->GetProperties(
+          dbus::ObjectPath(path),
+          base::BindOnce(&ShillPropertyHandler::GetPropertiesCallback,
+                         AsWeakPtr(), type, path));
+      return;
   }
+  NOTREACHED();
 }
 
 void ShillPropertyHandler::OnPropertyChanged(const std::string& key,
@@ -320,7 +325,8 @@ void ShillPropertyHandler::ManagerPropertiesCallback(
 
 void ShillPropertyHandler::CheckPendingStateListUpdates(
     const std::string& key) {
-  // Once there are no pending updates, signal the state list changed callbacks.
+  // Once there are no pending updates, signal the state list changed
+  // callbacks.
   if ((key.empty() || key == shill::kServiceCompleteListProperty) &&
       pending_updates_[ManagedState::MANAGED_TYPE_NETWORK].size() == 0) {
     listener_->ManagedStateListChanged(ManagedState::MANAGED_TYPE_NETWORK);
@@ -426,8 +432,9 @@ void ShillPropertyHandler::UpdateObserved(ManagedState::ManagedType type,
     } else {
       // Create an observer for future updates.
       observer = std::make_unique<ShillPropertyObserver>(
-          type, path, base::Bind(&ShillPropertyHandler::PropertyChangedCallback,
-                                 AsWeakPtr()));
+          type, path,
+          base::Bind(&ShillPropertyHandler::PropertyChangedCallback,
+                     AsWeakPtr()));
     }
     auto result =
         new_observed.insert(std::make_pair(path, std::move(observer)));
@@ -473,8 +480,8 @@ void ShillPropertyHandler::UpdateEnabledTechnologies(
     return;
   enabled_technologies_.swap(new_enabled_technologies);
 
-  // If any entries in |disabling_technologies_| are disabled, remove them from
-  // the disabling list.
+  // If any entries in |disabling_technologies_| are disabled, remove them
+  // from the disabling list.
   for (auto it = disabling_technologies_.begin();
        it != disabling_technologies_.end();) {
     base::Value technology_value(*it);
@@ -588,12 +595,15 @@ void ShillPropertyHandler::PropertyChangedCallback(
     RequestIPConfigsList(type, path, value);
   }
 
-  if (type == ManagedState::MANAGED_TYPE_NETWORK)
-    listener_->UpdateNetworkServiceProperty(path, key, value);
-  else if (type == ManagedState::MANAGED_TYPE_DEVICE)
-    listener_->UpdateDeviceProperty(path, key, value);
-  else
-    NOTREACHED();
+  switch (type) {
+    case ManagedState::MANAGED_TYPE_NETWORK:
+      listener_->UpdateNetworkServiceProperty(path, key, value);
+      return;
+    case ManagedState::MANAGED_TYPE_DEVICE:
+      listener_->UpdateDeviceProperty(path, key, value);
+      return;
+  }
+  NOTREACHED();
 }
 
 void ShillPropertyHandler::RequestIPConfig(
