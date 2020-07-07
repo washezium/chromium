@@ -175,6 +175,10 @@ const base::string16& Button::GetAccessibleName() const {
   return accessible_name_.empty() ? tooltip_text_ : accessible_name_;
 }
 
+Button::ButtonState Button::GetState() const {
+  return state_;
+}
+
 void Button::SetState(ButtonState state) {
   if (state == state_)
     return;
@@ -201,7 +205,7 @@ void Button::SetState(ButtonState state) {
   ButtonState old_state = state_;
   state_ = state;
   StateChanged(old_state);
-  SchedulePaint();
+  OnPropertyChanged(&state_, kPropertyEffectsPaint);
 }
 
 Button::ButtonState Button::GetVisualState() const {
@@ -275,6 +279,11 @@ void Button::AddButtonObserver(ButtonObserver* observer) {
 
 void Button::RemoveButtonObserver(ButtonObserver* observer) {
   button_observers_.RemoveObserver(observer);
+}
+
+PropertyChangedSubscription Button::AddStateChangedCallback(
+    PropertyChangedCallback callback) {
+  return AddPropertyChangedCallback(&state_, std::move(callback));
 }
 
 Button::KeyClickAction Button::GetKeyClickActionForEvent(
@@ -561,7 +570,6 @@ void Button::OnClickCanceled(const ui::Event& event) {
 void Button::OnSetTooltipText(const base::string16& tooltip_text) {}
 
 void Button::StateChanged(ButtonState old_state) {
-  button_controller_->OnStateChanged(old_state);
   for (ButtonObserver& observer : button_observers_)
     observer.OnStateChanged(this, old_state);
 }
@@ -622,8 +630,16 @@ void Button::WidgetPaintAsActiveChanged() {
   StateChanged(state());
 }
 
+DEFINE_ENUM_CONVERTERS(
+    Button::ButtonState,
+    {Button::STATE_NORMAL, base::ASCIIToUTF16("STATE_NORMAL")},
+    {Button::STATE_HOVERED, base::ASCIIToUTF16("STATE_HOVERED")},
+    {Button::STATE_PRESSED, base::ASCIIToUTF16("STATE_PRESSED")},
+    {Button::STATE_DISABLED, base::ASCIIToUTF16("STATE_DISABLED")})
+
 BEGIN_METADATA(Button)
 METADATA_PARENT_CLASS(InkDropHostView)
+ADD_PROPERTY_METADATA(Button, ButtonState, State)
 END_METADATA()
 
 }  // namespace views

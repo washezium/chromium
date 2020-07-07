@@ -111,7 +111,10 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   const base::string16& GetAccessibleName() const;
 
   // Get/sets the current display state of the button.
+  // TODO(pkasting): Replace all calls to state() with GetState(), and remove
+  // state().
   ButtonState state() const { return state_; }
+  ButtonState GetState() const;
   // Clients passing in STATE_DISABLED should consider calling
   // SetEnabled(false) instead because the enabled flag can affect other things
   // like event dispatching, focus traversals, etc. Calling SetEnabled(false)
@@ -182,6 +185,8 @@ class VIEWS_EXPORT Button : public InkDropHostView,
 
   void AddButtonObserver(ButtonObserver* observer);
   void RemoveButtonObserver(ButtonObserver* observer);
+  PropertyChangedSubscription AddStateChangedCallback(
+      PropertyChangedCallback callback);
 
   // Overridden from View:
   bool OnMousePressed(const ui::MouseEvent& event) override;
@@ -258,6 +263,7 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   // the current node_data. Button's implementation of StateChanged() does
   // nothing; this method is provided for subclasses that wish to do something
   // on state changes.
+  // TODO(pkasting): Replace overrides with property change callbacks.
   virtual void StateChanged(ButtonState old_state);
 
   // Returns true if the event is one that can trigger notifying the listener.
