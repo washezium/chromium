@@ -6158,6 +6158,7 @@ Called by update_bad_message_reasons.py.-->
   <int value="227" label="RFH_INVALID_CALL_FROM_NOT_MAIN_FRAME"/>
   <int value="228" label="INPUT_ROUTER_INVALID_EVENT_SOURCE"/>
   <int value="229" label="RFH_INACTIVE_CHECK_FROM_SPECULATIVE_RFH"/>
+  <int value="230" label="RFH_SUBFRAME_CAPTURE_ON_MAIN_FRAME"/>
 </enum>
 
 <enum name="BadMessageReasonExtensions">

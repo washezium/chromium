@@ -4888,8 +4888,7 @@ void WebContentsImpl::CapturePaintPreviewOfCrossProcessSubframe(
     RenderFrameHost* render_frame_host) {
   if (!delegate_)
     return;
-  delegate_->CapturePaintPreviewOfCrossProcessSubframe(this, rect, guid,
-                                                       render_frame_host);
+  delegate_->CapturePaintPreviewOfSubframe(this, rect, guid, render_frame_host);
 }
 
 #if defined(OS_ANDROID)
