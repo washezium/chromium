@@ -4354,7 +4354,7 @@ bool AXPlatformNodeAuraLinux::
     if (!child)
       continue;
 
-    if (child->IsTextOnlyObject()) {
+    if (child->IsText()) {
       current_offset += child->GetName().size();
     } else {
       // Add an offset for the embedded character.
@@ -4879,7 +4879,7 @@ AXPlatformNodeAuraLinux::GetHypertextExtentsOfChild(
     // If this object is a text only object, it is included directly into this
     // node's hypertext, otherwise it is represented as an embedded object
     // character.
-    int size = child->IsTextOnlyObject() ? child->GetName().size() : 1;
+    int size = child->IsText() ? child->GetName().size() : 1;
     if (child == child_to_find)
       return std::make_pair(current_offset, current_offset + size);
     current_offset += size;
@@ -4899,7 +4899,7 @@ void AXPlatformNodeAuraLinux::ActivateFindInPageInParent(int start_offset,
   if (!extents_in_parent.has_value())
     return;
 
-  DCHECK(IsTextOnlyObject());
+  DCHECK(IsText());
   parent->ActivateFindInPageResult(extents_in_parent->first + start_offset,
                                    extents_in_parent->first + end_offset);
 }
