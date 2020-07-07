@@ -29,15 +29,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "third_party/blink/public/web/mac/web_substring_util.h"
+#include "third_party/blink/renderer/core/editing/substring_util.h"
 
 #import <Cocoa/Cocoa.h>
 
 #include "base/mac/foundation_util.h"
-#include "third_party/blink/public/platform/web_rect.h"
-#include "third_party/blink/public/web/web_frame_widget.h"
-#include "third_party/blink/public/web/web_hit_test_result.h"
-#include "third_party/blink/public/web/web_local_frame.h"
 #include "third_party/blink/renderer/core/dom/document.h"
 #include "third_party/blink/renderer/core/dom/element.h"
 #include "third_party/blink/renderer/core/dom/node.h"
@@ -53,7 +49,6 @@
 #include "third_party/blink/renderer/core/frame/local_frame_view.h"
 #include "third_party/blink/renderer/core/frame/visual_viewport.h"
 #include "third_party/blink/renderer/core/frame/web_frame_widget_base.h"
-#include "third_party/blink/renderer/core/frame/web_local_frame_impl.h"
 #include "third_party/blink/renderer/core/html/html_element.h"
 #include "third_party/blink/renderer/core/layout/hit_test_result.h"
 #include "third_party/blink/renderer/core/layout/layout_object.h"
@@ -147,7 +142,8 @@ gfx::Point GetBaselinePoint(LocalFrameView* frame_view,
 
   // Adjust for the font's descender. AppKit wants the baseline point.
   if ([string length]) {
-    NSDictionary* attributes = [string attributesAtIndex:0 effectiveRange:NULL];
+    NSDictionary* attributes = [string attributesAtIndex:0
+                                          effectiveRange:nullptr];
     if (NSFont* font = [attributes objectForKey:NSFontAttributeName])
       string_point.Move(0, ceil([font descender]));
   }
@@ -156,12 +152,12 @@ gfx::Point GetBaselinePoint(LocalFrameView* frame_view,
 
 }  // namespace
 
-NSAttributedString* WebSubstringUtil::AttributedWordAtPoint(
-    WebFrameWidget* frame_widget,
+NSAttributedString* SubstringUtil::AttributedWordAtPoint(
+    WebFrameWidgetBase* frame_widget,
     gfx::Point point,
     gfx::Point& baseline_point) {
-  HitTestResult result = static_cast<WebFrameWidgetBase*>(frame_widget)
-                             ->CoreHitTestResultAt(FloatPoint(IntPoint(point)));
+  HitTestResult result =
+      frame_widget->CoreHitTestResultAt(FloatPoint(IntPoint(point)));
 
   if (!result.InnerNode())
     return nil;
@@ -184,20 +180,18 @@ NSAttributedString* WebSubstringUtil::AttributedWordAtPoint(
   return string;
 }
 
-NSAttributedString* WebSubstringUtil::AttributedSubstringInRange(
-    WebLocalFrame* web_frame,
-    size_t location,
-    size_t length) {
-  return WebSubstringUtil::AttributedSubstringInRange(web_frame, location,
-                                                      length, nil);
+NSAttributedString* SubstringUtil::AttributedSubstringInRange(LocalFrame* frame,
+                                                              size_t location,
+                                                              size_t length) {
+  return SubstringUtil::AttributedSubstringInRange(frame, location, length,
+                                                   nil);
 }
 
-NSAttributedString* WebSubstringUtil::AttributedSubstringInRange(
-    WebLocalFrame* web_frame,
+NSAttributedString* SubstringUtil::AttributedSubstringInRange(
+    LocalFrame* frame,
     size_t location,
     size_t length,
     gfx::Point* baseline_point) {
-  LocalFrame* frame = To<WebLocalFrameImpl>(web_frame)->GetFrame();
   if (frame->View()->NeedsLayout())
     frame->View()->UpdateLayout();
 

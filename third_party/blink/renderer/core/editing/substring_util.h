@@ -28,10 +28,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef THIRD_PARTY_BLINK_PUBLIC_WEB_MAC_WEB_SUBSTRING_UTIL_H_
-#define THIRD_PARTY_BLINK_PUBLIC_WEB_MAC_WEB_SUBSTRING_UTIL_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_CORE_EDITING_SUBSTRING_UTIL_H_
+#define THIRD_PARTY_BLINK_RENDERER_CORE_EDITING_SUBSTRING_UTIL_H_
 
-#include "third_party/blink/public/platform/web_common.h"
+#include <cstddef>
+
+#include "third_party/blink/renderer/core/core_export.h"
 
 #if __OBJC__
 @class NSAttributedString;
@@ -44,32 +46,31 @@ class Point;
 }  // namespace gfx
 
 namespace blink {
+class WebFrameWidgetBase;
+class LocalFrame;
 
-class WebFrameWidget;
-class WebLocalFrame;
-
-class WebSubstringUtil {
+class SubstringUtil {
  public:
   // Returns an autoreleased NSAttributedString that is the word under
-  // the given point inside the given WebFrameWidget or nil on error.
+  // the given point inside the given WebFrameWidgetBase or nil on error.
   // Upon return, |baselinePoint| is set to the left baseline point in
   // AppKit coordinates.
-  BLINK_EXPORT static NSAttributedString* AttributedWordAtPoint(
-      WebFrameWidget*,
+  CORE_EXPORT static NSAttributedString* AttributedWordAtPoint(
+      WebFrameWidgetBase*,
       gfx::Point,
       gfx::Point& baseline_point);
 
   // Returns an autoreleased NSAttributedString that is a substring of the
   // Frame at the given range, or nil on error.
-  BLINK_EXPORT static NSAttributedString*
-  AttributedSubstringInRange(WebLocalFrame*, size_t location, size_t length);
+  CORE_EXPORT static NSAttributedString*
+  AttributedSubstringInRange(LocalFrame*, size_t location, size_t length);
 
   // Returns an autoreleased NSAttributedString that is a substring of the
   // Frame at the given range, or nil on error.
   // It also gets the baseline point for the given range for showing
   // dictionary lookup bubble.
-  BLINK_EXPORT static NSAttributedString* AttributedSubstringInRange(
-      WebLocalFrame*,
+  CORE_EXPORT static NSAttributedString* AttributedSubstringInRange(
+      LocalFrame*,
       size_t location,
       size_t length,
       gfx::Point* baseline_point);
@@ -77,4 +78,4 @@ class WebSubstringUtil {
 
 }  // namespace blink
 
-#endif
+#endif  // THIRD_PARTY_BLINK_RENDERER_CORE_EDITING_SUBSTRING_UTIL_H_
