@@ -2227,6 +2227,24 @@ bool NavigationControllerImpl::StartHistoryNavigationInNewSubframe(
   return true;
 }
 
+bool NavigationControllerImpl::ReloadFrame(FrameTreeNode* frame_tree_node) {
+  NavigationEntryImpl* entry = GetEntryAtIndex(GetCurrentEntryIndex());
+  if (!entry)
+    return false;
+  FrameNavigationEntry* frame_entry = entry->GetFrameEntry(frame_tree_node);
+  if (!frame_entry)
+    return false;
+  std::unique_ptr<NavigationRequest> request = CreateNavigationRequestFromEntry(
+      frame_tree_node, entry, frame_entry, ReloadType::NORMAL,
+      false /* is_same_document_history_load */,
+      false /* is_history_navigation_in_new_child */);
+  if (!request)
+    return false;
+  frame_tree_node->navigator().Navigate(std::move(request), ReloadType::NORMAL,
+                                        RestoreType::NONE);
+  return true;
+}
+
 void NavigationControllerImpl::GoToOffsetInSandboxedFrame(
     int offset,
     int sandbox_frame_tree_node_id) {
