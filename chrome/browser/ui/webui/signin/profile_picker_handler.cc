@@ -24,7 +24,9 @@ const size_t kAvatarIconSize = 74;
 
 ProfilePickerHandler::ProfilePickerHandler() = default;
 
-ProfilePickerHandler::~ProfilePickerHandler() = default;
+ProfilePickerHandler::~ProfilePickerHandler() {
+  OnJavascriptDisallowed();
+}
 
 void ProfilePickerHandler::RegisterMessages() {
   web_ui()->RegisterMessageCallback(
@@ -35,6 +37,17 @@ void ProfilePickerHandler::RegisterMessages() {
       "launchSelectedProfile",
       base::BindRepeating(&ProfilePickerHandler::HandleLaunchSelectedProfile,
                           base::Unretained(this)));
+}
+
+void ProfilePickerHandler::OnJavascriptAllowed() {
+  g_browser_process->profile_manager()
+      ->GetProfileAttributesStorage()
+      .AddObserver(this);
+}
+void ProfilePickerHandler::OnJavascriptDisallowed() {
+  g_browser_process->profile_manager()
+      ->GetProfileAttributesStorage()
+      .RemoveObserver(this);
 }
 
 void ProfilePickerHandler::HandleMainViewInitialize(
@@ -85,6 +98,7 @@ void ProfilePickerHandler::OnSwitchToProfileComplete(
 }
 
 void ProfilePickerHandler::PushProfilesList() {
+  DCHECK(IsJavascriptAllowed());
   FireWebUIListener("profiles-list-changed", GetProfilesList());
 }
 
@@ -108,4 +122,30 @@ base::Value ProfilePickerHandler::GetProfilesList() {
     profiles_list.Append(std::move(profile_entry));
   }
   return std::move(profiles_list);
+}
+
+void ProfilePickerHandler::OnProfileAdded(const base::FilePath& profile_path) {
+  PushProfilesList();
+}
+
+void ProfilePickerHandler::OnProfileWasRemoved(
+    const base::FilePath& profile_path,
+    const base::string16& profile_name) {
+  PushProfilesList();
+}
+
+void ProfilePickerHandler::OnProfileAvatarChanged(
+    const base::FilePath& profile_path) {
+  PushProfilesList();
+}
+
+void ProfilePickerHandler::OnProfileHighResAvatarLoaded(
+    const base::FilePath& profile_path) {
+  PushProfilesList();
+}
+
+void ProfilePickerHandler::OnProfileNameChanged(
+    const base::FilePath& profile_path,
+    const base::string16& old_profile_name) {
+  PushProfilesList();
 }
