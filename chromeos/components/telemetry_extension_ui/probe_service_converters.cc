@@ -18,6 +18,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
   switch (input) {
     case health::mojom::ProbeCategoryEnum::kBattery:
       return cros_healthd::mojom::ProbeCategoryEnum::kBattery;
+    case health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices:
+      return cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices;
   }
   NOTREACHED();
 }
@@ -57,6 +59,14 @@ health::mojom::DoubleValuePtr Convert(double input) {
 
 health::mojom::Int64ValuePtr Convert(int64_t input) {
   return health::mojom::Int64Value::New(input);
+}
+
+health::mojom::UInt32ValuePtr Convert(uint32_t input) {
+  return health::mojom::UInt32Value::New(input);
+}
+
+health::mojom::UInt64ValuePtr Convert(uint64_t input) {
+  return health::mojom::UInt64Value::New(input);
 }
 
 health::mojom::UInt64ValuePtr Convert(
@@ -114,6 +124,64 @@ health::mojom::BatteryResultPtr Convert(
   return output;
 }
 
+health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
+    cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr input) {
+  DCHECK(input) << "NonRemovableBlockDeviceInfoPtr must never be nullptr since "
+                   "its always item in the array, so originally array must not "
+                   "contain nullptr items.";
+
+  auto output = health::mojom::NonRemovableBlockDeviceInfo::New();
+
+  output->path = std::move(input->path);
+  output->size = Convert(input->size);
+  output->type = std::move(input->type);
+  output->manufacturer_id =
+      Convert(static_cast<uint32_t>(input->manufacturer_id));
+  output->name = std::move(input->name);
+  output->serial = Convert(static_cast<uint32_t>(input->serial));
+  output->bytes_read_since_last_boot =
+      Convert(input->bytes_read_since_last_boot);
+  output->bytes_written_since_last_boot =
+      Convert(input->bytes_written_since_last_boot);
+  output->read_time_seconds_since_last_boot =
+      Convert(input->read_time_seconds_since_last_boot);
+  output->write_time_seconds_since_last_boot =
+      Convert(input->write_time_seconds_since_last_boot);
+  output->io_time_seconds_since_last_boot =
+      Convert(input->io_time_seconds_since_last_boot);
+  output->discard_time_seconds_since_last_boot =
+      Convert(std::move(input->discard_time_seconds_since_last_boot));
+
+  return output;
+}
+
+std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> Convert(
+    std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> input) {
+  std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> output;
+  for (size_t i = 0; i < input.size(); ++i) {
+    output.push_back(Convert(std::move(input[i])));
+  }
+  return output;
+}
+
+health::mojom::NonRemovableBlockDeviceResultPtr Convert(
+    cros_healthd::mojom::NonRemovableBlockDeviceResultPtr input) {
+  if (!input) {
+    return nullptr;
+  }
+
+  auto output = health::mojom::NonRemovableBlockDeviceResult::New();
+
+  if (input->is_error()) {
+    output->set_error(Convert(std::move(input->get_error())));
+  } else if (input->is_block_device_info()) {
+    output->set_block_device_info(
+        Convert(std::move(input->get_block_device_info())));
+  }
+
+  return output;
+}
+
 health::mojom::TelemetryInfoPtr Convert(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   if (!input) {
@@ -121,7 +189,8 @@ health::mojom::TelemetryInfoPtr Convert(
   }
 
   return health::mojom::TelemetryInfo::New(
-      Convert(std::move(input->battery_result)));
+      Convert(std::move(input->battery_result)),
+      Convert(std::move(input->block_device_result)));
 }
 
 }  // namespace probe_service_converters

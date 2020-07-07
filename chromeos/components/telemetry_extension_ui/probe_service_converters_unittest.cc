@@ -20,6 +20,9 @@ namespace probe_service_converters {
 TEST(ProbeServiceConvertors, ProbeCategoryEnum) {
   EXPECT_EQ(Convert(health::mojom::ProbeCategoryEnum::kBattery),
             cros_healthd::mojom::ProbeCategoryEnum::kBattery);
+  EXPECT_EQ(
+      Convert(health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices),
+      cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices);
 }
 
 TEST(ProbeServiceConvertors, ProbeCategoryEnumVector) {
@@ -52,14 +55,19 @@ TEST(ProbeServiceConvertors, ProbeErrorPtr) {
                 health::mojom::ErrorType::kFileReadError, kMsg));
 }
 
-TEST(ProbeServiceConvertors, DoubleValuePtr) {
+TEST(ProbeServiceConvertors, DoubleValue) {
   constexpr double kValue = 100500.500100;
   EXPECT_EQ(Convert(kValue), health::mojom::DoubleValue::New(kValue));
 }
 
-TEST(ProbeServiceConvertors, Int64ValuePtr) {
-  constexpr int64_t kValue = 100500;
+TEST(ProbeServiceConvertors, Int64Value) {
+  constexpr int64_t kValue = -100500;
   EXPECT_EQ(Convert(kValue), health::mojom::Int64Value::New(kValue));
+}
+
+TEST(ProbeServiceConvertors, UInt64Value) {
+  constexpr uint64_t kValue = 100500;
+  EXPECT_EQ(Convert(kValue), health::mojom::UInt64Value::New(kValue));
 }
 
 TEST(ProbeServiceConvertors, UInt64ValuePtrNull) {
@@ -67,7 +75,7 @@ TEST(ProbeServiceConvertors, UInt64ValuePtrNull) {
 }
 
 TEST(ProbeServiceConvertors, UInt64ValuePtr) {
-  constexpr uint64_t kValue = -100500;
+  constexpr uint64_t kValue = 100500;
   EXPECT_EQ(Convert(cros_healthd::mojom::UInt64Value::New(kValue)),
             health::mojom::UInt64Value::New(kValue));
 }
@@ -144,6 +152,91 @@ TEST(ProbeServiceConvertors, BatteryResultPtrError) {
   EXPECT_TRUE(ptr->is_error());
 }
 
+TEST(ProbeServiceConvertors, NonRemovableBlockDeviceInfoPtr) {
+  constexpr char kPath[] = "/dev/device1";
+  constexpr uint64_t kSize = 1000000000;
+  constexpr char kType[] = "NVMe";
+  constexpr uint8_t kManufacturerId = 200;
+  constexpr char kName[] = "goog";
+  constexpr uint32_t kSerial = 0xaabbccdd;
+  constexpr uint64_t kBytesReadSinceLastBoot = 10;
+  constexpr uint64_t kBytesWrittenSinceLastBoot = 100;
+  constexpr uint64_t kReadTimeSecondsSinceLastBoot = 1000;
+  constexpr uint64_t kWriteTimeSecondsSinceLastBoot = 10000;
+  constexpr uint64_t kIoTimeSecondsSinceLastBoot = 100000;
+  constexpr uint64_t kDiscardTimeSecondsSinceLastBoot = 1000000;
+
+  // Here we don't use cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr::New
+  // because NonRemovableBlockDeviceInfoPtr may contain some fields that we
+  // don't use yet.
+  auto info = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+
+  info->path = kPath;
+  info->size = kSize;
+  info->type = kType;
+  info->manufacturer_id = kManufacturerId;
+  info->name = kName;
+  info->serial = kSerial;
+  info->bytes_read_since_last_boot = kBytesReadSinceLastBoot;
+  info->bytes_written_since_last_boot = kBytesWrittenSinceLastBoot;
+  info->read_time_seconds_since_last_boot = kReadTimeSecondsSinceLastBoot;
+  info->write_time_seconds_since_last_boot = kWriteTimeSecondsSinceLastBoot;
+  info->io_time_seconds_since_last_boot = kIoTimeSecondsSinceLastBoot;
+  info->discard_time_seconds_since_last_boot =
+      cros_healthd::mojom::UInt64Value::New(kDiscardTimeSecondsSinceLastBoot);
+
+  // Here we intentionaly use health::mojom::NonRemovableBlockDeviceInfoPtr::New
+  // to don't forget to test new fields.
+  EXPECT_EQ(
+      Convert(info.Clone()),
+      health::mojom::NonRemovableBlockDeviceInfo::New(
+          kPath, health::mojom::UInt64Value::New(kSize), kType,
+          health::mojom::UInt32Value::New(kManufacturerId), kName,
+          health::mojom::UInt32Value::New(kSerial),
+          health::mojom::UInt64Value::New(kBytesReadSinceLastBoot),
+          health::mojom::UInt64Value::New(kBytesWrittenSinceLastBoot),
+          health::mojom::UInt64Value::New(kReadTimeSecondsSinceLastBoot),
+          health::mojom::UInt64Value::New(kWriteTimeSecondsSinceLastBoot),
+          health::mojom::UInt64Value::New(kIoTimeSecondsSinceLastBoot),
+          health::mojom::UInt64Value::New(kDiscardTimeSecondsSinceLastBoot)));
+}
+
+TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrNull) {
+  EXPECT_TRUE(Convert(cros_healthd::mojom::NonRemovableBlockDeviceResultPtr())
+                  .is_null());
+}
+
+TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrInfo) {
+  constexpr char kPath1[] = "Path1";
+  constexpr char kPath2[] = "Path2";
+
+  auto info1 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+  info1->path = kPath1;
+
+  auto info2 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+  info2->path = kPath2;
+
+  std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> infos;
+  infos.push_back(std::move(info1));
+  infos.push_back(std::move(info2));
+
+  const health::mojom::NonRemovableBlockDeviceResultPtr ptr = Convert(
+      cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
+          std::move(infos)));
+  ASSERT_TRUE(ptr);
+  EXPECT_TRUE(ptr->is_block_device_info());
+  ASSERT_EQ(ptr->get_block_device_info().size(), 2ULL);
+  EXPECT_EQ((ptr->get_block_device_info())[0]->path, kPath1);
+  EXPECT_EQ((ptr->get_block_device_info())[1]->path, kPath2);
+}
+
+TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrError) {
+  const health::mojom::NonRemovableBlockDeviceResultPtr ptr = Convert(
+      cros_healthd::mojom::NonRemovableBlockDeviceResult::NewError(nullptr));
+  ASSERT_TRUE(ptr);
+  EXPECT_TRUE(ptr->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -169,11 +262,39 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
             kCycleCount);
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBlockDeviceResult) {
+  constexpr uint64_t kSize = 10000000;
+
+  auto device_info = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+  device_info->size = kSize;
+
+  std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> device_infos;
+  device_infos.push_back(std::move(device_info));
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  input->block_device_result =
+      cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
+          std::move(device_infos));
+
+  const health::mojom::TelemetryInfoPtr output = Convert(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->block_device_result);
+  ASSERT_TRUE(output->block_device_result->is_block_device_info());
+
+  const auto& device_info_output =
+      output->block_device_result->get_block_device_info();
+  ASSERT_EQ(device_info_output.size(), 1ULL);
+  ASSERT_TRUE(device_info_output[0]);
+  ASSERT_TRUE(device_info_output[0]->size);
+  EXPECT_EQ(device_info_output[0]->size->value, kSize);
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       Convert(cros_healthd::mojom::TelemetryInfo::New());
   ASSERT_TRUE(telemetry_info_output);
   EXPECT_FALSE(telemetry_info_output->battery_result);
+  EXPECT_FALSE(telemetry_info_output->block_device_result);
 }
 
 TEST(ProbeServiceConvertors, TelemetryInfoPtrNull) {

@@ -34,6 +34,10 @@ health::mojom::DoubleValuePtr Convert(double input);
 
 health::mojom::Int64ValuePtr Convert(int64_t input);
 
+health::mojom::UInt32ValuePtr Convert(uint32_t input);
+
+health::mojom::UInt64ValuePtr Convert(uint64_t input);
+
 health::mojom::UInt64ValuePtr Convert(
     cros_healthd::mojom::UInt64ValuePtr input);
 
@@ -42,6 +46,15 @@ health::mojom::BatteryInfoPtr Convert(
 
 health::mojom::BatteryResultPtr Convert(
     cros_healthd::mojom::BatteryResultPtr input);
+
+health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
+    cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr input);
+
+std::vector<health::mojom::NonRemovableBlockDeviceInfoPtr> Convert(
+    std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> input);
+
+health::mojom::NonRemovableBlockDeviceResultPtr Convert(
+    cros_healthd::mojom::NonRemovableBlockDeviceResultPtr input);
 
 health::mojom::TelemetryInfoPtr Convert(
     cros_healthd::mojom::TelemetryInfoPtr input);
