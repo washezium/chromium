@@ -206,7 +206,7 @@ TEST_F(SynchronizedMinidumpManagerTest, FilePathsAreCorrect) {
 
 TEST_F(SynchronizedMinidumpManagerTest, AcquireLockOnNonExistentDirectory) {
   // The directory was created in SetUp(). Delete it and its contents.
-  ASSERT_TRUE(base::DeleteFile(minidump_dir_, true));
+  ASSERT_TRUE(base::DeletePathRecursively(minidump_dir_));
   ASSERT_FALSE(base::PathExists(minidump_dir_));
 
   SynchronizedMinidumpManagerSimple manager;
