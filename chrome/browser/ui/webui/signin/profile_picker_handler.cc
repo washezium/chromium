@@ -12,6 +12,9 @@
 #include "chrome/browser/profiles/profile_attributes_storage.h"
 #include "chrome/browser/profiles/profile_avatar_icon_util.h"
 #include "chrome/browser/profiles/profile_manager.h"
+#include "chrome/browser/profiles/profile_window.h"
+#include "chrome/browser/ui/browser_finder.h"
+#include "chrome/browser/ui/profile_picker.h"
 #include "ui/base/webui/web_ui_util.h"
 #include "ui/gfx/image/image.h"
 
@@ -28,12 +31,57 @@ void ProfilePickerHandler::RegisterMessages() {
       "mainViewInitialize",
       base::BindRepeating(&ProfilePickerHandler::HandleMainViewInitialize,
                           base::Unretained(this)));
+  web_ui()->RegisterMessageCallback(
+      "launchSelectedProfile",
+      base::BindRepeating(&ProfilePickerHandler::HandleLaunchSelectedProfile,
+                          base::Unretained(this)));
 }
 
 void ProfilePickerHandler::HandleMainViewInitialize(
     const base::ListValue* args) {
   AllowJavascript();
   PushProfilesList();
+}
+
+void ProfilePickerHandler::HandleLaunchSelectedProfile(
+    const base::ListValue* args) {
+  const base::Value* profile_path_value = nullptr;
+  if (!args->Get(0, &profile_path_value))
+    return;
+
+  base::Optional<base::FilePath> profile_path =
+      util::ValueToFilePath(*profile_path_value);
+  if (!profile_path)
+    return;
+
+  ProfileAttributesEntry* entry;
+  if (!g_browser_process->profile_manager()
+           ->GetProfileAttributesStorage()
+           .GetProfileAttributesWithPath(*profile_path, &entry)) {
+    NOTREACHED();
+    return;
+  }
+
+  if (entry->IsSigninRequired()) {
+    // The new profile picker does not yet support force signin policy and
+    // should not be accessible for devices with this policy.
+    NOTREACHED();
+    return;
+  }
+
+  profiles::SwitchToProfile(
+      *profile_path, /*always_create=*/false,
+      base::Bind(&ProfilePickerHandler::OnSwitchToProfileComplete,
+                 weak_factory_.GetWeakPtr()));
+}
+
+void ProfilePickerHandler::OnSwitchToProfileComplete(
+    Profile* profile,
+    Profile::CreateStatus profile_create_status) {
+  Browser* browser = chrome::FindAnyBrowser(profile, false);
+  DCHECK(browser);
+  DCHECK(browser->window());
+  ProfilePicker::Hide();
 }
 
 void ProfilePickerHandler::PushProfilesList() {
@@ -47,11 +95,6 @@ base::Value ProfilePickerHandler::GetProfilesList() {
           ->GetProfileAttributesStorage()
           .GetAllProfilesAttributesSortedByName();
   for (const ProfileAttributesEntry* entry : entries) {
-    // Don't show profiles still in the middle of being set up as new legacy
-    // supervised users.
-    if (entry->IsOmitted())
-      continue;
-
     auto profile_entry = std::make_unique<base::DictionaryValue>();
     profile_entry->SetKey("profilePath",
                           util::FilePathToValue(entry->GetPath()));

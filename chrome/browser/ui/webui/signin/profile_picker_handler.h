@@ -7,6 +7,7 @@
 
 #include "base/memory/weak_ptr.h"
 #include "base/values.h"
+#include "chrome/browser/profiles/profile.h"
 #include "content/public/browser/web_ui_message_handler.h"
 
 // The handler for Javascript messages related to the profile picker main view.
@@ -20,6 +21,10 @@ class ProfilePickerHandler : public content::WebUIMessageHandler {
 
  private:
   void HandleMainViewInitialize(const base::ListValue* args);
+  void HandleLaunchSelectedProfile(const base::ListValue* args);
+
+  void OnSwitchToProfileComplete(Profile* profile,
+                                 Profile::CreateStatus profile_create_status);
   void PushProfilesList();
   base::Value GetProfilesList();
 
