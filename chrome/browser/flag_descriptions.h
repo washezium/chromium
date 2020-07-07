@@ -1236,8 +1236,8 @@ extern const char kTabHoverCardImagesDescription[];
 extern const char kTabOutlinesInLowContrastThemesName[];
 extern const char kTabOutlinesInLowContrastThemesDescription[];
 
-extern const char kTintGlCompositedContentName[];
-extern const char kTintGlCompositedContentDescription[];
+extern const char kTintCompositedContentName[];
+extern const char kTintCompositedContentDescription[];
 
 extern const char kTLS13HardeningForLocalAnchorsName[];
 extern const char kTLS13HardeningForLocalAnchorsDescription[];
