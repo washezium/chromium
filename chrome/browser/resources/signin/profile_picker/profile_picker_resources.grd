@@ -19,6 +19,9 @@
       <include name="IDR_PROFILE_PICKER_PROFILE_PICKER_APP_JS"
                file="${root_gen_dir}/chrome/browser/resources/signin/profile_picker/profile_picker_app.js"
                use_base_dir="false" type="BINDATA" preprocess="true"/>
+      <include name="IDR_PROFILE_PICKER_PROFILE_CARD_JS"
+               file="${root_gen_dir}/chrome/browser/resources/signin/profile_picker/profile_card.js"
+               use_base_dir="false" type="BINDATA" preprocess="true"/>
     </includes>
     <structures>
       <structure
