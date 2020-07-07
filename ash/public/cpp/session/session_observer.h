@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ASH_SESSION_SESSION_OBSERVER_H_
-#define ASH_SESSION_SESSION_OBSERVER_H_
+#ifndef ASH_PUBLIC_CPP_SESSION_SESSION_OBSERVER_H_
+#define ASH_PUBLIC_CPP_SESSION_SESSION_OBSERVER_H_
 
-#include "ash/ash_export.h"
+#include "ash/public/cpp/ash_public_export.h"
 #include "base/macros.h"
 #include "base/observer_list_types.h"
 #include "components/session_manager/session_manager_types.h"
@@ -17,7 +17,7 @@ namespace ash {
 
 enum class LoginStatus;
 
-class ASH_EXPORT SessionObserver : public base::CheckedObserver {
+class ASH_PUBLIC_EXPORT SessionObserver : public base::CheckedObserver {
  public:
   // Called when the active user session has changed.
   virtual void OnActiveUserSessionChanged(const AccountId& account_id) {}
@@ -64,7 +64,7 @@ class ASH_EXPORT SessionObserver : public base::CheckedObserver {
 //
 // NOTE: Both ash::Shell and ash::SessionControllerImpl must outlive your
 // object. You may find it clearer to manually add and remove your observer.
-class ASH_EXPORT ScopedSessionObserver {
+class ASH_PUBLIC_EXPORT ScopedSessionObserver {
  public:
   explicit ScopedSessionObserver(SessionObserver* observer);
   virtual ~ScopedSessionObserver();
@@ -77,4 +77,4 @@ class ASH_EXPORT ScopedSessionObserver {
 
 }  // namespace ash
 
-#endif  // ASH_SESSION_SESSION_OBSERVER_H_
+#endif  // ASH_PUBLIC_CPP_SESSION_SESSION_OBSERVER_H_

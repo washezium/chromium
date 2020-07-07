@@ -2,22 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/session/session_observer.h"
+#include "ash/public/cpp/session/session_observer.h"
 
-#include "ash/session/session_controller_impl.h"
-#include "ash/shell.h"
+#include "ash/public/cpp/session/session_controller.h"
 
 namespace ash {
 
 ScopedSessionObserver::ScopedSessionObserver(SessionObserver* observer)
     : observer_(observer) {
-  DCHECK(Shell::HasInstance());
-  Shell::Get()->session_controller()->AddObserver(observer_);
+  DCHECK(SessionController::Get());
+  SessionController::Get()->AddObserver(observer_);
 }
 
 ScopedSessionObserver::~ScopedSessionObserver() {
-  DCHECK(Shell::HasInstance());
-  Shell::Get()->session_controller()->RemoveObserver(observer_);
+  DCHECK(SessionController::Get());
+  SessionController::Get()->RemoveObserver(observer_);
 }
 
 }  // namespace ash
