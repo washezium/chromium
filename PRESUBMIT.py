@@ -5153,20 +5153,20 @@ def _CheckStrings(input_api, output_api):
   results = []
   if run_screenshot_check:
     if unnecessary_screenshots:
-      results.append(output_api.PresubmitNotifyResult(
+      results.append(output_api.PresubmitError(
         'Do not include actual screenshots in the changelist. Run '
         'tools/translate/upload_screenshots.py to upload them instead:',
         sorted(unnecessary_screenshots)))
 
     if missing_sha1:
-      results.append(output_api.PresubmitNotifyResult(
+      results.append(output_api.PresubmitError(
         'You are adding or modifying UI strings.\n'
         'To ensure the best translations, take screenshots of the relevant UI '
         '(https://g.co/chrome/translation) and add these files to your '
         'changelist:', sorted(missing_sha1)))
 
     if unnecessary_sha1_files:
-      results.append(output_api.PresubmitNotifyResult(
+      results.append(output_api.PresubmitError(
         'You removed strings associated with these files. Remove:',
         sorted(unnecessary_sha1_files)))
   else:
