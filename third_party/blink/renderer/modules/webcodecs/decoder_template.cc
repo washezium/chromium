@@ -16,11 +16,16 @@
 #include "third_party/blink/renderer/bindings/modules/v8/v8_audio_decoder_init.h"
 #include "third_party/blink/renderer/bindings/modules/v8/v8_encoded_audio_chunk.h"
 #include "third_party/blink/renderer/bindings/modules/v8/v8_encoded_audio_config.h"
+#include "third_party/blink/renderer/bindings/modules/v8/v8_encoded_video_chunk.h"
+#include "third_party/blink/renderer/bindings/modules/v8/v8_encoded_video_config.h"
+#include "third_party/blink/renderer/bindings/modules/v8/v8_video_decoder_init.h"
 #include "third_party/blink/renderer/core/dom/dom_exception.h"
 #include "third_party/blink/renderer/core/execution_context/execution_context.h"
 #include "third_party/blink/renderer/modules/modules_export.h"
 #include "third_party/blink/renderer/modules/webcodecs/audio_decoder.h"
 #include "third_party/blink/renderer/modules/webcodecs/audio_frame.h"
+#include "third_party/blink/renderer/modules/webcodecs/video_decoder.h"
+#include "third_party/blink/renderer/modules/webcodecs/video_frame.h"
 #include "third_party/blink/renderer/platform/bindings/exception_code.h"
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
 #include "third_party/blink/renderer/platform/bindings/script_state.h"
@@ -145,10 +150,8 @@ bool DecoderTemplate<Traits>::ProcessConfigureRequest(Request* request) {
 
   if (!decoder_) {
     media_log_ = std::make_unique<media::NullMediaLog>();
-    decoder_ =
-        Traits::CreateDecoder(ExecutionContext::From(script_state_)
-                                  ->GetTaskRunner(TaskType::kInternalMedia),
-                              media_log_.get());
+    decoder_ = Traits::CreateDecoder(*ExecutionContext::From(script_state_),
+                                     media_log_.get());
     if (!decoder_) {
       // TODO(sandersd): This is a bit awkward because |request| is still in the
       // queue.
@@ -376,5 +379,6 @@ void DecoderTemplate<Traits>::Request::Trace(Visitor* visitor) const {
 }
 
 template class DecoderTemplate<AudioDecoderTraits>;
+template class DecoderTemplate<VideoDecoderTraits>;
 
 }  // namespace blink

@@ -23,10 +23,10 @@ namespace blink {
 
 // static
 std::unique_ptr<AudioDecoderTraits::MediaDecoderType>
-AudioDecoderTraits::CreateDecoder(
-    const scoped_refptr<base::SingleThreadTaskRunner>& task_runner,
-    media::MediaLog* media_log) {
-  return std::make_unique<media::FFmpegAudioDecoder>(task_runner, media_log);
+AudioDecoderTraits::CreateDecoder(ExecutionContext& execution_context,
+                                  media::MediaLog* media_log) {
+  return std::make_unique<media::FFmpegAudioDecoder>(
+      execution_context.GetTaskRunner(TaskType::kInternalMedia), media_log);
 }
 
 // static
@@ -68,7 +68,6 @@ int AudioDecoderTraits::GetMaxDecodeRequests(const MediaDecoderType& decoder) {
 // static
 scoped_refptr<media::DecoderBuffer> AudioDecoderTraits::MakeDecoderBuffer(
     const InputType& chunk) {
-  // TODO(chcunningham): Implement the conversion.
   auto decoder_buffer = media::DecoderBuffer::CopyFrom(
       static_cast<uint8_t*>(chunk.data()->Data()),
       chunk.data()->ByteLengthAsSizeT());

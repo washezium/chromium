@@ -5,8 +5,6 @@
 #ifndef THIRD_PARTY_BLINK_RENDERER_MODULES_WEBCODECS_AUDIO_DECODER_H_
 #define THIRD_PARTY_BLINK_RENDERER_MODULES_WEBCODECS_AUDIO_DECODER_H_
 
-#include "third_party/blink/renderer/modules/webcodecs/decoder_template.h"
-
 #include <stdint.h>
 #include <memory>
 
@@ -18,6 +16,7 @@
 #include "third_party/blink/renderer/bindings/modules/v8/v8_video_frame_output_callback.h"
 #include "third_party/blink/renderer/bindings/modules/v8/v8_web_codecs_error_callback.h"
 #include "third_party/blink/renderer/modules/modules_export.h"
+#include "third_party/blink/renderer/modules/webcodecs/decoder_template.h"
 #include "third_party/blink/renderer/platform/bindings/script_wrappable.h"
 #include "third_party/blink/renderer/platform/heap/garbage_collected.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
@@ -34,12 +33,10 @@ class MediaLog;
 
 namespace blink {
 
-class ExceptionState;
-class AudioDecoderInit;
-
 class AudioFrame;
 class EncodedAudioChunk;
 class EncodedAudioConfig;
+class ExceptionState;
 class AudioDecoderInit;
 class V8AudioFrameOutputCallback;
 
@@ -54,7 +51,7 @@ class MODULES_EXPORT AudioDecoderTraits {
   using InputType = EncodedAudioChunk;
 
   static std::unique_ptr<MediaDecoderType> CreateDecoder(
-      const scoped_refptr<base::SingleThreadTaskRunner>& task_runner,
+      ExecutionContext& execution_context,
       media::MediaLog* media_log);
   static void InitializeDecoder(MediaDecoderType& decoder,
                                 const ConfigType& config,
