@@ -460,7 +460,7 @@ deps = {
     'packages': [
       {
         'package': 'chromium/chrome/test/data/autofill/captured_sites',
-        'version': 'ANsUq8exbUu7n2CoTrrGCi4jmlXNCf1vPwaoV9XJSd4C',
+        'version': 'd452hxzAmfQ3083xJD-zkRa9oE9kzWJUANy_T5-gt1IC',
       }
     ],
     'condition': 'checkout_chromium_autofill_test_dependencies',
