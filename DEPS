@@ -1855,6 +1855,17 @@ deps = {
       'dep_type': 'cipd',
   },
 
+  'src/third_party/android_deps/libs/androidx_exifinterface_exifinterface': {
+      'packages': [
+          {
+              'package': 'chromium/third_party/android_deps/libs/androidx_exifinterface_exifinterface',
+              'version': 'version:1.0.0-cr0',
+          },
+      ],
+      'condition': 'checkout_android',
+      'dep_type': 'cipd',
+  },
+
   'src/third_party/android_deps/libs/androidx_fragment_fragment': {
       'packages': [
           {
