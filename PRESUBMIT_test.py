@@ -2478,12 +2478,20 @@ class BannedTypeCheckTest(unittest.TestCase):
         'file': 'file14.cc'
       },
       {
-        'type': 'mojo::StrongAssociatedBindingSet<>',
+        'type': 'mojo::StrongAssociatedBinding<>',
         'file': 'file15.cc'
       },
       {
-        'type': 'mojo::StrongBindingSet<>',
+        'type': 'mojo::StrongBinding<>',
         'file': 'file16.cc'
+      },
+      {
+        'type': 'mojo::StrongAssociatedBindingSet<>',
+        'file': 'file17.cc'
+      },
+      {
+        'type': 'mojo::StrongBindingSet<>',
+        'file': 'file18.cc'
       },
     ]
 

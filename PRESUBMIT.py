@@ -1215,6 +1215,20 @@ _DEPRECATED_MOJO_TYPES = (
       ),
     ),
     (
+      r'/\bmojo::StrongAssociatedBinding\b',
+      (
+        'mojo::StrongAssociatedBinding<Interface> is deprecated.',
+        'Use mojo::MakeSelfOwnedAssociatedReceiver<Interface> instead.',
+      ),
+    ),
+    (
+      r'/\bmojo::StrongBinding\b',
+      (
+        'mojo::StrongBinding<Interface> is deprecated.',
+        'Use mojo::MakeSelfOwnedReceiver<Interface> instead.',
+      ),
+    ),
+    (
       r'/\bmojo::StrongAssociatedBindingSet\b',
       (
         'mojo::StrongAssociatedBindingSet<Interface> is deprecated.',
