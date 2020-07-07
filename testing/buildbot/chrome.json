@@ -833,6 +833,9 @@
         }
       },
       {
+        "args": [
+          "--flash"
+        ],
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_gtest_merge.py"
@@ -856,6 +859,9 @@
         }
       },
       {
+        "args": [
+          "--flash"
+        ],
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_gtest_merge.py"
@@ -879,7 +885,8 @@
       },
       {
         "args": [
-          "--strip-chrome"
+          "--strip-chrome",
+          "--flash"
         ],
         "merge": {
           "script": "//tools/perf/process_perf_results.py"
@@ -908,7 +915,8 @@
         "args": [
           "--browser=cros-chrome",
           "--remote=variable_chromeos_device_hostname",
-          "--xvfb"
+          "--xvfb",
+          "--flash"
         ],
         "isolate_name": "telemetry_perf_unittests",
         "merge": {
@@ -938,7 +946,8 @@
         "args": [
           "--browser=cros-chrome",
           "--remote=variable_chromeos_device_hostname",
-          "--jobs=1"
+          "--jobs=1",
+          "--flash"
         ],
         "isolate_name": "telemetry_unittests",
         "merge": {
@@ -998,6 +1007,9 @@
         }
       },
       {
+        "args": [
+          "--flash"
+        ],
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_gtest_merge.py"
@@ -1021,6 +1033,9 @@
         }
       },
       {
+        "args": [
+          "--flash"
+        ],
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_gtest_merge.py"
@@ -1044,7 +1059,8 @@
       },
       {
         "args": [
-          "--strip-chrome"
+          "--strip-chrome",
+          "--flash"
         ],
         "merge": {
           "script": "//tools/perf/process_perf_results.py"
