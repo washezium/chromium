@@ -1650,12 +1650,6 @@
           '--test-launcher-filter-file=../../testing/buildbot/filters/android.emulator.net_unittests.filter',
         ],
       },
-      'chromeos-betty-chrome': {
-        # TODO(crbug.com/986904): Remove this filter.
-        'args': [
-          '--gtest_filter=-NetworkQualityEstimatorTest.TestTCPSocketRTT',
-        ],
-      },
       'linux-blink-heap-concurrent-marking-tsan-rel': {
         'swarming': {
           'shards': 4,
@@ -1981,11 +1975,6 @@
   },
   'ozone_unittests': {
     'modifications': {
-      'chromeos-betty-chrome': {
-        'args': [
-          '--test-launcher-filter-file=../../testing/buildbot/filters/chromeos.ozone_unittests.filter',
-        ],
-      },
       'chromeos-betty-pi-arc-chrome': {
         'args': [
           '--test-launcher-filter-file=../../testing/buildbot/filters/chromeos.ozone_unittests.filter',
