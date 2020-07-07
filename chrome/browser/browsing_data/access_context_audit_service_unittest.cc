@@ -28,7 +28,7 @@ namespace {
 // |top_frame_origin|.
 void CheckContainsCookieRecord(
     net::CanonicalCookie* cookie,
-    GURL top_frame_origin,
+    url::Origin top_frame_origin,
     const std::vector<AccessContextAuditDatabase::AccessRecord>& records) {
   EXPECT_NE(
       std::find_if(
@@ -49,9 +49,9 @@ void CheckContainsCookieRecord(
 // Checks that info in |record| matches storage API access defined by
 // |storage_origin|, |type| and |top_frame_origin|
 void CheckContainsStorageAPIRecord(
-    GURL storage_origin,
+    url::Origin storage_origin,
     AccessContextAuditDatabase::StorageAPIType type,
-    GURL top_frame_origin,
+    url::Origin top_frame_origin,
     const std::vector<AccessContextAuditDatabase::AccessRecord>& records) {
   EXPECT_NE(
       std::find_if(records.begin(), records.end(),
@@ -159,9 +159,9 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
       kTestCookieURL, kTestNonPersistentCookieName + "=1",
       initial_cookie_access_time, base::nullopt /* server_time */);
   // Record access to these cookies against a URL.
-  GURL kTopFrameURL("https://test.com");
+  url::Origin kTopFrameOrigin = url::Origin::Create(GURL("https://test.com"));
   service()->RecordCookieAccess({*test_cookie, *test_non_persistent_cookie},
-                                kTopFrameURL);
+                                kTopFrameOrigin);
 
   // Ensure that the record of these accesses is correctly returned.
   service()->GetAllAccessRecords(
@@ -170,9 +170,9 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   browser_task_environment_.RunUntilIdle();
 
   EXPECT_EQ(2u, GetReturnedRecords().size());
-  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
-  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
 
   // Check that informing the service of non-deletion changes to the cookies
@@ -190,9 +190,9 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   browser_task_environment_.RunUntilIdle();
 
   EXPECT_EQ(2u, GetReturnedRecords().size());
-  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
-  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
 
   // Check that a repeated access correctly updates associated timestamp.
@@ -201,7 +201,7 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   test_cookie->SetLastAccessDate(repeat_cookie_access_time);
   test_non_persistent_cookie->SetLastAccessDate(repeat_cookie_access_time);
   service()->RecordCookieAccess({*test_cookie, *test_non_persistent_cookie},
-                                kTopFrameURL);
+                                kTopFrameOrigin);
 
   ClearReturnedRecords();
   service()->GetAllAccessRecords(
@@ -210,9 +210,9 @@ TEST_F(AccessContextAuditServiceTest, CookieRecords) {
   browser_task_environment_.RunUntilIdle();
 
   EXPECT_EQ(2u, GetReturnedRecords().size());
-  CheckContainsCookieRecord(test_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
-  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_non_persistent_cookie.get(), kTopFrameOrigin,
                             GetReturnedRecords());
 
   // Inform the service the cookies have been deleted and check they are no
@@ -239,7 +239,8 @@ TEST_F(AccessContextAuditServiceTest, ExpiredCookies) {
       kTestURL, "test_1=1; expires=Thu, 01 Jan 1970 00:00:00 GMT",
       base::Time::Now(), base::nullopt /* server_time */);
 
-  service()->RecordCookieAccess({*test_cookie_expired}, kTestURL);
+  service()->RecordCookieAccess({*test_cookie_expired},
+                                url::Origin::Create(kTestURL));
 
   service()->GetAllAccessRecords(
       base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
@@ -254,7 +255,7 @@ TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {
   const GURL kTestPersistentURL("https://persistent.com");
   const GURL kTestSessionOnlyExplicitURL("https://explicit-session-only.com");
   const GURL kTestSessionOnlyContentSettingURL("https://content-setting.com");
-  const GURL kTopFrameURL("https://test.com");
+  url::Origin kTopFrameOrigin = url::Origin::Create(GURL("https://test.com"));
   std::string kTestCookieName = "test";
   const auto kTestStorageType =
       AccessContextAuditDatabase::StorageAPIType::kWebDatabase;
@@ -279,14 +280,15 @@ TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {
   service()->RecordCookieAccess(
       {*test_cookie_persistent, *test_cookie_session_only_explicit,
        *test_cookie_session_only_content_setting},
-      kTopFrameURL);
+      kTopFrameOrigin);
 
   // Record storage APIs for both persistent and content setting based session
   // only URLs.
-  service()->RecordStorageAPIAccess(kTestPersistentURL, kTestStorageType,
-                                    kTopFrameURL);
-  service()->RecordStorageAPIAccess(kTestSessionOnlyContentSettingURL,
-                                    kTestStorageType, kTopFrameURL);
+  service()->RecordStorageAPIAccess(url::Origin::Create(kTestPersistentURL),
+                                    kTestStorageType, kTopFrameOrigin);
+  service()->RecordStorageAPIAccess(
+      url::Origin::Create(kTestSessionOnlyContentSettingURL), kTestStorageType,
+      kTopFrameOrigin);
 
   // Ensure all records have been initially recorded.
   service()->GetAllAccessRecords(
@@ -313,10 +315,11 @@ TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {
   browser_task_environment_.RunUntilIdle();
 
   ASSERT_EQ(3u, GetReturnedRecords().size());
-  CheckContainsCookieRecord(test_cookie_persistent.get(), kTopFrameURL,
+  CheckContainsCookieRecord(test_cookie_persistent.get(), kTopFrameOrigin,
                             GetReturnedRecords());
   CheckContainsCookieRecord(test_cookie_session_only_explicit.get(),
-                            kTopFrameURL, GetReturnedRecords());
-  CheckContainsStorageAPIRecord(kTestPersistentURL, kTestStorageType,
-                                kTopFrameURL, GetReturnedRecords());
+                            kTopFrameOrigin, GetReturnedRecords());
+  CheckContainsStorageAPIRecord(url::Origin::Create(GURL(kTestPersistentURL)),
+                                kTestStorageType, kTopFrameOrigin,
+                                GetReturnedRecords());
 }

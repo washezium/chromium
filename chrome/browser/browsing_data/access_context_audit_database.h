@@ -13,7 +13,7 @@
 #include "sql/init_status.h"
 #include "sql/meta_table.h"
 #include "sql/test/test_helpers.h"
-#include "url/gurl.h"
+#include "url/origin.h"
 
 // Provides the backend SQLite storage to support access context auditing. This
 // requires storing information associating individual client-side storage API
@@ -38,21 +38,21 @@ class AccessContextAuditDatabase
   // An individual record of a Storage API access, associating the individual
   // API usage with a top level frame origin.
   struct AccessRecord {
-    AccessRecord(const GURL& top_frame_origin,
+    AccessRecord(const url::Origin& top_frame_origin,
                  const std::string& name,
                  const std::string& domain,
                  const std::string& path,
                  const base::Time& last_access_time,
                  bool is_persistent);
-    AccessRecord(const GURL& top_frame_origin,
+    AccessRecord(const url::Origin& top_frame_origin,
                  const StorageAPIType& type,
-                 const GURL& origin,
+                 const url::Origin& origin,
                  const base::Time& last_access_time);
     ~AccessRecord();
     AccessRecord(const AccessRecord& other);
     AccessRecord& operator=(const AccessRecord& other);
 
-    GURL top_frame_origin;
+    url::Origin top_frame_origin;
     StorageAPIType type;
 
     // Identifies a canonical cookie, only used when |type| is kCookie.
@@ -61,7 +61,7 @@ class AccessContextAuditDatabase
     std::string path;
 
     // Identifies an origin-keyed storage API, used when |type| is NOT kCookie.
-    GURL origin;
+    url::Origin origin;
 
     base::Time last_access_time;
 
@@ -91,7 +91,7 @@ class AccessContextAuditDatabase
                                  const std::string& path);
 
   // Remove all records of access to |origin|'s storage API of |type|.
-  void RemoveAllRecordsForOriginStorage(const GURL& origin,
+  void RemoveAllRecordsForOriginStorage(const url::Origin& origin,
                                         StorageAPIType type);
 
   // Removes all records for cookie domains and API origins that match session

@@ -34,8 +34,6 @@ namespace {
 // Use host names that are explicitly included in test certificates.
 constexpr char kTopLevelHost[] = "a.test";
 constexpr char kEmbeddedHost[] = "b.test";
-constexpr char kTopLevelHostAsOrigin[] = "https://a.test";
-constexpr char kEmbeddedHostAsOrigin[] = "https://b.test";
 
 std::string GetPathWithHostAndPortReplaced(const std::string& original_path,
                                            net::HostPortPair host_port_pair) {
@@ -52,7 +50,7 @@ std::string GetPathWithHostAndPortReplaced(const std::string& original_path,
 void CheckContainsCookieAndRecord(
     const std::vector<net::CanonicalCookie>& cookies,
     const std::vector<AccessContextAuditDatabase::AccessRecord>& record_list,
-    const GURL& top_frame_origin,
+    const url::Origin& top_frame_origin,
     const std::string& name,
     const std::string& domain,
     const std::string& path,
@@ -127,8 +125,12 @@ class AccessContextAuditBrowserTest : public InProcessBrowserTest {
     return cookies_out;
   }
 
-  GURL top_level_origin() { return top_level_.GetURL(kTopLevelHost, "/"); }
-  GURL embedded_origin() { return embedded_.GetURL(kEmbeddedHost, "/"); }
+  url::Origin top_level_origin() {
+    return url::Origin::Create(top_level_.GetURL(kTopLevelHost, "/"));
+  }
+  url::Origin embedded_origin() {
+    return url::Origin::Create(embedded_.GetURL(kEmbeddedHost, "/"));
+  }
 
  protected:
   base::test::ScopedFeatureList feature_list_;
@@ -180,13 +182,13 @@ IN_PROC_BROWSER_TEST_F(AccessContextAuditBrowserTest, PRE_RemoveRecords) {
   auto cookies = GetAllCookies();
   EXPECT_EQ(records.size(), 3u);
   EXPECT_EQ(cookies.size(), 2u);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kTopLevelHostAsOrigin),
-                               "embedder", kTopLevelHost, "/",
+  CheckContainsCookieAndRecord(cookies, records, top_level_origin(), "embedder",
+                               kTopLevelHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kTopLevelHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, top_level_origin(),
                                "persistent", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kEmbeddedHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, embedded_origin(),
                                "persistent", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
 }
@@ -287,19 +289,19 @@ IN_PROC_BROWSER_TEST_F(AccessContextAuditSessionRestoreBrowserTest,
   auto cookies = GetAllCookies();
   EXPECT_EQ(records.size(), 5u);
   EXPECT_EQ(cookies.size(), 3u);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kTopLevelHostAsOrigin),
-                               "embedder", kTopLevelHost, "/",
+  CheckContainsCookieAndRecord(cookies, records, top_level_origin(), "embedder",
+                               kTopLevelHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kTopLevelHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, top_level_origin(),
                                "session_only", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kTopLevelHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, top_level_origin(),
                                "persistent", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kEmbeddedHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, embedded_origin(),
                                "persistent", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
-  CheckContainsCookieAndRecord(cookies, records, GURL(kEmbeddedHostAsOrigin),
+  CheckContainsCookieAndRecord(cookies, records, embedded_origin(),
                                "session_only", kEmbeddedHost, "/",
                                /*compare_host_only*/ true);
 }

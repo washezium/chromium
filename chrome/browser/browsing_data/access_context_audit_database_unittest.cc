@@ -96,52 +96,58 @@ class AccessContextAuditDatabaseTest : public testing::Test {
   std::vector<AccessContextAuditDatabase::AccessRecord> GetTestRecords() {
     return {
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test.com"),
+            url::Origin::Create(GURL("https://test.com")),
             AccessContextAuditDatabase::StorageAPIType::kLocalStorage,
-            GURL("https://test.com"),
+            url::Origin::Create(GURL("https://test.com")),
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(1))),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test2.com:8000"),
+            url::Origin::Create(GURL("https://test2.com:8000")),
             AccessContextAuditDatabase::StorageAPIType::kLocalStorage,
-            GURL("https://test.com"),
+            url::Origin::Create(GURL("https://test.com")),
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(2))),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test2.com"), "cookie1", "test.com", "/",
+            url::Origin::Create(GURL("https://test2.com:8000")), "cookie1",
+            "test.com", "/",
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(3)),
             /* is_persistent */ true),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test2.com"), kManyContextsCookieName,
-            kManyContextsCookieDomain, kManyContextsCookiePath,
+            url::Origin::Create(GURL("https://test2.com")),
+            kManyContextsCookieName, kManyContextsCookieDomain,
+            kManyContextsCookiePath,
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(4)),
             /* is_persistent */ true),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test3.com"), kManyContextsCookieName,
-            kManyContextsCookieDomain, kManyContextsCookiePath,
+            url::Origin::Create(GURL("https://test3.com")),
+            kManyContextsCookieName, kManyContextsCookieDomain,
+            kManyContextsCookiePath,
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(4)),
             /* is_persistent */ true),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test4.com:8000"), kManyContextsStorageAPIType,
-            GURL(kManyContextsStorageAPIOrigin),
+            url::Origin::Create(GURL("https://test4.com:8000")),
+            kManyContextsStorageAPIType,
+            url::Origin::Create(GURL(kManyContextsStorageAPIOrigin)),
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(5))),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test5.com:8000"), kManyContextsStorageAPIType,
-            GURL(kManyContextsStorageAPIOrigin),
+            url::Origin::Create(GURL("https://test5.com:8000")),
+            kManyContextsStorageAPIType,
+            url::Origin::Create(GURL(kManyContextsStorageAPIOrigin)),
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(6))),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test5.com:8000"), kSingleContextStorageAPIType,
-            GURL(kManyContextsStorageAPIOrigin),
+            url::Origin::Create(GURL("https://test5.com:8000")),
+            kSingleContextStorageAPIType,
+            url::Origin::Create(GURL(kManyContextsStorageAPIOrigin)),
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(7))),
         AccessContextAuditDatabase::AccessRecord(
-            GURL("https://test6.com"), "non-persistent-cookie",
-            "non-persistent-domain", "/",
+            url::Origin::Create(GURL("https://test6.com")),
+            "non-persistent-cookie", "non-persistent-domain", "/",
             base::Time::FromDeltaSinceWindowsEpoch(
                 base::TimeDelta::FromHours(8)),
             /* is_persistent */ false),
@@ -323,15 +329,16 @@ TEST_F(AccessContextAuditDatabaseTest, RemoveAllStorageRecords) {
   ValidateDatabaseRecords(database(), test_records);
 
   database()->RemoveAllRecordsForOriginStorage(
-      GURL(kManyContextsStorageAPIOrigin), kManyContextsStorageAPIType);
+      url::Origin::Create(GURL(kManyContextsStorageAPIOrigin)),
+      kManyContextsStorageAPIType);
 
   test_records.erase(
       std::remove_if(
           test_records.begin(), test_records.end(),
           [=](const AccessContextAuditDatabase::AccessRecord& record) {
             return (record.type == kManyContextsStorageAPIType &&
-                    record.origin.GetOrigin() ==
-                        GURL(kManyContextsStorageAPIOrigin).GetOrigin());
+                    record.origin == url::Origin::Create(
+                                         GURL(kManyContextsStorageAPIOrigin)));
           }),
       test_records.end());
   ValidateDatabaseRecords(database(), test_records);

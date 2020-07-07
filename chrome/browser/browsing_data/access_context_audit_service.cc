@@ -47,7 +47,7 @@ bool AccessContextAuditService::Init(
 
 void AccessContextAuditService::RecordCookieAccess(
     const net::CookieList& accessed_cookies,
-    const GURL& top_frame_origin) {
+    const url::Origin& top_frame_origin) {
   auto now = base::Time::Now();
   std::vector<AccessContextAuditDatabase::AccessRecord> access_records;
   for (const auto& cookie : accessed_cookies) {
@@ -66,9 +66,9 @@ void AccessContextAuditService::RecordCookieAccess(
 }
 
 void AccessContextAuditService::RecordStorageAPIAccess(
-    const GURL& storage_origin,
+    const url::Origin& storage_origin,
     AccessContextAuditDatabase::StorageAPIType type,
-    const GURL& top_frame_origin) {
+    const url::Origin& top_frame_origin) {
   std::vector<AccessContextAuditDatabase::AccessRecord> access_record = {
       AccessContextAuditDatabase::AccessRecord(
           top_frame_origin, type, storage_origin, base::Time::Now())};
