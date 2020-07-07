@@ -256,6 +256,9 @@ crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-008.tentative.
 # It is not clear if this test is correct. https://github.com/w3c/csswg-drafts/issues/5151
 crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-004.tentative.html [ Failure ]
 
+# Incorrect blending with foreignObject and svg descendants.
+crbug.com/1102803 external/wpt/svg/extensibility/foreignObject/isolation-with-svg.html [ Failure ]
+
 # Display locking failures
 
 crbug.com/849459 fragmentation/repeating-thead-under-repeating-thead.html [ Failure ]
