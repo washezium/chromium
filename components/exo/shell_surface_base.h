@@ -144,6 +144,7 @@ class ShellSurfaceBase : public SurfaceTreeHost,
   void OnSetFrameColors(SkColor active_color, SkColor inactive_color) override;
   void OnSetStartupId(const char* startup_id) override;
   void OnSetApplicationId(const char* application_id) override;
+  void SetUseImmersiveForFullscreen(bool value) override;
   void OnActivationRequested() override;
 
   // SurfaceObserver:
@@ -300,6 +301,7 @@ class ShellSurfaceBase : public SurfaceTreeHost,
   bool pending_show_widget_ = false;
   base::Optional<std::string> application_id_;
   base::Optional<std::string> startup_id_;
+  bool immersive_implied_by_fullscreen_ = true;
   base::RepeatingClosure close_callback_;
   base::RepeatingClosure pre_close_callback_;
   base::OnceClosure surface_destroyed_callback_;
