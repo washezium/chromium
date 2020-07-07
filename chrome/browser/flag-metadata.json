@@ -1312,6 +1312,11 @@
     "expiry_milestone": 86
   },
   {
+    "name": "enable-bluetooth-spp-in-serial-api",
+    "owners": [ "mattreynolds", "odejesush", "vickymin@google.com" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "enable-breakpad-upload-no-delay",
     "owners": [ "olivierrobin" ],
     "expiry_milestone": 82

@@ -87,6 +87,12 @@ const char kConversionMeasurementDebugModeDescription[] =
     "reporting delays and noise. Only works if the Conversion Measurement API "
     "is already enabled.";
 
+const char kEnableBluetoothSerialPortProfileInSerialApiName[] =
+    "Enable Bluetooth Serial Port Profile in Serial API";
+const char kEnableBluetoothSerialPortProfileInSerialApiDescription[] =
+    "When enabled, Bluetooth Serial Port Profile devices will be enumerated "
+    "for use with the Serial API.";
+
 const char kEnableClipboardProviderImageSuggestionsName[] =
     "Omnibox clipboard image search suggestions";
 const char kEnableClipboardProviderImageSuggestionsDescription[] =

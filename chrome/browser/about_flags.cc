@@ -157,6 +157,7 @@
 #include "ppapi/buildflags/buildflags.h"
 #include "printing/buildflags/buildflags.h"
 #include "services/device/public/cpp/device_features.h"
+#include "services/device/public/cpp/serial/serial_switches.h"
 #include "services/media_session/public/cpp/features.h"
 #include "services/network/public/cpp/features.h"
 #include "services/network/public/cpp/network_switches.h"
@@ -5789,6 +5790,12 @@ const FeatureEntry kFeatureEntries[] = {
     {"schemeful-same-site", flag_descriptions::kSchemefulSameSiteName,
      flag_descriptions::kSchemefulSameSiteDescription, kOsAll,
      FEATURE_VALUE_TYPE(net::features::kSchemefulSameSite)},
+
+    {"enable-bluetooth-spp-in-serial-api",
+     flag_descriptions::kEnableBluetoothSerialPortProfileInSerialApiName,
+     flag_descriptions::kEnableBluetoothSerialPortProfileInSerialApiDescription,
+     kOsAll,
+     SINGLE_VALUE_TYPE(switches::kEnableBluetoothSerialPortProfileInSerialApi)},
 
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag

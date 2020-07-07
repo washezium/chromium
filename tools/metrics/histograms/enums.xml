@@ -40731,6 +40731,7 @@ from previous Chrome versions.
   <int value="-763640405" label="WebXRARModule:enabled"/>
   <int value="-762738927" label="LogJsConsoleMessages:enabled"/>
   <int value="-762687134" label="ExperimentalCrostiniUI:enabled"/>
+  <int value="-762541013" label="enable-bluetooth-spp-in-serial-api"/>
   <int value="-759830869" label="enable-tab-discarding"/>
   <int value="-758999727" label="ContentIndexingNTP:disabled"/>
   <int value="-758917191" label="AccountIdMigration:enabled"/>
