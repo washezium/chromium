@@ -313,6 +313,24 @@ TEST_F(ShillPropertyHandlerTest, ShillPropertyHandlerTechnologyChanged) {
   EXPECT_EQ(1, listener_->technology_list_updates());
   EXPECT_TRUE(shill_property_handler_->IsTechnologyEnabled(shill::kTypeWifi));
 
+  // Prohibit the technology.
+  listener_->reset_list_updates();
+  manager_test_->SetTechnologyProhibited(shill::kTypeWifi,
+                                         /*prohibited=*/true);
+  base::RunLoop().RunUntilIdle();
+  EXPECT_EQ(1, listener_->technology_list_updates());
+  EXPECT_TRUE(
+      shill_property_handler_->IsTechnologyProhibited(shill::kTypeWifi));
+
+  // Un-prohibit the technology.
+  listener_->reset_list_updates();
+  manager_test_->SetTechnologyProhibited(shill::kTypeWifi,
+                                         /*prohibited=*/false);
+  base::RunLoop().RunUntilIdle();
+  EXPECT_EQ(1, listener_->technology_list_updates());
+  EXPECT_FALSE(
+      shill_property_handler_->IsTechnologyProhibited(shill::kTypeWifi));
+
   EXPECT_EQ(0, listener_->errors());
 }
 

@@ -13,6 +13,7 @@
 #include "base/bind_helpers.h"
 #include "base/format_macros.h"
 #include "base/macros.h"
+#include "base/strings/string_split.h"
 #include "base/strings/string_util.h"
 #include "base/values.h"
 #include "chromeos/dbus/shill/shill_device_client.h"
@@ -33,10 +34,10 @@ const size_t kMaxObserved = 100;
 
 const base::ListValue* GetListValue(const std::string& key,
                                     const base::Value& value) {
-  const base::ListValue* vlist = NULL;
+  const base::ListValue* vlist = nullptr;
   if (!value.GetAsList(&vlist)) {
     NET_LOG(ERROR) << "Error parsing key as list: " << key;
-    return NULL;
+    return nullptr;
   }
   return vlist;
 }
@@ -375,9 +376,9 @@ void ShillPropertyHandler::ManagerPropertyChanged(const std::string& key,
     if (vlist)
       UpdateUninitializedTechnologies(*vlist);
   } else if (key == shill::kProhibitedTechnologiesProperty) {
-    const base::ListValue* vlist = GetListValue(key, value);
-    if (vlist)
-      UpdateProhibitedTechnologies(*vlist);
+    std::string prohibited_technologies;
+    if (value.GetAsString(&prohibited_technologies))
+      UpdateProhibitedTechnologies(prohibited_technologies);
   } else if (key == shill::kProfilesProperty) {
     listener_->ProfileListChanged();
   } else if (key == shill::kCheckPortalListProperty) {
@@ -516,11 +517,11 @@ void ShillPropertyHandler::UpdateUninitializedTechnologies(
 }
 
 void ShillPropertyHandler::UpdateProhibitedTechnologies(
-    const base::ListValue& technologies) {
-  NET_LOG(EVENT) << "ProhibitedTechnologies:" << technologies;
-  std::set<std::string> new_prohibited_technologies;
-  for (const base::Value& technology : technologies.GetList())
-    new_prohibited_technologies.insert(technology.GetString());
+    const std::string& technologies) {
+  std::vector<std::string> prohibited_list = base::SplitString(
+      technologies, ",", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
+  std::set<std::string> new_prohibited_technologies(prohibited_list.begin(),
+                                                    prohibited_list.end());
   if (new_prohibited_technologies == prohibited_technologies_)
     return;
   prohibited_technologies_.swap(new_prohibited_technologies);
