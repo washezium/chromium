@@ -144,22 +144,21 @@ bool ShouldOverrideUserAgent(
 // navigating to the last committed url via the address bar or clicking on a
 // link which results in a navigation to the last committed or pending
 // navigation, etc.
-// |url|, |virtual_url|, |base_url_for_data_url|, |transition_type| correspond
-// to the new navigation (i.e. the pending NavigationEntry).
-// |last_committed_entry| is the last navigation that committed.
-bool ShouldTreatNavigationAsReload(const GURL& url,
+// |node| is the FrameTreeNode which is navigating. |url|, |virtual_url|,
+// |base_url_for_data_url|, |transition_type| correspond to the new navigation
+// (i.e. the pending NavigationEntry). |last_committed_entry| is the last
+// navigation that committed.
+bool ShouldTreatNavigationAsReload(FrameTreeNode* node,
+                                   const GURL& url,
                                    const GURL& virtual_url,
                                    const GURL& base_url_for_data_url,
                                    ui::PageTransition transition_type,
-                                   bool is_main_frame,
                                    bool is_post,
                                    bool is_reload,
                                    bool is_navigation_to_existing_entry,
                                    NavigationEntryImpl* last_committed_entry) {
-  // Only convert main frame navigations to a new entry.
-  if (!is_main_frame || is_reload || is_navigation_to_existing_entry)
+  if (is_reload || is_navigation_to_existing_entry)
     return false;
-
   // Only convert to reload if at least one navigation committed.
   if (!last_committed_entry)
     return false;
@@ -192,8 +191,13 @@ bool ShouldTreatNavigationAsReload(const GURL& url,
   if (virtual_url != last_committed_entry->GetVirtualURL())
     return false;
 
-  // Check that the URL match.
-  if (url != last_committed_entry->GetURL())
+  // Check that the URLs match.
+  FrameNavigationEntry* frame_entry = last_committed_entry->GetFrameEntry(node);
+  // If there's no frame entry then by definition the URLs don't match.
+  if (!frame_entry)
+    return false;
+
+  if (url != frame_entry->url())
     return false;
 
   // This check is required for Android WebView loadDataWithBaseURL. Apps
@@ -210,7 +214,7 @@ bool ShouldTreatNavigationAsReload(const GURL& url,
 
   // Don't convert to a reload when the last navigation was a POST or the new
   // navigation is a POST.
-  if (last_committed_entry->GetHasPostData() || is_post)
+  if (frame_entry->get_has_post_data() || is_post)
     return false;
 
   return true;
@@ -3015,9 +3019,8 @@ void NavigationControllerImpl::NavigateWithoutEntry(
   ReloadType reload_type = params.reload_type;
   if (reload_type == ReloadType::NONE &&
       ShouldTreatNavigationAsReload(
-          params.url, pending_entry_->GetVirtualURL(),
+          node, params.url, pending_entry_->GetVirtualURL(),
           params.base_url_for_data_url, params.transition_type,
-          params.frame_tree_node_id == RenderFrameHost::kNoFrameTreeNodeId,
           params.load_type ==
               NavigationController::LOAD_TYPE_HTTP_POST /* is_post */,
           false /* is_reload */, false /* is_navigation_to_existing_entry */,
