@@ -242,16 +242,10 @@ TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrError) {
 TEST(ProbeServiceConvertors, CachedVpdInfoPtr) {
   constexpr char kSkuNumber[] = "sku-1";
 
-  // Here we don't use cros_healthd::mojom::CachedVpdInfo::New
-  // because CachedVpdInfo may contain some fields that we
-  // don't use yet.
-  auto info = cros_healthd::mojom::CachedVpdInfo::New();
+  auto input = cros_healthd::mojom::CachedVpdInfo::New();
+  input->sku_number = kSkuNumber;
 
-  info->sku_number = kSkuNumber;
-
-  // Here we intentionaly use health::mojom::CachedVpdInfo::New
-  // not to forget to test new fields.
-  EXPECT_EQ(ConvertPtr(info.Clone()),
+  EXPECT_EQ(ConvertPtr(std::move(input)),
             health::mojom::CachedVpdInfo::New(kSkuNumber));
 }
 
@@ -279,7 +273,7 @@ TEST(ProbeServiceConvertors, CpuCStateInfoPtr) {
     input->time_in_state_since_last_boot_us = kTimeInStateSinceLastBootUs;
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->name, kName);
   EXPECT_EQ(output->time_in_state_since_last_boot_us,
@@ -306,7 +300,7 @@ TEST(ProbeServiceConvertors, LogicalCpuInfoPtr) {
     input->c_states.push_back(std::move(c_state));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->max_clock_speed_khz,
             health::mojom::UInt32Value::New(kMaxClockSpeedKhz));
@@ -334,7 +328,7 @@ TEST(ProbeServiceConvertors, PhysicalCpuInfoPtr) {
     input->logical_cpus.push_back(std::move(logical_info));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   ASSERT_EQ(output->model_name, kModelName);
   ASSERT_EQ(output->logical_cpus.size(), 1ULL);
@@ -367,7 +361,7 @@ TEST(ProbeServiceConvertors, CpuInfoPtr) {
     input->physical_cpus.push_back(std::move(physical_info));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   ASSERT_EQ(output->num_total_threads,
             health::mojom::UInt32Value::New(kNumTotalThreads));
@@ -398,7 +392,7 @@ TEST(ProbeServiceConvertors, TimezoneInfoPtr) {
   input->posix = kPosix;
   input->region = kRegion;
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->posix, kPosix);
   EXPECT_EQ(output->region, kRegion);
@@ -430,7 +424,7 @@ TEST(ProbeServiceConvertors, MemoryInfoPtr) {
   input->available_memory_kib = kAvailableMemoryKib;
   input->page_faults_since_last_boot = kPageFaultsSinceLastBoot;
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->total_memory_kib,
             health::mojom::UInt32Value::New(kTotalMemoryKib));
@@ -466,7 +460,7 @@ TEST(ProbeServiceConvertors, BacklightInfoPtr) {
   input->max_brightness = kMaxBrightness;
   input->brightness = kBrightness;
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->path, kPath);
   EXPECT_EQ(output->max_brightness,
@@ -489,7 +483,7 @@ TEST(ProbeServiceConvertors, BacklightResultPtrInfo) {
         std::move(backlight_infos));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   ASSERT_TRUE(output->is_backlight_info());
 
@@ -512,7 +506,7 @@ TEST(ProbeServiceConvertors, FanInfoPtr) {
   auto input = cros_healthd::mojom::FanInfo::New();
   input->speed_rpm = kSpeedRpm;
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->speed_rpm, health::mojom::UInt32Value::New(kSpeedRpm));
 }
@@ -531,7 +525,7 @@ TEST(ProbeServiceConvertors, FanResultPtrInfo) {
     input = cros_healthd::mojom::FanResult::NewFanInfo(std::move(fan_infos));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   ASSERT_TRUE(output->is_fan_info());
 
@@ -559,7 +553,7 @@ TEST(ProbeServiceConvertors, StatefulPartitionInfoPtr) {
   input->available_space = kAvailableSpace;
   input->total_space = kTotalSpace;
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   EXPECT_EQ(output->available_space,
             health::mojom::UInt64Value::New(kRoundedAvailableSpace));
@@ -616,7 +610,7 @@ TEST(ProbeServiceConvertors, BluetoothResultPtrInfo) {
         std::move(infos));
   }
 
-  const auto output = ConvertPtr(input.Clone());
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
   ASSERT_TRUE(output->is_bluetooth_adapter_info());
 
