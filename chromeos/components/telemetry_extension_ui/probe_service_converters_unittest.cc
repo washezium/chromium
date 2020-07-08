@@ -81,41 +81,41 @@ TEST(ProbeServiceConvertors, BoolValue) {
 }
 
 TEST(ProbeServiceConvertors, DoubleValue) {
-  constexpr double kValue = 100500.500100;
+  constexpr double kValue = 100500111111.500100;
   EXPECT_EQ(Convert(kValue), health::mojom::DoubleValue::New(kValue));
 }
 
 TEST(ProbeServiceConvertors, Int64Value) {
-  constexpr int64_t kValue = -100500;
+  constexpr int64_t kValue = -(1LL << 62) + 1000;
   EXPECT_EQ(Convert(kValue), health::mojom::Int64Value::New(kValue));
 }
 
 TEST(ProbeServiceConvertors, UInt64Value) {
-  constexpr uint64_t kValue = 100500;
+  constexpr uint64_t kValue = (1ULL << 63) + 1000000000;
   EXPECT_EQ(Convert(kValue), health::mojom::UInt64Value::New(kValue));
 }
 
 TEST(ProbeServiceConvertors, UInt64ValuePtr) {
-  constexpr uint64_t kValue = 100500;
+  constexpr uint64_t kValue = (1ULL << 63) + 3000000000;
   EXPECT_EQ(ConvertPtr(cros_healthd::mojom::UInt64Value::New(kValue)),
             health::mojom::UInt64Value::New(kValue));
 }
 
 TEST(ProbeServiceConvertors, BatteryInfoPtr) {
-  constexpr int64_t kCycleCount = 512;
-  constexpr double kVoltageNow = 10.2;
+  constexpr int64_t kCycleCount = (1LL << 62) + 45;
+  constexpr double kVoltageNow = 1000000000000.2;
   constexpr char kVendor[] = "Google";
   constexpr char kSerialNumber[] = "ABCDEF123456";
-  constexpr double kChargeFullDesign = 1000.3;
-  constexpr double kChargeFull = 999.0;
-  constexpr double kVoltageMinDesign = 41.1;
+  constexpr double kChargeFullDesign = 10000000000.3;
+  constexpr double kChargeFull = 99999999999999.0;
+  constexpr double kVoltageMinDesign = 41111111111111.1;
   constexpr char kModelName[] = "Google Battery";
-  constexpr double kChargeNow = 20.1;
-  constexpr double kCurrentNow = 15.2;
+  constexpr double kChargeNow = 200000000000000.1;
+  constexpr double kCurrentNow = 1555555555555.2;
   constexpr char kTechnology[] = "FastCharge";
   constexpr char kStatus[] = "Charging";
   constexpr char kManufactureDate[] = "2018-10-01";
-  constexpr uint64_t kTemperature = 3097;
+  constexpr uint64_t kTemperature = (1ULL << 63) + 9000;
 
   auto input = cros_healthd::mojom::BatteryInfo::New();
   {
@@ -164,17 +164,17 @@ TEST(ProbeServiceConvertors, BatteryResultPtrError) {
 
 TEST(ProbeServiceConvertors, NonRemovableBlockDeviceInfoPtr) {
   constexpr char kPath[] = "/dev/device1";
-  constexpr uint64_t kSize = 1000000000;
+  constexpr uint64_t kSize = (1ULL << 63) + 111;
   constexpr char kType[] = "NVMe";
   constexpr uint8_t kManufacturerId = 200;
   constexpr char kName[] = "goog";
   constexpr uint32_t kSerial = 0xaabbccdd;
-  constexpr uint64_t kBytesReadSinceLastBoot = 10;
-  constexpr uint64_t kBytesWrittenSinceLastBoot = 100;
-  constexpr uint64_t kReadTimeSecondsSinceLastBoot = 1000;
-  constexpr uint64_t kWriteTimeSecondsSinceLastBoot = 10000;
-  constexpr uint64_t kIoTimeSecondsSinceLastBoot = 100000;
-  constexpr uint64_t kDiscardTimeSecondsSinceLastBoot = 1000000;
+  constexpr uint64_t kBytesReadSinceLastBoot = (1ULL << 62) + 222;
+  constexpr uint64_t kBytesWrittenSinceLastBoot = (1ULL << 61) + 333;
+  constexpr uint64_t kReadTimeSecondsSinceLastBoot = (1ULL << 60) + 444;
+  constexpr uint64_t kWriteTimeSecondsSinceLastBoot = (1ULL << 59) + 555;
+  constexpr uint64_t kIoTimeSecondsSinceLastBoot = (1ULL << 58) + 666;
+  constexpr uint64_t kDiscardTimeSecondsSinceLastBoot = (1ULL << 57) + 777;
 
   auto input = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
   {
@@ -281,13 +281,13 @@ TEST(ProbeServiceConvertors, CpuCStateInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, LogicalCpuInfoPtr) {
-  constexpr uint32_t kMaxClockSpeedKhz = 1000;
-  constexpr uint32_t kScalingMaxFrequencyKhz = 10000;
-  constexpr uint32_t kScalingCurrentFrequencyKhz = 100000;
-  constexpr uint32_t kIdleTimeUserHz = 1000000;
+  constexpr uint32_t kMaxClockSpeedKhz = (1 << 31) + 10000;
+  constexpr uint32_t kScalingMaxFrequencyKhz = (1 << 30) + 20000;
+  constexpr uint32_t kScalingCurrentFrequencyKhz = (1 << 29) + 30000;
+  constexpr uint32_t kIdleTimeUserHz = (1 << 28) + 40000;
 
   constexpr char kCpuCStateName[] = "C1";
-  constexpr uint64_t kCpuCStateTime = 9999999999999;
+  constexpr uint64_t kCpuCStateTime = (1 << 27) + 50000;
 
   auto input = cros_healthd::mojom::LogicalCpuInfo::New();
   {
@@ -318,10 +318,10 @@ TEST(ProbeServiceConvertors, LogicalCpuInfoPtr) {
 TEST(ProbeServiceConvertors, PhysicalCpuInfoPtr) {
   constexpr char kModelName[] = "i9";
 
-  constexpr uint32_t kMaxClockSpeedKhz = 9000;
-  constexpr uint32_t kScalingMaxFrequencyKhz = 90000;
-  constexpr uint32_t kScalingCurrentFrequencyKhz = 900000;
-  constexpr uint32_t kIdleTimeUserHz = 9000000;
+  constexpr uint32_t kMaxClockSpeedKhz = (1 << 31) + 11111;
+  constexpr uint32_t kScalingMaxFrequencyKhz = (1 << 30) + 22222;
+  constexpr uint32_t kScalingCurrentFrequencyKhz = (1 << 29) + 33333;
+  constexpr uint32_t kIdleTimeUserHz = (1 << 28) + 44444;
 
   auto input = cros_healthd::mojom::PhysicalCpuInfo::New();
   {
@@ -360,7 +360,7 @@ TEST(ProbeServiceConvertors, CpuArchitectureEnum) {
 }
 
 TEST(ProbeServiceConvertors, CpuInfoPtr) {
-  constexpr uint32_t kNumTotalThreads = 16;
+  constexpr uint32_t kNumTotalThreads = (1 << 31) + 111;
   constexpr char kModelName[] = "i9";
 
   auto input = cros_healthd::mojom::CpuInfo::New();
@@ -425,10 +425,10 @@ TEST(ProbeServiceConvertors, TimezoneResultPtrError) {
 }
 
 TEST(ProbeServiceConvertors, MemoryInfoPtr) {
-  constexpr uint32_t kTotalMemoryKib = 100000;
-  constexpr uint32_t kFreeMemoryKib = 10000;
-  constexpr uint32_t kAvailableMemoryKib = 1000;
-  constexpr uint32_t kPageFaultsSinceLastBoot = 100;
+  constexpr uint32_t kTotalMemoryKib = (1 << 31) + 100;
+  constexpr uint32_t kFreeMemoryKib = (1 << 30) + 200;
+  constexpr uint32_t kAvailableMemoryKib = (1 << 29) + 300;
+  constexpr uint32_t kPageFaultsSinceLastBoot = (1 << 28) + 400;
 
   auto input = cros_healthd::mojom::MemoryInfo::New();
   input->total_memory_kib = kTotalMemoryKib;
@@ -460,8 +460,8 @@ TEST(ProbeServiceConvertors, MemoryResultPtrError) {
 
 TEST(ProbeServiceConvertors, BacklightInfoPtr) {
   constexpr char kPath[] = "/sys/backlight";
-  constexpr uint32_t kMaxBrightness = 100000;
-  constexpr uint32_t kBrightness = 90000;
+  constexpr uint32_t kMaxBrightness = (1 << 31) + 31;
+  constexpr uint32_t kBrightness = (1 << 30) + 30;
 
   auto input = cros_healthd::mojom::BacklightInfo::New();
   input->path = kPath;
@@ -507,7 +507,7 @@ TEST(ProbeServiceConvertors, BacklightResultPtrError) {
 }
 
 TEST(ProbeServiceConvertors, FanInfoPtr) {
-  constexpr uint32_t kSpeedRpm = 1000;
+  constexpr uint32_t kSpeedRpm = (1 << 31) + 777;
 
   auto input = cros_healthd::mojom::FanInfo::New();
   input->speed_rpm = kSpeedRpm;
@@ -518,7 +518,7 @@ TEST(ProbeServiceConvertors, FanInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, FanResultPtrInfo) {
-  constexpr uint32_t kSpeedRpm = 1000;
+  constexpr uint32_t kSpeedRpm = (1 << 31) + 10;
 
   cros_healthd::mojom::FanResultPtr input;
   {
@@ -548,9 +548,9 @@ TEST(ProbeServiceConvertors, FanResultPtrError) {
 
 TEST(ProbeServiceConvertors, StatefulPartitionInfoPtr) {
   constexpr uint64_t k100MiB = 100 * 1024 * 1024;
-  constexpr uint64_t kTotalSpace = 9000 * k100MiB + 17;
-  constexpr uint64_t kRoundedAvailableSpace = 1000 * k100MiB;
-  constexpr uint64_t kAvailableSpace = kRoundedAvailableSpace + 2000;
+  constexpr uint64_t kTotalSpace = 9000000 * k100MiB + 17;
+  constexpr uint64_t kRoundedAvailableSpace = 800000 * k100MiB;
+  constexpr uint64_t kAvailableSpace = kRoundedAvailableSpace + k100MiB - 2000;
 
   auto input = cros_healthd::mojom::StatefulPartitionInfo::New();
   input->available_space = kAvailableSpace;
@@ -580,7 +580,7 @@ TEST(ProbeServiceConvertors, BluetoothAdapterInfoPtr) {
   constexpr char kName[] = "hci0";
   constexpr char kAddress[] = "ab:cd:ef:12:34:56";
   constexpr bool kPowered = true;
-  constexpr uint32_t kNumConnectedDevices = 3;
+  constexpr uint32_t kNumConnectedDevices = (1 << 30) + 1;
 
   auto input = cros_healthd::mojom::BluetoothAdapterInfo::New();
   {
