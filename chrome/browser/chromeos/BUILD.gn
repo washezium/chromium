@@ -45,6 +45,7 @@ source_set("chromeos") {
     "//components/startup_metric_utils/browser:browser",
     "//content/app/resources",
     "//mojo/public/cpp/bindings",
+    "//third_party/securemessage/proto",
     "//ui/accessibility/mojom",
     "//ui/chromeos/resources",
     "//ui/chromeos/strings",
