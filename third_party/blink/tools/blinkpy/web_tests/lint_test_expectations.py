@@ -37,6 +37,8 @@ from blinkpy.common.system.log_utils import configure_logging
 from blinkpy.web_tests.models.test_expectations import (TestExpectations,
                                                         ParseError)
 from blinkpy.web_tests.models.typ_types import ResultType
+from blinkpy.web_tests.port.android import (
+    PRODUCTS_TO_EXPECTATION_FILE_PATHS, ANDROID_DISABLED_TESTS)
 from blinkpy.web_tests.port.factory import platform_options
 
 _log = logging.getLogger(__name__)
@@ -70,15 +72,8 @@ def lint(host, options):
     port = host.port_factory.get(options.platform)
 
     # Add all extra expectation files to be linted.
-    options.additional_expectations.extend([
-        host.filesystem.join(port.web_tests_dir(), 'android',
-                             'ClankWPTOverrideExpectations'),
-        host.filesystem.join(port.web_tests_dir(), 'android',
-                             'WebviewWPTOverrideExpectations'),
-        host.filesystem.join(port.web_tests_dir(), 'android',
-                             'WeblayerWPTOverrideExpectations'),
-        host.filesystem.join(port.web_tests_dir(), 'android',
-                             'AndroidWPTNeverFixTests'),
+    options.additional_expectations.extend(
+        PRODUCTS_TO_EXPECTATION_FILE_PATHS.values() + [ANDROID_DISABLED_TESTS] + [
         host.filesystem.join(port.web_tests_dir(), 'WPTOverrideExpectations'),
         host.filesystem.join(port.web_tests_dir(), 'WebGPUExpectations'),
     ])
@@ -301,6 +296,9 @@ def _check_expectations(host, port, path, test_expectations, options):
     failures = _check_test_existence(host, port, path, expectations)
     failures.extend(_check_directory_glob(host, port, path, expectations))
     failures.extend(_check_never_fix_tests(host, port, path, expectations))
+    if path in PRODUCTS_TO_EXPECTATION_FILE_PATHS.values():
+        failures.extend(_check_non_wpt_in_android_override(
+            host, port, path, expectations))
     # TODO(crbug.com/1080691): Change this to failures once
     # wpt_expectations_updater is fixed.
     warnings = []
@@ -309,6 +307,17 @@ def _check_expectations(host, port, path, test_expectations, options):
             _check_redundant_virtual_expectations(host, port, path,
                                                   expectations))
     return failures, warnings
+
+
+def _check_non_wpt_in_android_override(host, port, path, expectations):
+    failures = []
+    for exp in expectations:
+        if exp.test and not port.is_wpt_test(exp.test):
+          error = "{}:{} Expectation '{}' is for a non WPT test".format(
+              host.filesystem.basename(path), exp.lineno, exp.to_string())
+          failures.append(error)
+          _log.error(error)
+    return failures
 
 
 def check_virtual_test_suites(host, options):
