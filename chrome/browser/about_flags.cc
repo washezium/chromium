@@ -1139,6 +1139,40 @@ const FeatureEntry::FeatureVariation kOmniboxMaxURLMatchesVariations[] = {
     {"6 matches", kOmniboxMaxURLMatches6, base::size(kOmniboxMaxURLMatches6),
      nullptr}};
 
+const FeatureEntry::FeatureVariation kDynamicMaxAutocompleteVariations[] = {
+    {
+        "9 suggestions if 1 or less URLs",
+        (FeatureEntry::FeatureParam[]){
+            {"OmniboxDynamicMaxAutocompleteUrlCutoff", "1"},
+            {"OmniboxDynamicMaxAutocompleteIncreasedLimit", "9"}},
+        2,
+        nullptr,
+    },
+    {
+        "9 suggestions if 2 or less URLs",
+        (FeatureEntry::FeatureParam[]){
+            {"OmniboxDynamicMaxAutocompleteUrlCutoff", "2"},
+            {"OmniboxDynamicMaxAutocompleteIncreasedLimit", "9"}},
+        2,
+        nullptr,
+    },
+    {
+        "10 suggestions if 1 or less URLs",
+        (FeatureEntry::FeatureParam[]){
+            {"OmniboxDynamicMaxAutocompleteUrlCutoff", "1"},
+            {"OmniboxDynamicMaxAutocompleteIncreasedLimit", "10"}},
+        2,
+        nullptr,
+    },
+    {
+        "10 suggestions if 2 or less URLs",
+        (FeatureEntry::FeatureParam[]){
+            {"OmniboxDynamicMaxAutocompleteUrlCutoff", "2"},
+            {"OmniboxDynamicMaxAutocompleteIncreasedLimit", "10"}},
+        2,
+        nullptr,
+    }};
+
 const FeatureEntry::FeatureParam kMarkHttpAsDangerous[] = {
     {security_state::features::kMarkHttpAsFeatureParameterName,
      security_state::features::kMarkHttpAsParameterDangerous}};
@@ -3597,6 +3631,13 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kOmniboxMaxURLMatches,
                                     kOmniboxMaxURLMatchesVariations,
                                     "OmniboxMaxURLMatchesVariations")},
+
+    {"omnibox-dynamic-max-autocomplete",
+     flag_descriptions::kOmniboxDynamicMaxAutocompleteName,
+     flag_descriptions::kOmniboxDynamicMaxAutocompleteDescription, kOsAll,
+     FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kDynamicMaxAutocomplete,
+                                    kDynamicMaxAutocompleteVariations,
+                                    "OmniboxBundledExperimentV1")},
 
     {"omnibox-ui-swap-title-and-url",
      flag_descriptions::kOmniboxUISwapTitleAndUrlName,
