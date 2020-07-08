@@ -21,12 +21,6 @@ class NavigationManager {
     /** @private {!FocusHistory} */
     this.history_ = new FocusHistory();
 
-    /**
-     * Callback for testing use only.
-     * @private {?function()}
-     */
-    this.onMoveForwardForTesting_ = null;
-
     this.init_();
   }
 
@@ -154,11 +148,6 @@ class NavigationManager {
    */
   static moveForward() {
     const navigator = NavigationManager.instance;
-
-    if (navigator.onMoveForwardForTesting_) {
-      navigator.onMoveForwardForTesting_();
-    }
-
     navigator.setNode_(navigator.node_.next);
   }
 
