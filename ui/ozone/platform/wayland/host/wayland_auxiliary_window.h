@@ -2,18 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_SUBSURFACE_H_
-#define UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_SUBSURFACE_H_
+#ifndef UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_AUXILIARY_WINDOW_H_
+#define UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_AUXILIARY_WINDOW_H_
 
 #include "ui/ozone/platform/wayland/host/wayland_window.h"
 
 namespace ui {
 
-class WaylandSubsurface : public WaylandWindow {
+// A WaylandWindow implementation to show tooltips and arrow windows.
+class WaylandAuxiliaryWindow : public WaylandWindow {
  public:
-  WaylandSubsurface(PlatformWindowDelegate* delegate,
-                    WaylandConnection* connection);
-  ~WaylandSubsurface() override;
+  WaylandAuxiliaryWindow(PlatformWindowDelegate* delegate,
+                         WaylandConnection* connection);
+  WaylandAuxiliaryWindow(const WaylandAuxiliaryWindow&) = delete;
+  WaylandAuxiliaryWindow& operator=(const WaylandAuxiliaryWindow&) = delete;
+  ~WaylandAuxiliaryWindow() override;
 
   // PlatformWindow overrides:
   void Show(bool inactive) override;
@@ -29,10 +32,8 @@ class WaylandSubsurface : public WaylandWindow {
   void CreateSubsurface();
 
   wl::Object<wl_subsurface> subsurface_;
-
-  DISALLOW_COPY_AND_ASSIGN(WaylandSubsurface);
 };
 
 }  // namespace ui
 
-#endif  // UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_SUBSURFACE_H_
+#endif  // UI_OZONE_PLATFORM_WAYLAND_HOST_WAYLAND_AUXILIARY_WINDOW_H_

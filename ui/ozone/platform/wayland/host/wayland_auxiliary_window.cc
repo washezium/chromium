@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ui/ozone/platform/wayland/host/wayland_subsurface.h"
+#include "ui/ozone/platform/wayland/host/wayland_auxiliary_window.h"
 
 #include "ui/ozone/platform/wayland/common/wayland_util.h"
 #include "ui/ozone/platform/wayland/host/wayland_buffer_manager_host.h"
@@ -27,13 +27,13 @@ gfx::Rect AdjustSubsurfaceBounds(const gfx::Rect& bounds_px,
 
 }  // namespace
 
-WaylandSubsurface::WaylandSubsurface(PlatformWindowDelegate* delegate,
-                                     WaylandConnection* connection)
+WaylandAuxiliaryWindow::WaylandAuxiliaryWindow(PlatformWindowDelegate* delegate,
+                                               WaylandConnection* connection)
     : WaylandWindow(delegate, connection) {}
 
-WaylandSubsurface::~WaylandSubsurface() = default;
+WaylandAuxiliaryWindow::~WaylandAuxiliaryWindow() = default;
 
-void WaylandSubsurface::Show(bool inactive) {
+void WaylandAuxiliaryWindow::Show(bool inactive) {
   if (subsurface_)
     return;
 
@@ -41,7 +41,7 @@ void WaylandSubsurface::Show(bool inactive) {
   UpdateBufferScale(false);
 }
 
-void WaylandSubsurface::Hide() {
+void WaylandAuxiliaryWindow::Hide() {
   if (!subsurface_)
     return;
 
@@ -52,11 +52,11 @@ void WaylandSubsurface::Hide() {
   connection()->buffer_manager_host()->ResetSurfaceContents(GetWidget());
 }
 
-bool WaylandSubsurface::IsVisible() const {
+bool WaylandAuxiliaryWindow::IsVisible() const {
   return !!subsurface_;
 }
 
-void WaylandSubsurface::SetBounds(const gfx::Rect& bounds) {
+void WaylandAuxiliaryWindow::SetBounds(const gfx::Rect& bounds) {
   auto old_bounds = GetBounds();
   WaylandWindow::SetBounds(bounds);
 
@@ -72,7 +72,7 @@ void WaylandSubsurface::SetBounds(const gfx::Rect& bounds) {
   connection()->ScheduleFlush();
 }
 
-void WaylandSubsurface::CreateSubsurface() {
+void WaylandAuxiliaryWindow::CreateSubsurface() {
   auto* parent = parent_window();
   if (!parent) {
     // wl_subsurface can be used for several purposes: tooltips and drag arrow
@@ -93,7 +93,7 @@ void WaylandSubsurface::CreateSubsurface() {
   // Tooltip and drag arrow creation is an async operation. By the time Aura
   // actually creates them, it is possible that the user has already moved the
   // mouse/pointer out of the window that triggered the tooltip, or user is no
-  // longer in a drag/drop process. In this case, parent is NULL.
+  // longer in a drag/drop process. In this case, parent is nullptr.
   if (!parent)
     return;
 
@@ -122,7 +122,8 @@ void WaylandSubsurface::CreateSubsurface() {
   connection()->wayland_window_manager()->NotifyWindowConfigured(this);
 }
 
-bool WaylandSubsurface::OnInitialize(PlatformWindowInitProperties properties) {
+bool WaylandAuxiliaryWindow::OnInitialize(
+    PlatformWindowInitProperties properties) {
   // If we do not have parent window provided, we must always use a focused
   // window or a window that entered drag whenever the subsurface is created.
   if (properties.parent_widget == gfx::kNullAcceleratedWidget) {
