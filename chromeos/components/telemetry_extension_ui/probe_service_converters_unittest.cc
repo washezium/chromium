@@ -634,246 +634,48 @@ TEST(ProbeServiceConvertors, BluetoothResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
-  constexpr int64_t kCycleCount = 1;
-
-  auto battery_info_input = cros_healthd::mojom::BatteryInfo::New();
-  battery_info_input->cycle_count = kCycleCount;
-
-  auto telemetry_info_input = cros_healthd::mojom::TelemetryInfo::New();
-
-  telemetry_info_input->battery_result =
-      cros_healthd::mojom::BatteryResult::NewBatteryInfo(
-          std::move(battery_info_input));
-
-  const health::mojom::TelemetryInfoPtr telemetry_info_output =
-      ConvertPtr(std::move(telemetry_info_input));
-  ASSERT_TRUE(telemetry_info_output);
-  ASSERT_TRUE(telemetry_info_output->battery_result);
-  ASSERT_TRUE(telemetry_info_output->battery_result->is_battery_info());
-  ASSERT_TRUE(telemetry_info_output->battery_result->get_battery_info());
-  ASSERT_TRUE(
-      telemetry_info_output->battery_result->get_battery_info()->cycle_count);
-  EXPECT_EQ(telemetry_info_output->battery_result->get_battery_info()
-                ->cycle_count->value,
-            kCycleCount);
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBlockDeviceResult) {
-  constexpr uint64_t kSize = 10000000;
-
-  auto device_info = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
-  device_info->size = kSize;
-
-  std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> device_infos;
-  device_infos.push_back(std::move(device_info));
-
+TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNotNullFields) {
   auto input = cros_healthd::mojom::TelemetryInfo::New();
+  input->battery_result = cros_healthd::mojom::BatteryResult::New();
   input->block_device_result =
-      cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
-          std::move(device_infos));
+      cros_healthd::mojom::NonRemovableBlockDeviceResult::New();
+  input->vpd_result = cros_healthd::mojom::CachedVpdResult::New();
+  input->cpu_result = cros_healthd::mojom::CpuResult::New();
+  input->timezone_result = cros_healthd::mojom::TimezoneResult::New();
+  input->memory_result = cros_healthd::mojom::MemoryResult::New();
+  input->backlight_result = cros_healthd::mojom::BacklightResult::New();
+  input->fan_result = cros_healthd::mojom::FanResult::New();
+  input->stateful_partition_result =
+      cros_healthd::mojom::StatefulPartitionResult::New();
+  input->bluetooth_result = cros_healthd::mojom::BluetoothResult::New();
 
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  const auto output = ConvertPtr(std::move(input));
   ASSERT_TRUE(output);
-  ASSERT_TRUE(output->block_device_result);
-  ASSERT_TRUE(output->block_device_result->is_block_device_info());
-
-  const auto& device_info_output =
-      output->block_device_result->get_block_device_info();
-  ASSERT_EQ(device_info_output.size(), 1ULL);
-  ASSERT_TRUE(device_info_output[0]);
-  ASSERT_TRUE(device_info_output[0]->size);
-  EXPECT_EQ(device_info_output[0]->size->value, kSize);
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasCachedVpdResult) {
-  constexpr char kSkuNumber[] = "sku-2";
-
-  auto vpd_info_input = cros_healthd::mojom::CachedVpdInfo::New();
-  vpd_info_input->sku_number = kSkuNumber;
-
-  auto telemetry_info_input = cros_healthd::mojom::TelemetryInfo::New();
-
-  telemetry_info_input->vpd_result =
-      cros_healthd::mojom::CachedVpdResult::NewVpdInfo(
-          std::move(vpd_info_input));
-
-  const health::mojom::TelemetryInfoPtr telemetry_info_output =
-      ConvertPtr(std::move(telemetry_info_input));
-  ASSERT_TRUE(telemetry_info_output);
-  ASSERT_TRUE(telemetry_info_output->vpd_result);
-  ASSERT_TRUE(telemetry_info_output->vpd_result->is_vpd_info());
-
-  const auto& vpd_info_output =
-      telemetry_info_output->vpd_result->get_vpd_info();
-  ASSERT_TRUE(vpd_info_output);
-  ASSERT_TRUE(vpd_info_output->sku_number.has_value());
-  EXPECT_EQ(vpd_info_output->sku_number.value(), kSkuNumber);
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasCpuResult) {
-  constexpr uint32_t kNumTotalThreads = 4;
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto cpu_info = cros_healthd::mojom::CpuInfo::New();
-    cpu_info->num_total_threads = kNumTotalThreads;
-
-    input->cpu_result =
-        cros_healthd::mojom::CpuResult::NewCpuInfo(std::move(cpu_info));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->cpu_result);
-  ASSERT_TRUE(output->cpu_result->is_cpu_info());
-
-  const auto& cpu_info_output = output->cpu_result->get_cpu_info();
-  ASSERT_TRUE(cpu_info_output);
-  EXPECT_EQ(cpu_info_output->num_total_threads,
-            health::mojom::UInt32Value::New(kNumTotalThreads));
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasTimezoneResult) {
-  constexpr char kPosix[] = "TZ=CST6CDT,M3.2.0/2:00:00,M11.1.0/2:00:00";
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto timezone_info = cros_healthd::mojom::TimezoneInfo::New();
-    timezone_info->posix = kPosix;
-
-    input->timezone_result =
-        cros_healthd::mojom::TimezoneResult::NewTimezoneInfo(
-            std::move(timezone_info));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->timezone_result);
-  ASSERT_TRUE(output->timezone_result->is_timezone_info());
-
-  const auto& timezone_info_output =
-      output->timezone_result->get_timezone_info();
-  ASSERT_TRUE(timezone_info_output);
-  EXPECT_EQ(timezone_info_output->posix, kPosix);
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasMemoryResult) {
-  constexpr uint32_t kTotalMemoryKib = 10000;
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto memory_info = cros_healthd::mojom::MemoryInfo::New();
-    memory_info->total_memory_kib = kTotalMemoryKib;
-
-    input->memory_result = cros_healthd::mojom::MemoryResult::NewMemoryInfo(
-        std::move(memory_info));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->memory_result);
-  ASSERT_TRUE(output->memory_result->is_memory_info());
-
-  const auto& memory_info_output = output->memory_result->get_memory_info();
-  ASSERT_TRUE(memory_info_output);
-  EXPECT_EQ(memory_info_output->total_memory_kib,
-            health::mojom::UInt32Value::New(kTotalMemoryKib));
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBacklightResult) {
-  constexpr uint32_t kMaxBrightness = 10000;
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto backlight_info = cros_healthd::mojom::BacklightInfo::New();
-    backlight_info->max_brightness = kMaxBrightness;
-
-    std::vector<cros_healthd::mojom::BacklightInfoPtr> backlight_infos;
-    backlight_infos.push_back(std::move(backlight_info));
-
-    input->backlight_result =
-        cros_healthd::mojom::BacklightResult::NewBacklightInfo(
-            std::move(backlight_infos));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->backlight_result);
-  ASSERT_TRUE(output->backlight_result->is_backlight_info());
-
-  const auto& backlight_info_output =
-      output->backlight_result->get_backlight_info();
-  ASSERT_EQ(backlight_info_output.size(), 1ULL);
-  EXPECT_EQ(backlight_info_output[0]->max_brightness,
-            health::mojom::UInt32Value::New(kMaxBrightness));
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasFanResult) {
-  constexpr uint32_t kSpeedRpm = 1400;
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto fan_info = cros_healthd::mojom::FanInfo::New();
-    fan_info->speed_rpm = kSpeedRpm;
-
-    std::vector<cros_healthd::mojom::FanInfoPtr> fan_infos;
-    fan_infos.push_back(std::move(fan_info));
-
-    input->fan_result =
-        cros_healthd::mojom::FanResult::NewFanInfo(std::move(fan_infos));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->fan_result);
-  ASSERT_TRUE(output->fan_result->is_fan_info());
-
-  const auto& fan_info_output = output->fan_result->get_fan_info();
-  ASSERT_EQ(fan_info_output.size(), 1ULL);
-  EXPECT_EQ(fan_info_output[0]->speed_rpm,
-            health::mojom::UInt32Value::New(kSpeedRpm));
-}
-
-TEST(ProbeServiceConvertors, TelemetryInfoPtrHasStatefulPartitionResult) {
-  constexpr uint64_t kTotalSpace = 90000000;
-
-  auto input = cros_healthd::mojom::TelemetryInfo::New();
-  {
-    auto partition_info = cros_healthd::mojom::StatefulPartitionInfo::New();
-    partition_info->total_space = kTotalSpace;
-
-    input->stateful_partition_result =
-        cros_healthd::mojom::StatefulPartitionResult::NewPartitionInfo(
-            std::move(partition_info));
-  }
-
-  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
-  ASSERT_TRUE(output);
-  ASSERT_TRUE(output->stateful_partition_result);
-  ASSERT_TRUE(output->stateful_partition_result->is_partition_info());
-
-  const auto& partition_info_output =
-      output->stateful_partition_result->get_partition_info();
-  ASSERT_TRUE(partition_info_output);
-  EXPECT_EQ(partition_info_output->total_space,
-            health::mojom::UInt64Value::New(kTotalSpace));
+  EXPECT_TRUE(output->battery_result);
+  EXPECT_TRUE(output->block_device_result);
+  EXPECT_TRUE(output->vpd_result);
+  EXPECT_TRUE(output->cpu_result);
+  EXPECT_TRUE(output->timezone_result);
+  EXPECT_TRUE(output->memory_result);
+  EXPECT_TRUE(output->backlight_result);
+  EXPECT_TRUE(output->fan_result);
+  EXPECT_TRUE(output->stateful_partition_result);
+  EXPECT_TRUE(output->bluetooth_result);
 }
 
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
-  const health::mojom::TelemetryInfoPtr telemetry_info_output =
-      ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
-  ASSERT_TRUE(telemetry_info_output);
-  EXPECT_FALSE(telemetry_info_output->battery_result);
-  EXPECT_FALSE(telemetry_info_output->block_device_result);
-  EXPECT_FALSE(telemetry_info_output->vpd_result);
-  EXPECT_FALSE(telemetry_info_output->cpu_result);
-  EXPECT_FALSE(telemetry_info_output->timezone_result);
-  EXPECT_FALSE(telemetry_info_output->memory_result);
-  EXPECT_FALSE(telemetry_info_output->backlight_result);
-  EXPECT_FALSE(telemetry_info_output->fan_result);
-  EXPECT_FALSE(telemetry_info_output->stateful_partition_result);
-  EXPECT_FALSE(telemetry_info_output->bluetooth_result);
+  const auto output = ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
+  ASSERT_TRUE(output);
+  EXPECT_FALSE(output->battery_result);
+  EXPECT_FALSE(output->block_device_result);
+  EXPECT_FALSE(output->vpd_result);
+  EXPECT_FALSE(output->cpu_result);
+  EXPECT_FALSE(output->timezone_result);
+  EXPECT_FALSE(output->memory_result);
+  EXPECT_FALSE(output->backlight_result);
+  EXPECT_FALSE(output->fan_result);
+  EXPECT_FALSE(output->stateful_partition_result);
+  EXPECT_FALSE(output->bluetooth_result);
 }
 
 }  // namespace probe_service_converters
