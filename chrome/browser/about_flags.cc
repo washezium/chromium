@@ -1418,6 +1418,10 @@ const FeatureEntry::FeatureParam kStartSurfaceAndroid_OmniboxOnly_Pinned[] = {
 
 const FeatureEntry::FeatureParam kStartSurfaceAndroid_TrendyTerms[] = {
     {"start_surface_variation", "trendyterms"},
+    {"trendy_enabled", "true"},
+    {"trendy_success_min_period_ms", "30000"},
+    {"trendy_failure_min_period_ms", "10000"},
+    {"omnibox_scroll_mode", "quick"},
     {"hide_switch_when_no_incognito_tabs", "true"}};
 
 const FeatureEntry::FeatureVariation kStartSurfaceAndroidVariations[] = {
@@ -1447,7 +1451,7 @@ const FeatureEntry::FeatureVariation kStartSurfaceAndroidVariations[] = {
      base::size(kStartSurfaceAndroid_OmniboxOnly_Quick), nullptr},
     {"Omnibox Only, Pinned", kStartSurfaceAndroid_OmniboxOnly_Pinned,
      base::size(kStartSurfaceAndroid_OmniboxOnly_Pinned), nullptr},
-    {"Trendy Terms", kStartSurfaceAndroid_TrendyTerms,
+    {"Trendy Terms, Quick", kStartSurfaceAndroid_TrendyTerms,
      base::size(kStartSurfaceAndroid_TrendyTerms), nullptr}};
 
 const FeatureEntry::FeatureParam kConditionalTabStripAndroid_Immediate[] = {
