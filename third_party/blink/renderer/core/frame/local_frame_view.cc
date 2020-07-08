@@ -2687,6 +2687,9 @@ void LocalFrameView::RunPaintLifecyclePhase() {
       if (root) {
         ForAllGraphicsLayers(*root, [](GraphicsLayer& layer) {
           if (layer.PaintsContentOrHitTest() && layer.HasLayerState()) {
+            // Notify the paint controller that the artifact has been pushed and
+            // some lifecycle state can be freed (such as raster invalidations).
+            layer.GetPaintController().FinishCycle();
             layer.GetPaintController().ClearPropertyTreeChangedStateTo(
                 layer.GetPropertyTreeState());
           }
