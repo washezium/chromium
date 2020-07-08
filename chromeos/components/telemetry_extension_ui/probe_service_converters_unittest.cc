@@ -146,17 +146,17 @@ TEST(ProbeServiceConvertors, BatteryInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, BatteryResultPtrInfo) {
-  const health::mojom::BatteryResultPtr ptr =
+  const health::mojom::BatteryResultPtr output =
       ConvertPtr(cros_healthd::mojom::BatteryResult::NewBatteryInfo(nullptr));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_battery_info());
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_battery_info());
 }
 
 TEST(ProbeServiceConvertors, BatteryResultPtrError) {
-  const health::mojom::BatteryResultPtr ptr =
+  const health::mojom::BatteryResultPtr output =
       ConvertPtr(cros_healthd::mojom::BatteryResult::NewError(nullptr));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_error());
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
 }
 
 TEST(ProbeServiceConvertors, NonRemovableBlockDeviceInfoPtr) {
@@ -222,21 +222,21 @@ TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrInfo) {
   infos.push_back(std::move(info1));
   infos.push_back(std::move(info2));
 
-  const health::mojom::NonRemovableBlockDeviceResultPtr ptr = ConvertPtr(
+  const health::mojom::NonRemovableBlockDeviceResultPtr output = ConvertPtr(
       cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
           std::move(infos)));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_block_device_info());
-  ASSERT_EQ(ptr->get_block_device_info().size(), 2ULL);
-  EXPECT_EQ((ptr->get_block_device_info())[0]->path, kPath1);
-  EXPECT_EQ((ptr->get_block_device_info())[1]->path, kPath2);
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_block_device_info());
+  ASSERT_EQ(output->get_block_device_info().size(), 2ULL);
+  EXPECT_EQ(output->get_block_device_info()[0]->path, kPath1);
+  EXPECT_EQ(output->get_block_device_info()[1]->path, kPath2);
 }
 
 TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrError) {
-  const health::mojom::NonRemovableBlockDeviceResultPtr ptr = ConvertPtr(
+  const health::mojom::NonRemovableBlockDeviceResultPtr output = ConvertPtr(
       cros_healthd::mojom::NonRemovableBlockDeviceResult::NewError(nullptr));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_error());
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
 }
 
 TEST(ProbeServiceConvertors, CachedVpdInfoPtr) {
@@ -250,17 +250,17 @@ TEST(ProbeServiceConvertors, CachedVpdInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, CachedVpdResultPtrInfo) {
-  const health::mojom::CachedVpdResultPtr ptr =
+  const health::mojom::CachedVpdResultPtr output =
       ConvertPtr(cros_healthd::mojom::CachedVpdResult::NewVpdInfo(nullptr));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_vpd_info());
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_vpd_info());
 }
 
 TEST(ProbeServiceConvertors, CachedVpdResultPtrError) {
-  const health::mojom::CachedVpdResultPtr ptr =
+  const health::mojom::CachedVpdResultPtr output =
       ConvertPtr(cros_healthd::mojom::CachedVpdResult::NewError(nullptr));
-  ASSERT_TRUE(ptr);
-  EXPECT_TRUE(ptr->is_error());
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
 }
 
 TEST(ProbeServiceConvertors, CpuCStateInfoPtr) {
