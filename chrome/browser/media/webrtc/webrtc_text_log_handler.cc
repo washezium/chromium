@@ -20,6 +20,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/system/sys_info.h"
 #include "base/time/time.h"
+#include "build/build_config.h"
 #include "chrome/common/channel_info.h"
 #include "chrome/common/media/webrtc_logging.mojom.h"
 #include "components/version_info/version_info.h"
@@ -42,6 +43,7 @@
 
 #if defined(OS_LINUX)
 #include "base/linux_util.h"
+#include "base/task/thread_pool.h"
 #endif
 
 #if defined(OS_MACOSX)
@@ -406,6 +408,21 @@ void WebRtcTextLogHandler::SetWebAppId(int web_app_id) {
 void WebRtcTextLogHandler::OnGetNetworkInterfaceList(
     const GenericDoneCallback& callback,
     const base::Optional<net::NetworkInterfaceList>& networks) {
+#if defined(OS_LINUX)
+  // Hop to a background thread to get the distro string, which can block.
+  base::ThreadPool::PostTaskAndReplyWithResult(
+      FROM_HERE, {base::MayBlock()}, base::BindOnce(&base::GetLinuxDistro),
+      base::BindOnce(&WebRtcTextLogHandler::OnGetNetworkInterfaceListFinish,
+                     weak_factory_.GetWeakPtr(), callback, networks));
+#else
+  OnGetNetworkInterfaceListFinish(callback, networks, "");
+#endif
+}
+
+void WebRtcTextLogHandler::OnGetNetworkInterfaceListFinish(
+    const GenericDoneCallback& callback,
+    const base::Optional<net::NetworkInterfaceList>& networks,
+    const std::string& linux_distro) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 
   if (logging_state_ != STARTING || channel_is_closing_) {
@@ -436,7 +453,7 @@ void WebRtcTextLogHandler::OnGetNetworkInterfaceList(
                       base::SysInfo::OperatingSystemVersion() + " " +
                       base::SysInfo::OperatingSystemArchitecture());
 #if defined(OS_LINUX)
-  LogToCircularBuffer("Linux distribution: " + base::GetLinuxDistro());
+  { LogToCircularBuffer("Linux distribution: " + linux_distro); }
 #endif
 
   // CPU
