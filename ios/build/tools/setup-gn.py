@@ -168,6 +168,10 @@ class GnGenerator(object):
               stream.write('%s%s%s' % (prefix, item, suffix))
           stream.write(']\n')
         else:
+          # ConfigParser removes quote around empty string which confuse
+          # `gn gen` so restore them.
+          if not value:
+            value = '""'
           stream.write('%s = %s\n' % (name, value))
 
   def WriteBuildNinja(self, gn_command, build_dir):
