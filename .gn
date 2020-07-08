@@ -213,15 +213,12 @@ check_targets = [
   "//chrome/browser/webauthn/*",
   "//chrome/browser/webshare/*",
   "//chrome/browser/win/*",
-
   "//chrome/build/*",
 
   #"//chrome/child/*",  # 1 error on Windows
   "//chrome/chrome_elf/*",
   "//chrome/chrome_cleaner/*",
-
   "//chrome/common/*",
-
   "//chrome/elevation_service/*",
 
   #"//chrome/gpu/*",  # 7 errors
@@ -240,7 +237,6 @@ check_targets = [
   "//chrome/tools/*",
   "//chrome/updater/*",
   "//chrome/utility/*",
-
   "//chromecast/*",
   "//chromeos/*",
   "//cloud_print/*",
@@ -276,7 +272,6 @@ check_targets = [
   "//google_apis/*",
   "//google_update/*",
   "//gpu/*",
-
   "//ios/*",
   "//ios_internal/*",
   "//ipc/*",
@@ -285,14 +280,13 @@ check_targets = [
 
   "//libassistant/communication/*",
   "//libinteraction/*",
-
   "//media/*",
   "//mojo/*",
 
   #"//native_client/*",
   "//net/*",
+  "//pdf/*",
 
-  #"//pdf/*",  # Medium-hard.
   #"//ppapi/*",  # Lots of errors.
   "//ppapi/examples/*",
   "//ppapi/tests/*",
@@ -563,7 +557,6 @@ check_targets = [
   "//third_party/yasm/*",
   "//third_party/zlib/*",
   "//third_party/woff2/*",
-
   "//tools/*",
   "//ui/*",
   "//url/*",
