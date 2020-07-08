@@ -1021,6 +1021,16 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest,
                                WindowOpenDisposition::CURRENT_TAB, false);
 }
 
+IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderCancelAll) {
+  std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
+      "/prerender/prerender_page.html", FINAL_STATUS_CANCELLED, 1);
+
+  GetPrerenderManager()->CancelAllPrerenders();
+  prerender->WaitForStop();
+
+  EXPECT_FALSE(prerender->contents());
+}
+
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderEvents) {
   std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
       "/prerender/prerender_page.html", FINAL_STATUS_CANCELLED, 1);
@@ -1031,6 +1041,19 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderEvents) {
   WaitForPrerenderStartEventForLinkNumber(0);
   WaitForPrerenderStopEventForLinkNumber(0);
   EXPECT_FALSE(HadPrerenderEventErrors());
+}
+
+// Cancels the prerender of a page with its own prerender.  The second prerender
+// should never be started.
+IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest,
+                       PrerenderCancelPrerenderWithPrerender) {
+  std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
+      "/prerender/prerender_infinite_a.html", FINAL_STATUS_CANCELLED, 1);
+
+  GetPrerenderManager()->CancelAllPrerenders();
+  prerender->WaitForStop();
+
+  EXPECT_FALSE(prerender->contents());
 }
 
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClickNewWindow) {
