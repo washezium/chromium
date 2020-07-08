@@ -56,10 +56,8 @@ void UpdateAllFormManagers(Profile* profile) {
     TabStripModel* tabs = browser->tab_strip_model();
     for (int index = 0; index < tabs->count(); index++) {
       content::WebContents* web_contents = tabs->GetWebContentsAt(index);
-      ChromePasswordManagerClient* client =
-          ChromePasswordManagerClient::FromWebContents(web_contents);
-      if (client)
-        client->UpdateFormManagers();
+      ChromePasswordManagerClient::FromWebContents(web_contents)
+          ->UpdateFormManagers();
     }
   }
 }
