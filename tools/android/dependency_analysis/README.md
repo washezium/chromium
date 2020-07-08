@@ -5,7 +5,7 @@ analyzing the dependencies contained within the Chrome Android project.
 
 ## Usage
 Start by generating a JSON dependency file with a snapshot of the dependencies
-for your JAR using the **JSON dependency generator** command-line tool.
+for your JAR files using the **JSON dependency generator** command-line tool.
 
 This snapshot file can then be used as input for various other
 analysis tools listed below.
@@ -15,14 +15,12 @@ The usage information for any of the following tools is also accessible via
 `toolname -h` or `toolname --help`.
 #### JSON Dependency Generator
 Runs [jdeps](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jdeps.html)
-on a given JAR and writes the resulting dependency graph into a JSON file.
+(dependency analysis tool) on all JARs a root build target depends
+on and writes the resulting dependency graph into a JSON file. The default
+root build target is chrome/android:monochrome_public_bundle.
 ```
 usage: generate_json_dependency_graph.py [-h] -C BUILD_OUTPUT_DIR -o OUTPUT
                                          [-t TARGET] [-j JDEPS_PATH]
-
-Runs jdeps (dependency analysis tool) on all JARs a root build target depends
-on and writes the resulting dependency graph into a JSON file. The default
-root build target is chrome/android:monochrome_public_bundle.
 
 optional arguments:
   -t TARGET, --target TARGET
