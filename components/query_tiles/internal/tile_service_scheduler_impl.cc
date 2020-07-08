@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/query_tiles/internal/tile_service_scheduler.h"
+#include "components/query_tiles/internal/tile_service_scheduler_impl.h"
 
 #include <memory>
 #include <utility>
