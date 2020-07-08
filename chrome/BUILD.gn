@@ -1357,6 +1357,10 @@ group("extra_resources") {
       "//chrome/browser/resources:print_preview_resources",
     ]
   }
+
+  if (enable_tab_search) {
+    public_deps += [ "//chrome/browser/resources:tab_search_resources" ]
+  }
 }
 
 if (is_chrome_branded && !is_android) {
