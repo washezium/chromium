@@ -40,6 +40,7 @@ const tests = [
    * past document bounds.
    */
   function testPageSelectorChange() {
+    document.body.innerHTML = '';
     const selector = document.createElement('viewer-page-selector');
     selector.docLength = 1234;
     document.body.appendChild(selector);
@@ -81,6 +82,7 @@ const tests = [
    * Test that viewer-page-selector changes in response to setting docLength.
    */
   function testPageSelectorDocLength() {
+    document.body.innerHTML = '';
     const selector = document.createElement('viewer-page-selector');
     selector.docLength = 1234;
     document.body.appendChild(selector);
@@ -94,6 +96,7 @@ const tests = [
    * Test that clicking the dropdown icon opens/closes the dropdown.
    */
   function testToolbarDropdownShowHide() {
+    document.body.innerHTML = '';
     const dropdown = document.createElement('viewer-toolbar-dropdown');
     dropdown.header = 'Test Menu';
     dropdown.closedIcon = 'closedIcon';
@@ -121,6 +124,7 @@ const tests = [
    * structure and behaviour.
    */
   function testBookmarkStructure() {
+    document.body.innerHTML = '';
     const bookmarkContent = createBookmarksForTest();
     bookmarkContent.bookmarks = [{
       title: 'Test 1',
@@ -168,6 +172,7 @@ const tests = [
    * fit-to-width buttons.
    */
   function testZoomToolbarToggle() {
+    document.body.innerHTML = '';
     const zoomToolbar = document.createElement('viewer-zoom-toolbar');
     document.body.appendChild(zoomToolbar);
     const fitButton = zoomToolbar.$['fit-button'];
@@ -219,6 +224,7 @@ const tests = [
   },
 
   function testZoomToolbarForceFitToPage() {
+    document.body.innerHTML = '';
     const zoomToolbar = document.createElement('viewer-zoom-toolbar');
     document.body.appendChild(zoomToolbar);
     const fitButton = zoomToolbar.$['fit-button'];
@@ -261,6 +267,7 @@ const tests = [
   },
 
   function testZoomToolbarForceFitToWidth() {
+    document.body.innerHTML = '';
     const zoomToolbar = document.createElement('viewer-zoom-toolbar');
     document.body.appendChild(zoomToolbar);
     const fitButton = zoomToolbar.$['fit-button'];
