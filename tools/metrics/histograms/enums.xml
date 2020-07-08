@@ -12261,6 +12261,7 @@ Called by update_net_error_codes.py.-->
   <int value="1" label="Lax mode"/>
   <int value="2" label="Strict mode"/>
   <int value="3" label="Lax mode allow unsafe"/>
+  <int value="4" label="Undefined"/>
 </enum>
 
 <enum name="CookieLoadProblem">
