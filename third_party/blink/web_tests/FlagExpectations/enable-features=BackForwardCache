@@ -7,3 +7,7 @@
 crbug.com/1010870 virtual/gpu/fast/canvas/color-space/canvas-createImageBitmap-e_srgb.html [ Failure ]
 crbug.com/1010870 virtual/gpu/fast/canvas/canvas-composite-alpha.html [ Failure ]
 crbug.com/1010870 virtual/gpu/fast/canvas/canvas-composite-text-alpha.html [ Failure ]
+crbug.com/1103214 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/simulcast/h264.https.html [ Failure ]
+crbug.com/1103214 external/wpt/webrtc/protocol/video-codecs.https.html [ Failure ]
+crbug.com/1103214 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/protocol/video-codecs.https.html [ Failure ]
+crbug.com/1103214 external/wpt/webrtc/simulcast/h264.https.html [ Failure ]
