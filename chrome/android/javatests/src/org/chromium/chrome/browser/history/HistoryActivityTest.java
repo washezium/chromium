@@ -44,7 +44,6 @@ import org.chromium.chrome.browser.history.HistoryTestUtils.TestObserver;
 import org.chromium.chrome.browser.incognito.IncognitoUtils;
 import org.chromium.chrome.browser.preferences.Pref;
 import org.chromium.chrome.browser.preferences.PrefChangeRegistrar;
-import org.chromium.chrome.browser.preferences.PrefServiceBridge;
 import org.chromium.chrome.browser.profiles.Profile;
 import org.chromium.chrome.browser.signin.IdentityServicesProvider;
 import org.chromium.chrome.browser.widget.DateDividedAdapter;
@@ -56,6 +55,7 @@ import org.chromium.components.browser_ui.widget.selectable_list.SelectableItemV
 import org.chromium.components.browser_ui.widget.selectable_list.SelectableItemViewHolder;
 import org.chromium.components.signin.metrics.SigninAccessPoint;
 import org.chromium.components.signin.metrics.SignoutReason;
+import org.chromium.components.user_prefs.UserPrefs;
 import org.chromium.content_public.browser.UiThreadTaskTraits;
 import org.chromium.content_public.browser.test.util.Criteria;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
@@ -580,10 +580,11 @@ public class HistoryActivityTest {
         // Set supervised user.
         int onPreferenceChangeCallCount = mTestObserver.onPreferenceChangeCallback.getCallCount();
         Assert.assertTrue(TestThreadUtils.runOnUiThreadBlocking(() -> {
-            PrefServiceBridge.getInstance().setString(Pref.SUPERVISED_USER_ID, "ChildAccountSUID");
-            return Profile.getLastUsedRegularProfile().isChild()
-                    && !PrefServiceBridge.getInstance().getBoolean(
-                            Pref.ALLOW_DELETING_BROWSER_HISTORY)
+            Profile profile = Profile.getLastUsedRegularProfile();
+            UserPrefs.get(profile).setString(Pref.SUPERVISED_USER_ID, "ChildAccountSUID");
+            return profile.isChild()
+                    && !UserPrefs.get(Profile.getLastUsedRegularProfile())
+                                .getBoolean(Pref.ALLOW_DELETING_BROWSER_HISTORY)
                     && !IncognitoUtils.isIncognitoModeEnabled();
         }));
 
@@ -606,7 +607,9 @@ public class HistoryActivityTest {
     private void signOut() throws Exception {
         // Clear supervised user id.
         TestThreadUtils.runOnUiThreadBlocking(
-                () -> PrefServiceBridge.getInstance().setString(Pref.SUPERVISED_USER_ID, ""));
+                ()
+                        -> UserPrefs.get(Profile.getLastUsedRegularProfile())
+                                   .setString(Pref.SUPERVISED_USER_ID, ""));
 
         // Sign out of account.
         int currentCallCount = mTestObserver.onSigninStateChangedCallback.getCallCount();
