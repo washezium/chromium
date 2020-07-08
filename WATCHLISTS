@@ -1200,7 +1200,7 @@
     },
     'linux_sandboxing': {
       'filepath': 'sandbox/linux/'\
-                  '|services/service_manager/sandbox/linux/',
+                  '|sandbox/policy/linux/',
     },
     'linux_seccomp_bpf': {
       'filepath': 'content/common/sandbox.*linux.cc',

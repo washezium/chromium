@@ -36,9 +36,9 @@
 #include "net/base/ip_address.h"
 #include "net/base/network_change_notifier.h"
 #include "net/base/network_interfaces.h"
+#include "sandbox/policy/features.h"
+#include "sandbox/policy/sandbox_type.h"
 #include "services/network/public/mojom/network_service.mojom.h"
-#include "services/service_manager/sandbox/features.h"
-#include "services/service_manager/sandbox/sandbox_type.h"
 
 #if defined(OS_LINUX)
 #include "base/linux_util.h"
@@ -487,7 +487,7 @@ void WebRtcTextLogHandler::OnGetNetworkInterfaceList(
            features::kAudioServiceLaunchOnStartup),
        ", Sandbox=",
        enabled_or_disabled_bool_string(
-           service_manager::IsAudioSandboxEnabled())}));
+           sandbox::policy::IsAudioSandboxEnabled())}));
 
   // Audio manager
   // On some platforms, this can vary depending on build flags and failure

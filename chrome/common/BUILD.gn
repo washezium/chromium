@@ -225,7 +225,7 @@ static_library("common") {
     "//pdf:buildflags",
     "//ppapi/buildflags",
     "//printing/buildflags",
-    "//services/service_manager/sandbox",
+    "//sandbox/policy",
     "//skia",
     "//third_party/icu",
     "//third_party/re2",

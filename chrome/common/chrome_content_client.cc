@@ -70,10 +70,6 @@
 #include "sandbox/linux/services/credentials.h"
 #endif  // defined(OS_LINUX)
 
-#if defined(OS_MACOSX)
-#include "services/service_manager/sandbox/mac/nacl_loader.sb.h"
-#endif
-
 #if defined(OS_WIN)
 #include "base/win/windows_version.h"
 #endif

@@ -42,8 +42,8 @@
 #include "chrome/installer/util/util_constants.h"
 #include "content/public/app/sandbox_helper_win.h"
 #include "content/public/common/content_switches.h"
+#include "sandbox/policy/sandbox_type.h"
 #include "sandbox/win/src/sandbox.h"
-#include "services/service_manager/sandbox/sandbox_type.h"
 
 namespace {
 // The entry point signature of chrome.dll.
@@ -138,8 +138,8 @@ int MainDllLoader::Launch(HINSTANCE instance,
   // IsUnsandboxedSandboxType() can't be used here because its result can be
   // gated behind a feature flag, which are not yet initialized.
   const bool is_sandboxed =
-      service_manager::SandboxTypeFromCommandLine(cmd_line) !=
-      service_manager::SandboxType::kNoSandbox;
+      sandbox::policy::SandboxTypeFromCommandLine(cmd_line) !=
+      sandbox::policy::SandboxType::kNoSandbox;
   if (is_browser || is_sandboxed) {
     // For child processes that are running as --no-sandbox, don't initialize
     // the sandbox info, otherwise they'll be treated as brokers (as if they

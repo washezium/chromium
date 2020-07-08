@@ -7053,7 +7053,7 @@ if (!is_android) {
       "//base",
       "//chrome/test:browser_tests_runner",
       "//device/base",
-      "//services/service_manager/sandbox",
+      "//sandbox/policy",
     ]
 
     public_deps = [
