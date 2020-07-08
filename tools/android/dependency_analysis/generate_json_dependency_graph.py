@@ -5,6 +5,9 @@
 """Command-line tool to run jdeps and process its output into a JSON file."""
 
 import argparse
+import functools
+import math
+import multiprocessing
 import pathlib
 import subprocess
 
@@ -86,6 +89,7 @@ class JavaClassJdepsParser(object):
 
 def _run_jdeps(jdeps_path: str, filepath: pathlib.Path):
     """Runs jdeps on the given filepath and returns the output."""
+    print(f'Running jdeps and parsing output for {filepath}')
     jdeps_res = subprocess.run([jdeps_path, '-R', '-verbose:class', filepath],
                                capture_output=True,
                                text=True,
@@ -176,11 +180,17 @@ def main():
     target_jars: JarTargetList = list_original_targets_and_jars(
         gn_desc_output, arguments.build_output_dir)
 
-    print('Running jdeps and parsing output...')
+    print('Running jdeps...')
+    # jdeps already has some parallelism
+    jdeps_process_number = math.ceil(multiprocessing.cpu_count() / 2)
+    with multiprocessing.Pool(jdeps_process_number) as pool:
+        jar_paths = [target_jar for _, target_jar in target_jars]
+        jdeps_outputs = pool.map(
+            functools.partial(_run_jdeps, arguments.jdeps_path), jar_paths)
+
+    print('Parsing jdeps output...')
     jdeps_parser = JavaClassJdepsParser()
-    for build_target, target_jar in target_jars:
-        print(f'Running jdeps and parsing output for {target_jar}')
-        raw_jdeps_output = _run_jdeps(arguments.jdeps_path, target_jar)
+    for raw_jdeps_output, (build_target, _) in zip(jdeps_outputs, target_jars):
         jdeps_parser.parse_raw_jdeps_output(build_target, raw_jdeps_output)
 
     class_graph = jdeps_parser.graph
