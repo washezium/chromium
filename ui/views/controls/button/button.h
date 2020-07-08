@@ -19,7 +19,6 @@
 #include "ui/views/controls/button/button_controller_delegate.h"
 #include "ui/views/controls/focus_ring.h"
 #include "ui/views/painter.h"
-#include "ui/views/widget/widget.h"
 
 namespace views {
 namespace test {
@@ -120,9 +119,6 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   // like event dispatching, focus traversals, etc. Calling SetEnabled(false)
   // will also set the state of |this| to STATE_DISABLED.
   void SetState(ButtonState state);
-  // Returns the visual appearance state of the button. This takes into account
-  // both the button's display state and the state of the containing widget.
-  ButtonState GetVisualState() const;
 
   // Starts throbbing. See HoverAnimation for a description of cycles_til_stop.
   // This method does nothing if |animate_on_state_change_| is false.
@@ -214,8 +210,6 @@ class VIEWS_EXPORT Button : public InkDropHostView,
       const ViewHierarchyChangedDetails& details) override;
   void OnFocus() override;
   void OnBlur() override;
-  void AddedToWidget() override;
-  void RemovedFromWidget() override;
 
   // Overridden from InkDropHostView:
   std::unique_ptr<InkDrop> CreateInkDrop() override;
@@ -309,9 +303,6 @@ class VIEWS_EXPORT Button : public InkDropHostView,
 
   void OnEnabledChanged();
 
-  // Called when the widget's "paint as active" state has changed.
-  void WidgetPaintAsActiveChanged();
-
   // The text shown in a tooltip.
   base::string16 tooltip_text_;
 
@@ -357,9 +348,6 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   FocusRing* focus_ring_ = nullptr;
 
   std::unique_ptr<Painter> focus_painter_;
-
-  std::unique_ptr<Widget::PaintAsActiveCallbackList::Subscription>
-      paint_as_active_subscription_;
 
   // ButtonController is responsible for handling events sent to the Button and
   // related state changes from the events.

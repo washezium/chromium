@@ -185,14 +185,6 @@ void Button::SetState(ButtonState state) {
   OnPropertyChanged(&state_, kPropertyEffectsPaint);
 }
 
-Button::ButtonState Button::GetVisualState() const {
-  if (PlatformStyle::kInactiveWidgetControlsAppearDisabled && GetWidget() &&
-      !GetWidget()->ShouldPaintAsActive()) {
-    return STATE_DISABLED;
-  }
-  return state();
-}
-
 void Button::StartThrobbing(int cycles_til_stop) {
   if (!animate_on_state_change_)
     return;
@@ -480,18 +472,6 @@ void Button::OnBlur() {
     SchedulePaint();
 }
 
-void Button::AddedToWidget() {
-  if (PlatformStyle::kInactiveWidgetControlsAppearDisabled) {
-    paint_as_active_subscription_ =
-        GetWidget()->RegisterPaintAsActiveChangedCallback(base::BindRepeating(
-            &Button::WidgetPaintAsActiveChanged, base::Unretained(this)));
-  }
-}
-
-void Button::RemovedFromWidget() {
-  paint_as_active_subscription_.reset();
-}
-
 std::unique_ptr<InkDrop> Button::CreateInkDrop() {
   std::unique_ptr<InkDrop> ink_drop = InkDropHostView::CreateInkDrop();
   ink_drop->SetShowHighlightOnFocus(!focus_ring_);
@@ -604,10 +584,6 @@ void Button::OnEnabledChanged() {
     SetState(STATE_DISABLED);
     GetInkDrop()->SetHovered(false);
   }
-}
-
-void Button::WidgetPaintAsActiveChanged() {
-  StateChanged(state());
 }
 
 DEFINE_ENUM_CONVERTERS(
