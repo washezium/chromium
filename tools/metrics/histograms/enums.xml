@@ -44985,8 +44985,8 @@ Called by update_use_counter_css.py.-->
 
 <enum name="MarketingOptInGeolocationEvent">
   <summary>Geolocation resolve status on OOBE MarketingOptInScreen.</summary>
-  <int value="0" label="Country determined successfully."/>
-  <int value="1" label="Country could not be determined."/>
+  <int value="0" label="Country could not be determined."/>
+  <int value="1" label="Country determined successfully."/>
 </enum>
 
 <enum name="MarketingOptInScreenEvent">
