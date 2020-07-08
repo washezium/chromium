@@ -3133,6 +3133,8 @@ static_library("browser") {
       "enterprise/reporting/report_request_queue_generator.h",
       "enterprise/reporting/report_scheduler.cc",
       "enterprise/reporting/report_scheduler.h",
+      "enterprise/reporting/reporting_delegate_factory_desktop.cc",
+      "enterprise/reporting/reporting_delegate_factory_desktop.h",
       "feedback/feedback_dialog_utils.cc",
       "feedback/feedback_dialog_utils.h",
       "feedback/feedback_uploader_chrome.cc",
