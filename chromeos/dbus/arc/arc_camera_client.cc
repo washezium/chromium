@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chromeos/dbus/arc_camera_client.h"
+#include "chromeos/dbus/arc/arc_camera_client.h"
 
 #include <utility>
 
 #include "base/bind.h"
 #include "base/check_op.h"
 #include "base/memory/weak_ptr.h"
-#include "chromeos/dbus/fake_arc_camera_client.h"
+#include "chromeos/dbus/arc/fake_arc_camera_client.h"
 #include "dbus/bus.h"
 #include "dbus/message.h"
 #include "dbus/object_proxy.h"

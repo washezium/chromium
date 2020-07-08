@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_DBUS_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_
-#define CHROMEOS_DBUS_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_
+#ifndef CHROMEOS_DBUS_ARC_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_
+#define CHROMEOS_DBUS_ARC_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_
 
-#include "chromeos/dbus/arc_appfuse_provider_client.h"
+#include "chromeos/dbus/arc/arc_appfuse_provider_client.h"
 
 namespace chromeos {
 
 // A fake implementation of ArcAppfuseProviderClient.
-class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcAppfuseProviderClient
+class COMPONENT_EXPORT(CHROMEOS_DBUS_ARC) FakeArcAppfuseProviderClient
     : public ArcAppfuseProviderClient {
  public:
   FakeArcAppfuseProviderClient();
@@ -38,4 +38,4 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcAppfuseProviderClient
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_DBUS_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_
+#endif  // CHROMEOS_DBUS_ARC_FAKE_ARC_APPFUSE_PROVIDER_CLIENT_H_

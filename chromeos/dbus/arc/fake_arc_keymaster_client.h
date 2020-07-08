@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_DBUS_FAKE_ARC_KEYMASTER_CLIENT_H_
-#define CHROMEOS_DBUS_FAKE_ARC_KEYMASTER_CLIENT_H_
+#ifndef CHROMEOS_DBUS_ARC_FAKE_ARC_KEYMASTER_CLIENT_H_
+#define CHROMEOS_DBUS_ARC_FAKE_ARC_KEYMASTER_CLIENT_H_
 
-#include "chromeos/dbus/arc_keymaster_client.h"
+#include "chromeos/dbus/arc/arc_keymaster_client.h"
 
 namespace chromeos {
 
 // A fake implementation of ArcKeymasterClient.
-class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcKeymasterClient
+class COMPONENT_EXPORT(CHROMEOS_DBUS_ARC) FakeArcKeymasterClient
     : public ArcKeymasterClient {
  public:
   FakeArcKeymasterClient() = default;
@@ -29,4 +29,4 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcKeymasterClient
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_DBUS_FAKE_ARC_KEYMASTER_CLIENT_H_
+#endif  // CHROMEOS_DBUS_ARC_FAKE_ARC_KEYMASTER_CLIENT_H_

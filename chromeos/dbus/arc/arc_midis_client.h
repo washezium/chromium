@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_DBUS_ARC_MIDIS_CLIENT_H_
-#define CHROMEOS_DBUS_ARC_MIDIS_CLIENT_H_
+#ifndef CHROMEOS_DBUS_ARC_ARC_MIDIS_CLIENT_H_
+#define CHROMEOS_DBUS_ARC_ARC_MIDIS_CLIENT_H_
 
 #include <memory>
 #include <string>
@@ -20,7 +20,7 @@ namespace chromeos {
 // ArcMidisClient is used to pass an FD to the midis daemon for the purpose
 // of setting up a Mojo channel. It is expected to be called once during browser
 // initialization.
-class COMPONENT_EXPORT(CHROMEOS_DBUS) ArcMidisClient : public DBusClient {
+class COMPONENT_EXPORT(CHROMEOS_DBUS_ARC) ArcMidisClient : public DBusClient {
  public:
   ~ArcMidisClient() override = default;
 
@@ -42,4 +42,4 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) ArcMidisClient : public DBusClient {
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_DBUS_ARC_MIDIS_CLIENT_H_
+#endif  // CHROMEOS_DBUS_ARC_ARC_MIDIS_CLIENT_H_

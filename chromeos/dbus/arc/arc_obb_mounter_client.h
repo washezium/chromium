@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_DBUS_ARC_OBB_MOUNTER_CLIENT_H_
-#define CHROMEOS_DBUS_ARC_OBB_MOUNTER_CLIENT_H_
+#ifndef CHROMEOS_DBUS_ARC_ARC_OBB_MOUNTER_CLIENT_H_
+#define CHROMEOS_DBUS_ARC_ARC_OBB_MOUNTER_CLIENT_H_
 
 #include <stdint.h>
 
@@ -22,7 +22,8 @@ namespace chromeos {
 // which mounts OBB (opaque binary blob - https://goo.gl/ja8aN1) files.
 // All method should be called from the origin thread (UI thread) which
 // initializes the DBusThreadManager instance.
-class COMPONENT_EXPORT(CHROMEOS_DBUS) ArcObbMounterClient : public DBusClient {
+class COMPONENT_EXPORT(CHROMEOS_DBUS_ARC) ArcObbMounterClient
+    : public DBusClient {
  public:
   ArcObbMounterClient();
   ~ArcObbMounterClient() override;
@@ -45,4 +46,4 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) ArcObbMounterClient : public DBusClient {
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_DBUS_ARC_OBB_MOUNTER_CLIENT_H_
+#endif  // CHROMEOS_DBUS_ARC_ARC_OBB_MOUNTER_CLIENT_H_

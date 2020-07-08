@@ -2,17 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_DBUS_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
-#define CHROMEOS_DBUS_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
+#ifndef CHROMEOS_DBUS_ARC_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
+#define CHROMEOS_DBUS_ARC_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
 
 #include <string>
 
-#include "chromeos/dbus/arc_obb_mounter_client.h"
+#include "chromeos/dbus/arc/arc_obb_mounter_client.h"
 
 namespace chromeos {
 
 // A fake implementation of ArcObbMounterClient.
-class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcObbMounterClient
+class COMPONENT_EXPORT(CHROMEOS_DBUS_ARC) FakeArcObbMounterClient
     : public ArcObbMounterClient {
  public:
   FakeArcObbMounterClient();
@@ -35,4 +35,4 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeArcObbMounterClient
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_DBUS_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
+#endif  // CHROMEOS_DBUS_ARC_FAKE_ARC_OBB_MOUNTER_CLIENT_H_
