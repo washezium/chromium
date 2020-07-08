@@ -505,6 +505,38 @@ ci.chromium_builder(
     execution_timeout = 10 * time.hour,
 )
 
+ci.chromium_builder(
+    name = 'win-official',
+    # TODO(https://crbug.com/1072012) Use the default console view and add
+    # main_console_view = settings.main_console_name once the build is green
+    console_view = 'chromium.fyi',
+    console_view_entry = ci.console_view_entry(
+        category = 'win|off',
+        short_name = '64',
+    ),
+    cores = 32,
+    os = os.WINDOWS_DEFAULT,
+    # TODO: Change this back down to something reasonable once these builders
+    # have populated their cached by getting through the compile step
+    execution_timeout = 10 * time.hour,
+)
+
+ci.chromium_builder(
+    name = 'win32-official',
+    # TODO(https://crbug.com/1072012) Use the default console view and add
+    # main_console_view = settings.main_console_name once the build is green
+    console_view = 'chromium.fyi',
+    console_view_entry = ci.console_view_entry(
+        category = 'win|off',
+        short_name = '32',
+    ),
+    cores = 32,
+    os = os.WINDOWS_DEFAULT,
+    # TODO: Change this back down to something reasonable once these builders
+    # have populated their cached by getting through the compile step
+    execution_timeout = 10 * time.hour,
+)
+
 ci.chromiumos_builder(
     name = 'chromeos-amd64-generic-dbg',
     console_view_entry = ci.console_view_entry(

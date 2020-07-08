@@ -295,6 +295,7 @@ def blink_mac_builder(*, name, **kwargs):
 def chromium_builder(*, name, **kwargs):
   return try_builder(
       name = name,
+      builderless = True,
       goma_backend = builders.goma.backend.RBE_PROD,
       mastername = 'tryserver.chromium',
       **kwargs
