@@ -94,7 +94,7 @@ public class PaymentRequestTestBridge {
         private final long mOnCanMakePaymentReturnedPtr;
         private final long mOnHasEnrolledInstrumentCalledPtr;
         private final long mOnHasEnrolledInstrumentReturnedPtr;
-        private final long mOnShowAppsReadyPtr;
+        private final long mOnAppListReadyPtr;
         private final long mSetAppDescriptionsPtr;
         private final long mOnNotSupportedErrorPtr;
         private final long mOnConnectionTerminatedPtr;
@@ -104,7 +104,7 @@ public class PaymentRequestTestBridge {
 
         PaymentRequestNativeObserverBridgeToNativeForTest(long onCanMakePaymentCalledPtr,
                 long onCanMakePaymentReturnedPtr, long onHasEnrolledInstrumentCalledPtr,
-                long onHasEnrolledInstrumentReturnedPtr, long onShowAppsReadyPtr,
+                long onHasEnrolledInstrumentReturnedPtr, long onAppListReadyPtr,
                 long setAppDescriptionPtr, long onNotSupportedErrorPtr,
                 long onConnectionTerminatedPtr, long onAbortCalledPtr, long onCompleteCalledPtr,
                 long onMinimalUIReadyPtr) {
@@ -112,7 +112,7 @@ public class PaymentRequestTestBridge {
             mOnCanMakePaymentReturnedPtr = onCanMakePaymentReturnedPtr;
             mOnHasEnrolledInstrumentCalledPtr = onHasEnrolledInstrumentCalledPtr;
             mOnHasEnrolledInstrumentReturnedPtr = onHasEnrolledInstrumentReturnedPtr;
-            mOnShowAppsReadyPtr = onShowAppsReadyPtr;
+            mOnAppListReadyPtr = onAppListReadyPtr;
             mSetAppDescriptionsPtr = setAppDescriptionPtr;
             mOnNotSupportedErrorPtr = onNotSupportedErrorPtr;
             mOnConnectionTerminatedPtr = onConnectionTerminatedPtr;
@@ -139,11 +139,11 @@ public class PaymentRequestTestBridge {
         }
 
         @Override
-        public void onShowAppsReady(@Nullable List<EditableOption> apps, PaymentItem total) {
+        public void onAppListReady(@Nullable List<EditableOption> apps, PaymentItem total) {
             if (apps == null) {
                 nativeSetAppDescriptions(
                         mSetAppDescriptionsPtr, new String[0], new String[0], new String[0]);
-                nativeResolvePaymentRequestObserverCallback(mOnShowAppsReadyPtr);
+                nativeResolvePaymentRequestObserverCallback(mOnAppListReadyPtr);
                 return;
             }
 
@@ -163,7 +163,7 @@ public class PaymentRequestTestBridge {
             }
 
             nativeSetAppDescriptions(mSetAppDescriptionsPtr, appLabels, appSublabels, appTotals);
-            nativeResolvePaymentRequestObserverCallback(mOnShowAppsReadyPtr);
+            nativeResolvePaymentRequestObserverCallback(mOnAppListReadyPtr);
         }
 
         private static String ensureNotNull(@Nullable String value) {
@@ -210,15 +210,15 @@ public class PaymentRequestTestBridge {
     @CalledByNative
     private static void setUseNativeObserverForTest(long onCanMakePaymentCalledPtr,
             long onCanMakePaymentReturnedPtr, long onHasEnrolledInstrumentCalledPtr,
-            long onHasEnrolledInstrumentReturnedPtr, long onShowAppsReadyPtr,
+            long onHasEnrolledInstrumentReturnedPtr, long onAppListReadyPtr,
             long setAppDescriptionPtr, long onNotSupportedErrorPtr, long onConnectionTerminatedPtr,
             long onAbortCalledPtr, long onCompleteCalledPtr, long onMinimalUIReadyPtr) {
         PaymentRequestFactory.sNativeObserverForTest =
                 new PaymentRequestNativeObserverBridgeToNativeForTest(onCanMakePaymentCalledPtr,
                         onCanMakePaymentReturnedPtr, onHasEnrolledInstrumentCalledPtr,
-                        onHasEnrolledInstrumentReturnedPtr, onShowAppsReadyPtr,
-                        setAppDescriptionPtr, onNotSupportedErrorPtr, onConnectionTerminatedPtr,
-                        onAbortCalledPtr, onCompleteCalledPtr, onMinimalUIReadyPtr);
+                        onHasEnrolledInstrumentReturnedPtr, onAppListReadyPtr, setAppDescriptionPtr,
+                        onNotSupportedErrorPtr, onConnectionTerminatedPtr, onAbortCalledPtr,
+                        onCompleteCalledPtr, onMinimalUIReadyPtr);
     }
 
     @CalledByNative

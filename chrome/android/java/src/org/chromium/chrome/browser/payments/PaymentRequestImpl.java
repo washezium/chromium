@@ -300,7 +300,7 @@ public class PaymentRequestImpl
         void onCanMakePaymentReturned();
         void onHasEnrolledInstrumentCalled();
         void onHasEnrolledInstrumentReturned();
-        void onShowAppsReady(@Nullable List<EditableOption> paymentApps, PaymentItem total);
+        void onAppListReady(@Nullable List<EditableOption> paymentApps, PaymentItem total);
         void onNotSupportedError();
         void onConnectionTerminated();
         void onAbortCalled();
@@ -1059,6 +1059,10 @@ public class PaymentRequestImpl
         }
 
         if (mIsFinishedQueryingPaymentApps) {
+            // Send AppListReady signal when all apps are created and request.show() is called.
+            if (mNativeObserverForTest != null) {
+                mNativeObserverForTest.onAppListReady(mPaymentMethodsSection.getItems(), mRawTotal);
+            }
             // Calculate skip ui and build ui only after all payment apps are ready and
             // request.show() is called.
             calculateWhetherShouldSkipShowingPaymentRequestUi();
@@ -1784,10 +1788,6 @@ public class PaymentRequestImpl
                 new PaymentInformation(mUiShoppingCart, mShippingAddressesSection,
                         mUiShippingOptions, mContactSection, mPaymentMethodsSection));
         mPaymentInformationCallback = null;
-
-        if (mNativeObserverForTest != null) {
-            mNativeObserverForTest.onShowAppsReady(mPaymentMethodsSection.getItems(), mRawTotal);
-        }
 
         if (!mDidRecordShowEvent) {
             mDidRecordShowEvent = true;
@@ -2781,6 +2781,10 @@ public class PaymentRequestImpl
         SettingsAutofillAndPaymentsObserver.getInstance().registerObserver(this);
 
         if (mIsCurrentPaymentRequestShowing) {
+            // Send AppListReady signal when all apps are created and request.show() is called.
+            if (mNativeObserverForTest != null) {
+                mNativeObserverForTest.onAppListReady(mPaymentMethodsSection.getItems(), mRawTotal);
+            }
             // Calculate skip ui and build ui only after all payment apps are ready and
             // request.show() is called.
             calculateWhetherShouldSkipShowingPaymentRequestUi();
