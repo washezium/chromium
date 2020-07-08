@@ -12,6 +12,7 @@
 #include "chrome/browser/lite_video/lite_video_features.h"
 #include "chrome/browser/lite_video/lite_video_hint.h"
 #include "chrome/browser/lite_video/lite_video_keyed_service_factory.h"
+#include "chrome/browser/lite_video/lite_video_switches.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/common/chrome_features.h"
 #include "chrome/test/base/in_process_browser_test.h"
@@ -119,6 +120,7 @@ class LiteVideoKeyedServiceBrowserTest
 
   void SetUpCommandLine(base::CommandLine* cmd) override {
     cmd->AppendSwitch("enable-spdy-proxy-auth");
+    cmd->AppendSwitch(lite_video::switches::kLiteVideoIgnoreNetworkConditions);
   }
 
   // Sets the effective connection type that the Network Quality Tracker will
@@ -223,7 +225,21 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
       "LiteVideo.CanApplyLiteVideo.UserBlocklist.SubFrame", 0);
 }
 
-IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
+class LiteVideoNetworkConnectionBrowserTest
+    : public LiteVideoKeyedServiceBrowserTest {
+ public:
+  LiteVideoNetworkConnectionBrowserTest() = default;
+  ~LiteVideoNetworkConnectionBrowserTest() override = default;
+
+  void SetUpCommandLine(base::CommandLine* cmd) override {
+    cmd->AppendSwitch("enable-spdy-proxy-auth");
+  }
+
+ private:
+  base::test::ScopedFeatureList scoped_feature_list_;
+};
+
+IN_PROC_BROWSER_TEST_F(LiteVideoNetworkConnectionBrowserTest,
                        LiteVideoCanApplyLiteVideo_NetworkNotCellular) {
   WaitForBlocklistToBeLoaded();
   EXPECT_TRUE(
@@ -249,7 +265,7 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
 }
 
 IN_PROC_BROWSER_TEST_F(
-    LiteVideoKeyedServiceBrowserTest,
+    LiteVideoNetworkConnectionBrowserTest,
     LiteVideoCanApplyLiteVideo_NetworkConnectionBelowMinECT) {
   WaitForBlocklistToBeLoaded();
   EXPECT_TRUE(

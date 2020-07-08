@@ -40945,6 +40945,7 @@ from previous Chrome versions.
       label="OmniboxUIExperimentBlueTitlesOnPageSuggestions:disabled"/>
   <int value="-594076614" label="PluginVmShowCameraPermissions:disabled"/>
   <int value="-593536514" label="ExperimentalTabController:enabled"/>
+  <int value="-591874964" label="LiteVideo:enabled"/>
   <int value="-589096918" label="ash-enable-fullscreen-app-list"/>
   <int value="-582870536" label="BluetoothNextHandsfreeProfile:enabled"/>
   <int value="-579192400" label="disable-input-view"/>
@@ -41192,6 +41193,7 @@ from previous Chrome versions.
   <int value="-310908854" label="new-wallpaper-picker"/>
   <int value="-310615515" label="EnableSuggestedFiles:disabled"/>
   <int value="-307260007" label="ExtensionsCheckup:disabled"/>
+  <int value="-306935714" label="lite-video-force-override-decision"/>
   <int value="-304951461" label="TextSuggestionsTouchBar:enabled"/>
   <int value="-304777110" label="PreconnectToSearch:disabled"/>
   <int value="-300542825" label="ChromeShareQRCode:disabled"/>
@@ -41586,6 +41588,7 @@ from previous Chrome versions.
   <int value="125934378" label="enable-password-link"/>
   <int value="127789400" label="PrivacyElevatedAndroid:enabled"/>
   <int value="128086566" label="D3D11VideoDecoder:enabled"/>
+  <int value="129458360" label="LiteVideo:disabled"/>
   <int value="131881947" label="D3DVsync:enabled"/>
   <int value="132560299"
       label="OmniboxUIExperimentHideSteadyStateUrlScheme:disabled"/>
