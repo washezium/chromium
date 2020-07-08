@@ -146,14 +146,14 @@ TEST(ProbeServiceConvertors, BatteryInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, BatteryResultPtrInfo) {
-  const health::mojom::BatteryResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::BatteryResult::NewBatteryInfo(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_battery_info());
 }
 
 TEST(ProbeServiceConvertors, BatteryResultPtrError) {
-  const health::mojom::BatteryResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::BatteryResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -224,7 +224,7 @@ TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrInfo) {
     infos.push_back(std::move(info2));
   }
 
-  const health::mojom::NonRemovableBlockDeviceResultPtr output = ConvertPtr(
+  const auto output = ConvertPtr(
       cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
           std::move(infos)));
   ASSERT_TRUE(output);
@@ -252,14 +252,14 @@ TEST(ProbeServiceConvertors, CachedVpdInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, CachedVpdResultPtrInfo) {
-  const health::mojom::CachedVpdResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::CachedVpdResult::NewVpdInfo(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_vpd_info());
 }
 
 TEST(ProbeServiceConvertors, CachedVpdResultPtrError) {
-  const health::mojom::CachedVpdResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::CachedVpdResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -373,14 +373,14 @@ TEST(ProbeServiceConvertors, CpuInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, CpuResultPtrInfo) {
-  const health::mojom::CpuResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::CpuResult::NewCpuInfo(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_cpu_info());
 }
 
 TEST(ProbeServiceConvertors, CpuResultPtrError) {
-  const health::mojom::CpuResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::CpuResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -401,14 +401,14 @@ TEST(ProbeServiceConvertors, TimezoneInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, TimezoneResultPtrInfo) {
-  const health::mojom::TimezoneResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::TimezoneResult::NewTimezoneInfo(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_timezone_info());
 }
 
 TEST(ProbeServiceConvertors, TimezoneResultPtrError) {
-  const health::mojom::TimezoneResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::TimezoneResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -496,7 +496,7 @@ TEST(ProbeServiceConvertors, BacklightResultPtrInfo) {
 }
 
 TEST(ProbeServiceConvertors, BacklightResultPtrError) {
-  const health::mojom::BacklightResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::BacklightResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -539,7 +539,7 @@ TEST(ProbeServiceConvertors, FanResultPtrInfo) {
 }
 
 TEST(ProbeServiceConvertors, FanResultPtrError) {
-  const health::mojom::FanResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::FanResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -563,14 +563,14 @@ TEST(ProbeServiceConvertors, StatefulPartitionInfoPtr) {
 }
 
 TEST(ProbeServiceConvertors, StatefulPartitionResultPtrInfo) {
-  const health::mojom::StatefulPartitionResultPtr output = ConvertPtr(
+  const auto output = ConvertPtr(
       cros_healthd::mojom::StatefulPartitionResult::NewPartitionInfo(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_partition_info());
 }
 
 TEST(ProbeServiceConvertors, StatefulPartitionResultPtrError) {
-  const health::mojom::StatefulPartitionResultPtr output = ConvertPtr(
+  const auto output = ConvertPtr(
       cros_healthd::mojom::StatefulPartitionResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
@@ -624,7 +624,7 @@ TEST(ProbeServiceConvertors, BluetoothResultPtrInfo) {
 }
 
 TEST(ProbeServiceConvertors, BluetoothResultPtrError) {
-  const health::mojom::BluetoothResultPtr output =
+  const auto output =
       ConvertPtr(cros_healthd::mojom::BluetoothResult::NewError(nullptr));
   ASSERT_TRUE(output);
   EXPECT_TRUE(output->is_error());
