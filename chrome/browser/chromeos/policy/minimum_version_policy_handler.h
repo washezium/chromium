@@ -160,7 +160,11 @@ class MinimumVersionPolicyHandler
     fetch_eol_callback_ = std::move(callback);
   }
 
-  bool IsDeadlineTimerRunningForTesting();
+  base::Time update_required_deadline_for_testing() const {
+    return update_required_deadline_;
+  }
+
+  bool IsDeadlineTimerRunningForTesting() const;
 
  private:
   void OnPolicyChanged();
@@ -246,8 +250,13 @@ class MinimumVersionPolicyHandler
   // out and/or showing update required screen.
   bool deadline_reached = false;
 
+  // Time when the policy is applied and with respect to which the deadline to
+  // update the device is calculated.
   base::Time update_required_time_;
 
+  // Deadline for updating the device post which the user is restricted from
+  // using the session by force log out if a session is active and then blocking
+  // sign in at the login screen.
   base::Time update_required_deadline_;
 
   // Fires when the deadline to update the device has reached or passed.
