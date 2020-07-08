@@ -7,6 +7,7 @@ package org.chromium.chrome.test_support;
 import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.chromium.base.annotations.CalledByNative;
@@ -14,7 +15,6 @@ import org.chromium.base.annotations.JNINamespace;
 import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.payments.PaymentRequestFactory;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl;
-import org.chromium.chrome.browser.tabmodel.TabModel;
 import org.chromium.components.autofill.EditableOption;
 import org.chromium.content_public.browser.WebContents;
 import org.chromium.payments.mojom.PaymentItem;
@@ -56,13 +56,13 @@ public class PaymentRequestTestBridge {
         }
 
         @Override
-        public String getInvalidSslCertificateErrorMessage(WebContents webContents) {
+        public String getInvalidSslCertificateErrorMessage() {
             if (mIsValidSsl) return null;
             return "Invalid SSL certificate";
         }
 
         @Override
-        public boolean isWebContentsActive(TabModel model, WebContents webContents) {
+        public boolean isWebContentsActive(@NonNull ChromeActivity activity) {
             return mIsWebContentsActive;
         }
 
