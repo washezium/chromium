@@ -30,6 +30,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kTimezone;
     case health::mojom::ProbeCategoryEnum::kMemory:
       return cros_healthd::mojom::ProbeCategoryEnum::kMemory;
+    case health::mojom::ProbeCategoryEnum::kBacklight:
+      return cros_healthd::mojom::ProbeCategoryEnum::kBacklight;
   }
   NOTREACHED();
 }
@@ -189,8 +191,7 @@ health::mojom::TimezoneResultPtr UncheckedConvertPtr(
 health::mojom::MemoryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::MemoryInfoPtr input) {
   return health::mojom::MemoryInfo::New(
-      Convert(input->total_memory_kib),
-      Convert(input->free_memory_kib),
+      Convert(input->total_memory_kib), Convert(input->free_memory_kib),
       Convert(input->available_memory_kib),
       Convert(static_cast<uint64_t>(input->page_faults_since_last_boot)));
 }
@@ -208,6 +209,27 @@ health::mojom::MemoryResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::BacklightInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BacklightInfoPtr input) {
+  return health::mojom::BacklightInfo::New(std::move(input->path),
+                                           Convert(input->max_brightness),
+                                           Convert(input->brightness));
+}
+
+health::mojom::BacklightResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BacklightResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::BacklightResult::Tag::BACKLIGHT_INFO:
+      return health::mojom::BacklightResult::NewBacklightInfo(
+          ConvertPtrVector<health::mojom::BacklightInfoPtr>(
+              std::move(input->get_backlight_info())));
+    case cros_healthd::mojom::BacklightResult::Tag::ERROR:
+      return health::mojom::BacklightResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
@@ -216,7 +238,8 @@ health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
       ConvertPtr(std::move(input->vpd_result)),
       ConvertPtr(std::move(input->cpu_result)),
       ConvertPtr(std::move(input->timezone_result)),
-      ConvertPtr(std::move(input->memory_result)));
+      ConvertPtr(std::move(input->memory_result)),
+      ConvertPtr(std::move(input->backlight_result)));
 }
 
 }  // namespace unchecked

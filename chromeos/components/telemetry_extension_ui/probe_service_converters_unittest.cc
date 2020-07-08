@@ -24,7 +24,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kCachedVpdData,
       health::mojom::ProbeCategoryEnum::kCpu,
       health::mojom::ProbeCategoryEnum::kTimezone,
-      health::mojom::ProbeCategoryEnum::kMemory};
+      health::mojom::ProbeCategoryEnum::kMemory,
+      health::mojom::ProbeCategoryEnum::kBacklight};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
@@ -33,7 +34,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
           cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData,
           cros_healthd::mojom::ProbeCategoryEnum::kCpu,
           cros_healthd::mojom::ProbeCategoryEnum::kTimezone,
-          cros_healthd::mojom::ProbeCategoryEnum::kMemory));
+          cros_healthd::mojom::ProbeCategoryEnum::kMemory,
+          cros_healthd::mojom::ProbeCategoryEnum::kBacklight));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -443,6 +445,56 @@ TEST(ProbeServiceConvertors, MemoryResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, BacklightInfoPtr) {
+  constexpr char kPath[] = "/sys/backlight";
+  constexpr uint32_t kMaxBrightness = 100000;
+  constexpr uint32_t kBrightness = 90000;
+
+  auto input = cros_healthd::mojom::BacklightInfo::New();
+  input->path = kPath;
+  input->max_brightness = kMaxBrightness;
+  input->brightness = kBrightness;
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->path, kPath);
+  EXPECT_EQ(output->max_brightness,
+            health::mojom::UInt32Value::New(kMaxBrightness));
+  EXPECT_EQ(output->brightness, health::mojom::UInt32Value::New(kBrightness));
+}
+
+TEST(ProbeServiceConvertors, BacklightResultPtrInfo) {
+  constexpr char kPath[] = "/sys/backlight";
+
+  cros_healthd::mojom::BacklightResultPtr input;
+  {
+    auto backlight_info = cros_healthd::mojom::BacklightInfo::New();
+    backlight_info->path = kPath;
+
+    std::vector<cros_healthd::mojom::BacklightInfoPtr> backlight_infos;
+    backlight_infos.push_back(std::move(backlight_info));
+
+    input = cros_healthd::mojom::BacklightResult::NewBacklightInfo(
+        std::move(backlight_infos));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->is_backlight_info());
+
+  const auto& backlight_info_output = output->get_backlight_info();
+  ASSERT_EQ(backlight_info_output.size(), 1ULL);
+  ASSERT_TRUE(backlight_info_output[0]);
+  EXPECT_EQ(backlight_info_output[0]->path, kPath);
+}
+
+TEST(ProbeServiceConvertors, BacklightResultPtrError) {
+  const health::mojom::BacklightResultPtr output =
+      ConvertPtr(cros_healthd::mojom::BacklightResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -590,6 +642,34 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasMemoryResult) {
             health::mojom::UInt32Value::New(kTotalMemoryKib));
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBacklightResult) {
+  constexpr uint32_t kMaxBrightness = 10000;
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto backlight_info = cros_healthd::mojom::BacklightInfo::New();
+    backlight_info->max_brightness = kMaxBrightness;
+
+    std::vector<cros_healthd::mojom::BacklightInfoPtr> backlight_infos;
+    backlight_infos.push_back(std::move(backlight_info));
+
+    input->backlight_result =
+        cros_healthd::mojom::BacklightResult::NewBacklightInfo(
+            std::move(backlight_infos));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->backlight_result);
+  ASSERT_TRUE(output->backlight_result->is_backlight_info());
+
+  const auto& backlight_info_output =
+      output->backlight_result->get_backlight_info();
+  ASSERT_EQ(backlight_info_output.size(), 1ULL);
+  EXPECT_EQ(backlight_info_output[0]->max_brightness,
+            health::mojom::UInt32Value::New(kMaxBrightness));
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -600,6 +680,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->cpu_result);
   EXPECT_FALSE(telemetry_info_output->timezone_result);
   EXPECT_FALSE(telemetry_info_output->memory_result);
+  EXPECT_FALSE(telemetry_info_output->backlight_result);
 }
 
 }  // namespace probe_service_converters

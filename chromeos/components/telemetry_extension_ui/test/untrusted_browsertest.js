@@ -61,6 +61,7 @@ UNTRUSTED_TEST('UntustedRequestTelemetryInfo', async () => {
   const response = await requestTelemetryInfo();
   assertDeepEquals(response, {
     'telemetryInfo': {
+      'backlightResult': null,
       'batteryResult': null,
       'blockDeviceResult': null,
       'cpuResult': null,

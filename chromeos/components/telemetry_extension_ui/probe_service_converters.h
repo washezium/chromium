@@ -79,6 +79,12 @@ health::mojom::MemoryInfoPtr UncheckedConvertPtr(
 health::mojom::MemoryResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::MemoryResultPtr input);
 
+health::mojom::BacklightInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BacklightInfoPtr input);
+
+health::mojom::BacklightResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BacklightResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 
