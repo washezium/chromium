@@ -240,7 +240,7 @@ bool LayoutListItem::PrepareForBlockDirectionAlign(
     }
 
     if (marker->IsListMarkerForNormalContent())
-      ToLayoutListMarker(marker)->UpdateMarginsAndContent();
+      ToLayoutListMarker(marker)->UpdateMargins();
     else if (marker->IsOutsideListMarkerForCustomContent())
       ToLayoutOutsideListMarker(marker)->UpdateMargins();
     return true;
@@ -314,7 +314,7 @@ bool LayoutListItem::UpdateMarkerLocation() {
     // of referencing them delete marker_parent if it is an empty anonymous
     // block.
     if (marker->IsListMarkerForNormalContent())
-      ToLayoutListMarker(marker)->UpdateMarginsAndContent();
+      ToLayoutListMarker(marker)->UpdateMargins();
     else if (marker->IsOutsideListMarkerForCustomContent())
       ToLayoutOutsideListMarker(marker)->UpdateMargins();
     return true;
@@ -472,7 +472,7 @@ void LayoutListItem::UpdateOverflow() {
   // FIXME: Need to account for relative positioning in the layout overflow.
   LayoutUnit marker_line_offset =
       marker->IsListMarkerForNormalContent()
-          ? ToLayoutListMarker(marker)->LineOffset()
+          ? ToLayoutListMarker(marker)->ListItemInlineStartOffset()
           : ToLayoutOutsideListMarker(marker)->ListItemInlineStartOffset();
   if (StyleRef().IsLeftToRightDirection()) {
     marker_line_offset =

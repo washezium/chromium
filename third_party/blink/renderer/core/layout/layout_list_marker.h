@@ -51,8 +51,6 @@ class CORE_EXPORT LayoutListMarker final : public LayoutBox {
 
   bool IsInside() const;
 
-  void UpdateMarginsAndContent();
-
   LayoutRect GetRelativeMarkerRect() const;
 
   bool IsImage() const override;
@@ -62,7 +60,9 @@ class CORE_EXPORT LayoutListMarker final : public LayoutBox {
 
   const char* GetName() const override { return "LayoutListMarker"; }
 
-  LayoutUnit LineOffset() const { return line_offset_; }
+  LayoutUnit ListItemInlineStartOffset() const {
+    return list_item_inline_start_offset_;
+  }
 
  protected:
   void WillBeDestroyed() override;
@@ -97,6 +97,7 @@ class CORE_EXPORT LayoutListMarker final : public LayoutBox {
 
   LayoutUnit GetWidthOfText(ListMarker::ListStyleCategory) const;
   void UpdateMargins(LayoutUnit marker_inline_size);
+  void UpdateMargins();
   void UpdateContent();
 
   void UpdateMarkerImageIfNeeded(StyleImage* image);
@@ -104,7 +105,7 @@ class CORE_EXPORT LayoutListMarker final : public LayoutBox {
 
   String text_;
   Persistent<StyleImage> image_;
-  LayoutUnit line_offset_;
+  LayoutUnit list_item_inline_start_offset_;
 };
 
 DEFINE_LAYOUT_OBJECT_TYPE_CASTS(LayoutListMarker,

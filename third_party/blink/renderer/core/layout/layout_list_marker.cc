@@ -116,14 +116,14 @@ void LayoutListMarker::UpdateLayout() {
     block_offset += o->LogicalTop();
   }
   if (list_item->StyleRef().IsLeftToRightDirection()) {
-    line_offset_ = list_item->LogicalLeftOffsetForLine(
+    list_item_inline_start_offset_ = list_item->LogicalLeftOffsetForLine(
         block_offset, kDoNotIndentText, LayoutUnit());
   } else {
-    line_offset_ = list_item->LogicalRightOffsetForLine(
+    list_item_inline_start_offset_ = list_item->LogicalRightOffsetForLine(
         block_offset, kDoNotIndentText, LayoutUnit());
   }
   if (IsImage()) {
-    UpdateMarginsAndContent();
+    UpdateMargins();
     LayoutSize image_size(ImageBulletSize());
     SetWidth(image_size.Width());
     SetHeight(image_size.Height());
@@ -151,10 +151,6 @@ void LayoutListMarker::ImageChanged(WrappedImagePtr o, CanDeferInvalidation) {
   } else {
     SetShouldDoFullPaintInvalidation();
   }
-}
-
-void LayoutListMarker::UpdateMarginsAndContent() {
-  UpdateMargins(PreferredLogicalWidths().min_size);
 }
 
 void LayoutListMarker::UpdateContent() {
@@ -260,6 +256,10 @@ void LayoutListMarker::UpdateMargins(LayoutUnit marker_inline_size) {
 
   SetMarginStart(margin_start);
   SetMarginEnd(margin_end);
+}
+
+void LayoutListMarker::UpdateMargins() {
+  UpdateMargins(PreferredLogicalWidths().min_size);
 }
 
 LayoutUnit LayoutListMarker::LineHeight(
