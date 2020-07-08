@@ -339,6 +339,7 @@ def chromium_codesearch_builder(*, name, os=None, **kwargs):
       executable = 'recipe:chromium_codesearch',
       mastername = 'tryserver.chromium.codesearch',
       goma_backend = builders.goma.backend.RBE_PROD,
+      execution_timeout = 9 * time.hour,
       os = os,
       **kwargs
   )
