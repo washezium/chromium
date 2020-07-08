@@ -19,7 +19,7 @@
 #include "ui/gfx/geometry/rect_conversions.h"
 #include "ui/gfx/skia_util.h"
 
-#ifndef OS_ANDROID
+#if !defined(OS_ANDROID)
 #include "cc/paint/skottie_transfer_cache_entry.h"
 #endif
 
@@ -276,7 +276,7 @@ void PaintOpWriter::Write(const DrawImage& draw_image,
 
 // Android does not use skottie. Remove below section to keep binary size to a
 // minimum.
-#ifndef OS_ANDROID
+#if !defined(OS_ANDROID)
 void PaintOpWriter::Write(scoped_refptr<SkottieWrapper> skottie) {
   uint32_t id = skottie->id();
   Write(id);
@@ -301,7 +301,7 @@ void PaintOpWriter::Write(scoped_refptr<SkottieWrapper> skottie) {
   memory_ += bytes_written;
   remaining_bytes_ -= bytes_written;
 }
-#endif  // OS_ANDROID
+#endif  // !defined(OS_ANDROID)
 
 void PaintOpWriter::WriteImage(uint32_t transfer_cache_entry_id,
                                bool needs_mips) {
