@@ -355,14 +355,6 @@ void BubbleObserver::AcceptSavePrompt() const {
   EXPECT_FALSE(IsSavePromptAvailable());
 }
 
-void BubbleObserver::AcceptSaveUnsyncedCredentialsPrompt() const {
-  ASSERT_EQ(password_manager::ui::WILL_DELETE_UNSYNCED_ACCOUNT_PASSWORDS_STATE,
-            passwords_ui_controller_->GetState());
-  passwords_ui_controller_->SaveUnsyncedCredentialsInProfileStore();
-  EXPECT_NE(password_manager::ui::WILL_DELETE_UNSYNCED_ACCOUNT_PASSWORDS_STATE,
-            passwords_ui_controller_->GetState());
-}
-
 void BubbleObserver::AcceptUpdatePrompt() const {
   ASSERT_TRUE(IsUpdatePromptAvailable());
   passwords_ui_controller_->SavePassword(
