@@ -15,7 +15,7 @@ import './pdf_viewer_shared_style.js';
 
 import {assert, assertNotReached} from 'chrome://resources/js/assert.m.js';
 import {loadTimeData} from 'chrome://resources/js/load_time_data.m.js';
-import {hasKeyModifiers, isRTL} from 'chrome://resources/js/util.m.js';
+import {hasKeyModifiers} from 'chrome://resources/js/util.m.js';
 import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
 import {Bookmark} from './bookmark_type.js';
@@ -596,31 +596,9 @@ class PDFViewerElement extends PDFViewerBaseElement {
 
   /** @override */
   updateUIForViewportChange() {
-    // Offset the toolbar position so that it doesn't move if scrollbars appear.
-    const hasScrollbars = this.viewport.documentHasScrollbars();
-    const scrollbarWidth = this.viewport.scrollbarWidth;
-    const verticalScrollbarWidth = hasScrollbars.vertical ? scrollbarWidth : 0;
-    const horizontalScrollbarWidth =
-        hasScrollbars.horizontal ? scrollbarWidth : 0;
-
     if (!this.pdfViewerUpdateEnabled_) {
-      // Shift the zoom toolbar to the left by half a scrollbar width. This
-      // gives a compromise: if there is no scrollbar visible then the toolbar
-      // will be half a scrollbar width further left than the spec but if there
-      // is a scrollbar visible it will be half a scrollbar width further right
-      // than the spec. In RTL layout normally, the zoom toolbar is on the left
-      // left side, but the scrollbar is still on the right, so this is not
-      // necessary.
-      const zoomToolbar = this.getZoomToolbar_();
-      if (!isRTL()) {
-        zoomToolbar.style.right =
-            -verticalScrollbarWidth + (scrollbarWidth / 2) + 'px';
-      }
-      // Having a horizontal scrollbar is much rarer so we don't offset the
-      // toolbar from the bottom any more than what the spec says. This means
-      // that when there is a scrollbar visible, it will be a full scrollbar
-      // width closer to the bottom of the screen than usual, but this is ok.
-      zoomToolbar.style.bottom = -horizontalScrollbarWidth + 'px';
+      this.getZoomToolbar_().shiftForScrollbars(
+          this.viewport.documentHasScrollbars(), this.viewport.scrollbarWidth);
     }
 
     // Update the page indicator.
