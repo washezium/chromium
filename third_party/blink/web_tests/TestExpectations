@@ -89,6 +89,8 @@ crbug.com/901056 virtual/synchronous_html_parser/http/tests/preload/meta-viewpor
 # TODO(lukasza, alexmos): Burn down this list.
 crbug.com/949003 http/tests/printing/cross-site-frame-scrolled.html [ Pass Failure ]
 crbug.com/949003 http/tests/printing/cross-site-frame.html [ Pass Failure ]
+crbug.com/949003 virtual/not-site-per-process/http/tests/printing/cross-site-frame-scrolled.html [ Pass ]
+crbug.com/949003 virtual/not-site-per-process/http/tests/printing/cross-site-frame.html [ Pass ]
 # ====== Site Isolation failures until here ======
 
 # ====== Oilpan-only failures from here ======
