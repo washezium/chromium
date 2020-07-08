@@ -835,6 +835,10 @@ ContentBrowserClient::GetNetworkContextsParentDirectory() {
   return {};
 }
 
+base::DictionaryValue ContentBrowserClient::GetNetLogConstants() {
+  return base::DictionaryValue();
+}
+
 #if defined(OS_ANDROID)
 bool ContentBrowserClient::ShouldOverrideUrlLoading(
     int frame_tree_node_id,

@@ -74,6 +74,7 @@ using LoginAuthRequiredCallback =
 
 namespace base {
 class CommandLine;
+class DictionaryValue;
 class FilePath;
 class SequencedTaskRunner;
 }  // namespace base
@@ -735,7 +736,8 @@ class CONTENT_EXPORT ContentBrowserClient {
 
   // Allows the embedder to override the LocationProvider implementation.
   // Return nullptr to indicate the default one for the platform should be
-  // created.
+  // created. This is used by Qt, see
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=725057#c7
   virtual std::unique_ptr<device::LocationProvider>
   OverrideSystemLocationProvider();
 
@@ -1487,6 +1489,14 @@ class CONTENT_EXPORT ContentBrowserClient {
   // BrowserContexts' storage. Multiple paths can be returned, e.g. in case the
   // persistent storage location differs from the cache storage location.
   virtual std::vector<base::FilePath> GetNetworkContextsParentDirectory();
+
+  // Called once during initialization of NetworkService to provide constants
+  // to NetLog.  (Though it may be called multiples times if NetworkService
+  // crashes and needs to be reinitialized).  The return value is merged with
+  // |GetNetConstants()| and passed to FileNetLogObserver - see documentation
+  // of |FileNetLogObserver::CreateBounded()| for more information.  The
+  // convention is to put new constants under a subdict at the key "clientInfo".
+  virtual base::DictionaryValue GetNetLogConstants();
 
 #if defined(OS_ANDROID)
   // Only used by Android WebView.

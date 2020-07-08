@@ -514,6 +514,7 @@ class ChromeContentBrowserClient : public content::ContentBrowserClient {
       network::mojom::CertVerifierCreationParams* cert_verifier_creation_params)
       override;
   std::vector<base::FilePath> GetNetworkContextsParentDirectory() override;
+  base::DictionaryValue GetNetLogConstants() override;
   bool AllowRenderingMhtmlOverHttp(
       content::NavigationUIData* navigation_ui_data) override;
   bool ShouldForceDownloadResource(const GURL& url,

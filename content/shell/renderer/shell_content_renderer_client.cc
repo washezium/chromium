@@ -183,15 +183,6 @@ void ShellContentRendererClient::PrepareErrorPageForHttpStatusError(
   }
 }
 
-bool ShellContentRendererClient::IsPluginAllowedToUseDevChannelAPIs() {
-#if BUILDFLAG(ENABLE_PLUGINS)
-  return base::CommandLine::ForCurrentProcess()->HasSwitch(
-      switches::kEnablePepperTesting);
-#else
-  return false;
-#endif
-}
-
 void ShellContentRendererClient::DidInitializeWorkerContextOnWorkerThread(
     v8::Local<v8::Context> context) {
   if (base::CommandLine::ForCurrentProcess()->HasSwitch(
