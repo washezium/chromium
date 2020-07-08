@@ -582,7 +582,7 @@
 <translation id="1708713382908678956"><ph name="NAME_PH" /> (ID：<ph name="ID_PH" />)</translation>
 <translation id="1709106626015023981"><ph name="WIDTH" /> x <ph name="HEIGHT" /> (原生)</translation>
 <translation id="1709217939274742847">選擇要用於驗證的票證。<ph name="LINK_BEGIN" />瞭解詳情<ph name="LINK_END" /></translation>
-<translation id="1711935594505774770">這會清除 <ph name="SITE_GROUP_NAME" /> 儲存的所有資料和 Cookie、所包含的網站資料和 Cookie，以及所安裝的應用程式資料和 Cookie</translation>
+<translation id="1711935594505774770">這會清除 <ph name="SITE_GROUP_NAME" /> (包含底下網站和已安裝的應用程式) 儲存的資料和 Cookie</translation>
 <translation id="1714644264617423774">啟用無障礙功能，讓裝置更容易使用。<ph name="LINK_BEGIN" />瞭解詳情<ph name="LINK_END" /></translation>
 <translation id="1717218214683051432">動作感應器</translation>
 <translation id="1718835860248848330">過去 1 小時</translation>
@@ -2316,6 +2316,7 @@
 <translation id="3839516600093027468">一律禁止 <ph name="HOST" /> 讀取剪貼簿</translation>
 <translation id="3841964634449506551">密碼無效</translation>
 <translation id="3842552989725514455">Serif 字型</translation>
+<translation id="3843464315703645664">已加入內部允許清單</translation>
 <translation id="3846116211488856547">取得網站開發工具、Android 應用程式等等。安裝 Linux 將下載 <ph name="DOWNLOAD_SIZE" /> 的資料。</translation>
 <translation id="3847319713229060696">協助我們改善所有人的網路安全性</translation>
 <translation id="385051799172605136">返回</translation>
@@ -4072,7 +4073,7 @@
 <translation id="6122191549521593678">線上</translation>
 <translation id="6122831415929794347">要停用安全瀏覽功能嗎？</translation>
 <translation id="6122875415561139701">無法在以下裝置上執行寫入作業：「<ph name="DEVICE_NAME" />」。</translation>
-<translation id="6124213551517593835">這會清除 <ph name="SITE_GROUP_NAME" /> 儲存的所有資料和 Cookie，以及所包含網站的資料和 Cookie</translation>
+<translation id="6124213551517593835">這會清除 <ph name="SITE_GROUP_NAME" /> 和其底下網站儲存的所有資料和 Cookie</translation>
 <translation id="6124650939968185064">下列擴充功能與這個擴充功能之間有相依關係：</translation>
 <translation id="6124698108608891449">這個網站需要更多權限。</translation>
 <translation id="6125479973208104919">很抱歉，你需要重新在 <ph name="DEVICE_TYPE" /> 上新增帳戶。</translation>
@@ -4666,7 +4667,7 @@
 <translation id="6904655473976120856">按下 [應用程式] 按鈕即可結束</translation>
 <translation id="6910211073230771657">已刪除</translation>
 <translation id="691024665142758461">下載多個檔案</translation>
-<translation id="691106080621596509">這會清除 <ph name="SITE_GROUP_NAME" /> 儲存的所有資料和 Cookie、其所包含的網站資料和 Cookie，以及其所安裝的應用程式資料和 Cookie</translation>
+<translation id="691106080621596509">這會清除 <ph name="SITE_GROUP_NAME" /> (包含底下網站和已安裝的應用程式)儲存的所有資料和 Cookie</translation>
 <translation id="6911324888870229398">網路連線已中斷。請檢查連線狀態，或改用其他 Wi-Fi 網路。</translation>
 <translation id="6911734910326569517">記憶體使用量</translation>
 <translation id="6912007319859991306">行動數據 SIM 卡 PIN 碼</translation>

@@ -1394,7 +1394,7 @@
 <translation id="2712173769900027643">許可をリクエスト</translation>
 <translation id="2713444072780614174">白</translation>
 <translation id="2714393097308983682">Google Play ストア</translation>
-<translation id="2714997332747470971">個人情報の候補表示を有効にすると、あなたの名前や住所、電話番号が候補として表示され、すばやく入力できるようになります。個人用にカスタマイズされた候補は、そのアカウントを使用するユーザーにのみ表示されます。</translation>
+<translation id="2714997332747470971">個人情報の候補表示を有効にすると、あなたの名前や住所、電話番号が候補として表示され、すばやく入力できるようになります。個人用にカスタマイズされた候補は、そのアカウントを使用するユーザー本人にのみ表示されます。</translation>
 <translation id="2715751256863167692">このアップグレードを行うと、Chromebook がリセットされ、現在のユーザーデータは削除されます。</translation>
 <translation id="2716986496990888774">この設定は保護者によって管理されています。</translation>
 <translation id="2718395828230677721">夜間モード</translation>
@@ -2317,6 +2317,7 @@
 <translation id="3839516600093027468"><ph name="HOST" /> によるクリップボードへのアクセスを常にブロックする</translation>
 <translation id="3841964634449506551">パスワードが無効です</translation>
 <translation id="3842552989725514455">Serif フォント</translation>
+<translation id="3843464315703645664">内部で許可リストに登録済み</translation>
 <translation id="3846116211488856547">ウェブサイト、Android アプリなどの開発に役立つツールをご利用ください。Linux をインストールする際には <ph name="DOWNLOAD_SIZE" /> のデータがダウンロードされます。</translation>
 <translation id="3847319713229060696">すべてのユーザーのウェブ上のセキュリティ強化に協力する</translation>
 <translation id="385051799172605136">戻る</translation>

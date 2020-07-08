@@ -645,7 +645,6 @@ Chcete-toto nastavení změnit, <ph name="BEGIN_LINK" />resetujte synchronizaci<
 <translation id="6154478581116148741">Chcete-li z tohoto zařízení exportovat svá hesla, zapněte v Nastavení zámek obrazovky</translation>
 <translation id="6157392216611456285">Vyberte <ph name="APP_NAME" /></translation>
 <translation id="6159335304067198720">Úspora dat: <ph name="PERCENT" /></translation>
-<translation id="6192333916571137726">Stáhnout soubor</translation>
 <translation id="6201345951596836663">Odkaz byl zkopírován</translation>
 <translation id="6206830853671714236">Vyberte, kdy chcete stahovat</translation>
 <translation id="6210748933810148297">Nejste <ph name="EMAIL" />?</translation>
@@ -882,6 +881,7 @@ Některé weby mohou například na tento požadavek reagovat tak, že vám zobr
 <translation id="8013372441983637696">Vymazat data prohlížeče Chrome také z tohoto zařízení</translation>
 <translation id="8015452622527143194">Vrátit veškerý obsah stránky na původní velikost</translation>
 <translation id="8026334261755873520">Vymazat údaje o prohlížení</translation>
+<translation id="8027863900915310177">Vyberte cíl stahování</translation>
 <translation id="8035133914807600019">Nová složka…</translation>
 <translation id="8037750541064988519">Zbývá: <ph name="DAYS" /> d</translation>
 <translation id="804335162455518893">SD karta nenalezena</translation>

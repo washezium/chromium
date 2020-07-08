@@ -645,7 +645,6 @@ Pentru a modifica această setare, <ph name="BEGIN_LINK" />resetează sincroniza
 <translation id="6154478581116148741">Pentru a-ți exporta parolele de pe acest dispozitiv, activează blocarea ecranului în Setări.</translation>
 <translation id="6157392216611456285">Alege <ph name="APP_NAME" /></translation>
 <translation id="6159335304067198720">Economie de date de <ph name="PERCENT" /></translation>
-<translation id="6192333916571137726">Descarcă fișierul</translation>
 <translation id="6201345951596836663">Linkul a fost copiat</translation>
 <translation id="6206830853671714236">Alege momentul descărcării</translation>
 <translation id="6210748933810148297">Nu ești <ph name="EMAIL" />?</translation>
@@ -882,6 +881,7 @@ De exemplu, unele site-uri pot răspunde la această solicitare afișând anunț
 <translation id="8013372441983637696">Șterge și datele Chrome de pe acest dispozitiv</translation>
 <translation id="8015452622527143194">Readuce pagina la dimensiunea prestabilită</translation>
 <translation id="8026334261755873520">Șterge datele de navigare</translation>
+<translation id="8027863900915310177">Alege unde vrei să descarci</translation>
 <translation id="8035133914807600019">Dosar nou…</translation>
 <translation id="8037750541064988519"><ph name="DAYS" /> zile rămase</translation>
 <translation id="804335162455518893">Nu s-a găsit cardul SD</translation>

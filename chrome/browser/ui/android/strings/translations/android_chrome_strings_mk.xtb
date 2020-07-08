@@ -645,7 +645,6 @@
 <translation id="6154478581116148741">Вклучете го заклучувањето на екранот во „Поставки“ за да ги извезете лозинките од уредов</translation>
 <translation id="6157392216611456285">Изберете <ph name="APP_NAME" /></translation>
 <translation id="6159335304067198720"><ph name="PERCENT" /> заштеда на податоци</translation>
-<translation id="6192333916571137726">Преземете ја датотеката</translation>
 <translation id="6201345951596836663">Линкот е копиран</translation>
 <translation id="6206830853671714236">Изберете кога да се преземе</translation>
 <translation id="6210748933810148297">Не сте <ph name="EMAIL" />?</translation>
@@ -882,6 +881,7 @@
 <translation id="8013372441983637696">Избришете ги и вашите податоци на Chrome од уредов</translation>
 <translation id="8015452622527143194">Врати сѐ што се наоѓа на страницата на стандардна големина</translation>
 <translation id="8026334261755873520">Исчисти податоци од прелистување</translation>
+<translation id="8027863900915310177">Изберете каде да се преземе</translation>
 <translation id="8035133914807600019">Нова папка…</translation>
 <translation id="8037750541064988519">Останаа <ph name="DAYS" /> дена</translation>
 <translation id="804335162455518893">SD-картичката не е најдена</translation>

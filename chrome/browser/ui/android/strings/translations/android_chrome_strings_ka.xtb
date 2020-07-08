@@ -645,7 +645,6 @@
 <translation id="6154478581116148741">ამ მოწყობილობიდან პაროლების ექსპორტირებისთვის პარამეტრებიდან გაააქტიურეთ ეკრანის დაბლოკვის მეთოდი</translation>
 <translation id="6157392216611456285"><ph name="APP_NAME" />-ის არჩევა</translation>
 <translation id="6159335304067198720">მონაცემების დაზოგვა <ph name="PERCENT" />-ით</translation>
-<translation id="6192333916571137726">ფაილის ჩამოტვირთვა</translation>
 <translation id="6201345951596836663">ბმული დაკოპირდა</translation>
 <translation id="6206830853671714236">აირჩიეთ, როდის ჩამოიტვირთოს</translation>
 <translation id="6210748933810148297">არ ხართ <ph name="EMAIL" />?</translation>
@@ -882,6 +881,7 @@
 <translation id="8013372441983637696">თქვენი Chrome მონაცემების გასუფთავება ამ მოწყობილობიდანაც</translation>
 <translation id="8015452622527143194">გვერდზე ყველაფრის ნაგულისხმევ ზომაზე დაბრუნება</translation>
 <translation id="8026334261755873520">დათვალიერების მონაცემების გასუფთავება</translation>
+<translation id="8027863900915310177">აირჩიეთ, სად გსურთ ჩამოტვირთვა</translation>
 <translation id="8035133914807600019">ახალი საქაღალდე…</translation>
 <translation id="8037750541064988519">დარჩენილია <ph name="DAYS" /> დღე</translation>
 <translation id="804335162455518893">SD ბარათი ვერ მოიძებნა</translation>

@@ -645,7 +645,6 @@ Ayarı dəyişmək üçün <ph name="BEGIN_LINK" />sinxronizasiyanı sıfırlay�
 <translation id="6154478581116148741">Bu cihazdan parolları eksport etmək üçün Ayarlarda ekran kilidini aktiv edin</translation>
 <translation id="6157392216611456285"><ph name="APP_NAME" /> seçin</translation>
 <translation id="6159335304067198720"><ph name="PERCENT" /> data qənaətləri</translation>
-<translation id="6192333916571137726">Faylı endirin</translation>
 <translation id="6201345951596836663">Keçid kopyalandı</translation>
 <translation id="6206830853671714236">Endirmə vaxtını seçin</translation>
 <translation id="6210748933810148297"><ph name="EMAIL" /> deyil?</translation>
@@ -880,6 +879,7 @@ Ayarı dəyişmək üçün <ph name="BEGIN_LINK" />sinxronizasiyanı sıfırlay�
 <translation id="8013372441983637696">Həmçinin Chrome datanızı bu cihazdan silin</translation>
 <translation id="8015452622527143194">Səhifədəki hər şeyi defolt ölçüsünə qaytarın</translation>
 <translation id="8026334261755873520">Brauzinq datasını təmizləyin</translation>
+<translation id="8027863900915310177">Endiriləcək yeri seçin</translation>
 <translation id="8035133914807600019">Yeni qovluq...</translation>
 <translation id="8037750541064988519"><ph name="DAYS" /> gün qaldı</translation>
 <translation id="804335162455518893">SD kart tapılmadı</translation>

@@ -645,7 +645,6 @@
 <translation id="6154478581116148741">Чтобы экспортировать пароли с этого устройства, включите блокировку экрана в настройках.</translation>
 <translation id="6157392216611456285">Выбрать <ph name="APP_NAME" /></translation>
 <translation id="6159335304067198720">Сэкономлено: <ph name="PERCENT" /></translation>
-<translation id="6192333916571137726">Скачивание файла</translation>
 <translation id="6201345951596836663">Ссылка скопирована.</translation>
 <translation id="6206830853671714236">Выберите, когда начать скачивание</translation>
 <translation id="6210748933810148297"><ph name="EMAIL" /> не ваш аккаунт?</translation>
@@ -882,6 +881,7 @@
 <translation id="8013372441983637696">Удалить данные Chrome с этого устройства</translation>
 <translation id="8015452622527143194">Восстановить масштаб страницы по умолчанию</translation>
 <translation id="8026334261755873520">Очистить историю</translation>
+<translation id="8027863900915310177">Куда скачать?</translation>
 <translation id="8035133914807600019">Создать папку…</translation>
 <translation id="8037750541064988519">Осталось <ph name="DAYS" /> дн.</translation>
 <translation id="804335162455518893">SD-карта не найдена</translation>

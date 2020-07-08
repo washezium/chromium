@@ -66,6 +66,11 @@
 
           この設定が無効な場合や設定されていない場合、リモート アシスタンス ホストはユーザーのコンテキストで実行され、リモート ユーザーはデスクトップ上の権限昇格ウィンドウとやり取りできません。</translation>
 <translation id="1096105751829466145">デフォルトの検索プロバイダ</translation>
+<translation id="1097470492926315437"><ph name="FLASH_PLUGIN_NAME" /> プラグインの実行を許可するサイトを指定する URL パターンのリストを設定できます。
+
+          このポリシーが未設定のままの場合は、すべてのサイトでグローバルなデフォルト値（「DefaultPluginsSetting」ポリシーで値が設定されている場合はその値、設定されていない場合はユーザーの個人設定の値）が使用されます。
+
+          有効な URL パターンについて詳しくは、https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns をご覧ください。ただし、M85 以降では、ホストの「*」と「[*.]」のワイルドカードを使用したパターンは、このポリシーでサポートされなくなります。</translation>
 <translation id="1099282607296956954">すべてのサイトに対してサイト分離を有効にする</translation>
 <translation id="1100570158310952027">
       保護されていない発行元に関するセキュリティ制限の適用対象外となる
@@ -436,11 +441,6 @@
       ポリシーは、<ph name="PRODUCT_OS_NAME" /> による利用規約のダウンロードが可能な URL に設定する必要があります。利用規約はテキスト形式で、MIME タイプのプレーン テキストとして配信してください。マークアップ形式は使用できません。</translation>
 <translation id="1750315445671978749">すべてのダウンロードをブロックする</translation>
 <translation id="1767673020408652620">検索ボックスが「ゼロ状態」のときにアプリのおすすめを有効にする</translation>
-<translation id="1777842213242723063"><ph name="FLASH_PLUGIN_NAME" /> プラグインの実行を許可しないサイトを指定する URL パターンのリストを設定できます。
-
-          このポリシーが未設定のままの場合は、すべてのサイトでグローバルなデフォルト値（「DefaultPluginsSetting」ポリシーで値が設定されている場合はその値、設定されていない場合はユーザーの個人設定の値）が使用されます。
-
-          有効な URL パターンについて詳しくは、https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns をご覧ください。</translation>
 <translation id="1781356041596378058">このポリシーでは、Android 開発者向けオプションへのアクセスも管理できます。このポリシーを true に設定した場合、ユーザーは開発者向けオプションにアクセスできません。このポリシーを false に設定するか未設定のままにした場合、ユーザーは Android 設定アプリのビルド番号を 7 回タップすれば開発者向けオプションにアクセスできます。</translation>
 <translation id="1793346220873697538">デフォルトで PIN の印刷を無効にします</translation>
 <translation id="1797233582739332495">再起動が必要であることを示すメッセージをユーザーに繰り返し表示する</translation>
@@ -783,6 +783,11 @@
       こうしたおすすめのページは、リモートの Google サーバーから取得されます。
 
       このポリシーが false の場合、おすすめのページは取得されず、表示されません。</translation>
+<translation id="2254232978971780597"><ph name="FLASH_PLUGIN_NAME" /> プラグインの実行を許可しないサイトを指定する URL パターンのリストを設定できます。
+
+          このポリシーが未設定のままの場合は、すべてのサイトでグローバルなデフォルト値（「DefaultPluginsSetting」ポリシーで値が設定されている場合はその値、設定されていない場合はユーザーの個人設定の値）が使用されます。
+
+          有効な URL パターンについて詳しくは、https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns をご覧ください。ただし、M85 以降では、ホストの「*」と「[*.]」のワイルドカードを使用したパターンは、このポリシーでサポートされなくなります。</translation>
 <translation id="2258126710006312594">リモート アクセスのユーザーにホストとのファイルの転送を許可します</translation>
 <translation id="2267288258868218403">サポートされていないファイル形式のアップロードをブロックする</translation>
 <translation id="2269319728625047531">ログイン時に同期の同意メッセージを表示する</translation>
@@ -1812,11 +1817,6 @@ False に設定した場合、<ph name="PRODUCT_NAME" /> はネイティブ通�
 
         このポリシーは、デスクトップ上のマシンスコープのクラウド ポリシー登録で使用され、Windows のレジストリまたは GPO、Mac の plist、Linux の JSON ポリシー ファイルで設定できます。</translation>
 <translation id="3660562134618097814">ログイン時に SAML IdP Cookie を転送する</translation>
-<translation id="3684866411224031107"><ph name="FLASH_PLUGIN_NAME" /> プラグインの実行を許可するサイトを指定する URL パターンのリストを設定できます。
-
-          このポリシーが未設定のままの場合は、すべてのサイトでグローバルなデフォルト値（「DefaultPluginsSetting」ポリシーで値が設定されている場合はその値、設定されていない場合はユーザーの個人設定の値）が使用されます。
-
-          有効な URL パターンについて詳しくは、https://cloud.google.com/docs/chrome-enterprise/policies/url-patterns をご覧ください。</translation>
 <translation id="3688225008199664446">ユーザーに対する USB デバイスへのアクセス リクエストを許可しないサイトの URL パターンのリストを設定できます。
 
           このポリシーが未設定のままの場合は、すべてのサイトでグローバルなデフォルト値（「DefaultWebUsbGuardSetting」ポリシーで値が設定されている場合はその値、設定されていない場合はユーザーの個人設定の値）が使用されます。
