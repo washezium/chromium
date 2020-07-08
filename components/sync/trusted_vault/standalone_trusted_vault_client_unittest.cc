@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/sync/driver/file_based_trusted_vault_client.h"
+#include "components/sync/trusted_vault/standalone_trusted_vault_client.h"
 
 #include "base/containers/span.h"
 #include "base/files/file_util.h"
@@ -42,7 +42,7 @@ base::FilePath CreateUniqueTempDir(base::ScopedTempDir* temp_dir) {
 // completes. |client| must not be null.
 std::vector<std::vector<uint8_t>> FetchKeysAndWaitForClient(
     const std::string& gaia_id,
-    FileBasedTrustedVaultClient* client) {
+    StandaloneTrustedVaultClient* client) {
   DCHECK(client);
 
   CoreAccountInfo account_info;
@@ -60,14 +60,14 @@ std::vector<std::vector<uint8_t>> FetchKeysAndWaitForClient(
   return fetched_keys;
 }
 
-class FileBasedTrustedVaultClientTest : public testing::Test {
+class StandaloneTrustedVaultClientTest : public testing::Test {
  protected:
-  FileBasedTrustedVaultClientTest()
+  StandaloneTrustedVaultClientTest()
       : file_path_(CreateUniqueTempDir(&temp_dir_)
                        .Append(base::FilePath(FILE_PATH_LITERAL("some_file")))),
         client_(file_path_) {}
 
-  ~FileBasedTrustedVaultClientTest() override = default;
+  ~StandaloneTrustedVaultClientTest() override = default;
 
   void SetUp() override { OSCryptMocker::SetUp(); }
 
@@ -87,14 +87,14 @@ class FileBasedTrustedVaultClientTest : public testing::Test {
   base::test::TaskEnvironment task_environment_;
   base::ScopedTempDir temp_dir_;
   const base::FilePath file_path_;
-  FileBasedTrustedVaultClient client_;
+  StandaloneTrustedVaultClient client_;
 };
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldNotAutoTriggerInitialization) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldNotAutoTriggerInitialization) {
   EXPECT_FALSE(client_.IsInitializationTriggeredForTesting());
 }
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchEmptyKeys) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldFetchEmptyKeys) {
   const std::string kGaiaId = "user1";
 
   ASSERT_FALSE(client_.IsInitializationTriggeredForTesting());
@@ -102,7 +102,7 @@ TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchEmptyKeys) {
   EXPECT_TRUE(client_.IsInitializationTriggeredForTesting());
 }
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchNonEmptyKeys) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldFetchNonEmptyKeys) {
   const std::string kGaiaId1 = "user1";
   const std::string kGaiaId2 = "user2";
   const std::vector<uint8_t> kKey1 = {0, 1, 2, 3, 4};
@@ -129,7 +129,7 @@ TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchNonEmptyKeys) {
   EXPECT_THAT(FetchKeysAndWait(kGaiaId2), ElementsAre(kKey2, kKey3));
 }
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldStoreKeys) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldStoreKeys) {
   const std::string kGaiaId1 = "user1";
   const std::string kGaiaId2 = "user2";
   const std::vector<uint8_t> kKey1 = {0, 1, 2, 3, 4};
@@ -161,7 +161,7 @@ TEST_F(FileBasedTrustedVaultClientTest, ShouldStoreKeys) {
   EXPECT_THAT(proto.user(1).last_key_version(), Eq(9));
 }
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchPreviouslyStoredKeys) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldFetchPreviouslyStoredKeys) {
   const std::string kGaiaId1 = "user1";
   const std::string kGaiaId2 = "user2";
   const std::vector<uint8_t> kKey1 = {0, 1, 2, 3, 4};
@@ -175,14 +175,14 @@ TEST_F(FileBasedTrustedVaultClientTest, ShouldFetchPreviouslyStoredKeys) {
   WaitForFlush();
 
   // Instantiate a second client to read the file.
-  FileBasedTrustedVaultClient other_client(file_path_);
+  StandaloneTrustedVaultClient other_client(file_path_);
   EXPECT_THAT(FetchKeysAndWaitForClient(kGaiaId1, &other_client),
               ElementsAre(kKey1));
   EXPECT_THAT(FetchKeysAndWaitForClient(kGaiaId2, &other_client),
               ElementsAre(kKey2, kKey3));
 }
 
-TEST_F(FileBasedTrustedVaultClientTest, ShouldRemoveAllStoredKeys) {
+TEST_F(StandaloneTrustedVaultClientTest, ShouldRemoveAllStoredKeys) {
   const std::string kGaiaId1 = "user1";
   const std::string kGaiaId2 = "user2";
   const std::vector<uint8_t> kKey1 = {0, 1, 2, 3, 4};
