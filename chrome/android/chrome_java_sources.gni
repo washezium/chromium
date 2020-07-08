@@ -659,7 +659,6 @@ chrome_java_sources = [
   "java/src/org/chromium/chrome/browser/download/items/OfflineContentAggregatorNotificationBridgeUiFactory.java",
   "java/src/org/chromium/chrome/browser/download/service/DownloadBackgroundTask.java",
   "java/src/org/chromium/chrome/browser/download/service/DownloadTaskScheduler.java",
-  "java/src/org/chromium/chrome/browser/engagement/SiteEngagementService.java",
   "java/src/org/chromium/chrome/browser/explore_sites/CategoryCardAdapter.java",
   "java/src/org/chromium/chrome/browser/explore_sites/CategoryCardViewHolderFactory.java",
   "java/src/org/chromium/chrome/browser/explore_sites/CategoryCardViewHolderFactoryDenseTitleBottom.java",

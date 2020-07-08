@@ -16,7 +16,6 @@ import org.chromium.chrome.browser.profiles.Profile;
  * allows Java to retrieve and modify engagement scores for URLs.
  */
 public class SiteEngagementService {
-
     /** Pointer to the native side SiteEngagementServiceAndroid shim. */
     private long mNativePointer;
 

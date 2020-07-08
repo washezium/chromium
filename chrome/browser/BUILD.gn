@@ -2951,6 +2951,7 @@ static_library("browser") {
       "//url:origin_android",
     ]
 
+    deps += [ "//chrome/browser/engagement/android:jni_headers" ]
     deps -= [ "//components/storage_monitor" ]
 
     if (enable_supervised_users) {
