@@ -1587,7 +1587,7 @@ if (current_toolchain == default_toolchain) {
           deps = [
             ":$_resource_whitelist_target",
             ":$_system_webview_locale_whitelist_target",
-            "//android_webview:system_webview_pak_whitelist",
+            "//android_webview:system_webview_pak_allowlist",
           ]
 
           args = [
