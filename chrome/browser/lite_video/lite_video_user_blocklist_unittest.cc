@@ -137,8 +137,6 @@ class LiteVideoUserBlocklistTest : public ChromeRenderViewHostTestHarness {
 
   TestLiteVideoUserBlocklist* blocklist() { return blocklist_.get(); }
 
-  base::SimpleTestClock* test_clock() { return &test_clock_; }
-
  private:
   EmptyOptOutBlocklistDelegate blocklist_delegate_;
   base::test::ScopedFeatureList scoped_feature_list_;
@@ -156,26 +154,9 @@ TEST_F(LiteVideoUserBlocklistTest, NavigationNotEligibile) {
 TEST_F(LiteVideoUserBlocklistTest, NavigationBlocklistedByNavigationBlocklist) {
   ConfigBlocklistParamsForTesting();
   GURL url("https://test.com");
-  content::MockNavigationHandle nav_handle;
-  nav_handle.set_url(url);
-  blocklist()->AddNavigationToBlocklist(&nav_handle, true);
+  SeedBlocklist(url.host(), LiteVideoBlocklistType::kNavigationBlocklist);
   EXPECT_EQ(CheckBlocklistForMainframeNavigation(url),
             LiteVideoBlocklistReason::kNavigationBlocklisted);
-}
-
-TEST_F(LiteVideoUserBlocklistTest, NavigationUnblocklistedByNavigation) {
-  ConfigBlocklistParamsForTesting();
-  GURL url("https://test.com");
-  content::MockNavigationHandle nav_handle;
-  nav_handle.set_url(url);
-  blocklist()->AddNavigationToBlocklist(&nav_handle, true);
-  test_clock()->Advance(base::TimeDelta::FromSeconds(1));
-  EXPECT_EQ(CheckBlocklistForMainframeNavigation(url),
-            LiteVideoBlocklistReason::kNavigationBlocklisted);
-  blocklist()->AddNavigationToBlocklist(&nav_handle, false);
-  test_clock()->Advance(base::TimeDelta::FromSeconds(1));
-  EXPECT_EQ(CheckBlocklistForMainframeNavigation(url),
-            LiteVideoBlocklistReason::kAllowed);
 }
 
 TEST_F(LiteVideoUserBlocklistTest,
