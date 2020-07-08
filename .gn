@@ -107,6 +107,7 @@ no_check_targets = [
   "//chrome/test:*",  # 2682 errors
   "//chrome:*",  # 7 errors
 
+  "//clank/third_party/gvr_shim:*",  # 1 error
   "//extensions/browser/api/alarms:*",  # 2 errors
   "//extensions/browser/api/app_current_window_internal:*",  # 3 errors
   "//extensions/browser/api/app_runtime:*",  # 3 errors
