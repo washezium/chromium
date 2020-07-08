@@ -248,21 +248,23 @@ BluetoothAdapter::UUIDList BluetoothAdapterMac::GetUUIDs() const {
 void BluetoothAdapterMac::CreateRfcommService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   scoped_refptr<BluetoothSocketMac> socket = BluetoothSocketMac::CreateSocket();
-  socket->ListenUsingRfcomm(
-      this, uuid, options, base::Bind(callback, socket), error_callback);
+  socket->ListenUsingRfcomm(this, uuid, options,
+                            base::BindOnce(std::move(callback), socket),
+                            std::move(error_callback));
 }
 
 void BluetoothAdapterMac::CreateL2capService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   scoped_refptr<BluetoothSocketMac> socket = BluetoothSocketMac::CreateSocket();
-  socket->ListenUsingL2cap(
-      this, uuid, options, base::Bind(callback, socket), error_callback);
+  socket->ListenUsingL2cap(this, uuid, options,
+                           base::BindOnce(std::move(callback), socket),
+                           std::move(error_callback));
 }
 
 void BluetoothAdapterMac::RegisterAdvertisement(

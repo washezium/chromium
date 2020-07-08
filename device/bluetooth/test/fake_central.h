@@ -159,16 +159,14 @@ class FakeCentral final : public mojom::FakeCentral,
                        const ErrorCallback& error_callback) override;
   bool IsDiscovering() const override;
   UUIDList GetUUIDs() const override;
-  void CreateRfcommService(
-      const device::BluetoothUUID& uuid,
-      const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) override;
-  void CreateL2capService(
-      const device::BluetoothUUID& uuid,
-      const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) override;
+  void CreateRfcommService(const device::BluetoothUUID& uuid,
+                           const ServiceOptions& options,
+                           CreateServiceCallback callback,
+                           CreateServiceErrorCallback error_callback) override;
+  void CreateL2capService(const device::BluetoothUUID& uuid,
+                          const ServiceOptions& options,
+                          CreateServiceCallback callback,
+                          CreateServiceErrorCallback error_callback) override;
   void RegisterAdvertisement(
       std::unique_ptr<device::BluetoothAdvertisement::Data> advertisement_data,
       const CreateAdvertisementCallback& callback,

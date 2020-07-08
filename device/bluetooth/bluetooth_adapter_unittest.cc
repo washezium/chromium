@@ -97,17 +97,16 @@ class TestBluetoothAdapter final : public BluetoothAdapter {
 
   UUIDList GetUUIDs() const override { return UUIDList(); }
 
-  void CreateRfcommService(
-      const BluetoothUUID& uuid,
-      const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) override {}
+  void CreateRfcommService(const BluetoothUUID& uuid,
+                           const ServiceOptions& options,
+                           CreateServiceCallback callback,
+                           CreateServiceErrorCallback error_callback) override {
+  }
 
-  void CreateL2capService(
-      const BluetoothUUID& uuid,
-      const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) override {}
+  void CreateL2capService(const BluetoothUUID& uuid,
+                          const ServiceOptions& options,
+                          CreateServiceCallback callback,
+                          CreateServiceErrorCallback error_callback) override {}
 
   void RegisterAdvertisement(
       std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,

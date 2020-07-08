@@ -559,16 +559,16 @@ FakeCentral::UUIDList FakeCentral::GetUUIDs() const {
 void FakeCentral::CreateRfcommService(
     const device::BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTREACHED();
 }
 
 void FakeCentral::CreateL2capService(
     const device::BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTREACHED();
 }
 

@@ -142,19 +142,19 @@ BluetoothAdapter::UUIDList BluetoothAdapterCast::GetUUIDs() const {
 void BluetoothAdapterCast::CreateRfcommService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTIMPLEMENTED() << __func__ << " GATT server mode not supported";
-  error_callback.Run("Not Implemented");
+  std::move(error_callback).Run("Not Implemented");
 }
 
 void BluetoothAdapterCast::CreateL2capService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTIMPLEMENTED() << __func__ << " GATT server mode not supported";
-  error_callback.Run("Not Implemented");
+  std::move(error_callback).Run("Not Implemented");
 }
 
 void BluetoothAdapterCast::RegisterAdvertisement(

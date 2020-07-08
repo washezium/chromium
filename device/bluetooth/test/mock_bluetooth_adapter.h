@@ -104,13 +104,13 @@ class MockBluetoothAdapter : public BluetoothAdapter {
   MOCK_METHOD4(CreateRfcommService,
                void(const BluetoothUUID& uuid,
                     const ServiceOptions& options,
-                    const CreateServiceCallback& callback,
-                    const CreateServiceErrorCallback& error_callback));
+                    CreateServiceCallback callback,
+                    CreateServiceErrorCallback error_callback));
   MOCK_METHOD4(CreateL2capService,
                void(const BluetoothUUID& uuid,
                     const ServiceOptions& options,
-                    const CreateServiceCallback& callback,
-                    const CreateServiceErrorCallback& error_callback));
+                    CreateServiceCallback callback,
+                    CreateServiceErrorCallback error_callback));
   MOCK_CONST_METHOD1(GetGattService,
                      BluetoothLocalGattService*(const std::string& identifier));
 

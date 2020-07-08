@@ -329,9 +329,9 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapter
   using ConstDeviceList = std::vector<const BluetoothDevice*>;
   using UUIDList = std::vector<BluetoothUUID>;
   using CreateServiceCallback =
-      base::Callback<void(scoped_refptr<BluetoothSocket>)>;
+      base::OnceCallback<void(scoped_refptr<BluetoothSocket>)>;
   using CreateServiceErrorCallback =
-      base::Callback<void(const std::string& message)>;
+      base::OnceCallback<void(const std::string& message)>;
   using CreateAdvertisementCallback =
       base::Callback<void(scoped_refptr<BluetoothAdvertisement>)>;
   using AdvertisementErrorCallback =
@@ -537,8 +537,8 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapter
   virtual void CreateRfcommService(
       const BluetoothUUID& uuid,
       const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) = 0;
+      CreateServiceCallback callback,
+      CreateServiceErrorCallback error_callback) = 0;
 
   // Creates an L2CAP service on this adapter advertised with UUID |uuid|,
   // listening on PSM |options.psm|, which may be left null to automatically
@@ -550,8 +550,8 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapter
   virtual void CreateL2capService(
       const BluetoothUUID& uuid,
       const ServiceOptions& options,
-      const CreateServiceCallback& callback,
-      const CreateServiceErrorCallback& error_callback) = 0;
+      CreateServiceCallback callback,
+      CreateServiceErrorCallback error_callback) = 0;
 
   // Creates and registers an advertisement for broadcast over the LE channel.
   // The created advertisement will be returned via the success callback. An

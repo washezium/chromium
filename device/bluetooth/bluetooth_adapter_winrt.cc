@@ -548,16 +548,16 @@ BluetoothAdapter::UUIDList BluetoothAdapterWinrt::GetUUIDs() const {
 void BluetoothAdapterWinrt::CreateRfcommService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTIMPLEMENTED();
 }
 
 void BluetoothAdapterWinrt::CreateL2capService(
     const BluetoothUUID& uuid,
     const ServiceOptions& options,
-    const CreateServiceCallback& callback,
-    const CreateServiceErrorCallback& error_callback) {
+    CreateServiceCallback callback,
+    CreateServiceErrorCallback error_callback) {
   NOTIMPLEMENTED();
 }
 
