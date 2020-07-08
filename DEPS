@@ -4095,6 +4095,23 @@ hooks = [
     ],
   },
   {
+    # This clobbers when necessary (based on get_landmines.py). It must be the
+    # first hook so that other things that get/generate into the output
+    # directory will not subsequently be clobbered. This script is only run
+    # for iOS build with src_internal.
+    'name': 'landmines_ios_internal',
+    'pattern': '.',
+    'condition': 'checkout_ios and checkout_src_internal',
+    'action': [
+        'python',
+        'src/build/landmines.py',
+        '--landmines-scripts',
+        'ios_internal/build/get_landmines.py',
+        '--landmines-path',
+        'ios_internal/.landmines',
+    ],
+  },
+  {
     # Ensure that the DEPS'd "depot_tools" has its self-update capability
     # disabled.
     'name': 'disable_depot_tools_selfupdate',
