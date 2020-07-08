@@ -919,6 +919,7 @@ android_library("chrome_test_util_java") {
     "//third_party/android_media:android_media_resources",
     "//third_party/android_sdk/androidx_browser:androidx_browser_java",
     "//third_party/android_support_test_runner:runner_java",
+    "//third_party/hamcrest:hamcrest_java",
     "//third_party/junit:junit",
   ]
 }

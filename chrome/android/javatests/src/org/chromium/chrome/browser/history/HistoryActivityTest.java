@@ -11,6 +11,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import android.accounts.Account;
 import android.content.ClipData;
@@ -18,7 +19,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Browser;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -513,12 +513,8 @@ public class HistoryActivityTest {
                                             .getMenu()
                                             .performIdentifierAction(
                                                     R.id.selection_mode_copy_link, 0)));
-            CriteriaHelper.pollUiThread(new Criteria() {
-                @Override
-                public boolean isSatisfied() {
-                    return TextUtils.equals(mItem1.getUrl(), clipboardManager.getText());
-                }
-            });
+            CriteriaHelper.pollUiThread(
+                    () -> Criteria.checkThat(mItem1.getUrl(), is(clipboardManager.getText())));
 
             // Check that the copy link item is not visible when more than one item is selected.
             toggleItemSelection(2);
@@ -579,12 +575,7 @@ public class HistoryActivityTest {
         Assert.assertEquals(account, mAccountManagerTestRule.getCurrentSignedInAccount());
 
         // Wait for recycler view changes after sign in.
-        CriteriaHelper.pollUiThread(new Criteria() {
-            @Override
-            public boolean isSatisfied() {
-                return !mRecyclerView.isAnimating();
-            }
-        });
+        CriteriaHelper.pollUiThread(() -> !mRecyclerView.isAnimating());
 
         // Set supervised user.
         int onPreferenceChangeCallCount = mTestObserver.onPreferenceChangeCallback.getCallCount();
@@ -603,12 +594,7 @@ public class HistoryActivityTest {
         // Wait until animator finish removing history item delete icon
         // TODO(twellington): Figure out a better way to do this (e.g. listen for RecyclerView
         // data changes or add a testing callback)
-        CriteriaHelper.pollUiThread(new Criteria() {
-            @Override
-            public boolean isSatisfied() {
-                return !mRecyclerView.isAnimating();
-            }
-        });
+        CriteriaHelper.pollUiThread(() -> !mRecyclerView.isAnimating());
 
         // Clean up PrefChangeRegistrar for test.
         TestThreadUtils.runOnUiThreadBlocking(() -> {
