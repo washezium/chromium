@@ -1225,7 +1225,7 @@ deps = {
   },
 
   'src/third_party/perfetto':
-    Var('android_git') + '/platform/external/perfetto.git' + '@' + 'e1ca4c7cd49a73b57e13fa35df66af0d396c83d3',
+    Var('android_git') + '/platform/external/perfetto.git' + '@' + 'faef2531ecbb961d93df1bc13cf163bac6ba368f',
 
   'src/third_party/perl': {
       'url': Var('chromium_git') + '/chromium/deps/perl.git' + '@' + '6f3e5028eb65d0b4c5fdd792106ac4c84eee1eb3',
