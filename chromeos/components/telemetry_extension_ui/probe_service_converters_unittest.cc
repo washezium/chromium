@@ -21,13 +21,15 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
   const std::vector<health::mojom::ProbeCategoryEnum> kInput{
       health::mojom::ProbeCategoryEnum::kBattery,
       health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
-      health::mojom::ProbeCategoryEnum::kCachedVpdData};
+      health::mojom::ProbeCategoryEnum::kCachedVpdData,
+      health::mojom::ProbeCategoryEnum::kCpu};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
           cros_healthd::mojom::ProbeCategoryEnum::kBattery,
           cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
-          cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData));
+          cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData,
+          cros_healthd::mojom::ProbeCategoryEnum::kCpu));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -250,6 +252,127 @@ TEST(ProbeServiceConvertors, CachedVpdResultPtrError) {
   EXPECT_TRUE(ptr->is_error());
 }
 
+TEST(ProbeServiceConvertors, CpuCStateInfoPtr) {
+  constexpr char kName[] = "C0";
+  constexpr uint64_t kTimeInStateSinceLastBootUs = 123456;
+
+  auto input = cros_healthd::mojom::CpuCStateInfo::New();
+  {
+    input->name = kName;
+    input->time_in_state_since_last_boot_us = kTimeInStateSinceLastBootUs;
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->name, kName);
+  EXPECT_EQ(output->time_in_state_since_last_boot_us,
+            health::mojom::UInt64Value::New(kTimeInStateSinceLastBootUs));
+}
+
+TEST(ProbeServiceConvertors, LogicalCpuInfoPtr) {
+  constexpr uint32_t kMaxClockSpeedKhz = 1000;
+  constexpr uint32_t kScalingMaxFrequencyKhz = 10000;
+  constexpr uint32_t kScalingCurrentFrequencyKhz = 100000;
+  constexpr uint32_t kIdleTimeUserHz = 1000000;
+
+  constexpr char kCpuCStateName[] = "C1";
+
+  auto input = cros_healthd::mojom::LogicalCpuInfo::New();
+  {
+    auto c_state = cros_healthd::mojom::CpuCStateInfo::New();
+    c_state->name = kCpuCStateName;
+
+    input->max_clock_speed_khz = kMaxClockSpeedKhz;
+    input->scaling_max_frequency_khz = kScalingMaxFrequencyKhz;
+    input->scaling_current_frequency_khz = kScalingCurrentFrequencyKhz;
+    input->idle_time_user_hz = kIdleTimeUserHz;
+    input->c_states.push_back(std::move(c_state));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->max_clock_speed_khz,
+            health::mojom::UInt32Value::New(kMaxClockSpeedKhz));
+  EXPECT_EQ(output->scaling_max_frequency_khz,
+            health::mojom::UInt32Value::New(kScalingMaxFrequencyKhz));
+  EXPECT_EQ(output->scaling_current_frequency_khz,
+            health::mojom::UInt32Value::New(kScalingCurrentFrequencyKhz));
+  EXPECT_EQ(output->idle_time_user,
+            health::mojom::UInt64Value::New(kIdleTimeUserHz));
+  ASSERT_EQ(output->c_states.size(), 1ULL);
+  ASSERT_TRUE(output->c_states[0]);
+  EXPECT_EQ(output->c_states[0]->name, kCpuCStateName);
+}
+
+TEST(ProbeServiceConvertors, PhysicalCpuInfoPtr) {
+  constexpr char kModelName[] = "i9";
+  constexpr uint32_t kMaxClockSpeedKhz = 1000;
+
+  auto input = cros_healthd::mojom::PhysicalCpuInfo::New();
+  {
+    auto logical_info = cros_healthd::mojom::LogicalCpuInfo::New();
+    logical_info->max_clock_speed_khz = kMaxClockSpeedKhz;
+
+    input->model_name = kModelName;
+    input->logical_cpus.push_back(std::move(logical_info));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  ASSERT_EQ(output->model_name, kModelName);
+  ASSERT_EQ(output->logical_cpus.size(), 1ULL);
+  ASSERT_TRUE(output->logical_cpus[0]);
+  EXPECT_EQ(output->logical_cpus[0]->max_clock_speed_khz,
+            health::mojom::UInt32Value::New(kMaxClockSpeedKhz));
+}
+
+TEST(ProbeServiceConvertors, CpuArchitectureEnum) {
+  EXPECT_EQ(Convert(cros_healthd::mojom::CpuArchitectureEnum::kUnknown),
+            health::mojom::CpuArchitectureEnum::kUnknown);
+  EXPECT_EQ(Convert(cros_healthd::mojom::CpuArchitectureEnum::kX86_64),
+            health::mojom::CpuArchitectureEnum::kX86_64);
+  EXPECT_EQ(Convert(cros_healthd::mojom::CpuArchitectureEnum::kAArch64),
+            health::mojom::CpuArchitectureEnum::kAArch64);
+  EXPECT_EQ(Convert(cros_healthd::mojom::CpuArchitectureEnum::kArmv7l),
+            health::mojom::CpuArchitectureEnum::kArmv7l);
+}
+
+TEST(ProbeServiceConvertors, CpuInfoPtr) {
+  constexpr uint32_t kNumTotalThreads = 16;
+  constexpr char kModelName[] = "i9";
+
+  auto input = cros_healthd::mojom::CpuInfo::New();
+  {
+    auto physical_info = cros_healthd::mojom::PhysicalCpuInfo::New();
+    physical_info->model_name = kModelName;
+
+    input->num_total_threads = kNumTotalThreads;
+    input->physical_cpus.push_back(std::move(physical_info));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  ASSERT_EQ(output->num_total_threads,
+            health::mojom::UInt32Value::New(kNumTotalThreads));
+  ASSERT_EQ(output->physical_cpus.size(), 1ULL);
+  ASSERT_TRUE(output->physical_cpus[0]);
+  EXPECT_EQ(output->physical_cpus[0]->model_name, kModelName);
+}
+
+TEST(ProbeServiceConvertors, CpuResultPtrInfo) {
+  const health::mojom::CpuResultPtr output =
+      ConvertPtr(cros_healthd::mojom::CpuResult::NewCpuInfo(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_cpu_info());
+}
+
+TEST(ProbeServiceConvertors, CpuResultPtrError) {
+  const health::mojom::CpuResultPtr output =
+      ConvertPtr(cros_healthd::mojom::CpuResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -327,6 +450,29 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasCachedVpdResult) {
   EXPECT_EQ(vpd_info_output->sku_number.value(), kSkuNumber);
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasCpuResult) {
+  constexpr uint32_t kNumTotalThreads = 4;
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto cpu_info = cros_healthd::mojom::CpuInfo::New();
+    cpu_info->num_total_threads = kNumTotalThreads;
+
+    input->cpu_result =
+        cros_healthd::mojom::CpuResult::NewCpuInfo(std::move(cpu_info));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->cpu_result);
+  ASSERT_TRUE(output->cpu_result->is_cpu_info());
+
+  const auto& cpu_info_output = output->cpu_result->get_cpu_info();
+  ASSERT_TRUE(cpu_info_output);
+  EXPECT_EQ(cpu_info_output->num_total_threads,
+            health::mojom::UInt32Value::New(kNumTotalThreads));
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -334,6 +480,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->battery_result);
   EXPECT_FALSE(telemetry_info_output->block_device_result);
   EXPECT_FALSE(telemetry_info_output->vpd_result);
+  EXPECT_FALSE(telemetry_info_output->cpu_result);
 }
 
 }  // namespace probe_service_converters

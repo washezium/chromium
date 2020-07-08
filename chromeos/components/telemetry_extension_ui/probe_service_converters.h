@@ -52,12 +52,30 @@ health::mojom::CachedVpdInfoPtr UncheckedConvertPtr(
 health::mojom::CachedVpdResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::CachedVpdResultPtr input);
 
+health::mojom::CpuCStateInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuCStateInfoPtr input);
+
+health::mojom::LogicalCpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::LogicalCpuInfoPtr input);
+
+health::mojom::PhysicalCpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::PhysicalCpuInfoPtr input);
+
+health::mojom::CpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuInfoPtr input);
+
+health::mojom::CpuResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 
 }  // namespace unchecked
 
 health::mojom::ErrorType Convert(cros_healthd::mojom::ErrorType type);
+
+health::mojom::CpuArchitectureEnum Convert(
+    cros_healthd::mojom::CpuArchitectureEnum input);
 
 health::mojom::DoubleValuePtr Convert(double input);
 

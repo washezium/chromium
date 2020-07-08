@@ -24,6 +24,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices;
     case health::mojom::ProbeCategoryEnum::kCachedVpdData:
       return cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData;
+    case health::mojom::ProbeCategoryEnum::kCpu:
+      return cros_healthd::mojom::ProbeCategoryEnum::kCpu;
   }
   NOTREACHED();
 }
@@ -116,12 +118,59 @@ health::mojom::CachedVpdResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::CpuCStateInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuCStateInfoPtr input) {
+  return health::mojom::CpuCStateInfo::New(
+      std::move(input->name), Convert(input->time_in_state_since_last_boot_us));
+}
+
+health::mojom::LogicalCpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::LogicalCpuInfoPtr input) {
+  return health::mojom::LogicalCpuInfo::New(
+      Convert(input->max_clock_speed_khz),
+      Convert(input->scaling_max_frequency_khz),
+      Convert(input->scaling_current_frequency_khz),
+      Convert(static_cast<uint64_t>(input->idle_time_user_hz)),
+      ConvertPtrVector<health::mojom::CpuCStateInfoPtr>(
+          std::move(input->c_states)));
+}
+
+health::mojom::PhysicalCpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::PhysicalCpuInfoPtr input) {
+  return health::mojom::PhysicalCpuInfo::New(
+      std::move(input->model_name),
+      ConvertPtrVector<health::mojom::LogicalCpuInfoPtr>(
+          std::move(input->logical_cpus)));
+}
+
+health::mojom::CpuInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuInfoPtr input) {
+  return health::mojom::CpuInfo::New(
+      Convert(input->num_total_threads), Convert(input->architecture),
+      ConvertPtrVector<health::mojom::PhysicalCpuInfoPtr>(
+          std::move(input->physical_cpus)));
+}
+
+health::mojom::CpuResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::CpuResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::CpuResult::Tag::CPU_INFO:
+      return health::mojom::CpuResult::NewCpuInfo(
+          ConvertPtr(std::move(input->get_cpu_info())));
+    case cros_healthd::mojom::CpuResult::Tag::ERROR:
+      return health::mojom::CpuResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
       ConvertPtr(std::move(input->battery_result)),
       ConvertPtr(std::move(input->block_device_result)),
-      ConvertPtr(std::move(input->vpd_result)));
+      ConvertPtr(std::move(input->vpd_result)),
+      ConvertPtr(std::move(input->cpu_result)));
 }
 
 }  // namespace unchecked
@@ -134,6 +183,21 @@ health::mojom::ErrorType Convert(cros_healthd::mojom::ErrorType input) {
       return health::mojom::ErrorType::kParseError;
     case cros_healthd::mojom::ErrorType::kSystemUtilityError:
       return health::mojom::ErrorType::kSystemUtilityError;
+  }
+  NOTREACHED();
+}
+
+health::mojom::CpuArchitectureEnum Convert(
+    cros_healthd::mojom::CpuArchitectureEnum input) {
+  switch (input) {
+    case cros_healthd::mojom::CpuArchitectureEnum::kUnknown:
+      return health::mojom::CpuArchitectureEnum::kUnknown;
+    case cros_healthd::mojom::CpuArchitectureEnum::kX86_64:
+      return health::mojom::CpuArchitectureEnum::kX86_64;
+    case cros_healthd::mojom::CpuArchitectureEnum::kAArch64:
+      return health::mojom::CpuArchitectureEnum::kAArch64;
+    case cros_healthd::mojom::CpuArchitectureEnum::kArmv7l:
+      return health::mojom::CpuArchitectureEnum::kArmv7l;
   }
   NOTREACHED();
 }
