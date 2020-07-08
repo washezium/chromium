@@ -97,15 +97,15 @@ health::mojom::BatteryResultPtr Convert(
     return nullptr;
   }
 
-  auto output = health::mojom::BatteryResult::New();
-
-  if (input->is_error()) {
-    output->set_error(Convert(std::move(input->get_error())));
-  } else if (input->is_battery_info()) {
-    output->set_battery_info(Convert(std::move(input->get_battery_info())));
+  switch (input->which()) {
+    case cros_healthd::mojom::BatteryResult::Tag::BATTERY_INFO:
+      return health::mojom::BatteryResult::NewBatteryInfo(
+          Convert(std::move(input->get_battery_info())));
+    case cros_healthd::mojom::BatteryResult::Tag::ERROR:
+      return health::mojom::BatteryResult::NewError(
+          Convert(std::move(input->get_error())));
   }
-
-  return output;
+  NOTREACHED();
 }
 
 health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
@@ -128,17 +128,17 @@ health::mojom::NonRemovableBlockDeviceResultPtr Convert(
     return nullptr;
   }
 
-  auto output = health::mojom::NonRemovableBlockDeviceResult::New();
-
-  if (input->is_error()) {
-    output->set_error(Convert(std::move(input->get_error())));
-  } else if (input->is_block_device_info()) {
-    output->set_block_device_info(
-        ConvertPtrVector<health::mojom::NonRemovableBlockDeviceInfoPtr>(
-            std::move(input->get_block_device_info())));
+  switch (input->which()) {
+    case cros_healthd::mojom::NonRemovableBlockDeviceResult::Tag::
+        BLOCK_DEVICE_INFO:
+      return health::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
+          ConvertPtrVector<health::mojom::NonRemovableBlockDeviceInfoPtr>(
+              std::move(input->get_block_device_info())));
+    case cros_healthd::mojom::NonRemovableBlockDeviceResult::Tag::ERROR:
+      return health::mojom::NonRemovableBlockDeviceResult::NewError(
+          Convert(std::move(input->get_error())));
   }
-
-  return output;
+  NOTREACHED();
 }
 
 health::mojom::CachedVpdInfoPtr Convert(
@@ -156,15 +156,15 @@ health::mojom::CachedVpdResultPtr Convert(
     return nullptr;
   }
 
-  auto output = health::mojom::CachedVpdResult::New();
-
-  if (input->is_error()) {
-    output->set_error(Convert(std::move(input->get_error())));
-  } else if (input->is_vpd_info()) {
-    output->set_vpd_info(Convert(std::move(input->get_vpd_info())));
+  switch (input->which()) {
+    case cros_healthd::mojom::CachedVpdResult::Tag::VPD_INFO:
+      return health::mojom::CachedVpdResult::NewVpdInfo(
+          Convert(std::move(input->get_vpd_info())));
+    case cros_healthd::mojom::CachedVpdResult::Tag::ERROR:
+      return health::mojom::CachedVpdResult::NewError(
+          Convert(std::move(input->get_error())));
   }
-
-  return output;
+  NOTREACHED();
 }
 
 health::mojom::TelemetryInfoPtr Convert(
