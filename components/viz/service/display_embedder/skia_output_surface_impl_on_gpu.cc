@@ -93,6 +93,10 @@
 #include "ui/base/ui_base_features.h"
 #endif
 
+#if defined(OS_FUCHSIA)
+#include "components/viz/service/display_embedder/output_presenter_fuchsia.h"
+#endif
+
 namespace viz {
 
 namespace {
@@ -1610,11 +1614,18 @@ bool SkiaOutputSurfaceImplOnGpu::InitializeForVulkan() {
     }
 #endif
     if (!output_device_) {
+#if defined(OS_FUCHSIA)
+      auto output_presenter = OutputPresenterFuchsia::Create(
+          window_surface_.get(), dependency_, memory_tracker_.get());
+#else
       auto output_presenter =
           OutputPresenterGL::Create(dependency_, memory_tracker_.get());
       if (output_presenter) {
         // TODO(https://crbug.com/1012401): don't depend on GL.
         gl_surface_ = output_presenter->gl_surface();
+      }
+#endif
+      if (output_presenter) {
         output_device_ = std::make_unique<SkiaOutputDeviceBufferQueue>(
             std::move(output_presenter), dependency_, memory_tracker_.get(),
             GetDidSwapBuffersCompleteCallback());
