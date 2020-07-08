@@ -19,7 +19,7 @@
 #include "ui/views/controls/button/button_controller_delegate.h"
 #include "ui/views/controls/focus_ring.h"
 #include "ui/views/painter.h"
-#include "ui/views/widget/widget_observer.h"
+#include "ui/views/widget/widget.h"
 
 namespace views {
 namespace test {
@@ -307,26 +307,6 @@ class VIEWS_EXPORT Button : public InkDropHostView,
   friend class test::ButtonTestApi;
   FRIEND_TEST_ALL_PREFIXES(BlueButtonTest, Border);
 
-  // Bridge class to allow Button to observe a Widget without being a
-  // WidgetObserver. This is desirable because many Button subclasses are
-  // themselves WidgetObservers, and if Button is a WidgetObserver, any change
-  // to its WidgetObserver overrides requires updating all the subclasses as
-  // well.
-  class WidgetObserverButtonBridge : public WidgetObserver {
-   public:
-    explicit WidgetObserverButtonBridge(Button* owner);
-    ~WidgetObserverButtonBridge() override;
-
-    // WidgetObserver:
-    void OnWidgetPaintAsActiveChanged(Widget* widget) override;
-    void OnWidgetDestroying(Widget* widget) override;
-
-   private:
-    Button* owner_;
-
-    DISALLOW_COPY_AND_ASSIGN(WidgetObserverButtonBridge);
-  };
-
   void OnEnabledChanged();
 
   // Called when the widget's "paint as active" state has changed.
@@ -378,7 +358,8 @@ class VIEWS_EXPORT Button : public InkDropHostView,
 
   std::unique_ptr<Painter> focus_painter_;
 
-  std::unique_ptr<WidgetObserverButtonBridge> widget_observer_;
+  std::unique_ptr<Widget::PaintAsActiveCallbackList::Subscription>
+      paint_as_active_subscription_;
 
   // ButtonController is responsible for handling events sent to the Button and
   // related state changes from the events.
