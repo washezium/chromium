@@ -28,6 +28,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kCpu;
     case health::mojom::ProbeCategoryEnum::kTimezone:
       return cros_healthd::mojom::ProbeCategoryEnum::kTimezone;
+    case health::mojom::ProbeCategoryEnum::kMemory:
+      return cros_healthd::mojom::ProbeCategoryEnum::kMemory;
   }
   NOTREACHED();
 }
@@ -184,6 +186,28 @@ health::mojom::TimezoneResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::MemoryInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::MemoryInfoPtr input) {
+  return health::mojom::MemoryInfo::New(
+      Convert(input->total_memory_kib),
+      Convert(input->free_memory_kib),
+      Convert(input->available_memory_kib),
+      Convert(static_cast<uint64_t>(input->page_faults_since_last_boot)));
+}
+
+health::mojom::MemoryResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::MemoryResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::MemoryResult::Tag::MEMORY_INFO:
+      return health::mojom::MemoryResult::NewMemoryInfo(
+          ConvertPtr(std::move(input->get_memory_info())));
+    case cros_healthd::mojom::MemoryResult::Tag::ERROR:
+      return health::mojom::MemoryResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
@@ -191,7 +215,8 @@ health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
       ConvertPtr(std::move(input->block_device_result)),
       ConvertPtr(std::move(input->vpd_result)),
       ConvertPtr(std::move(input->cpu_result)),
-      ConvertPtr(std::move(input->timezone_result)));
+      ConvertPtr(std::move(input->timezone_result)),
+      ConvertPtr(std::move(input->memory_result)));
 }
 
 }  // namespace unchecked

@@ -23,7 +23,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
       health::mojom::ProbeCategoryEnum::kCachedVpdData,
       health::mojom::ProbeCategoryEnum::kCpu,
-      health::mojom::ProbeCategoryEnum::kTimezone};
+      health::mojom::ProbeCategoryEnum::kTimezone,
+      health::mojom::ProbeCategoryEnum::kMemory};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
@@ -31,7 +32,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
           cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
           cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData,
           cros_healthd::mojom::ProbeCategoryEnum::kCpu,
-          cros_healthd::mojom::ProbeCategoryEnum::kTimezone));
+          cros_healthd::mojom::ProbeCategoryEnum::kTimezone,
+          cros_healthd::mojom::ProbeCategoryEnum::kMemory));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -403,6 +405,44 @@ TEST(ProbeServiceConvertors, TimezoneResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, MemoryInfoPtr) {
+  constexpr uint32_t kTotalMemoryKib = 100000;
+  constexpr uint32_t kFreeMemoryKib = 10000;
+  constexpr uint32_t kAvailableMemoryKib = 1000;
+  constexpr uint32_t kPageFaultsSinceLastBoot = 100;
+
+  auto input = cros_healthd::mojom::MemoryInfo::New();
+  input->total_memory_kib = kTotalMemoryKib;
+  input->free_memory_kib = kFreeMemoryKib;
+  input->available_memory_kib = kAvailableMemoryKib;
+  input->page_faults_since_last_boot = kPageFaultsSinceLastBoot;
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->total_memory_kib,
+            health::mojom::UInt32Value::New(kTotalMemoryKib));
+  EXPECT_EQ(output->free_memory_kib,
+            health::mojom::UInt32Value::New(kFreeMemoryKib));
+  EXPECT_EQ(output->available_memory_kib,
+            health::mojom::UInt32Value::New(kAvailableMemoryKib));
+  EXPECT_EQ(output->page_faults_since_last_boot,
+            health::mojom::UInt64Value::New(kPageFaultsSinceLastBoot));
+}
+
+TEST(ProbeServiceConvertors, MemoryResultPtrInfo) {
+  const health::mojom::MemoryResultPtr output =
+      ConvertPtr(cros_healthd::mojom::MemoryResult::NewMemoryInfo(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_memory_info());
+}
+
+TEST(ProbeServiceConvertors, MemoryResultPtrError) {
+  const health::mojom::MemoryResultPtr output =
+      ConvertPtr(cros_healthd::mojom::MemoryResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -527,6 +567,29 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasTimezoneResult) {
   EXPECT_EQ(timezone_info_output->posix, kPosix);
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasMemoryResult) {
+  constexpr uint32_t kTotalMemoryKib = 10000;
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto memory_info = cros_healthd::mojom::MemoryInfo::New();
+    memory_info->total_memory_kib = kTotalMemoryKib;
+
+    input->memory_result = cros_healthd::mojom::MemoryResult::NewMemoryInfo(
+        std::move(memory_info));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->memory_result);
+  ASSERT_TRUE(output->memory_result->is_memory_info());
+
+  const auto& memory_info_output = output->memory_result->get_memory_info();
+  ASSERT_TRUE(memory_info_output);
+  EXPECT_EQ(memory_info_output->total_memory_kib,
+            health::mojom::UInt32Value::New(kTotalMemoryKib));
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -536,6 +599,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->vpd_result);
   EXPECT_FALSE(telemetry_info_output->cpu_result);
   EXPECT_FALSE(telemetry_info_output->timezone_result);
+  EXPECT_FALSE(telemetry_info_output->memory_result);
 }
 
 }  // namespace probe_service_converters

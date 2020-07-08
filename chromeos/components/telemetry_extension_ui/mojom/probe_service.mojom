@@ -26,6 +26,7 @@
 //           - PhysicalCpuInfo
 //           - CpuInfo
 //           - TimezoneInfo
+//           - MemoryInfo
 //   3) NonRemovableBlockDeviceInfo: use uint32 to store manufacturer_id instead
 //      of uint8 in case we want to extend manufacturer range.
 //   4) LogicalCpuInfo:
@@ -33,6 +34,8 @@
 //           cros_healthd interface;
 //      4.2) use uint64 to store idle_time_user instead of uint32,
 //           idle_time_user can easily be more than uint32 range.
+//   5) MemoryInfo: use uint64 to store page_faults_since_last_boot instead of
+//      uint32, it can be more than uint32 range.
 
 module chromeos.health.mojom;
 
@@ -60,6 +63,7 @@ enum ProbeCategoryEnum {
   kCachedVpdData,
   kCpu,
   kTimezone,
+  kMemory,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -290,6 +294,27 @@ union TimezoneResult {
   ProbeError error;
 };
 
+// Memory information.
+struct MemoryInfo {
+  // Total memory, in KiB.
+  UInt32Value? total_memory_kib;
+  // Free memory, in KiB.
+  UInt32Value? free_memory_kib;
+  // Available memory, in KiB.
+  UInt32Value? available_memory_kib;
+  // Number of page faults since the last boot.
+  UInt64Value? page_faults_since_last_boot;
+};
+
+// Memory probe result. Can either be populated with the MemoryInfo or an
+// error retrieving the information.
+union MemoryResult {
+  // Valid MemoryInfo.
+  MemoryInfo memory_info;
+  // The error that occurred attempting to retrieve the MemoryInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -314,4 +339,7 @@ struct TelemetryInfo {
   // Information about the device's timezone. Only present when kTimezone was
   // included in the categories input to ProbeTelemetryInfo.
   TimezoneResult? timezone_result;
+  // Information about the system's memory. Only present when kMemory was
+  // included in the categories input to ProbeTelemetryInfo.
+  MemoryResult? memory_result;
 };

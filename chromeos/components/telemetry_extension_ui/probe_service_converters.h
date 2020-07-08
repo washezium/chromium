@@ -73,6 +73,12 @@ health::mojom::TimezoneInfoPtr UncheckedConvertPtr(
 health::mojom::TimezoneResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::TimezoneResultPtr input);
 
+health::mojom::MemoryInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::MemoryInfoPtr input);
+
+health::mojom::MemoryResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::MemoryResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 
