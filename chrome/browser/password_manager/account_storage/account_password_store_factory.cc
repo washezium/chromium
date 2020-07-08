@@ -69,7 +69,7 @@ class UnsyncedCredentialsDeletionNotifierImpl
   ~UnsyncedCredentialsDeletionNotifierImpl() override = default;
 
   // Finds the last active tab and notifies their ManagePasswordsUIController.
-  void Notify(const std::vector<autofill::PasswordForm>& credentials) override;
+  void Notify(std::vector<autofill::PasswordForm> credentials) override;
   base::WeakPtr<UnsyncedCredentialsDeletionNotifier> GetWeakPtr() override;
 
  private:
@@ -83,7 +83,7 @@ UnsyncedCredentialsDeletionNotifierImpl::
     : profile_(profile) {}
 
 void UnsyncedCredentialsDeletionNotifierImpl::Notify(
-    const std::vector<autofill::PasswordForm>& credentials) {
+    std::vector<autofill::PasswordForm> credentials) {
   Browser* browser = chrome::FindBrowserWithProfile(profile_);
   if (!browser)
     return;
@@ -95,7 +95,7 @@ void UnsyncedCredentialsDeletionNotifierImpl::Notify(
       ManagePasswordsUIController::FromWebContents(web_contents);
   if (!ui_controller)
     return;
-  ui_controller->NotifyUnsyncedCredentialsWillBeDeleted(credentials);
+  ui_controller->NotifyUnsyncedCredentialsWillBeDeleted(std::move(credentials));
 }
 
 base::WeakPtr<PasswordStore::UnsyncedCredentialsDeletionNotifier>
