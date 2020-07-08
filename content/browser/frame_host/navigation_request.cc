@@ -742,9 +742,7 @@ bool ShouldSwapBrowsingInstanceForCrossOriginOpenerPolicy(
 }
 
 url::Origin GetOriginForURLLoaderFactoryUnchecked(
-    RenderFrameHostImpl* target_frame,
     NavigationRequest* navigation_request) {
-  DCHECK(target_frame);
   DCHECK(navigation_request);
 
   // Check if this is loadDataWithBaseUrl (which needs special treatment).
@@ -787,9 +785,9 @@ url::Origin GetOriginForURLLoaderFactoryUnchecked(
   if (navigation_request->GetURL().IsAboutSrcdoc()) {
     // Srcdoc navigations in main frames should be blocked before this function
     // is called.  This should guarantee existence of a parent here.
-    RenderFrameHostImpl* parent = target_frame->GetParent();
+    RenderFrameHostImpl* parent =
+        navigation_request->frame_tree_node()->parent();
     DCHECK(parent);
-
     return parent->GetLastCommittedOrigin();
   }
 
@@ -4207,18 +4205,17 @@ bool NavigationRequest::IsLoadDataWithBaseURL(
 }
 
 url::Origin NavigationRequest::GetOriginForURLLoaderFactory() {
+  // Calculate an approximation (sandbox/csp is ignored - see
+  // https://crbug.com/1041376) of the origin that will be committed because of
+  // |this| NavigationRequest.
+  url::Origin result = GetOriginForURLLoaderFactoryUnchecked(this);
+
   // Note that GetRenderFrameHost() only allows to retrieve the RenderFrameHost
   // once it has been set for this navigation.  This will happens either at
   // WillProcessResponse time for regular navigations or at WillFailRequest time
   // for error pages.
   RenderFrameHostImpl* target_frame = GetRenderFrameHost();
   DCHECK(target_frame);
-
-  // Calculate an approximation (sandbox/csp is ignored - see
-  // https://crbug.com/1041376) of the origin that will be committed because of
-  // |this| NavigationRequest.
-  url::Origin result =
-      GetOriginForURLLoaderFactoryUnchecked(target_frame, this);
 
   // Check that |result| origin is allowed to be accessed from the process that
   // is the target of this navigation.
