@@ -80,28 +80,15 @@ health::mojom::BatteryInfoPtr Convert(
     return nullptr;
   }
 
-  auto output = health::mojom::BatteryInfo::New();
-
-  output->cycle_count = Convert(input->cycle_count);
-  output->voltage_now = Convert(input->voltage_now);
-  output->vendor = std::move(input->vendor);
-  output->serial_number = std::move(input->serial_number);
-  output->charge_full_design = Convert(input->charge_full_design);
-  output->charge_full = Convert(input->charge_full);
-  output->voltage_min_design = Convert(input->voltage_min_design);
-  output->model_name = std::move(input->model_name);
-  output->charge_now = Convert(input->charge_now);
-  output->current_now = Convert(input->current_now);
-  output->technology = std::move(input->technology);
-  output->status = std::move(input->status);
-
-  if (input->manufacture_date.has_value()) {
-    output->manufacture_date = std::move(input->manufacture_date.value());
-  }
-
-  output->temperature = Convert(std::move(input->temperature));
-
-  return output;
+  return health::mojom::BatteryInfo::New(
+      Convert(input->cycle_count), Convert(input->voltage_now),
+      std::move(input->vendor), std::move(input->serial_number),
+      Convert(input->charge_full_design), Convert(input->charge_full),
+      Convert(input->voltage_min_design), std::move(input->model_name),
+      Convert(input->charge_now), Convert(input->current_now),
+      std::move(input->technology), std::move(input->status),
+      std::move(input->manufacture_date),
+      Convert(std::move(input->temperature)));
 }
 
 health::mojom::BatteryResultPtr Convert(
@@ -123,29 +110,16 @@ health::mojom::BatteryResultPtr Convert(
 
 health::mojom::NonRemovableBlockDeviceInfoPtr Convert(
     cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr input) {
-  auto output = health::mojom::NonRemovableBlockDeviceInfo::New();
-
-  output->path = std::move(input->path);
-  output->size = Convert(input->size);
-  output->type = std::move(input->type);
-  output->manufacturer_id =
-      Convert(static_cast<uint32_t>(input->manufacturer_id));
-  output->name = std::move(input->name);
-  output->serial = Convert(static_cast<uint32_t>(input->serial));
-  output->bytes_read_since_last_boot =
-      Convert(input->bytes_read_since_last_boot);
-  output->bytes_written_since_last_boot =
-      Convert(input->bytes_written_since_last_boot);
-  output->read_time_seconds_since_last_boot =
-      Convert(input->read_time_seconds_since_last_boot);
-  output->write_time_seconds_since_last_boot =
-      Convert(input->write_time_seconds_since_last_boot);
-  output->io_time_seconds_since_last_boot =
-      Convert(input->io_time_seconds_since_last_boot);
-  output->discard_time_seconds_since_last_boot =
-      Convert(std::move(input->discard_time_seconds_since_last_boot));
-
-  return output;
+  return health::mojom::NonRemovableBlockDeviceInfo::New(
+      std::move(input->path), Convert(input->size), std::move(input->type),
+      Convert(static_cast<uint32_t>(input->manufacturer_id)),
+      std::move(input->name), Convert(static_cast<uint32_t>(input->serial)),
+      Convert(input->bytes_read_since_last_boot),
+      Convert(input->bytes_written_since_last_boot),
+      Convert(input->read_time_seconds_since_last_boot),
+      Convert(input->write_time_seconds_since_last_boot),
+      Convert(input->io_time_seconds_since_last_boot),
+      Convert(std::move(input->discard_time_seconds_since_last_boot)));
 }
 
 health::mojom::NonRemovableBlockDeviceResultPtr Convert(
@@ -173,11 +147,7 @@ health::mojom::CachedVpdInfoPtr Convert(
     return nullptr;
   }
 
-  auto output = health::mojom::CachedVpdInfo::New();
-
-  output->sku_number = std::move(input->sku_number);
-
-  return output;
+  return health::mojom::CachedVpdInfo::New(std::move(input->sku_number));
 }
 
 health::mojom::CachedVpdResultPtr Convert(
