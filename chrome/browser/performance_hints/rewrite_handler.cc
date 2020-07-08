@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/performance_hints/performance_hints_rewrite_handler.h"
+#include "chrome/browser/performance_hints/rewrite_handler.h"
 
 #include <utility>
 
@@ -11,12 +11,13 @@
 #include "url/gurl.h"
 #include "url/third_party/mozilla/url_parse.h"
 
-PerformanceHintsRewriteHandler::PerformanceHintsRewriteHandler() = default;
-PerformanceHintsRewriteHandler::PerformanceHintsRewriteHandler(
-    const PerformanceHintsRewriteHandler&) = default;
-PerformanceHintsRewriteHandler::~PerformanceHintsRewriteHandler() = default;
+namespace performance_hints {
 
-base::Optional<GURL> PerformanceHintsRewriteHandler::HandleRewriteIfNecessary(
+RewriteHandler::RewriteHandler() = default;
+RewriteHandler::RewriteHandler(const RewriteHandler&) = default;
+RewriteHandler::~RewriteHandler() = default;
+
+base::Optional<GURL> RewriteHandler::HandleRewriteIfNecessary(
     const GURL& url) const {
   if (!url.is_valid()) {
     return base::nullopt;
@@ -47,9 +48,8 @@ base::Optional<GURL> PerformanceHintsRewriteHandler::HandleRewriteIfNecessary(
   return base::nullopt;
 }
 
-PerformanceHintsRewriteHandler PerformanceHintsRewriteHandler::FromConfigString(
-    const std::string& config) {
-  PerformanceHintsRewriteHandler handler;
+RewriteHandler RewriteHandler::FromConfigString(const std::string& config) {
+  RewriteHandler handler;
 
   base::StringPairs pairs;
   if (!base::SplitStringIntoKeyValuePairs(config, '?', ',', &pairs)) {
@@ -62,7 +62,7 @@ PerformanceHintsRewriteHandler PerformanceHintsRewriteHandler::FromConfigString(
       continue;
     }
 
-    PerformanceHintsRewriteHandler::UrlRule url_rule;
+    RewriteHandler::UrlRule url_rule;
 
     const std::string& host_path = pair.first;
     size_t path_start = host_path.find('/');
@@ -79,3 +79,5 @@ PerformanceHintsRewriteHandler PerformanceHintsRewriteHandler::FromConfigString(
 
   return handler;
 }
+
+}  // namespace performance_hints

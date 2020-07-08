@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_PERFORMANCE_HINTS_PERFORMANCE_HINTS_REWRITE_HANDLER_H_
-#define CHROME_BROWSER_PERFORMANCE_HINTS_PERFORMANCE_HINTS_REWRITE_HANDLER_H_
+#ifndef CHROME_BROWSER_PERFORMANCE_HINTS_REWRITE_HANDLER_H_
+#define CHROME_BROWSER_PERFORMANCE_HINTS_REWRITE_HANDLER_H_
 
 #include <memory>
 #include <string>
@@ -13,27 +13,27 @@
 
 class GURL;
 
-// PerformanceHintsRewriteHandler checks URLs to see if they match one of the
-// preconfigured rewrite patterns. If so, returns the original (non-rewritten)
-// URL.
+namespace performance_hints {
+
+// RewriteHandler checks URLs to see if they match one of the preconfigured
+// rewrite patterns. If so, returns the original (non-rewritten) URL.
 //
 // This is the case for many redirectors and click-tracking URLs such as
 // https://www.google.com/url?url=https://actualurl.com.
-class PerformanceHintsRewriteHandler {
+class RewriteHandler {
  public:
-  PerformanceHintsRewriteHandler();
-  PerformanceHintsRewriteHandler(const PerformanceHintsRewriteHandler&);
-  ~PerformanceHintsRewriteHandler();
+  RewriteHandler();
+  RewriteHandler(const RewriteHandler&);
+  ~RewriteHandler();
 
   // If |url| matches one of the configured URLs, return the inner URL included
   // in the query params. If the URL is invalid or doesn't match one of the
   // configured URLs, return nullopt.
   base::Optional<GURL> HandleRewriteIfNecessary(const GURL& url) const;
 
-  // Creates a PerformanceHintsRewriteHandler that handles URLs of the forms
-  // provided by the config. If a syntax error prevents the config from being
-  // parsed, this will return a PerformanceHintsRewriteHandler that matches no
-  // URLs (always returns nullopt).
+  // Creates a RewriteHandler that handles URLs of the forms provided by the
+  // config. If a syntax error prevents the config from being parsed, this will
+  // return a RewriteHandler that matches no URLs (always returns nullopt).
   //
   // The config string is of the form "host/path?param,host/path?param,...".
   // All three values must be included for each form. Other components (port,
@@ -41,8 +41,7 @@ class PerformanceHintsRewriteHandler {
   // form, namely the param that contains the inner URL.
   //
   // An empty config ("") is valid, and indicates no URLs should be matched.
-  static PerformanceHintsRewriteHandler FromConfigString(
-      const std::string& config);
+  static RewriteHandler FromConfigString(const std::string& config);
 
  private:
   struct UrlRule {
@@ -54,8 +53,10 @@ class PerformanceHintsRewriteHandler {
     std::string query_param;
   };
 
-  // The URL forms that this PerformanceHintsRewriteHandler can process.
+  // The URL forms that this RewriteHandler can process.
   std::vector<UrlRule> url_rules_;
 };
 
-#endif  // CHROME_BROWSER_PERFORMANCE_HINTS_PERFORMANCE_HINTS_REWRITE_HANDLER_H_
+}  // namespace performance_hints
+
+#endif  // CHROME_BROWSER_PERFORMANCE_HINTS_REWRITE_HANDLER_H_

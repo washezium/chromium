@@ -5569,14 +5569,16 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::
          kContextMenuPerformanceInfoAndRemoteHintFetchingDescription,
      kOsAndroid,
-     FEATURE_VALUE_TYPE(kContextMenuPerformanceInfoAndRemoteHintFetching)},
+     FEATURE_VALUE_TYPE(performance_hints::features::
+                            kContextMenuPerformanceInfoAndRemoteHintFetching)},
 #endif  // !defined(OS_ANDROID)
 
 #if defined(OS_ANDROID)
     {"page-info-performance-hints",
      flag_descriptions::kPageInfoPerformanceHintsName,
      flag_descriptions::kPageInfoPerformanceHintsDescription, kOsAndroid,
-     FEATURE_VALUE_TYPE(kPageInfoPerformanceHints)},
+     FEATURE_VALUE_TYPE(
+         performance_hints::features::kPageInfoPerformanceHints)},
 #endif  // !defined(OS_ANDROID)
 
 #if defined(OS_ANDROID)
