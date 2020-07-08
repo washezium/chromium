@@ -214,23 +214,28 @@ class DialogFooter {
         break;
       case 'ArrowDown':
       case 'ArrowUp':
-        if (options.getAttribute('expanded') === 'expanded') {
-          const selectedItem = options.querySelector('.selected');
-          if (selectedItem) {
-            if (evt.key === 'ArrowDown') {
-              if (selectedItem.nextSibling) {
-                this.setOptionSelected(
-                    /** @type {HTMLOptionElement} */ (
-                        selectedItem.nextSibling));
-              }
-            } else {  // ArrowUp.
-              if (selectedItem.previousSibling) {
-                this.setOptionSelected(
-                    /** @type {HTMLOptionElement} */ (
-                        selectedItem.previousSibling));
-              }
+        const selectedItem = options.querySelector('.selected');
+        let selectionChanged = false;
+        if (selectedItem) {
+          if (evt.key === 'ArrowDown') {
+            if (selectedItem.nextSibling) {
+              this.setOptionSelected(
+                  /** @type {HTMLOptionElement} */ (selectedItem.nextSibling));
+              selectionChanged = true;
+            }
+          } else {  // ArrowUp.
+            if (selectedItem.previousSibling) {
+              this.setOptionSelected(
+                  /** @type {HTMLOptionElement} */ (
+                      selectedItem.previousSibling));
+              selectionChanged = true;
             }
           }
+        }
+        if (selectionChanged &&
+            options.getAttribute('expanded') !== 'expanded') {
+          const changeEvent = new Event('change');
+          this.fileTypeSelector.dispatchEvent(changeEvent);
         }
         break;
     }
