@@ -11,7 +11,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import android.support.test.InstrumentationRegistry;
@@ -20,6 +19,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.filters.LargeTest;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -47,6 +47,7 @@ import org.chromium.chrome.test.ChromeJUnit4RunnerDelegate;
 import org.chromium.chrome.test.util.browser.Features;
 import org.chromium.chrome.test.util.browser.Features.EnableFeatures;
 import org.chromium.chrome.test.util.browser.LocationSettingsTestUtil;
+import org.chromium.content_public.browser.test.util.Criteria;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
 import org.chromium.content_public.browser.test.util.JavaScriptUtils;
 import org.chromium.content_public.browser.test.util.TestThreadUtils;
@@ -106,7 +107,8 @@ public class IncognitoPermissionLeakageTest {
     }
 
     private void requestLocationPermission(Tab tab) throws TimeoutException {
-        CriteriaHelper.pollUiThread(() -> { assertNotNull(tab.getWebContents()); });
+        CriteriaHelper.pollUiThread(
+                () -> Criteria.checkThat(tab.getWebContents(), Matchers.notNullValue()));
         JavaScriptUtils.executeJavaScriptAndWaitForResult(
                 tab.getWebContents(), "initiate_getCurrentPosition()");
     }
