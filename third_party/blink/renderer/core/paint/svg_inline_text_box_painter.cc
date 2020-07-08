@@ -420,7 +420,8 @@ bool SVGInlineTextBoxPainter::SetupTextPaint(
   if (HasShadow(paint_info, style)) {
     flags.setLooper(style.TextShadow()->CreateDrawLooper(
         DrawLooperBuilder::kShadowRespectsAlpha,
-        style.VisitedDependentColor(GetCSSPropertyColor())));
+        style.VisitedDependentColor(GetCSSPropertyColor()),
+        style.UsedColorScheme()));
   }
 
   if (resource_mode == kApplyToStrokeMode) {
