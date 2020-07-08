@@ -25,7 +25,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kCpu,
       health::mojom::ProbeCategoryEnum::kTimezone,
       health::mojom::ProbeCategoryEnum::kMemory,
-      health::mojom::ProbeCategoryEnum::kBacklight};
+      health::mojom::ProbeCategoryEnum::kBacklight,
+      health::mojom::ProbeCategoryEnum::kFan};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
@@ -35,7 +36,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
           cros_healthd::mojom::ProbeCategoryEnum::kCpu,
           cros_healthd::mojom::ProbeCategoryEnum::kTimezone,
           cros_healthd::mojom::ProbeCategoryEnum::kMemory,
-          cros_healthd::mojom::ProbeCategoryEnum::kBacklight));
+          cros_healthd::mojom::ProbeCategoryEnum::kBacklight,
+          cros_healthd::mojom::ProbeCategoryEnum::kFan));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -495,6 +497,49 @@ TEST(ProbeServiceConvertors, BacklightResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, FanInfoPtr) {
+  constexpr uint32_t kSpeedRpm = 1000;
+
+  auto input = cros_healthd::mojom::FanInfo::New();
+  input->speed_rpm = kSpeedRpm;
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->speed_rpm, health::mojom::UInt32Value::New(kSpeedRpm));
+}
+
+TEST(ProbeServiceConvertors, FanResultPtrInfo) {
+  constexpr uint32_t kSpeedRpm = 1000;
+
+  cros_healthd::mojom::FanResultPtr input;
+  {
+    auto fan_info = cros_healthd::mojom::FanInfo::New();
+    fan_info->speed_rpm = kSpeedRpm;
+
+    std::vector<cros_healthd::mojom::FanInfoPtr> fan_infos;
+    fan_infos.push_back(std::move(fan_info));
+
+    input = cros_healthd::mojom::FanResult::NewFanInfo(std::move(fan_infos));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->is_fan_info());
+
+  const auto& fan_info_output = output->get_fan_info();
+  ASSERT_EQ(fan_info_output.size(), 1ULL);
+  ASSERT_TRUE(fan_info_output[0]);
+  EXPECT_EQ(fan_info_output[0]->speed_rpm,
+            health::mojom::UInt32Value::New(kSpeedRpm));
+}
+
+TEST(ProbeServiceConvertors, FanResultPtrError) {
+  const health::mojom::FanResultPtr output =
+      ConvertPtr(cros_healthd::mojom::FanResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -670,6 +715,32 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBacklightResult) {
             health::mojom::UInt32Value::New(kMaxBrightness));
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasFanResult) {
+  constexpr uint32_t kSpeedRpm = 1400;
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto fan_info = cros_healthd::mojom::FanInfo::New();
+    fan_info->speed_rpm = kSpeedRpm;
+
+    std::vector<cros_healthd::mojom::FanInfoPtr> fan_infos;
+    fan_infos.push_back(std::move(fan_info));
+
+    input->fan_result =
+        cros_healthd::mojom::FanResult::NewFanInfo(std::move(fan_infos));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->fan_result);
+  ASSERT_TRUE(output->fan_result->is_fan_info());
+
+  const auto& fan_info_output = output->fan_result->get_fan_info();
+  ASSERT_EQ(fan_info_output.size(), 1ULL);
+  EXPECT_EQ(fan_info_output[0]->speed_rpm,
+            health::mojom::UInt32Value::New(kSpeedRpm));
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -681,6 +752,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->timezone_result);
   EXPECT_FALSE(telemetry_info_output->memory_result);
   EXPECT_FALSE(telemetry_info_output->backlight_result);
+  EXPECT_FALSE(telemetry_info_output->fan_result);
 }
 
 }  // namespace probe_service_converters

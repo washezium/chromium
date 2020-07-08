@@ -85,6 +85,12 @@ health::mojom::BacklightInfoPtr UncheckedConvertPtr(
 health::mojom::BacklightResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::BacklightResultPtr input);
 
+health::mojom::FanInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::FanInfoPtr input);
+
+health::mojom::FanResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::FanResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 

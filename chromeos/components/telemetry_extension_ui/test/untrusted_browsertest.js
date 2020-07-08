@@ -65,6 +65,7 @@ UNTRUSTED_TEST('UntustedRequestTelemetryInfo', async () => {
       'batteryResult': null,
       'blockDeviceResult': null,
       'cpuResult': null,
+      'fanResult': null,
       'memoryResult': null,
       'timezoneResult': null,
       'vpdResult': null,

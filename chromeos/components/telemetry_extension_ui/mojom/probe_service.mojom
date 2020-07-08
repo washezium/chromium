@@ -28,6 +28,7 @@
 //           - TimezoneInfo
 //           - MemoryInfo
 //           - BacklightInfo
+//           - FanInfo
 //   3) NonRemovableBlockDeviceInfo: use uint32 to store manufacturer_id instead
 //      of uint8 in case we want to extend manufacturer range.
 //   4) LogicalCpuInfo:
@@ -66,6 +67,7 @@ enum ProbeCategoryEnum {
   kTimezone,
   kMemory,
   kBacklight,
+  kFan,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -337,6 +339,21 @@ union BacklightResult {
   ProbeError error;
 };
 
+// Fan information.
+struct FanInfo {
+  // Fan speed in RPM.
+  UInt32Value? speed_rpm;
+};
+
+// Fan probe result. Can either be populated with the FanInfo or an error
+// retrieving the information.
+union FanResult {
+  // A list of valid FanInfo.
+  array<FanInfo> fan_info;
+  // The error that occurred attempting to retrieve the FanInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -367,4 +384,7 @@ struct TelemetryInfo {
   // Information about all of the device's backlights. Only present when
   // kBacklight was included in the categories input to ProbeTelemetryInfo.
   BacklightResult? backlight_result;
+  // Information about each of the device's fans. Only present when kFan was
+  // included in the categories input to ProbeTelemetryInfo.
+  FanResult? fan_result;
 };

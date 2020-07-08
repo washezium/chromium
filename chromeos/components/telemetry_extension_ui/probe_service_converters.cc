@@ -32,6 +32,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kMemory;
     case health::mojom::ProbeCategoryEnum::kBacklight:
       return cros_healthd::mojom::ProbeCategoryEnum::kBacklight;
+    case health::mojom::ProbeCategoryEnum::kFan:
+      return cros_healthd::mojom::ProbeCategoryEnum::kFan;
   }
   NOTREACHED();
 }
@@ -230,6 +232,25 @@ health::mojom::BacklightResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::FanInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::FanInfoPtr input) {
+  return health::mojom::FanInfo::New(Convert(input->speed_rpm));
+}
+
+health::mojom::FanResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::FanResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::FanResult::Tag::FAN_INFO:
+      return health::mojom::FanResult::NewFanInfo(
+          ConvertPtrVector<health::mojom::FanInfoPtr>(
+              std::move(input->get_fan_info())));
+    case cros_healthd::mojom::FanResult::Tag::ERROR:
+      return health::mojom::FanResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
@@ -239,7 +260,8 @@ health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
       ConvertPtr(std::move(input->cpu_result)),
       ConvertPtr(std::move(input->timezone_result)),
       ConvertPtr(std::move(input->memory_result)),
-      ConvertPtr(std::move(input->backlight_result)));
+      ConvertPtr(std::move(input->backlight_result)),
+      ConvertPtr(std::move(input->fan_result)));
 }
 
 }  // namespace unchecked
