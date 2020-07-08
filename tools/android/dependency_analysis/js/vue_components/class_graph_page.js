@@ -12,12 +12,12 @@ import {GraphVisualization} from './graph_visualization.js';
 import {GraphSelectedNodeDetails} from './graph_selected_node_details.js';
 import {PageUrlGenerator} from './page_url_generator.js';
 
-import {parsePackageGraphModelFromJson} from '../process_graph_json.js';
+import {parseClassGraphModelFromJson} from '../process_graph_json.js';
 import {generateFilterFromUrl} from '../url_processor.js';
 import {PageModel} from '../page_model.js';
 import {Node} from '../graph_model.js';
 
-const PackageGraphPage = Vue.component('package-graph-page', {
+const ClassGraphPage = Vue.component('class-graph-page', {
   components: {
     'graph-filter-input': GraphFilterInput,
     'graph-filter-items': GraphFilterItems,
@@ -40,9 +40,9 @@ const PackageGraphPage = Vue.component('package-graph-page', {
 
   /**
    * @return {PageData} The objects used throughout the page.
-  */
+   */
   data: function() {
-    const graphModel = parsePackageGraphModelFromJson(this.graphJson);
+    const graphModel = parseClassGraphModelFromJson(this.graphJson);
     const pageModel = new PageModel(graphModel);
 
     return {
@@ -61,11 +61,9 @@ const PackageGraphPage = Vue.component('package-graph-page', {
     } else {
       // TODO(yjlong): This is test data. Remove this when no longer needed.
       this.addNodesToFilter([
-        'org.chromium.base',
-        'org.chromium.chrome.browser.gsa',
-        'org.chromium.chrome.browser.omaha',
-        'org.chromium.chrome.browser.media',
-        'org.chromium.ui.base',
+        'org.chromium.chrome.browser.tabmodel.AsyncTabParams',
+        'org.chromium.chrome.browser.ActivityTabProvider',
+        'org.chromium.chrome.browser.tabmodel.TabModelSelectorTabModelObserver',
       ]);
     }
 
@@ -158,5 +156,5 @@ const PackageGraphPage = Vue.component('package-graph-page', {
 });
 
 export {
-  PackageGraphPage,
+  ClassGraphPage,
 };
