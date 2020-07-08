@@ -212,15 +212,17 @@ TEST(ProbeServiceConvertors, NonRemovableBlockDeviceResultPtrInfo) {
   constexpr char kPath1[] = "Path1";
   constexpr char kPath2[] = "Path2";
 
-  auto info1 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
-  info1->path = kPath1;
-
-  auto info2 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
-  info2->path = kPath2;
-
   std::vector<cros_healthd::mojom::NonRemovableBlockDeviceInfoPtr> infos;
-  infos.push_back(std::move(info1));
-  infos.push_back(std::move(info2));
+  {
+    auto info1 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+    info1->path = kPath1;
+
+    auto info2 = cros_healthd::mojom::NonRemovableBlockDeviceInfo::New();
+    info2->path = kPath2;
+
+    infos.push_back(std::move(info1));
+    infos.push_back(std::move(info2));
+  }
 
   const health::mojom::NonRemovableBlockDeviceResultPtr output = ConvertPtr(
       cros_healthd::mojom::NonRemovableBlockDeviceResult::NewBlockDeviceInfo(
