@@ -154,6 +154,10 @@ class MinimumVersionPolicyHandler
   // Show notification on managed user login if it is the last day to deadline.
   void MaybeShowNotificationOnLogin();
 
+  // Returns true if an update is required and the device has reached
+  // End Of Life (Auto Update Expiration).
+  bool IsUpdateRequiredEol() const;
+
   // Callback used in tests and invoked after end-of-life status has been
   // fetched from the update_engine.
   void set_fetch_eol_callback_for_testing(base::OnceClosure callback) {

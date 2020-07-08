@@ -186,6 +186,10 @@ void MinimumVersionPolicyHandler::RegisterPrefs(PrefRegistrySimple* registry) {
                                   base::TimeDelta());
 }
 
+bool MinimumVersionPolicyHandler::IsUpdateRequiredEol() const {
+  return !RequirementsAreSatisfied() && eol_reached_;
+}
+
 bool MinimumVersionPolicyHandler::IsDeadlineTimerRunningForTesting() const {
   return update_required_deadline_timer_.IsRunning();
 }
