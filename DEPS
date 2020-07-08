@@ -159,12 +159,8 @@ vars = {
   'cros_boards': Str(''),
   'cros_boards_with_qemu_images': Str(''),
   # Building for CrOS is only supported on linux currently.
-  'checkout_simplechrome': '(checkout_chromeos and host_os == "linux") and ("{cros_boards}" != "")',
-  # Surround the board var in quotes so gclient doesn't try parsing the string
-  # as an expression.
-  # TODO(crbug.com/937821): Replace uses of this var with
-  # 'cros_boards_with_qemu_images' above.
-  'cros_download_vm': '(("{cros_boards}" == "amd64-generic") or ("{cros_boards}" == "betty")) or ("{cros_boards}" == "betty-pi-arc")',
+  'checkout_simplechrome': '"{cros_boards}" != ""',
+  'checkout_simplechrome_with_vms': '"{cros_boards_with_qemu_images}" != ""',
   # Should we build and test for public (ie: full) CrOS images, or private
   # (ie: release) images.
   'use_public_cros_config': 'not checkout_src_internal',
@@ -4830,7 +4826,7 @@ hooks = [
   {
     'name': 'cros_simplechrome_artifacts_with_vm',
     'pattern': '.',
-    'condition': '(checkout_simplechrome and cros_download_vm) and use_public_cros_config',
+    'condition': 'checkout_simplechrome_with_vms and use_public_cros_config',
     'action': [
       'src/third_party/chromite/bin/cros',
       'chrome-sdk',
@@ -4839,7 +4835,7 @@ hooks = [
       '--fallback-versions=10',
       '--nogn-gen',
       '--download-vm',
-      '--boards={cros_boards}',
+      '--boards={cros_boards_with_qemu_images}',
       '--cache-dir=src/build/cros_cache/',
       '--log-level=error',
       '--no-shell',
@@ -4848,7 +4844,7 @@ hooks = [
   {
     'name': 'cros_simplechrome_artifacts_with_no_vm',
     'pattern': '.',
-    'condition': '(checkout_simplechrome and not cros_download_vm) and use_public_cros_config',
+    'condition': 'checkout_simplechrome and use_public_cros_config',
     'action': [
       'src/third_party/chromite/bin/cros',
       'chrome-sdk',
