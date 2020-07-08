@@ -40,7 +40,6 @@ struct TestCase {
     return *this;
   }
 
-  // Note: All TabletMode tests are currently disabled (crbug.com/1102947).
   TestCase& TabletMode() {
     options.tablet_mode = true;
     return *this;
@@ -234,12 +233,10 @@ WRAPPED_INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         TestCase("fileDisplayDownloads"),
         TestCase("fileDisplayDownloads").InGuestMode(),
-        // Disabled flaky test (crbug.com/1102947)
-        // TestCase("fileDisplayDownloads").TabletMode(),
+        TestCase("fileDisplayDownloads").TabletMode(),
         TestCase("fileDisplayLaunchOnLocalFolder").DontObserveFileTasks(),
         TestCase("fileDisplayLaunchOnDrive").DontObserveFileTasks(),
-        // Disabled flaky test (crbug.com/1102947)
-        // TestCase("fileDisplayDrive").TabletMode(),
+        TestCase("fileDisplayDrive").TabletMode(),
         TestCase("fileDisplayDrive"),
         TestCase("fileDisplayDriveOffline").Offline(),
         TestCase("fileDisplayDriveOnline"),
@@ -450,8 +447,7 @@ WRAPPED_INSTANTIATE_TEST_SUITE_P(
         TestCase("openQuickViewDialog"),
         TestCase("openQuickViewAndEscape"),
         TestCase("openQuickView").InGuestMode(),
-        // Disabled flaky test (crbug.com/1102947)
-        // TestCase("openQuickView").TabletMode(),
+        TestCase("openQuickView").TabletMode(),
         TestCase("openQuickViewViaContextMenuSingleSelection"),
         TestCase("openQuickViewViaContextMenuCheckSelections"),
         TestCase("openQuickViewAudio"),
