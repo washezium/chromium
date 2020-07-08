@@ -200,9 +200,6 @@
   "chrome/browser/test_dummy/internal/android/resources/resources.grd": {
     "includes": [1960],
   },
-  "chrome/browser/vr/testapp/vr_testapp_resources.grd": {
-    "includes": [1970],
-  },
   # END chrome/browser section.
 
   # START chrome/ WebUI resources section
