@@ -54216,6 +54216,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="19" label="Turned off by enterprise admin"/>
   <int value="20" label="SafeBrowsing disabled"/>
   <int value="21" label="User not signed in"/>
+  <int value="22" label="Country is excluded from Safe Browsing"/>
 </enum>
 
 <enum name="PasswordProtectionSyncAccountType">
