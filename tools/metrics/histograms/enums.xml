@@ -36536,6 +36536,13 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="12" label="AccessibilityExtraExtraExtraLarge"/>
 </enum>
 
+<enum name="iOSCredentialIdentityStoreErrorForReporting">
+  <int value="0" label="Unknown Error"/>
+  <int value="1" label="Internal Error"/>
+  <int value="2" label="Store Disabled"/>
+  <int value="3" label="Store Busy"/>
+</enum>
+
 <enum name="IOSDeviceThermalState">
   <int value="0" label="Unknown"/>
   <int value="1" label="Nominal"/>
