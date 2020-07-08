@@ -35,6 +35,8 @@ class LayoutListItem;
 // Used to layout a list item's marker with 'content: normal'.
 // The LayoutListMarker always has to be a child of a LayoutListItem.
 class CORE_EXPORT LayoutListMarker final : public LayoutBox {
+  friend class LayoutListItem;
+
  public:
   explicit LayoutListMarker(Element*);
   ~LayoutListMarker() override;
@@ -97,9 +99,8 @@ class CORE_EXPORT LayoutListMarker final : public LayoutBox {
   void UpdateMargins(LayoutUnit marker_inline_size);
   void UpdateContent();
 
-  void StyleWillChange(StyleDifference,
-                       const ComputedStyle& new_style) override;
-  void StyleDidChange(StyleDifference, const ComputedStyle* old_style) override;
+  void UpdateMarkerImageIfNeeded(StyleImage* image);
+  void ListStyleTypeChanged();
 
   String text_;
   Persistent<StyleImage> image_;

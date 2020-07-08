@@ -56,17 +56,27 @@ void LayoutListItem::StyleDidChange(StyleDifference diff,
   }
 
   LayoutObject* marker = Marker();
-  ListMarker* list_marker = ListMarker::Get(marker);
-  if (!list_marker)
+  if (!marker)
     return;
 
-  list_marker->UpdateMarkerContentIfNeeded(*marker);
+  LayoutListMarker* legacy_marker = ToLayoutListMarkerOrNull(marker);
+  ListMarker* list_marker = legacy_marker ? nullptr : ListMarker::Get(marker);
+  DCHECK(legacy_marker || list_marker);
+
+  if (legacy_marker)
+    legacy_marker->UpdateMarkerImageIfNeeded(current_image);
+  else
+    list_marker->UpdateMarkerContentIfNeeded(*marker);
 
   if (old_style && (old_style->ListStyleType() != StyleRef().ListStyleType() ||
                     (StyleRef().ListStyleType() == EListStyleType::kString &&
                      old_style->ListStyleStringValue() !=
-                         StyleRef().ListStyleStringValue())))
-    list_marker->ListStyleTypeChanged(*marker);
+                         StyleRef().ListStyleStringValue()))) {
+    if (legacy_marker)
+      legacy_marker->ListStyleTypeChanged();
+    else
+      list_marker->ListStyleTypeChanged(*marker);
+  }
 }
 
 void LayoutListItem::InsertedIntoTree() {
@@ -86,8 +96,12 @@ void LayoutListItem::SubtreeDidChange() {
   if (!marker)
     return;
 
-  if (ListMarker* list_marker = ListMarker::Get(marker))
+  if (LayoutListMarker* legacy_marker = ToLayoutListMarkerOrNull(marker))
+    legacy_marker->UpdateMarkerImageIfNeeded(StyleRef().ListStyleImage());
+  else if (ListMarker* list_marker = ListMarker::Get(marker))
     list_marker->UpdateMarkerContentIfNeeded(*marker);
+  else
+    NOTREACHED();
 
   if (!UpdateMarkerLocation())
     return;

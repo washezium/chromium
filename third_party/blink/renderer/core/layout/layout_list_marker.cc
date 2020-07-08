@@ -75,29 +75,18 @@ LayoutSize LayoutListMarker::ImageBulletSize() const {
                         LayoutObject::ShouldRespectImageOrientation(this)));
 }
 
-void LayoutListMarker::StyleWillChange(StyleDifference diff,
-                                       const ComputedStyle& new_style) {
-  if (Style() &&
-      (new_style.ListStylePosition() != StyleRef().ListStylePosition() ||
-       new_style.ListStyleType() != StyleRef().ListStyleType() ||
-       (new_style.ListStyleType() == EListStyleType::kString &&
-        new_style.ListStyleStringValue() !=
-            StyleRef().ListStyleStringValue()))) {
-    SetNeedsLayoutAndIntrinsicWidthsRecalcAndFullPaintInvalidation(
-        layout_invalidation_reason::kStyleChange);
-  }
-
-  LayoutBox::StyleWillChange(diff, new_style);
+void LayoutListMarker::ListStyleTypeChanged() {
+  if (IsImage())
+    return;
+  SetNeedsLayoutAndIntrinsicWidthsRecalcAndFullPaintInvalidation(
+      layout_invalidation_reason::kListStyleTypeChange);
 }
 
-void LayoutListMarker::StyleDidChange(StyleDifference diff,
-                                      const ComputedStyle* old_style) {
-  LayoutBox::StyleDidChange(diff, old_style);
-
-  if (image_ != StyleRef().ListStyleImage()) {
+void LayoutListMarker::UpdateMarkerImageIfNeeded(StyleImage* image) {
+  if (image_ != image) {
     if (image_)
       image_->RemoveClient(this);
-    image_ = StyleRef().ListStyleImage();
+    image_ = image;
     if (image_)
       image_->AddClient(this);
   }
