@@ -30,7 +30,7 @@ class ScreenshotShareSheetMediator {
     private final Runnable mInstallRunnable;
     private final ChromeOptionShareCallback mChromeOptionShareCallback;
 
-    private Tab mTab;
+    private final Tab mTab;
 
     /**
      * The ScreenshotShareSheetMediator constructor.
