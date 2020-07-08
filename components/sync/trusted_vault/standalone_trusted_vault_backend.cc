@@ -89,7 +89,7 @@ void StandaloneTrustedVaultBackend::StoreKeys(
 }
 
 void StandaloneTrustedVaultBackend::RemoveAllStoredKeys() {
-  base::DeleteFile(file_path_, /*recursive=*/false);
+  base::DeleteFile(file_path_);
   data_.Clear();
 }
 
