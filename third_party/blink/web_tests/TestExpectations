@@ -5588,7 +5588,6 @@ crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-gradient.html [ Failure
 crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-invisible-3d-rotate-descendant.html [ Failure ]
 crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-invisible-3d-rotate.html [ Failure ]
 crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-out-of-bounds-translate.html [ Failure ]
-crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-svg.html [ Failure ]
 crbug.com/1062984 external/wpt/paint-timing/fcp-only/fcp-text-input.html [ Failure ]
 
 # Sheriff 2019-03-01
