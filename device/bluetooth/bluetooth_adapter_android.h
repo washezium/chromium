@@ -69,8 +69,8 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterAndroid final
                           CreateServiceErrorCallback error_callback) override;
   void RegisterAdvertisement(
       std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,
-      const CreateAdvertisementCallback& callback,
-      const AdvertisementErrorCallback& error_callback) override;
+      CreateAdvertisementCallback callback,
+      AdvertisementErrorCallback error_callback) override;
   BluetoothLocalGattService* GetGattService(
       const std::string& identifier) const override;
 

@@ -136,18 +136,17 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterBlueZ final
 
   void RegisterAdvertisement(
       std::unique_ptr<device::BluetoothAdvertisement::Data> advertisement_data,
-      const CreateAdvertisementCallback& callback,
-      const AdvertisementErrorCallback& error_callback) override;
+      CreateAdvertisementCallback callback,
+      AdvertisementErrorCallback error_callback) override;
 
   void SetAdvertisingInterval(
       const base::TimeDelta& min,
       const base::TimeDelta& max,
-      const base::Closure& callback,
-      const AdvertisementErrorCallback& error_callback) override;
+      base::OnceClosure callback,
+      AdvertisementErrorCallback error_callback) override;
 
-  void ResetAdvertising(
-      const base::Closure& callback,
-      const AdvertisementErrorCallback& error_callback) override;
+  void ResetAdvertising(base::OnceClosure callback,
+                        AdvertisementErrorCallback error_callback) override;
 
   device::BluetoothLocalGattService* GetGattService(
       const std::string& identifier) const override;

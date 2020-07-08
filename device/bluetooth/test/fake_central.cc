@@ -574,8 +574,8 @@ void FakeCentral::CreateL2capService(
 
 void FakeCentral::RegisterAdvertisement(
     std::unique_ptr<device::BluetoothAdvertisement::Data> advertisement_data,
-    const CreateAdvertisementCallback& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    CreateAdvertisementCallback callback,
+    AdvertisementErrorCallback error_callback) {
   NOTREACHED();
 }
 
@@ -583,13 +583,12 @@ void FakeCentral::RegisterAdvertisement(
 void FakeCentral::SetAdvertisingInterval(
     const base::TimeDelta& min,
     const base::TimeDelta& max,
-    const base::Closure& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    base::OnceClosure callback,
+    AdvertisementErrorCallback error_callback) {
   NOTREACHED();
 }
-void FakeCentral::ResetAdvertising(
-    const base::Closure& callback,
-    const AdvertisementErrorCallback& error_callback) {
+void FakeCentral::ResetAdvertising(base::OnceClosure callback,
+                                   AdvertisementErrorCallback error_callback) {
   NOTREACHED();
 }
 #endif

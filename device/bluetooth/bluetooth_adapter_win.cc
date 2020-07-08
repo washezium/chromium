@@ -171,10 +171,11 @@ void BluetoothAdapterWin::CreateL2capService(
 
 void BluetoothAdapterWin::RegisterAdvertisement(
     std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,
-    const CreateAdvertisementCallback& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    CreateAdvertisementCallback callback,
+    AdvertisementErrorCallback error_callback) {
   NOTIMPLEMENTED();
-  error_callback.Run(BluetoothAdvertisement::ERROR_UNSUPPORTED_PLATFORM);
+  std::move(error_callback)
+      .Run(BluetoothAdvertisement::ERROR_UNSUPPORTED_PLATFORM);
 }
 
 BluetoothLocalGattService* BluetoothAdapterWin::GetGattService(

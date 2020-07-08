@@ -150,7 +150,7 @@ void OnRegistrationErrorCallback(
 }
 
 void SetIntervalErrorCallbackConnector(
-    const device::BluetoothAdapter::AdvertisementErrorCallback& error_callback,
+    device::BluetoothAdapter::AdvertisementErrorCallback error_callback,
     const std::string& error_name,
     const std::string& error_message) {
   BLUETOOTH_LOG(ERROR) << "Error while registering advertisement. error_name = "
@@ -162,18 +162,18 @@ void SetIntervalErrorCallbackConnector(
     code = device::BluetoothAdvertisement::ErrorCode::
         ERROR_INVALID_ADVERTISEMENT_INTERVAL;
   }
-  error_callback.Run(code);
+  std::move(error_callback).Run(code);
 }
 
 void ResetAdvertisingErrorCallbackConnector(
-    const device::BluetoothAdapter::AdvertisementErrorCallback& error_callback,
+    device::BluetoothAdapter::AdvertisementErrorCallback error_callback,
     const std::string& error_name,
     const std::string& error_message) {
   BLUETOOTH_LOG(ERROR) << "Error while resetting advertising. error_name = "
                        << error_name << ", error_message = " << error_message;
 
-  error_callback.Run(
-      device::BluetoothAdvertisement::ErrorCode::ERROR_RESET_ADVERTISING);
+  std::move(error_callback)
+      .Run(device::BluetoothAdvertisement::ErrorCode::ERROR_RESET_ADVERTISING);
 }
 
 }  // namespace
@@ -548,19 +548,20 @@ void BluetoothAdapterBlueZ::CreateL2capService(
 
 void BluetoothAdapterBlueZ::RegisterAdvertisement(
     std::unique_ptr<device::BluetoothAdvertisement::Data> advertisement_data,
-    const CreateAdvertisementCallback& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    CreateAdvertisementCallback callback,
+    AdvertisementErrorCallback error_callback) {
   scoped_refptr<BluetoothAdvertisementBlueZ> advertisement(
       new BluetoothAdvertisementBlueZ(std::move(advertisement_data), this));
-  advertisement->Register(base::Bind(callback, advertisement), error_callback);
+  advertisement->Register(base::BindOnce(std::move(callback), advertisement),
+                          std::move(error_callback));
   advertisements_.emplace_back(advertisement);
 }
 
 void BluetoothAdapterBlueZ::SetAdvertisingInterval(
     const base::TimeDelta& min,
     const base::TimeDelta& max,
-    const base::Closure& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    base::OnceClosure callback,
+    AdvertisementErrorCallback error_callback) {
   DCHECK(bluez::BluezDBusManager::Get());
   uint16_t min_ms = static_cast<uint16_t>(
       std::min(static_cast<int64_t>(std::numeric_limits<uint16_t>::max()),
@@ -571,19 +572,20 @@ void BluetoothAdapterBlueZ::SetAdvertisingInterval(
   bluez::BluezDBusManager::Get()
       ->GetBluetoothLEAdvertisingManagerClient()
       ->SetAdvertisingInterval(
-          object_path_, min_ms, max_ms, callback,
-          base::BindOnce(&SetIntervalErrorCallbackConnector, error_callback));
+          object_path_, min_ms, max_ms, std::move(callback),
+          base::BindOnce(&SetIntervalErrorCallbackConnector,
+                         std::move(error_callback)));
 }
 
 void BluetoothAdapterBlueZ::ResetAdvertising(
-    const base::Closure& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    base::OnceClosure callback,
+    AdvertisementErrorCallback error_callback) {
   DCHECK(bluez::BluezDBusManager::Get());
   bluez::BluezDBusManager::Get()
       ->GetBluetoothLEAdvertisingManagerClient()
-      ->ResetAdvertising(object_path_, callback,
+      ->ResetAdvertising(object_path_, std::move(callback),
                          base::BindOnce(&ResetAdvertisingErrorCallbackConnector,
-                                        error_callback));
+                                        std::move(error_callback)));
 }
 
 device::BluetoothLocalGattService* BluetoothAdapterBlueZ::GetGattService(

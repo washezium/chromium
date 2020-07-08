@@ -269,10 +269,11 @@ void BluetoothAdapterMac::CreateL2capService(
 
 void BluetoothAdapterMac::RegisterAdvertisement(
     std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,
-    const CreateAdvertisementCallback& callback,
-    const AdvertisementErrorCallback& error_callback) {
+    CreateAdvertisementCallback callback,
+    AdvertisementErrorCallback error_callback) {
   low_energy_advertisement_manager_->RegisterAdvertisement(
-      std::move(advertisement_data), callback, error_callback);
+      std::move(advertisement_data), std::move(callback),
+      std::move(error_callback));
 }
 
 BluetoothLocalGattService* BluetoothAdapterMac::GetGattService(

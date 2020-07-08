@@ -60,8 +60,8 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterWinrt : public BluetoothAdapter {
                           CreateServiceErrorCallback error_callback) override;
   void RegisterAdvertisement(
       std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,
-      const CreateAdvertisementCallback& callback,
-      const AdvertisementErrorCallback& error_callback) override;
+      CreateAdvertisementCallback callback,
+      AdvertisementErrorCallback error_callback) override;
   std::vector<BluetoothAdvertisement*> GetPendingAdvertisementsForTesting()
       const override;
   BluetoothLocalGattService* GetGattService(
@@ -205,11 +205,11 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterWinrt : public BluetoothAdapter {
           IBluetoothLEAdvertisementWatcherStoppedEventArgs* args);
 
   void OnRegisterAdvertisement(BluetoothAdvertisement* advertisement,
-                               const CreateAdvertisementCallback& callback);
+                               CreateAdvertisementCallback callback);
 
   void OnRegisterAdvertisementError(
       BluetoothAdvertisement* advertisement,
-      const AdvertisementErrorCallback& error_callback,
+      AdvertisementErrorCallback error_callback,
       BluetoothAdvertisement::ErrorCode error_code);
 
   void TryRemoveRadioStateChangedHandler();

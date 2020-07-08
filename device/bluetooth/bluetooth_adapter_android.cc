@@ -143,9 +143,10 @@ void BluetoothAdapterAndroid::CreateL2capService(
 
 void BluetoothAdapterAndroid::RegisterAdvertisement(
     std::unique_ptr<BluetoothAdvertisement::Data> advertisement_data,
-    const CreateAdvertisementCallback& callback,
-    const AdvertisementErrorCallback& error_callback) {
-  error_callback.Run(BluetoothAdvertisement::ERROR_UNSUPPORTED_PLATFORM);
+    CreateAdvertisementCallback callback,
+    AdvertisementErrorCallback error_callback) {
+  std::move(error_callback)
+      .Run(BluetoothAdvertisement::ERROR_UNSUPPORTED_PLATFORM);
 }
 
 BluetoothLocalGattService* BluetoothAdapterAndroid::GetGattService(
