@@ -67,6 +67,12 @@ health::mojom::CpuInfoPtr UncheckedConvertPtr(
 health::mojom::CpuResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::CpuResultPtr input);
 
+health::mojom::TimezoneInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::TimezoneInfoPtr input);
+
+health::mojom::TimezoneResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::TimezoneResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 

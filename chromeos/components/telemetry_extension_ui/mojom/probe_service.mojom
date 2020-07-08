@@ -25,6 +25,7 @@
 //           - LogicalCpuInfo
 //           - PhysicalCpuInfo
 //           - CpuInfo
+//           - TimezoneInfo
 //   3) NonRemovableBlockDeviceInfo: use uint32 to store manufacturer_id instead
 //      of uint8 in case we want to extend manufacturer range.
 //   4) LogicalCpuInfo:
@@ -58,6 +59,7 @@ enum ProbeCategoryEnum {
   kNonRemovableBlockDevices,
   kCachedVpdData,
   kCpu,
+  kTimezone,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -271,6 +273,23 @@ union CpuResult {
   ProbeError error;
 };
 
+// Timezone information.
+struct TimezoneInfo {
+  // The timezone of the device in POSIX standard.
+  string? posix;
+  // The timezone region of the device.
+  string? region;
+};
+
+// Timezone probe result. Can either be populated with the TimezoneInfo or an
+// error retrieving the information.
+union TimezoneResult {
+  // Valid TimezoneInfo.
+  TimezoneInfo timezone_info;
+  // The error that occurred attempting to retrieve the TimezoneInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -292,4 +311,7 @@ struct TelemetryInfo {
   // Information about each of the device's CPUs. Only present when kCpu was
   // included in the categories input to ProbeTelemetryInfo.
   CpuResult? cpu_result;
+  // Information about the device's timezone. Only present when kTimezone was
+  // included in the categories input to ProbeTelemetryInfo.
+  TimezoneResult? timezone_result;
 };

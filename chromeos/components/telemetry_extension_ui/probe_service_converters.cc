@@ -26,6 +26,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData;
     case health::mojom::ProbeCategoryEnum::kCpu:
       return cros_healthd::mojom::ProbeCategoryEnum::kCpu;
+    case health::mojom::ProbeCategoryEnum::kTimezone:
+      return cros_healthd::mojom::ProbeCategoryEnum::kTimezone;
   }
   NOTREACHED();
 }
@@ -164,13 +166,32 @@ health::mojom::CpuResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::TimezoneInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::TimezoneInfoPtr input) {
+  return health::mojom::TimezoneInfo::New(input->posix, input->region);
+}
+
+health::mojom::TimezoneResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::TimezoneResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::TimezoneResult::Tag::TIMEZONE_INFO:
+      return health::mojom::TimezoneResult::NewTimezoneInfo(
+          ConvertPtr(std::move(input->get_timezone_info())));
+    case cros_healthd::mojom::TimezoneResult::Tag::ERROR:
+      return health::mojom::TimezoneResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
       ConvertPtr(std::move(input->battery_result)),
       ConvertPtr(std::move(input->block_device_result)),
       ConvertPtr(std::move(input->vpd_result)),
-      ConvertPtr(std::move(input->cpu_result)));
+      ConvertPtr(std::move(input->cpu_result)),
+      ConvertPtr(std::move(input->timezone_result)));
 }
 
 }  // namespace unchecked

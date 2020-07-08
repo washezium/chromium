@@ -22,14 +22,16 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kBattery,
       health::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
       health::mojom::ProbeCategoryEnum::kCachedVpdData,
-      health::mojom::ProbeCategoryEnum::kCpu};
+      health::mojom::ProbeCategoryEnum::kCpu,
+      health::mojom::ProbeCategoryEnum::kTimezone};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
           cros_healthd::mojom::ProbeCategoryEnum::kBattery,
           cros_healthd::mojom::ProbeCategoryEnum::kNonRemovableBlockDevices,
           cros_healthd::mojom::ProbeCategoryEnum::kCachedVpdData,
-          cros_healthd::mojom::ProbeCategoryEnum::kCpu));
+          cros_healthd::mojom::ProbeCategoryEnum::kCpu,
+          cros_healthd::mojom::ProbeCategoryEnum::kTimezone));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -373,6 +375,34 @@ TEST(ProbeServiceConvertors, CpuResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, TimezoneInfoPtr) {
+  constexpr char kPosix[] = "TZ=CST6CDT,M3.2.0/2:00:00,M11.1.0/2:00:00";
+  constexpr char kRegion[] = "Europe/Berlin";
+
+  auto input = cros_healthd::mojom::TimezoneInfo::New();
+  input->posix = kPosix;
+  input->region = kRegion;
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->posix, kPosix);
+  EXPECT_EQ(output->region, kRegion);
+}
+
+TEST(ProbeServiceConvertors, TimezoneResultPtrInfo) {
+  const health::mojom::TimezoneResultPtr output =
+      ConvertPtr(cros_healthd::mojom::TimezoneResult::NewTimezoneInfo(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_timezone_info());
+}
+
+TEST(ProbeServiceConvertors, TimezoneResultPtrError) {
+  const health::mojom::TimezoneResultPtr output =
+      ConvertPtr(cros_healthd::mojom::TimezoneResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -473,6 +503,30 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasCpuResult) {
             health::mojom::UInt32Value::New(kNumTotalThreads));
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasTimezoneResult) {
+  constexpr char kPosix[] = "TZ=CST6CDT,M3.2.0/2:00:00,M11.1.0/2:00:00";
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto timezone_info = cros_healthd::mojom::TimezoneInfo::New();
+    timezone_info->posix = kPosix;
+
+    input->timezone_result =
+        cros_healthd::mojom::TimezoneResult::NewTimezoneInfo(
+            std::move(timezone_info));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->timezone_result);
+  ASSERT_TRUE(output->timezone_result->is_timezone_info());
+
+  const auto& timezone_info_output =
+      output->timezone_result->get_timezone_info();
+  ASSERT_TRUE(timezone_info_output);
+  EXPECT_EQ(timezone_info_output->posix, kPosix);
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -481,6 +535,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->block_device_result);
   EXPECT_FALSE(telemetry_info_output->vpd_result);
   EXPECT_FALSE(telemetry_info_output->cpu_result);
+  EXPECT_FALSE(telemetry_info_output->timezone_result);
 }
 
 }  // namespace probe_service_converters
