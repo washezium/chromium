@@ -2031,7 +2031,7 @@
     {
       name: "WebXRAnchors",
       depends_on: ["WebXRARModule", "WebXRHitTest"],
-      status: "experimental"
+      status: "stable"
     },
     {
       name: "WebXRARModule",
