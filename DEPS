@@ -343,6 +343,14 @@ vars = {
   # the commit queue can handle CLs rolling libavif
   # and whatever else without interference from each other.
   'libavif_revision': 'f48a33827db60223753e637699cef24f034c547d',
+  # Three lines of non-changing comments so that
+  # the commit queue can handle CLs rolling securemessage
+  # and whatever else without interference from each other.
+  'securemessage_revision': '3955ec1700b9381a2562df35d48e42487a33d7a1',
+  # Three lines of non-changing comments so that
+  # the commit queue can handle CLs rolling ukey2
+  # and whatever else without interference from each other.
+  'ukey2_revision': '0275885d8e6038c39b8a8ca55e75d1d4d1727f47',
 
   # TODO(crbug.com/941824): The values below need to be kept in sync
   # between //DEPS and //buildtools/DEPS, so if you're updating one,
@@ -1076,6 +1084,12 @@ deps = {
 
   'src/third_party/libavif/src':
     Var('chromium_git') + '/external/github.com/AOMediaCodec/libavif.git' + '@' + Var('libavif_revision'),
+
+  'src/third_party/securemessage/src':
+    Var('chromium_git') + '/external/github.com/google/securemessage.git' + '@' + Var('securemessage_revision'),
+
+  'src/third_party/ukey2/src':
+    Var('chromium_git') + '/external/github.com/google/ukey2.git' + '@' + Var('ukey2_revision'),
 
   # Userspace interface to kernel DRM services.
   'src/third_party/libdrm/src': {
