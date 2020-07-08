@@ -1442,4 +1442,37 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, ClearCache) {
   EXPECT_EQ(1U, GetHistoryLength());
 }
 
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, CancelAll) {
+  GURL first_url = src_server()->GetURL("/prerender/prerender_page.html");
+  GURL first_loader_url = ServeLoaderURL(
+      kPrefetchLoaderPath, "REPLACE_WITH_PREFETCH_URL", first_url, "");
+  std::vector<FinalStatus> first_expected_status_queue(1,
+                                                       FINAL_STATUS_CANCELLED);
+  std::vector<std::unique_ptr<TestPrerender>> prerenders =
+      NavigateWithPrerenders(first_loader_url, first_expected_status_queue);
+
+  GetPrerenderManager()->CancelAllPrerenders();
+  prerenders[0]->WaitForStop();
+
+  EXPECT_FALSE(prerenders[0]->contents());
+}
+
+// Cancels the prerender of a page with its own prerender. The second prerender
+// should never be started.
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
+                       CancelPrerenderWithPrerender) {
+  GURL first_url = src_server()->GetURL("/prerender/prerender_infinite_a.html");
+  GURL first_loader_url = ServeLoaderURL(
+      kPrefetchLoaderPath, "REPLACE_WITH_PREFETCH_URL", first_url, "");
+  std::vector<FinalStatus> first_expected_status_queue(1,
+                                                       FINAL_STATUS_CANCELLED);
+  std::vector<std::unique_ptr<TestPrerender>> prerenders =
+      NavigateWithPrerenders(first_loader_url, first_expected_status_queue);
+
+  GetPrerenderManager()->CancelAllPrerenders();
+  prerenders[0]->WaitForStop();
+
+  EXPECT_FALSE(prerenders[0]->contents());
+}
+
 }  // namespace prerender
