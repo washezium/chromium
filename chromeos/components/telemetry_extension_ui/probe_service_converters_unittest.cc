@@ -26,7 +26,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kTimezone,
       health::mojom::ProbeCategoryEnum::kMemory,
       health::mojom::ProbeCategoryEnum::kBacklight,
-      health::mojom::ProbeCategoryEnum::kFan};
+      health::mojom::ProbeCategoryEnum::kFan,
+      health::mojom::ProbeCategoryEnum::kStatefulPartition};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
@@ -37,7 +38,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
           cros_healthd::mojom::ProbeCategoryEnum::kTimezone,
           cros_healthd::mojom::ProbeCategoryEnum::kMemory,
           cros_healthd::mojom::ProbeCategoryEnum::kBacklight,
-          cros_healthd::mojom::ProbeCategoryEnum::kFan));
+          cros_healthd::mojom::ProbeCategoryEnum::kFan,
+          cros_healthd::mojom::ProbeCategoryEnum::kStatefulPartition));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -540,6 +542,37 @@ TEST(ProbeServiceConvertors, FanResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, StatefulPartitionInfoPtr) {
+  constexpr uint64_t k100MiB = 100 * 1024 * 1024;
+  constexpr uint64_t kTotalSpace = 9000 * k100MiB + 17;
+  constexpr uint64_t kRoundedAvailableSpace = 1000 * k100MiB;
+  constexpr uint64_t kAvailableSpace = kRoundedAvailableSpace + 2000;
+
+  auto input = cros_healthd::mojom::StatefulPartitionInfo::New();
+  input->available_space = kAvailableSpace;
+  input->total_space = kTotalSpace;
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->available_space,
+            health::mojom::UInt64Value::New(kRoundedAvailableSpace));
+  EXPECT_EQ(output->total_space, health::mojom::UInt64Value::New(kTotalSpace));
+}
+
+TEST(ProbeServiceConvertors, StatefulPartitionResultPtrInfo) {
+  const health::mojom::StatefulPartitionResultPtr output = ConvertPtr(
+      cros_healthd::mojom::StatefulPartitionResult::NewPartitionInfo(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_partition_info());
+}
+
+TEST(ProbeServiceConvertors, StatefulPartitionResultPtrError) {
+  const health::mojom::StatefulPartitionResultPtr output = ConvertPtr(
+      cros_healthd::mojom::StatefulPartitionResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -741,6 +774,31 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrHasFanResult) {
             health::mojom::UInt32Value::New(kSpeedRpm));
 }
 
+TEST(ProbeServiceConvertors, TelemetryInfoPtrHasStatefulPartitionResult) {
+  constexpr uint64_t kTotalSpace = 90000000;
+
+  auto input = cros_healthd::mojom::TelemetryInfo::New();
+  {
+    auto partition_info = cros_healthd::mojom::StatefulPartitionInfo::New();
+    partition_info->total_space = kTotalSpace;
+
+    input->stateful_partition_result =
+        cros_healthd::mojom::StatefulPartitionResult::NewPartitionInfo(
+            std::move(partition_info));
+  }
+
+  const health::mojom::TelemetryInfoPtr output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->stateful_partition_result);
+  ASSERT_TRUE(output->stateful_partition_result->is_partition_info());
+
+  const auto& partition_info_output =
+      output->stateful_partition_result->get_partition_info();
+  ASSERT_TRUE(partition_info_output);
+  EXPECT_EQ(partition_info_output->total_space,
+            health::mojom::UInt64Value::New(kTotalSpace));
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   const health::mojom::TelemetryInfoPtr telemetry_info_output =
       ConvertPtr(cros_healthd::mojom::TelemetryInfo::New());
@@ -753,6 +811,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->memory_result);
   EXPECT_FALSE(telemetry_info_output->backlight_result);
   EXPECT_FALSE(telemetry_info_output->fan_result);
+  EXPECT_FALSE(telemetry_info_output->stateful_partition_result);
 }
 
 }  // namespace probe_service_converters

@@ -34,6 +34,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kBacklight;
     case health::mojom::ProbeCategoryEnum::kFan:
       return cros_healthd::mojom::ProbeCategoryEnum::kFan;
+    case health::mojom::ProbeCategoryEnum::kStatefulPartition:
+      return cros_healthd::mojom::ProbeCategoryEnum::kStatefulPartition;
   }
   NOTREACHED();
 }
@@ -251,6 +253,27 @@ health::mojom::FanResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::StatefulPartitionInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::StatefulPartitionInfoPtr input) {
+  constexpr uint64_t k100MiB = 100 * 1024 * 1024;
+  return health::mojom::StatefulPartitionInfo::New(
+      Convert(input->available_space / k100MiB * k100MiB),
+      Convert(input->total_space));
+}
+
+health::mojom::StatefulPartitionResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::StatefulPartitionResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::StatefulPartitionResult::Tag::PARTITION_INFO:
+      return health::mojom::StatefulPartitionResult::NewPartitionInfo(
+          ConvertPtr(std::move(input->get_partition_info())));
+    case cros_healthd::mojom::StatefulPartitionResult::Tag::ERROR:
+      return health::mojom::StatefulPartitionResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
@@ -261,7 +284,8 @@ health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
       ConvertPtr(std::move(input->timezone_result)),
       ConvertPtr(std::move(input->memory_result)),
       ConvertPtr(std::move(input->backlight_result)),
-      ConvertPtr(std::move(input->fan_result)));
+      ConvertPtr(std::move(input->fan_result)),
+      ConvertPtr(std::move(input->stateful_partition_result)));
 }
 
 }  // namespace unchecked

@@ -29,6 +29,7 @@
 //           - MemoryInfo
 //           - BacklightInfo
 //           - FanInfo
+//           - StatefulPartitionInfo
 //   3) NonRemovableBlockDeviceInfo: use uint32 to store manufacturer_id instead
 //      of uint8 in case we want to extend manufacturer range.
 //   4) LogicalCpuInfo:
@@ -68,6 +69,7 @@ enum ProbeCategoryEnum {
   kMemory,
   kBacklight,
   kFan,
+  kStatefulPartition,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -354,6 +356,24 @@ union FanResult {
   ProbeError error;
 };
 
+// Stateful partition info
+struct StatefulPartitionInfo {
+  // Available space for user data storage in the device in bytes. Rounded down
+  // to multiples of 100MiB (100 * 1024 * 1024 bytes).
+  UInt64Value? available_space;
+  // Total space for user data storage in the device in bytes.
+  UInt64Value? total_space;
+};
+
+// Stateful partition probe result. Can either be populated with a valid
+// StatefulPartitionInfo or an error retrieving the information.
+union StatefulPartitionResult {
+  // A valid StatefulPartitionInfo.
+  StatefulPartitionInfo partition_info;
+  // The error that occurred attempting to retrieve the StatefulPartitionInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -387,4 +407,8 @@ struct TelemetryInfo {
   // Information about each of the device's fans. Only present when kFan was
   // included in the categories input to ProbeTelemetryInfo.
   FanResult? fan_result;
+  // Information about the stateful partition. Only present when
+  // kStatefulPartition was included in the categories input to
+  // ProbeTelemetryInfo.
+  StatefulPartitionResult? stateful_partition_result;
 };

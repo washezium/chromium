@@ -91,6 +91,12 @@ health::mojom::FanInfoPtr UncheckedConvertPtr(
 health::mojom::FanResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::FanResultPtr input);
 
+health::mojom::StatefulPartitionInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::StatefulPartitionInfoPtr input);
+
+health::mojom::StatefulPartitionResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::StatefulPartitionResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 
