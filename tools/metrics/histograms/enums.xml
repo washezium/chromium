@@ -5626,11 +5626,17 @@ Unknown properties are collapsed to zero. -->
   <int value="4" label="Does not have a site"/>
   <int value="5" label="Source URL scheme is not HTTP(S)"/>
   <int value="6" label="Destination URL scheme is not HTTP(S)"/>
-  <int value="7" label="Same site navigation"/>
+  <int value="7"
+      label="Same site navigation, same-site proactive swap disabled"/>
   <int value="8" label="Error page"/>
   <int value="9" label="Already has matching browsing instance"/>
   <int value="10" label="Renderer debug URL"/>
   <int value="11" label="Not enabled and not needed for back-forward cache"/>
+  <int value="14" label="Same-document navigation"/>
+  <int value="15" label="Same-page navigation"/>
+  <int value="16" label="The current history entry will get replaced"/>
+  <int value="17" label="Reload"/>
+  <int value="18" label="Guest"/>
 </enum>
 
 <enum name="BackForwardCacheDisabledForRenderFrameHostReason">
