@@ -8559,7 +8559,8 @@ TEST_F(WebFrameTest, HasVisibleContentOnHiddenFrames) {
 }
 
 static Resource* FetchManifest(Document* document, const KURL& url) {
-  FetchParameters fetch_parameters{ResourceRequest(url)};
+  FetchParameters fetch_parameters =
+      FetchParameters::CreateForTest(ResourceRequest(url));
   fetch_parameters.SetRequestContext(mojom::RequestContextType::MANIFEST);
 
   return RawResource::FetchSynchronously(fetch_parameters, document->Fetcher());
