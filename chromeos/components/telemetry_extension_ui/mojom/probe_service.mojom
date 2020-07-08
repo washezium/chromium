@@ -30,6 +30,7 @@
 //           - BacklightInfo
 //           - FanInfo
 //           - StatefulPartitionInfo
+//           - BluetoothAdapterInfo
 //   3) NonRemovableBlockDeviceInfo: use uint32 to store manufacturer_id instead
 //      of uint8 in case we want to extend manufacturer range.
 //   4) LogicalCpuInfo:
@@ -70,6 +71,7 @@ enum ProbeCategoryEnum {
   kBacklight,
   kFan,
   kStatefulPartition,
+  kBluetooth,
 };
 
 // An enumeration of the different categories of errors that can occur when
@@ -119,6 +121,13 @@ struct UInt32Value {
 struct UInt64Value {
   // The value of the uint64.
   uint64 value;
+};
+
+// Optional bool field. Since primitives numeric types cannot be optional,
+// wrap bool in a struct that can be nulled.
+struct BoolValue {
+  // The value of the bool.
+  bool value;
 };
 
 // Information related to the main battery.
@@ -374,6 +383,27 @@ union StatefulPartitionResult {
   ProbeError error;
 };
 
+// Information related to one of a device's Bluetooth adapters.
+struct BluetoothAdapterInfo {
+  // The name of the adapter.
+  string? name;
+  // The MAC address of the adapter.
+  string? address;
+  // Indicates whether the adapter is on or off.
+  BoolValue? powered;
+  // The number of devices connected to this adapter.
+  UInt32Value? num_connected_devices;
+};
+
+// Bluetooth probe result. Can either be populated with the BluetoothAdapterInfo
+// or an error retrieving the information.
+union BluetoothResult {
+  // Valid BluetoothAdapterInfo.
+  array<BluetoothAdapterInfo> bluetooth_adapter_info;
+  // The error that occurred attempting to retrieve the BluetoothAdapterInfo.
+  ProbeError error;
+};
+
 // A collection of all the device's telemetry information that cros_healthd is
 // capable of reporting. Note that every field in TelemetryInfo is nullable, and
 // the response for a particular ProbeTelemetryInfo request will only contain
@@ -411,4 +441,7 @@ struct TelemetryInfo {
   // kStatefulPartition was included in the categories input to
   // ProbeTelemetryInfo.
   StatefulPartitionResult? stateful_partition_result;
+  // Information about the device's Bluetooth adapters and devices. Only present
+  // when kBluetooth was included in the categories input to ProbeTelemetryInfo.
+  BluetoothResult? bluetooth_result;
 };

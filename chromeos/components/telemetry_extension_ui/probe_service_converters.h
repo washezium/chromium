@@ -97,6 +97,12 @@ health::mojom::StatefulPartitionInfoPtr UncheckedConvertPtr(
 health::mojom::StatefulPartitionResultPtr UncheckedConvertPtr(
     cros_healthd::mojom::StatefulPartitionResultPtr input);
 
+health::mojom::BluetoothAdapterInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BluetoothAdapterInfoPtr input);
+
+health::mojom::BluetoothResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BluetoothResultPtr input);
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input);
 
@@ -106,6 +112,8 @@ health::mojom::ErrorType Convert(cros_healthd::mojom::ErrorType type);
 
 health::mojom::CpuArchitectureEnum Convert(
     cros_healthd::mojom::CpuArchitectureEnum input);
+
+health::mojom::BoolValuePtr Convert(bool input);
 
 health::mojom::DoubleValuePtr Convert(double input);
 

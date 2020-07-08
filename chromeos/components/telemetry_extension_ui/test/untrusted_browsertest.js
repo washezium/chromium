@@ -64,6 +64,7 @@ UNTRUSTED_TEST('UntustedRequestTelemetryInfo', async () => {
       'backlightResult': null,
       'batteryResult': null,
       'blockDeviceResult': null,
+      'bluetoothResult': null,
       'cpuResult': null,
       'fanResult': null,
       'memoryResult': null,

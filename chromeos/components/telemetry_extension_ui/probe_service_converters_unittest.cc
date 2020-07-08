@@ -27,7 +27,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
       health::mojom::ProbeCategoryEnum::kMemory,
       health::mojom::ProbeCategoryEnum::kBacklight,
       health::mojom::ProbeCategoryEnum::kFan,
-      health::mojom::ProbeCategoryEnum::kStatefulPartition};
+      health::mojom::ProbeCategoryEnum::kStatefulPartition,
+      health::mojom::ProbeCategoryEnum::kBluetooth};
   EXPECT_THAT(
       ConvertCategoryVector(kInput),
       ElementsAre(
@@ -39,7 +40,8 @@ TEST(ProbeServiceConvertors, ConvertCategoryVector) {
           cros_healthd::mojom::ProbeCategoryEnum::kMemory,
           cros_healthd::mojom::ProbeCategoryEnum::kBacklight,
           cros_healthd::mojom::ProbeCategoryEnum::kFan,
-          cros_healthd::mojom::ProbeCategoryEnum::kStatefulPartition));
+          cros_healthd::mojom::ProbeCategoryEnum::kStatefulPartition,
+          cros_healthd::mojom::ProbeCategoryEnum::kBluetooth));
 }
 
 // Tests that |ConvertPtr| function returns nullptr if input is nullptr.
@@ -65,6 +67,11 @@ TEST(ProbeServiceConvertors, ProbeErrorPtr) {
                 cros_healthd::mojom::ErrorType::kFileReadError, kMsg)),
             health::mojom::ProbeError::New(
                 health::mojom::ErrorType::kFileReadError, kMsg));
+}
+
+TEST(ProbeServiceConvertors, BoolValue) {
+  EXPECT_EQ(Convert(false), health::mojom::BoolValue::New(false));
+  EXPECT_EQ(Convert(true), health::mojom::BoolValue::New(true));
 }
 
 TEST(ProbeServiceConvertors, DoubleValue) {
@@ -573,6 +580,60 @@ TEST(ProbeServiceConvertors, StatefulPartitionResultPtrError) {
   EXPECT_TRUE(output->is_error());
 }
 
+TEST(ProbeServiceConvertors, BluetoothAdapterInfoPtr) {
+  constexpr char kName[] = "hci0";
+  constexpr char kAddress[] = "ab:cd:ef:12:34:56";
+  constexpr bool kPowered = true;
+  constexpr uint32_t kNumConnectedDevices = 3;
+
+  auto input = cros_healthd::mojom::BluetoothAdapterInfo::New();
+  input->name = kName;
+  input->address = kAddress;
+  input->powered = kPowered;
+  input->num_connected_devices = kNumConnectedDevices;
+
+  const auto output = ConvertPtr(std::move(input));
+  ASSERT_TRUE(output);
+  EXPECT_EQ(output->name, kName);
+  EXPECT_EQ(output->address, kAddress);
+  EXPECT_EQ(output->powered, health::mojom::BoolValue::New(kPowered));
+  EXPECT_EQ(output->num_connected_devices,
+            health::mojom::UInt32Value::New(kNumConnectedDevices));
+}
+
+TEST(ProbeServiceConvertors, BluetoothResultPtrInfo) {
+  constexpr char kName[] = "hci0";
+
+  cros_healthd::mojom::BluetoothResultPtr input;
+  {
+    auto info = cros_healthd::mojom::BluetoothAdapterInfo::New();
+    info->name = kName;
+
+    std::vector<cros_healthd::mojom::BluetoothAdapterInfoPtr> infos;
+    infos.push_back(std::move(info));
+
+    input = cros_healthd::mojom::BluetoothResult::NewBluetoothAdapterInfo(
+        std::move(infos));
+  }
+
+  const auto output = ConvertPtr(input.Clone());
+  ASSERT_TRUE(output);
+  ASSERT_TRUE(output->is_bluetooth_adapter_info());
+
+  const auto& bluetooth_adapter_info_output =
+      output->get_bluetooth_adapter_info();
+  ASSERT_EQ(bluetooth_adapter_info_output.size(), 1ULL);
+  ASSERT_TRUE(bluetooth_adapter_info_output[0]);
+  EXPECT_EQ(bluetooth_adapter_info_output[0]->name, kName);
+}
+
+TEST(ProbeServiceConvertors, BluetoothResultPtrError) {
+  const health::mojom::BluetoothResultPtr output =
+      ConvertPtr(cros_healthd::mojom::BluetoothResult::NewError(nullptr));
+  ASSERT_TRUE(output);
+  EXPECT_TRUE(output->is_error());
+}
+
 TEST(ProbeServiceConvertors, TelemetryInfoPtrHasBatteryResult) {
   constexpr int64_t kCycleCount = 1;
 
@@ -812,6 +873,7 @@ TEST(ProbeServiceConvertors, TelemetryInfoPtrWithNullFields) {
   EXPECT_FALSE(telemetry_info_output->backlight_result);
   EXPECT_FALSE(telemetry_info_output->fan_result);
   EXPECT_FALSE(telemetry_info_output->stateful_partition_result);
+  EXPECT_FALSE(telemetry_info_output->bluetooth_result);
 }
 
 }  // namespace probe_service_converters

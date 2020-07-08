@@ -36,6 +36,8 @@ cros_healthd::mojom::ProbeCategoryEnum Convert(
       return cros_healthd::mojom::ProbeCategoryEnum::kFan;
     case health::mojom::ProbeCategoryEnum::kStatefulPartition:
       return cros_healthd::mojom::ProbeCategoryEnum::kStatefulPartition;
+    case health::mojom::ProbeCategoryEnum::kBluetooth:
+      return cros_healthd::mojom::ProbeCategoryEnum::kBluetooth;
   }
   NOTREACHED();
 }
@@ -274,6 +276,27 @@ health::mojom::StatefulPartitionResultPtr UncheckedConvertPtr(
   NOTREACHED();
 }
 
+health::mojom::BluetoothAdapterInfoPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BluetoothAdapterInfoPtr input) {
+  return health::mojom::BluetoothAdapterInfo::New(
+      std::move(input->name), std::move(input->address),
+      Convert(input->powered), Convert(input->num_connected_devices));
+}
+
+health::mojom::BluetoothResultPtr UncheckedConvertPtr(
+    cros_healthd::mojom::BluetoothResultPtr input) {
+  switch (input->which()) {
+    case cros_healthd::mojom::BluetoothResult::Tag::BLUETOOTH_ADAPTER_INFO:
+      return health::mojom::BluetoothResult::NewBluetoothAdapterInfo(
+          ConvertPtrVector<health::mojom::BluetoothAdapterInfoPtr>(
+              std::move(input->get_bluetooth_adapter_info())));
+    case cros_healthd::mojom::BluetoothResult::Tag::ERROR:
+      return health::mojom::BluetoothResult::NewError(
+          ConvertPtr(std::move(input->get_error())));
+  }
+  NOTREACHED();
+}
+
 health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
     cros_healthd::mojom::TelemetryInfoPtr input) {
   return health::mojom::TelemetryInfo::New(
@@ -285,7 +308,8 @@ health::mojom::TelemetryInfoPtr UncheckedConvertPtr(
       ConvertPtr(std::move(input->memory_result)),
       ConvertPtr(std::move(input->backlight_result)),
       ConvertPtr(std::move(input->fan_result)),
-      ConvertPtr(std::move(input->stateful_partition_result)));
+      ConvertPtr(std::move(input->stateful_partition_result)),
+      ConvertPtr(std::move(input->bluetooth_result)));
 }
 
 }  // namespace unchecked
@@ -315,6 +339,10 @@ health::mojom::CpuArchitectureEnum Convert(
       return health::mojom::CpuArchitectureEnum::kArmv7l;
   }
   NOTREACHED();
+}
+
+health::mojom::BoolValuePtr Convert(bool input) {
+  return health::mojom::BoolValue::New(input);
 }
 
 health::mojom::DoubleValuePtr Convert(double input) {
