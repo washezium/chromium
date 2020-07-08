@@ -2,13 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/sequence_matcher.h"
+#include "chromeos/components/string_matching/sequence_matcher.h"
 
 #include <algorithm>
 #include <cmath>
 #include <queue>
 
 #include "base/check_op.h"
+
+namespace chromeos {
+namespace string_matching {
 
 namespace {
 using Match = SequenceMatcher::Match;
@@ -204,3 +207,6 @@ double SequenceMatcher::Ratio() {
   }
   return block_matching_ratio_;
 }
+
+}  //  namespace string_matching
+}  //  namespace chromeos

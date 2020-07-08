@@ -2,14 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_
-#define CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_
+#ifndef CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_
+#define CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_
 
 #include <vector>
 
 #include "base/macros.h"
 #include "base/strings/string16.h"
 #include "ui/gfx/range/range.h"
+
+namespace chromeos {
+namespace string_matching {
 
 class TokenizedString;
 
@@ -46,4 +49,7 @@ class TokenizedStringMatch {
   DISALLOW_COPY_AND_ASSIGN(TokenizedStringMatch);
 };
 
-#endif  // CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_
+}  // namespace string_matching
+}  // namespace chromeos
+
+#endif  // CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_MATCH_H_

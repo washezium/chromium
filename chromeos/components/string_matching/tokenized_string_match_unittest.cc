@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/tokenized_string_match.h"
+#include "chromeos/components/string_matching/tokenized_string_match.h"
 
 #include <stddef.h>
 
@@ -11,6 +11,9 @@
 #include "base/stl_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "testing/gtest/include/gtest/gtest.h"
+
+namespace chromeos {
+namespace string_matching {
 
 namespace {
 
@@ -30,6 +33,8 @@ std::string MatchHit(const base::string16& text,
 
   return base::UTF16ToUTF8(marked);
 }
+
+}  // namespace
 
 TEST(TokenizedStringMatchTest, NotMatch) {
   struct {
@@ -145,4 +150,5 @@ TEST(TokenizedStringMatchTest, AbsoluteRelevance) {
   }
 }
 
-}  // namespace
+}  // namespace string_matching
+}  // namespace chromeos

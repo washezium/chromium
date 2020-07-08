@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_
-#define CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_
+#ifndef CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_
+#define CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_
 
 #include <stddef.h>
 #include <stdint.h>
@@ -11,13 +11,16 @@
 #include <memory>
 
 #include "base/macros.h"
-#include "chrome/common/string_matching/tokenized_string.h"
+#include "chromeos/components/string_matching/tokenized_string.h"
 
 namespace base {
 namespace i18n {
 class UTF16CharIterator;
 }
 }  // namespace base
+
+namespace chromeos {
+namespace string_matching {
 
 // An UTF16 char iterator for a TokenizedString.
 class TokenizedStringCharIterator {
@@ -73,4 +76,7 @@ class TokenizedStringCharIterator {
   DISALLOW_COPY_AND_ASSIGN(TokenizedStringCharIterator);
 };
 
-#endif  // CHROME_COMMON_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_
+}  // namespace string_matching
+}  // namespace chromeos
+
+#endif  // CHROMEOS_COMPONENTS_STRING_MATCHING_TOKENIZED_STRING_CHAR_ITERATOR_H_

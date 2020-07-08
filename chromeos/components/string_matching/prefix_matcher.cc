@@ -2,12 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/prefix_matcher.h"
+#include "chromeos/components/string_matching/prefix_matcher.h"
 
 #include "base/check.h"
 #include "base/macros.h"
-#include "chrome/common/string_matching/tokenized_string.h"
-#include "chrome/common/string_matching/tokenized_string_char_iterator.h"
+#include "chromeos/components/string_matching/tokenized_string.h"
+#include "chromeos/components/string_matching/tokenized_string_char_iterator.h"
+
+namespace chromeos {
+namespace string_matching {
 
 namespace {
 // The factors below are applied when the current char of query matches
@@ -144,3 +147,6 @@ void PrefixMatcher::PopState() {
 
   states_.pop_back();
 }
+
+}  // namespace string_matching
+}  // namespace chromeos

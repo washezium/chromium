@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/tokenized_string_match.h"
+#include "chromeos/components/string_matching/tokenized_string_match.h"
 
 #include <stddef.h>
 
@@ -10,7 +10,10 @@
 
 #include "base/i18n/string_search.h"
 #include "base/strings/string_util.h"
-#include "chrome/common/string_matching/prefix_matcher.h"
+#include "chromeos/components/string_matching/prefix_matcher.h"
+
+namespace chromeos {
+namespace string_matching {
 
 namespace {
 // Used for each character if there is no prefix match.
@@ -79,3 +82,6 @@ bool TokenizedStringMatch::Calculate(const base::string16& query,
   const TokenizedString tokenized_text(text);
   return Calculate(tokenized_query, tokenized_text);
 }
+
+}  // namespace string_matching
+}  // namespace chromeos

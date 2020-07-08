@@ -2,11 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/tokenized_string_char_iterator.h"
+#include "chromeos/components/string_matching/tokenized_string_char_iterator.h"
 
 #include "base/check.h"
 #include "base/i18n/char_iterator.h"
 #include "third_party/icu/source/common/unicode/utf16.h"
+
+namespace chromeos {
+namespace string_matching {
 
 TokenizedStringCharIterator::State::State() : token_index(0u), char_index(0) {}
 
@@ -83,3 +86,6 @@ void TokenizedStringCharIterator::CreateTokenCharIterator() {
   current_token_iter_.reset(
       new base::i18n::UTF16CharIterator(&tokens_[current_token_]));
 }
+
+}  // namespace string_matching
+}  // namespace chromeos

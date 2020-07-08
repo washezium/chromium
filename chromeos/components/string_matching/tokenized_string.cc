@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/tokenized_string.h"
+#include "chromeos/components/string_matching/tokenized_string.h"
 
 #include <stddef.h>
 
@@ -12,7 +12,10 @@
 #include "base/notreached.h"
 #include "base/strings/strcat.h"
 #include "base/strings/string_util.h"
-#include "chrome/common/string_matching/term_break_iterator.h"
+#include "chromeos/components/string_matching/term_break_iterator.h"
+
+namespace chromeos {
+namespace string_matching {
 
 using base::i18n::BreakIterator;
 
@@ -100,3 +103,6 @@ void TokenizedString::TokenizeWords() {
     mappings_.emplace_back(start, end);
   }
 }
+
+}  //  namespace string_matching
+}  //  namespace chromeos

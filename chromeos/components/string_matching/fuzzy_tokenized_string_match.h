@@ -2,13 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
-#define CHROME_COMMON_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
+#ifndef CHROMEOS_COMPONENTS_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
+#define CHROMEOS_COMPONENTS_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
 
 #include "base/gtest_prod_util.h"
 #include "base/macros.h"
-#include "chrome/common/string_matching/tokenized_string.h"
+#include "chromeos/components/string_matching/tokenized_string.h"
 #include "ui/gfx/range/range.h"
+
+namespace chromeos {
+namespace string_matching {
 
 // FuzzyTokenizedStringMatch takes two tokenized strings: one as the text and
 // the other one as the query. It matches the query against the text,
@@ -93,4 +96,7 @@ class FuzzyTokenizedStringMatch {
   DISALLOW_COPY_AND_ASSIGN(FuzzyTokenizedStringMatch);
 };
 
-#endif  // CHROME_COMMON_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
+}  // namespace string_matching
+}  // namespace chromeos
+
+#endif  // CHROMEOS_COMPONENTS_STRING_MATCHING_FUZZY_TOKENIZED_STRING_MATCH_H_
