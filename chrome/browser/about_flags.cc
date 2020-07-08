@@ -5431,7 +5431,7 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(chromeos::features::kNewOsSettingsSearch)},
     {"os-settings-deep-linking", flag_descriptions::kOsSettingsDeepLinkingName,
      flag_descriptions::kOsSettingsDeepLinkingDescription, kOsCrOS,
-     FEATURE_VALUE_TYPE(chromeos::features::kNewOsSettingsSearch)},
+     FEATURE_VALUE_TYPE(chromeos::features::kOsSettingsDeepLinking)},
     {"dlc-settings-ui", flag_descriptions::kDlcSettingsUiName,
      flag_descriptions::kDlcSettingsUiDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kDlcSettingsUi)},
