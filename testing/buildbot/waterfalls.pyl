@@ -1850,7 +1850,6 @@
         ],
         'additional_compile_targets': [
           'vr_common_perftests',
-          'vr_testapp',
         ],
         'test_suites': {
           'gtest_tests': 'vr_platform_specific_chromium_gtests',
