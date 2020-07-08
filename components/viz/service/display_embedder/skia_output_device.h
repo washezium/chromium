@@ -138,7 +138,8 @@ class SkiaOutputDevice {
     SwapInfo(SwapInfo&& other);
     ~SwapInfo();
     const gpu::SwapBuffersCompleteParams& Complete(
-        gfx::SwapCompletionResult result);
+        gfx::SwapCompletionResult result,
+        const base::Optional<gfx::Rect>& damage_area);
     void CallFeedback();
 
    private:
@@ -159,9 +160,11 @@ class SkiaOutputDevice {
 
   // Helper method for SwapBuffers() and PostSubBuffer(). It should be called
   // at the end of SwapBuffers() and PostSubBuffer() implementations
-  void FinishSwapBuffers(gfx::SwapCompletionResult result,
-                         const gfx::Size& size,
-                         std::vector<ui::LatencyInfo> latency_info);
+  void FinishSwapBuffers(
+      gfx::SwapCompletionResult result,
+      const gfx::Size& size,
+      std::vector<ui::LatencyInfo> latency_info,
+      const base::Optional<gfx::Rect>& damage_area = base::nullopt);
 
   OutputSurface::Capabilities capabilities_;
 
