@@ -21,13 +21,13 @@ struct AssistiveWindowProperties;
 
 namespace views {
 class ImageButton;
+class Link;
 }
 
 namespace ui {
 namespace ime {
 
 class AssistiveDelegate;
-class SettingLinkView;
 class SuggestionView;
 struct AssistiveWindowButton;
 struct SuggestionDetails;
@@ -92,21 +92,18 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   // No-op if the candidate is currently not highlighted.
   void UnhighlightCandidate(SuggestionView* candidate);
 
-  // This highlights or unhighlights the Learn More Button based on the given
-  // parameter. No-op if the button is already in that state.
-  void SetLearnMoreButtonHighlighted(bool highlighted);
-
   // The delegate to handle events from this class.
   AssistiveDelegate* delegate_;
 
   // The view containing all the suggestions.
   views::View* candidate_area_;
 
-  // The view for rendering setting link, positioned below candidate_area_.
-  SettingLinkView* setting_link_view_;
+  // The setting link, positioned below candidate_area_.
+  // TODO(crbug/1102175): Rename setting to settings since there can be multiple
+  // things to set.
+  views::Link* setting_link_;
 
   views::ImageButton* learn_more_button_;
-  bool is_learn_more_button_highlighted = false;
 
   // The currently-highlighted candidate, if any.
   SuggestionView* highlighted_candidate_ = nullptr;

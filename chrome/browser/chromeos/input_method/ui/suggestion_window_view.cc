@@ -9,7 +9,6 @@
 #include <string>
 
 #include "base/i18n/number_formatting.h"
-#include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
 #include "chrome/browser/chromeos/input_method/ui/assistive_delegate.h"
@@ -35,7 +34,6 @@
 #include "ui/views/controls/label.h"
 #include "ui/views/controls/link.h"
 #include "ui/views/layout/box_layout.h"
-#include "ui/views/layout/fill_layout.h"
 #include "ui/views/metadata/metadata_impl_macros.h"
 #include "ui/views/widget/widget.h"
 #include "ui/wm/core/window_animations.h"
@@ -44,55 +42,25 @@
 namespace ui {
 namespace ime {
 
+namespace {
+
 const int kSettingLinkFontSize = 13;
 // TODO(crbug/1094843): Add localised string.
 const char kSettingLinkLabel[] = "Why am I seeing this suggestion?";
 // TODO(crbug/1099044): Update and use cros colors.
 constexpr SkColor kSecondaryIconColor = gfx::kGoogleGrey500;
 
-// TODO(crbug/1102175): Rename setting to settings since there can be multiple
-// things to set.
-class SettingLinkView : public views::View {
- public:
-  explicit SettingLinkView(AssistiveDelegate* delegate) : delegate_(delegate) {
-    SetLayoutManager(std::make_unique<views::FillLayout>());
-    setting_link_ = AddChildView(
-        std::make_unique<views::Link>(base::UTF8ToUTF16(kSettingLinkLabel)));
-    setting_link_->SetHorizontalAlignment(gfx::ALIGN_LEFT);
-    // TODO(crbug/1102215): Implement proper UI layout using Insets constant.
-    const gfx::Insets insets(0, kPadding, kPadding, kPadding);
-    setting_link_->SetBorder(views::CreateEmptyBorder(insets));
-    setting_link_->SetFontList(gfx::FontList({kFontStyle}, gfx::Font::ITALIC,
-                                             kSettingLinkFontSize,
-                                             gfx::Font::Weight::NORMAL));
-    setting_link_->set_callback(base::BindRepeating(
-        &SettingLinkView::LinkClicked, base::Unretained(this)));
+// TODO(b/1101669): Create abstract HighlightableButton for learn_more button,
+// setting_link_, suggestion_view and undo_view.
+void SetHighlighted(views::View& view, bool highlighted) {
+  if (!!view.background() != highlighted) {
+    view.SetBackground(highlighted
+                           ? views::CreateSolidBackground(kButtonHighlightColor)
+                           : nullptr);
   }
+}
 
-  void SetHighlighted(bool highlighted) {
-    if (highlighted_ == highlighted)
-      return;
-
-    SetBackground(highlighted
-                      ? views::CreateSolidBackground(kButtonHighlightColor)
-                      : nullptr);
-    highlighted_ = highlighted;
-    SchedulePaint();
-  }
-
- private:
-  AssistiveDelegate* delegate_;
-  views::Link* setting_link_;
-  bool highlighted_ = false;
-
-  void LinkClicked() {
-    AssistiveWindowButton button;
-    button.id = ButtonId::kSmartInputsSettingLink;
-    delegate_->AssistiveWindowButtonClicked(button);
-  }
-
-  DISALLOW_COPY_AND_ASSIGN(SettingLinkView);
-};
+}  // namespace
 
 SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
                                            AssistiveDelegate* delegate)
@@ -108,9 +76,23 @@ SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
   candidate_area_ = AddChildView(std::make_unique<views::View>());
   candidate_area_->SetLayoutManager(std::make_unique<views::BoxLayout>(
       views::BoxLayout::Orientation::kVertical));
-  setting_link_view_ =
-      AddChildView(std::make_unique<SettingLinkView>(delegate));
-  setting_link_view_->SetVisible(false);
+
+  setting_link_ = AddChildView(
+      std::make_unique<views::Link>(base::UTF8ToUTF16(kSettingLinkLabel)));
+  setting_link_->SetHorizontalAlignment(gfx::ALIGN_LEFT);
+  // TODO(crbug/1102215): Implement proper UI layout using Insets constant.
+  const gfx::Insets insets(0, kPadding, kPadding, kPadding);
+  setting_link_->SetBorder(views::CreateEmptyBorder(insets));
+  setting_link_->SetFontList(gfx::FontList({kFontStyle}, gfx::Font::ITALIC,
+                                           kSettingLinkFontSize,
+                                           gfx::Font::Weight::NORMAL));
+  const auto on_setting_link_clicked = [](AssistiveDelegate* delegate) {
+    delegate->AssistiveWindowButtonClicked(
+        {.id = ButtonId::kSmartInputsSettingLink});
+  };
+  setting_link_->set_callback(
+      base::BindRepeating(on_setting_link_clicked, delegate_));
+  setting_link_->SetVisible(false);
 
   learn_more_button_ = AddChildView(CreateLearnMoreButton());
 }
@@ -169,8 +151,8 @@ void SuggestionWindowView::Show(const SuggestionDetails& details) {
   candidate->SetEnabled(true);
   candidate->SetView(details);
   if (details.show_setting_link)
-    candidate->SetMinWidth(setting_link_view_->GetPreferredSize().width());
-  setting_link_view_->SetVisible(details.show_setting_link);
+    candidate->SetMinWidth(setting_link_->GetPreferredSize().width());
+  setting_link_->SetVisible(details.show_setting_link);
   MakeVisible();
 }
 
@@ -229,10 +211,10 @@ void SuggestionWindowView::SetButtonHighlighted(
       break;
     }
     case ButtonId::kSmartInputsSettingLink:
-      setting_link_view_->SetHighlighted(highlighted);
+      SetHighlighted(*setting_link_, highlighted);
       break;
     case ButtonId::kLearnMore:
-      SetLearnMoreButtonHighlighted(highlighted);
+      SetHighlighted(*learn_more_button_, highlighted);
       break;
     default:
       break;
@@ -265,21 +247,6 @@ void SuggestionWindowView::UnhighlightCandidate(SuggestionView* candidate) {
   highlighted_candidate_ = nullptr;
 }
 
-// TODO(b/1101669): Create abstract HighlightableButton for learn_more button,
-// setting_link_view, suggestion_view and undo_view.
-void SuggestionWindowView::SetLearnMoreButtonHighlighted(bool highlighted) {
-  if (is_learn_more_button_highlighted == highlighted) {
-    return;
-  }
-
-  learn_more_button_->SetBackground(
-      highlighted ? views::CreateSolidBackground(kButtonHighlightColor)
-                  : nullptr);
-  is_learn_more_button_highlighted = highlighted;
-
-  SchedulePaint();
-}
-
 // TODO(crbug/1099116): Add test for ButtonPressed.
 void SuggestionWindowView::ButtonPressed(views::Button* sender,
                                          const ui::Event& event) {
@@ -307,10 +274,10 @@ void SuggestionWindowView::OnStateChanged(
     switch (observed_button->state()) {
       case views::Button::ButtonState::STATE_HOVERED:
       case views::Button::ButtonState::STATE_PRESSED:
-        SetLearnMoreButtonHighlighted(true);
+        SetHighlighted(*observed_button, true);
         break;
       default:
-        SetLearnMoreButtonHighlighted(false);
+        SetHighlighted(*observed_button, false);
     }
     return;
   }
@@ -341,7 +308,7 @@ views::View* SuggestionWindowView::GetCandidateAreaForTesting() {
 }
 
 views::View* SuggestionWindowView::GetSettingLinkViewForTesting() {
-  return setting_link_view_;
+  return setting_link_;
 }
 
 views::View* SuggestionWindowView::GetLearnMoreButtonForTesting() {
