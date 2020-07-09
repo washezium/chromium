@@ -744,21 +744,7 @@ NGBreakStatus NGColumnLayoutAlgorithm::LayoutSpanner(
   NGBoxStrut margins = ComputeMarginsFor(
       spanner_style, ChildAvailableSize().inline_size,
       ConstraintSpace().GetWritingMode(), ConstraintSpace().Direction());
-
-  if (break_token) {
-    // Truncate block-start margins at fragmentainer breaks (except when the
-    // break is forced), and also make sure that we don't repeat them at the
-    // beginning of every fragment generated from the spanner node.
-    if (!break_token->IsBreakBefore() || !break_token->IsForcedBreak())
-      margins.block_start = LayoutUnit();
-
-    if (break_token->IsBreakBefore()) {
-      // TODO(mstensho): Passing a break-before token shouldn't be a problem,
-      // but it would cause problems for the NGPaintFragment code. Just pass
-      // nullptr. Won't make any difference anyway.
-      break_token = nullptr;
-    }
-  }
+  AdjustMarginsForFragmentation(break_token, &margins);
 
   // Collapse the block-start margin of this spanner with the block-end margin
   // of an immediately preceding spanner, if any.
