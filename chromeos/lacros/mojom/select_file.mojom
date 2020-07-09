@@ -6,6 +6,7 @@ module lacros.mojom;
 
 import "mojo/public/mojom/base/file_path.mojom";
 import "mojo/public/mojom/base/string16.mojom";
+import "url/mojom/url.mojom";
 
 // The type of dialog to open. The integer values intentionally do not match
 // ui::SelectFileDialog::Type because there is no "none" value and kOpenFile
@@ -103,10 +104,25 @@ enum SelectFileResult {
 
 // Information about the selected file or files.
 struct SelectedFileInfo {
-  // Path to the file.
+  // Path to the file, as seen in the UI.
   mojo_base.mojom.FilePath file_path;
 
-  // TODO(jamescook): Many more.
+  // The actual local path to the selected file. This can be a snapshot file
+  // with a human unreadable name like /blah/.d41d8cd98f00b204e9800998ecf8427e.
+  // |local_path| can differ from |file_path| for drive files (e.g.
+  // /drive_cache/temporary/d41d8cd98f00b204e9800998ecf8427e vs.
+  // /special/drive/foo.txt).
+  mojo_base.mojom.FilePath local_path;
+
+  // Optional display name of the file. UTF-8 encoded. If empty, the UI should
+  // display the base name portion of |file_path|.
+  string display_name;
+
+  // Optional URL to access the file. If the caller can use a URL to access a
+  // file, |url| should be used instead of |local_path|. For example, when
+  // opening a .gdoc file from Google Drive the |local_path| is a placeholder
+  // file that should be "opened" by navigating to docs.google.com.
+  url.mojom.Url? url;
 };
 
 // Select file dialog interface. Wrapper around the C++ SelectFileDialog

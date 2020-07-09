@@ -16,6 +16,7 @@
 #include "ui/shell_dialogs/select_file_dialog.h"
 #include "ui/shell_dialogs/select_file_policy.h"
 #include "ui/shell_dialogs/selected_file_info.h"
+#include "url/gurl.h"
 
 namespace {
 
@@ -102,11 +103,25 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
   void FileSelected(const base::FilePath& path,
                     int file_type_index,
                     void* params) override {
-    OnSelected({path}, file_type_index);
+    FileSelectedWithExtraInfo(ui::SelectedFileInfo(path, path), file_type_index,
+                              params);
+  }
+
+  void FileSelectedWithExtraInfo(const ui::SelectedFileInfo& file,
+                                 int file_type_index,
+                                 void* params) override {
+    OnSelected({file}, file_type_index);
   }
 
   void MultiFilesSelected(const std::vector<base::FilePath>& files,
                           void* params) override {
+    MultiFilesSelectedWithExtraInfo(
+        ui::FilePathListToSelectedFileInfoList(files), params);
+  }
+
+  void MultiFilesSelectedWithExtraInfo(
+      const std::vector<ui::SelectedFileInfo>& files,
+      void* params) override {
     OnSelected(files, /*file_type_index=*/0);
   }
 
@@ -116,17 +131,20 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
   }
 
   // Invokes |select_callback_| with the list of files and deletes this object.
-  void OnSelected(const std::vector<base::FilePath>& paths,
+  void OnSelected(const std::vector<ui::SelectedFileInfo>& files,
                   int file_type_index) {
-    std::vector<lacros::mojom::SelectedFileInfoPtr> files;
-    for (const auto& path : paths) {
-      lacros::mojom::SelectedFileInfoPtr file =
+    std::vector<lacros::mojom::SelectedFileInfoPtr> mojo_files;
+    for (const ui::SelectedFileInfo& file : files) {
+      lacros::mojom::SelectedFileInfoPtr mojo_file =
           lacros::mojom::SelectedFileInfo::New();
-      file->file_path = path;
-      files.push_back(std::move(file));
+      mojo_file->file_path = file.file_path;
+      mojo_file->local_path = file.local_path;
+      mojo_file->display_name = file.display_name;
+      mojo_file->url = file.url;
+      mojo_files.push_back(std::move(mojo_file));
     }
     std::move(select_callback_)
-        .Run(lacros::mojom::SelectFileResult::kSuccess, std::move(files),
+        .Run(lacros::mojom::SelectFileResult::kSuccess, std::move(mojo_files),
              file_type_index);
     delete this;
   }

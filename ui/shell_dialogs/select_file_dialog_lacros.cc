@@ -11,6 +11,7 @@
 #include "chromeos/lacros/browser/lacros_chrome_service_impl.h"
 #include "chromeos/lacros/mojom/select_file.mojom.h"
 #include "ui/shell_dialogs/select_file_policy.h"
+#include "ui/shell_dialogs/selected_file_info.h"
 
 namespace ui {
 namespace {
@@ -45,6 +46,16 @@ lacros::mojom::AllowedPaths GetMojoAllowedPaths(
     case SelectFileDialog::FileTypeInfo::ANY_PATH_OR_URL:
       return lacros::mojom::AllowedPaths::kAnyPathOrUrl;
   }
+}
+
+SelectedFileInfo ConvertSelectedFileInfo(
+    lacros::mojom::SelectedFileInfoPtr mojo_file) {
+  SelectedFileInfo file;
+  file.file_path = std::move(mojo_file->file_path);
+  file.local_path = std::move(mojo_file->local_path);
+  file.display_name = std::move(mojo_file->display_name);
+  file.url = std::move(mojo_file->url);
+  return file;
 }
 
 }  // namespace
@@ -109,24 +120,24 @@ void SelectFileDialogLacros::SelectFileImpl(
 
 void SelectFileDialogLacros::OnSelected(
     lacros::mojom::SelectFileResult result,
-    std::vector<lacros::mojom::SelectedFileInfoPtr> files,
+    std::vector<lacros::mojom::SelectedFileInfoPtr> mojo_files,
     int file_type_index) {
   if (!listener_)
     return;
-  if (files.empty()) {
+  if (mojo_files.empty()) {
     listener_->FileSelectionCanceled(params_);
     return;
   }
-  if (files.size() == 1) {
-    // TODO(jamescook): Use FileSelectedWithExtraInfo instead.
-    listener_->FileSelected(files[0]->file_path, file_type_index, params_);
+  if (mojo_files.size() == 1) {
+    SelectedFileInfo file = ConvertSelectedFileInfo(std::move(mojo_files[0]));
+    listener_->FileSelectedWithExtraInfo(file, file_type_index, params_);
     return;
   }
-  std::vector<base::FilePath> paths;
-  for (auto& file : files)
-    paths.push_back(std::move(file->file_path));
-  // TODO(jamescook): Use MultiFilesSelectedWithExtraInfo instead.
-  listener_->MultiFilesSelected(paths, params_);
+  std::vector<SelectedFileInfo> files;
+  for (auto& mojo_file : mojo_files) {
+    files.push_back(ConvertSelectedFileInfo(std::move(mojo_file)));
+  }
+  listener_->MultiFilesSelectedWithExtraInfo(files, params_);
 }
 
 }  // namespace ui
