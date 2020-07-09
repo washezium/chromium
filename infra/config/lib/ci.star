@@ -833,6 +833,7 @@ def mac_builder(
       goma_backend = goma_backend,
       mastername = 'chromium.mac',
       os = os,
+      tree_closing = True,
       **kwargs
   )
 
@@ -938,6 +939,7 @@ def thin_tester(
       mastername = mastername,
       triggered_by = triggered_by,
       goma_backend = None,
+      tree_closing = True,
       **kwargs
   )
 
