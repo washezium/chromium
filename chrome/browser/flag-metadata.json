@@ -4477,7 +4477,7 @@
   {
     "name": "updated_cellular_activation_ui",
     "owners": [ "azeemarshad", "khorimoto", "vecore", "cros-system-services@google.com" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 89
   },
   {
     "name": "url-blocklist-ios",
