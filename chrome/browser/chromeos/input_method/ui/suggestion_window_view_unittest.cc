@@ -13,6 +13,8 @@
 #include "chrome/browser/chromeos/input_method/ui/suggestion_view.h"
 #include "chrome/test/views/chrome_views_test_base.h"
 #include "testing/gtest/include/gtest/gtest.h"
+#include "ui/views/controls/button/image_button.h"
+#include "ui/views/controls/link.h"
 
 namespace ui {
 namespace ime {
@@ -56,7 +58,7 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
 
   size_t GetHighlightedCount() const {
     const auto& children =
-        suggestion_window_view_->GetCandidateAreaForTesting()->children();
+        suggestion_window_view_->candidate_area_for_testing()->children();
     return std::count_if(
         children.cbegin(), children.cend(),
         [](const views::View* v) { return !!v->background(); });
@@ -64,7 +66,7 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
 
   base::Optional<int> GetHighlightedIndex() const {
     const auto& children =
-        suggestion_window_view_->GetCandidateAreaForTesting()->children();
+        suggestion_window_view_->candidate_area_for_testing()->children();
     const auto it =
         std::find_if(children.cbegin(), children.cend(),
                      [](const views::View* v) { return !!v->background(); });
@@ -187,7 +189,7 @@ TEST_F(SuggestionWindowViewTest, HighlightsSettingLinkViewWhenNotHighlighted) {
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetSettingLinkViewForTesting()->background() !=
+      suggestion_window_view_->setting_link_for_testing()->background() !=
       nullptr);
 }
 
@@ -198,7 +200,7 @@ TEST_F(SuggestionWindowViewTest,
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, true);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetSettingLinkViewForTesting()->background() !=
+      suggestion_window_view_->setting_link_for_testing()->background() !=
       nullptr);
 }
 
@@ -207,7 +209,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightsSettingLinkViewWhenHighlighted) {
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetSettingLinkViewForTesting()->background() ==
+      suggestion_window_view_->setting_link_for_testing()->background() ==
       nullptr);
 }
 
@@ -218,7 +220,7 @@ TEST_F(SuggestionWindowViewTest,
   suggestion_window_view_->SetButtonHighlighted(setting_link_view_, false);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetSettingLinkViewForTesting()->background() ==
+      suggestion_window_view_->setting_link_for_testing()->background() ==
       nullptr);
 }
 
@@ -227,7 +229,7 @@ TEST_F(SuggestionWindowViewTest, HighlightsLearnMoreButtonWhenNotHighlighted) {
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() !=
+      suggestion_window_view_->learn_more_button_for_testing()->background() !=
       nullptr);
 }
 
@@ -238,7 +240,7 @@ TEST_F(SuggestionWindowViewTest,
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, true);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() !=
+      suggestion_window_view_->learn_more_button_for_testing()->background() !=
       nullptr);
 }
 
@@ -247,7 +249,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightsLearnMoreButtonWhenHighlighted) {
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() ==
+      suggestion_window_view_->learn_more_button_for_testing()->background() ==
       nullptr);
 }
 
@@ -258,7 +260,7 @@ TEST_F(SuggestionWindowViewTest,
   suggestion_window_view_->SetButtonHighlighted(learn_more_button_, false);
 
   EXPECT_TRUE(
-      suggestion_window_view_->GetLearnMoreButtonForTesting()->background() ==
+      suggestion_window_view_->learn_more_button_for_testing()->background() ==
       nullptr);
 }
 

@@ -5,6 +5,8 @@
 #ifndef CHROME_BROWSER_CHROMEOS_INPUT_METHOD_UI_SUGGESTION_WINDOW_VIEW_H_
 #define CHROME_BROWSER_CHROMEOS_INPUT_METHOD_UI_SUGGESTION_WINDOW_VIEW_H_
 
+#include <stddef.h>
+
 #include <memory>
 
 #include "base/containers/flat_map.h"
@@ -22,15 +24,15 @@ struct AssistiveWindowProperties;
 namespace views {
 class ImageButton;
 class Link;
-}
+}  // namespace views
 
 namespace ui {
 namespace ime {
 
 class AssistiveDelegate;
-class SuggestionView;
 struct AssistiveWindowButton;
 struct SuggestionDetails;
+class SuggestionView;
 
 // SuggestionWindowView is the main container of the suggestion window UI.
 class UI_CHROMEOS_EXPORT SuggestionWindowView
@@ -61,9 +63,11 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   void SetButtonHighlighted(const AssistiveWindowButton& button,
                             bool highlighted);
 
-  views::View* GetCandidateAreaForTesting();
-  views::View* GetSettingLinkViewForTesting();
-  views::View* GetLearnMoreButtonForTesting();
+  views::View* candidate_area_for_testing() { return candidate_area_; }
+  views::Link* setting_link_for_testing() { return setting_link_; }
+  views::ImageButton* learn_more_button_for_testing() {
+    return learn_more_button_;
+  }
 
  protected:
   // views::BubbleDialogDelegateView:
@@ -77,17 +81,13 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
 
   // Sets the number of candidates (i.e. the number of children of
   // |candidate_area_|) to |size|.
-  void MaybeInitializeSuggestionViews(size_t candidates_size);
+  void ResizeCandidateArea(size_t size);
 
   void MakeVisible();
 
-  // This highlights at most one |candidate| at any time.
-  // No-op if the candidate is already highlighted.
-  void HighlightCandidate(SuggestionView* candidate);
-
-  // This unhighlights the given |candidate|.
-  // No-op if the candidate is currently not highlighted.
-  void UnhighlightCandidate(SuggestionView* candidate);
+  // Sets |candidate|'s highlight state to |highlighted|. At most one candidate
+  // will be highlighted at any given time.
+  void SetCandidateHighlighted(SuggestionView* candidate, bool highlighted);
 
   // The delegate to handle events from this class.
   AssistiveDelegate* delegate_;
