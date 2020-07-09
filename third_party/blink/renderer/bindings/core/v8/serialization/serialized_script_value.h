@@ -162,7 +162,6 @@ class CORE_EXPORT SerializedScriptValue
   ~SerializedScriptValue();
 
   static scoped_refptr<SerializedScriptValue> NullValue();
-  static scoped_refptr<SerializedScriptValue> UndefinedValue();
 
   String ToWireString() const;
 
