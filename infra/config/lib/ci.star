@@ -868,6 +868,7 @@ def memory_builder(
     name,
     goma_jobs=builders.goma.jobs.MANY_JOBS_FOR_CI,
     notifies=None,
+    tree_closing=True,
     **kwargs):
   if name.startswith('Linux'):
     notifies = (notifies or []) + ['linux-memory']
@@ -878,6 +879,7 @@ def memory_builder(
       goma_jobs = goma_jobs,
       mastername = 'chromium.memory',
       notifies = notifies,
+      tree_closing=tree_closing,
       **kwargs
   )
 
