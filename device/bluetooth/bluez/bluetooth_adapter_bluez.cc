@@ -1784,15 +1784,16 @@ void BluetoothAdapterBlueZ::UpdateRegisteredApplication(
       ->GetBluetoothGattManagerClient()
       ->UnregisterApplication(
           object_path_, GetApplicationObjectPath(),
-          base::Bind(&BluetoothAdapterBlueZ::RegisterApplication,
-                     weak_ptr_factory_.GetWeakPtr(), copyable_callback,
-                     copyable_error_callback),
+          base::BindOnce(&BluetoothAdapterBlueZ::RegisterApplication,
+                         weak_ptr_factory_.GetWeakPtr(), copyable_callback,
+                         copyable_error_callback),
           ignore_unregister_failure
-              ? base::Bind(&BluetoothAdapterBlueZ::RegisterApplicationOnError,
-                           weak_ptr_factory_.GetWeakPtr(), copyable_callback,
-                           copyable_error_callback)
-              : base::Bind(&OnRegistrationErrorCallback,
-                           copyable_error_callback, false));
+              ? base::BindOnce(
+                    &BluetoothAdapterBlueZ::RegisterApplicationOnError,
+                    weak_ptr_factory_.GetWeakPtr(), copyable_callback,
+                    copyable_error_callback)
+              : base::BindOnce(&OnRegistrationErrorCallback,
+                               copyable_error_callback, false));
 }
 
 void BluetoothAdapterBlueZ::RegisterApplication(
