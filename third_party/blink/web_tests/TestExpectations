@@ -1375,7 +1375,7 @@ crbug.com/929098 virtual/dark-color-scheme/external/wpt/css/css-color-adjust/ren
 
 # ====== Form Controls Refresh (chrome://flags/#form-controls-refresh) failures from here ======
 
-crbug.com/1057518 virtual/controls-refresh/month-picker/month-picker-appearance-step.html [ Skip ]
+crbug.com/1057518 fast/forms/month/month-picker-appearance-step.html [ Skip ]
 
 # ======
 # From this point until the end of the Form Controls Refresh section, these are
@@ -1429,7 +1429,8 @@ crbug.com/1053725 [ Mac ] editing/selection/replaced-boundaries-3.html [ Skip ]
 # Need triage:
 crbug.com/1053725 [ Mac ] fast/forms/textarea/textarea-metrics.html [ Skip ]
 
-
+# Flaky on Win7
+crbug.com/1053725 [ Win7 ] fast/forms/calendar-picker/date-picker-appearance-disabled-previous-month.html [ Pass Failure ]
 
 # ======
 # ====== End of rebaselines for crbug.com/1053725 ======
@@ -6366,7 +6367,7 @@ crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-appearance
 crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-top-left-selection-position-after-reopen.html [ Pass Crash ]
 crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-zoom150-bottom-edge-no-nan.html [ Pass Crash ]
 # This used to be [ Pass Crash ], but as of crbug.com/1050039 it started flaking as well.
-crbug.com/1048149 crbug.com/1050121 [ Mac ] virtual/controls-refresh/month-picker/month-picker-appearance-zoom150.html [ Pass Failure Crash Failure ]
+crbug.com/1048149 crbug.com/1050121 [ Mac ] fast/forms/month/month-picker-appearance-zoom150.html [ Pass Failure Crash Failure ]
 
 # Upcoming DevTools change
 crbug.com/1006759 http/tests/devtools/profiler/cpu-profiler-save-load.js [ Pass Failure Timeout ]
