@@ -1450,7 +1450,7 @@ deps = {
 
   # Wireless Display Software. Used on Chrome OS.
   'src/third_party/wds/src': {
-      'url': Var('chromium_git') + '/external/github.com/01org/wds' + '@' + 'ac3d8210d95f3000bf5c8e16a79dbbbf22d554a5',
+      'url': Var('chromium_git') + '/external/github.com/01org/wds' + '@' + 'a488b169d724d6b4cfcd7037dbab1f1c2bf04f3b',
       'condition': 'checkout_linux',
   },
 
