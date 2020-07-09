@@ -16898,6 +16898,57 @@ TEST_P(ScrollUnifiedLayerTreeHostImplTest, PercentBasedScrollbarDeltasDSF3) {
   host_impl_ = nullptr;
 }
 
+// Verify that page based scrolling resolves to the correct amount of scroll
+// delta.
+TEST_P(ScrollUnifiedLayerTreeHostImplTest, PageBasedScroll) {
+  const gfx::Size kViewportSize(100, 100);
+  const gfx::Size kContentSize(300, 300);
+  SetupViewportLayersOuterScrolls(kViewportSize, kContentSize);
+  DrawFrame();
+
+  const gfx::Vector2dF kPageDelta(2, 1);
+
+  auto begin_state =
+      BeginState(gfx::Point(), kPageDelta, ui::ScrollInputType::kWheel);
+  begin_state->data()->delta_granularity = ui::ScrollGranularity::kScrollByPage;
+  EXPECT_EQ(
+      ScrollThread::SCROLL_ON_IMPL_THREAD,
+      host_impl_->ScrollBegin(begin_state.get(), ui::ScrollInputType::kWheel)
+          .thread);
+
+  auto update_state =
+      UpdateState(gfx::Point(), kPageDelta, ui::ScrollInputType::kWheel);
+  update_state->data()->delta_granularity =
+      ui::ScrollGranularity::kScrollByPage;
+  // We should still be scrolling, because the scrolled layer also exists in the
+  // new tree.
+  host_impl_->ScrollUpdate(update_state.get());
+
+  viz::BeginFrameArgs begin_frame_args =
+      viz::CreateBeginFrameArgsForTesting(BEGINFRAME_FROM_HERE, 0, 1);
+
+  base::TimeTicks start_time =
+      base::TimeTicks() + base::TimeDelta::FromMilliseconds(100);
+  BeginImplFrameAndAnimate(begin_frame_args, start_time);
+  BeginImplFrameAndAnimate(begin_frame_args,
+                           start_time + base::TimeDelta::FromMilliseconds(50));
+  BeginImplFrameAndAnimate(
+      begin_frame_args, start_time + base::TimeDelta::FromMilliseconds(2000));
+
+  const gfx::ScrollOffset kExpectedDelta(
+      kPageDelta.x() * kViewportSize.width() * kMinFractionToStepWhenPaging,
+      kPageDelta.y() * kViewportSize.height() * kMinFractionToStepWhenPaging);
+  const gfx::ScrollOffset kCurrentDelta =
+      host_impl_->active_tree()
+          ->property_trees()
+          ->scroll_tree.current_scroll_offset(
+              host_impl_->OuterViewportScrollNode()->element_id);
+
+  EXPECT_EQ(kExpectedDelta.ToString(), kCurrentDelta.ToString());
+
+  host_impl_->ScrollEnd();
+}
+
 class UnifiedScrollingTest : public LayerTreeHostImplTest {
  public:
   using Point = gfx::Point;

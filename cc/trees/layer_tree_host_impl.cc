@@ -3799,7 +3799,7 @@ gfx::Vector2dF LayerTreeHostImpl::ResolveScrollGranularityToPixels(
     scroller_size.Scale(active_tree()->page_scale_factor_for_scroll());
 
     pixel_delta = ScrollUtils::ResolveScrollPercentageToPixels(
-        scroll_delta, scroller_size, viewport_size);
+        pixel_delta, scroller_size, viewport_size);
   }
 
   return pixel_delta;
