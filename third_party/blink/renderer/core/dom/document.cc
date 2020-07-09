@@ -5201,8 +5201,12 @@ void Document::NotifyFocusedElementChanged(Element* old_focused_element,
     bool is_editable = false;
     gfx::Rect element_bounds;
     if (new_focused_element) {
-      IntRect rect = new_focused_element->BoundsInViewport();
-      View()->FrameToScreen(rect);
+      // Convert to window coordinate system (this will be in DIPs).
+      WebRect rect = WebRect(new_focused_element->BoundsInViewport());
+      if (GetFrame()->GetWidgetForLocalRoot()) {
+        GetFrame()->GetWidgetForLocalRoot()->Client()->ConvertViewportToWindow(
+            &rect);
+      }
       is_editable = IsEditableElement(*new_focused_element);
       element_bounds = gfx::Rect(rect);
     }
