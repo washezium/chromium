@@ -57,7 +57,6 @@ class ClientUsageTracker : public SpecialStoragePolicy::Observer {
 
   ~ClientUsageTracker() override;
 
-  void GetGlobalLimitedUsage(UsageCallback callback);
   void GetGlobalUsage(GlobalUsageCallback callback);
   void GetHostUsage(const std::string& host, UsageCallback callback);
   void UpdateUsageCache(const url::Origin& origin, int64_t delta);
@@ -72,9 +71,6 @@ class ClientUsageTracker : public SpecialStoragePolicy::Observer {
 
   struct AccumulateInfo;
 
-  void AccumulateLimitedOriginUsage(AccumulateInfo* info,
-                                    UsageCallback callback,
-                                    int64_t usage);
   void DidGetOriginsForGlobalUsage(GlobalUsageCallback callback,
                                    const std::set<url::Origin>& origins);
   void AccumulateHostUsage(AccumulateInfo* info,
