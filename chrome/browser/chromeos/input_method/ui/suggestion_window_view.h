@@ -8,7 +8,6 @@
 #include <memory>
 
 #include "base/containers/flat_map.h"
-#include "base/macros.h"
 #include "ui/chromeos/ui_chromeos_export.h"
 #include "ui/gfx/native_widget_types.h"
 #include "ui/views/bubble/bubble_dialog_delegate_view.h"
@@ -49,14 +48,16 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   std::unique_ptr<views::NonClientFrameView> CreateNonClientFrameView(
       views::Widget* widget) override;
 
-  // Shows suggestion text.
+  // views::ButtonListener:
+  void ButtonPressed(views::Button* sender, const ui::Event& event) override;
+
   void Show(const SuggestionDetails& details);
 
   void ShowMultipleCandidates(
       const chromeos::AssistiveWindowProperties& properties);
 
-  // This highlights/unhighlights a valid button based on the given params.
-  // Only one button of the same id will be highlighted at anytime.
+  // Sets |button|'s highlight state to |highlighted|. At most one button with
+  // the same id will be highlighted at any given time.
   void SetButtonHighlighted(const AssistiveWindowButton& button,
                             bool highlighted);
 
@@ -64,16 +65,18 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   views::View* GetSettingLinkViewForTesting();
   views::View* GetLearnMoreButtonForTesting();
 
- private:
-  SuggestionWindowView(gfx::NativeView parent, AssistiveDelegate* delegate);
-  ~SuggestionWindowView() override;
-
-  // Overridden from views::ButtonListener:
-  void ButtonPressed(views::Button* sender, const ui::Event& event) override;
-
-  // views::View's override:
+ protected:
+  // views::BubbleDialogDelegateView:
   void OnThemeChanged() override;
 
+ private:
+  SuggestionWindowView(gfx::NativeView parent, AssistiveDelegate* delegate);
+  SuggestionWindowView(const SuggestionWindowView&) = delete;
+  SuggestionWindowView& operator=(const SuggestionWindowView&) = delete;
+  ~SuggestionWindowView() override;
+
+  // Sets the number of candidates (i.e. the number of children of
+  // |candidate_area_|) to |size|.
   void MaybeInitializeSuggestionViews(size_t candidates_size);
 
   void MakeVisible();
@@ -105,8 +108,6 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   // TODO(crbug/1099062): Add tests for mouse hovered and pressed.
   base::flat_map<views::View*, views::PropertyChangedSubscription>
       subscriptions_;
-
-  DISALLOW_COPY_AND_ASSIGN(SuggestionWindowView);
 };
 
 }  // namespace ime

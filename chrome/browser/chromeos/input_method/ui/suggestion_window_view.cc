@@ -69,6 +69,125 @@ void SetHighlighted(views::View& view, bool highlighted) {
 
 }  // namespace
 
+// static
+SuggestionWindowView* SuggestionWindowView::Create(
+    gfx::NativeView parent,
+    AssistiveDelegate* delegate) {
+  auto* const view = new SuggestionWindowView(parent, delegate);
+  views::Widget* const widget =
+      views::BubbleDialogDelegateView::CreateBubble(view);
+  wm::SetWindowVisibilityAnimationTransition(widget->GetNativeView(),
+                                             wm::ANIMATE_NONE);
+  return view;
+}
+
+std::unique_ptr<views::NonClientFrameView>
+SuggestionWindowView::CreateNonClientFrameView(views::Widget* widget) {
+  std::unique_ptr<views::NonClientFrameView> frame =
+      views::BubbleDialogDelegateView::CreateNonClientFrameView(widget);
+  static_cast<views::BubbleFrameView*>(frame.get())
+      ->SetBubbleBorder(GetBorderForWindow(WindowBorderType::Suggestion));
+  return frame;
+}
+
+// TODO(crbug/1099116): Add test for ButtonPressed.
+void SuggestionWindowView::ButtonPressed(views::Button* sender,
+                                         const ui::Event& event) {
+  if (sender == learn_more_button_) {
+    AssistiveWindowButton button;
+    button.id = ui::ime::ButtonId::kLearnMore;
+    button.window_type = ui::ime::AssistiveWindowType::kEmojiSuggestion;
+    delegate_->AssistiveWindowButtonClicked(button);
+    return;
+  }
+
+  if (sender->parent() == candidate_area_) {
+    AssistiveWindowButton button;
+    button.id = ui::ime::ButtonId::kSuggestion;
+    button.index = candidate_area_->GetIndexOf(sender);
+    delegate_->AssistiveWindowButtonClicked(button);
+  }
+}
+
+void SuggestionWindowView::Show(const SuggestionDetails& details) {
+  MaybeInitializeSuggestionViews(1);
+  auto* const candidate =
+      static_cast<SuggestionView*>(candidate_area_->children().front());
+  candidate->SetEnabled(true);
+  candidate->SetView(details);
+  if (details.show_setting_link)
+    candidate->SetMinWidth(setting_link_->GetPreferredSize().width());
+  setting_link_->SetVisible(details.show_setting_link);
+  MakeVisible();
+}
+
+void SuggestionWindowView::ShowMultipleCandidates(
+    const chromeos::AssistiveWindowProperties& properties) {
+  const std::vector<base::string16>& candidates = properties.candidates;
+  MaybeInitializeSuggestionViews(candidates.size());
+  for (size_t i = 0; i < candidates.size(); i++) {
+    auto* const candidate =
+        static_cast<SuggestionView*>(candidate_area_->children()[i]);
+    if (properties.show_indices) {
+      candidate->SetViewWithIndex(base::FormatNumber(i + 1), candidates[i]);
+    } else {
+      SuggestionDetails details;
+      details.text = candidates[i];
+      candidate->SetView(details);
+    }
+    candidate->SetEnabled(true);
+  }
+  learn_more_button_->SetVisible(true);
+  MakeVisible();
+}
+
+void SuggestionWindowView::SetButtonHighlighted(
+    const AssistiveWindowButton& button,
+    bool highlighted) {
+  switch (button.id) {
+    case ButtonId::kSuggestion: {
+      const views::View::Views& candidates = candidate_area_->children();
+      if (button.index < candidates.size()) {
+        auto* const candidate =
+            static_cast<SuggestionView*>(candidates[button.index]);
+        if (highlighted)
+          HighlightCandidate(candidate);
+        else
+          UnhighlightCandidate(candidate);
+      }
+      break;
+    }
+    case ButtonId::kSmartInputsSettingLink:
+      SetHighlighted(*setting_link_, highlighted);
+      break;
+    case ButtonId::kLearnMore:
+      SetHighlighted(*learn_more_button_, highlighted);
+      break;
+    default:
+      break;
+  }
+}
+
+views::View* SuggestionWindowView::GetCandidateAreaForTesting() {
+  return candidate_area_;
+}
+
+views::View* SuggestionWindowView::GetSettingLinkViewForTesting() {
+  return setting_link_;
+}
+
+views::View* SuggestionWindowView::GetLearnMoreButtonForTesting() {
+  return learn_more_button_;
+}
+
+void SuggestionWindowView::OnThemeChanged() {
+  learn_more_button_->SetImage(
+      views::Button::ButtonState::STATE_NORMAL,
+      gfx::CreateVectorIcon(vector_icons::kHelpOutlineIcon,
+                            kSecondaryIconColor));
+  BubbleDialogDelegateView::OnThemeChanged();
+}
+
 SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
                                            AssistiveDelegate* delegate)
     : delegate_(delegate) {
@@ -127,64 +246,6 @@ SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
 
 SuggestionWindowView::~SuggestionWindowView() = default;
 
-// static
-SuggestionWindowView* SuggestionWindowView::Create(
-    gfx::NativeView parent,
-    AssistiveDelegate* delegate) {
-  auto* const view = new SuggestionWindowView(parent, delegate);
-  views::Widget* const widget =
-      views::BubbleDialogDelegateView::CreateBubble(view);
-  wm::SetWindowVisibilityAnimationTransition(widget->GetNativeView(),
-                                             wm::ANIMATE_NONE);
-  return view;
-}
-
-std::unique_ptr<views::NonClientFrameView>
-SuggestionWindowView::CreateNonClientFrameView(views::Widget* widget) {
-  std::unique_ptr<views::NonClientFrameView> frame =
-      views::BubbleDialogDelegateView::CreateNonClientFrameView(widget);
-  static_cast<views::BubbleFrameView*>(frame.get())
-      ->SetBubbleBorder(GetBorderForWindow(WindowBorderType::Suggestion));
-  return frame;
-}
-
-void SuggestionWindowView::MakeVisible() {
-  candidate_area_->SetVisible(true);
-  SizeToContents();
-}
-
-void SuggestionWindowView::Show(const SuggestionDetails& details) {
-  MaybeInitializeSuggestionViews(1);
-  auto* const candidate =
-      static_cast<SuggestionView*>(candidate_area_->children().front());
-  candidate->SetEnabled(true);
-  candidate->SetView(details);
-  if (details.show_setting_link)
-    candidate->SetMinWidth(setting_link_->GetPreferredSize().width());
-  setting_link_->SetVisible(details.show_setting_link);
-  MakeVisible();
-}
-
-void SuggestionWindowView::ShowMultipleCandidates(
-    const chromeos::AssistiveWindowProperties& properties) {
-  const std::vector<base::string16>& candidates = properties.candidates;
-  MaybeInitializeSuggestionViews(candidates.size());
-  for (size_t i = 0; i < candidates.size(); i++) {
-    auto* const candidate =
-        static_cast<SuggestionView*>(candidate_area_->children()[i]);
-    if (properties.show_indices) {
-      candidate->SetViewWithIndex(base::FormatNumber(i + 1), candidates[i]);
-    } else {
-      SuggestionDetails details;
-      details.text = candidates[i];
-      candidate->SetView(details);
-    }
-    candidate->SetEnabled(true);
-  }
-  learn_more_button_->SetVisible(true);
-  MakeVisible();
-}
-
 void SuggestionWindowView::MaybeInitializeSuggestionViews(
     size_t candidates_size) {
   if (highlighted_candidate_)
@@ -211,31 +272,9 @@ void SuggestionWindowView::MaybeInitializeSuggestionViews(
   }
 }
 
-void SuggestionWindowView::SetButtonHighlighted(
-    const AssistiveWindowButton& button,
-    bool highlighted) {
-  switch (button.id) {
-    case ButtonId::kSuggestion: {
-      const views::View::Views& candidates = candidate_area_->children();
-      if (button.index < candidates.size()) {
-        auto* const candidate =
-            static_cast<SuggestionView*>(candidates[button.index]);
-        if (highlighted)
-          HighlightCandidate(candidate);
-        else
-          UnhighlightCandidate(candidate);
-      }
-      break;
-    }
-    case ButtonId::kSmartInputsSettingLink:
-      SetHighlighted(*setting_link_, highlighted);
-      break;
-    case ButtonId::kLearnMore:
-      SetHighlighted(*learn_more_button_, highlighted);
-      break;
-    default:
-      break;
-  }
+void SuggestionWindowView::MakeVisible() {
+  candidate_area_->SetVisible(true);
+  SizeToContents();
 }
 
 void SuggestionWindowView::HighlightCandidate(SuggestionView* candidate) {
@@ -262,45 +301,6 @@ void SuggestionWindowView::UnhighlightCandidate(SuggestionView* candidate) {
 
   candidate->SetHighlighted(false);
   highlighted_candidate_ = nullptr;
-}
-
-// TODO(crbug/1099116): Add test for ButtonPressed.
-void SuggestionWindowView::ButtonPressed(views::Button* sender,
-                                         const ui::Event& event) {
-  if (sender == learn_more_button_) {
-    AssistiveWindowButton button;
-    button.id = ui::ime::ButtonId::kLearnMore;
-    button.window_type = ui::ime::AssistiveWindowType::kEmojiSuggestion;
-    delegate_->AssistiveWindowButtonClicked(button);
-    return;
-  }
-
-  if (sender->parent() == candidate_area_) {
-    AssistiveWindowButton button;
-    button.id = ui::ime::ButtonId::kSuggestion;
-    button.index = candidate_area_->GetIndexOf(sender);
-    delegate_->AssistiveWindowButtonClicked(button);
-  }
-}
-
-void SuggestionWindowView::OnThemeChanged() {
-  learn_more_button_->SetImage(
-      views::Button::ButtonState::STATE_NORMAL,
-      gfx::CreateVectorIcon(vector_icons::kHelpOutlineIcon,
-                            kSecondaryIconColor));
-  BubbleDialogDelegateView::OnThemeChanged();
-}
-
-views::View* SuggestionWindowView::GetCandidateAreaForTesting() {
-  return candidate_area_;
-}
-
-views::View* SuggestionWindowView::GetSettingLinkViewForTesting() {
-  return setting_link_;
-}
-
-views::View* SuggestionWindowView::GetLearnMoreButtonForTesting() {
-  return learn_more_button_;
 }
 
 BEGIN_METADATA(SuggestionWindowView)
