@@ -16,6 +16,7 @@
 #include "ash/shell.h"
 #include "ash/test/ash_test_base.h"
 #include "ash/wm/tablet_mode/tablet_mode_controller_test_api.h"
+#include "base/test/metrics/histogram_tester.h"
 #include "base/test/scoped_feature_list.h"
 #include "base/test/simple_test_clock.h"
 #include "ui/compositor/scoped_animation_duration_scale_mode.h"
@@ -95,6 +96,8 @@ TEST_F(DragHandleContextualNudgeTest, ShowDragHandleNudgeWithTimer) {
 }
 
 TEST_F(DragHandleContextualNudgeTest, HideDragHandleNudgeHiddenOnMinimize) {
+  base::HistogramTester histogram_tester;
+
   // Creates a test window to put shelf into in-app state.
   views::Widget* widget = CreateTestWidget();
   widget->Maximize();
@@ -112,6 +115,10 @@ TEST_F(DragHandleContextualNudgeTest, HideDragHandleNudgeHiddenOnMinimize) {
   EXPECT_FALSE(GetShelfWidget()->GetDragHandle()->GetVisible());
   EXPECT_FALSE(
       GetShelfWidget()->GetDragHandle()->gesture_nudge_target_visibility());
+
+  histogram_tester.ExpectBucketCount(
+      "Ash.ContextualNudgeDismissContext.InAppToHome",
+      contextual_tooltip::DismissNudgeReason::kExitToHomeScreen, 1);
 }
 
 // Tests that the drag handle nudge nudge is hidden when closing the widget and
@@ -211,6 +218,8 @@ TEST_F(DragHandleContextualNudgeTest,
 }
 
 TEST_F(DragHandleContextualNudgeTest, DragHandleNudgeShownInAppShelf) {
+  base::HistogramTester histogram_tester;
+
   // Creates a widget to put shelf into in-app state.
   views::Widget* widget = CreateTestWidget();
   widget->Maximize();
@@ -247,6 +256,10 @@ TEST_F(DragHandleContextualNudgeTest, DragHandleNudgeShownInAppShelf) {
   EXPECT_FALSE(GetShelfWidget()->GetDragHandle()->GetVisible());
   EXPECT_FALSE(
       GetShelfWidget()->GetDragHandle()->gesture_nudge_target_visibility());
+
+  histogram_tester.ExpectBucketCount(
+      "Ash.ContextualNudgeDismissContext.InAppToHome",
+      contextual_tooltip::DismissNudgeReason::kSwitchToClamshell, 1);
 
   // Reentering tablet mode should show the drag handle but the nudge should
   // not. No timer should be set to show the nudge.

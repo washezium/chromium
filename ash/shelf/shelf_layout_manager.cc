@@ -614,7 +614,7 @@ void ShelfLayoutManager::UpdateContextualNudges() {
   }
 
   const bool in_app_shelf = ShelfConfig::Get()->is_in_app();
-  const bool in_tablet_mode = Shell::Get()->IsInTabletMode();
+  const bool in_tablet_mode = ShelfConfig::Get()->in_tablet_mode();
 
   contextual_tooltip::SetDragHandleNudgeDisabledForHiddenShelf(!IsVisible());
 

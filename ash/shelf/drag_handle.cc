@@ -213,10 +213,12 @@ void DragHandle::SetWindowDragFromShelfInProgress(bool gesture_in_progress) {
 }
 
 void DragHandle::OnGestureEvent(ui::GestureEvent* event) {
-  if (!features::AreContextualNudgesEnabled())
+  if (!features::AreContextualNudgesEnabled() ||
+      !gesture_nudge_target_visibility_) {
     return;
+  }
 
-  if (event->type() == ui::ET_GESTURE_TAP && gesture_nudge_target_visibility_) {
+  if (event->type() == ui::ET_GESTURE_TAP) {
     HandleTapOnNudge();
     event->StopPropagation();
   }
