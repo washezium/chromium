@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/lacros/select_file_impl.h"
+#include "chrome/browser/chromeos/crosapi/select_file_crosapi.h"
 
 #include <utility>
 #include <vector>
@@ -162,14 +162,14 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
 }  // namespace
 
 // TODO(https://crbug.com/1090587): Connection error handling.
-SelectFileImpl::SelectFileImpl(
+SelectFileCrosapi::SelectFileCrosapi(
     mojo::PendingReceiver<lacros::mojom::SelectFile> receiver)
     : receiver_(this, std::move(receiver)) {}
 
-SelectFileImpl::~SelectFileImpl() = default;
+SelectFileCrosapi::~SelectFileCrosapi() = default;
 
-void SelectFileImpl::Select(lacros::mojom::SelectFileOptionsPtr options,
-                            SelectCallback callback) {
+void SelectFileCrosapi::Select(lacros::mojom::SelectFileOptionsPtr options,
+                               SelectCallback callback) {
   // Deletes itself when the dialog closes.
   new SelectFileDialogHolder(std::move(options), std::move(callback));
 }
