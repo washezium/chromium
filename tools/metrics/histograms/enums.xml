@@ -21096,6 +21096,7 @@ Called by update_document_policy_enum.py.-->
   <int value="729" label="AssistantOnboardingMode"/>
   <int value="730" label="DeviceExternalPrintServers"/>
   <int value="731" label="DeviceExternalPrintServersAllowlist"/>
+  <int value="732" label="SafeBrowsingAllowlistDomains"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
