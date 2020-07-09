@@ -89,7 +89,7 @@ class BLEHandler extends BluetoothGattServerCallback implements Closeable {
     private BluetoothGattServer mServer;
     private BluetoothGattDescriptor mCccd;
     private BluetoothGattCharacteristic mStatusChar;
-    private BluetoothDevice mConnectedDevice;
+    private Long mConnectedDevice;
 
     BLEHandler(CableAuthenticator authenticator, SingleThreadTaskRunner taskRunner) {
         mPendingFragments = new HashMap<Long, byte[][]>();
@@ -214,17 +214,11 @@ class BLEHandler extends BluetoothGattServerCallback implements Closeable {
         // signaled to UI?
 
         if (value == null || offset != 0
-                || !characteristic.getUuid().toString().equals(CONTROL_POINT_UUID)
-                || (mConnectedDevice != null && !mConnectedDevice.equals(device))) {
+                || !characteristic.getUuid().toString().equals(CONTROL_POINT_UUID)) {
             if (responseNeeded) {
                 mServer.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, 0, null);
             }
             return;
-        }
-
-        if (mConnectedDevice == null) {
-            mConnectedDevice = device;
-            mAuthenticator.notifyAuthenticatorConnected();
         }
 
         Long client = addressToLong(device.getAddress());
@@ -233,6 +227,16 @@ class BLEHandler extends BluetoothGattServerCallback implements Closeable {
         // made for the handler thread.
         byte[] valueCopy = Arrays.copyOf(value, value.length);
         mTaskRunner.postTask(() -> {
+            if (mConnectedDevice == null) {
+                mConnectedDevice = client;
+                mAuthenticator.notifyAuthenticatorConnected();
+            } else if (!mConnectedDevice.equals(client)) {
+                if (responseNeeded) {
+                    mServer.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, 0, null);
+                }
+                return;
+            }
+
             Integer mtu = mKnownMtus.get(client);
             if (mtu == null) {
                 mtu = DEFAULT_MTU;
