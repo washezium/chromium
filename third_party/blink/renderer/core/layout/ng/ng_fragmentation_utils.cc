@@ -210,6 +210,8 @@ void SetupFragmentBuilderForFragmentation(
     builder->SetIsFirstForNode(false);
   }
   builder->SetSequenceNumber(sequence_number);
+
+  builder->AdjustBorderScrollbarPaddingForFragmentation(previous_break_token);
 }
 
 bool IsNodeFullyGrown(NGBlockNode node,
