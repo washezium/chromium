@@ -2877,6 +2877,7 @@ public class ContextualSearchManagerTest {
     @SmallTest
     @Feature({"ContextualSearch"})
     @ParameterAnnotations.UseMethodParameter(FeatureParamProvider.class)
+    @FlakyTest(message = "crbug.com/1103496")
     public void testChainedTapsRemovedFromHistory(@EnabledFeature int enabledFeature)
             throws Exception {
         // Simulate a resolving search and make sure a URL was loaded.
