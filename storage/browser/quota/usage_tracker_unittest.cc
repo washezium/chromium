@@ -55,24 +55,24 @@ class UsageTrackerTestQuotaClient : public QuotaClient {
   void GetOriginsForType(StorageType type,
                          GetOriginsCallback callback) override {
     EXPECT_EQ(StorageType::kTemporary, type);
-    std::set<url::Origin> origins;
+    std::vector<url::Origin> origins;
     for (const auto& origin_usage_pair : origin_usage_map_)
-      origins.insert(origin_usage_pair.first);
+      origins.push_back(origin_usage_pair.first);
     base::ThreadTaskRunnerHandle::Get()->PostTask(
-        FROM_HERE, base::BindOnce(std::move(callback), origins));
+        FROM_HERE, base::BindOnce(std::move(callback), std::move(origins)));
   }
 
   void GetOriginsForHost(StorageType type,
                          const std::string& host,
                          GetOriginsCallback callback) override {
     EXPECT_EQ(StorageType::kTemporary, type);
-    std::set<url::Origin> origins;
+    std::vector<url::Origin> origins;
     for (const auto& origin_usage_pair : origin_usage_map_) {
       if (origin_usage_pair.first.host() == host)
-        origins.insert(origin_usage_pair.first);
+        origins.push_back(origin_usage_pair.first);
     }
     base::ThreadTaskRunnerHandle::Get()->PostTask(
-        FROM_HERE, base::BindOnce(std::move(callback), origins));
+        FROM_HERE, base::BindOnce(std::move(callback), std::move(origins)));
   }
 
   void DeleteOriginData(const url::Origin& origin,

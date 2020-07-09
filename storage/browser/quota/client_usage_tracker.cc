@@ -229,11 +229,11 @@ void ClientUsageTracker::SetUsageCacheEnabled(const url::Origin& origin,
 
 void ClientUsageTracker::DidGetOriginsForGlobalUsage(
     GlobalUsageCallback callback,
-    const std::set<url::Origin>& origins) {
+    const std::vector<url::Origin>& origins) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  OriginSetByHost origins_by_host;
+  std::map<std::string, std::vector<url::Origin>> origins_by_host;
   for (const auto& origin : origins)
-    origins_by_host[origin.host()].insert(origin);
+    origins_by_host[origin.host()].push_back(origin);
 
   AccumulateInfo* info = new AccumulateInfo;
   // Getting host usage may synchronously return the result if the usage is
@@ -248,7 +248,7 @@ void ClientUsageTracker::DidGetOriginsForGlobalUsage(
 
   for (const auto& host_and_origins : origins_by_host) {
     const std::string& host = host_and_origins.first;
-    const std::set<url::Origin>& origins = host_and_origins.second;
+    const std::vector<url::Origin>& origins = host_and_origins.second;
     if (host_usage_accumulators_.Add(host, accumulator))
       GetUsageForOrigins(host, origins);
   }
@@ -278,14 +278,14 @@ void ClientUsageTracker::AccumulateHostUsage(AccumulateInfo* info,
 
 void ClientUsageTracker::DidGetOriginsForHostUsage(
     const std::string& host,
-    const std::set<url::Origin>& origins) {
+    const std::vector<url::Origin>& origins) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   GetUsageForOrigins(host, origins);
 }
 
 void ClientUsageTracker::GetUsageForOrigins(
     const std::string& host,
-    const std::set<url::Origin>& origins) {
+    const std::vector<url::Origin>& origins) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   AccumulateInfo* info = new AccumulateInfo;
   // Getting origin usage may synchronously return the result if the usage is
