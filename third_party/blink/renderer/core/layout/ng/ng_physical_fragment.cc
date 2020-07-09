@@ -411,8 +411,10 @@ PhysicalRect NGPhysicalFragment::ScrollableOverflow(
     case kFragmentText:
       if (height_type == TextHeightType::kNormalHeight)
         return {{}, Size()};
-      return AdjustTextRectForEmHeight(LocalRect(), Style(),
-                                       container.Style().GetWritingMode());
+      return AdjustTextRectForEmHeight(
+          LocalRect(), Style(),
+          To<NGPhysicalTextFragment>(this)->TextShapeResult(),
+          container.Style().GetWritingMode());
     case kFragmentLineBox:
       NOTREACHED()
           << "You must call NGLineBoxFragment::ScrollableOverflow explicitly.";
