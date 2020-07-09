@@ -40,7 +40,7 @@ class APP_LIST_EXPORT AssistantPageView : public AppListPage,
   void ChildPreferredSizeChanged(views::View* child) override;
   void ChildVisibilityChanged(views::View* child) override;
   void VisibilityChanged(views::View* starting_from, bool is_visible) override;
-  void OnShown() override;
+  void OnWillBeShown() override;
   void OnAnimationStarted(AppListState from_state,
                           AppListState to_state) override;
   gfx::Size GetPreferredSearchBoxSize() const override;

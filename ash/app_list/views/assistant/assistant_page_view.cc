@@ -229,15 +229,12 @@ void AssistantPageView::OnGestureEvent(ui::GestureEvent* event) {
   }
 }
 
-void AssistantPageView::OnShown() {
-  // The preferred size might be different from the previous time, so updating
-  // to the correct size here.
-  const gfx::Size size = CalculatePreferredSize();
-  SetSize(size);
-
-  // Our |size| may require a change in app list state in order to ensure that
-  // the AssistantPageView renders fully on screen w/o being clipped.
-  MaybeUpdateAppListState(size.height());
+void AssistantPageView::OnWillBeShown() {
+  // Our preferred size may require a change in AppListState in order to ensure
+  // that the AssistantPageView renders fully on screen w/o being clipped. We do
+  // this in OnWillBeShown(), as opposed to waiting for OnShown(), so that the
+  // AppListState change animation can run in sync with page change animations.
+  MaybeUpdateAppListState(GetPreferredSize().height());
 }
 
 void AssistantPageView::OnAnimationStarted(AppListState from_state,
