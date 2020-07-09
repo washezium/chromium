@@ -203,6 +203,7 @@
 #include "chromeos/constants/chromeos_switches.h"
 #include "chromeos/services/assistant/public/cpp/features.h"
 #include "components/arc/arc_features.h"
+#include "media/capture/video/chromeos/video_capture_features_chromeos.h"
 #include "third_party/cros_system_api/switches/chrome_switches.h"
 #include "ui/events/ozone/features.h"
 #endif  // OS_CHROMEOS
@@ -3338,6 +3339,10 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kCrostiniUsbAllowUnsupportedName,
      flag_descriptions::kCrostiniUsbAllowUnsupportedDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kCrostiniUsbAllowUnsupported)},
+    {"disable-camera-frame-rotation-at-source",
+     flag_descriptions::kDisableCameraFrameRotationAtSourceName,
+     flag_descriptions::kDisableCameraFrameRotationAtSourceDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(media::features::kDisableCameraFrameRotationAtSource)},
     {"files-ng", flag_descriptions::kFilesNGName,
      flag_descriptions::kFilesNGDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kFilesNG)},

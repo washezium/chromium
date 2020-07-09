@@ -3471,6 +3471,12 @@ const char kCryptAuthV2EnrollmentName[] = "CryptAuth v2 Enrollment";
 const char kCryptAuthV2EnrollmentDescription[] =
     "Use the CryptAuth v2 Enrollment protocol.";
 
+const char kDisableCameraFrameRotationAtSourceName[] =
+    "Disable camera frame rotation at source";
+const char kDisableCameraFrameRotationAtSourceDescription[] =
+    "Disable camera frame rotation to the upright display orientation in the "
+    "video capture device";
+
 const char kDisableCancelAllTouchesName[] = "Disable CancelAllTouches()";
 const char kDisableCancelAllTouchesDescription[] =
     "If enabled, a canceled touch will not force all other touches to be "
