@@ -3,8 +3,10 @@
 // found in the LICENSE file.
 
 #include "ash/public/cpp/keyboard/keyboard_controller.h"
+#include "chrome/browser/chromeos/app_mode/kiosk_app_types.h"
 #include "chrome/browser/chromeos/app_mode/web_app/mock_web_kiosk_app_launcher.h"
-#include "chrome/browser/chromeos/login/web_kiosk_controller.h"
+#include "chrome/browser/chromeos/login/kiosk_launch_controller.h"
+#include "chrome/browser/chromeos/login/test/kiosk_test_helpers.h"
 #include "chrome/browser/ui/ash/keyboard/chrome_keyboard_controller_client_test_helper.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/webui/chromeos/login/fake_app_launch_splash_screen_handler.h"
@@ -20,14 +22,15 @@ using testing::_;
 
 namespace chromeos {
 
-class WebKioskControllerTest : public InProcessBrowserTest {
+class KioskLaunchControllerTest : public InProcessBrowserTest {
  public:
   using AppState = WebKioskController::AppState;
   using NetworkUIState = WebKioskController::NetworkUIState;
 
-  WebKioskControllerTest() = default;
-  WebKioskControllerTest(const WebKioskControllerTest&) = delete;
-  WebKioskControllerTest& operator=(const WebKioskControllerTest&) = delete;
+  KioskLaunchControllerTest() = default;
+  KioskLaunchControllerTest(const KioskLaunchControllerTest&) = delete;
+  KioskLaunchControllerTest& operator=(const KioskLaunchControllerTest&) =
+      delete;
 
   void SetUpOnMainThread() override {
     InProcessBrowserTest::SetUpOnMainThread();
@@ -35,11 +38,13 @@ class WebKioskControllerTest : public InProcessBrowserTest {
     auto app_launcher = std::make_unique<MockWebKioskAppLauncher>();
     view_ = std::make_unique<FakeAppLaunchSplashScreenHandler>();
     app_launcher_ = app_launcher.get();
-    controller_ = WebKioskController::CreateForTesting(view_.get(),
-                                                       std::move(app_launcher));
+    disable_wait_timer_and_login_operations_for_testing_ =
+        KioskLaunchController::DisableWaitTimerAndLoginOperationsForTesting();
+    controller_ = KioskLaunchController::CreateForTesting(
+        view_.get(), std::move(app_launcher));
   }
 
-  WebKioskController* controller() { return controller_.get(); }
+  KioskLaunchController* controller() { return controller_.get(); }
 
   WebKioskAppLauncher::Delegate* launch_controls() {
     return static_cast<WebKioskAppLauncher::Delegate*>(controller_.get());
@@ -89,14 +94,19 @@ class WebKioskControllerTest : public InProcessBrowserTest {
 
   FakeAppLaunchSplashScreenHandler* view() { return view_.get(); }
 
+  KioskAppId kiosk_app_id() { return KioskAppId::ForWebApp(EmptyAccountId()); }
+
  private:
+  ScopedCanConfigureNetwork can_configure_network_for_testing_{true, false};
+  std::unique_ptr<base::AutoReset<bool>>
+      disable_wait_timer_and_login_operations_for_testing_;
   std::unique_ptr<FakeAppLaunchSplashScreenHandler> view_;
   MockWebKioskAppLauncher* app_launcher_;  // owned by |controller_|.
-  std::unique_ptr<WebKioskController> controller_;
+  std::unique_ptr<KioskLaunchController> controller_;
 };
 
-IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, RegularFlow) {
-  controller()->StartWebKiosk(EmptyAccountId());
+IN_PROC_BROWSER_TEST_F(KioskLaunchControllerTest, RegularFlow) {
+  controller()->Start(kiosk_app_id(), false);
   ExpectState(AppState::CREATING_PROFILE, NetworkUIState::NOT_SHOWING);
 
   EXPECT_CALL(*launcher(), Initialize()).Times(1);
@@ -122,8 +132,8 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, RegularFlow) {
   ExpectKeyboardConfig();
 }
 
-IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, AlreadyInstalled) {
-  controller()->StartWebKiosk(EmptyAccountId());
+IN_PROC_BROWSER_TEST_F(KioskLaunchControllerTest, AlreadyInstalled) {
+  controller()->Start(kiosk_app_id(), false);
   ExpectState(AppState::CREATING_PROFILE, NetworkUIState::NOT_SHOWING);
 
   EXPECT_CALL(*launcher(), Initialize()).Times(1);
@@ -142,8 +152,9 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, AlreadyInstalled) {
   ExpectKeyboardConfig();
 }
 
-IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, ConfigureNetworkBeforeProfile) {
-  controller()->StartWebKiosk(EmptyAccountId());
+IN_PROC_BROWSER_TEST_F(KioskLaunchControllerTest,
+                       ConfigureNetworkBeforeProfile) {
+  controller()->Start(kiosk_app_id(), false);
   ExpectState(AppState::CREATING_PROFILE, NetworkUIState::NOT_SHOWING);
 
   // User presses the hotkey.
@@ -157,7 +168,7 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, ConfigureNetworkBeforeProfile) {
   launch_controls()->InitializeNetwork();
 
   ExpectState(AppState::INIT_NETWORK, NetworkUIState::SHOWING);
-  EXPECT_CALL(*launcher(), ContinueWithNetworkReady()).Times(1);
+  EXPECT_CALL(*launcher(), RestartLauncher()).Times(1);
   view_controls()->OnNetworkConfigFinished();
 
   EXPECT_CALL(*launcher(), LaunchApp()).Times(1);
@@ -173,9 +184,10 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest, ConfigureNetworkBeforeProfile) {
   ExpectKeyboardConfig();
 }
 
-IN_PROC_BROWSER_TEST_F(WebKioskControllerTest,
+IN_PROC_BROWSER_TEST_F(KioskLaunchControllerTest,
                        ConfigureNetworkDuringInstallation) {
-  controller()->StartWebKiosk(EmptyAccountId());
+  SetOnline(false);
+  controller()->Start(kiosk_app_id(), false);
   ExpectState(AppState::CREATING_PROFILE, NetworkUIState::NOT_SHOWING);
 
   EXPECT_CALL(*launcher(), Initialize()).Times(1);
@@ -195,7 +207,7 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest,
   launch_controls()->InitializeNetwork();
   ExpectState(AppState::INIT_NETWORK, NetworkUIState::SHOWING);
 
-  EXPECT_CALL(*launcher(), ContinueWithNetworkReady()).Times(1);
+  EXPECT_CALL(*launcher(), RestartLauncher()).Times(1);
   view_controls()->OnNetworkConfigFinished();
 
   launch_controls()->OnAppInstalling();
@@ -214,9 +226,9 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest,
   ExpectKeyboardConfig();
 }
 
-IN_PROC_BROWSER_TEST_F(WebKioskControllerTest,
+IN_PROC_BROWSER_TEST_F(KioskLaunchControllerTest,
                        ConnectionLostDuringInstallation) {
-  controller()->StartWebKiosk(EmptyAccountId());
+  controller()->Start(kiosk_app_id(), false);
   ExpectState(AppState::CREATING_PROFILE, NetworkUIState::NOT_SHOWING);
 
   EXPECT_CALL(*launcher(), Initialize()).Times(1);
@@ -235,7 +247,7 @@ IN_PROC_BROWSER_TEST_F(WebKioskControllerTest,
   launch_controls()->InitializeNetwork();
   ExpectState(AppState::INIT_NETWORK, NetworkUIState::SHOWING);
 
-  EXPECT_CALL(*launcher(), ContinueWithNetworkReady()).Times(1);
+  EXPECT_CALL(*launcher(), RestartLauncher()).Times(1);
   view_controls()->OnNetworkConfigFinished();
 
   launch_controls()->OnAppInstalling();
