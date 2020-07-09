@@ -304,17 +304,6 @@ static bool NeedsReplacedContentTransform(const LayoutObject& object) {
   if (object.IsSVGRoot())
     return true;
 
-  // Only directly composited images need a transform node to scale contents
-  // to the object-fit box. Note that we don't actually know whether the image
-  // will be directly composited. This condition is relaxed to stay on the
-  // safe side.
-  // TODO(crbug.com/875110): Figure out the condition for CAP.
-  bool is_spv1_composited =
-      object.HasLayer() &&
-      ToLayoutBoxModelObject(object).Layer()->GetCompositedLayerMapping();
-  if (object.IsImage() && is_spv1_composited)
-    return true;
-
   return false;
 }
 
