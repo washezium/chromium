@@ -164,12 +164,12 @@ void SuggestionWindowView::MakeVisible() {
 
 void SuggestionWindowView::Show(const SuggestionDetails& details) {
   MaybeInitializeSuggestionViews(1);
-  candidate_views_[0]->SetEnabled(true);
-  candidate_views_[0]->SetView(details);
-  if (details.show_setting_link) {
-    candidate_views_[0]->SetMinWidth(
-        setting_link_view_->GetPreferredSize().width());
-  }
+  auto* const candidate =
+      static_cast<SuggestionView*>(candidate_area_->children().front());
+  candidate->SetEnabled(true);
+  candidate->SetView(details);
+  if (details.show_setting_link)
+    candidate->SetMinWidth(setting_link_view_->GetPreferredSize().width());
   setting_link_view_->SetVisible(details.show_setting_link);
   MakeVisible();
 }
@@ -179,16 +179,16 @@ void SuggestionWindowView::ShowMultipleCandidates(
   const std::vector<base::string16>& candidates = properties.candidates;
   MaybeInitializeSuggestionViews(candidates.size());
   for (size_t i = 0; i < candidates.size(); i++) {
-    SuggestionView* candidate_view = candidate_views_[i].get();
+    auto* const candidate =
+        static_cast<SuggestionView*>(candidate_area_->children()[i]);
     if (properties.show_indices) {
-      candidate_view->SetViewWithIndex(base::FormatNumber(i + 1),
-                                       candidates[i]);
+      candidate->SetViewWithIndex(base::FormatNumber(i + 1), candidates[i]);
     } else {
       SuggestionDetails details;
       details.text = candidates[i];
-      candidate_view->SetView(details);
+      candidate->SetView(details);
     }
-    candidate_view->SetEnabled(true);
+    candidate->SetEnabled(true);
   }
   learn_more_button_->SetVisible(true);
   MakeVisible();
@@ -196,18 +196,19 @@ void SuggestionWindowView::ShowMultipleCandidates(
 
 void SuggestionWindowView::MaybeInitializeSuggestionViews(
     size_t candidates_size) {
-  UnhighlightCandidate(highlighted_index_);
+  if (highlighted_candidate_)
+    UnhighlightCandidate(highlighted_candidate_);
 
-  while (candidate_views_.size() > candidates_size) {
-    candidate_views_.back()->RemoveButtonObserver(this);
-    candidate_views_.pop_back();
+  const views::View::Views& candidates = candidate_area_->children();
+  while (candidates.size() > candidates_size) {
+    std::unique_ptr<views::View> child =
+        candidate_area_->RemoveChildViewT(candidates.back());
+    static_cast<SuggestionView*>(child.get())->RemoveButtonObserver(this);
   }
 
-  while (candidate_views_.size() < candidates_size) {
-    auto new_candidate = std::make_unique<SuggestionView>(this);
-    candidate_area_->AddChildView(new_candidate.get());
-    new_candidate->AddButtonObserver(this);
-    candidate_views_.push_back(std::move(new_candidate));
+  while (candidates.size() < candidates_size) {
+    candidate_area_->AddChildView(std::make_unique<SuggestionView>(this))
+        ->AddButtonObserver(this);
   }
 }
 
@@ -215,13 +216,18 @@ void SuggestionWindowView::SetButtonHighlighted(
     const AssistiveWindowButton& button,
     bool highlighted) {
   switch (button.id) {
-    case ButtonId::kSuggestion:
-      if (highlighted) {
-        HighlightCandidate(button.index);
-      } else {
-        UnhighlightCandidate(button.index);
+    case ButtonId::kSuggestion: {
+      const views::View::Views& candidates = candidate_area_->children();
+      if (button.index < candidates.size()) {
+        auto* const candidate =
+            static_cast<SuggestionView*>(candidates[button.index]);
+        if (highlighted)
+          HighlightCandidate(candidate);
+        else
+          UnhighlightCandidate(candidate);
       }
       break;
+    }
     case ButtonId::kSmartInputsSettingLink:
       setting_link_view_->SetHighlighted(highlighted);
       break;
@@ -233,25 +239,30 @@ void SuggestionWindowView::SetButtonHighlighted(
   }
 }
 
-void SuggestionWindowView::HighlightCandidate(int index) {
-  if (index == highlighted_index_ || index < 0 ||
-      index >= static_cast<int>(candidate_views_.size())) {
-    return;
-  }
+void SuggestionWindowView::HighlightCandidate(SuggestionView* candidate) {
+  DCHECK(candidate);
+  DCHECK_EQ(candidate_area_, candidate->parent());
 
-  UnhighlightCandidate(highlighted_index_);
-  candidate_views_[index]->SetHighlighted(true);
-  highlighted_index_ = index;
+  // Can't highlight a highlighted candidate.
+  if (candidate == highlighted_candidate_)
+    return;
+
+  if (highlighted_candidate_)
+    UnhighlightCandidate(highlighted_candidate_);
+  candidate->SetHighlighted(true);
+  highlighted_candidate_ = candidate;
 }
 
-void SuggestionWindowView::UnhighlightCandidate(int index) {
-  if (index != highlighted_index_ || index < 0 ||
-      index >= static_cast<int>(candidate_views_.size())) {
-    return;
-  }
+void SuggestionWindowView::UnhighlightCandidate(SuggestionView* candidate) {
+  DCHECK(candidate);
+  DCHECK_EQ(candidate_area_, candidate->parent());
 
-  candidate_views_[index]->SetHighlighted(false);
-  highlighted_index_ = kInvalid;
+  // Can't unhighlight an unhighlighted candidate.
+  if (candidate != highlighted_candidate_)
+    return;
+
+  candidate->SetHighlighted(false);
+  highlighted_candidate_ = nullptr;
 }
 
 // TODO(b/1101669): Create abstract HighlightableButton for learn_more button,
@@ -280,14 +291,11 @@ void SuggestionWindowView::ButtonPressed(views::Button* sender,
     return;
   }
 
-  for (size_t i = 0; i < candidate_views_.size(); i++) {
-    if (sender == candidate_views_[i].get()) {
-      AssistiveWindowButton button;
-      button.id = ui::ime::ButtonId::kSuggestion;
-      button.index = i;
-      delegate_->AssistiveWindowButtonClicked(button);
-      return;
-    }
+  if (sender->parent() == candidate_area_) {
+    AssistiveWindowButton button;
+    button.id = ui::ime::ButtonId::kSuggestion;
+    button.index = candidate_area_->GetIndexOf(sender);
+    delegate_->AssistiveWindowButtonClicked(button);
   }
 }
 
@@ -307,17 +315,15 @@ void SuggestionWindowView::OnStateChanged(
     return;
   }
 
-  for (size_t i = 0; i < candidate_views_.size(); i++) {
-    if (observed_button == candidate_views_[i].get()) {
-      switch (observed_button->state()) {
-        case views::Button::ButtonState::STATE_HOVERED:
-        case views::Button::ButtonState::STATE_PRESSED:
-          HighlightCandidate(i);
-          break;
-        default:
-          UnhighlightCandidate(i);
-      }
-      return;
+  if (observed_button->parent() == candidate_area_) {
+    auto* const candidate = static_cast<SuggestionView*>(observed_button);
+    switch (observed_button->state()) {
+      case views::Button::ButtonState::STATE_HOVERED:
+      case views::Button::ButtonState::STATE_PRESSED:
+        HighlightCandidate(candidate);
+        break;
+      default:
+        UnhighlightCandidate(candidate);
     }
   }
 }

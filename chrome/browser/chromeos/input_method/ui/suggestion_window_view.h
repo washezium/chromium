@@ -32,8 +32,6 @@ class SuggestionView;
 struct AssistiveWindowButton;
 struct SuggestionDetails;
 
-const int kInvalid = -1;
-
 // SuggestionWindowView is the main container of the suggestion window UI.
 class UI_CHROMEOS_EXPORT SuggestionWindowView
     : public views::BubbleDialogDelegateView,
@@ -86,14 +84,13 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
 
   void MakeVisible();
 
-  // This highlights at most one candidate at any time.
-  // No-op if index is out of range.
-  void HighlightCandidate(int index);
+  // This highlights at most one |candidate| at any time.
+  // No-op if the candidate is already highlighted.
+  void HighlightCandidate(SuggestionView* candidate);
 
-  // This unhighlights the candidate at the given index.
-  // No-op if the candidate is currently not highlighted or index is out of
-  // range.
-  void UnhighlightCandidate(int index);
+  // This unhighlights the given |candidate|.
+  // No-op if the candidate is currently not highlighted.
+  void UnhighlightCandidate(SuggestionView* candidate);
 
   // This highlights or unhighlights the Learn More Button based on the given
   // parameter. No-op if the button is already in that state.
@@ -111,10 +108,8 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   views::ImageButton* learn_more_button_;
   bool is_learn_more_button_highlighted = false;
 
-  // The items in view_
-  std::vector<std::unique_ptr<SuggestionView>> candidate_views_;
-
-  int highlighted_index_ = kInvalid;
+  // The currently-highlighted candidate, if any.
+  SuggestionView* highlighted_candidate_ = nullptr;
 
   DISALLOW_COPY_AND_ASSIGN(SuggestionWindowView);
 };

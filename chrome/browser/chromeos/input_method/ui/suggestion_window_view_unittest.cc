@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include "base/optional.h"
 #include "base/strings/string_number_conversions.h"
 #include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
 #include "chrome/browser/chromeos/input_method/ui/assistive_delegate.h"
@@ -61,14 +62,15 @@ class SuggestionWindowViewTest : public ChromeViewsTestBase {
         [](const views::View* v) { return !!v->background(); });
   }
 
-  int GetHighlightedIndex() const {
+  base::Optional<int> GetHighlightedIndex() const {
     const auto& children =
         suggestion_window_view_->GetCandidateAreaForTesting()->children();
     const auto it =
         std::find_if(children.cbegin(), children.cend(),
                      [](const views::View* v) { return !!v->background(); });
-    return (it == children.cend()) ? kInvalid
-                                   : std::distance(children.cbegin(), it);
+    return (it == children.cend())
+               ? base::nullopt
+               : base::make_optional(std::distance(children.cbegin(), it));
   }
 
   SuggestionWindowView* suggestion_window_view_;
@@ -96,13 +98,12 @@ TEST_F(SuggestionWindowViewTest, HighlightOneCandidateWhenIndexIsValid) {
 
 TEST_F(SuggestionWindowViewTest, HighlightNoCandidateWhenIndexIsInvalid) {
   suggestion_window_view_->ShowMultipleCandidates(window_);
-  int invalid[] = {kInvalid, candidates_.size()};
-  for (int index : invalid) {
+  for (int index : {-1, int{candidates_.size()}}) {
     candidate_button_.index = index;
     suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
 
     EXPECT_EQ(0u, GetHighlightedCount());
-    EXPECT_EQ(kInvalid, GetHighlightedIndex());
+    EXPECT_FALSE(GetHighlightedIndex().has_value());
   }
 }
 
@@ -150,7 +151,7 @@ TEST_F(SuggestionWindowViewTest, UnhighlightCandidateIfCurrentlyHighlighted) {
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, false);
 
   EXPECT_EQ(0u, GetHighlightedCount());
-  EXPECT_EQ(kInvalid, GetHighlightedIndex());
+  EXPECT_FALSE(GetHighlightedIndex().has_value());
 }
 
 TEST_F(SuggestionWindowViewTest,
@@ -172,9 +173,7 @@ TEST_F(SuggestionWindowViewTest, DoesNotUnhighlightCandidateIfOutOfRange) {
   candidate_button_.index = highlight_index;
   suggestion_window_view_->SetButtonHighlighted(candidate_button_, true);
 
-  int invalid[] = {kInvalid, candidates_.size()};
-
-  for (int index : invalid) {
+  for (int index : {-1, int{candidates_.size()}}) {
     candidate_button_.index = index;
     suggestion_window_view_->SetButtonHighlighted(candidate_button_, false);
 
