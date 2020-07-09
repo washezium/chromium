@@ -130,6 +130,10 @@ class GL_EXPORT GLImage : public base::RefCounted<GLImage> {
   // removed. https://crbug.com/581777#c36
   virtual bool EmulatingRGB() const;
 
+  // Return true if the macOS WindowServer is currently using the underlying
+  // storage for the image.
+  virtual bool IsInUseByWindowServer() const;
+
 #if defined(OS_ANDROID)
   // Provides the buffer backing this image, if it is backed by an
   // AHardwareBuffer. The ScopedHardwareBuffer returned may include a fence
