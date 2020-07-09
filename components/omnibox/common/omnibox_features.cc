@@ -221,6 +221,12 @@ const base::Feature kOmniboxMaxURLMatches{
 const base::Feature kDynamicMaxAutocomplete{"OmniboxDynamicMaxAutocomplete",
                                             base::FEATURE_DISABLED_BY_DEFAULT};
 
+// If enabled, ranks the local zero-prefix suggestions based on frecency
+// (combined frequency and recency).
+const base::Feature kOmniboxLocalZeroSuggestFrecencyRanking{
+    "OmniboxLocalZeroSuggestFrecencyRanking",
+    base::FEATURE_DISABLED_BY_DEFAULT};
+
 // Feature that configures ZeroSuggestProvider using the "ZeroSuggestVariant"
 // per-page-classification parameter.
 //
