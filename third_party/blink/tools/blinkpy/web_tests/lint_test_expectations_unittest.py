@@ -82,6 +82,9 @@ class FakePort(object):
     def web_tests_dir(self):
         return '/fake-port-base-directory/web_tests'
 
+    def tests(self,_):
+        return set()
+
 
 class FakeFactory(object):
     def __init__(self, host, ports):
@@ -300,6 +303,7 @@ class LintTest(LoggingTestCase):
         host.port_factory.get = lambda platform, options=None: port
         host.port_factory.all_port_names = lambda platform=None: [port.name()]
         port.test_exists = lambda _: True
+        port.tests = lambda _: {'external/wpt/test.html', 'non-wpt/test.html'}
         failures, _ = lint_test_expectations.lint(host, options)
         self.assertTrue(all('is for a non WPT test' in f for f in failures))
 

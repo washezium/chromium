@@ -38,7 +38,8 @@ from blinkpy.web_tests.models.test_expectations import (TestExpectations,
                                                         ParseError)
 from blinkpy.web_tests.models.typ_types import ResultType
 from blinkpy.web_tests.port.android import (
-    PRODUCTS_TO_EXPECTATION_FILE_PATHS, ANDROID_DISABLED_TESTS)
+    PRODUCTS_TO_EXPECTATION_FILE_PATHS, ANDROID_DISABLED_TESTS,
+    ANDROID_WEBLAYER)
 from blinkpy.web_tests.port.factory import platform_options
 
 _log = logging.getLogger(__name__)
@@ -70,6 +71,7 @@ def PresubmitCheckTestExpectations(input_api, output_api):
 
 def lint(host, options):
     port = host.port_factory.get(options.platform)
+    wpt_tests = set(port.tests([host.filesystem.join('external', 'wpt')]))
 
     # Add all extra expectation files to be linted.
     options.additional_expectations.extend(
@@ -123,7 +125,7 @@ def lint(host, options):
                 ports_to_lint[0], expectations_dict={path: content})
             # Check each expectation for issues
             f, w = _check_expectations(host, ports_to_lint[0], path,
-                                       test_expectations, options)
+                                       test_expectations, options, wpt_tests)
             failures += f
             warnings += w
         except ParseError as error:
@@ -131,6 +133,17 @@ def lint(host, options):
             failures.append(str(error))
             _log.error('')
 
+    if any('Test does not exist' in f for f in failures):
+        # TODO(rmhasan): Instead of hardcoding '--android-product=ANDROID_WEBLAYER'
+        # add a general --android command line argument which will be used to
+        # put wpt_update_expectations.py into Android mode.
+        _log.info('')
+        _log.info(('If there are expectations for deleted tests in '
+                   'Android WPT override files then clean them by running '
+                   '\'//third_party/blink/tools/wpt_update_expectations.py '
+                   '--android-product=%s --clean-up-test-expectations-only\'') %
+                  ANDROID_WEBLAYER)
+        _log.info('')
     return failures, warnings
 
 
@@ -161,17 +174,22 @@ def _check_expectations_file_content(content):
     return failures
 
 
-def _check_test_existence(host, port, path, expectations):
+def _check_test_existence(host, port, path, expectations, wpt_tests):
     failures = []
+    is_android_path = path in PRODUCTS_TO_EXPECTATION_FILE_PATHS.values()
     for exp in expectations:
         if not exp.test:
             continue
-        test = exp.test
+        # TODO(crbug.com/1102901): We currently can't clean up webgpu tests
+        # since they are not picked up by blinkpy
+        if exp.test.startswith('external/wpt/webgpu'):
+            continue
         if exp.is_glob:
-            # This is ensured in typ.Expectation.
-            assert test.endswith('*')
-            test = test[:-1]
-        if not port.test_exists(test):
+            test_name = exp.test[:-1]
+        else:
+            test_name = exp.test
+        if (is_android_path and test_name not in wpt_tests or
+                not is_android_path and not port.test_exists(test_name)):
             error = "{}:{} Test does not exist: {}".format(
                 host.filesystem.basename(path), exp.lineno, exp.test)
             _log.error(error)
@@ -289,11 +307,11 @@ def _check_never_fix_tests(host, port, path, expectations):
     return failures
 
 
-def _check_expectations(host, port, path, test_expectations, options):
+def _check_expectations(host, port, path, test_expectations, options, wpt_tests):
     # Check for original expectation lines (from get_updated_lines) instead of
     # expectations filtered for the current port (test_expectations).
     expectations = test_expectations.get_updated_lines(path)
-    failures = _check_test_existence(host, port, path, expectations)
+    failures = _check_test_existence(host, port, path, expectations, wpt_tests)
     failures.extend(_check_directory_glob(host, port, path, expectations))
     failures.extend(_check_never_fix_tests(host, port, path, expectations))
     if path in PRODUCTS_TO_EXPECTATION_FILE_PATHS.values():
