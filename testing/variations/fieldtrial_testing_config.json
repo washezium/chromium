@@ -7599,6 +7599,21 @@
             ]
         }
     ],
+    "WebComponentsV0": [
+        {
+            "platforms": [
+                "android_webview"
+            ],
+            "experiments": [
+                {
+                    "name": "Disabled_20200708",
+                    "disable_features": [
+                        "WebComponentsV0"
+                    ]
+                }
+            ]
+        }
+    ],
     "WebContentsOcclusionWin": [
         {
             "platforms": [
