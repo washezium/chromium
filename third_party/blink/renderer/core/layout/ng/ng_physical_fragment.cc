@@ -238,6 +238,7 @@ NGPhysicalFragment::NGPhysicalFragment(LayoutObject* layout_object,
                                        NGFragmentType type,
                                        unsigned sub_type)
     : has_floating_descendants_for_paint_(false),
+      has_rare_data_(false),
       layout_object_(layout_object),
       size_(size),
       type_(type),
@@ -247,7 +248,8 @@ NGPhysicalFragment::NGPhysicalFragment(LayoutObject* layout_object,
       is_fieldset_container_(false),
       is_legacy_layout_root_(false),
       is_painted_atomically_(false),
-      has_baseline_(false) {
+      has_baseline_(false),
+      has_last_baseline_(false) {
   CHECK(layout_object);
 }
 
