@@ -5921,9 +5921,7 @@ bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
   // The following flags are only available to teamfooders.
   if (!strcmp(kAssistantBetterOnboardingInternalName, entry.internal_name) ||
       !strcmp(kAssistantTimersV2InternalName, entry.internal_name)) {
-    constexpr base::Feature kTeamfoodFlags{"TeamfoodFlags",
-                                           base::FEATURE_DISABLED_BY_DEFAULT};
-    return !base::FeatureList::IsEnabled(kTeamfoodFlags);
+    return !base::FeatureList::IsEnabled(features::kTeamfoodFlags);
   }
 #endif  // defined(OS_CHROMEOS)
 
@@ -5959,6 +5957,10 @@ bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
            ->ShouldDisableDohForManaged() ||
        features::kDnsOverHttpsShowUiParam.Get())) {
     return true;
+  }
+
+  if (!strcmp("password-change-support", entry.internal_name)) {
+    return !base::FeatureList::IsEnabled(features::kTeamfoodFlags);
   }
 
   if (flags::IsFlagExpired(entry.internal_name))
