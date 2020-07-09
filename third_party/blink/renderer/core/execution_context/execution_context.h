@@ -134,6 +134,8 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
   static ExecutionContext* ForRelevantRealm(
       const v8::FunctionCallbackInfo<v8::Value>&);
 
+  void Initialize(const SecurityContextInit&);
+
   virtual bool IsWindow() const { return false; }
   virtual bool IsWorkerOrWorkletGlobalScope() const { return false; }
   virtual bool IsWorkerGlobalScope() const { return false; }
@@ -197,8 +199,10 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
 
   virtual ResourceFetcher* Fetcher() const = 0;
 
-  virtual SecurityContext& GetSecurityContext() = 0;
-  virtual const SecurityContext& GetSecurityContext() const = 0;
+  SecurityContext& GetSecurityContext() { return security_context_; }
+  const SecurityContext& GetSecurityContext() const {
+    return security_context_;
+  }
 
   // https://tc39.github.io/ecma262/#sec-agent-clusters
   const base::UnguessableToken& GetAgentClusterID() const;
@@ -250,7 +254,7 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
   // Decides whether this context is privileged, as described in
   // https://w3c.github.io/webappsec-secure-contexts/#is-settings-object-contextually-secure.
   SecureContextMode GetSecureContextMode() const {
-    return GetSecurityContext().GetSecureContextMode();
+    return security_context_.GetSecureContextMode();
   }
   bool IsSecureContext() const {
     return GetSecureContextMode() == SecureContextMode::kSecureContext;
@@ -291,7 +295,7 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
   v8::MicrotaskQueue* GetMicrotaskQueue() const;
 
   OriginTrialContext* GetOriginTrialContext() const {
-    return GetSecurityContext().GetOriginTrialContext();
+    return security_context_.GetOriginTrialContext();
   }
 
   virtual TrustedTypePolicyFactory* GetTrustedTypes() const { return nullptr; }
@@ -356,7 +360,9 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
   virtual ukm::SourceId UkmSourceID() const { return ukm::kInvalidSourceId; }
 
  protected:
-  explicit ExecutionContext(v8::Isolate* isolate, Agent*);
+  explicit ExecutionContext(v8::Isolate* isolate,
+                            Agent*,
+                            SecurityContext::SecurityContextType);
   ~ExecutionContext() override;
 
  private:
@@ -374,6 +380,8 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
       mojom::blink::FeaturePolicyFeature feature) const;
 
   v8::Isolate* const isolate_;
+
+  SecurityContext security_context_;
 
   const Member<Agent> agent_;
 

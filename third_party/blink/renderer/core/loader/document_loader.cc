@@ -48,6 +48,8 @@
 #include "third_party/blink/renderer/core/dom/events/event.h"
 #include "third_party/blink/renderer/core/dom/scriptable_document_parser.h"
 #include "third_party/blink/renderer/core/dom/weak_identifier_map.h"
+#include "third_party/blink/renderer/core/execution_context/security_context_init.h"
+#include "third_party/blink/renderer/core/execution_context/window_agent.h"
 #include "third_party/blink/renderer/core/execution_context/window_agent_factory.h"
 #include "third_party/blink/renderer/core/feature_policy/document_policy_parser.h"
 #include "third_party/blink/renderer/core/frame/csp/content_security_policy.h"
@@ -1656,8 +1658,22 @@ void DocumentLoader::CommitNavigation() {
     }
   }
 
+  SecurityContextInit security_init(init);
+  frame_->DomWindow()->Initialize(security_init);
+
   frame_->DomWindow()->SetOriginIsolationRestricted(
       origin_isolation_restricted_);
+
+  frame_->DomWindow()->GetSecurityContext().SetInsecureRequestPolicy(
+      init.GetInsecureRequestPolicy());
+  if (init.InsecureNavigationsToUpgrade()) {
+    for (auto to_upgrade : *init.InsecureNavigationsToUpgrade()) {
+      frame_->DomWindow()->GetSecurityContext().AddInsecureNavigationUpgrade(
+          to_upgrade);
+    };
+  }
+  frame_->DomWindow()->GetSecurityContext().SetAddressSpace(
+      init.GetIPAddressSpace());
 
   WillCommitNavigation();
 
@@ -1795,7 +1811,10 @@ void DocumentLoader::CommitNavigation() {
   // FeaturePolicy is reset in the browser process on commit, so this needs to
   // be initialized and replicated to the browser process after commit messages
   // are sent.
-  document->ApplyPendingFramePolicyHeaders();
+  GetLocalFrameClient().DidSetFramePolicyHeaders(
+      frame_->DomWindow()->GetSandboxFlags(),
+      security_init.FeaturePolicyHeader(),
+      init.GetDocumentPolicy().feature_state);
 
   // Load the document if needed.
   StartLoadingResponse();
