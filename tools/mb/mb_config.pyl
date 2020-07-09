@@ -2896,7 +2896,7 @@
     },
 
     'sk_dawn': {
-      'gn_args': 'skia_use_dawn=true',
+      'gn_args': 'skia_use_dawn=true enable_skia_dawn_gtests=true',
     },
 
     'stable_channel': {
