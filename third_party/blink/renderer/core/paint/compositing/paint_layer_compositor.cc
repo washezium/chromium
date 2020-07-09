@@ -307,18 +307,20 @@ void PaintLayerCompositor::UpdateIfNeeded(
 
   Vector<PaintLayer*> layers_needing_paint_invalidation;
 
-  CompositingRequirementsUpdater(layout_view_)
-      .Update(update_root, compositing_reasons_stats);
+  if (update_type >= kCompositingUpdateAfterCompositingInputChange) {
+    CompositingRequirementsUpdater(layout_view_)
+        .Update(update_root, compositing_reasons_stats);
 
-  CompositingLayerAssigner layer_assigner(this);
-  layer_assigner.Assign(update_root, layers_needing_paint_invalidation);
+    CompositingLayerAssigner layer_assigner(this);
+    layer_assigner.Assign(update_root, layers_needing_paint_invalidation);
 
-  if (layer_assigner.LayersChanged()) {
-    update_type = std::max(update_type, kCompositingUpdateRebuildTree);
-    if (ScrollingCoordinator* scrolling_coordinator =
-            GetScrollingCoordinator()) {
-      LocalFrameView* frame_view = layout_view_.GetFrameView();
-      scrolling_coordinator->NotifyGeometryChanged(frame_view);
+    if (layer_assigner.LayersChanged()) {
+      update_type = std::max(update_type, kCompositingUpdateRebuildTree);
+      if (ScrollingCoordinator* scrolling_coordinator =
+              GetScrollingCoordinator()) {
+        LocalFrameView* frame_view = layout_view_.GetFrameView();
+        scrolling_coordinator->NotifyGeometryChanged(frame_view);
+      }
     }
   }
 
