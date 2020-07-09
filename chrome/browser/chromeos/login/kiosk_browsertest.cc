@@ -2552,13 +2552,21 @@ class KioskVirtualKeyboardTest : public KioskTest,
   DISALLOW_COPY_AND_ASSIGN(KioskVirtualKeyboardTest);
 };
 
-// Verifies that chrome.virtualKeyboard.restrictFeatures and related private
-// APIs work.
-// TODO(https://crbug.com/1094809): Flaky in debug builds.
-IN_PROC_BROWSER_TEST_F(KioskVirtualKeyboardTest, DISABLED_RestrictFeatures) {
+IN_PROC_BROWSER_TEST_F(KioskVirtualKeyboardTest, RestrictFeatures) {
   set_test_app_id(kTestVirtualKeyboardKioskApp);
   set_test_app_version("0.1");
   set_test_crx_file(test_app_id() + ".crx");
+
+  // Reset the keyboard config in case these values are changed in the previous
+  // test cases.
+  keyboard::KeyboardConfig config;
+  EXPECT_TRUE(config.auto_capitalize);
+  EXPECT_TRUE(config.auto_complete);
+  EXPECT_TRUE(config.auto_correct);
+  EXPECT_TRUE(config.handwriting);
+  EXPECT_TRUE(config.spell_check);
+  EXPECT_TRUE(config.voice_input);
+  ash::KeyboardController::Get()->SetKeyboardConfig(config);
 
   extensions::ResultCatcher catcher;
   StartAppLaunchFromLoginScreen(
