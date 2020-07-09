@@ -1048,6 +1048,8 @@ static_library("browser") {
     "payments/payment_handler_permission_context.cc",
     "payments/payment_handler_permission_context.h",
     "payments/ssl_validity_checker.cc",
+    "performance_hints/performance_hints_features.cc",
+    "performance_hints/performance_hints_features.h",
     "performance_hints/performance_hints_observer.cc",
     "performance_hints/performance_hints_observer.h",
     "performance_hints/performance_hints_rewrite_handler.cc",

@@ -2490,9 +2490,12 @@ const char kContextMenuCopyImageName[] = "Copy Image";
 const char kContextMenuCopyImageDescription[] =
     "Enable copying image to system clipboard via context menu.";
 
-const char kContextMenuPerformanceInfoName[] = "Context menu performance hints";
-const char kContextMenuPerformanceInfoDescription[] =
-    "Show link performance information in the context menu.";
+const char kContextMenuPerformanceInfoAndRemoteHintFetchingName[] =
+    "Context menu performance info and remote hint fetching";
+const char kContextMenuPerformanceInfoAndRemoteHintFetchingDescription[] =
+    "Enables showing link performance information in the context menu and "
+    "allows communicating with Google servers to fetch performance information "
+    "for the main frame URL.";
 
 const char kContextualSearchDebugName[] = "Contextual Search debug";
 const char kContextualSearchDebugDescription[] =
