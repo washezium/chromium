@@ -116,6 +116,9 @@ const base::Feature kSafeBrowsingSeparateNetworkContexts{
 constexpr base::FeatureParam<bool> kShouldFillOldPhishGuardProto{
     &kPasswordProtectionForSignedInUsers, "DeprecateOldProto", false};
 
+const base::Feature kSafeBrowsingSecuritySectionUIAndroid{
+    "SafeBrowsingSecuritySectionUIAndroid", base::FEATURE_DISABLED_BY_DEFAULT};
+
 const base::Feature kSuspiciousSiteTriggerQuotaFeature{
     "SafeBrowsingSuspiciousSiteTriggerQuota", base::FEATURE_ENABLED_BY_DEFAULT};
 
@@ -159,6 +162,7 @@ constexpr struct {
     {&kRealTimeUrlLookupNonMainframeEnabledForEP, true},
     {&kSafeBrowsingAvailableOnIOS, true},
     {&kSafeBrowsingSeparateNetworkContexts, true},
+    {&kSafeBrowsingSecuritySectionUIAndroid, true},
     {&kSuspiciousSiteTriggerQuotaFeature, true},
     {&kThreatDomDetailsTagAndAttributeFeature, false},
     {&kTriggerThrottlerDailyQuotaFeature, false},
