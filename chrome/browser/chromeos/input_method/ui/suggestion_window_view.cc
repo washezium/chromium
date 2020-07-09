@@ -46,12 +46,6 @@ namespace ime {
 
 namespace {
 
-const int kSettingLinkFontSize = 13;
-// TODO(crbug/1094843): Add localised string.
-const char kSettingLinkLabel[] = "Why am I seeing this suggestion?";
-// TODO(crbug/1099044): Update and use cros colors.
-constexpr SkColor kSecondaryIconColor = gfx::kGoogleGrey500;
-
 bool ShouldHighlight(const views::Button& button) {
   return button.state() == views::Button::STATE_HOVERED ||
          button.state() == views::Button::STATE_PRESSED;
@@ -181,11 +175,22 @@ views::View* SuggestionWindowView::GetLearnMoreButtonForTesting() {
 }
 
 void SuggestionWindowView::OnThemeChanged() {
+  BubbleDialogDelegateView::OnThemeChanged();
+
+  learn_more_button_->SetBorder(views::CreatePaddedBorder(
+      views::CreateSolidSidedBorder(
+          1, 0, 0, 0,
+          GetNativeTheme()->GetSystemColor(
+              ui::NativeTheme::kColorId_FootnoteContainerBorder)),
+      views::LayoutProvider::Get()->GetInsetsMetric(
+          views::INSETS_VECTOR_IMAGE_BUTTON)));
+
+  // TODO(crbug/1099044): Update and use cros colors.
+  constexpr SkColor kSecondaryIconColor = gfx::kGoogleGrey500;
   learn_more_button_->SetImage(
       views::Button::ButtonState::STATE_NORMAL,
       gfx::CreateVectorIcon(vector_icons::kHelpOutlineIcon,
                             kSecondaryIconColor));
-  BubbleDialogDelegateView::OnThemeChanged();
 }
 
 SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
@@ -203,12 +208,15 @@ SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
   candidate_area_->SetLayoutManager(std::make_unique<views::BoxLayout>(
       views::BoxLayout::Orientation::kVertical));
 
+  // TODO(crbug/1094843): Add localised string.
+  constexpr char kSettingLinkLabel[] = "Why am I seeing this suggestion?";
   setting_link_ = AddChildView(
       std::make_unique<views::Link>(base::UTF8ToUTF16(kSettingLinkLabel)));
   setting_link_->SetHorizontalAlignment(gfx::ALIGN_LEFT);
   // TODO(crbug/1102215): Implement proper UI layout using Insets constant.
-  const gfx::Insets insets(0, kPadding, kPadding, kPadding);
+  constexpr gfx::Insets insets(0, kPadding, kPadding, kPadding);
   setting_link_->SetBorder(views::CreateEmptyBorder(insets));
+  constexpr int kSettingLinkFontSize = 13;
   setting_link_->SetFontList(gfx::FontList({kFontStyle}, gfx::Font::ITALIC,
                                            kSettingLinkFontSize,
                                            gfx::Font::Weight::NORMAL));
@@ -227,13 +235,6 @@ SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
       views::ImageButton::ALIGN_MIDDLE);
   learn_more_button_->SetFocusForPlatform();
   learn_more_button_->SetTooltipText(l10n_util::GetStringUTF16(IDS_LEARN_MORE));
-  learn_more_button_->SetBorder(views::CreatePaddedBorder(
-      views::CreateSolidSidedBorder(
-          1, 0, 0, 0,
-          GetNativeTheme()->GetSystemColor(
-              ui::NativeTheme::kColorId_FootnoteContainerBorder)),
-      views::LayoutProvider::Get()->GetInsetsMetric(
-          views::INSETS_VECTOR_IMAGE_BUTTON)));
   const auto update_button_highlight = [](views::Button* button) {
     SetHighlighted(*button, ShouldHighlight(*button));
   };
