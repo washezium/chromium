@@ -7,7 +7,9 @@
 #include <stddef.h>
 
 #include <string>
+#include <utility>
 
+#include "base/bind.h"
 #include "base/i18n/number_formatting.h"
 #include "base/strings/utf_string_conversions.h"
 #include "chrome/browser/chromeos/input_method/assistive_window_properties.h"
@@ -49,6 +51,11 @@ const int kSettingLinkFontSize = 13;
 const char kSettingLinkLabel[] = "Why am I seeing this suggestion?";
 // TODO(crbug/1099044): Update and use cros colors.
 constexpr SkColor kSecondaryIconColor = gfx::kGoogleGrey500;
+
+bool ShouldHighlight(const views::Button& button) {
+  return button.state() == views::Button::STATE_HOVERED ||
+         button.state() == views::Button::STATE_PRESSED;
+}
 
 // TODO(b/1101669): Create abstract HighlightableButton for learn_more button,
 // setting_link_, suggestion_view and undo_view.
@@ -94,7 +101,28 @@ SuggestionWindowView::SuggestionWindowView(gfx::NativeView parent,
       base::BindRepeating(on_setting_link_clicked, delegate_));
   setting_link_->SetVisible(false);
 
-  learn_more_button_ = AddChildView(CreateLearnMoreButton());
+  learn_more_button_ = AddChildView(std::make_unique<views::ImageButton>(this));
+  learn_more_button_->SetImageHorizontalAlignment(
+      views::ImageButton::ALIGN_CENTER);
+  learn_more_button_->SetImageVerticalAlignment(
+      views::ImageButton::ALIGN_MIDDLE);
+  learn_more_button_->SetFocusForPlatform();
+  learn_more_button_->SetTooltipText(l10n_util::GetStringUTF16(IDS_LEARN_MORE));
+  learn_more_button_->SetBorder(views::CreatePaddedBorder(
+      views::CreateSolidSidedBorder(
+          1, 0, 0, 0,
+          GetNativeTheme()->GetSystemColor(
+              ui::NativeTheme::kColorId_FootnoteContainerBorder)),
+      views::LayoutProvider::Get()->GetInsetsMetric(
+          views::INSETS_VECTOR_IMAGE_BUTTON)));
+  const auto update_button_highlight = [](views::Button* button) {
+    SetHighlighted(*button, ShouldHighlight(*button));
+  };
+  auto subscription =
+      learn_more_button_->AddStateChangedCallback(base::BindRepeating(
+          update_button_highlight, base::Unretained(learn_more_button_)));
+  subscriptions_.insert({learn_more_button_, std::move(subscription)});
+  learn_more_button_->SetVisible(false);
 }
 
 SuggestionWindowView::~SuggestionWindowView() = default;
@@ -118,25 +146,6 @@ SuggestionWindowView::CreateNonClientFrameView(views::Widget* widget) {
   static_cast<views::BubbleFrameView*>(frame.get())
       ->SetBubbleBorder(GetBorderForWindow(WindowBorderType::Suggestion));
   return frame;
-}
-
-std::unique_ptr<views::ImageButton>
-SuggestionWindowView::CreateLearnMoreButton() {
-  auto button = std::make_unique<views::ImageButton>(this);
-  button->SetImageHorizontalAlignment(views::ImageButton::ALIGN_CENTER);
-  button->SetImageVerticalAlignment(views::ImageButton::ALIGN_MIDDLE);
-  button->SetFocusForPlatform();
-  button->SetTooltipText(l10n_util::GetStringUTF16(IDS_LEARN_MORE));
-  button->SetBorder(views::CreatePaddedBorder(
-      views::CreateSolidSidedBorder(
-          1, 0, 0, 0,
-          GetNativeTheme()->GetSystemColor(
-              ui::NativeTheme::kColorId_FootnoteContainerBorder)),
-      views::LayoutProvider::Get()->GetInsetsMetric(
-          views::INSETS_VECTOR_IMAGE_BUTTON)));
-  button->AddButtonObserver(this);
-  button->SetVisible(false);
-  return button;
 }
 
 void SuggestionWindowView::MakeVisible() {
@@ -183,14 +192,22 @@ void SuggestionWindowView::MaybeInitializeSuggestionViews(
 
   const views::View::Views& candidates = candidate_area_->children();
   while (candidates.size() > candidates_size) {
-    std::unique_ptr<views::View> child =
-        candidate_area_->RemoveChildViewT(candidates.back());
-    static_cast<SuggestionView*>(child.get())->RemoveButtonObserver(this);
+    subscriptions_.erase(
+        candidate_area_->RemoveChildViewT(candidates.back()).get());
   }
 
   while (candidates.size() < candidates_size) {
-    candidate_area_->AddChildView(std::make_unique<SuggestionView>(this))
-        ->AddButtonObserver(this);
+    auto* const candidate =
+        candidate_area_->AddChildView(std::make_unique<SuggestionView>(this));
+    auto subscription = candidate->AddStateChangedCallback(base::BindRepeating(
+        [](SuggestionWindowView* window, SuggestionView* button) {
+          if (ShouldHighlight(*button))
+            window->HighlightCandidate(button);
+          else
+            window->UnhighlightCandidate(button);
+        },
+        base::Unretained(this), base::Unretained(candidate)));
+    subscriptions_.insert({candidate, std::move(subscription)});
   }
 }
 
@@ -263,35 +280,6 @@ void SuggestionWindowView::ButtonPressed(views::Button* sender,
     button.id = ui::ime::ButtonId::kSuggestion;
     button.index = candidate_area_->GetIndexOf(sender);
     delegate_->AssistiveWindowButtonClicked(button);
-  }
-}
-
-// TODO(crbug/1099062): Add tests for mouse hovered and pressed.
-void SuggestionWindowView::OnStateChanged(
-    views::Button* observed_button,
-    views::Button::ButtonState old_state) {
-  if (observed_button == learn_more_button_) {
-    switch (observed_button->state()) {
-      case views::Button::ButtonState::STATE_HOVERED:
-      case views::Button::ButtonState::STATE_PRESSED:
-        SetHighlighted(*observed_button, true);
-        break;
-      default:
-        SetHighlighted(*observed_button, false);
-    }
-    return;
-  }
-
-  if (observed_button->parent() == candidate_area_) {
-    auto* const candidate = static_cast<SuggestionView*>(observed_button);
-    switch (observed_button->state()) {
-      case views::Button::ButtonState::STATE_HOVERED:
-      case views::Button::ButtonState::STATE_PRESSED:
-        HighlightCandidate(candidate);
-        break;
-      default:
-        UnhighlightCandidate(candidate);
-    }
   }
 }
 

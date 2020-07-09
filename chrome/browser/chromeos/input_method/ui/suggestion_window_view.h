@@ -7,13 +7,14 @@
 
 #include <memory>
 
+#include "base/containers/flat_map.h"
 #include "base/macros.h"
 #include "ui/chromeos/ui_chromeos_export.h"
 #include "ui/gfx/native_widget_types.h"
 #include "ui/views/bubble/bubble_dialog_delegate_view.h"
 #include "ui/views/controls/button/button.h"
-#include "ui/views/controls/button/button_observer.h"
 #include "ui/views/metadata/metadata_header_macros.h"
+#include "ui/views/view.h"
 
 namespace chromeos {
 struct AssistiveWindowProperties;
@@ -35,8 +36,7 @@ struct SuggestionDetails;
 // SuggestionWindowView is the main container of the suggestion window UI.
 class UI_CHROMEOS_EXPORT SuggestionWindowView
     : public views::BubbleDialogDelegateView,
-      public views::ButtonListener,
-      public views::ButtonObserver {
+      public views::ButtonListener {
  public:
   METADATA_HEADER(SuggestionWindowView);
 
@@ -71,14 +71,8 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
   // Overridden from views::ButtonListener:
   void ButtonPressed(views::Button* sender, const ui::Event& event) override;
 
-  // views::ButtonObserver's override:
-  void OnStateChanged(views::Button* observed_button,
-                      views::Button::ButtonState old_state) override;
-
   // views::View's override:
   void OnThemeChanged() override;
-
-  std::unique_ptr<views::ImageButton> CreateLearnMoreButton();
 
   void MaybeInitializeSuggestionViews(size_t candidates_size);
 
@@ -107,6 +101,10 @@ class UI_CHROMEOS_EXPORT SuggestionWindowView
 
   // The currently-highlighted candidate, if any.
   SuggestionView* highlighted_candidate_ = nullptr;
+
+  // TODO(crbug/1099062): Add tests for mouse hovered and pressed.
+  base::flat_map<views::View*, views::PropertyChangedSubscription>
+      subscriptions_;
 
   DISALLOW_COPY_AND_ASSIGN(SuggestionWindowView);
 };
