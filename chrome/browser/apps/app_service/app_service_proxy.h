@@ -94,7 +94,7 @@ class AppServiceProxy : public KeyedService,
   apps::InstanceRegistry& InstanceRegistry();
 #endif
 
-  apps::BrowserAppLauncher& BrowserAppLauncher();
+  apps::BrowserAppLauncher* BrowserAppLauncher();
 
   apps::PreferredAppsList& PreferredApps();
 

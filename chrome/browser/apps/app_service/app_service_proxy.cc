@@ -225,8 +225,8 @@ apps::InstanceRegistry& AppServiceProxy::InstanceRegistry() {
 }
 #endif
 
-BrowserAppLauncher& AppServiceProxy::BrowserAppLauncher() {
-  return *browser_app_launcher_;
+BrowserAppLauncher* AppServiceProxy::BrowserAppLauncher() {
+  return browser_app_launcher_.get();
 }
 
 apps::PreferredAppsList& AppServiceProxy::PreferredApps() {
