@@ -6875,4 +6875,3 @@ crbug.com/1083302 media/controls/volumechange-muted-attribute.html [ Pass Failur
 
 # Sheriff 2020-07-09
 crbug.com/1103701 [ Win7 ] fast/forms/month/month-picker-appearance-zoom150.html [ Pass Failure ]
-crbug.com/1103712 [ Win ] http/tests/images/document-policy-oversized-images.php [ Pass Failure ]
