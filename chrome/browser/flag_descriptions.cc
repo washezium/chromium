@@ -1153,6 +1153,12 @@ const char kGlobalMediaControlsSeamlessTransferDescription[] =
     "the Global Media Controls UI. Requires #global-media-controls to "
     "also be enabled.";
 
+const char kGlobalMediaControlsOverlayControlsName[] =
+    "Enable overlay controls for Global Nedia Controls";
+const char kGlobalMediaControlsOverlayControlsDescription[] =
+    "Allowing controls to be dragged out from Global Media Controls dialog."
+    "Requires #global-media-controls to also be enabled.";
+
 const char kGpuRasterizationName[] = "GPU rasterization";
 const char kGpuRasterizationDescription[] = "Use GPU to rasterize web content.";
 

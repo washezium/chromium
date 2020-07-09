@@ -2773,6 +2773,11 @@
     "expiry_milestone": 90
   },
   {
+    "name": "global-media-controls-overlay-controls",
+    "owners" : [ "jazzhsu", "steimel", "media-dev" ],
+    "expiry_milestone": 93
+  },
+  {
     "name": "global-media-controls-picture-in-picture",
     "owners": [ "jazzhsu", "steimel", "media-dev" ],
     "expiry_milestone": 90

@@ -40222,6 +40222,7 @@ from previous Chrome versions.
   <int value="-1357778876" label="ExplicitLanguageAsk:enabled"/>
   <int value="-1357655121" label="enable-iframe-based-signin"/>
   <int value="-1357008397" label="ContextualSuggestionsCarousel:disabled"/>
+  <int value="-1356379431" label="GlobalMediaControlsOverlayControls:enabled"/>
   <int value="-1353714232" label="FilesTransferDetails:enabled"/>
   <int value="-1353195918" label="UseSkiaRenderer:enabled"/>
   <int value="-1351968795" label="SingleProcessMash:enabled"/>
@@ -42003,6 +42004,7 @@ from previous Chrome versions.
   <int value="609580715" label="ArcCupsApi:disabled"/>
   <int value="610545308" label="enable-potentially-annoying-security-features"/>
   <int value="613629912" label="LookalikeUrlNavigationSuggestions:enabled"/>
+  <int value="614174812" label="GlobalMediaControlsOverlayControls:disabled"/>
   <int value="616660621" label="ImeInputLogicFst:disabled"/>
   <int value="617762656" label="FirstScrollLatencyMeasurement:enabled"/>
   <int value="618532343" label="DesktopPWAsLocalUpdating:disabled"/>
