@@ -258,7 +258,7 @@ class BLEHandler extends BluetoothGattServerCallback implements Closeable {
      * Triggers a notification on the fidoStatus characteristic to the given device.
      */
     public void sendNotification(BluetoothDevice device, byte[][] fragments) {
-        Log.i(TAG, "onCharacteristicWriteRequest sending " + hex(fragments[0]));
+        Log.i(TAG, "sendNotification sending " + fragments[0].length + ": " + hex(fragments[0]));
         Long client = addressToLong(device.getAddress());
         assert !mPendingFragments.containsKey(client);
 
@@ -310,7 +310,9 @@ class BLEHandler extends BluetoothGattServerCallback implements Closeable {
                 return;
             }
 
-            Log.i(TAG, "onNotificationSent sending " + hex(remainingFragments[0]));
+            Log.i(TAG,
+                    "onNotificationSent sending " + remainingFragments[0].length + ": "
+                            + hex(remainingFragments[0]));
             mStatusChar.setValue(remainingFragments[0]);
             mServer.notifyCharacteristicChanged(device, mStatusChar, /*confirm=*/false);
 
