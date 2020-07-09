@@ -15,3 +15,26 @@ android_resources("java_resources") {
   ]
   custom_package = "org.chromium.components.translate"
 }
+
+static_library("android") {
+  sources = [
+    "translate_utils.cc",
+    "translate_utils.h",
+  ]
+
+  deps = [
+    "//base",
+    "//components/metrics",
+    "//components/translate/core/browser",
+  ]
+}
+
+java_cpp_enum("translate_android_enums") {
+  sources = [ "translate_utils.h" ]
+}
+
+android_library("translate_android_enums_java") {
+  deps = [ "//third_party/android_deps:androidx_annotation_annotation_java" ]
+
+  srcjar_deps = [ ":translate_android_enums" ]
+}

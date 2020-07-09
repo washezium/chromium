@@ -31,6 +31,7 @@ import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManager.Snackbar
 import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManager.SnackbarManageable;
 import org.chromium.components.infobars.InfoBar;
 import org.chromium.components.infobars.InfoBarCompactLayout;
+import org.chromium.components.translate.TranslateOption;
 import org.chromium.ui.widget.Toast;
 
 /**
