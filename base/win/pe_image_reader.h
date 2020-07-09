@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_SAFE_BROWSING_PE_IMAGE_READER_WIN_H_
-#define CHROME_COMMON_SAFE_BROWSING_PE_IMAGE_READER_WIN_H_
+#ifndef BASE_WIN_PE_IMAGE_READER_H_
+#define BASE_WIN_PE_IMAGE_READER_H_
 
 #include <stddef.h>
 #include <stdint.h>
@@ -11,13 +11,15 @@
 
 #include <memory>
 
+#include "base/base_export.h"
 #include "base/macros.h"
 
-namespace safe_browsing {
+namespace base {
+namespace win {
 
 // Parses headers and various data from a PE image. This parser is safe for use
 // on untrusted data.
-class PeImageReader {
+class BASE_EXPORT PeImageReader {
  public:
   enum WordSize {
     WORD_SIZE_32,
@@ -54,7 +56,7 @@ class PeImageReader {
   const IMAGE_SECTION_HEADER* GetSectionHeaderAt(size_t index);
 
   // Returns a pointer to the image's export data (.edata) section and its size,
-  // or NULL if the section is not present.
+  // or nullptr if the section is not present.
   const uint8_t* GetExportSection(size_t* section_size);
 
   size_t GetNumberOfDebugEntries();
@@ -67,8 +69,7 @@ class PeImageReader {
   // certificate entries are visited (even if there are no such entries) and
   // |callback| returns true for each. Conversely, returns |false| if |callback|
   // returns false or if the image is malformed in any way.
-  bool EnumCertificates(EnumCertificatesCallback callback,
-                        void* context);
+  bool EnumCertificates(EnumCertificatesCallback callback, void* context);
 
   // Returns the size of the image file.
   DWORD GetSizeOfImage();
@@ -104,7 +105,7 @@ class PeImageReader {
     virtual DWORD GetSizeOfImage() = 0;
   };
 
-  template<class OPTIONAL_HEADER_TYPE>
+  template <class OPTIONAL_HEADER_TYPE>
   class OptionalHeaderImpl;
 
   void Clear();
@@ -118,11 +119,13 @@ class PeImageReader {
   const uint8_t* GetOptionalHeaderStart();
   size_t GetOptionalHeaderSize();
 
-  // Returns the desired directory entry, or NULL if |index| is out of bounds.
+  // Returns the desired directory entry, or nullptr if |index| is out of
+  // bounds.
   const IMAGE_DATA_DIRECTORY* GetDataDirectoryEntryAt(size_t index);
 
-  // Returns the header for the section that contains the given address, or NULL
-  // if the address is out of bounds or the image does not contain the section.
+  // Returns the header for the section that contains the given address, or
+  // nullptr if the address is out of bounds or the image does not contain the
+  // section.
   const IMAGE_SECTION_HEADER* FindSectionFromRva(uint32_t relative_address);
 
   // Returns a pointer to the |data_length| bytes referenced by the |index|'th
@@ -133,7 +136,8 @@ class PeImageReader {
   // the given offset if the image is sufficiently large to contain it. Returns
   // false if the structure does not fully fit within the image at the given
   // offset.
-  template<typename T> bool GetStructureAt(size_t offset, const T** structure) {
+  template <typename T>
+  bool GetStructureAt(size_t offset, const T** structure) {
     return GetStructureAt(offset, sizeof(**structure), structure);
   }
 
@@ -141,9 +145,10 @@ class PeImageReader {
   // the given offset if the image is sufficiently large to contain
   // |structure_size| bytes. Returns false if the structure does not fully fit
   // within the image at the given offset.
-  template<typename T> bool GetStructureAt(size_t offset,
-                                           size_t structure_size,
-                                           const T** structure) {
+  template <typename T>
+  bool GetStructureAt(size_t offset,
+                      size_t structure_size,
+                      const T** structure) {
     if (offset > image_size_)
       return false;
     if (structure_size > image_size_ - offset)
@@ -159,6 +164,7 @@ class PeImageReader {
   DISALLOW_COPY_AND_ASSIGN(PeImageReader);
 };
 
-}  // namespace safe_browsing
+}  // namespace win
+}  // namespace base
 
-#endif  // CHROME_COMMON_SAFE_BROWSING_PE_IMAGE_READER_WIN_H_
+#endif  // BASE_WIN_PE_IMAGE_READER_H_

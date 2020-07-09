@@ -2,17 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <windows.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <windows.h>
 #include <wintrust.h>
 
 #include "base/files/file_path.h"
 #include "base/files/memory_mapped_file.h"
 #include "base/macros.h"
 #include "base/path_service.h"
-#include "chrome/common/chrome_paths.h"
-#include "chrome/common/safe_browsing/pe_image_reader_win.h"
+#include "base/win/pe_image_reader.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
@@ -22,9 +21,12 @@ using ::testing::NotNull;
 using ::testing::Return;
 using ::testing::StrictMock;
 
+namespace base {
+namespace win {
+
 struct TestData {
   const char* filename;
-  safe_browsing::PeImageReader::WordSize word_size;
+  PeImageReader::WordSize word_size;
   WORD machine_identifier;
   WORD optional_header_size;
   size_t number_of_sections;
@@ -33,27 +35,26 @@ struct TestData {
 
 // A test fixture parameterized on test data containing the name of a PE image
 // to parse and the expected values to be read from it. The file is read from
-// the src/chrome/test/data/safe_browsing directory.
+// the src/base/test/data/pe_image_reader directory.
 class PeImageReaderTest : public testing::TestWithParam<const TestData*> {
  protected:
   PeImageReaderTest() : expected_data_(GetParam()) {}
 
   void SetUp() override {
-    ASSERT_TRUE(
-        base::PathService::Get(chrome::DIR_TEST_DATA, &data_file_path_));
-    data_file_path_ = data_file_path_.AppendASCII("safe_browsing");
+    ASSERT_TRUE(PathService::Get(DIR_TEST_DATA, &data_file_path_));
+    data_file_path_ = data_file_path_.AppendASCII("pe_image_reader");
     data_file_path_ = data_file_path_.AppendASCII(expected_data_->filename);
 
     ASSERT_TRUE(data_file_.Initialize(data_file_path_));
 
-    ASSERT_TRUE(image_reader_.Initialize(data_file_.data(),
-                                         data_file_.length()));
+    ASSERT_TRUE(
+        image_reader_.Initialize(data_file_.data(), data_file_.length()));
   }
 
   const TestData* expected_data_;
-  base::FilePath data_file_path_;
-  base::MemoryMappedFile data_file_;
-  safe_browsing::PeImageReader image_reader_;
+  FilePath data_file_path_;
+  MemoryMappedFile data_file_;
+  PeImageReader image_reader_;
 };
 
 TEST_P(PeImageReaderTest, GetWordSize) {
@@ -62,13 +63,13 @@ TEST_P(PeImageReaderTest, GetWordSize) {
 
 TEST_P(PeImageReaderTest, GetDosHeader) {
   const IMAGE_DOS_HEADER* dos_header = image_reader_.GetDosHeader();
-  ASSERT_NE(reinterpret_cast<const IMAGE_DOS_HEADER*>(NULL), dos_header);
+  ASSERT_NE(nullptr, dos_header);
   EXPECT_EQ(IMAGE_DOS_SIGNATURE, dos_header->e_magic);
 }
 
 TEST_P(PeImageReaderTest, GetCoffFileHeader) {
   const IMAGE_FILE_HEADER* file_header = image_reader_.GetCoffFileHeader();
-  ASSERT_NE(reinterpret_cast<const IMAGE_FILE_HEADER*>(NULL), file_header);
+  ASSERT_NE(nullptr, file_header);
   EXPECT_EQ(expected_data_->machine_identifier, file_header->Machine);
   EXPECT_EQ(expected_data_->optional_header_size,
             file_header->SizeOfOptionalHeader);
@@ -78,7 +79,7 @@ TEST_P(PeImageReaderTest, GetOptionalHeaderData) {
   size_t optional_header_size = 0;
   const uint8_t* optional_header_data =
       image_reader_.GetOptionalHeaderData(&optional_header_size);
-  ASSERT_NE(reinterpret_cast<const uint8_t*>(NULL), optional_header_data);
+  ASSERT_NE(nullptr, optional_header_data);
   EXPECT_EQ(expected_data_->optional_header_size, optional_header_size);
 }
 
@@ -92,8 +93,7 @@ TEST_P(PeImageReaderTest, GetSectionHeaderAt) {
   for (size_t i = 0; i < number_of_sections; ++i) {
     const IMAGE_SECTION_HEADER* section_header =
         image_reader_.GetSectionHeaderAt(i);
-    ASSERT_NE(reinterpret_cast<const IMAGE_SECTION_HEADER*>(NULL),
-              section_header);
+    ASSERT_NE(nullptr, section_header);
   }
 }
 
@@ -105,7 +105,7 @@ TEST_P(PeImageReaderTest, InitializeFailTruncatedFile) {
       reinterpret_cast<const uint8_t*>(last_section_header) +
       sizeof(*last_section_header);
   size_t header_size = headers_end - data_file_.data();
-  safe_browsing::PeImageReader short_reader;
+  PeImageReader short_reader;
 
   // Initialize should succeed when all headers are present.
   EXPECT_TRUE(short_reader.Initialize(data_file_.data(), header_size));
@@ -119,7 +119,7 @@ TEST_P(PeImageReaderTest, InitializeFailTruncatedFile) {
 TEST_P(PeImageReaderTest, GetExportSection) {
   size_t section_size = 0;
   const uint8_t* export_section = image_reader_.GetExportSection(&section_size);
-  ASSERT_NE(reinterpret_cast<const uint8_t*>(NULL), export_section);
+  ASSERT_NE(nullptr, export_section);
   EXPECT_NE(0U, section_size);
 }
 
@@ -131,12 +131,12 @@ TEST_P(PeImageReaderTest, GetNumberOfDebugEntries) {
 TEST_P(PeImageReaderTest, GetDebugEntry) {
   size_t number_of_debug_entries = image_reader_.GetNumberOfDebugEntries();
   for (size_t i = 0; i < number_of_debug_entries; ++i) {
-    const uint8_t* raw_data = NULL;
+    const uint8_t* raw_data = nullptr;
     size_t raw_data_size = 0;
     const IMAGE_DEBUG_DIRECTORY* entry =
         image_reader_.GetDebugEntry(i, &raw_data, &raw_data_size);
-    EXPECT_NE(reinterpret_cast<const IMAGE_DEBUG_DIRECTORY*>(NULL), entry);
-    EXPECT_NE(reinterpret_cast<const uint8_t*>(NULL), raw_data);
+    EXPECT_NE(nullptr, entry);
+    EXPECT_NE(nullptr, raw_data);
     EXPECT_NE(0U, raw_data_size);
   }
 }
@@ -144,21 +144,22 @@ TEST_P(PeImageReaderTest, GetDebugEntry) {
 namespace {
 
 const TestData kTestData[] = {
-  {
-    "module_with_exports_x86.dll",
-    safe_browsing::PeImageReader::WORD_SIZE_32,
-    IMAGE_FILE_MACHINE_I386,
-    sizeof(IMAGE_OPTIONAL_HEADER32),
-    4,
-    1,
-  }, {
-    "module_with_exports_x64.dll",
-    safe_browsing::PeImageReader::WORD_SIZE_64,
-    IMAGE_FILE_MACHINE_AMD64,
-    sizeof(IMAGE_OPTIONAL_HEADER64),
-    5,
-    1,
-  },
+    {
+        "module_with_exports_x86.dll",
+        PeImageReader::WORD_SIZE_32,
+        IMAGE_FILE_MACHINE_I386,
+        sizeof(IMAGE_OPTIONAL_HEADER32),
+        4,
+        1,
+    },
+    {
+        "module_with_exports_x64.dll",
+        PeImageReader::WORD_SIZE_64,
+        IMAGE_FILE_MACHINE_AMD64,
+        sizeof(IMAGE_OPTIONAL_HEADER64),
+        5,
+        1,
+    },
 };
 
 }  // namespace
@@ -216,20 +217,18 @@ class PeImageReaderCertificateTest
   PeImageReaderCertificateTest() : expected_data_(GetParam()) {}
 
   void SetUp() override {
-    ASSERT_TRUE(
-        base::PathService::Get(chrome::DIR_TEST_DATA, &data_file_path_));
-    data_file_path_ = data_file_path_.AppendASCII("safe_browsing");
-    data_file_path_ = data_file_path_.AppendASCII("download_protection");
+    ASSERT_TRUE(PathService::Get(DIR_TEST_DATA, &data_file_path_));
+    data_file_path_ = data_file_path_.AppendASCII("pe_image_reader");
     data_file_path_ = data_file_path_.AppendASCII(expected_data_->filename);
     ASSERT_TRUE(data_file_.Initialize(data_file_path_));
-    ASSERT_TRUE(image_reader_.Initialize(data_file_.data(),
-                                         data_file_.length()));
+    ASSERT_TRUE(
+        image_reader_.Initialize(data_file_.data(), data_file_.length()));
   }
 
   const CertificateTestData* expected_data_;
-  base::FilePath data_file_path_;
-  base::MemoryMappedFile data_file_;
-  safe_browsing::PeImageReader image_reader_;
+  FilePath data_file_path_;
+  MemoryMappedFile data_file_;
+  PeImageReader image_reader_;
 };
 
 TEST_P(PeImageReaderCertificateTest, EnumCertificates) {
@@ -237,8 +236,7 @@ TEST_P(PeImageReaderCertificateTest, EnumCertificates) {
   if (expected_data_->num_signers) {
     EXPECT_CALL(receiver, OnCertificate(WIN_CERT_REVISION_2_0,
                                         WIN_CERT_TYPE_PKCS_SIGNED_DATA,
-                                        NotNull(),
-                                        Gt(0U)))
+                                        NotNull(), Gt(0U)))
         .Times(expected_data_->num_signers)
         .WillRepeatedly(Return(true));
   }
@@ -263,19 +261,22 @@ TEST_P(PeImageReaderCertificateTest, AbortEnum) {
 namespace {
 
 const CertificateTestData kCertificateTestData[] = {
-  {
-    "signed.exe",
-    1,
-  }, {
-    "unsigned.exe",
-    0,
-  }, {
-    "disable_outdated_build_detector.exe",
-    1,
-  }, {
-    "signed_twice.exe",
-    2,
-  },
+    {
+        "signed.exe",
+        1,
+    },
+    {
+        "unsigned.exe",
+        0,
+    },
+    {
+        "disable_outdated_build_detector.exe",
+        1,
+    },
+    {
+        "signed_twice.exe",
+        2,
+    },
 };
 
 }  // namespace
@@ -292,3 +293,6 @@ INSTANTIATE_TEST_SUITE_P(DisableOutdatedBuildDetectorExe,
 INSTANTIATE_TEST_SUITE_P(SignedTwiceExe,
                          PeImageReaderCertificateTest,
                          testing::Values(&kCertificateTestData[3]));
+
+}  // namespace win
+}  // namespace base
