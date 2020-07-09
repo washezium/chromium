@@ -18,10 +18,6 @@
 #include "headless/public/headless_shell.h"
 #include "ui/gfx/switches.h"
 
-#if defined(OS_CHROMEOS)
-#include "chrome/browser/chromeos/tracing_allocation_failure_tracker.h"
-#endif
-
 #if defined(OS_MACOSX)
 #include "chrome/app/chrome_main_mac.h"
 #endif
@@ -103,10 +99,6 @@ int ChromeMain(int argc, const char** argv) {
 
 #if defined(OS_MACOSX)
   SetUpBundleOverrides();
-#endif
-
-#if defined(OS_CHROMEOS)
-  chromeos::SetUpTracingAllocatorFailureTracker();
 #endif
 
   // Start the sampling profiler as early as possible - namely, once the command

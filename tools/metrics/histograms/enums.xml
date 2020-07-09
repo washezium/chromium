@@ -18520,6 +18520,9 @@ Called by update_document_policy_enum.py.-->
 </enum>
 
 <enum name="DumpWithoutCrashingResult">
+  <obsolete>
+    Obsolete July 2020.
+  </obsolete>
   <int value="0" label="Failure from Crashpad"/>
   <int value="1" label="Success from Crashpad"/>
   <int value="2" label="Failure from Breakpad"/>
