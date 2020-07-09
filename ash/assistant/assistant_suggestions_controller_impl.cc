@@ -261,13 +261,6 @@ void AssistantSuggestionsControllerImpl::ProvideConversationStarters() {
 void AssistantSuggestionsControllerImpl::UpdateOnboardingSuggestions() {
   DCHECK(IsBetterOnboardingEnabled());
 
-  // TODO(dmblack): Support non-EDU onboarding.
-  if (AssistantState::Get()->onboarding_mode() !=
-      AssistantOnboardingMode::kEducation) {
-    model_.SetOnboardingSuggestions({});
-    return;
-  }
-
   std::vector<AssistantSuggestion> onboarding_suggestions;
 
   auto AddOnboardingSuggestion =

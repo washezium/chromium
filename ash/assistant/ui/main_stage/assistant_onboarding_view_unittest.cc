@@ -39,7 +39,6 @@ using chromeos::assistant::AssistantInteractionType;
 using chromeos::assistant::AssistantQuerySource;
 using chromeos::assistant::AssistantSuggestion;
 using chromeos::assistant::AssistantSuggestionType;
-using chromeos::assistant::prefs::AssistantOnboardingMode;
 
 // Helpers ---------------------------------------------------------------------
 
@@ -116,12 +115,6 @@ class AssistantOnboardingViewTest : public AssistantAshTestBase {
   }
 
   ~AssistantOnboardingViewTest() override = default;
-
-  // AssistantAshTestBase:
-  void SetUp() override {
-    AssistantAshTestBase::SetUp();
-    SetOnboardingMode(AssistantOnboardingMode::kEducation);
-  }
 
   void AdvanceClock(base::TimeDelta time_delta) {
     task_environment()->AdvanceClock(time_delta);
