@@ -185,27 +185,6 @@ class PpdProviderTest : public ::testing::Test {
                          const std::string& contents) {}
 
  protected:
-  // Run a ResolveManufacturers run from the given locale, expect to get
-  // results in expected_used_locale.
-  void RunLocalizationTest(const std::string& browser_locale,
-                           const std::string& expected_used_locale) {
-    captured_resolve_manufacturers_.clear();
-    auto provider = CreateProvider(browser_locale, false);
-    provider->ResolveManufacturers(base::BindOnce(
-        &PpdProviderTest::CaptureResolveManufacturers, base::Unretained(this)));
-    task_environment_.RunUntilIdle();
-    provider = nullptr;
-    ASSERT_EQ(captured_resolve_manufacturers_.size(), 1UL);
-    EXPECT_EQ(captured_resolve_manufacturers_[0].first, PpdProvider::SUCCESS);
-
-    const auto& result_vec = captured_resolve_manufacturers_[0].second;
-
-    // It's sufficient to check for one of the expected locale keys to make sure
-    // we got the right map.
-    EXPECT_TRUE(
-        base::Contains(result_vec, "manufacturer_a_" + expected_used_locale));
-  }
-
   // List of relevant endpoint for this FakeServer
   std::vector<std::pair<std::string, std::string>> server_contents() const {
     // Use brace initialization to express the desired server contents as "url",
@@ -390,16 +369,6 @@ TEST_F(PpdProviderTest, ManufacturersFetchNoServer) {
             captured_resolve_manufacturers_[1].first);
   EXPECT_TRUE(captured_resolve_manufacturers_[0].second.empty());
   EXPECT_TRUE(captured_resolve_manufacturers_[1].second.empty());
-}
-
-// Test that we get things in the requested locale, and that fallbacks are sane.
-TEST_F(PpdProviderTest, LocalizationAndFallbacks) {
-  StartFakePpdServer();
-  RunLocalizationTest("en-gb", "en-gb");
-  RunLocalizationTest("en-blah", "en");
-  RunLocalizationTest("en-gb-foo", "en-gb");
-  RunLocalizationTest("es", "es-mx");
-  RunLocalizationTest("bogus", "en");
 }
 
 // Tests that mutiples requests for make-and-model resolution can be fulfilled
