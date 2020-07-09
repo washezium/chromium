@@ -35,6 +35,18 @@ lacros::mojom::SelectFileDialogType GetMojoType(SelectFileDialog::Type type) {
   }
 }
 
+lacros::mojom::AllowedPaths GetMojoAllowedPaths(
+    SelectFileDialog::FileTypeInfo::AllowedPaths allowed_paths) {
+  switch (allowed_paths) {
+    case SelectFileDialog::FileTypeInfo::ANY_PATH:
+      return lacros::mojom::AllowedPaths::kAnyPath;
+    case SelectFileDialog::FileTypeInfo::NATIVE_PATH:
+      return lacros::mojom::AllowedPaths::kNativePath;
+    case SelectFileDialog::FileTypeInfo::ANY_PATH_OR_URL:
+      return lacros::mojom::AllowedPaths::kAnyPathOrUrl;
+  }
+}
+
 }  // namespace
 
 SelectFileDialogLacros::Factory::Factory() = default;
@@ -77,6 +89,17 @@ void SelectFileDialogLacros::SelectFileImpl(
   options->type = GetMojoType(type);
   options->title = title;
   options->default_path = default_path;
+  if (file_types) {
+    options->file_types = lacros::mojom::SelectFileTypeInfo::New();
+    options->file_types->extensions = file_types->extensions;
+    options->file_types->extension_description_overrides =
+        file_types->extension_description_overrides;
+    // NOTE: Index is 1-based, 0 means "no selection".
+    options->file_types->default_file_type_index = file_type_index;
+    options->file_types->include_all_files = file_types->include_all_files;
+    options->file_types->allowed_paths =
+        GetMojoAllowedPaths(file_types->allowed_paths);
+  }
 
   // Send request to ash-chrome.
   chromeos::LacrosChromeServiceImpl::Get()->select_file_remote()->Select(
@@ -86,7 +109,8 @@ void SelectFileDialogLacros::SelectFileImpl(
 
 void SelectFileDialogLacros::OnSelected(
     lacros::mojom::SelectFileResult result,
-    std::vector<lacros::mojom::SelectedFileInfoPtr> files) {
+    std::vector<lacros::mojom::SelectedFileInfoPtr> files,
+    int file_type_index) {
   if (!listener_)
     return;
   if (files.empty()) {
@@ -94,9 +118,8 @@ void SelectFileDialogLacros::OnSelected(
     return;
   }
   if (files.size() == 1) {
-    // TODO(jamescook): Support correct file filter |index|.
     // TODO(jamescook): Use FileSelectedWithExtraInfo instead.
-    listener_->FileSelected(files[0]->file_path, /*index=*/0, params_);
+    listener_->FileSelected(files[0]->file_path, file_type_index, params_);
     return;
   }
   std::vector<base::FilePath> paths;

@@ -11,6 +11,7 @@
 #include "ash/shell.h"
 #include "base/files/file_path.h"
 #include "base/memory/ref_counted.h"
+#include "base/numerics/ranges.h"
 #include "chromeos/lacros/mojom/select_file.mojom.h"
 #include "ui/shell_dialogs/select_file_dialog.h"
 #include "ui/shell_dialogs/select_file_policy.h"
@@ -35,6 +36,18 @@ ui::SelectFileDialog::Type GetUiType(lacros::mojom::SelectFileDialogType type) {
   }
 }
 
+ui::SelectFileDialog::FileTypeInfo::AllowedPaths GetUiAllowedPaths(
+    lacros::mojom::AllowedPaths allowed_paths) {
+  switch (allowed_paths) {
+    case lacros::mojom::AllowedPaths::kAnyPath:
+      return ui::SelectFileDialog::FileTypeInfo::ANY_PATH;
+    case lacros::mojom::AllowedPaths::kNativePath:
+      return ui::SelectFileDialog::FileTypeInfo::NATIVE_PATH;
+    case lacros::mojom::AllowedPaths::kAnyPathOrUrl:
+      return ui::SelectFileDialog::FileTypeInfo::ANY_PATH_OR_URL;
+  }
+}
+
 // Manages a single open/save dialog. There may be multiple dialogs showing at
 // the same time. Deletes itself when the dialog is closed.
 class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
@@ -53,12 +66,30 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
         ash::Shell::GetRootWindowForNewWindows(),
         ash::kShellWindowId_DefaultContainerDeprecated);
 
-    // TODO(https://crbug.com/1090587): File type filter support.
+    int file_type_index = 0;
+    if (options->file_types) {
+      file_types_ = std::make_unique<ui::SelectFileDialog::FileTypeInfo>();
+      file_types_->extensions = options->file_types->extensions;
+      // Only apply description overrides if the right number are provided.
+      if (options->file_types->extensions.size() ==
+          options->file_types->extension_description_overrides.size()) {
+        file_types_->extension_description_overrides =
+            options->file_types->extension_description_overrides;
+      }
+      // Index is 1-based (hence range 1 to size()), but 0 is allowed because it
+      // means "no selection". See ui::SelectFileDialog::SelectFile().
+      file_type_index =
+          base::ClampToRange(options->file_types->default_file_type_index, 0,
+                             int{file_types_->extensions.size()});
+      file_types_->include_all_files = options->file_types->include_all_files;
+      file_types_->allowed_paths =
+          GetUiAllowedPaths(options->file_types->allowed_paths);
+    }
+    // |default_extension| is unused on Chrome OS.
     select_file_dialog_->SelectFile(
         GetUiType(options->type), options->title, options->default_path,
-        /*file_types=*/nullptr,
-        /*file_type_index=*/0,
-        /*default_extension=*/std::string(), owning_window,
+        file_types_.get(), file_type_index, /*default_extension=*/std::string(),
+        owning_window,
         /*params=*/nullptr);
   }
 
@@ -69,23 +100,24 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
  private:
   // ui::SelectFileDialog::Listener:
   void FileSelected(const base::FilePath& path,
-                    int index,
+                    int file_type_index,
                     void* params) override {
-    OnSelected({path});
+    OnSelected({path}, file_type_index);
   }
 
   void MultiFilesSelected(const std::vector<base::FilePath>& files,
                           void* params) override {
-    OnSelected(files);
+    OnSelected(files, /*file_type_index=*/0);
   }
 
   void FileSelectionCanceled(void* params) override {
     // Cancel is the same as selecting nothing.
-    OnSelected({});
+    OnSelected({}, /*file_type_index=*/0);
   }
 
   // Invokes |select_callback_| with the list of files and deletes this object.
-  void OnSelected(const std::vector<base::FilePath>& paths) {
+  void OnSelected(const std::vector<base::FilePath>& paths,
+                  int file_type_index) {
     std::vector<lacros::mojom::SelectedFileInfoPtr> files;
     for (const auto& path : paths) {
       lacros::mojom::SelectedFileInfoPtr file =
@@ -94,7 +126,8 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
       files.push_back(std::move(file));
     }
     std::move(select_callback_)
-        .Run(lacros::mojom::SelectFileResult::kSuccess, std::move(files));
+        .Run(lacros::mojom::SelectFileResult::kSuccess, std::move(files),
+             file_type_index);
     delete this;
   }
 
@@ -103,6 +136,9 @@ class SelectFileDialogHolder : public ui::SelectFileDialog::Listener {
 
   // The file select dialog.
   scoped_refptr<ui::SelectFileDialog> select_file_dialog_;
+
+  // Optional file type extension filters.
+  std::unique_ptr<ui::SelectFileDialog::FileTypeInfo> file_types_;
 };
 
 }  // namespace
