@@ -20,12 +20,10 @@ class FitToEventChecker {
   /**
    * Asserts the last event has the expected payload.
    * @param {FittingType} fittingType Expected fitting type.
-   * @param {boolean} userInitiated Expected "is user initiated" flag.
    */
-  assertEvent(fittingType, userInitiated) {
+  assertEvent(fittingType) {
     chrome.test.assertEq('fit-to-changed', this.lastEvent_.type);
-    chrome.test.assertEq(fittingType, this.lastEvent_.detail.fittingType);
-    chrome.test.assertEq(userInitiated, this.lastEvent_.detail.userInitiated);
+    chrome.test.assertEq(fittingType, this.lastEvent_.detail);
     this.lastEvent_ = null;
   }
 }
@@ -240,27 +238,24 @@ const tests = [
 
     // Test forceFit(FIT_TO_PAGE) from initial state.
     zoomToolbar.forceFit(FittingType.FIT_TO_PAGE);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitWidthIcon));
 
     // Tap 1: Fire fit-to-changed(FIT_TO_WIDTH).
     button.click();
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, true);
+    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     // Test forceFit(FIT_TO_PAGE) from fit-to-width mode.
     zoomToolbar.forceFit(FittingType.FIT_TO_PAGE);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitWidthIcon));
 
     // Test forceFit(FIT_TO_PAGE) when already in fit-to-page mode.
     zoomToolbar.forceFit(FittingType.FIT_TO_PAGE);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitWidthIcon));
 
     // Tap 2: Fire fit-to-changed(FIT_TO_WIDTH).
     button.click();
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, true);
+    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     chrome.test.succeed();
@@ -283,32 +278,29 @@ const tests = [
 
     // Test forceFit(FIT_TO_WIDTH) from initial state.
     zoomToolbar.forceFit(FittingType.FIT_TO_WIDTH);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     // Tap 1: Fire fit-to-changed(FIT_TO_PAGE).
     button.click();
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE, true);
+    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitWidthIcon));
 
     // Tap 2: Fire fit-to-changed(FIT_TO_WIDTH).
     button.click();
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, true);
+    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     // Test forceFit(FIT_TO_WIDTH) from fit-to-width state.
     zoomToolbar.forceFit(FittingType.FIT_TO_WIDTH);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     // Tap 3: Fire fit-to-changed(FIT_TO_PAGE).
     button.click();
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE, true);
+    fitToEventChecker.assertEvent(FittingType.FIT_TO_PAGE);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitWidthIcon));
 
     // Test forceFit(FIT_TO_WIDTH) from fit-to-page state.
     zoomToolbar.forceFit(FittingType.FIT_TO_WIDTH);
-    fitToEventChecker.assertEvent(FittingType.FIT_TO_WIDTH, false);
     chrome.test.assertTrue(button.ironIcon.endsWith(fitPageIcon));
 
     chrome.test.succeed();

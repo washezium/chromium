@@ -5,7 +5,7 @@
 import './elements/viewer-error-screen.js';
 import './elements/viewer-password-screen.js';
 import './elements/viewer-pdf-toolbar.js';
-import './elements/viewer-pdf-toolbar-new.js';
+import './elements/viewer-zoom-toolbar.js';
 import './elements/shared-vars.js';
 // <if expr="chromeos">
 import './elements/viewer-ink-host.js';
@@ -21,6 +21,10 @@ import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.
 import {Bookmark} from './bookmark_type.js';
 import {BrowserApi} from './browser_api.js';
 import {FittingType, SaveRequestType, TwoUpViewAction} from './constants.js';
+import {ViewerPdfToolbarNewElement} from './elements/viewer-pdf-toolbar-new.js';
+// <if expr="chromeos">
+import {InkController} from './ink_controller.js';
+//</if>
 import {PDFMetrics} from './metrics.js';
 import {NavigatorDelegate, PdfNavigator} from './navigator.js';
 import {OpenPdfParamsParser} from './open_pdf_params_parser.js';
@@ -29,10 +33,6 @@ import {PDFViewerBaseElement} from './pdf_viewer_base.js';
 import {DestinationMessageData, DocumentDimensionsMessageData, shouldIgnoreKeyEvents} from './pdf_viewer_utils.js';
 import {ToolbarManager} from './toolbar_manager.js';
 import {Point} from './viewport.js';
-
-// <if expr="chromeos">
-import {InkController} from './ink_controller.js';
-// </if>
 
 
 /**
@@ -268,6 +268,15 @@ class PDFViewerElement extends PDFViewerBaseElement {
   }
 
   /**
+   * @return {!ViewerPdfToolbarNewElement}
+   * @private
+   */
+  getToolbarNew_() {
+    assert(this.pdfViewerUpdateEnabled_);
+    return /** @type {!ViewerPdfToolbarNewElement} */ (this.$$('#toolbar'));
+  }
+
+  /**
    * @return {!ViewerZoomToolbarElement}
    * @private
    */
@@ -356,7 +365,10 @@ class PDFViewerElement extends PDFViewerBaseElement {
    */
   handleToolbarKeyEvent_(e) {
     if (this.pdfViewerUpdateEnabled_) {
-      // TODO: Add handling for any relevant hotkeys for the new unified
+      if (e.key === '\\' && e.ctrlKey) {
+        this.getToolbarNew_().fitToggle();
+      }
+      // TODO: Add handling for additional relevant hotkeys for the new unified
       // toolbar.
       return;
     }
@@ -515,8 +527,8 @@ class PDFViewerElement extends PDFViewerBaseElement {
       return;
     }
 
-    if (e.detail.fittingType === FittingType.FIT_TO_PAGE ||
-        e.detail.fittingType === FittingType.FIT_TO_HEIGHT) {
+    if (e.detail === FittingType.FIT_TO_PAGE ||
+        e.detail === FittingType.FIT_TO_HEIGHT) {
       this.toolbarManager_.forceHideTopToolbar();
     }
   }
@@ -702,9 +714,14 @@ class PDFViewerElement extends PDFViewerBaseElement {
   /** @override */
   forceFit(view) {
     if (!this.pdfViewerUpdateEnabled_) {
+      if (view === FittingType.FIT_TO_PAGE ||
+          view === FittingType.FIT_TO_HEIGHT) {
+        this.toolbarManager_.forceHideTopToolbar();
+      }
       this.getZoomToolbar_().forceFit(view);
+    } else {
+      this.getToolbarNew_().forceFit(view);
     }
-    // TODO: Add handling for the case where the new toolbar is enabled.
   }
 
   /** @override */

@@ -14,14 +14,6 @@ import {html, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bun
 
 import {FittingType} from '../constants.js';
 
-/**
- * @typedef {{
- *   fittingType: !FittingType,
- *   userInitiated: boolean,
- * }}
- */
-export let FitToChangedEvent;
-
 const FIT_TO_PAGE_BUTTON_STATE = 0;
 const FIT_TO_WIDTH_BUTTON_STATE = 1;
 
@@ -92,8 +84,7 @@ Polymer({
     this.fireFitToChangedEvent_(
         this.$['fit-button'].activeIndex === FIT_TO_WIDTH_BUTTON_STATE ?
             FittingType.FIT_TO_WIDTH :
-            FittingType.FIT_TO_PAGE,
-        true);
+            FittingType.FIT_TO_PAGE);
   },
 
   /** Handle the keyboard shortcut equivalent of fit-button clicks. */
@@ -113,8 +104,6 @@ Polymer({
    * @param {!FittingType} fittingType Page fitting type to force.
    */
   forceFit(fittingType) {
-    this.fireFitToChangedEvent_(fittingType, false);
-
     // Set the button state since there was no mouse click.
     const nextButtonState =
         (fittingType === FittingType.FIT_TO_WIDTH ? FIT_TO_PAGE_BUTTON_STATE :
@@ -125,14 +114,10 @@ Polymer({
   /**
    * Fire a 'fit-to-changed' {CustomEvent} with the given FittingType as detail.
    * @param {!FittingType} fittingType to include as payload.
-   * @param {boolean} userInitiated whether the event was initiated by a user
-   *     action.
    * @private
    */
-  fireFitToChangedEvent_(fittingType, userInitiated) {
-    this.fire(
-        'fit-to-changed',
-        {fittingType: fittingType, userInitiated: userInitiated});
+  fireFitToChangedEvent_(fittingType) {
+    this.fire('fit-to-changed', fittingType);
   },
 
   /** Handle clicks of the zoom-in-button. */
