@@ -1282,6 +1282,8 @@ void WebTestControlHost::ReportResults() {
     OnTextDump(*layout_dump_);
   else if (renderer_dump_result_->layout)
     OnTextDump(*renderer_dump_result_->layout);
+  else
+    NOTREACHED();
 
   // Use the browser-generated |pixel_dump_| if present, else use the
   // renderer's.
