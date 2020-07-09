@@ -177,6 +177,7 @@ struct SameSizeAsLayoutObject : ImageResourceObserver, DisplayItemClient {
   // The following fields are in FragmentData.
   IntRect visual_rect_;
   PhysicalOffset paint_offset_;
+  PhysicalOffset offset_to_2d_translation_root_;
   std::unique_ptr<int> rare_data_;
 };
 
