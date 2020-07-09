@@ -344,6 +344,10 @@ vars = {
   # and whatever else without interference from each other.
   'libavif_revision': 'f48a33827db60223753e637699cef24f034c547d',
   # Three lines of non-changing comments so that
+  # the commit queue can handle CLs rolling nearby
+  # and whatever else without interference from each other.
+  'nearby_revision': '31ab07b5d7183572a4250be2e0ff26a03f920e77',
+  # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling securemessage
   # and whatever else without interference from each other.
   'securemessage_revision': '3955ec1700b9381a2562df35d48e42487a33d7a1',
@@ -1084,6 +1088,9 @@ deps = {
 
   'src/third_party/libavif/src':
     Var('chromium_git') + '/external/github.com/AOMediaCodec/libavif.git' + '@' + Var('libavif_revision'),
+
+  'src/third_party/nearby/src':
+    Var('chromium_git') + '/external/github.com/google/nearby-connections.git' + '@' + Var('nearby_revision'),
 
   'src/third_party/securemessage/src':
     Var('chromium_git') + '/external/github.com/google/securemessage.git' + '@' + Var('securemessage_revision'),
