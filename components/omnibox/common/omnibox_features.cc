@@ -328,11 +328,6 @@ extern const base::Feature kDeferredKeyboardPopup{
 const base::Feature kRichAutocompletion{"OmniboxRichAutocompletion",
                                         base::FEATURE_DISABLED_BY_DEFAULT};
 
-// Feature that enables not counting submatches towards the maximum
-// suggestion limit.
-const base::Feature kOmniboxLooseMaxLimitOnDedicatedRows{
-    "OmniboxLooseMaxLimitOnDedicatedRows", base::FEATURE_DISABLED_BY_DEFAULT};
-
 // Feature that enables Search Ready Omnibox in invognito.
 const base::Feature kOmniboxSearchReadyIncognito{
     "OmniboxSearchReadyIncognito", base::FEATURE_DISABLED_BY_DEFAULT};
