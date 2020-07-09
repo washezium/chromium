@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/feedback/anonymizer_tool.h"
+#include "components/feedback/redaction_tool.h"
 
 #include <memory>
 #include <utility>
@@ -24,19 +24,19 @@ namespace feedback {
 namespace {
 
 // The |kCustomPatternsWithContext| array defines patterns to match and
-// anonymize. Each pattern needs to define three capturing parentheses groups:
+// redact. Each pattern needs to define three capturing parentheses groups:
 //
-// - a group for the pattern before the identifier to be anonymized;
-// - a group for the identifier to be anonymized;
-// - a group for the pattern after the identifier to be anonymized.
+// - a group for the pattern before the identifier to be redacted;
+// - a group for the identifier to be redacted;
+// - a group for the pattern after the identifier to be redacted.
 //
 // The first and the last capture group are the origin of the "WithContext"
 // suffix in the name of this constant.
 //
-// Every matched identifier (in the context of the whole pattern) is anonymized
+// Every matched identifier (in the context of the whole pattern) is redacted
 // by replacing it with an incremental instance identifier. Every different
 // pattern defines a separate instance identifier space. See the unit test for
-// AnonymizerTool::AnonymizeCustomPattern for pattern anonymization examples.
+// RedactionTool::RedactCustomPatterns for pattern redaction examples.
 //
 // Useful regular expression syntax:
 //
@@ -61,7 +61,7 @@ CustomPatternWithAlias kCustomPatternsWithContext[] = {
     // char as well as dashes, periods, colons, slashes and unprintable ASCII
     // chars (except newline). The second one is for a special case in
     // edid-decode, where if we genericized it further then we would catch too
-    // many other cases that we don't want to anonymize.
+    // many other cases that we don't want to redact.
     {"Serial",
      "(?i-s)(\\bserial\\s*_?(?:number)?['\"]?\\s*[:=]\\s*['\"]?)"
      "([0-9a-zA-Z\\-.:\\/\\\\\\x00-\\x09\\x0B-\\x1F]+)(\\b)"},
@@ -194,7 +194,7 @@ std::string MaybeScrubIPAddress(const std::string& addr) {
     // |addr| may have been over-aggressively matched as an IPv6 address when
     // it's really just an arbitrary part of a sentence. If the string is the
     // same as the coarsely truncated address then keep it because even if
-    // it happens to be a real address, there is no loss of anonymity.
+    // it happens to be a real address, there is no leak.
     if (MaybeTruncateIPv6(&input_addr) && input_addr.ToString() == addr)
       return addr;
   }
@@ -261,25 +261,53 @@ std::string MaybeScrubIPAddress(const std::string& addr) {
   "\\x{100000}-\\x{10FFFD}" \
   "]"
 
-#define UCSCHAR \
-  "[" "\\x{A0}-\\x{D7FF}" "\\x{F900}-\\x{FDCF}" "\\x{FDF0}-\\x{FFEF}" \
-  "\\x{10000}-\\x{1FFFD}" "\\x{20000}-\\x{2FFFD}" "\\x{30000}-\\x{3FFFD}" \
-  "\\x{40000}-\\x{4FFFD}" "\\x{50000}-\\x{5FFFD}" "\\x{60000}-\\x{6FFFD}" \
-  "\\x{70000}-\\x{7FFFD}" "\\x{80000}-\\x{8FFFD}" "\\x{90000}-\\x{9FFFD}" \
-  "\\x{A0000}-\\x{AFFFD}" "\\x{B0000}-\\x{BFFFD}" "\\x{C0000}-\\x{CFFFD}" \
-  "\\x{D0000}-\\x{DFFFD}" "\\x{E1000}-\\x{EFFFD}" "]"
+#define UCSCHAR           \
+  "["                     \
+  "\\x{A0}-\\x{D7FF}"     \
+  "\\x{F900}-\\x{FDCF}"   \
+  "\\x{FDF0}-\\x{FFEF}"   \
+  "\\x{10000}-\\x{1FFFD}" \
+  "\\x{20000}-\\x{2FFFD}" \
+  "\\x{30000}-\\x{3FFFD}" \
+  "\\x{40000}-\\x{4FFFD}" \
+  "\\x{50000}-\\x{5FFFD}" \
+  "\\x{60000}-\\x{6FFFD}" \
+  "\\x{70000}-\\x{7FFFD}" \
+  "\\x{80000}-\\x{8FFFD}" \
+  "\\x{90000}-\\x{9FFFD}" \
+  "\\x{A0000}-\\x{AFFFD}" \
+  "\\x{B0000}-\\x{BFFFD}" \
+  "\\x{C0000}-\\x{CFFFD}" \
+  "\\x{D0000}-\\x{DFFFD}" \
+  "\\x{E1000}-\\x{EFFFD}" \
+  "]"
 
-#define IUNRESERVED NCG("[-a-z0-9._~]" "|" UCSCHAR)
+#define IUNRESERVED  \
+  NCG("[-a-z0-9._~]" \
+      "|" UCSCHAR)
 
-#define IPCHAR NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS "|" "[:@]")
-#define IFRAGMENT NCG(IPCHAR "|" "[/?]") "*"
-#define IQUERY NCG(IPCHAR "|" IPRIVATE "|" "[/?]") "*"
+#define IPCHAR                                   \
+  NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS \
+                  "|"                            \
+                  "[:@]")
+#define IFRAGMENT \
+  NCG(IPCHAR      \
+      "|"         \
+      "[/?]")     \
+  "*"
+#define IQUERY            \
+  NCG(IPCHAR "|" IPRIVATE \
+             "|"          \
+             "[/?]")      \
+  "*"
 
 #define ISEGMENT IPCHAR "*"
 #define ISEGMENT_NZ IPCHAR "+"
 #define ISEGMENT_NZ_NC                           \
   NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS \
-                  "|" "@") "+"
+                  "|"                            \
+                  "@")                           \
+  "+"
 
 #define IPATH_EMPTY ""
 #define IPATH_ROOTLESS ISEGMENT_NZ NCG("/" ISEGMENT) "*"
@@ -287,24 +315,30 @@ std::string MaybeScrubIPAddress(const std::string& addr) {
 #define IPATH_ABSOLUTE "/" OPT_NCG(ISEGMENT_NZ NCG("/" ISEGMENT) "*")
 #define IPATH_ABEMPTY NCG("/" ISEGMENT) "*"
 
-#define IPATH NCG(IPATH_ABEMPTY "|" IPATH_ABSOLUTE "|" IPATH_NOSCHEME "|" \
-                  IPATH_ROOTLESS "|" IPATH_EMPTY)
+#define IPATH                                                                \
+  NCG(IPATH_ABEMPTY "|" IPATH_ABSOLUTE "|" IPATH_NOSCHEME "|" IPATH_ROOTLESS \
+                    "|" IPATH_EMPTY)
 
 #define IREG_NAME NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS) "*"
 
 #define IHOST NCG(IP_LITERAL "|" IPV4ADDRESS "|" IREG_NAME)
-#define IUSERINFO NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS "|" ":") "*"
+#define IUSERINFO                                \
+  NCG(IUNRESERVED "|" PCT_ENCODED "|" SUB_DELIMS \
+                  "|"                            \
+                  ":")                           \
+  "*"
 #define IAUTHORITY OPT_NCG(IUSERINFO "@") IHOST OPT_NCG(":" PORT)
 
-#define IRELATIVE_PART NCG("//" IAUTHORITY IPATH_ABEMPTY "|" IPATH_ABSOLUTE \
-                           "|" IPATH_NOSCHEME "|" IPATH_EMPTY)
+#define IRELATIVE_PART                                                    \
+  NCG("//" IAUTHORITY IPATH_ABEMPTY "|" IPATH_ABSOLUTE "|" IPATH_NOSCHEME \
+      "|" IPATH_EMPTY)
 
 #define IRELATIVE_REF IRELATIVE_PART OPT_NCG("?" IQUERY) OPT_NCG("#" IFRAGMENT)
 
 // RFC 3987 requires IPATH_EMPTY here but it is omitted so that statements
 // that end with "Android:" for example are not considered a URL.
-#define IHIER_PART NCG("//" IAUTHORITY IPATH_ABEMPTY "|" IPATH_ABSOLUTE \
-                       "|" IPATH_ROOTLESS)
+#define IHIER_PART \
+  NCG("//" IAUTHORITY IPATH_ABEMPTY "|" IPATH_ABSOLUTE "|" IPATH_ROOTLESS)
 
 #define ABSOLUTE_IRI SCHEME ":" IHIER_PART OPT_NCG("?" IQUERY)
 
@@ -316,7 +350,7 @@ std::string MaybeScrubIPAddress(const std::string& addr) {
 // addresses. Capture names as well ("First Lastname" <foo@bar.com>).
 
 // The |kCustomPatternWithoutContext| array defines further patterns to match
-// and anonymize. Each pattern consists of a single capturing group.
+// and redact. Each pattern consists of a single capturing group.
 CustomPatternWithAlias kCustomPatternsWithoutContext[] = {
     {"URL", "(?i)(" IRI ")"},
     // Email Addresses need to come after URLs because they can be part
@@ -377,55 +411,56 @@ bool FindAndConsumeAndGetSkipped(re2::StringPiece* input,
                                       base::size(args));
 }
 
-// The following MAC addresses will not be anonymized as they are not specific
+// The following MAC addresses will not be redacted as they are not specific
 // to a device but have general meanings.
-const char* const kNonAnonymizedMacAddresses[] = {
+const char* const kUnredactedMacAddresses[] = {
     "00:00:00:00:00:00",  // ARP failure result MAC.
     "ff:ff:ff:ff:ff:ff",  // Broadcast MAC.
 };
-constexpr size_t kNumNonAnonymizedMacs = base::size(kNonAnonymizedMacAddresses);
+constexpr size_t kNumUnredactedMacs = base::size(kUnredactedMacAddresses);
 
 }  // namespace
 
-AnonymizerTool::AnonymizerTool(const char* const* first_party_extension_ids)
+RedactionTool::RedactionTool(const char* const* first_party_extension_ids)
     : first_party_extension_ids_(first_party_extension_ids) {
   DETACH_FROM_SEQUENCE(sequence_checker_);
   // Identity-map these, so we don't mangle them.
-  for (const char* mac : kNonAnonymizedMacAddresses)
+  for (const char* mac : kUnredactedMacAddresses)
     mac_addresses_[mac] = mac;
 }
 
-AnonymizerTool::~AnonymizerTool() {
+RedactionTool::~RedactionTool() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 }
 
-std::string AnonymizerTool::Anonymize(const std::string& input) {
+std::string RedactionTool::Redact(const std::string& input) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   base::AssertLongCPUWorkAllowed();
 
-  std::string anonymized = AnonymizeMACAddresses(input);
-  anonymized = AnonymizeAndroidAppStoragePaths(std::move(anonymized));
-  anonymized = AnonymizeCustomPatterns(std::move(anonymized));
+  std::string redacted = RedactMACAddresses(input);
+  redacted = RedactAndroidAppStoragePaths(std::move(redacted));
+  redacted = RedactCustomPatterns(std::move(redacted));
   // Do hashes last since they may appear in URLs and they also prevent us from
   // properly recognizing the Android storage paths.
-  anonymized = AnonymizeHashes(std::move(anonymized));
-  return anonymized;
+  redacted = RedactHashes(std::move(redacted));
+  return redacted;
 }
 
-RE2* AnonymizerTool::GetRegExp(const std::string& pattern) {
+RE2* RedactionTool::GetRegExp(const std::string& pattern) {
   if (regexp_cache_.find(pattern) == regexp_cache_.end()) {
     RE2::Options options;
     // set_multiline of pcre is not supported by RE2, yet.
     options.set_dot_nl(true);  // Dot matches a new line.
     std::unique_ptr<RE2> re = std::make_unique<RE2>(pattern, options);
-    DCHECK_EQ(re2::RE2::NoError, re->error_code())
-        << "Failed to parse:\n" << pattern << "\n" << re->error();
+    DCHECK_EQ(re2::RE2::NoError, re->error_code()) << "Failed to parse:\n"
+                                                   << pattern << "\n"
+                                                   << re->error();
     regexp_cache_[pattern] = std::move(re);
   }
   return regexp_cache_[pattern].get();
 }
 
-std::string AnonymizerTool::AnonymizeMACAddresses(const std::string& input) {
+std::string RedactionTool::RedactMACAddresses(const std::string& input) {
   // This regular expression finds the next MAC address. It splits the data into
   // an OUI (Organizationally Unique Identifier) part and a NIC (Network
   // Interface Controller) specific part. We also match on dash and underscore
@@ -458,7 +493,7 @@ std::string AnonymizerTool::AnonymizeMACAddresses(const std::string& input) {
     if (replacement_mac.empty()) {
       // If not found, build up a replacement MAC address by generating a new
       // NIC part.
-      int mac_id = mac_addresses_.size() - kNumNonAnonymizedMacs;
+      int mac_id = mac_addresses_.size() - kNumUnredactedMacs;
       replacement_mac = base::StringPrintf("[MAC OUI=%s IFACE=%d]",
                                            oui_string.c_str(), mac_id);
       mac_addresses_[mac] = replacement_mac;
@@ -472,7 +507,7 @@ std::string AnonymizerTool::AnonymizeMACAddresses(const std::string& input) {
   return result;
 }
 
-std::string AnonymizerTool::AnonymizeHashes(const std::string& input) {
+std::string RedactionTool::RedactHashes(const std::string& input) {
   // This will match hexadecimal strings from length 32 to 64 that have a word
   // boundary at each end. We then check to make sure they are one of our valid
   // hash lengths before replacing.
@@ -524,7 +559,7 @@ std::string AnonymizerTool::AnonymizeHashes(const std::string& input) {
   return result;
 }
 
-std::string AnonymizerTool::AnonymizeAndroidAppStoragePaths(
+std::string RedactionTool::RedactAndroidAppStoragePaths(
     const std::string& input) {
   // We only use this on Chrome OS and there's differences in the API for
   // FilePath on Windows which prevents this from compiling, so only enable this
@@ -533,10 +568,10 @@ std::string AnonymizerTool::AnonymizeAndroidAppStoragePaths(
   std::string result;
   result.reserve(input.size());
 
-  // This is for anonymizing 'android_app_storage' output. When the path starts
+  // This is for redacting 'android_app_storage' output. When the path starts
   // either /home/root/<hash>/data/data/<package_name>/ or
   // /home/root/<hash>/data/user_de/<number>/<package_name>/, this function will
-  // anonymize path components following <package_name>/.
+  // redact path components following <package_name>/.
   RE2* path_re = GetRegExp(
       "(?m)(\\t/home/root/[\\da-f]+/android-data/data/"
       "(data|user_de/\\d+)/[^/\\n]+)("
@@ -551,8 +586,8 @@ std::string AnonymizerTool::AnonymizeAndroidAppStoragePaths(
     skipped.AppendToString(&result);
     path_prefix.AppendToString(&result);
 
-    // |app_specific| has to be anonymized. First, convert it into components,
-    // and then anonymize each component as follows:
+    // |app_specific| has to be redacted. First, convert it into components,
+    // and then redact each component as follows:
     // - If the component has a non-ASCII character, change it to '*'.
     // - Otherwise, remove all the characters in the component but the first
     //   one.
@@ -580,19 +615,19 @@ std::string AnonymizerTool::AnonymizeAndroidAppStoragePaths(
 #endif  //  defined(OS_CHROMEOS)
 }
 
-std::string AnonymizerTool::AnonymizeCustomPatterns(std::string input) {
+std::string RedactionTool::RedactCustomPatterns(std::string input) {
   for (size_t i = 0; i < base::size(kCustomPatternsWithContext); i++) {
     input =
-        AnonymizeCustomPatternWithContext(input, kCustomPatternsWithContext[i]);
+        RedactCustomPatternWithContext(input, kCustomPatternsWithContext[i]);
   }
   for (size_t i = 0; i < base::size(kCustomPatternsWithoutContext); i++) {
-    input = AnonymizeCustomPatternWithoutContext(
-        input, kCustomPatternsWithoutContext[i]);
+    input = RedactCustomPatternWithoutContext(input,
+                                              kCustomPatternsWithoutContext[i]);
   }
   return input;
 }
 
-std::string AnonymizerTool::AnonymizeCustomPatternWithContext(
+std::string RedactionTool::RedactCustomPatternWithContext(
     const std::string& input,
     const CustomPatternWithAlias& pattern) {
   RE2* re = GetRegExp(pattern.pattern);
@@ -675,7 +710,7 @@ bool IsUrlExempt(re2::StringPiece url,
   return false;
 }
 
-std::string AnonymizerTool::AnonymizeCustomPatternWithoutContext(
+std::string RedactionTool::RedactCustomPatternWithoutContext(
     const std::string& input,
     const CustomPatternWithAlias& pattern) {
   RE2* re = GetRegExp(pattern.pattern);
@@ -721,19 +756,19 @@ std::string AnonymizerTool::AnonymizeCustomPatternWithoutContext(
   return result;
 }
 
-AnonymizerToolContainer::AnonymizerToolContainer(
+RedactionToolContainer::RedactionToolContainer(
     scoped_refptr<base::SequencedTaskRunner> task_runner,
     const char* const* first_party_extension_ids)
-    : anonymizer_(new AnonymizerTool(first_party_extension_ids)),
+    : redactor_(new RedactionTool(first_party_extension_ids)),
       task_runner_(task_runner) {}
 
-AnonymizerToolContainer::~AnonymizerToolContainer() {
-  task_runner_->DeleteSoon(FROM_HERE, std::move(anonymizer_));
+RedactionToolContainer::~RedactionToolContainer() {
+  task_runner_->DeleteSoon(FROM_HERE, std::move(redactor_));
 }
 
-AnonymizerTool* AnonymizerToolContainer::Get() {
+RedactionTool* RedactionToolContainer::Get() {
   DCHECK(task_runner_->RunsTasksInCurrentSequence());
-  return anonymizer_.get();
+  return redactor_.get();
 }
 
 }  // namespace feedback
