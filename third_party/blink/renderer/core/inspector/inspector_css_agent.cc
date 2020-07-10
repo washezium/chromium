@@ -1005,7 +1005,7 @@ Response InspectorCSSAgent::getMatchedStylesForNode(
   // FIXME: It's really gross for the inspector to reach in and access
   // StyleResolver directly here. We need to provide the Inspector better APIs
   // to get this information without grabbing at internal style classes!
-  StyleResolver& style_resolver = document.EnsureStyleResolver();
+  StyleResolver& style_resolver = document.GetStyleResolver();
 
   // Matched rules.
   RuleIndexList* matched_rules = style_resolver.PseudoCSSRulesForElement(
@@ -1106,7 +1106,7 @@ InspectorCSSAgent::AnimationsForNode(Element* element) {
   if (!style)
     return css_keyframes_rules;
   const CSSAnimationData* animation_data = style->Animations();
-  StyleResolver& style_resolver = document.EnsureStyleResolver();
+  StyleResolver& style_resolver = document.GetStyleResolver();
   for (wtf_size_t i = 0;
        animation_data && i < animation_data->NameList().size(); ++i) {
     AtomicString animation_name(animation_data->NameList()[i]);
@@ -2294,7 +2294,7 @@ HeapVector<Member<CSSStyleDeclaration>> InspectorCSSAgent::MatchingStyles(
   PseudoId pseudo_id = element->GetPseudoId();
   if (pseudo_id)
     element = element->parentElement();
-  StyleResolver& style_resolver = element->GetDocument().EnsureStyleResolver();
+  StyleResolver& style_resolver = element->GetDocument().GetStyleResolver();
 
   element->UpdateDistributionForUnknownReasons();
 

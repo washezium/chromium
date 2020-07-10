@@ -2770,7 +2770,7 @@ scoped_refptr<ComputedStyle> Element::StyleForLayoutObject() {
 }
 
 scoped_refptr<ComputedStyle> Element::OriginalStyleForLayoutObject() {
-  return GetDocument().EnsureStyleResolver().StyleForElement(this);
+  return GetDocument().GetStyleResolver().StyleForElement(this);
 }
 
 void Element::RecalcStyleForTraversalRootAncestor() {
@@ -4799,7 +4799,7 @@ const ComputedStyle* Element::EnsureComputedStyle(
   }
 
   scoped_refptr<ComputedStyle> result =
-      GetDocument().EnsureStyleResolver().PseudoStyleForElement(
+      GetDocument().GetStyleResolver().PseudoStyleForElement(
           this,
           PseudoElementStyleRequest(
               pseudo_element_specifier,
@@ -5107,7 +5107,7 @@ scoped_refptr<ComputedStyle> Element::StyleForPseudoElement(
         layout_parent_style = layout_parent->GetComputedStyle();
       }
     }
-    return GetDocument().EnsureStyleResolver().PseudoStyleForElement(
+    return GetDocument().GetStyleResolver().PseudoStyleForElement(
         this, request, style, layout_parent_style);
   }
 
@@ -5116,13 +5116,13 @@ scoped_refptr<ComputedStyle> Element::StyleForPseudoElement(
 
   if (request.pseudo_id == kPseudoIdFirstLineInherited) {
     scoped_refptr<ComputedStyle> result =
-        GetDocument().EnsureStyleResolver().StyleForElement(this, parent_style,
-                                                            parent_style);
+        GetDocument().GetStyleResolver().StyleForElement(this, parent_style,
+                                                         parent_style);
     result->SetStyleType(kPseudoIdFirstLineInherited);
     return result;
   }
 
-  return GetDocument().EnsureStyleResolver().PseudoStyleForElement(
+  return GetDocument().GetStyleResolver().PseudoStyleForElement(
       this, request, parent_style, parent_style);
 }
 

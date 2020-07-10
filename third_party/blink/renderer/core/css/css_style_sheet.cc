@@ -210,20 +210,21 @@ void CSSStyleSheet::DidMutateRules() {
         custom_element_tag_names_);
   }
 
-  if (owner && ownerNode() && ownerNode()->isConnected()) {
+  if (owner && owner->IsActive() && ownerNode() && ownerNode()->isConnected()) {
     owner->GetStyleEngine().SetNeedsActiveStyleUpdate(
         ownerNode()->GetTreeScope());
-    if (StyleResolver* resolver = owner->GetStyleEngine().Resolver())
-      resolver->InvalidateMatchedPropertiesCache();
+    owner->GetStyleResolver().InvalidateMatchedPropertiesCache();
   } else if (!adopted_tree_scopes_.IsEmpty()) {
     for (auto tree_scope : adopted_tree_scopes_) {
+      if (!tree_scope->GetDocument().IsActive())
+        continue;
       if (!tree_scope->RootNode().isConnected())
         continue;
       tree_scope->GetDocument().GetStyleEngine().SetNeedsActiveStyleUpdate(
           *tree_scope);
-      if (StyleResolver* resolver =
-              tree_scope->GetDocument().GetStyleEngine().Resolver())
-        resolver->InvalidateMatchedPropertiesCache();
+      tree_scope->GetDocument()
+          .GetStyleResolver()
+          .InvalidateMatchedPropertiesCache();
     }
   }
 
@@ -233,6 +234,8 @@ void CSSStyleSheet::DidMutateRules() {
 void CSSStyleSheet::DidMutate() {
   Document* owner = OwnerDocument();
   if (!owner)
+    return;
+  if (!owner->IsActive())
     return;
   if (ownerNode() && ownerNode()->isConnected())
     owner->GetStyleEngine().SetNeedsActiveStyleUpdate(

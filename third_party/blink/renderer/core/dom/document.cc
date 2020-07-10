@@ -2498,7 +2498,6 @@ void Document::UpdateStyle() {
   // SetNeedsStyleRecalc should only happen on Element and Text nodes.
   DCHECK(!NeedsStyleRecalc());
 
-  StyleResolver& resolver = EnsureStyleResolver();
   bool should_record_stats;
   TRACE_EVENT_CATEGORY_GROUP_ENABLED("blink,blink_style", &should_record_stats);
   GetStyleEngine().SetStatsEnabled(should_record_stats);
@@ -2517,7 +2516,6 @@ void Document::UpdateStyle() {
   DCHECK(!NeedsReattachLayoutTree());
   DCHECK(!ChildNeedsReattachLayoutTree());
   DCHECK(InStyleRecalc());
-  DCHECK_EQ(GetStyleResolver(), &resolver);
   lifecycle_.AdvanceTo(DocumentLifecycle::kStyleClean);
   if (should_record_stats) {
     TRACE_EVENT_END2(
@@ -2862,7 +2860,8 @@ scoped_refptr<const ComputedStyle> Document::StyleForPage(int page_index) {
   }
 
   UpdateActiveStyle();
-  return EnsureStyleResolver().StyleForPage(page_index, page_name);
+  return GetStyleEngine().GetStyleResolver().StyleForPage(page_index,
+                                                          page_name);
 }
 
 void Document::EnsurePaintLocationDataValidForNode(
@@ -3014,12 +3013,8 @@ void Document::UpdateUseShadowTreesIfNeeded() {
   }
 }
 
-StyleResolver* Document::GetStyleResolver() const {
-  return style_engine_->Resolver();
-}
-
-StyleResolver& Document::EnsureStyleResolver() const {
-  return style_engine_->EnsureResolver();
+StyleResolver& Document::GetStyleResolver() const {
+  return style_engine_->GetStyleResolver();
 }
 
 void Document::Initialize() {
@@ -3029,7 +3024,7 @@ void Document::Initialize() {
   layout_view_ = new LayoutView(this);
   SetLayoutObject(layout_view_);
 
-  layout_view_->SetStyle(StyleResolver::StyleForViewport(*this));
+  layout_view_->SetStyle(GetStyleResolver().StyleForViewport());
 
   AttachContext context;
   AttachLayoutTree(context);
@@ -4930,12 +4925,12 @@ void Document::SetResizedForViewportUnits() {
     media_query_matcher_->ViewportChanged();
   if (!HasViewportUnits())
     return;
-  EnsureStyleResolver().SetResizedForViewportUnits();
+  GetStyleResolver().SetResizedForViewportUnits();
   SetNeedsStyleRecalcForViewportUnits();
 }
 
 void Document::ClearResizedForViewportUnits() {
-  EnsureStyleResolver().ClearResizedForViewportUnits();
+  GetStyleResolver().ClearResizedForViewportUnits();
 }
 
 void Document::SetHoverElement(Element* new_hover_element) {

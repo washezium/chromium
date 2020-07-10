@@ -492,8 +492,7 @@ class CORE_EXPORT Document : public ContainerNode,
   bool IsSrcdocDocument() const { return is_srcdoc_document_; }
   bool IsMobileDocument() const { return is_mobile_document_; }
 
-  StyleResolver* GetStyleResolver() const;
-  StyleResolver& EnsureStyleResolver() const;
+  StyleResolver& GetStyleResolver() const;
 
   bool IsViewSource() const { return is_view_source_; }
   void SetIsViewSource(bool);
