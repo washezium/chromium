@@ -620,6 +620,8 @@ static_library("browser") {
     "lite_video/lite_video_observer.h",
     "lite_video/lite_video_user_blocklist.cc",
     "lite_video/lite_video_user_blocklist.h",
+    "lite_video/lite_video_util.cc",
+    "lite_video/lite_video_util.h",
     "lookalikes/lookalike_url_blocking_page.cc",
     "lookalikes/lookalike_url_blocking_page.h",
     "lookalikes/lookalike_url_controller_client.cc",
