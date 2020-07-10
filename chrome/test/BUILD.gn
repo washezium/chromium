@@ -4434,6 +4434,11 @@ test("unit_tests") {
 
     if (include_js_tests) {
       deps += [ "//chrome/test/data/webui:unit_tests_js" ]
+      if (is_chromeos) {
+        deps += [
+          "//chrome/browser/resources/chromeos/accessibility:unit_tests_js",
+        ]
+      }
     }
   }
 
