@@ -103,6 +103,8 @@ TEST_F(RequiredFieldsFallbackHandlerTest,
                             const base::Optional<ClientStatus>& detail_status) {
             EXPECT_EQ(status.proto_status(), AUTOFILL_INCOMPLETE);
             ASSERT_TRUE(detail_status.has_value());
+            ASSERT_EQ(detail_status.value().proto_status(),
+                      AUTOFILL_INCOMPLETE);
             ASSERT_EQ(detail_status.value()
                           .details()
                           .autofill_error_info()
@@ -176,6 +178,8 @@ TEST_F(RequiredFieldsFallbackHandlerTest, AddsFirstFieldFillingError) {
                             const base::Optional<ClientStatus>& detail_status) {
             EXPECT_EQ(status.proto_status(), AUTOFILL_INCOMPLETE);
             ASSERT_TRUE(detail_status.has_value());
+            ASSERT_EQ(detail_status.value().proto_status(),
+                      AUTOFILL_INCOMPLETE);
             ASSERT_EQ(detail_status.value()
                           .details()
                           .autofill_error_info()
@@ -227,6 +231,8 @@ TEST_F(RequiredFieldsFallbackHandlerTest,
                             const base::Optional<ClientStatus>& detail_status) {
             EXPECT_EQ(status.proto_status(), AUTOFILL_INCOMPLETE);
             ASSERT_TRUE(detail_status.has_value());
+            ASSERT_EQ(detail_status.value().proto_status(),
+                      AUTOFILL_INCOMPLETE);
             ASSERT_EQ(detail_status.value()
                           .details()
                           .autofill_error_info()
@@ -358,6 +364,8 @@ TEST_F(RequiredFieldsFallbackHandlerTest, FailsIfForcedFieldDidNotGetFilled) {
                             const base::Optional<ClientStatus>& detail_status) {
             EXPECT_EQ(status.proto_status(), AUTOFILL_INCOMPLETE);
             ASSERT_TRUE(detail_status.has_value());
+            ASSERT_EQ(detail_status.value().proto_status(),
+                      AUTOFILL_INCOMPLETE);
             ASSERT_EQ(detail_status.value()
                           .details()
                           .autofill_error_info()
@@ -445,6 +453,8 @@ TEST_F(RequiredFieldsFallbackHandlerTest,
                             const base::Optional<ClientStatus>& detail_status) {
             EXPECT_EQ(status.proto_status(), AUTOFILL_INCOMPLETE);
             ASSERT_TRUE(detail_status.has_value());
+            ASSERT_EQ(detail_status.value().proto_status(),
+                      AUTOFILL_INCOMPLETE);
             ASSERT_EQ(detail_status.value()
                           .details()
                           .autofill_error_info()
