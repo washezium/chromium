@@ -35,7 +35,6 @@
 
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_track.h"
 #include "third_party/blink/public/platform/web_common.h"
-#include "third_party/blink/public/platform/web_vector.h"
 
 #include "third_party/blink/public/platform/web_private_ptr.h"
 #if INSIDE_BLINK
@@ -56,28 +55,6 @@ class WebMediaStreamSource {
     kReadyStateLive = 0,
     kReadyStateMuted = 1,
     kReadyStateEnded = 2
-  };
-
-  struct Capabilities {
-    // WebVector is used to store an optional range for the below numeric
-    // fields. All of them should have 0 or 2 values representing min/max.
-    WebVector<uint32_t> width;
-    WebVector<uint32_t> height;
-    WebVector<double> aspect_ratio;
-    WebVector<double> frame_rate;
-    WebVector<bool> echo_cancellation;
-    WebVector<WebString> echo_cancellation_type;
-    WebVector<bool> auto_gain_control;
-    WebVector<bool> noise_suppression;
-    WebVector<int32_t> sample_size;
-    WebVector<int32_t> channel_count;
-    WebVector<int32_t> sample_rate;
-    WebVector<double> latency;
-
-    WebMediaStreamTrack::FacingMode facing_mode =
-        WebMediaStreamTrack::FacingMode::kNone;
-    WebString device_id;
-    WebString group_id;
   };
 
   WebMediaStreamSource() = default;
