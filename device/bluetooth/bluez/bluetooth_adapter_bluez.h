@@ -108,17 +108,17 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterBlueZ final
   std::string GetSystemName() const override;
   void SetName(const std::string& name,
                base::OnceClosure callback,
-               ErrorOnceCallback error_callback) override;
+               ErrorCallback error_callback) override;
   bool IsInitialized() const override;
   bool IsPresent() const override;
   bool IsPowered() const override;
   void SetPowered(bool powered,
                   base::OnceClosure callback,
-                  ErrorOnceCallback error_callback) override;
+                  ErrorCallback error_callback) override;
   bool IsDiscoverable() const override;
   void SetDiscoverable(bool discoverable,
                        base::OnceClosure callback,
-                       ErrorOnceCallback error_callback) override;
+                       ErrorCallback error_callback) override;
   uint32_t GetDiscoverableTimeout() const;
   bool IsDiscovering() const override;
   bool IsDiscoveringForTesting() const;
@@ -363,12 +363,12 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterBlueZ final
 
   // Called by dbus:: on completion of the discoverable property change.
   void OnSetDiscoverable(base::OnceClosure callback,
-                         ErrorOnceCallback error_callback,
+                         ErrorCallback error_callback,
                          bool success);
 
   // Called by dbus:: on completion of an adapter property change.
   void OnPropertyChangeCompleted(base::OnceClosure callback,
-                                 ErrorOnceCallback error_callback,
+                                 ErrorCallback error_callback,
                                  bool success);
 
   // BluetoothAdapter:

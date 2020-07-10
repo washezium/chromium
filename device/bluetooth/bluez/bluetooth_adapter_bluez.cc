@@ -351,7 +351,7 @@ std::string BluetoothAdapterBlueZ::GetSystemName() const {
 
 void BluetoothAdapterBlueZ::SetName(const std::string& name,
                                     base::OnceClosure callback,
-                                    ErrorOnceCallback error_callback) {
+                                    ErrorCallback error_callback) {
   if (!IsPresent()) {
     std::move(error_callback).Run();
     return;
@@ -388,7 +388,7 @@ bool BluetoothAdapterBlueZ::IsPowered() const {
 
 void BluetoothAdapterBlueZ::SetPowered(bool powered,
                                        base::OnceClosure callback,
-                                       ErrorOnceCallback error_callback) {
+                                       ErrorCallback error_callback) {
   if (!IsPresent()) {
     BLUETOOTH_LOG(ERROR) << "SetPowered: " << powered << ". Not Present!";
     std::move(error_callback).Run();
@@ -421,7 +421,7 @@ bool BluetoothAdapterBlueZ::IsDiscoverable() const {
 
 void BluetoothAdapterBlueZ::SetDiscoverable(bool discoverable,
                                             base::OnceClosure callback,
-                                            ErrorOnceCallback error_callback) {
+                                            ErrorCallback error_callback) {
   if (!IsPresent()) {
     std::move(error_callback).Run();
     return;
@@ -1464,7 +1464,7 @@ void BluetoothAdapterBlueZ::OnRegisterProfileError(
 }
 
 void BluetoothAdapterBlueZ::OnSetDiscoverable(base::OnceClosure callback,
-                                              ErrorOnceCallback error_callback,
+                                              ErrorCallback error_callback,
                                               bool success) {
   if (!IsPresent()) {
     std::move(error_callback).Run();
@@ -1484,7 +1484,7 @@ void BluetoothAdapterBlueZ::OnSetDiscoverable(base::OnceClosure callback,
 
 void BluetoothAdapterBlueZ::OnPropertyChangeCompleted(
     base::OnceClosure callback,
-    ErrorOnceCallback error_callback,
+    ErrorCallback error_callback,
     bool success) {
   if (IsPresent() && success) {
     std::move(callback).Run();

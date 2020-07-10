@@ -85,7 +85,7 @@ std::string BluetoothAdapterCast::GetName() const {
 
 void BluetoothAdapterCast::SetName(const std::string& name,
                                    base::OnceClosure callback,
-                                   ErrorOnceCallback error_callback) {
+                                   ErrorCallback error_callback) {
   name_ = name;
   std::move(callback).Run();
 }
@@ -106,7 +106,7 @@ bool BluetoothAdapterCast::IsPowered() const {
 
 void BluetoothAdapterCast::SetPowered(bool powered,
                                       base::OnceClosure callback,
-                                      ErrorOnceCallback error_callback) {
+                                      ErrorCallback error_callback) {
   // This class cannot actually change the powered state of the BT stack.
   // We simulate these changes for the benefit of testing. However, we may
   // want to actually delegate this call to the bluetooth service, at least
@@ -124,7 +124,7 @@ bool BluetoothAdapterCast::IsDiscoverable() const {
 
 void BluetoothAdapterCast::SetDiscoverable(bool discoverable,
                                            base::OnceClosure callback,
-                                           ErrorOnceCallback error_callback) {
+                                           ErrorCallback error_callback) {
   NOTIMPLEMENTED() << __func__ << " GATT server mode not supported";
   std::move(error_callback).Run();
 }
