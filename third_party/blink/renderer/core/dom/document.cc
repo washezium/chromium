@@ -2861,6 +2861,7 @@ scoped_refptr<const ComputedStyle> Document::StyleForPage(int page_index) {
       page_name = mapper->NamedPageAtIndex(page_index);
   }
 
+  UpdateActiveStyle();
   return EnsureStyleResolver().StyleForPage(page_index, page_name);
 }
 

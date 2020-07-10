@@ -537,6 +537,7 @@ TEST_F(StyleResolverTest, NoFetchForAtPage) {
     </style>
   )HTML");
 
+  GetDocument().UpdateActiveStyle();
   scoped_refptr<const ComputedStyle> page_style =
       GetDocument().EnsureStyleResolver().StyleForPage(0, "");
   ASSERT_TRUE(page_style);

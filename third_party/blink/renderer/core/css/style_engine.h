@@ -233,13 +233,19 @@ class CORE_EXPORT StyleEngine final : public GarbageCollected<StyleEngine>,
   void SetRuleUsageTracker(StyleRuleUsageTracker*);
 
   StyleResolver& EnsureResolver() {
-    UpdateActiveStyle();
     if (!resolver_)
       CreateResolver();
     return *resolver_;
   }
 
   bool HasResolver() const { return resolver_; }
+
+  void ComputeFont(Element& element,
+                   ComputedStyle* font_style,
+                   const CSSPropertyValueSet& font_properties) {
+    UpdateActiveStyle();
+    EnsureResolver().ComputeFont(element, font_style, font_properties);
+  }
 
   PendingInvalidations& GetPendingNodeInvalidations() {
     return pending_invalidations_;
