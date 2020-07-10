@@ -68,8 +68,7 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate {
     private final OverScroller mScroller;
     private final Handler mScrollerHandler;
     /** The viewport of this frame. */
-    @VisibleForTesting
-    final PlayerFrameViewport mViewport = new PlayerFrameViewport(new Size(0, 0), new Matrix());
+    private final PlayerFrameViewport mViewport;
     /** Dimension of tiles. */
     private int[] mTileDimensions;
     /** Bitmaps that make up the content of this frame. */
@@ -97,13 +96,14 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate {
     private Runnable mUserInteractionCallback;
 
     PlayerFrameMediator(PropertyModel model, PlayerCompositorDelegate compositorDelegate,
-            OverScroller scroller, @Nullable Runnable userInteractionCallback,
-            UnguessableToken frameGuid, int contentWidth, int contentHeight, int initialScrollX,
-            int initialScrollY) {
+            PlayerFrameViewport viewport, OverScroller scroller,
+            @Nullable Runnable userInteractionCallback, UnguessableToken frameGuid,
+            int contentWidth, int contentHeight, int initialScrollX, int initialScrollY) {
         mModel = model;
         mModel.set(PlayerFrameProperties.SCALE_MATRIX, mBitmapScaleMatrix);
 
         mCompositorDelegate = compositorDelegate;
+        mViewport = viewport;
         mScroller = scroller;
         mGuid = frameGuid;
         mContentSize = new Size(contentWidth, contentHeight);
