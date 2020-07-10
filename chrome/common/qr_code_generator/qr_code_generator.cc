@@ -11,12 +11,11 @@
 #include "base/check_op.h"
 #include "base/notreached.h"
 
-using GeneratedCode = QRCodeGenerator::GeneratedCode;
-
 // A structure containing QR version-specific constants and data.
 // All versions currently use error correction at level M.
 struct QRVersionInfo {
   constexpr QRVersionInfo(const int version,
+                          const uint32_t encoded_version,
                           const int size,
                           const size_t group1_bytes,
                           const size_t group1_num_blocks,
@@ -26,6 +25,7 @@ struct QRVersionInfo {
                           const size_t group2_block_data_bytes,
                           const std::array<int, 3> alignment_locations)
       : version(version),
+        encoded_version(encoded_version),
         size(size),
         group1_bytes(group1_bytes),
         group1_num_blocks(group1_num_blocks),
@@ -34,25 +34,25 @@ struct QRVersionInfo {
         group2_num_blocks(group2_num_blocks),
         group2_block_data_bytes(group2_block_data_bytes),
         alignment_locations(alignment_locations) {
-    if (version < 1 || version > 40 || size < 0 || group1_num_blocks == 0 ||
-        group1_bytes % group1_num_blocks != 0 || group1_block_data_bytes == 0 ||
-        group1_block_data_bytes * group1_num_blocks > group1_bytes ||
-        (group1_bytes - group1_block_data_bytes * group1_num_blocks) %
-                group1_num_blocks !=
-            0 ||
+    if (version < 1 || version > 40 || size < 0 ||
+        !CheckBlockGroupParameters(group1_bytes, group1_num_blocks,
+                                   group1_block_data_bytes) ||
         (group2_num_blocks != 0 &&
-         (group2_bytes % group2_num_blocks != 0 ||
-          group2_block_data_bytes == 0 ||
-          group2_block_data_bytes * group2_num_blocks > group2_bytes ||
-          (group2_bytes - group2_block_data_bytes * group2_num_blocks) %
-                  group2_num_blocks !=
-              0))) {
+         !CheckBlockGroupParameters(group2_bytes, group2_num_blocks,
+                                    group2_block_data_bytes)) ||
+        (version < 7 && encoded_version != 0) ||
+        (version >= 7 &&
+         encoded_version >> 12 != static_cast<uint32_t>(version))) {
       __builtin_unreachable();
     }
   }
 
   // The version of the QR code.
   const int version;
+
+  // An 18-bit value that contains the version, BCH (18,6)-encoded. Only valid
+  // for versions seven and above. See table D.1 for values.
+  const uint32_t encoded_version;
 
   // The number of "tiles" in each dimension for a QR code of |version|. See
   // table 1. (The colored squares in in QR codes are called tiles in the
@@ -110,6 +110,20 @@ struct QRVersionInfo {
     }
   }
 
+ private:
+  static constexpr bool CheckBlockGroupParameters(
+      const size_t bytes,
+      const size_t num_blocks,
+      const size_t block_data_bytes) {
+    if (num_blocks == 0 || bytes % num_blocks != 0 || block_data_bytes == 0 ||
+        block_data_bytes * num_blocks > bytes ||
+        (bytes - block_data_bytes * num_blocks) % num_blocks != 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   DISALLOW_COPY_AND_ASSIGN(QRVersionInfo);
 };
 
@@ -122,6 +136,7 @@ constexpr QRVersionInfo version_infos[] = {
     // 134 bytes, as 2 blocks of 67.
     {
         5,   // version
+        0,   // encoded version (not included in this version)
         37,  // size (num tiles in each axis)
 
         // Block group 1:
@@ -141,8 +156,9 @@ constexpr QRVersionInfo version_infos[] = {
     // 7-M
     // 196 bytes, as 4 blocks of 49.
     {
-        7,   // version
-        45,  // size (num tiles in each axis)
+        7,                     // version
+        0b000111110010010100,  // encoded version
+        45,                    // size (num tiles in each axis)
 
         // Block group 1:
         196,  // Total bytes in group
@@ -179,7 +195,7 @@ QRCodeGenerator::GeneratedCode::GeneratedCode(
     QRCodeGenerator::GeneratedCode&&) = default;
 QRCodeGenerator::GeneratedCode::~GeneratedCode() = default;
 
-base::Optional<GeneratedCode> QRCodeGenerator::Generate(
+base::Optional<QRCodeGenerator::GeneratedCode> QRCodeGenerator::Generate(
     base::span<const uint8_t> in) {
   // We're currently using a minimal set of versions to shrink test surface.
   // When expanding, take care to validate across different platforms and
@@ -233,6 +249,9 @@ base::Optional<GeneratedCode> QRCodeGenerator::Generate(
   // 80.
   constexpr uint16_t kFormatInformation = 0x5b4b;
   PutFormatBits(kFormatInformation);
+  if (version_info_->encoded_version != 0) {
+    PutVersionBlocks(version_info_->encoded_version);
+  }
 
   // Add the mode and character count.
 
@@ -428,48 +447,34 @@ void QRCodeGenerator::PutFormatBits(const uint16_t format) {
     v >>= 1;
   }
 
+  const int size = version_info_->size;
   v = format;
-  for (int x = version_info_->size - 1; x >= version_info_->size - 1 - 7; x--) {
+  for (int x = size - 1; x >= size - 1 - 7; x--) {
     at(x, 8) = 0b10 | (v & 1);
     v >>= 1;
   }
 
-  at(8, version_info_->size - 1 - 7) = 0b11;
-  for (int y = version_info_->size - 1 - 6; y <= version_info_->size - 1; y++) {
+  at(8, size - 1 - 7) = 0b11;
+  for (int y = size - 1 - 6; y <= size - 1; y++) {
     at(8, y) = 0b10 | (v & 1);
     v >>= 1;
   }
+}
 
+void QRCodeGenerator::PutVersionBlocks(uint32_t encoded_version) {
   // Version 7 and larger require 18-bit version information taking the form
   // of 6x3 rectangles above the bottom-left locator and to the left of the
   // top-right locator.
-  int size = version_info_->size;
-  int version = version_info_->version;
-  int vi_string = 0;
-  switch (version) {
-    case 5:
-      break;
-    case 7:
-      vi_string = 0b000111110010010100;
-      break;
-    case 13:
-      vi_string = 0b001101100001000111;
-      break;
-    default:
-      NOTREACHED() << "No version information string provided for QR v"
-                   << version;
-      break;
-  }
-  if (vi_string) {
-    for (int i = 0; i < 6; i++) {
-      for (int j = 0; j < 3; j++) {
-        // Bottom-left rectangle is top-to-bottom, left-to-right
-        at(i, size - 8 - 3 + j) = 0b10 | (vi_string & 1);
-        // Top-right rectangle is left-to-right, top-to-bottom
-        at(size - 8 - 3 + j, i) = 0b10 | (vi_string & 1);
-        // Shift to consider the next bit.
-        vi_string >>= 1;
-      }
+  const int size = version_info_->size;
+
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 3; j++) {
+      // Bottom-left rectangle is top-to-bottom, left-to-right
+      at(i, size - 8 - 3 + j) = 0b10 | (encoded_version & 1);
+      // Top-right rectangle is left-to-right, top-to-bottom
+      at(size - 8 - 3 + j, i) = 0b10 | (encoded_version & 1);
+      // Shift to consider the next bit.
+      encoded_version >>= 1;
     }
   }
 }
@@ -644,33 +649,33 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
   // print 'uint8_t kGenerator[' + str(len(gen)) + '] = {' + str(gen) + '}'
 
   // Used for 7-M: 18 error correction codewords per block.
-  static std::vector<uint8_t> kGenerator18 = {
+  static const uint8_t kGenerator18[] = {
       146, 217, 67,  32,  75,  173, 82,  73,  220, 240,
       215, 199, 175, 149, 113, 183, 251, 239, 1,
   };
 
   // Used for 13-M; 22 error correction codewords per block.
-  static std::vector<uint8_t> kGenerator22 = {
+  static const uint8_t kGenerator22[] = {
       245, 145, 26,  230, 218, 86,  253, 67,  123, 29, 137, 28,
       40,  69,  189, 19,  244, 182, 176, 131, 179, 89, 1,
   };
 
   // Used for 5-M, 24 error correction codewords per block.
-  static std::vector<uint8_t> kGenerator24 = {
+  static const uint8_t kGenerator24[] = {
       117, 144, 217, 127, 247, 237, 1,   206, 43,  61,  72,  130, 73,
       229, 150, 115, 102, 216, 237, 178, 70,  169, 118, 122, 1,
   };
 
-  const std::vector<uint8_t>* generator = nullptr;
+  const uint8_t* generator = nullptr;
   switch (block_ec_bytes) {
     case 18:
-      generator = &kGenerator18;
+      generator = kGenerator18;
       break;
     case 22:
-      generator = &kGenerator22;
+      generator = kGenerator22;
       break;
     case 24:
-      generator = &kGenerator24;
+      generator = kGenerator24;
       break;
     default: {
       NOTREACHED() << "Unsupported Generator Polynomial for block_ec_bytes: "
@@ -685,8 +690,8 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
   // the coefficient of z^i.
 
   // Multiplication of |in| by x^k thus just involves moving it up.
-  std::unique_ptr<uint8_t[]> remainder(new uint8_t[block_bytes]);
-  memset(remainder.get(), 0, block_ec_bytes);
+  uint8_t remainder[block_bytes];
+  memset(remainder, 0, block_ec_bytes);
   size_t block_data_bytes = block_bytes - block_ec_bytes;
   // Reed-Solomon input is backwards. See section 7.5.2.
   for (size_t i = 0; i < block_data_bytes; i++) {
@@ -700,9 +705,8 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
     // subtract to eliminate the leading term of |remainder| is the value of
     // that leading term. The polynomial ring is characteristic two, so
     // subtraction is the same as addition, which is XOR.
-    for (size_t j = 0; j < generator->size() - 1; j++) {
-      remainder[i - block_ec_bytes + j] ^=
-          GF28Mul(generator->at(j), remainder[i]);
+    for (size_t j = 0; j < block_ec_bytes; j++) {
+      remainder[i - block_ec_bytes + j] ^= GF28Mul(generator[j], remainder[i]);
     }
   }
 

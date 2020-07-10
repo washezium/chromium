@@ -78,6 +78,10 @@ class QRCodeGenerator {
   // for the location of the format bits.
   void PutFormatBits(const uint16_t format);
 
+  // PutVersionBlocks writes the two blocks of version information for QR
+  // versions seven and above.
+  void PutVersionBlocks(const uint32_t encoded_version);
+
   // PutBits writes the given data into the QR code in correct order, avoiding
   // structural elements that must have already been painted. See section 7.7.3
   // about the placement algorithm.
