@@ -29,27 +29,29 @@ namespace v8_memory {
 // A decorator that queries each renderer process for the amount of memory used
 // by V8 in each frame.
 //
-// To start sampling create a MeasurementRequest object that specifies how
+// To start sampling create a V8PerFrameMemoryRequest object that specifies how
 // often to request a memory measurement. Delete the object when you no longer
 // need measurements. Measurement involves some overhead so choose the lowest
 // sampling frequency your use case needs. The decorator will use the highest
 // sampling frequency that any caller requests, and stop measurements entirely
-// when no more MeasurementRequest objects exist.
+// when no more V8PerFrameMemoryRequest objects exist.
 //
-// When measurements are available the decorator attaches them to FrameData and
-// ProcessData objects that can be retrieved with FrameData::ForFrameNode and
-// ProcessData::ForProcessNode. ProcessData objects can be cleaned up when
-// MeasurementRequest objects are deleted so callers must save the measurements
-// they are interested in before releasing their MeasurementRequest.
+// When measurements are available the decorator attaches them to
+// V8PerFrameMemoryFrameData and V8PerFrameMemoryProcessData objects that can
+// be retrieved with V8PerFrameMemoryFrameData::ForFrameNode and
+// V8PerFrameMemoryProcessData::ForProcessNode. V8PerFrameMemoryProcessData
+// objects can be cleaned up when V8PerFrameMemoryRequest objects are deleted
+// so callers must save the measurements they are interested in before
+// releasing their V8PerFrameMemoryRequest.
 //
 // Callers can be notified when a request is available by implementing
-// V8PerFrameMemoryDecorator::Observer.
+// V8PerFrameMemoryObserver.
 //
-// MeasurementRequest, FrameData and ProcessData must all be accessed on the
-// graph sequence, and Observer::OnV8MemoryMeasurementAvailable will be called
-// on this sequence. To request memory measurements from another sequence use
-// the V8PerFrameMemoryRequestAnySeq and V8PerFrameMemoryObserverAnySeq
-// wrappers.
+// V8PerFrameMemoryRequest, V8PerFrameMemoryFrameData and
+// V8PerFrameMemoryProcessData must all be accessed on the graph sequence, and
+// V8PerFrameMemoryObserver::OnV8MemoryMeasurementAvailable will be called on
+// this sequence. To request memory measurements from another sequence use the
+// V8PerFrameMemoryRequestAnySeq and V8PerFrameMemoryObserverAnySeq wrappers.
 //
 // Usage:
 //
@@ -64,9 +66,8 @@ namespace v8_memory {
 //
 //     void Start(Graph* graph) {
 //       DCHECK_ON_GRAPH_SEQUENCE(graph);
-//       request_ =
-//           std::make_unique<V8PerFrameMemoryDecorator::MeasurementRequest>(
-//               base::TimeDelta::FromSeconds(30));
+//       request_ = std::make_unique<V8PerFrameMemoryRequest>(
+//           base::TimeDelta::FromSeconds(30));
 //       request_->StartMeasurement(graph);
 //
 //       // Periodically check Process and Frame nodes for the latest results.
@@ -77,17 +78,15 @@ namespace v8_memory {
 //
 //     void GetResults(Graph* graph) {
 //       DCHECK_ON_GRAPH_SEQUENCE(graph);
-//       for (auto* process_node : graph->GetAllProcessNodes()) {
-//         auto* process_data =
-//             V8PerFrameMemoryDecorator::ProcessData::ForProcess(process_node);
+//       for (auto* node : graph->GetAllProcessNodes()) {
+//         auto* process_data = V8PerFrameMemoryProcessData::ForProcess(node);
 //         if (process_data) {
-//           LOG(INFO) << "Process " << process_node->GetProcessId() <<
+//           LOG(INFO) << "Process " << node->GetProcessId() <<
 //               " reported " << process_data->unassociated_v8_bytes_used() <<
 //               " bytes of V8 memory that wasn't associated with a frame.";
 //         }
-//         for (auto* frame_node : process_node->GetFrameNodes()) {
-//           auto* frame_data =
-//               V8PerFrameMemoryDecorator::FrameData::ForFrame(frame_node);
+//         for (auto* frame_node : node->GetFrameNodes()) {
+//           auto* frame_data = V8PerFrameMemoryFrameData::ForFrame(frame_node);
 //           if (frame_data) {
 //             LOG(INFO) << "Frame " << frame_node->GetFrameToken().value() <<
 //                 " reported " << frame_data->v8_bytes_used() <<
@@ -104,26 +103,25 @@ namespace v8_memory {
 //     }
 //
 //    private:
-//     std::unique_ptr<V8PerFrameMemoryDecorator::MeasurementRequest> request_;
+//     std::unique_ptr<V8PerFrameMemoryRequest> request_;
 //     base::RepeatingTimer timer_;
 //   };
 //
 // Take a memory measurement every 2 minutes and register an observer for the
 // results:
 //
-//   class Observer : public V8PerFrameMemoryDecorator::Observer {
+//   class Observer : public V8PerFrameMemoryObserver {
 //    public:
 //     // Called on the PM sequence for each process.
 //     void OnV8MemoryMeasurementAvailable(
 //         const ProcessNode* process_node,
-//         const V8PerFrameMemoryDecorator::ProcessData* data) override {
+//         const V8PerFrameMemoryProcessData* data) override {
 //       DCHECK(data);
 //       LOG(INFO) << "Process " << process_node->GetProcessId() <<
 //           " reported " << data->unassociated_v8_bytes_used() <<
 //           " bytes of V8 memory that wasn't associated with a frame.";
 //       for (auto* frame_node : process_node->GetFrameNodes()) {
-//         auto* frame_data =
-//             V8PerFrameMemoryDecorator::FrameData::ForFrame(frame_node);
+//         auto* frame_data = V8PerFrameMemoryFrameData::ForFrame(frame_node);
 //         if (frame_data) {
 //           LOG(INFO) << "Frame " << frame_node->GetFrameToken().value() <<
 //               " reported " << frame_data->v8_bytes_used() <<
@@ -143,11 +141,10 @@ namespace v8_memory {
 //     void Start(Graph* graph) {
 //       DCHECK_ON_GRAPH_SEQUENCE(graph);
 //
-//       // Creating a MeasurementRequest with the |graph| parameter
+//       // Creating a V8PerFrameMemoryRequest with the |graph| parameter
 //       // automatically starts measurements.
-//       request_ =
-//           std::make_unique<V8PerFrameMemoryDecorator::MeasurementRequest>(
-//               base::TimeDelta::FromSeconds(30), graph);
+//       request_ = std::make_unique<V8PerFrameMemoryRequest>(
+//           base::TimeDelta::FromSeconds(30), graph);
 //       observer_ = std::make_unique<Observer>();
 //       request_->AddObserver(observer_.get());
 //     }
@@ -165,7 +162,7 @@ namespace v8_memory {
 //     }
 //
 //    private:
-//     std::unique_ptr<V8PerFrameMemoryDecorator::MeasurementRequest> request_;
+//     std::unique_ptr<V8PerFrameMemoryRequest> request_;
 //     std::unique_ptr<Observer> observer_;
 //   };
 //
@@ -176,7 +173,7 @@ namespace v8_memory {
 //     // Called on the same sequence for each process.
 //     void OnV8MemoryMeasurementAvailable(
 //         RenderProcessHostId process_id,
-//         const V8PerFrameMemoryDecorator::ProcessData& process_data,
+//         const V8PerFrameMemoryProcessData& process_data,
 //         const V8PerFrameMemoryObserverAnySeq::FrameDataMap& frame_data)
 //         override {
 //       const auto* process = RenderProcessHost::FromID(process_id.value());
@@ -189,7 +186,7 @@ namespace v8_memory {
 //           " bytes of V8 memory that wasn't associated with a frame.";
 //       for (std::pair<
 //             content::GlobalFrameRoutingId,
-//             V8PerFrameMemoryDecorator::FrameData
+//             V8PerFrameMemoryFrameData
 //           > frame_and_data : frame_data) {
 //         const auto* frame = RenderFrameHost::FromID(frame_and_data.first);
 //         if (!frame) {
@@ -212,7 +209,7 @@ namespace v8_memory {
 //     void Start() {
 //       DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 //
-//       // Creating a MeasurementRequest with the |graph| parameter
+//       // Creating a V8PerFrameMemoryRequest with the |graph| parameter
 //       // automatically starts measurements.
 //       request_ = std::make_unique<V8PerFrameMemoryRequestAnySeq>(
 //           base::TimeDelta::FromMinutes(2));
@@ -239,17 +236,16 @@ namespace v8_memory {
 //     SEQUENCE_CHECKER(sequence_checker_);
 //   };
 
+class V8PerFrameMemoryObserver;
+class V8PerFrameMemoryRequest;
+class V8PerFrameMemoryRequestAnySeq;
+
 class V8PerFrameMemoryDecorator
     : public GraphOwned,
       public GraphRegisteredImpl<V8PerFrameMemoryDecorator>,
       public ProcessNode::ObserverDefaultImpl,
       public NodeDataDescriberDefaultImpl {
  public:
-  class MeasurementRequest;
-  class FrameData;
-  class ProcessData;
-  class Observer;
-
   V8PerFrameMemoryDecorator();
   ~V8PerFrameMemoryDecorator() override;
 
@@ -274,11 +270,11 @@ class V8PerFrameMemoryDecorator
 
   // Implementation details below this point.
 
-  // MeasurementRequest objects register themselves with the decorator.
-  void AddMeasurementRequest(util::PassKey<MeasurementRequest>,
-                             MeasurementRequest* request);
-  void RemoveMeasurementRequest(util::PassKey<MeasurementRequest>,
-                                MeasurementRequest* request);
+  // V8PerFrameMemoryRequest objects register themselves with the decorator.
+  void AddMeasurementRequest(util::PassKey<V8PerFrameMemoryRequest>,
+                             V8PerFrameMemoryRequest* request);
+  void RemoveMeasurementRequest(util::PassKey<V8PerFrameMemoryRequest>,
+                                V8PerFrameMemoryRequest* request);
 
   // Internal helper class that can call NotifyObserversOnMeasurementAvailable
   // when a measurement is received.
@@ -293,38 +289,37 @@ class V8PerFrameMemoryDecorator
   Graph* graph_ = nullptr;
 
   // List of requests sorted by sample_frequency (lowest first).
-  std::vector<MeasurementRequest*> measurement_requests_;
+  std::vector<V8PerFrameMemoryRequest*> measurement_requests_;
 
   SEQUENCE_CHECKER(sequence_checker_);
 };
 
-class V8PerFrameMemoryRequestAnySeq;
-
-class V8PerFrameMemoryDecorator::MeasurementRequest {
+class V8PerFrameMemoryRequest {
  public:
-  // Creates a MeasurementRequest but does not start the measurements. Call
+  // Creates a request but does not start the measurements. Call
   // StartMeasurement to add it to the request list.
-  explicit MeasurementRequest(const base::TimeDelta& sample_frequency);
+  explicit V8PerFrameMemoryRequest(const base::TimeDelta& sample_frequency);
 
-  // Creates a MeasurementRequest and calls StartMeasurement. This will request
+  // Creates a request and calls StartMeasurement. This will request
   // measurements for all ProcessNode's in |graph| with frequency
   // |sample_frequency|.
-  MeasurementRequest(const base::TimeDelta& sample_frequency, Graph* graph);
-  ~MeasurementRequest();
+  V8PerFrameMemoryRequest(const base::TimeDelta& sample_frequency,
+                          Graph* graph);
+  ~V8PerFrameMemoryRequest();
 
-  MeasurementRequest(const MeasurementRequest&) = delete;
-  MeasurementRequest& operator=(const MeasurementRequest&) = delete;
+  V8PerFrameMemoryRequest(const V8PerFrameMemoryRequest&) = delete;
+  V8PerFrameMemoryRequest& operator=(const V8PerFrameMemoryRequest&) = delete;
 
   const base::TimeDelta& sample_frequency() const { return sample_frequency_; }
 
   // Requests measurements for all ProcessNode's in |graph| with this object's
   // sample frequency. This must only be called once for each
-  // MeasurementRequest.
+  // V8PerFrameMemoryRequest.
   void StartMeasurement(Graph* graph);
 
   // Adds/removes an observer.
-  void AddObserver(V8PerFrameMemoryDecorator::Observer* observer);
-  void RemoveObserver(V8PerFrameMemoryDecorator::Observer* observer);
+  void AddObserver(V8PerFrameMemoryObserver* observer);
+  void RemoveObserver(V8PerFrameMemoryObserver* observer);
 
   // Implementation details below this point.
 
@@ -332,7 +327,7 @@ class V8PerFrameMemoryDecorator::MeasurementRequest {
   // |off_sequence_request| as a pointer to the off-sequence object that
   // triggered the request and starts measurements with frequency
   // |sample_frequency|.
-  MeasurementRequest(
+  V8PerFrameMemoryRequest(
       util::PassKey<V8PerFrameMemoryRequestAnySeq>,
       const base::TimeDelta& sample_frequency,
       base::WeakPtr<V8PerFrameMemoryRequestAnySeq> off_sequence_request);
@@ -350,8 +345,7 @@ class V8PerFrameMemoryDecorator::MeasurementRequest {
  private:
   base::TimeDelta sample_frequency_;
   V8PerFrameMemoryDecorator* decorator_ = nullptr;
-  base::ObserverList<V8PerFrameMemoryDecorator::Observer, /*check_empty=*/true>
-      observers_;
+  base::ObserverList<V8PerFrameMemoryObserver, /*check_empty=*/true> observers_;
 
   // Pointer back to the off-sequence V8PerFrameMemoryRequestAnySeq that
   // created this, if any.
@@ -363,12 +357,12 @@ class V8PerFrameMemoryDecorator::MeasurementRequest {
   SEQUENCE_CHECKER(sequence_checker_);
 };
 
-class V8PerFrameMemoryDecorator::FrameData {
+class V8PerFrameMemoryFrameData {
  public:
-  FrameData() = default;
-  virtual ~FrameData() = default;
+  V8PerFrameMemoryFrameData() = default;
+  virtual ~V8PerFrameMemoryFrameData() = default;
 
-  bool operator==(const FrameData& other) const {
+  bool operator==(const V8PerFrameMemoryFrameData& other) const {
     return v8_bytes_used_ == other.v8_bytes_used_;
   }
 
@@ -380,21 +374,21 @@ class V8PerFrameMemoryDecorator::FrameData {
     v8_bytes_used_ = v8_bytes_used;
   }
 
-  // Returns FrameData for the given node, or nullptr if no measurement has
+  // Returns frame data for the given node, or nullptr if no measurement has
   // been taken. The returned pointer must only be accessed on the graph
   // sequence and may go invalid at any time after leaving the calling scope.
-  static const FrameData* ForFrameNode(const FrameNode* node);
+  static const V8PerFrameMemoryFrameData* ForFrameNode(const FrameNode* node);
 
  private:
   uint64_t v8_bytes_used_ = 0;
 };
 
-class V8PerFrameMemoryDecorator::ProcessData {
+class V8PerFrameMemoryProcessData {
  public:
-  ProcessData() = default;
-  virtual ~ProcessData() = default;
+  V8PerFrameMemoryProcessData() = default;
+  virtual ~V8PerFrameMemoryProcessData() = default;
 
-  bool operator==(const ProcessData& other) const {
+  bool operator==(const V8PerFrameMemoryProcessData& other) const {
     return unassociated_v8_bytes_used_ == other.unassociated_v8_bytes_used_;
   }
 
@@ -408,26 +402,27 @@ class V8PerFrameMemoryDecorator::ProcessData {
     unassociated_v8_bytes_used_ = unassociated_v8_bytes_used;
   }
 
-  // Returns FrameData for the given node, or nullptr if no measurement has
+  // Returns process data for the given node, or nullptr if no measurement has
   // been taken. The returned pointer must only be accessed on the graph
   // sequence and may go invalid at any time after leaving the calling scope.
-  static const ProcessData* ForProcessNode(const ProcessNode* node);
+  static const V8PerFrameMemoryProcessData* ForProcessNode(
+      const ProcessNode* node);
 
  private:
   uint64_t unassociated_v8_bytes_used_ = 0;
 };
 
-class V8PerFrameMemoryDecorator::Observer : public base::CheckedObserver {
+class V8PerFrameMemoryObserver : public base::CheckedObserver {
  public:
   // Called on the PM sequence when a measurement is available for
   // |process_node|. |process_data| contains the process-level measurements for
   // the process, and can go invalid at any time after returning from this
   // method. Per-frame measurements can be read by walking the graph from
-  // |process_node| to find frame nodes, and calling FrameData::ForFrameNode to
-  // retrieve the measurement data.
+  // |process_node| to find frame nodes, and calling
+  // V8PerFrameMemoryFrameData::ForFrameNode to retrieve the measurement data.
   virtual void OnV8MemoryMeasurementAvailable(
       const ProcessNode* process_node,
-      const V8PerFrameMemoryDecorator::ProcessData* process_data) = 0;
+      const V8PerFrameMemoryProcessData* process_data) = 0;
 };
 
 // Observer that can be created on any sequence, and will be notified on that
@@ -438,8 +433,8 @@ class V8PerFrameMemoryDecorator::Observer : public base::CheckedObserver {
 class V8PerFrameMemoryObserverAnySeq : public base::CheckedObserver {
  public:
   // TODO(crbug.com/1096617): Should use FrameToken here instead of routing id.
-  using FrameDataMap = base::flat_map<content::GlobalFrameRoutingId,
-                                      V8PerFrameMemoryDecorator::FrameData>;
+  using FrameDataMap =
+      base::flat_map<content::GlobalFrameRoutingId, V8PerFrameMemoryFrameData>;
 
   // Called on the observer's sequence when a measurement is available for the
   // process with ID |render_process_host_id|. The notification includes the
@@ -448,12 +443,11 @@ class V8PerFrameMemoryObserverAnySeq : public base::CheckedObserver {
   // need to return to the PM sequence to read it.
   virtual void OnV8MemoryMeasurementAvailable(
       RenderProcessHostId render_process_host_id,
-      const V8PerFrameMemoryDecorator::ProcessData& process_data,
+      const V8PerFrameMemoryProcessData& process_data,
       const FrameDataMap& frame_data) = 0;
 };
 
-// Wrapper that can instantiate a V8PerFrameMemoryDecorator::MeasurementRequest
-// from any sequence.
+// Wrapper that can instantiate a V8PerFrameMemoryRequest from any sequence.
 class V8PerFrameMemoryRequestAnySeq {
  public:
   explicit V8PerFrameMemoryRequestAnySeq(
@@ -473,16 +467,16 @@ class V8PerFrameMemoryRequestAnySeq {
 
   // Implementation details below this point.
 
-  // MeasurementRequest calls NotifyObserversOnMeasurementAvailable when
+  // V8PerFrameMemoryRequest calls NotifyObserversOnMeasurementAvailable when
   // a measurement is received.
   void NotifyObserversOnMeasurementAvailable(
-      util::PassKey<V8PerFrameMemoryDecorator::MeasurementRequest>,
+      util::PassKey<V8PerFrameMemoryRequest>,
       RenderProcessHostId render_process_host_id,
-      const V8PerFrameMemoryDecorator::ProcessData& process_data,
+      const V8PerFrameMemoryProcessData& process_data,
       const V8PerFrameMemoryObserverAnySeq::FrameDataMap& frame_data) const;
 
  private:
-  std::unique_ptr<V8PerFrameMemoryDecorator::MeasurementRequest> request_;
+  std::unique_ptr<V8PerFrameMemoryRequest> request_;
   base::ObserverList<V8PerFrameMemoryObserverAnySeq, /*check_empty=*/true>
       observers_;
 
