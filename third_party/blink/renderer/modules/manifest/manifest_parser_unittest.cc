@@ -379,12 +379,12 @@ TEST_F(ManifestParserTest, ScopeParseRules) {
         errors()[1]);
   }
 
-  // No start URL. Document URL is in scope.
+  // No start URL. Document URL is in a subdirectory of scope.
   {
     auto& manifest =
         ParseManifestWithURLs("{ \"scope\": \"http://foo.com/land\" }",
                               KURL("http://foo.com/manifest.json"),
-                              KURL("http://foo.com/land/index.html"));
+                              KURL("http://foo.com/land/site/index.html"));
     ASSERT_EQ(manifest->scope.GetString(), "http://foo.com/land");
     ASSERT_EQ(0u, GetErrorCount());
   }
