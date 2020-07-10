@@ -6882,3 +6882,7 @@ crbug.com/1103701 [ Win7 ] fast/forms/month/month-picker-appearance-zoom150.html
 
 # Sheriff 2020-07-10
 crbug.com/1104118 [ Win7 ] fast/forms/color/color-suggestion-picker-appearance-value-attribute.html [ Pass Failure ]
+
+crbug.com/1102167 external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
+crbug.com/1102167 virtual/cors/external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
+crbug.com/1102167 virtual/omt-worker-fetch/external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
