@@ -843,7 +843,12 @@ Document::Document(const DocumentInit& initializer,
   cookie_url_ = initializer.HasSecurityContext() ? initializer.GetCookieUrl()
                                                  : KURL(g_empty_string);
 
-  PoliciesInitialized(initializer);
+  is_vertical_scroll_enforced_ =
+      GetFrame() && !GetFrame()->IsMainFrame() &&
+      RuntimeEnabledFeatures::ExperimentalProductivityFeaturesEnabled() &&
+      !dom_window_->IsFeatureEnabled(
+          mojom::blink::FeaturePolicyFeature::kVerticalScroll);
+
   InitDNSPrefetch();
 
   InstanceCounters::IncrementCounter(InstanceCounters::kDocumentCounter);
@@ -7004,19 +7009,6 @@ HTMLLinkElement* Document::LinkCanonical() const {
   return GetLinkElement(this, [](HTMLLinkElement& link_element) {
     return link_element.RelAttribute().IsCanonical();
   });
-}
-
-void Document::PoliciesInitialized(const DocumentInit& document_initializer) {
-  // Processing of the feature policy header is done before the SecurityContext
-  // is initialized. This method just records the usage.
-  if (!document_initializer.FeaturePolicyHeader().IsEmpty())
-    UseCounter::Count(*this, WebFeature::kFeaturePolicyHeader);
-
-  is_vertical_scroll_enforced_ =
-      GetFrame() && !GetFrame()->IsMainFrame() &&
-      RuntimeEnabledFeatures::ExperimentalProductivityFeaturesEnabled() &&
-      !dom_window_->IsFeatureEnabled(
-          mojom::blink::FeaturePolicyFeature::kVerticalScroll);
 }
 
 bool Document::AllowedToUseDynamicMarkUpInsertion(
