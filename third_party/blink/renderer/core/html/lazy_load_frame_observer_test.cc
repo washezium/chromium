@@ -1289,6 +1289,108 @@ class LazyLoadFramesTest : public SimTest {
   }
 };
 
+TEST_F(LazyLoadFramesTest, LazyLoadFrameUnsetLoadingAttributeWithoutAutomatic) {
+  ScopedLazyFrameLoadingForTest scoped_lazy_frame_loading_for_test(true);
+  ScopedAutomaticLazyFrameLoadingForTest
+      scoped_automatic_lazy_frame_loading_for_test(false);
+  ScopedRestrictAutomaticLazyFrameLoadingToDataSaverForTest
+      scoped_restrict_automatic_lazy_frame_loading_to_data_saver_for_test_(
+          false);
+
+  SimRequest main_resource("https://example.com/", "text/html");
+  LoadURL("https://example.com/");
+
+  main_resource.Complete(String::Format(
+      R"HTML(
+        <body onload='console.log("main body onload");'>
+        <div style='height: %dpx;'></div>
+        <iframe id='child_frame' src='https://crossorigin.com/subframe.html'
+             loading='lazy' style='width: 200px; height: 200px;'
+             onload='console.log("child frame element onload");'></iframe>
+        </body>)HTML",
+      kViewportHeight + kLoadingDistanceThresholdPx + 100));
+
+  Compositor().BeginFrame();
+  test::RunPendingTasks();
+
+  // The body's load event should have already fired.
+  EXPECT_TRUE(ConsoleMessages().Contains("main body onload"));
+  EXPECT_FALSE(ConsoleMessages().Contains("child frame element onload"));
+
+  SimRequest child_frame_resource("https://crossorigin.com/subframe.html",
+                                  "text/html");
+
+  Element* child_frame_element = GetDocument().getElementById("child_frame");
+  ASSERT_TRUE(child_frame_element);
+  child_frame_element->removeAttribute(html_names::kLoadingAttr);
+
+  test::RunPendingTasks();
+
+  EXPECT_FALSE(ConsoleMessages().Contains("child frame element onload"));
+
+  child_frame_resource.Complete("");
+
+  Compositor().BeginFrame();
+  test::RunPendingTasks();
+
+  EXPECT_TRUE(ConsoleMessages().Contains("child frame element onload"));
+}
+
+TEST_F(LazyLoadFramesTest, LazyLoadFrameUnsetLoadingAttributeWithAutomatic) {
+  ScopedLazyFrameLoadingForTest scoped_lazy_frame_loading_for_test(true);
+  ScopedAutomaticLazyFrameLoadingForTest
+      scoped_automatic_lazy_frame_loading_for_test(true);
+  ScopedRestrictAutomaticLazyFrameLoadingToDataSaverForTest
+      scoped_restrict_automatic_lazy_frame_loading_to_data_saver_for_test_(
+          false);
+
+  SimRequest main_resource("https://example.com/", "text/html");
+  LoadURL("https://example.com/");
+
+  main_resource.Complete(String::Format(
+      R"HTML(
+        <body onload='console.log("main body onload");'>
+        <div style='height: %dpx;'></div>
+        <iframe id='child_frame' src='https://crossorigin.com/subframe.html'
+             loading='lazy' style='width: 200px; height: 200px;'
+             onload='console.log("child frame element onload");'></iframe>
+        </body>)HTML",
+      kViewportHeight + kLoadingDistanceThresholdPx + 100));
+
+  Compositor().BeginFrame();
+  test::RunPendingTasks();
+
+  // The body's load event should have already fired.
+  EXPECT_TRUE(ConsoleMessages().Contains("main body onload"));
+  EXPECT_FALSE(ConsoleMessages().Contains("child frame element onload"));
+
+  Element* child_frame_element = GetDocument().getElementById("child_frame");
+  ASSERT_TRUE(child_frame_element);
+  child_frame_element->removeAttribute(html_names::kLoadingAttr);
+
+  test::RunPendingTasks();
+
+  EXPECT_FALSE(ConsoleMessages().Contains("child frame element onload"));
+
+  SimRequest child_frame_resource("https://crossorigin.com/subframe.html",
+                                  "text/html");
+
+  // The iframe should still be deferred because automatic lazy loading is
+  // enabled. Scroll down until it is visible.
+  GetDocument().View()->LayoutViewport()->SetScrollOffset(
+      ScrollOffset(0, 150), mojom::blink::ScrollType::kProgrammatic);
+
+  Compositor().BeginFrame();
+  test::RunPendingTasks();
+
+  child_frame_resource.Complete("");
+
+  Compositor().BeginFrame();
+  test::RunPendingTasks();
+
+  EXPECT_TRUE(ConsoleMessages().Contains("child frame element onload"));
+}
+
 TEST_F(LazyLoadFramesTest, LazyLoadWhenDisabledAndAttrLazy) {
   ScopedLazyFrameLoadingForTest scoped_lazy_frame_loading_for_test(false);
   ScopedAutomaticLazyFrameLoadingForTest
