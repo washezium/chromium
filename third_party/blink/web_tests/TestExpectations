@@ -6878,3 +6878,6 @@ crbug.com/1083302 media/controls/volumechange-muted-attribute.html [ Pass Failur
 
 # Sheriff 2020-07-09
 crbug.com/1103701 [ Win7 ] fast/forms/month/month-picker-appearance-zoom150.html [ Pass Failure ]
+
+# Sheriff 2020-07-10
+crbug.com/1104118 [ Win7 ] fast/forms/color/color-suggestion-picker-appearance-value-attribute.html [ Pass Failure ]
