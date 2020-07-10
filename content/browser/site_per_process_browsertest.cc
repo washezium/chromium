@@ -144,6 +144,7 @@
 #include "ui/events/keycodes/keyboard_codes.h"
 #include "ui/gfx/geometry/point.h"
 #include "ui/gfx/geometry/rect.h"
+#include "ui/gfx/transform.h"
 #include "ui/latency/latency_info.h"
 #include "ui/native_theme/native_theme_features.h"
 
@@ -12220,9 +12221,13 @@ IN_PROC_BROWSER_TEST_P(SitePerProcessBrowserTest,
       &screen_info);
   // Convert from CSS to physical pixels
   expected.Scale(screen_info.device_scale_factor);
-  gfx::Point actual = filter->GetIntersectionState().viewport_offset;
-  EXPECT_NEAR(expected.x(), actual.x(), 2.0);
-  EXPECT_NEAR(expected.y(), actual.y(), 2.0);
+  gfx::Transform actual = filter->GetIntersectionState().main_frame_transform;
+  gfx::Point viewport_offset;
+  EXPECT_TRUE(actual.TransformPointReverse(&viewport_offset));
+  viewport_offset = gfx::Point(-viewport_offset.x(), -viewport_offset.y());
+  float tolerance = ceilf(screen_info.device_scale_factor);
+  EXPECT_NEAR(expected.x(), viewport_offset.x(), tolerance);
+  EXPECT_NEAR(expected.y(), viewport_offset.y(), tolerance);
 }
 
 IN_PROC_BROWSER_TEST_P(SitePerProcessBrowserTest,
