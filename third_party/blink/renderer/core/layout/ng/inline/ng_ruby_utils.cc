@@ -31,7 +31,8 @@ std::tuple<LayoutUnit, LayoutUnit> AdjustTextOverUnderOffsetsForEmHeight(
       primary_font_data->GetFontMetrics().FixedAscent(font_baseline);
   const LayoutUnit primary_descent = line_height - primary_ascent;
 
-  Vector<ShapeResult::RunFontData> run_fonts;
+  DCHECK(IsMainThread());
+  DEFINE_STATIC_LOCAL(Vector<ShapeResult::RunFontData>, run_fonts, ());
   // We don't use ShapeResultView::FallbackFonts() because we can't know if the
   // primary font is actually used with FallbackFonts().
   shape_view.GetRunFontData(&run_fonts);
@@ -53,6 +54,7 @@ std::tuple<LayoutUnit, LayoutUnit> AdjustTextOverUnderOffsetsForEmHeight(
     over_diff = std::min(over_diff, current_over_diff);
     under_diff = std::min(under_diff, current_under_diff);
   }
+  run_fonts.resize(0);
   if (over_diff == kNoDiff)
     over_diff = LayoutUnit();
   if (under_diff == kNoDiff)
