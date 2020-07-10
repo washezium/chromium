@@ -2210,10 +2210,6 @@ void TestRunner::Install(WebFrameTestProxy* frame,
   gamepad_controller_.Install(frame->GetWebFrame());
 }
 
-void TestRunner::SetDelegate(BlinkTestRunner* blink_test_runner) {
-  blink_test_runner_ = blink_test_runner;
-}
-
 void TestRunner::SetMainView(blink::WebView* web_view) {
   main_view_ = web_view;
   if (disable_v8_cache_)
@@ -2541,24 +2537,6 @@ void TestRunner::FinishTestIfReady() {
 
   // If waiting for testRunner.notifyDone() then we can not end the test.
   if (web_test_runtime_flags_.wait_until_done() && !did_notify_done_)
-    return;
-
-  // When there are no more frames loading, and the test hasn't asked to wait
-  // for NotifyDone(), then we normally conclude the test. However if this
-  // TestRunner is attached to a swapped out frame tree - that is the main
-  // frame is in another frame tree - then finishing here would be premature
-  // for the main frame where the test is running. If |did_notify_done_| is
-  // true then we *were* waiting for NotifyDone() and it has already happened,
-  // so we want to proceed as if the NotifyDone() is happening now.
-  //
-  // Ideally, the main frame would wait for loading frames in its frame tree
-  // as well as any secondary renderers, but it does not know about secondary
-  // renderers. So in this case the test should finish when frames finish
-  // loading in the primary renderer, and we don't finish the test from a
-  // secondary renderer unless it is asked for explicitly via NotifyDone.
-  bool has_main_frame =
-      main_view_ && main_view_->MainFrame()->IsWebLocalFrame();
-  if (!has_main_frame && !did_notify_done_)
     return;
 
   FinishTest();
@@ -3195,7 +3173,35 @@ void TestRunner::CheckResponseMimeType() {
 }
 
 void TestRunner::FinishTest() {
-  blink_test_runner_->TestFinished();
+  WebViewTestProxy* main_window_main_frame_view = nullptr;
+  for (WebFrameTestProxy* main_frame : main_frames_) {
+    WebViewTestProxy* view = main_frame->GetWebViewTestProxy();
+    if (view->blink_test_runner()->is_main_window()) {
+      main_window_main_frame_view = view;
+      break;
+    }
+  }
+
+  // When there are no more frames loading, and the test hasn't asked to wait
+  // for NotifyDone(), then we normally conclude the test. However if this
+  // TestRunner is attached to a swapped out frame tree - that is, the main
+  // frame is in another frame tree - then finishing here would be premature
+  // for the main frame where the test is running. If |did_notify_done_| is
+  // true then we *were* waiting for NotifyDone() and it has already happened,
+  // so we want to proceed as if the NotifyDone() is happening now.
+  //
+  // Ideally, the main frame would wait for loading frames in its frame tree
+  // as well as any secondary renderers, but it does not know about secondary
+  // renderers. So in this case the test should finish when frames finish
+  // loading in the primary renderer, and we don't finish the test from a
+  // secondary renderer unless it is asked for explicitly via NotifyDone.
+  if (!main_window_main_frame_view) {
+    if (did_notify_done_)
+      GetWebTestControlHostRemote()->TestFinishedInSecondaryRenderer();
+    return;
+  }
+
+  main_window_main_frame_view->blink_test_runner()->TestFinished();
 }
 
 mojo::AssociatedRemote<mojom::WebTestControlHost>&

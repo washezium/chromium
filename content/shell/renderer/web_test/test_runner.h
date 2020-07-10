@@ -82,7 +82,6 @@ class TestRunner {
 
   void Install(WebFrameTestProxy* frame, SpellCheckClient* spell_check);
 
-  void SetDelegate(BlinkTestRunner*);
   void SetMainView(blink::WebView*);
 
   // Resets state across the whole renderer process for the next test.
@@ -556,7 +555,6 @@ class TestRunner {
   // WAV audio data is stored here.
   std::vector<uint8_t> audio_data_;
 
-  BlinkTestRunner* blink_test_runner_ = nullptr;
   blink::WebView* main_view_ = nullptr;
   base::flat_set<WebFrameTestProxy*> main_frames_;
   // The set of all render views in this renderer process. This may include
