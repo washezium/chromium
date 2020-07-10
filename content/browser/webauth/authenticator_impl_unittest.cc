@@ -3149,6 +3149,76 @@ TEST_F(AuthenticatorImplTest, GetAssertionSingleBatchListDoesNotProbe) {
   }
 }
 
+TEST_F(AuthenticatorImplTest, OptionalCredentialInAssertionResponse) {
+  // This test exercises the unfortunate optionality in the CTAP2 spec r.e.
+  // whether an authenticator returns credential information when the allowlist
+  // only has a single entry.
+  NavigateAndCommit(GURL(kTestOrigin1));
+  auto task_runner = base::MakeRefCounted<base::TestMockTimeTaskRunner>(
+      base::Time::Now(), base::TimeTicks::Now());
+  mojo::Remote<blink::mojom::Authenticator> authenticator =
+      ConstructAuthenticatorWithTimer(task_runner);
+
+  for (const auto behavior :
+       {device::VirtualCtap2Device::Config::IncludeCredential::ONLY_IF_NEEDED,
+        device::VirtualCtap2Device::Config::IncludeCredential::ALWAYS,
+        device::VirtualCtap2Device::Config::IncludeCredential::NEVER}) {
+    SCOPED_TRACE(static_cast<int>(behavior));
+
+    ResetVirtualDevice();
+    device::VirtualCtap2Device::Config config;
+    config.include_credential_in_assertion_response = behavior;
+    config.max_credential_count_in_list = 10;
+    config.max_credential_id_length = 256;
+    virtual_device_factory_->SetCtap2Config(config);
+
+    size_t num_credentials;
+    bool should_timeout = false;
+    switch (behavior) {
+      case device::VirtualCtap2Device::Config::IncludeCredential::
+          ONLY_IF_NEEDED:
+        // The behaviour to test for |ONLY_IF_NEEDED| is that an omitted
+        // credential in the response is handled correctly.
+        num_credentials = 1;
+        break;
+      case device::VirtualCtap2Device::Config::IncludeCredential::ALWAYS:
+        // Also test that a technically-superfluous credential in the response
+        // is handled.
+        num_credentials = 1;
+        break;
+      case device::VirtualCtap2Device::Config::IncludeCredential::NEVER:
+        // Test that omitting a credential in an ambiguous context causes a
+        // failure.
+        num_credentials = 2;
+        should_timeout = true;
+        break;
+    }
+
+    auto test_credentials = GetTestCredentials(num_credentials);
+    for (const auto& cred : test_credentials) {
+      ASSERT_TRUE(virtual_device_factory_->mutable_state()->InjectRegistration(
+          cred.id(), kTestRelyingPartyId));
+    }
+
+    PublicKeyCredentialRequestOptionsPtr options =
+        GetTestPublicKeyCredentialRequestOptions();
+    options->allow_credentials = std::move(test_credentials);
+
+    TestGetAssertionCallback callback_receiver;
+    authenticator->GetAssertion(std::move(options),
+                                callback_receiver.callback());
+    base::RunLoop().RunUntilIdle();
+    if (should_timeout) {
+      task_runner->FastForwardBy(base::TimeDelta::FromMinutes(5));
+    }
+    callback_receiver.WaitForCallback();
+
+    EXPECT_EQ(callback_receiver.status(),
+              should_timeout ? AuthenticatorStatus::NOT_ALLOWED_ERROR
+                             : AuthenticatorStatus::SUCCESS);
+  }
+}
+
 TEST_F(AuthenticatorImplTest, NoUnexpectedAuthenticatorExtensions) {
   NavigateAndCommit(GURL(kTestOrigin1));
 

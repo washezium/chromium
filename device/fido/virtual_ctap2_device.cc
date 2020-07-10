@@ -1295,9 +1295,25 @@ base::Optional<CtapDeviceResponseCode> VirtualCtap2Device::OnGetAssertion(
         std::move(authenticator_data),
         fido_parsing_utils::Materialize(signature));
 
-    assertion.SetCredential(
-        {CredentialType::kPublicKey,
-         fido_parsing_utils::Materialize(registration.first)});
+    bool include_credential;
+    switch (config_.include_credential_in_assertion_response) {
+      case VirtualCtap2Device::Config::IncludeCredential::ONLY_IF_NEEDED:
+        include_credential = request.allow_list.size() != 1;
+        break;
+      case VirtualCtap2Device::Config::IncludeCredential::ALWAYS:
+        include_credential = true;
+        break;
+      case VirtualCtap2Device::Config::IncludeCredential::NEVER:
+        include_credential = false;
+        break;
+    }
+
+    if (include_credential) {
+      assertion.SetCredential(
+          {CredentialType::kPublicKey,
+           fido_parsing_utils::Materialize(registration.first)});
+    }
+
     if (registration.second->is_resident) {
       assertion.SetUserEntity(registration.second->user.value());
     }
