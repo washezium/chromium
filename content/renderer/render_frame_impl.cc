@@ -1290,7 +1290,7 @@ void HandleChromeDebugURL(const GURL& url) {
 #endif  // ADDRESS_SANITIZER
 }
 
-const std::string& UniqueNameForWebFrame(blink::WebFrame* frame) {
+std::string UniqueNameForWebFrame(blink::WebFrame* frame) {
   return frame->IsWebLocalFrame()
              ? RenderFrameImpl::FromWebFrame(frame)->unique_name()
              : RenderFrameProxy::FromWebFrame(frame->ToWebRemoteFrame())
@@ -1341,11 +1341,11 @@ int RenderFrameImpl::UniqueNameFrameAdapter::GetChildCount() const {
   return child_count;
 }
 
-std::vector<base::StringPiece>
+std::vector<std::string>
 RenderFrameImpl::UniqueNameFrameAdapter::CollectAncestorNames(
     BeginPoint begin_point,
     bool (*should_stop)(base::StringPiece)) const {
-  std::vector<base::StringPiece> result;
+  std::vector<std::string> result;
   for (blink::WebFrame* frame = begin_point == BeginPoint::kParentFrame
                                     ? GetWebFrame()->Parent()
                                     : GetWebFrame();
@@ -5335,7 +5335,7 @@ blink::mojom::CommitResult RenderFrameImpl::PrepareForHistoryNavigationCommit(
   return blink::mojom::CommitResult::Ok;
 }
 
-const std::string& RenderFrameImpl::GetPreviousFrameUniqueName() {
+std::string RenderFrameImpl::GetPreviousFrameUniqueName() {
   DCHECK(!in_frame_tree_);
 
   RenderFrameProxy* previous_proxy =

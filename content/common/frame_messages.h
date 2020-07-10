@@ -431,12 +431,6 @@ IPC_MESSAGE_ROUTED2(FrameMsg_CustomContextMenuAction,
 // commit, activation and frame swap of the current DOM tree in blink.
 IPC_MESSAGE_ROUTED1(FrameMsg_VisualStateRequest, uint64_t /* id */)
 
-// Update a proxy's window.name property.  Used when the frame's name is
-// changed in another process.
-IPC_MESSAGE_ROUTED2(FrameMsg_DidUpdateName,
-                    std::string /* name */,
-                    std::string /* unique_name */)
-
 #if BUILDFLAG(ENABLE_PLUGINS)
 // Notifies the renderer of updates to the Plugin Power Saver origin allowlist.
 IPC_MESSAGE_ROUTED1(FrameMsg_UpdatePluginContentOriginAllowlist,

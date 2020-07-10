@@ -894,7 +894,7 @@ class CONTENT_EXPORT RenderFrameImpl
   // Gets the unique_name() of the frame being replaced by this frame, when
   // it is a provisional frame. Invalid to call on frames that are already
   // attached to the frame tree.
-  const std::string& GetPreviousFrameUniqueName();
+  std::string GetPreviousFrameUniqueName();
 
  private:
   friend class RenderFrameImplTest;
@@ -1257,7 +1257,7 @@ class CONTENT_EXPORT RenderFrameImpl
     bool IsCandidateUnique(base::StringPiece name) const override;
     int GetSiblingCount() const override;
     int GetChildCount() const override;
-    std::vector<base::StringPiece> CollectAncestorNames(
+    std::vector<std::string> CollectAncestorNames(
         BeginPoint begin_point,
         bool (*should_stop)(base::StringPiece)) const override;
     std::vector<int> GetFramePosition(BeginPoint begin_point) const override;
