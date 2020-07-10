@@ -177,7 +177,7 @@ class TestRunnerBindings : public gin::Wrappable<TestRunnerBindings> {
                       WebFrameTestProxy* frame,
                       SpellCheckClient* spell_check,
                       bool is_wpt_reftest,
-                      bool is_frame_part_of_main_test_window);
+                      bool is_main_test_window);
 
   // Wraps the V8 function in a base::OnceCallback that binds in the given V8
   // arguments. The callback will do nothing when Run() if the
@@ -416,7 +416,7 @@ void TestRunnerBindings::Install(TestRunner* test_runner,
                                  WebFrameTestProxy* frame,
                                  SpellCheckClient* spell_check,
                                  bool is_wpt_test,
-                                 bool is_frame_part_of_main_test_window) {
+                                 bool is_main_test_window) {
   v8::Isolate* isolate = blink::MainThreadIsolate();
   v8::HandleScope handle_scope(isolate);
   blink::WebLocalFrame* web_frame = frame->GetWebFrame();
@@ -453,8 +453,8 @@ void TestRunnerBindings::Install(TestRunner* test_runner,
   // Note that this method may be called multiple times on a frame, so we put
   // the code behind a flag. The flag is safe to be installed on testRunner
   // because WPT reftests never access this object.
-  if (is_wpt_test && is_frame_part_of_main_test_window &&
-      !web_frame->Parent() && !web_frame->Opener()) {
+  if (is_wpt_test && is_main_test_window && !web_frame->Parent() &&
+      !web_frame->Opener()) {
     web_frame->ExecuteScript(blink::WebString(
         R"(if (!window.testRunner._wpt_reftest_setup) {
           window.testRunner._wpt_reftest_setup = true;
@@ -2201,10 +2201,10 @@ TestRunner::~TestRunner() = default;
 
 void TestRunner::Install(WebFrameTestProxy* frame,
                          SpellCheckClient* spell_check) {
-  // In WPT, only reftests generate pixel results.
-  TestRunnerBindings::Install(
-      this, frame, spell_check, IsWebPlatformTestsMode(),
-      IsFramePartOfMainTestWindow(frame->GetWebFrame()));
+  bool is_main_test_window =
+      frame->GetWebViewTestProxy()->blink_test_runner()->is_main_window();
+  TestRunnerBindings::Install(this, frame, spell_check,
+                              IsWebPlatformTestsMode(), is_main_test_window);
   mock_screen_orientation_client_.OverrideAssociatedInterfaceProviderForFrame(
       frame->GetWebFrame());
   gamepad_controller_.Install(frame->GetWebFrame());
@@ -2456,12 +2456,9 @@ bool TestRunner::ClearReferrer() const {
   return clear_referrer_;
 }
 
-bool TestRunner::IsFramePartOfMainTestWindow(blink::WebFrame* frame) const {
-  return test_is_running_ && frame->Top()->View() == main_view_;
-}
-
 void TestRunner::AddLoadingFrame(blink::WebFrame* frame) {
-  if (!IsFramePartOfMainTestWindow(frame))
+  // Don't track loading the about:blank between tests
+  if (!test_is_running_)
     return;
 
   if (loading_frames_.empty()) {
@@ -2473,15 +2470,13 @@ void TestRunner::AddLoadingFrame(blink::WebFrame* frame) {
     OnWebTestRuntimeFlagsChanged();
   }
 
+  LOG(ERROR) << "AddLoadingFrame " << frame;
   loading_frames_.push_back(frame);
   frame_will_start_load_ = false;
 }
 
 void TestRunner::RemoveLoadingFrame(blink::WebFrame* frame) {
-  // Note that unlike AddLoadingFrame, we don't check if |frame| is part of the
-  // current main test window or not, because in some cases we might have
-  // marked the new page as the current main test window before we removed all
-  // the loading frames of the old main test window from |loading_frames_|.
+  // We don't track frames that were started between tests.
   if (!base::Contains(loading_frames_, frame))
     return;
 
@@ -2494,8 +2489,15 @@ void TestRunner::RemoveLoadingFrame(blink::WebFrame* frame) {
   if (!loading_frames_.empty())
     return;
 
-  main_frame_loaded_ = true;
   web_test_runtime_flags_.set_have_loading_frame(false);
+
+  // Loads in between tests should not propel us into thinking that we're now
+  // inside the test. |main_frame_loaded_| set below is used to signal that the
+  // test has definitely started executing.
+  if (!test_is_running_)
+    return;
+
+  main_frame_loaded_ = true;
   OnWebTestRuntimeFlagsChanged();
 
   // No more new work after the first complete load.

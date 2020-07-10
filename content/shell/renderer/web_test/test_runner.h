@@ -505,8 +505,6 @@ class TestRunner {
   ///////////////////////////////////////////////////////////////////////////
   // Internal helpers
 
-  bool IsFramePartOfMainTestWindow(blink::WebFrame*) const;
-
   void CheckResponseMimeType();
 
   mojo::AssociatedRemote<mojom::WebTestControlHost>&
