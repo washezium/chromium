@@ -440,6 +440,7 @@ void LocalFrame::Trace(Visitor* visitor) const {
   visitor->Trace(local_frame_host_remote_);
   visitor->Trace(receiver_);
   visitor->Trace(main_frame_receiver_);
+  visitor->Trace(high_priority_frame_receiver_);
   Frame::Trace(visitor);
   Supplementable<LocalFrame>::Trace(visitor);
 }
@@ -584,6 +585,7 @@ void LocalFrame::DetachImpl(FrameDetachType type) {
   frame_scheduler_.reset();
   receiver_.reset();
   main_frame_receiver_.reset();
+  high_priority_frame_receiver_.reset();
   WeakIdentifierMap<LocalFrame>::NotifyObjectDestroyed(this);
 }
 
