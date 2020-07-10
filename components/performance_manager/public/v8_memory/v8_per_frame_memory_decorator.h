@@ -12,6 +12,7 @@
 #include "base/sequence_checker.h"
 #include "base/sequenced_task_runner.h"
 #include "base/time/time.h"
+#include "base/util/type_safety/pass_key.h"
 #include "components/performance_manager/public/graph/frame_node.h"
 #include "components/performance_manager/public/graph/graph.h"
 #include "components/performance_manager/public/graph/graph_registered.h"
@@ -22,6 +23,8 @@
 #include "content/public/common/performance_manager/v8_per_frame_memory.mojom.h"
 
 namespace performance_manager {
+
+namespace v8_memory {
 
 // A decorator that queries each renderer process for the amount of memory used
 // by V8 in each frame.
@@ -112,14 +115,12 @@ namespace performance_manager {
 //    public:
 //     // Called on the PM sequence for each process.
 //     void OnV8MemoryMeasurementAvailable(
-//         const ProcessNode* const process_node) override {
-//       auto* process_data =
-//           V8PerFrameMemoryDecorator::ProcessData::ForProcess(process_node);
-//       if (process_data) {
-//         LOG(INFO) << "Process " << process_node->GetProcessId() <<
-//             " reported " << process_data->unassociated_v8_bytes_used() <<
-//             " bytes of V8 memory that wasn't associated with a frame.";
-//       }
+//         const ProcessNode* process_node,
+//         const V8PerFrameMemoryDecorator::ProcessData* data) override {
+//       DCHECK(data);
+//       LOG(INFO) << "Process " << process_node->GetProcessId() <<
+//           " reported " << data->unassociated_v8_bytes_used() <<
+//           " bytes of V8 memory that wasn't associated with a frame.";
 //       for (auto* frame_node : process_node->GetFrameNodes()) {
 //         auto* frame_data =
 //             V8PerFrameMemoryDecorator::FrameData::ForFrame(frame_node);
@@ -148,20 +149,19 @@ namespace performance_manager {
 //           std::make_unique<V8PerFrameMemoryDecorator::MeasurementRequest>(
 //               base::TimeDelta::FromSeconds(30), graph);
 //       observer_ = std::make_unique<Observer>();
-//       V8PerFrameMemoryDecorator::GetFromGraph(graph)->AddObserver(
-//           observer_.get());
+//       request_->AddObserver(observer_.get());
 //     }
 //
 //     void Stop(Graph* graph) {
 //       DCHECK_ON_GRAPH_SEQUENCE(graph);
 //
-//       // |observer_| can be deleted any time after calling RemoveObserver.
-//       V8PerFrameMemoryDecorator::GetFromGraph(graph)->RemoveObserver(
-//           observer_.get());
+//       // |observer_| must be removed from |request_| before deleting it.
+//       // Afterwards they can be deleted in any order.
+//       request_->RemoveObserver(observer_.get());
+//       observer_.reset();
 //
 //       // Measurements stop when |request_| is deleted.
 //       request_.reset();
-//       observer_.reset();
 //     }
 //
 //    private:
@@ -250,9 +250,6 @@ class V8PerFrameMemoryDecorator
   class ProcessData;
   class Observer;
 
-  // Internal helper class that can call NotifyObserversOnMeasurementAvailable.
-  class ObserverNotifier;
-
   V8PerFrameMemoryDecorator();
   ~V8PerFrameMemoryDecorator() override;
 
@@ -275,38 +272,28 @@ class V8PerFrameMemoryDecorator
   // Returns a zero TimeDelta if no requests should be made.
   base::TimeDelta GetMinTimeBetweenRequestsPerProcess() const;
 
-  // Adds/removes an observer.
-  void AddObserver(Observer* observer);
-  void RemoveObserver(Observer* observer);
+  // Implementation details below this point.
+
+  // MeasurementRequest objects register themselves with the decorator.
+  void AddMeasurementRequest(util::PassKey<MeasurementRequest>,
+                             MeasurementRequest* request);
+  void RemoveMeasurementRequest(util::PassKey<MeasurementRequest>,
+                                MeasurementRequest* request);
+
+  // Internal helper class that can call NotifyObserversOnMeasurementAvailable
+  // when a measurement is received.
+  class ObserverNotifier;
+  void NotifyObserversOnMeasurementAvailable(
+      util::PassKey<ObserverNotifier>,
+      const ProcessNode* process_node) const;
 
  private:
-  // TODO(b/1080672): Use the PassKey pattern instead of these friend
-  // statements.
-
-  // MeasurementRequest calls AddMeasurementRequest and
-  // RemoveMeasurementRequest.
-  friend class MeasurementRequest;
-
-  // ObserverNotifier calls NotifyObserversOnMeasurementAvailable
-  friend class ObserverNotifier;
-
-  void AddMeasurementRequest(MeasurementRequest* request);
-  void RemoveMeasurementRequest(MeasurementRequest* request);
   void UpdateProcessMeasurementSchedules() const;
-
-  // Invoked by ObserverNotifier when a measurement is received.
-  void NotifyObserversOnMeasurementAvailable(
-      const ProcessNode* const process_node) const;
 
   Graph* graph_ = nullptr;
 
   // List of requests sorted by sample_frequency (lowest first).
   std::vector<MeasurementRequest*> measurement_requests_;
-
-  // TODO(b/1080672): Move the ObserverList into MeasurementRequest, so that
-  // the lifetime of the observers aren't tied to the decorator, and add
-  // check_empty=true.
-  base::ObserverList<Observer> observers_;
 
   SEQUENCE_CHECKER(sequence_checker_);
 };
@@ -335,25 +322,36 @@ class V8PerFrameMemoryDecorator::MeasurementRequest {
   // MeasurementRequest.
   void StartMeasurement(Graph* graph);
 
- private:
-  // V8PerFrameMemoryDecorator calls OnDecoratorUnregistered.
-  friend class V8PerFrameMemoryDecorator;
+  // Adds/removes an observer.
+  void AddObserver(V8PerFrameMemoryDecorator::Observer* observer);
+  void RemoveObserver(V8PerFrameMemoryDecorator::Observer* observer);
 
-  // V8PerFrameMemoryRequestAnySeq calls StartMeasurementFromOffSequence.
-  friend class V8PerFrameMemoryRequestAnySeq;
+  // Implementation details below this point.
 
   // Private constructor for V8PerFrameMemoryRequestAnySeq. Saves
   // |off_sequence_request| as a pointer to the off-sequence object that
   // triggered the request and starts measurements with frequency
   // |sample_frequency|.
   MeasurementRequest(
+      util::PassKey<V8PerFrameMemoryRequestAnySeq>,
       const base::TimeDelta& sample_frequency,
       base::WeakPtr<V8PerFrameMemoryRequestAnySeq> off_sequence_request);
 
-  void OnDecoratorUnregistered();
+  // V8PerFrameMemoryDecorator calls OnDecoratorUnregistered when it is removed
+  // from the graph.
+  void OnDecoratorUnregistered(util::PassKey<V8PerFrameMemoryDecorator>);
 
+  // V8PerFrameMemoryDecorator calls NotifyObserversOnMeasurementAvailable when
+  // a measurement is received.
+  void NotifyObserversOnMeasurementAvailable(
+      util::PassKey<V8PerFrameMemoryDecorator>,
+      const ProcessNode* process_node) const;
+
+ private:
   base::TimeDelta sample_frequency_;
   V8PerFrameMemoryDecorator* decorator_ = nullptr;
+  base::ObserverList<V8PerFrameMemoryDecorator::Observer, /*check_empty=*/true>
+      observers_;
 
   // Pointer back to the off-sequence V8PerFrameMemoryRequestAnySeq that
   // created this, if any.
@@ -422,12 +420,14 @@ class V8PerFrameMemoryDecorator::ProcessData {
 class V8PerFrameMemoryDecorator::Observer : public base::CheckedObserver {
  public:
   // Called on the PM sequence when a measurement is available for
-  // |process_node|. The measurements can be read by walking the graph from
-  // |process_node| to find frame nodes, and calling
-  // ProcessData::ForProcessNode and FrameData::ForFrameNode to retrieve the
-  // measurement data.
+  // |process_node|. |process_data| contains the process-level measurements for
+  // the process, and can go invalid at any time after returning from this
+  // method. Per-frame measurements can be read by walking the graph from
+  // |process_node| to find frame nodes, and calling FrameData::ForFrameNode to
+  // retrieve the measurement data.
   virtual void OnV8MemoryMeasurementAvailable(
-      const ProcessNode* const process_node) = 0;
+      const ProcessNode* process_node,
+      const V8PerFrameMemoryDecorator::ProcessData* process_data) = 0;
 };
 
 // Observer that can be created on any sequence, and will be notified on that
@@ -471,15 +471,17 @@ class V8PerFrameMemoryRequestAnySeq {
   // Removes an observer that was added with AddObserver.
   void RemoveObserver(V8PerFrameMemoryObserverAnySeq* observer);
 
- private:
-  // V8PerFrameMemoryDecorator calls NotifyObserversOnMeasurementAvailable.
-  friend class V8PerFrameMemoryDecorator;
+  // Implementation details below this point.
 
+  // MeasurementRequest calls NotifyObserversOnMeasurementAvailable when
+  // a measurement is received.
   void NotifyObserversOnMeasurementAvailable(
+      util::PassKey<V8PerFrameMemoryDecorator::MeasurementRequest>,
       RenderProcessHostId render_process_host_id,
       const V8PerFrameMemoryDecorator::ProcessData& process_data,
       const V8PerFrameMemoryObserverAnySeq::FrameDataMap& frame_data) const;
 
+ private:
   std::unique_ptr<V8PerFrameMemoryDecorator::MeasurementRequest> request_;
   base::ObserverList<V8PerFrameMemoryObserverAnySeq, /*check_empty=*/true>
       observers_;
@@ -507,6 +509,8 @@ void SetBindV8PerFrameMemoryReporterCallbackForTesting(
     BindV8PerFrameMemoryReporterCallback* callback);
 
 }  // namespace internal
+
+}  // namespace v8_memory
 
 }  // namespace performance_manager
 

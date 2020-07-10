@@ -15,6 +15,7 @@
 #include "base/stl_util.h"
 #include "base/threading/sequenced_task_runner_handle.h"
 #include "base/timer/timer.h"
+#include "base/util/type_safety/pass_key.h"
 #include "components/performance_manager/public/graph/frame_node.h"
 #include "components/performance_manager/public/graph/node_attached_data.h"
 #include "components/performance_manager/public/graph/node_data_describer_registry.h"
@@ -28,16 +29,18 @@
 
 namespace performance_manager {
 
-// This class is allowed to access the private
+namespace v8_memory {
+
+// This class is allowed to access
 // V8PerFrameMemoryDecorator::NotifyObserversOnMeasurementAvailable.
 class V8PerFrameMemoryDecorator::ObserverNotifier {
  public:
-  void NotifyObserversOnMeasurementAvailable(
-      const ProcessNode* const process_node) {
+  void NotifyObserversOnMeasurementAvailable(const ProcessNode* process_node) {
     auto* decorator =
         V8PerFrameMemoryDecorator::GetFromGraph(process_node->GetGraph());
     if (decorator)
-      decorator->NotifyObserversOnMeasurementAvailable(process_node);
+      decorator->NotifyObserversOnMeasurementAvailable(
+          util::PassKey<ObserverNotifier>(), process_node);
   }
 };
 
@@ -357,6 +360,7 @@ V8PerFrameMemoryDecorator::MeasurementRequest::MeasurementRequest(
 // This constructor is called from the V8PerFrameMemoryRequestAnySeq's
 // sequence.
 V8PerFrameMemoryDecorator::MeasurementRequest::MeasurementRequest(
+    util::PassKey<V8PerFrameMemoryRequestAnySeq>,
     const base::TimeDelta& sample_frequency,
     base::WeakPtr<V8PerFrameMemoryRequestAnySeq> off_sequence_request)
     : sample_frequency_(sample_frequency),
@@ -375,7 +379,8 @@ V8PerFrameMemoryDecorator::MeasurementRequest::MeasurementRequest(
 V8PerFrameMemoryDecorator::MeasurementRequest::~MeasurementRequest() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   if (decorator_)
-    decorator_->RemoveMeasurementRequest(this);
+    decorator_->RemoveMeasurementRequest(util::PassKey<MeasurementRequest>(),
+                                         this);
   // TODO(crbug.com/1080672): Delete the decorator and its NodeAttachedData
   // when the last request is destroyed. Make sure this doesn't mess up any
   // measurement that's already in progress.
@@ -393,12 +398,65 @@ void V8PerFrameMemoryDecorator::MeasurementRequest::StartMeasurement(
     graph->PassToGraph(std::move(decorator_ptr));
   }
 
-  decorator_->AddMeasurementRequest(this);
+  decorator_->AddMeasurementRequest(util::PassKey<MeasurementRequest>(), this);
 }
 
-void V8PerFrameMemoryDecorator::MeasurementRequest::OnDecoratorUnregistered() {
+void V8PerFrameMemoryDecorator::MeasurementRequest::AddObserver(
+    V8PerFrameMemoryDecorator::Observer* observer) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  observers_.AddObserver(observer);
+}
+
+void V8PerFrameMemoryDecorator::MeasurementRequest::RemoveObserver(
+    V8PerFrameMemoryDecorator::Observer* observer) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  DCHECK(observers_.HasObserver(observer));
+  observers_.RemoveObserver(observer);
+}
+
+void V8PerFrameMemoryDecorator::MeasurementRequest::OnDecoratorUnregistered(
+    util::PassKey<V8PerFrameMemoryDecorator>) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   decorator_ = nullptr;
+}
+
+void V8PerFrameMemoryDecorator::MeasurementRequest::
+    NotifyObserversOnMeasurementAvailable(
+        util::PassKey<V8PerFrameMemoryDecorator>,
+        const ProcessNode* process_node) const {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  const ProcessData* process_data = ProcessData::ForProcessNode(process_node);
+  DCHECK(process_data);
+  for (Observer& observer : observers_)
+    observer.OnV8MemoryMeasurementAvailable(process_node, process_data);
+
+  // If this request was made from off-sequence, notify its off-sequence
+  // observers with a copy of the process and frame data.
+  if (off_sequence_request_.MaybeValid()) {
+    using FrameAndData = std::pair<content::GlobalFrameRoutingId, FrameData>;
+    std::vector<FrameAndData> all_frame_data;
+    process_node->VisitFrameNodes(base::BindRepeating(
+        [](std::vector<FrameAndData>* all_frame_data,
+           const FrameNode* frame_node) {
+          const FrameData* frame_data = FrameData::ForFrameNode(frame_node);
+          if (frame_data) {
+            all_frame_data->push_back(std::make_pair(
+                frame_node->GetRenderFrameHostProxy().global_frame_routing_id(),
+                *frame_data));
+          }
+          return true;
+        },
+        base::Unretained(&all_frame_data)));
+    off_sequence_request_sequence_->PostTask(
+        FROM_HERE,
+        base::BindOnce(&V8PerFrameMemoryRequestAnySeq::
+                           NotifyObserversOnMeasurementAvailable,
+                       off_sequence_request_,
+                       util::PassKey<MeasurementRequest>(),
+                       process_node->GetRenderProcessHostId(), *process_data,
+                       V8PerFrameMemoryObserverAnySeq::FrameDataMap(
+                           std::move(all_frame_data))));
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +507,8 @@ void V8PerFrameMemoryDecorator::OnTakenFromGraph(Graph* graph) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK_EQ(graph, graph_);
   for (MeasurementRequest* request : measurement_requests_) {
-    request->OnDecoratorUnregistered();
+    request->OnDecoratorUnregistered(
+        util::PassKey<V8PerFrameMemoryDecorator>());
   }
   measurement_requests_.clear();
   UpdateProcessMeasurementSchedules();
@@ -510,18 +569,8 @@ base::TimeDelta V8PerFrameMemoryDecorator::GetMinTimeBetweenRequestsPerProcess()
              : measurement_requests_.front()->sample_frequency();
 }
 
-void V8PerFrameMemoryDecorator::AddObserver(Observer* observer) {
-  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  observers_.AddObserver(observer);
-}
-
-void V8PerFrameMemoryDecorator::RemoveObserver(Observer* observer) {
-  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  DCHECK(observers_.HasObserver(observer));
-  observers_.RemoveObserver(observer);
-}
-
 void V8PerFrameMemoryDecorator::AddMeasurementRequest(
+    util::PassKey<MeasurementRequest> key,
     MeasurementRequest* request) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK(request);
@@ -544,6 +593,7 @@ void V8PerFrameMemoryDecorator::AddMeasurementRequest(
 }
 
 void V8PerFrameMemoryDecorator::RemoveMeasurementRequest(
+    util::PassKey<MeasurementRequest> key,
     MeasurementRequest* request) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK(request);
@@ -578,43 +628,12 @@ void V8PerFrameMemoryDecorator::UpdateProcessMeasurementSchedules() const {
 }
 
 void V8PerFrameMemoryDecorator::NotifyObserversOnMeasurementAvailable(
-    const ProcessNode* const process_node) const {
+    util::PassKey<ObserverNotifier> key,
+    const ProcessNode* process_node) const {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  for (Observer& observer : observers_)
-    observer.OnV8MemoryMeasurementAvailable(process_node);
-
-  // Notify off-sequence observers that are registered with
-  // V8PerFrameMemoryRequestAnySeq objects.
-  const ProcessData* process_data = ProcessData::ForProcessNode(process_node);
-  DCHECK(process_data);
   for (MeasurementRequest* request : measurement_requests_) {
-    // If this request was made from off-sequence, tell it to notify its
-    // observers with a copy of the process and frame data.
-    if (request->off_sequence_request_.MaybeValid()) {
-      using FrameAndData = std::pair<content::GlobalFrameRoutingId, FrameData>;
-      std::vector<FrameAndData> all_frame_data;
-      process_node->VisitFrameNodes(base::BindRepeating(
-          [](std::vector<FrameAndData>* all_frame_data,
-             const FrameNode* frame_node) {
-            const FrameData* frame_data = FrameData::ForFrameNode(frame_node);
-            if (frame_data) {
-              all_frame_data->push_back(
-                  std::make_pair(frame_node->GetRenderFrameHostProxy()
-                                     .global_frame_routing_id(),
-                                 *frame_data));
-            }
-            return true;
-          },
-          base::Unretained(&all_frame_data)));
-      request->off_sequence_request_sequence_->PostTask(
-          FROM_HERE,
-          base::BindOnce(&V8PerFrameMemoryRequestAnySeq::
-                             NotifyObserversOnMeasurementAvailable,
-                         request->off_sequence_request_,
-                         process_node->GetRenderProcessHostId(), *process_data,
-                         V8PerFrameMemoryObserverAnySeq::FrameDataMap(
-                             std::move(all_frame_data))));
-    }
+    request->NotifyObserversOnMeasurementAvailable(
+        util::PassKey<V8PerFrameMemoryDecorator>(), process_node);
   }
 }
 
@@ -630,7 +649,8 @@ V8PerFrameMemoryRequestAnySeq::V8PerFrameMemoryRequestAnySeq(
   // constructor. After construction the MeasurementRequest must only be
   // accessed on the graph sequence.
   request_ = base::WrapUnique(new V8PerFrameMemoryDecorator::MeasurementRequest(
-      sample_frequency, weak_factory_.GetWeakPtr()));
+      util::PassKey<V8PerFrameMemoryRequestAnySeq>(), sample_frequency,
+      weak_factory_.GetWeakPtr()));
 }
 
 V8PerFrameMemoryRequestAnySeq::~V8PerFrameMemoryRequestAnySeq() {
@@ -657,6 +677,7 @@ void V8PerFrameMemoryRequestAnySeq::RemoveObserver(
 }
 
 void V8PerFrameMemoryRequestAnySeq::NotifyObserversOnMeasurementAvailable(
+    util::PassKey<V8PerFrameMemoryDecorator::MeasurementRequest>,
     RenderProcessHostId render_process_host_id,
     const V8PerFrameMemoryDecorator::ProcessData& process_data,
     const V8PerFrameMemoryObserverAnySeq::FrameDataMap& frame_data) const {
@@ -665,5 +686,7 @@ void V8PerFrameMemoryRequestAnySeq::NotifyObserversOnMeasurementAvailable(
     observer.OnV8MemoryMeasurementAvailable(render_process_host_id,
                                             process_data, frame_data);
 }
+
+}  // namespace v8_memory
 
 }  // namespace performance_manager

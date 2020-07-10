@@ -33,7 +33,11 @@
 
 namespace performance_manager {
 
+namespace v8_memory {
+
 using testing::_;
+using testing::Eq;
+using testing::Property;
 
 constexpr RenderProcessHostId kTestProcessID = RenderProcessHostId(0xFAB);
 constexpr uint64_t kUnassociatedBytes = 0xABBA;
@@ -70,20 +74,17 @@ class LenientMockMeasurementAvailableObserver
  public:
   MOCK_METHOD(void,
               OnV8MemoryMeasurementAvailable,
-              (const ProcessNode* const process_node),
+              (const ProcessNode* process_node,
+               const ProcessData* process_data),
               (override));
 
   void ExpectObservationOnProcess(
-      const ProcessNode* const process_node,
+      const ProcessNode* process_node,
       uint64_t expected_unassociated_v8_bytes_used) {
-    EXPECT_CALL(*this, OnV8MemoryMeasurementAvailable(process_node))
-        .WillOnce([process_node, expected_unassociated_v8_bytes_used]() {
-          // When the observer is notified unassociated_v8_bytes_used() should
-          // immediately be available on the process node.
-          EXPECT_EQ(expected_unassociated_v8_bytes_used,
-                    ProcessData::ForProcessNode(process_node)
-                        ->unassociated_v8_bytes_used());
-        });
+    EXPECT_CALL(*this, OnV8MemoryMeasurementAvailable(
+                           process_node,
+                           Property(&ProcessData::unassociated_v8_bytes_used,
+                                    Eq(expected_unassociated_v8_bytes_used))));
   }
 };
 
@@ -983,13 +984,10 @@ TEST_F(V8PerFrameMemoryDecoratorTest, NotifyObservers) {
   V8PerFrameMemoryDecorator::MeasurementRequest memory_request(
       kMinTimeBetweenRequests, graph());
 
-  auto* decorator = V8PerFrameMemoryDecorator::GetFromGraph(graph());
-  ASSERT_TRUE(decorator);
-
   MockMeasurementAvailableObserver observer1;
   MockMeasurementAvailableObserver observer2;
-  decorator->AddObserver(&observer1);
-  decorator->AddObserver(&observer2);
+  memory_request.AddObserver(&observer1);
+  memory_request.AddObserver(&observer2);
 
   // Create a process node and validate that all observers are notified when a
   // measurement is available for it.
@@ -1055,7 +1053,7 @@ TEST_F(V8PerFrameMemoryDecoratorTest, NotifyObservers) {
     ExpectQueryAndReply(&reporter2, std::move(data));
   }
 
-  decorator->RemoveObserver(&observer1);
+  memory_request.RemoveObserver(&observer1);
 
   observer2.ExpectObservationOnProcess(process1.get(), 4U);
   observer2.ExpectObservationOnProcess(process2.get(), 5U);
@@ -1065,17 +1063,18 @@ TEST_F(V8PerFrameMemoryDecoratorTest, NotifyObservers) {
   testing::Mock::VerifyAndClearExpectations(&reporter2);
   testing::Mock::VerifyAndClearExpectations(&observer1);
   testing::Mock::VerifyAndClearExpectations(&observer2);
+
+  // Must remove the observer before destroying the request to avoid a DCHECK
+  // from ObserverList.
+  memory_request.RemoveObserver(&observer2);
 }
 
 TEST_F(V8PerFrameMemoryDecoratorTest, ObserverOutlivesDecorator) {
   V8PerFrameMemoryDecorator::MeasurementRequest memory_request(
       kMinTimeBetweenRequests, graph());
 
-  auto* decorator = V8PerFrameMemoryDecorator::GetFromGraph(graph());
-  ASSERT_TRUE(decorator);
-
   MockMeasurementAvailableObserver observer;
-  decorator->AddObserver(&observer);
+  memory_request.AddObserver(&observer);
 
   // Create a process node and move past the initial request to it.
   MockV8PerFrameMemoryReporter reporter;
@@ -1106,8 +1105,15 @@ TEST_F(V8PerFrameMemoryDecoratorTest, ObserverOutlivesDecorator) {
 
   // Destroy the decorator before the measurement completes. The observer
   // should not be notified.
+  auto* decorator = V8PerFrameMemoryDecorator::GetFromGraph(graph());
+  ASSERT_TRUE(decorator);
   graph()->TakeFromGraph(decorator);
+
   task_env().FastForwardBy(kMinTimeBetweenRequests);
+
+  // Must remove the observer before destroying the request to avoid a DCHECK
+  // from ObserverList.
+  memory_request.RemoveObserver(&observer);
 }
 
 TEST_F(V8PerFrameMemoryDecoratorDeathTest,
@@ -1123,6 +1129,25 @@ TEST_F(V8PerFrameMemoryDecoratorDeathTest,
     V8PerFrameMemoryDecorator::MeasurementRequest request(
         kMinTimeBetweenRequests, graph());
     request.StartMeasurement(graph());
+  });
+}
+
+TEST_F(V8PerFrameMemoryDecoratorDeathTest, EnforceObserversRemoved) {
+  EXPECT_DCHECK_DEATH({
+    V8PerFrameMemoryDecorator::MeasurementRequest memory_request(
+        kMinTimeBetweenRequests);
+    MockMeasurementAvailableObserver observer;
+    memory_request.AddObserver(&observer);
+    // Request should explode if it still has observers registered when it goes
+    // out of scope.
+  });
+
+  EXPECT_DCHECK_DEATH({
+    V8PerFrameMemoryRequestAnySeq memory_request(kMinTimeBetweenRequests);
+    MockV8PerFrameMemoryObserverAnySeq observer;
+    memory_request.AddObserver(&observer);
+    // Request should explode if it still has observers registered when it goes
+    // out of scope.
   });
 }
 
@@ -1243,5 +1268,7 @@ TEST_F(V8PerFrameMemoryRequestAnySeqTest, RequestIsSequenceSafe) {
   PerformanceManager::CallOnGraph(FROM_HERE, run_loop2.QuitClosure());
   run_loop2.Run();
 }
+
+}  // namespace v8_memory
 
 }  // namespace performance_manager
