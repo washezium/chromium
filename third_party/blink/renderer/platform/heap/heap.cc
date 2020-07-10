@@ -398,7 +398,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
         // the deadline more often (backing stores and large items can also be
         // found in the regular marking worklist, but those are interleaved
         // with smaller objects).
-        finished = DrainWorklistWithDeadline<kDefaultDeadlineCheckInterval / 3>(
+        finished = DrainWorklistWithDeadline<kDefaultDeadlineCheckInterval / 5>(
             deadline, not_safe_to_concurrently_trace_worklist_.get(),
             [visitor](const MarkingItem& item) {
               item.callback(visitor, item.base_object_payload);
