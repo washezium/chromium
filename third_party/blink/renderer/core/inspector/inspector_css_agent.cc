@@ -831,9 +831,19 @@ void InspectorCSSAgent::SetActiveStyleSheets(
     document_to_css_style_sheets_.Set(document, document_css_style_sheets);
   }
 
+  // Style engine sometimes returns the same stylesheet multiple
+  // times, probably, because it's used in multiple places.
+  // We need to deduplicate because the frontend does not expect
+  // duplicate styleSheetAdded events.
+  HeapHashSet<Member<CSSStyleSheet>> unique_sheets;
+  for (CSSStyleSheet* css_style_sheet : all_sheets_vector) {
+    if (!unique_sheets.Contains(css_style_sheet))
+      unique_sheets.insert(css_style_sheet);
+  }
+
   HeapHashSet<Member<CSSStyleSheet>> removed_sheets(*document_css_style_sheets);
   HeapVector<Member<CSSStyleSheet>> added_sheets;
-  for (CSSStyleSheet* css_style_sheet : all_sheets_vector) {
+  for (CSSStyleSheet* css_style_sheet : unique_sheets) {
     if (removed_sheets.Contains(css_style_sheet)) {
       removed_sheets.erase(css_style_sheet);
     } else {
