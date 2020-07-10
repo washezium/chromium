@@ -1502,7 +1502,7 @@ crbug.com/1091139 virtual/cors/http/tests/xmlhttprequest/workers/cross-origin-un
 # ====== CORS virtual test failures until here ======
 
 
-crbug.com/1035582 [ Mac10.10 ] virtual/controls-refresh-hc/virtual/controls-refresh/color-scheme/select/select-multiple-hover-focused-unselected.html [ Skip ]
+crbug.com/1035582 [ Mac10.10 ] virtual/controls-refresh-hc/fast/forms/color-scheme/select/select-multiple-hover-focused-unselected.html [ Skip ]
 
 # Bug in FormControlsRefresh <select multiple> tap behavior:
 crbug.com/1045672 fast/forms/select/listbox-tap.html [ Failure ]
@@ -6247,7 +6247,7 @@ crbug.com/1044712 [ Win ] fast/forms/suggestion-picker/date-suggestion-picker-ap
 crbug.com/1044712 [ Win ] fast/forms/suggestion-picker/week-suggestion-picker-appearance-rtl.html [ Pass Failure ]
 crbug.com/1044712 [ Win ] fast/forms/suggestion-picker/time-suggestion-picker-appearance-with-scroll-bar.html [ Pass Failure ]
 crbug.com/1044712 [ Win ] fast/forms/suggestion-picker/month-suggestion-picker-appearance-rtl.html [ Pass Failure ]
-crbug.com/1044712 [ Win ] virtual/controls-refresh/color-scheme/suggestion-picker/date-suggestion-picker-appearance.html [ Pass Failure ]
+crbug.com/1044712 [ Win ] fast/forms/color-scheme/suggestion-picker/date-suggestion-picker-appearance.html [ Pass Failure ]
 crbug.com/1044715 [ Win ] external/wpt/pointerevents/pointerevent_touch-action-pan-right-css_touch.html [ Pass Timeout ]
 crbug.com/1044715 [ Linux ] external/wpt/pointerevents/pointerevent_touch-action-pan-right-css_touch.html [ Pass Timeout ]
 crbug.com/1044715 [ Win ] external/wpt/pointerevents/pointerevent_touch-action-inherit_parent-none_touch.html [ Pass Timeout ]
