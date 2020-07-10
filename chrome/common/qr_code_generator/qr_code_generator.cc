@@ -11,6 +11,10 @@
 #include "base/check_op.h"
 #include "base/notreached.h"
 
+// kMaxVersionWith8BitLength is the maximum QR version that uses an 8 (rather
+// than 16) bit length in 8-bit byte mode. See table 3.
+static constexpr int kMaxVersionWith8BitLength = 9;
+
 // A structure containing QR version-specific constants and data.
 // All versions currently use error correction at level M.
 struct QRVersionInfo {
@@ -42,7 +46,8 @@ struct QRVersionInfo {
                                     group2_block_data_bytes)) ||
         (version < 7 && encoded_version != 0) ||
         (version >= 7 &&
-         encoded_version >> 12 != static_cast<uint32_t>(version))) {
+         encoded_version >> 12 != static_cast<uint32_t>(version)) ||
+        (version <= kMaxVersionWith8BitLength && input_bytes() >= 256)) {
       __builtin_unreachable();
     }
   }
@@ -257,14 +262,14 @@ base::Optional<QRCodeGenerator::GeneratedCode> QRCodeGenerator::Generate(
 
   // QR codes require some framing of the data. This requires:
   // Version 1-9:   4 bits for mode + 8 bits for char count = 12 bits
-  // Version 10-26: 4 bits for mode + 16 bits for char count = 20 bits
+  // Version 10-40: 4 bits for mode + 16 bits for char count = 20 bits
   // Details are in Table 3.
   // Since 12 and 20 are not a multiple of eight, a frame-shift of all
   // subsequent bytes is required.
   size_t data_bytes = version_info_->total_bytes();
   uint8_t prefixed_data[data_bytes];
-  int framing_offset_bytes = 0;
-  if (version_info->version <= 9) {
+  size_t framing_offset_bytes = 0;
+  if (version_info->version <= kMaxVersionWith8BitLength) {
     DCHECK_LT(in.size(), 0x100u) << "in.size() too large for 8-bit length";
     const uint8_t len8 = static_cast<uint8_t>(in.size());
     prefixed_data[0] = 0x40 | (len8 >> 4);
@@ -273,7 +278,7 @@ base::Optional<QRCodeGenerator::GeneratedCode> QRCodeGenerator::Generate(
       prefixed_data[1] |= in[0] >> 4;
     }
     framing_offset_bytes = 2;
-  } else if (version_info->version <= 26) {
+  } else {
     DCHECK_LT(in.size(), 0x10000u) << "in.size() too large for 16-bit length";
     const uint16_t len16 = static_cast<uint16_t>(in.size());
     prefixed_data[0] = 0x40 | (len16 >> 12);
@@ -283,9 +288,6 @@ base::Optional<QRCodeGenerator::GeneratedCode> QRCodeGenerator::Generate(
       prefixed_data[2] |= in[0] >> 4;
     }
     framing_offset_bytes = 3;
-  } else {
-    NOTREACHED() << "Unsupported version in Generate(): "
-                 << version_info->version;
   }
 
   for (size_t i = 0; i < in.size() - 1; i++) {
