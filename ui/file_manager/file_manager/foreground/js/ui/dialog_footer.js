@@ -198,7 +198,7 @@ class DialogFooter {
           evt.stopPropagation();
           evt.preventDefault();
         }
-        // Drop through.
+        // fall through
       case 'Tab':
         this.selectHideDropDown(options);
         break;
@@ -213,27 +213,43 @@ class DialogFooter {
         }
         break;
       case 'ArrowDown':
+      case 'ArrowLeft':
+      case 'ArrowRight':
       case 'ArrowUp':
         const selectedItem = options.querySelector('.selected');
+        const isCollapsed = options.getAttribute('expanded') !== 'expanded';
         let selectionChanged = false;
         if (selectedItem) {
-          if (evt.key === 'ArrowDown') {
-            if (selectedItem.nextSibling) {
-              this.setOptionSelected(
-                  /** @type {HTMLOptionElement} */ (selectedItem.nextSibling));
-              selectionChanged = true;
-            }
-          } else {  // ArrowUp.
-            if (selectedItem.previousSibling) {
-              this.setOptionSelected(
-                  /** @type {HTMLOptionElement} */ (
-                      selectedItem.previousSibling));
-              selectionChanged = true;
-            }
+          switch (evt.key) {
+            case 'ArrowRight':
+              if (!isCollapsed) {
+                break;
+              }
+              // fall through
+            case 'ArrowDown':
+              if (selectedItem.nextSibling) {
+                this.setOptionSelected(
+                    /** @type {HTMLOptionElement} */ (
+                        selectedItem.nextSibling));
+                selectionChanged = true;
+              }
+              break;
+            case 'ArrowLeft':
+              if (!isCollapsed) {
+                break;
+              }
+              // fall through
+            case 'ArrowUp':
+              if (selectedItem.previousSibling) {
+                this.setOptionSelected(
+                    /** @type {HTMLOptionElement} */ (
+                        selectedItem.previousSibling));
+                selectionChanged = true;
+              }
+              break;
           }
         }
-        if (selectionChanged &&
-            options.getAttribute('expanded') !== 'expanded') {
+        if (selectionChanged && isCollapsed) {
           const changeEvent = new Event('change');
           this.fileTypeSelector.dispatchEvent(changeEvent);
         }
