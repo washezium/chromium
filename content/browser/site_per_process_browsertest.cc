@@ -12429,7 +12429,7 @@ IN_PROC_BROWSER_TEST_P(SitePerProcessBrowserTest,
 
 // Similar to ScaledIFrameRasterSize but with nested OOPIFs to ensure
 // propagation works correctly.
-#if defined(OS_ANDROID) || defined(OS_LINUX)
+#if defined(OS_ANDROID)
 // Temporarily disabled on Android because this doesn't account for browser
 // control height or page scale factor.
 #define MAYBE_ScaledNestedIframeRasterSize DISABLED_ScaledNestedIframeRasterSize
@@ -12509,7 +12509,10 @@ IN_PROC_BROWSER_TEST_P(SitePerProcessBrowserTest,
                      50) *
                     scale_factor;
   // 30% padding is added to the view_height to prevent frequent re-rasters.
-  int expected_height = view_height * 13 / 10;
+  // The extra padding is centered around the view height, hence expansion by
+  // 0.15 in each direction.
+  int expansion = ceilf(view_height * 0.15f);
+  int expected_height = view_height + expansion * 2;
 
   // Explanation of terms:
   //   5000 = offset from top of nested iframe to top of containing div, due to
@@ -12519,15 +12522,13 @@ IN_PROC_BROWSER_TEST_P(SitePerProcessBrowserTest,
   //       from the top of the child frame (i.e, clipped amount at top of child)
   //   view_height * 0.15 = padding added to the top of the compositing rect
   //                        (half the the 30% total padding)
-  int expected_offset = 5000 - ((child_div_offset_top - 50) * scale_factor) -
-                        roundf(view_height * 0.15);
+  int expected_offset =
+      5000 - ((child_div_offset_top - 50) * scale_factor) - expansion;
 
   // Allow a small amount for rounding differences from applying page and
   // device scale factors at different times.
-  EXPECT_GE(compositing_rect.height(), expected_height - 1);
-  EXPECT_LE(compositing_rect.height(), expected_height + 1);
-  EXPECT_GE(compositing_rect.y(), expected_offset - 1);
-  EXPECT_LE(compositing_rect.y(), expected_offset + 1);
+  EXPECT_NEAR(compositing_rect.height(), expected_height, ceilf(scale_factor));
+  EXPECT_NEAR(compositing_rect.y(), expected_offset, ceilf(scale_factor));
 }
 
 // Tests that when an OOPIF is inside a multicolumn container, its compositing
