@@ -39,7 +39,7 @@ import org.chromium.testing.local.LocalRobolectricTestRunner;
 @RunWith(LocalRobolectricTestRunner.class)
 @Config(manifest = Config.NONE, shadows = {ShadowUrlUtilities.class})
 @Features.DisableFeatures({ChromeFeatureList.CCT_EXTERNAL_LINK_HANDLING})
-public class CustomTabActivityTabControllerTest {
+public class CustomTabActivityTabControllerUnitTest {
     @Rule
     public final CustomTabActivityContentTestEnvironment env =
             new CustomTabActivityContentTestEnvironment();
