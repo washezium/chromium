@@ -1570,8 +1570,36 @@ TEST_F(ManifestParserTest, FileHandlerParseRules) {
         "  ]"
         "}");
     ASSERT_EQ(2u, GetErrorCount());
-    EXPECT_EQ("property 'action' ignored, should be same origin as document.",
-              errors()[0]);
+    EXPECT_EQ(
+        "property 'action' ignored, should be within scope of the manifest.",
+        errors()[0]);
+    EXPECT_EQ("FileHandler ignored. Property 'action' is invalid.",
+              errors()[1]);
+    EXPECT_EQ(0u, manifest->file_handlers.size());
+  }
+
+  // Entry with an action outside of the manifest scope is invalid.
+  {
+    auto& manifest = ParseManifest(
+        "{"
+        "  \"start_url\": \"/app/\","
+        "  \"scope\": \"/app/\","
+        "  \"file_handlers\": ["
+        "    {"
+        "      \"name\": \"name\","
+        "      \"action\": \"/files\","
+        "      \"accept\": {"
+        "        \"image/png\": ["
+        "          \".png\""
+        "        ]"
+        "      }"
+        "    }"
+        "  ]"
+        "}");
+    ASSERT_EQ(2u, GetErrorCount());
+    EXPECT_EQ(
+        "property 'action' ignored, should be within scope of the manifest.",
+        errors()[0]);
     EXPECT_EQ("FileHandler ignored. Property 'action' is invalid.",
               errors()[1]);
     EXPECT_EQ(0u, manifest->file_handlers.size());
@@ -1941,7 +1969,31 @@ TEST_F(ManifestParserTest, ProtocolHandlerParseRules) {
     auto& protocol_handlers = manifest->protocol_handlers;
 
     ASSERT_EQ(2u, GetErrorCount());
-    EXPECT_EQ("property 'url' ignored, should be same origin as document.",
+    EXPECT_EQ("property 'url' ignored, should be within scope of the manifest.",
+              errors()[0]);
+    EXPECT_EQ(
+        "protocol_handlers entry ignored, required property 'url' is invalid.",
+        errors()[1]);
+    ASSERT_EQ(0u, protocol_handlers.size());
+  }
+
+  // An invalid protocol handler with the URL not being within manifest scope.
+  {
+    auto& manifest = ParseManifest(
+        "{"
+        "  \"start_url\": \"/app/\","
+        "  \"scope\": \"/app/\","
+        "  \"protocol_handlers\": ["
+        "    {"
+        "      \"protocol\": \"web+github\","
+        "      \"url\": \"/?profile=%s\""
+        "    }"
+        "  ]"
+        "}");
+    auto& protocol_handlers = manifest->protocol_handlers;
+
+    ASSERT_EQ(2u, GetErrorCount());
+    EXPECT_EQ("property 'url' ignored, should be within scope of the manifest.",
               errors()[0]);
     EXPECT_EQ(
         "protocol_handlers entry ignored, required property 'url' is invalid.",
@@ -2330,13 +2382,33 @@ TEST_F(ManifestParserTest, ShareTargetUrlTemplateParseRules) {
   // manifest.
   {
     auto& manifest = ParseManifestWithURLs(
-        "{ \"share_target\": { \"action\": \"https://foo2.com/\" }, "
-        "\"params\": {} }",
+        "{ \"share_target\": { \"action\": \"https://foo2.com/\", "
+        "\"params\": {} } }",
         manifest_url, document_url);
     EXPECT_FALSE(manifest->share_target.get());
     EXPECT_EQ(2u, GetErrorCount());
-    EXPECT_EQ("property 'action' ignored, should be same origin as document.",
-              errors()[0]);
+    EXPECT_EQ(
+        "property 'action' ignored, should be within scope of the manifest.",
+        errors()[0]);
+    EXPECT_EQ(
+        "property 'share_target' ignored. Property 'action' is "
+        "invalid.",
+        errors()[1]);
+  }
+
+  // Fail parsing if action is not within scope of the manifest.
+  {
+    auto& manifest = ParseManifestWithURLs(
+        "{ \"start_url\": \"/app/\","
+        "  \"scope\": \"/app/\","
+        "  \"share_target\": { \"action\": \"/\", "
+        "\"params\": {} } }",
+        manifest_url, document_url);
+    EXPECT_FALSE(manifest->share_target.get());
+    EXPECT_EQ(2u, GetErrorCount());
+    EXPECT_EQ(
+        "property 'action' ignored, should be within scope of the manifest.",
+        errors()[0]);
     EXPECT_EQ(
         "property 'share_target' ignored. Property 'action' is "
         "invalid.",
