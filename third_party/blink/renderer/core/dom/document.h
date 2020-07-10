@@ -61,7 +61,6 @@
 #include "third_party/blink/renderer/core/dom/tree_scope.h"
 #include "third_party/blink/renderer/core/dom/user_action_element_set.h"
 #include "third_party/blink/renderer/core/editing/forward.h"
-#include "third_party/blink/renderer/core/execution_context/security_context.h"
 #include "third_party/blink/renderer/core/html/custom/v0_custom_element.h"
 #include "third_party/blink/renderer/core/html/parser/parser_synchronization_policy.h"
 #include "third_party/blink/renderer/core/loader/font_preload_manager.h"
@@ -1754,9 +1753,6 @@ class CORE_EXPORT Document : public ContainerNode,
 
   const AtomicString& BodyAttributeValue(const QualifiedName&) const;
   void SetBodyAttribute(const QualifiedName&, const AtomicString&);
-
-  const ParsedFeaturePolicy GetOwnerContainerPolicy() const;
-  const FeaturePolicy* GetParentFeaturePolicy() const;
 
   // Returns true if use of |method_name| for markup insertion is allowed by
   // feature policy; otherwise returns false and throws a DOM exception.

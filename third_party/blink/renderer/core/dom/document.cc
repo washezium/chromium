@@ -7007,27 +7007,6 @@ void Document::PoliciesInitialized(const DocumentInit& document_initializer) {
           mojom::blink::FeaturePolicyFeature::kVerticalScroll);
 }
 
-const ParsedFeaturePolicy Document::GetOwnerContainerPolicy() const {
-  // If this frame is not the main frame, then get the container policy from its
-  // owner.
-  if (GetFrame() && GetFrame()->Owner())
-    return GetFrame()->Owner()->GetFramePolicy().container_policy;
-  return ParsedFeaturePolicy();
-}
-
-const FeaturePolicy* Document::GetParentFeaturePolicy() const {
-  // If this frame is not the main frame, then get the feature policy from its
-  // parent.
-  if (GetFrame() && !GetFrame()->IsMainFrame()) {
-    return GetFrame()
-        ->Tree()
-        .Parent()
-        ->GetSecurityContext()
-        ->GetFeaturePolicy();
-  }
-  return nullptr;
-}
-
 bool Document::AllowedToUseDynamicMarkUpInsertion(
     const char* api_name,
     ExceptionState& exception_state) {
