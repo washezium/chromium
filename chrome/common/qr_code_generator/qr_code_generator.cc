@@ -12,16 +12,110 @@
 #include "base/notreached.h"
 
 using GeneratedCode = QRCodeGenerator::GeneratedCode;
-using QRVersionInfo = QRCodeGenerator::QRVersionInfo;
+
+// A structure containing QR version-specific constants and data.
+// All versions currently use error correction at level M.
+struct QRVersionInfo {
+  constexpr QRVersionInfo(const int version,
+                          const int size,
+                          const size_t group1_bytes,
+                          const size_t group1_num_blocks,
+                          const size_t group1_block_data_bytes,
+                          const size_t group2_bytes,
+                          const size_t group2_num_blocks,
+                          const size_t group2_block_data_bytes,
+                          const std::array<int, 3> alignment_locations)
+      : version(version),
+        size(size),
+        group1_bytes(group1_bytes),
+        group1_num_blocks(group1_num_blocks),
+        group1_block_data_bytes(group1_block_data_bytes),
+        group2_bytes(group2_bytes),
+        group2_num_blocks(group2_num_blocks),
+        group2_block_data_bytes(group2_block_data_bytes),
+        alignment_locations(alignment_locations) {
+    if (version < 1 || version > 40 || size < 0 || group1_num_blocks == 0 ||
+        group1_bytes % group1_num_blocks != 0 || group1_block_data_bytes == 0 ||
+        group1_block_data_bytes * group1_num_blocks > group1_bytes ||
+        (group1_bytes - group1_block_data_bytes * group1_num_blocks) %
+                group1_num_blocks !=
+            0 ||
+        (group2_num_blocks != 0 &&
+         (group2_bytes % group2_num_blocks != 0 ||
+          group2_block_data_bytes == 0 ||
+          group2_block_data_bytes * group2_num_blocks > group2_bytes ||
+          (group2_bytes - group2_block_data_bytes * group2_num_blocks) %
+                  group2_num_blocks !=
+              0))) {
+      __builtin_unreachable();
+    }
+  }
+
+  // The version of the QR code.
+  const int version;
+
+  // The number of "tiles" in each dimension for a QR code of |version|. See
+  // table 1. (The colored squares in in QR codes are called tiles in the
+  // spec.)
+  const int size;
+
+  // Values taken from Table 9, page 38, for a QR code of version |version|.
+  const size_t group1_bytes;
+  const size_t group1_num_blocks;
+  const size_t group1_block_data_bytes;
+  const size_t group2_bytes;
+  const size_t group2_num_blocks;
+  const size_t group2_block_data_bytes;
+
+  const std::array<int, 3> alignment_locations;
+
+  // Total number of tiles for the QR code, size*size.
+  constexpr int total_size() const { return size * size; }
+
+  constexpr size_t total_bytes() const { return group1_bytes + group2_bytes; }
+
+  constexpr size_t group1_block_bytes() const {
+    return group1_bytes / group1_num_blocks;
+  }
+
+  constexpr size_t group1_block_ec_bytes() const {
+    return group1_block_bytes() - group1_block_data_bytes;
+  }
+
+  constexpr size_t group1_data_bytes() const {
+    return group1_block_data_bytes * group1_num_blocks;
+  }
+
+  constexpr size_t group2_block_bytes() const {
+    if (group2_num_blocks == 0)
+      return 0;
+    return group2_bytes / group2_num_blocks;
+  }
+
+  constexpr size_t block_ec_bytes_1() const {
+    return group2_block_bytes() - group2_block_data_bytes;
+  }
+
+  constexpr size_t group2_data_bytes() const {
+    return group2_block_data_bytes * group2_num_blocks;
+  }
+
+  // Two bytes of overhead are needed for QR framing.
+  // If extending beyond version 26, framing would need to be updated.
+  constexpr size_t input_bytes() const {
+    if (version <= 9) {
+      return group1_data_bytes() + group2_data_bytes() - 2;
+    } else {
+      return group1_data_bytes() + group2_data_bytes() - 3;
+    }
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(QRVersionInfo);
+};
 
 namespace {
 
-// Default version five QR Code.
-constexpr int kVersionDefault = 5;
-// Extended-length QR code version used by service.
-constexpr int kVersionExtended = 7;
-
-constexpr QRCodeGenerator::QRVersionInfo version_infos[] = {
+constexpr QRVersionInfo version_infos[] = {
     // See table 9 in the spec for the source of these numbers.
 
     // 5-M
@@ -39,6 +133,9 @@ constexpr QRCodeGenerator::QRVersionInfo version_infos[] = {
         0,
         0,
         0,
+
+        // Alignment locations
+        {6, 30, 0},
     },
 
     // 7-M
@@ -56,6 +153,9 @@ constexpr QRCodeGenerator::QRVersionInfo version_infos[] = {
         0,
         0,
         0,
+
+        // Alignment locations
+        {6, 22, 38},
     },
 };
 
@@ -102,42 +202,24 @@ base::Optional<GeneratedCode> QRCodeGenerator::Generate(
   PutFinder(3, version_info_->size - 4);
   PutFinder(version_info_->size - 4, 3);
 
-  // See table E.1 for the location of alignment symbols.
-  if (version_info_->version == kVersionDefault) {
-    PutAlignment(30, 30);
-  } else if (version_info_->version == kVersionExtended) {
-    constexpr int kLocatorIndicesV7[] = {6, 22, 38};
-    constexpr int kLocatorIndicesV13[] = {6, 34, 62};
-    // Constant for now; may differ in higher versions.
-    constexpr int num_locator_coefficients = 3;
-    const int* locator_indices = nullptr;
-    switch (version_info_->version) {
-      case 7:
-        locator_indices = kLocatorIndicesV7;
-        break;
-      case 13:
-        locator_indices = kLocatorIndicesV13;
-        break;
-      default:
-        NOTREACHED() << "No Locator Indices found for v"
-                     << version_info_->version;
-        break;
+  const auto& alignment_locations = version_info_->alignment_locations;
+  size_t num_alignment_locations = 0;
+  for (size_t i = 0; i < alignment_locations.size(); i++) {
+    if (alignment_locations[i] == 0) {
+      break;
     }
+    num_alignment_locations++;
+  }
 
-    int first_index = locator_indices[0];
-    int last_index = locator_indices[num_locator_coefficients - 1];
-
-    for (int i = 0; i < num_locator_coefficients; i++) {
-      for (int j = 0; j < num_locator_coefficients; j++) {
-        int row = locator_indices[i];
-        int col = locator_indices[j];
-        // Aligntment symbols must not overwrite locators.
-        if ((row == first_index && (col == first_index || col == last_index)) ||
-            (row == last_index && col == first_index)) {
-          continue;
-        }
-        PutAlignment(row, col);
+  for (size_t i = 0; i < num_alignment_locations; i++) {
+    for (size_t j = 0; j < num_alignment_locations; j++) {
+      // Three of the corners already have finder symbols.
+      if ((i == 0 && j == 0) || (i == 0 && j == num_alignment_locations - 1) ||
+          (i == num_alignment_locations - 1 && j == 0)) {
+        continue;
       }
+
+      PutAlignment(alignment_locations[i], alignment_locations[j]);
     }
   }
 

@@ -11,108 +11,13 @@
 #include "base/containers/span.h"
 #include "base/optional.h"
 
+struct QRVersionInfo;
+
 // QRCodeGenerator generates class M QR codes of various versions.
 // References in the following comments refer to ISO 18004 (3rd edition).
 // Supports versions up to 26 by adding constants.
 class QRCodeGenerator {
  public:
-  // A structure containing QR version-specific constants and data.
-  // All versions currently use error correction at level M.
-  struct QRVersionInfo {
-    constexpr QRVersionInfo(const int version,
-                            const int size,
-                            const size_t group1_bytes,
-                            const size_t group1_num_blocks,
-                            const size_t group1_block_data_bytes,
-                            const size_t group2_bytes,
-                            const size_t group2_num_blocks,
-                            const size_t group2_block_data_bytes)
-        : version(version),
-          size(size),
-          group1_bytes(group1_bytes),
-          group1_num_blocks(group1_num_blocks),
-          group1_block_data_bytes(group1_block_data_bytes),
-          group2_bytes(group2_bytes),
-          group2_num_blocks(group2_num_blocks),
-          group2_block_data_bytes(group2_block_data_bytes) {
-      if (version < 1 || version > 40 || size < 0 || group1_num_blocks == 0 ||
-          group1_bytes % group1_num_blocks != 0 ||
-          group1_block_data_bytes == 0 ||
-          group1_block_data_bytes * group1_num_blocks > group1_bytes ||
-          (group1_bytes - group1_block_data_bytes * group1_num_blocks) %
-                  group1_num_blocks !=
-              0 ||
-          (group2_num_blocks != 0 &&
-           (group2_bytes % group2_num_blocks != 0 ||
-            group2_block_data_bytes == 0 ||
-            group2_block_data_bytes * group2_num_blocks > group2_bytes ||
-            (group2_bytes - group2_block_data_bytes * group2_num_blocks) %
-                    group2_num_blocks !=
-                0))) {
-        __builtin_unreachable();
-      }
-    }
-
-    // The version of the QR code.
-    const int version;
-
-    // The number of "tiles" in each dimension for a QR code of |version|. See
-    // table 1. (The colored squares in in QR codes are called tiles in the
-    // spec.)
-    const int size;
-
-    // Values taken from Table 9, page 38, for a QR code of version |version|.
-    const size_t group1_bytes;
-    const size_t group1_num_blocks;
-    const size_t group1_block_data_bytes;
-    const size_t group2_bytes;
-    const size_t group2_num_blocks;
-    const size_t group2_block_data_bytes;
-
-    // Total number of tiles for the QR code, size*size.
-    constexpr int total_size() const { return size * size; }
-
-    constexpr size_t total_bytes() const { return group1_bytes + group2_bytes; }
-
-    constexpr size_t group1_block_bytes() const {
-      return group1_bytes / group1_num_blocks;
-    }
-
-    constexpr size_t group1_block_ec_bytes() const {
-      return group1_block_bytes() - group1_block_data_bytes;
-    }
-
-    constexpr size_t group1_data_bytes() const {
-      return group1_block_data_bytes * group1_num_blocks;
-    }
-
-    constexpr size_t group2_block_bytes() const {
-      if (group2_num_blocks == 0)
-        return 0;
-      return group2_bytes / group2_num_blocks;
-    }
-
-    constexpr size_t block_ec_bytes_1() const {
-      return group2_block_bytes() - group2_block_data_bytes;
-    }
-
-    constexpr size_t group2_data_bytes() const {
-      return group2_block_data_bytes * group2_num_blocks;
-    }
-
-    // Two bytes of overhead are needed for QR framing.
-    // If extending beyond version 26, framing would need to be updated.
-    constexpr size_t input_bytes() const {
-      if (version <= 9) {
-        return group1_data_bytes() + group2_data_bytes() - 2;
-      } else {
-        return group1_data_bytes() + group2_data_bytes() - 3;
-      }
-    }
-
-    DISALLOW_COPY_AND_ASSIGN(QRVersionInfo);
-  };
-
   // Contains output data for Generate().
   // The default state contains no data.
   struct GeneratedCode {
