@@ -1109,11 +1109,10 @@ void LocalFrameClientImpl::FocusedElementChanged(Element* element) {
   web_frame_->Client()->FocusedElementChanged(element);
 }
 
-void LocalFrameClientImpl::OnMainFrameDocumentIntersectionChanged(
+void LocalFrameClientImpl::OnMainFrameIntersectionChanged(
     const IntRect& intersection_rect) {
   DCHECK(web_frame_->Client());
-  web_frame_->Client()->OnMainFrameDocumentIntersectionChanged(
-      intersection_rect);
+  web_frame_->Client()->OnMainFrameIntersectionChanged(intersection_rect);
 }
 
 bool LocalFrameClientImpl::IsPluginHandledExternally(

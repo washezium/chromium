@@ -73,6 +73,7 @@
 #if defined(OS_MACOSX)
 #include "third_party/blink/public/mojom/input/text_input_host.mojom-blink.h"
 #endif
+#include "ui/gfx/transform.h"
 
 namespace base {
 class SingleThreadTaskRunner;
@@ -407,8 +408,11 @@ class CORE_EXPORT LocalFrame final
   IntRect RemoteViewportIntersection() const {
     return intersection_state_.viewport_intersection;
   }
-  IntRect RemoteMainFrameDocumentIntersection() const {
-    return intersection_state_.main_frame_document_intersection;
+  IntRect RemoteMainFrameIntersection() const {
+    return intersection_state_.main_frame_intersection;
+  }
+  gfx::Transform RemoteMainFrameTransform() const {
+    return intersection_state_.main_frame_transform;
   }
 
   FrameOcclusionState GetOcclusionState() const;

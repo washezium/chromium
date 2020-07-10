@@ -4563,16 +4563,13 @@ void RenderFrameImpl::FrameRectsChanged(const blink::WebRect& frame_rect) {
   }
 }
 
-void RenderFrameImpl::OnMainFrameDocumentIntersectionChanged(
-    const blink::WebRect& mainframe_document_intersection_rect) {
-  if (!mainframe_document_intersection_rect_ ||
-      mainframe_document_intersection_rect !=
-          mainframe_document_intersection_rect_) {
-    mainframe_document_intersection_rect_ =
-        mainframe_document_intersection_rect;
+void RenderFrameImpl::OnMainFrameIntersectionChanged(
+    const blink::WebRect& mainframe_intersection_rect) {
+  if (!mainframe_intersection_rect_ ||
+      mainframe_intersection_rect != mainframe_intersection_rect_) {
+    mainframe_intersection_rect_ = mainframe_intersection_rect;
     for (auto& observer : observers_) {
-      observer.OnMainFrameDocumentIntersectionChanged(
-          mainframe_document_intersection_rect);
+      observer.OnMainFrameIntersectionChanged(mainframe_intersection_rect);
     }
   }
 }
@@ -5268,7 +5265,7 @@ void RenderFrameImpl::DidCommitNavigationInternal(
   // Ensure we will propagate frame intersections when the main frame commits
   // even if the intersection does not change across navigations.
   if (IsMainFrame()) {
-    mainframe_document_intersection_rect_.reset();
+    mainframe_intersection_rect_.reset();
   }
 }
 
