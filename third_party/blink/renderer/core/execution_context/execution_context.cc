@@ -512,7 +512,7 @@ bool ExecutionContext::RequireTrustedTypes() const {
 }
 
 String ExecutionContext::addressSpaceForBindings() const {
-  switch (security_context_.AddressSpace()) {
+  switch (address_space_) {
     case network::mojom::IPAddressSpace::kPublic:
     case network::mojom::IPAddressSpace::kUnknown:
       return "public";

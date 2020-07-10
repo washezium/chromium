@@ -37,6 +37,7 @@
 #include "base/unguessable_token.h"
 #include "services/metrics/public/cpp/ukm_recorder.h"
 #include "services/metrics/public/cpp/ukm_source_id.h"
+#include "services/network/public/mojom/ip_address_space.mojom-blink.h"
 #include "services/network/public/mojom/referrer_policy.mojom-blink-forward.h"
 #include "third_party/blink/public/mojom/devtools/inspector_issue.mojom-blink-forward.h"
 #include "third_party/blink/public/mojom/feature_policy/feature_policy.mojom-blink-forward.h"
@@ -345,6 +346,10 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
       const String& source_file = g_empty_string) const {}
 
   String addressSpaceForBindings() const;
+  void SetAddressSpace(network::mojom::IPAddressSpace space) {
+    address_space_ = space;
+  }
+  network::mojom::IPAddressSpace AddressSpace() const { return address_space_; }
 
   void AddContextLifecycleObserver(ContextLifecycleObserver*) override;
   void RemoveContextLifecycleObserver(ContextLifecycleObserver*) override;
@@ -410,6 +415,9 @@ class CORE_EXPORT ExecutionContext : public Supplementable<ExecutionContext>,
   int window_interaction_tokens_;
 
   network::mojom::ReferrerPolicy referrer_policy_;
+
+  network::mojom::blink::IPAddressSpace address_space_ =
+      network::mojom::blink::IPAddressSpace::kUnknown;
 
   // Tracks which feature policies have already been parsed, so as not to count
   // them multiple times.

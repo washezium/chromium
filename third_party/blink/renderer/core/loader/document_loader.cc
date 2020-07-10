@@ -1565,7 +1565,6 @@ void DocumentLoader::CommitNavigation() {
           .WithInitiatorOrigin(owner_document ? nullptr
                                               : requestor_origin_.get())
           .WithOriginToCommit(origin_to_commit_)
-          .WithIPAddressSpace(ip_address_space_)
           .WithSrcdocDocument(loading_srcdoc_)
           .WithGrantLoadLocalResources(grant_load_local_resources_)
           .WithFramePolicy(frame_policy_)
@@ -1672,8 +1671,7 @@ void DocumentLoader::CommitNavigation() {
           to_upgrade);
     };
   }
-  frame_->DomWindow()->GetSecurityContext().SetAddressSpace(
-      init.GetIPAddressSpace());
+  frame_->DomWindow()->SetAddressSpace(ip_address_space_);
 
   WillCommitNavigation();
 

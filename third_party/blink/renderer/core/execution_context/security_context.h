@@ -31,7 +31,6 @@
 
 #include "base/macros.h"
 #include "base/memory/scoped_refptr.h"
-#include "services/network/public/mojom/ip_address_space.mojom-blink.h"
 #include "services/network/public/mojom/web_sandbox_flags.mojom-blink.h"
 #include "third_party/blink/public/common/feature_policy/document_policy.h"
 #include "third_party/blink/public/mojom/feature_policy/document_policy_feature.mojom-blink-forward.h"
@@ -111,11 +110,6 @@ class CORE_EXPORT SecurityContext {
   }
   bool IsSandboxed(network::mojom::blink::WebSandboxFlags mask) const;
   void ApplySandboxFlags(network::mojom::blink::WebSandboxFlags flags);
-
-  void SetAddressSpace(network::mojom::IPAddressSpace space) {
-    address_space_ = space;
-  }
-  network::mojom::IPAddressSpace AddressSpace() const { return address_space_; }
 
   void SetRequireTrustedTypes();
   void SetRequireTrustedTypesForTesting();  // Skips sanity checks.
@@ -200,9 +194,6 @@ class CORE_EXPORT SecurityContext {
 
  private:
   Member<ContentSecurityPolicy> content_security_policy_;
-
-  network::mojom::IPAddressSpace address_space_ =
-      network::mojom::IPAddressSpace::kUnknown;
   mojom::blink::InsecureRequestPolicy insecure_request_policy_ =
       mojom::blink::InsecureRequestPolicy::kLeaveInsecureRequestsAlone;
   InsecureNavigationsSet insecure_navigations_to_upgrade_;
