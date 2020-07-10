@@ -1267,7 +1267,10 @@
       'tags': [],
       'desc': '''Setting the policy specifies the locale <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> uses.
 
-      Turning it off or leaving it unset means users specify the locale (if configured), the system locale, or the fallback locale (en-US).''',
+      Turning it off or leaving it unset means the locale will be the first valid locale from:
+      1) The user specified locale (if configured).
+      2) The system locale.
+      3) The fallback locale (en-US).''',
       'label': '''Application locale''',
     },
     {
