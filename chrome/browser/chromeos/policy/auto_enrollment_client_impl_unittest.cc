@@ -177,7 +177,7 @@ class AutoEnrollmentClientImplTest
         return DeviceInitialEnrollmentState::
             INITIAL_ENROLLMENT_MODE_ENROLLMENT_ENFORCED;
       case DeviceStateRetrieval::RESTORE_MODE_DISABLED:
-        return DeviceInitialEnrollmentState::INITIAL_ENROLLMENT_MODE_NONE;
+        return DeviceInitialEnrollmentState::INITIAL_ENROLLMENT_MODE_DISABLED;
       case DeviceStateRetrieval::RESTORE_MODE_REENROLLMENT_ZERO_TOUCH:
         return DeviceInitialEnrollmentState::
             INITIAL_ENROLLMENT_MODE_ZERO_TOUCH_ENFORCED;
@@ -715,10 +715,6 @@ TEST_P(AutoEnrollmentClientImplTest, RequestedReEnrollment) {
 }
 
 TEST_P(AutoEnrollmentClientImplTest, DeviceDisabled) {
-  // Disabling is currently not supported in the initial-enrollment exchange.
-  if (GetParam() == AutoEnrollmentProtocol::kInitialEnrollment)
-    return;
-
   InSequence sequence;
   ServerWillReply(-1, true, true);
   ServerWillSendState("example.com",
