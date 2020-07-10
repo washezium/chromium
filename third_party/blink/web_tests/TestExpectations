@@ -6425,9 +6425,9 @@ crbug.com/1048149 [ Mac ] fast/forms/calendar-picker/calendar-picker-touch-opera
 crbug.com/1048149 [ Mac ] fast/forms/calendar-picker/date-picker-choose-default-value-after-set-value.html [ Pass Crash ]
 crbug.com/1048149 [ Mac ] fast/forms/calendar-picker/month-picker-appearance.html [ Pass Crash ]
 crbug.com/1048149 [ Mac ] fast/forms/calendar-picker/month-picker-appearance-step.html [ Pass Crash ]
-crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-appearance-zoom125.html [ Pass Crash ]
-crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-top-left-selection-position-after-reopen.html [ Pass Crash ]
-crbug.com/1048149 [ Mac ] virtual/controls-refresh/color/color-picker-zoom150-bottom-edge-no-nan.html [ Pass Crash ]
+crbug.com/1048149 [ Mac ] fast/forms/color/color-picker-appearance-zoom125.html [ Pass Crash ]
+crbug.com/1048149 [ Mac ] fast/forms/color/color-picker-top-left-selection-position-after-reopen.html [ Pass Crash ]
+crbug.com/1048149 [ Mac ] fast/forms/color/color-picker-zoom150-bottom-edge-no-nan.html [ Pass Crash ]
 # This used to be [ Pass Crash ], but as of crbug.com/1050039 it started flaking as well.
 crbug.com/1048149 crbug.com/1050121 [ Mac ] fast/forms/month/month-picker-appearance-zoom150.html [ Pass Failure Crash Failure ]
 
