@@ -31,7 +31,7 @@ SaveUnsyncedCredentialsLocallyBubbleController::
 
 void SaveUnsyncedCredentialsLocallyBubbleController::OnSaveClicked(
     const std::vector<bool>& was_credential_selected) {
-  DCHECK_EQ(was_credential_selected.size(), unsynced_credentials_.size());
+  DCHECK(was_credential_selected.size() == unsynced_credentials_.size());
   std::vector<autofill::PasswordForm> credentials_to_save;
   for (size_t i = 0; i < unsynced_credentials_.size(); i++) {
     if (was_credential_selected[i])
