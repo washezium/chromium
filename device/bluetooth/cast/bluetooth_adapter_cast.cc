@@ -37,10 +37,10 @@ BluetoothAdapterCast::FactoryCb& GetFactory() {
 
 BluetoothAdapterCast::DiscoveryParams::DiscoveryParams(
     std::unique_ptr<device::BluetoothDiscoveryFilter> filter,
-    base::Closure success_callback,
+    base::OnceClosure success_callback,
     DiscoverySessionErrorCallback error_callback)
     : filter(std::move(filter)),
-      success_callback(success_callback),
+      success_callback(std::move(success_callback)),
       error_callback(std::move(error_callback)) {}
 
 BluetoothAdapterCast::DiscoveryParams::DiscoveryParams(
@@ -219,8 +219,8 @@ void BluetoothAdapterCast::StartScanWithFilter(
   // Add this request to the queue.
   pending_discovery_requests_.emplace(BluetoothAdapterCast::DiscoveryParams(
       std::move(discovery_filter),
-      base::BindRepeating(copyable_callback, /*is_error=*/false,
-                          UMABluetoothDiscoverySessionOutcome::SUCCESS),
+      base::BindOnce(copyable_callback, /*is_error=*/false,
+                     UMABluetoothDiscoverySessionOutcome::SUCCESS),
       base::BindOnce(copyable_callback, /*is_error=*/true)));
 
   // If the queue length is greater than 1 (i.e. there was a pending request
@@ -417,7 +417,7 @@ void BluetoothAdapterCast::OnScanEnabled(
   // For each pending request, increment the count and run the success callback.
   while (!pending_discovery_requests_.empty()) {
     num_discovery_sessions_++;
-    pending_discovery_requests_.front().success_callback.Run();
+    std::move(pending_discovery_requests_.front().success_callback).Run();
     pending_discovery_requests_.pop();
   }
 }

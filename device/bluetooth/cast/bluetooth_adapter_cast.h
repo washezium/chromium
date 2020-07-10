@@ -154,13 +154,13 @@ class DEVICE_BLUETOOTH_EXPORT BluetoothAdapterCast
 
   struct DiscoveryParams {
     DiscoveryParams(std::unique_ptr<device::BluetoothDiscoveryFilter> filter,
-                    base::Closure success_callback,
+                    base::OnceClosure success_callback,
                     DiscoverySessionErrorCallback error_callback);
     DiscoveryParams(DiscoveryParams&& params) noexcept;
     DiscoveryParams& operator=(DiscoveryParams&& params);
     ~DiscoveryParams();
     std::unique_ptr<device::BluetoothDiscoveryFilter> filter;
-    base::Closure success_callback;
+    base::OnceClosure success_callback;
     DiscoverySessionErrorCallback error_callback;
   };
 
