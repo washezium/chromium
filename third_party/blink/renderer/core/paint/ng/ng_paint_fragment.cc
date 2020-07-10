@@ -31,6 +31,7 @@
 #include "third_party/blink/renderer/core/layout/ng/ng_physical_fragment.h"
 #include "third_party/blink/renderer/core/paint/ng/ng_box_fragment_painter.h"
 #include "third_party/blink/renderer/core/paint/ng/ng_paint_fragment_traversal.h"
+#include "third_party/blink/renderer/platform/wtf/size_assertions.h"
 
 namespace blink {
 
@@ -43,8 +44,7 @@ struct SameSizeAsNGPaintFragment : public RefCounted<NGPaintFragment>,
   unsigned flags;
 };
 
-static_assert(sizeof(NGPaintFragment) == sizeof(SameSizeAsNGPaintFragment),
-              "NGPaintFragment should stay small.");
+ASSERT_SIZE(NGPaintFragment, SameSizeAsNGPaintFragment);
 
 LogicalRect ExpandedSelectionRectForSoftLineBreakIfNeeded(
     const LogicalRect& rect,
