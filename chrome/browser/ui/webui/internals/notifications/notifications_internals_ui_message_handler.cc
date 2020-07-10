@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/webui/notifications_internals/notifications_internals_ui_message_handler.h"
+#include "chrome/browser/ui/webui/internals/notifications/notifications_internals_ui_message_handler.h"
 
 #include <memory>
 #include <string>
@@ -36,16 +36,16 @@ void NotificationsInternalsUIMessageHandler::RegisterMessages() {
 
 void NotificationsInternalsUIMessageHandler::HandleScheduleNotification(
     const base::ListValue* args) {
-  CHECK_EQ(args->GetList().size(), 4u);
+  CHECK_EQ(args->GetSize(), 3u);
   notifications::ScheduleParams schedule_params;
   schedule_params.deliver_time_start = base::Time::Now();
   schedule_params.deliver_time_end =
       base::Time::Now() + base::TimeDelta::FromMinutes(5);
   notifications::NotificationData data;
   // TOOD(hesen): Enable adding icons from notifications-internals HTML.
-  data.custom_data.emplace("url", args->GetList()[1].GetString());
-  data.title = base::UTF8ToUTF16(args->GetList()[2].GetString());
-  data.message = base::UTF8ToUTF16(args->GetList()[3].GetString());
+  data.custom_data.emplace("url", args->GetList()[0].GetString());
+  data.title = base::UTF8ToUTF16(args->GetList()[1].GetString());
+  data.message = base::UTF8ToUTF16(args->GetList()[2].GetString());
   auto params = std::make_unique<notifications::NotificationParams>(
       notifications::SchedulerClientType::kWebUI, std::move(data),
       std::move(schedule_params));
