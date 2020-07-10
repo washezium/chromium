@@ -450,10 +450,12 @@ struct AutocompleteMatch {
   size_t EstimateMemoryUsage() const;
 
   // Not to be confused with |has_tab_match|, this returns true if the match
-  // has a matching tab and will use a switch-to-tab button. It returns false,
-  // for example, when the switch button is not shown because a keyword match
-  // is taking precedence.
-  bool ShouldShowTabMatchButton() const;
+  // has a matching tab and will use a switch-to-tab button inline in Result
+  // View. It returns false, for example, when the switch button is not shown
+  // because a keyword match is taking precedence. It also returns false when
+  // Suggestion Button Row is enabled, as the Switch-to-tab button will appear
+  // in the button row.
+  bool ShouldShowTabMatchButtonInlineInResultView() const;
 
   // Returns whether the suggestion is by itself a tab switch suggestion.
   bool IsTabSwitchSuggestion() const;
