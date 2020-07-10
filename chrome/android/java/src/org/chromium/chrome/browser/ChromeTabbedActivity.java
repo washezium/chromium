@@ -1726,7 +1726,7 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
             DefaultBrowserPromoUtils.maybeRecordOutcomeOnStart();
 
             if (mStartSurface != null && mOverviewShownOnStart) {
-                mStartSurface.onOverviewShownAtLaunch(getOnCreateTimestampUptimeMs());
+                mStartSurface.onOverviewShownAtLaunch(getOnCreateTimestampMs());
             }
         });
     }
