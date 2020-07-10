@@ -215,7 +215,6 @@ class TestRunner {
   // requests in WorkQueue.
   void RemoveLoadingFrame(blink::WebFrame* frame);
 
-  blink::WebFrame* MainFrame() const;
   void PolicyDelegateDone();
   bool PolicyDelegateEnabled() const;
   bool PolicyDelegateIsPermissive() const;
@@ -258,7 +257,7 @@ class TestRunner {
     virtual ~WorkItem() {}
 
     // Returns true if this started a load.
-    virtual bool Run(TestRunner*, blink::WebView*) = 0;
+    virtual bool Run(TestRunner*, WebFrameTestProxy* in_process_main_frame) = 0;
   };
 
  private:
@@ -294,6 +293,11 @@ class TestRunner {
 
     base::WeakPtrFactory<WorkQueue> weak_factory_{this};
   };
+
+  // If the main test window's main frame is hosted in this renderer process,
+  // then this will return it. Otherwise, it is in another process and this
+  // returns null.
+  WebFrameTestProxy* FindInProcessMainWindowMainFrame();
 
   ///////////////////////////////////////////////////////////////////////////
   // Methods dealing with the test logic
