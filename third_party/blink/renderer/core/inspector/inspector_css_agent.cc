@@ -776,6 +776,21 @@ void InspectorCSSAgent::FontsUpdated(
     return;
   }
 
+  Vector<VariationAxis> variation_axis =
+      fontCustomPlatformData->GetVariationAxes();
+
+  auto variation_axes =
+      std::make_unique<protocol::Array<protocol::CSS::FontVariationAxis>>();
+  for (const VariationAxis& axis : variation_axis) {
+    variation_axes->push_back(protocol::CSS::FontVariationAxis::create()
+                                  .setMinValue(axis.minValue)
+                                  .setMaxValue(axis.maxValue)
+                                  .setDefaultValue(axis.defaultValue)
+                                  .setName(axis.name)
+                                  .setTag(axis.tag)
+                                  .build());
+  }
+
   // blink::FontFace returns sane property defaults per the web fonts spec,
   // so we don't perform null checks here.
   std::unique_ptr<protocol::CSS::FontFace> font_face =
@@ -789,6 +804,8 @@ void InspectorCSSAgent::FontsUpdated(
           .setSrc(src)
           .setPlatformFontFamily(
               fontCustomPlatformData->FamilyNameForInspector())
+          .setFontVariationAxes(
+              variation_axes->size() ? std::move(variation_axes) : nullptr)
           .build();
   GetFrontend()->fontsUpdated(std::move(font_face));
 }
