@@ -528,6 +528,13 @@ gin::ObjectTemplateBuilder TestRunnerBindings::GetObjectTemplateBuilder(
                  &TestRunnerBindings::DisableAutoResizeMode)
       .SetMethod("disableMockScreenOrientation",
                  &TestRunnerBindings::DisableMockScreenOrientation)
+      // Sets up a mock DocumentSubresourceFilter to disallow subsequent
+      // subresource loads within the current document with the given path
+      // |suffixes|. The filter is created and injected even if |suffixes| is
+      // empty. If |suffixes| contains the empty string, all subresource loads
+      // will be disallowed. If |block_subresources| is false, matching
+      // resources will not be blocked but instead marked as matching a
+      // disallowed resource.
       .SetMethod("setDisallowedSubresourcePathSuffixes",
                  &TestRunnerBindings::SetDisallowedSubresourcePathSuffixes)
       // Causes the beforeinstallprompt event to be sent to the renderer.
@@ -1268,7 +1275,8 @@ void TestRunnerBindings::SetDisallowedSubresourcePathSuffixes(
     bool block_subresources) {
   if (invalid_)
     return;
-  runner_->SetDisallowedSubresourcePathSuffixes(suffixes, block_subresources);
+  GetWebFrame()->GetDocumentLoader()->SetSubresourceFilter(
+      new MockWebDocumentSubresourceFilter(suffixes, block_subresources));
 }
 
 void TestRunnerBindings::SetPopupBlockingEnabled(bool block_popups) {
@@ -2959,18 +2967,6 @@ void TestRunner::SetAllowRunningOfInsecureContent(bool allowed) {
 void TestRunner::DumpPermissionClientCallbacks() {
   web_test_runtime_flags_.set_dump_web_content_settings_client_callbacks(true);
   OnWebTestRuntimeFlagsChanged();
-}
-
-void TestRunner::SetDisallowedSubresourcePathSuffixes(
-    const std::vector<std::string>& suffixes,
-    bool block_subresources) {
-  WebFrameTestProxy* main_frame = FindInProcessMainWindowMainFrame();
-  // TODO(danakj): This may only be used in tests from same renderer process
-  // (aka from the same site under site-isolation) as the test's main frame.
-  if (!main_frame)
-    return;
-  main_frame->GetWebFrame()->GetDocumentLoader()->SetSubresourceFilter(
-      new MockWebDocumentSubresourceFilter(suffixes, block_subresources));
 }
 
 void TestRunner::DumpBackForwardList() {

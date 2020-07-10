@@ -447,16 +447,6 @@ class TestRunner {
   void SetAllowRunningOfInsecureContent(bool allowed);
   void DumpPermissionClientCallbacks();
 
-  // Sets up a mock DocumentSubresourceFilter to disallow subsequent subresource
-  // loads within the current document with the given path |suffixes|. The
-  // filter is created and injected even if |suffixes| is empty. If |suffixes|
-  // contains the empty string, all subresource loads will be disallowed. If
-  // |block_subresources| is false, matching resources will not be blocked but
-  // instead marked as matching a disallowed resource.
-  void SetDisallowedSubresourcePathSuffixes(
-      const std::vector<std::string>& suffixes,
-      bool block_subresources);
-
   // This function sets a flag that tells the test runner to print out a text
   // representation of the back/forward list. It ignores all arguments.
   void DumpBackForwardList();
