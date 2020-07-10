@@ -58,8 +58,6 @@ class WebMediaStreamSource {
     kReadyStateEnded = 2
   };
 
-  enum class EchoCancellationMode { kDisabled, kBrowser, kAec3, kSystem };
-
   struct Capabilities {
     // WebVector is used to store an optional range for the below numeric
     // fields. All of them should have 0 or 2 values representing min/max.
@@ -102,11 +100,6 @@ class WebMediaStreamSource {
 
   BLINK_PLATFORM_EXPORT WebString Id() const;
   BLINK_PLATFORM_EXPORT Type GetType() const;
-  BLINK_PLATFORM_EXPORT WebString GetName() const;
-  BLINK_PLATFORM_EXPORT bool Remote() const;
-
-  BLINK_PLATFORM_EXPORT void SetGroupId(const WebString& group_id);
-  BLINK_PLATFORM_EXPORT WebString GroupId() const;
 
   BLINK_PLATFORM_EXPORT void SetReadyState(ReadyState);
   BLINK_PLATFORM_EXPORT ReadyState GetReadyState() const;
@@ -115,15 +108,8 @@ class WebMediaStreamSource {
   BLINK_PLATFORM_EXPORT void SetPlatformSource(
       std::unique_ptr<WebPlatformMediaStreamSource>);
 
-  BLINK_PLATFORM_EXPORT void SetAudioProcessingProperties(
-      EchoCancellationMode echo_cancellation_mode,
-      bool auto_gain_control,
-      bool noise_supression);
-
-  BLINK_PLATFORM_EXPORT void SetCapabilities(const Capabilities&);
-
 #if INSIDE_BLINK
-  BLINK_PLATFORM_EXPORT WebMediaStreamSource(MediaStreamSource*);
+  BLINK_PLATFORM_EXPORT explicit WebMediaStreamSource(MediaStreamSource*);
   BLINK_PLATFORM_EXPORT WebMediaStreamSource& operator=(MediaStreamSource*);
   BLINK_PLATFORM_EXPORT operator scoped_refptr<MediaStreamSource>() const;
   BLINK_PLATFORM_EXPORT operator MediaStreamSource*() const;
