@@ -273,7 +273,7 @@ void ThreadHeap::FlushEphemeronPairs(EphemeronProcessing ephemeron_processing) {
       return;
   }
 
-  ThreadHeapStatsCollector::Scope stats_scope(
+  ThreadHeapStatsCollector::EnabledScope stats_scope(
       stats_collector(), ThreadHeapStatsCollector::kMarkFlushEphemeronPairs);
 
   EphemeronPairsWorklist::View view(discovered_ephemeron_pairs_worklist_.get(),
@@ -384,7 +384,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
     {
       // Iteratively mark all objects that are reachable from the objects
       // currently pushed onto the marking worklist.
-      ThreadHeapStatsCollector::Scope stats_scope(
+      ThreadHeapStatsCollector::EnabledScope stats_scope(
           stats_collector(), ThreadHeapStatsCollector::kMarkProcessWorklists);
 
       // Start with mutator-thread-only worklists (not fully constructed).
@@ -409,7 +409,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
       }
 
       {
-        ThreadHeapStatsCollector::Scope inner_scope(
+        ThreadHeapStatsCollector::EnabledScope inner_scope(
             stats_collector(),
             ThreadHeapStatsCollector::kMarkFlushV8References);
         finished = FlushV8References(deadline);
@@ -418,7 +418,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
       }
 
       {
-        ThreadHeapStatsCollector::Scope inner_scope(
+        ThreadHeapStatsCollector::EnabledScope inner_scope(
             stats_collector(),
             ThreadHeapStatsCollector::kMarkProcessNotFullyconstructeddWorklist);
         // Convert |previously_not_fully_constructed_worklist_| to
@@ -436,7 +436,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
       }
 
       {
-        ThreadHeapStatsCollector::Scope inner_scope(
+        ThreadHeapStatsCollector::EnabledScope inner_scope(
             stats_collector(),
             ThreadHeapStatsCollector::kMarkProcessMarkingWorklist);
         finished = DrainWorklistWithDeadline(
@@ -454,7 +454,7 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
       }
 
       {
-        ThreadHeapStatsCollector::Scope inner_scope(
+        ThreadHeapStatsCollector::EnabledScope inner_scope(
             stats_collector(),
             ThreadHeapStatsCollector::kMarkProcessWriteBarrierWorklist);
         finished = DrainWorklistWithDeadline(
