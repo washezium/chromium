@@ -494,14 +494,39 @@ bool HTMLFrameOwnerElement::LoadOrRedirectSubframe(
   if (trust_token_params)
     request.SetTrustTokenParams(*trust_token_params);
 
+  const auto& loading_attr = FastGetAttribute(html_names::kLoadingAttr);
+  bool loading_lazy_set = EqualIgnoringASCIICase(loading_attr, "lazy");
+
   if (ContentFrame()) {
-    // TODO(sclittle): Support lazily loading frame navigations.
     FrameLoadRequest frame_load_request(GetDocument().domWindow(), request);
     frame_load_request.SetClientRedirectReason(
         ClientNavigationReason::kFrameNavigation);
     WebFrameLoadType frame_load_type = WebFrameLoadType::kStandard;
     if (replace_current_item)
       frame_load_type = WebFrameLoadType::kReplaceCurrentItem;
+
+    if (IsFrameLazyLoadable(GetExecutionContext(), url, loading_lazy_set,
+                            should_lazy_load_children_)) {
+      // Avoid automatically deferring subresources inside a lazily loaded
+      // frame. This will make it possible for subresources in hidden frames to
+      // load that will never be visible, as well as make it so that deferred
+      // frames that have multiple layers of iframes inside them can load faster
+      // once they're near the viewport or visible.
+      should_lazy_load_children_ = false;
+
+      lazy_load_frame_observer_ = MakeGarbageCollected<LazyLoadFrameObserver>(
+          *this, LazyLoadFrameObserver::LoadType::kSubsequent);
+
+      if (RuntimeEnabledFeatures::LazyFrameVisibleLoadTimeMetricsEnabled())
+        lazy_load_frame_observer_->StartTrackingVisibilityMetrics();
+
+      if (ShouldLazilyLoadFrame(GetDocument(), loading_lazy_set)) {
+        lazy_load_frame_observer_->DeferLoadUntilNearViewport(request,
+                                                              frame_load_type);
+        return true;
+      }
+    }
+
     ContentFrame()->Navigate(frame_load_request, frame_load_type);
     return true;
   }
@@ -510,8 +535,9 @@ bool HTMLFrameOwnerElement::LoadOrRedirectSubframe(
     return false;
 
   if (GetDocument().GetFrame()->GetPage()->SubframeCount() >=
-      Page::MaxNumberOfFrames())
+      Page::MaxNumberOfFrames()) {
     return false;
+  }
 
   LocalFrame* child_frame =
       GetDocument().GetFrame()->Client()->CreateFrame(frame_name, this);
@@ -534,9 +560,6 @@ bool HTMLFrameOwnerElement::LoadOrRedirectSubframe(
   if (IsPlugin())
     request.SetSkipServiceWorker(true);
 
-  const auto& loading_attr = FastGetAttribute(html_names::kLoadingAttr);
-  bool loading_lazy_set = EqualIgnoringASCIICase(loading_attr, "lazy");
-
   if (!lazy_load_frame_observer_ &&
       IsFrameLazyLoadable(GetExecutionContext(), url, loading_lazy_set,
                           should_lazy_load_children_)) {
@@ -547,8 +570,8 @@ bool HTMLFrameOwnerElement::LoadOrRedirectSubframe(
     // near the viewport or visible.
     should_lazy_load_children_ = false;
 
-    lazy_load_frame_observer_ =
-        MakeGarbageCollected<LazyLoadFrameObserver>(*this);
+    lazy_load_frame_observer_ = MakeGarbageCollected<LazyLoadFrameObserver>(
+        *this, LazyLoadFrameObserver::LoadType::kFirst);
 
     if (RuntimeEnabledFeatures::LazyFrameVisibleLoadTimeMetricsEnabled())
       lazy_load_frame_observer_->StartTrackingVisibilityMetrics();

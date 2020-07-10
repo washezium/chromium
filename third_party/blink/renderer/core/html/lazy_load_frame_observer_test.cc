@@ -693,6 +693,16 @@ TEST_P(LazyLoadFramesParamsTest, AboutBlankChildFrameNavigation) {
                                            ConsoleMessages().end(),
                                            "child frame element onload")));
 
+  if (RuntimeEnabledFeatures::LazyFrameLoadingEnabled()) {
+    // If LazyFrameLoading is enabled, then scroll down near the child frame to
+    // cause the child frame to start loading.
+    GetDocument().View()->LayoutViewport()->SetScrollOffset(
+        ScrollOffset(0, 150), mojom::blink::ScrollType::kProgrammatic);
+
+    Compositor().BeginFrame();
+    test::RunPendingTasks();
+  }
+
   child_frame_resource.Complete("");
 
   Compositor().BeginFrame();
@@ -706,10 +716,22 @@ TEST_P(LazyLoadFramesParamsTest, AboutBlankChildFrameNavigation) {
   histogram_tester()->ExpectTotalCount(
       "Blink.VisibleBeforeLoaded.LazyLoadEligibleFrames.BelowTheFold", 0);
 
-  for (const auto& pair : kInitialDeferralActionHistogramNames)
-    histogram_tester()->ExpectTotalCount(pair.second, 0);
+  int expected_histogram_count = 0;
+  if (RuntimeEnabledFeatures::LazyFrameLoadingEnabled())
+    expected_histogram_count = 1;
+
+  for (const auto& pair : kInitialDeferralActionHistogramNames) {
+    if (RuntimeEnabledFeatures::LazyFrameLoadingEnabled() &&
+        std::get<WebEffectiveConnectionType>(GetParam()) == pair.first) {
+      histogram_tester()->ExpectTotalCount(pair.second, 1);
+    } else {
+      histogram_tester()->ExpectTotalCount(pair.second, 0);
+    }
+  }
+
   histogram_tester()->ExpectTotalCount(
-      "Blink.LazyLoad.CrossOriginFrames.LoadStartedAfterBeingDeferred", 0);
+      "Blink.LazyLoad.CrossOriginFrames.LoadStartedAfterBeingDeferred",
+      expected_histogram_count);
   histogram_tester()->ExpectTotalCount(
       "Blink.LazyLoad.CrossOriginFrames.VisibleAfterBeingDeferred", 0);
 }
