@@ -6888,3 +6888,5 @@ crbug.com/1104134 [ Mac10.14 ] virtual/controls-refresh-hc/fast/forms/color-sche
 crbug.com/1102167 external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
 crbug.com/1102167 virtual/cors/external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
 crbug.com/1102167 virtual/omt-worker-fetch/external/wpt/fetch/redirect-navigate/preserve-fragment.html [ Timeout Pass ]
+
+crbug.com/1104186 [ Win ] fast/forms/color-scheme/suggestion-picker/time-suggestion-picker-appearance.html [ Pass Failure ]
