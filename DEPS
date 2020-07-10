@@ -333,7 +333,7 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling wuffs
   # and whatever else without interference from each other.
-  'wuffs_revision': '991e1b2667173424abc9327a945a6ab2bce8ac38',
+  'wuffs_revision': '4ed17ada9f0afaa73eba02a941e05e773a11f2d9',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling libgifcodec
   # and whatever else without interference from each other.
