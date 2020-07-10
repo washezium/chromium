@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-module lacros.mojom;
+module crosapi.mojom;
 
-import "chromeos/lacros/mojom/screen_manager.mojom";
-import "chromeos/lacros/mojom/select_file.mojom";
+import "chromeos/crosapi/mojom/screen_manager.mojom";
+import "chromeos/crosapi/mojom/select_file.mojom";
 
 // AshChromeService defines the APIs that live in ash-chrome and are
 // accessed from lacros-chrome.

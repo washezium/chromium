@@ -249,7 +249,7 @@ void LacrosManager::StartForeground(bool already_running) {
 }
 
 void LacrosManager::OnAshChromeServiceReceiverReceived(
-    mojo::PendingReceiver<lacros::mojom::AshChromeService> pending_receiver) {
+    mojo::PendingReceiver<crosapi::mojom::AshChromeService> pending_receiver) {
   DCHECK_EQ(state_, State::STARTING);
   ash_chrome_service_ =
       std::make_unique<AshChromeServiceImpl>(std::move(pending_receiver));

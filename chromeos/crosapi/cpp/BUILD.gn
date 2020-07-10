@@ -3,16 +3,16 @@
 # found in the LICENSE file.
 
 # C++ components used by both lacros-chrome and ash-chrome.
-config("lacros_implementation") {
-  defines = [ "IS_LACROS_IMPL" ]
+config("crosapi_implementation") {
+  defines = [ "IS_CROSAPI_IMPL" ]
 }
 
 component("cpp") {
-  output_name = "lacros_public_cpp"
+  output_name = "crosapi_public_cpp"
   sources = [
     "window_snapshot.cc",
     "window_snapshot.h",
   ]
-  configs += [ ":lacros_implementation" ]
+  configs += [ ":crosapi_implementation" ]
   deps = [ "//base" ]
 }

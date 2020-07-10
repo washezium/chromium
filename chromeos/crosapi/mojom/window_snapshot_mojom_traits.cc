@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chromeos/lacros/mojom/window_snapshot_mojom_traits.h"
+#include "chromeos/crosapi/mojom/window_snapshot_mojom_traits.h"
 
 #include "base/numerics/checked_math.h"
 
@@ -10,9 +10,9 @@ namespace mojo {
 
 // static
 bool StructTraits<
-    lacros::mojom::WindowSnapshotDataView,
-    lacros::WindowSnapshot>::Read(lacros::mojom::WindowSnapshotDataView data,
-                                  lacros::WindowSnapshot* out) {
+    crosapi::mojom::WindowSnapshotDataView,
+    crosapi::WindowSnapshot>::Read(crosapi::mojom::WindowSnapshotDataView data,
+                                   crosapi::WindowSnapshot* out) {
   out->width = data.width();
   out->height = data.height();
 

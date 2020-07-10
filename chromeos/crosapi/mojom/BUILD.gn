@@ -6,7 +6,7 @@ import("//mojo/public/tools/bindings/mojom.gni")
 
 mojom("mojom") {
   sources = [
-    "lacros.mojom",
+    "crosapi.mojom",
     "screen_manager.mojom",
     "select_file.mojom",
   ]
@@ -15,15 +15,15 @@ mojom("mojom") {
     {
       types = [
         {
-          mojom = "lacros.mojom.WindowSnapshot"
-          cpp = "lacros::WindowSnapshot"
+          mojom = "crosapi.mojom.WindowSnapshot"
+          cpp = "crosapi::WindowSnapshot"
         },
       ]
       traits_headers =
-          [ "//chromeos/lacros/mojom/window_snapshot_mojom_traits.h" ]
+          [ "//chromeos/crosapi/mojom/window_snapshot_mojom_traits.h" ]
       traits_public_deps = [
         ":mojom_traits",
-        "//chromeos/lacros/cpp",
+        "//chromeos/crosapi/cpp",
       ]
     },
   ]
@@ -35,18 +35,18 @@ mojom("mojom") {
 }
 
 component("mojom_traits") {
-  output_name = "lacros_mojom_traits"
+  output_name = "crosapi_mojom_traits"
 
   sources = [
     "window_snapshot_mojom_traits.cc",
     "window_snapshot_mojom_traits.h",
   ]
 
-  defines = [ "IS_LACROS_MOJOM_TRAITS_IMPL" ]
+  defines = [ "IS_CROSAPI_MOJOM_TRAITS_IMPL" ]
 
   public_deps = [
     ":mojom_shared",
-    "//chromeos/lacros/cpp",
+    "//chromeos/crosapi/cpp",
     "//mojo/public/cpp/base:shared_typemap_traits",
   ]
 }

@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "chromeos/lacros/mojom/lacros.mojom.h"
+#include "chromeos/crosapi/mojom/crosapi.mojom.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
 #include "mojo/public/cpp/bindings/receiver.h"
 
@@ -16,20 +16,20 @@ class SelectFileCrosapi;
 
 // Implementation of AshChromeService. It provides a set of APIs that
 // lacros-chrome can call into.
-class AshChromeServiceImpl : public lacros::mojom::AshChromeService {
+class AshChromeServiceImpl : public crosapi::mojom::AshChromeService {
  public:
   explicit AshChromeServiceImpl(
-      mojo::PendingReceiver<lacros::mojom::AshChromeService> pending_receiver);
+      mojo::PendingReceiver<crosapi::mojom::AshChromeService> pending_receiver);
   ~AshChromeServiceImpl() override;
 
-  // lacros::mojom::AshChromeService:
+  // crosapi::mojom::AshChromeService:
   void BindScreenManager(
-      mojo::PendingReceiver<lacros::mojom::ScreenManager> receiver) override;
+      mojo::PendingReceiver<crosapi::mojom::ScreenManager> receiver) override;
   void BindSelectFile(
-      mojo::PendingReceiver<lacros::mojom::SelectFile> receiver) override;
+      mojo::PendingReceiver<crosapi::mojom::SelectFile> receiver) override;
 
  private:
-  mojo::Receiver<lacros::mojom::AshChromeService> receiver_;
+  mojo::Receiver<crosapi::mojom::AshChromeService> receiver_;
 
   std::unique_ptr<ScreenManagerCrosapi> screen_manager_crosapi_;
   std::unique_ptr<SelectFileCrosapi> select_file_crosapi_;

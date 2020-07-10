@@ -13,7 +13,7 @@
 #include "base/numerics/checked_math.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
-#include "chromeos/lacros/cpp/window_snapshot.h"
+#include "chromeos/crosapi/cpp/window_snapshot.h"
 #include "ui/snapshot/snapshot.h"
 
 ScreenManagerCrosapi::ScreenManagerCrosapi() = default;
@@ -25,7 +25,7 @@ ScreenManagerCrosapi::~ScreenManagerCrosapi() {
 }
 
 void ScreenManagerCrosapi::BindReceiver(
-    mojo::PendingReceiver<lacros::mojom::ScreenManager> receiver) {
+    mojo::PendingReceiver<crosapi::mojom::ScreenManager> receiver) {
   receivers_.Add(this, std::move(receiver));
 }
 
@@ -49,7 +49,7 @@ void ScreenManagerCrosapi::ListWindows(ListWindowsCallback callback) {
                                ash::kShellWindowId_DefaultContainerDeprecated);
 
   // We need to create a vector that contains window_id and title.
-  std::vector<lacros::mojom::WindowDetailsPtr> windows;
+  std::vector<crosapi::mojom::WindowDetailsPtr> windows;
 
   // The |container| has all the top-level windows in reverse order, e.g. the
   // most top-level window is at the end. So iterate children reversely to make
@@ -64,8 +64,8 @@ void ScreenManagerCrosapi::ListWindows(ListWindowsCallback callback) {
     if (!window->IsVisible() || !window->CanFocus())
       continue;
 
-    lacros::mojom::WindowDetailsPtr details =
-        lacros::mojom::WindowDetails::New();
+    crosapi::mojom::WindowDetailsPtr details =
+        crosapi::mojom::WindowDetails::New();
 
     // We are already tracking the window.
     auto existing_window_it = window_to_id_.find(window);
@@ -93,7 +93,7 @@ void ScreenManagerCrosapi::TakeWindowSnapshot(
     TakeWindowSnapshotCallback callback) {
   auto it = id_to_window_.find(id);
   if (it == id_to_window_.end()) {
-    std::move(callback).Run(/*success=*/false, lacros::WindowSnapshot());
+    std::move(callback).Run(/*success=*/false, crosapi::WindowSnapshot());
     return;
   }
 
@@ -132,7 +132,7 @@ void ScreenManagerCrosapi::DidTakeSnapshot(SnapshotCallback callback,
   uint8_t* base = static_cast<uint8_t*>(bitmap.getPixels());
   std::vector<uint8_t> bytes(base, base + bitmap.computeByteSize());
 
-  lacros::WindowSnapshot snapshot;
+  crosapi::WindowSnapshot snapshot;
   snapshot.width = bitmap.width();
   snapshot.height = bitmap.height();
   snapshot.bitmap.swap(bytes);

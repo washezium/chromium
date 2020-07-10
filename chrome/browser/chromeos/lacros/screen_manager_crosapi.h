@@ -10,7 +10,7 @@
 #include <map>
 
 #include "base/memory/weak_ptr.h"
-#include "chromeos/lacros/mojom/screen_manager.mojom.h"
+#include "chromeos/crosapi/mojom/screen_manager.mojom.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
 #include "mojo/public/cpp/bindings/receiver_set.h"
 #include "ui/aura/window_observer.h"
@@ -18,7 +18,7 @@
 
 // This class is the ash-chrome implementation of the ScreenManager interface.
 // This class must only be used from the main thread.
-class ScreenManagerCrosapi : public lacros::mojom::ScreenManager,
+class ScreenManagerCrosapi : public crosapi::mojom::ScreenManager,
                              aura::WindowObserver {
  public:
   ScreenManagerCrosapi();
@@ -27,9 +27,9 @@ class ScreenManagerCrosapi : public lacros::mojom::ScreenManager,
   ~ScreenManagerCrosapi() override;
 
   void BindReceiver(
-      mojo::PendingReceiver<lacros::mojom::ScreenManager> receiver);
+      mojo::PendingReceiver<crosapi::mojom::ScreenManager> receiver);
 
-  // lacros::mojom::ScreenManager:
+  // crosapi::mojom::ScreenManager:
   void TakeScreenSnapshot(TakeScreenSnapshotCallback callback) override;
   void ListWindows(ListWindowsCallback callback) override;
   void TakeWindowSnapshot(uint64_t id,
@@ -43,7 +43,7 @@ class ScreenManagerCrosapi : public lacros::mojom::ScreenManager,
 
  private:
   using SnapshotCallback =
-      base::OnceCallback<void(const lacros::WindowSnapshot&)>;
+      base::OnceCallback<void(const crosapi::WindowSnapshot&)>;
   void DidTakeSnapshot(SnapshotCallback callback, gfx::Image image);
 
   // This class generates unique, non-reused IDs for windows on demand. The IDs
@@ -60,7 +60,7 @@ class ScreenManagerCrosapi : public lacros::mojom::ScreenManager,
   // This class supports any number of connections. This allows the client to
   // have multiple, potentially thread-affine, remotes. This is needed by
   // WebRTC.
-  mojo::ReceiverSet<lacros::mojom::ScreenManager> receivers_;
+  mojo::ReceiverSet<crosapi::mojom::ScreenManager> receivers_;
 
   base::WeakPtrFactory<ScreenManagerCrosapi> weak_factory_{this};
 };

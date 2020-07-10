@@ -12,7 +12,7 @@
 #include "base/memory/scoped_refptr.h"
 #include "base/memory/weak_ptr.h"
 #include "base/process/process.h"
-#include "chromeos/lacros/mojom/lacros.mojom.h"
+#include "chromeos/crosapi/mojom/crosapi.mojom.h"
 #include "components/session_manager/core/session_manager_observer.h"
 #include "mojo/public/cpp/bindings/remote.h"
 
@@ -101,7 +101,7 @@ class LacrosManager : public session_manager::SessionManagerObserver {
   // Called when PendingReceiver of AshChromeService is passed from
   // lacros-chrome.
   void OnAshChromeServiceReceiverReceived(
-      mojo::PendingReceiver<lacros::mojom::AshChromeService> pending_receiver);
+      mojo::PendingReceiver<crosapi::mojom::AshChromeService> pending_receiver);
 
   // Called when the Mojo connection to lacros-chrome is disconnected.
   // It may be "just a Mojo error" or "lacros-chrome crash".
@@ -139,7 +139,7 @@ class LacrosManager : public session_manager::SessionManagerObserver {
 
   // Proxy to LacrosChromeService mojo service in lacros-chrome.
   // Available during lacros-chrome is running.
-  mojo::Remote<lacros::mojom::LacrosChromeService> lacros_chrome_service_;
+  mojo::Remote<crosapi::mojom::LacrosChromeService> lacros_chrome_service_;
 
   // Implementation of AshChromeService Mojo APIs.
   // Instantiated on receiving the PendingReceiver from lacros-chrome.

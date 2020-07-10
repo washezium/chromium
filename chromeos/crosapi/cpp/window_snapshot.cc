@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chromeos/lacros/cpp/window_snapshot.h"
+#include "chromeos/crosapi/cpp/window_snapshot.h"
 
-namespace lacros {
+namespace crosapi {
 
 WindowSnapshot::WindowSnapshot() = default;
 WindowSnapshot::~WindowSnapshot() = default;
 
-}  // namespace lacros
+}  // namespace crosapi
