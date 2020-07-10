@@ -153,7 +153,7 @@ AutocompleteMatch::AutocompleteMatch(const AutocompleteMatch& match)
       type(match.type),
       parent_type(match.parent_type),
       has_tab_match(match.has_tab_match),
-      subtype_identifier(match.subtype_identifier),
+      subtypes(match.subtypes),
       associated_keyword(match.associated_keyword
                              ? new AutocompleteMatch(*match.associated_keyword)
                              : nullptr),
@@ -213,7 +213,7 @@ AutocompleteMatch& AutocompleteMatch::operator=(
   type = match.type;
   parent_type = match.parent_type;
   has_tab_match = match.has_tab_match;
-  subtype_identifier = match.subtype_identifier;
+  subtypes = match.subtypes;
   associated_keyword.reset(
       match.associated_keyword
           ? new AutocompleteMatch(*match.associated_keyword)
@@ -1043,7 +1043,7 @@ bool AutocompleteMatch::IsOnDeviceSearchSuggestion() const {
   const bool from_on_device_provider =
       (provider &&
        provider->type() == AutocompleteProvider::TYPE_ON_DEVICE_HEAD);
-  return from_on_device_provider && subtype_identifier == 271;
+  return from_on_device_provider && subtypes.contains(271);
 }
 
 bool AutocompleteMatch::IsTrivialAutocompletion() const {

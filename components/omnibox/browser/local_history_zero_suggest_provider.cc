@@ -250,8 +250,8 @@ void LocalHistoryZeroSuggestProvider::QueryURLDatabase(
     SearchSuggestionParser::SuggestResult suggestion(
         /*suggestion=*/result.normalized_term,
         AutocompleteMatchType::SEARCH_HISTORY,
-        /*subtype_identifier=*/0, /*from_keyword=*/false, relevance--,
-        /*relevance_from_server=*/0,
+        /*subtypes=*/{}, /*from_keyword=*/false, relevance--,
+        /*relevance_from_server=*/false,
         /*input_text=*/base::ASCIIToUTF16(std::string()));
 
     AutocompleteMatch match = BaseSearchProvider::CreateSearchSuggestion(

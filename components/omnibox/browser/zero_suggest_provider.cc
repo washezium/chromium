@@ -475,7 +475,7 @@ AutocompleteMatch ZeroSuggestProvider::NavigationToMatch(
   match.description_class = ClassifyTermMatches({}, match.description.length(),
                                                 0, ACMatchClassification::NONE);
 
-  match.subtype_identifier = navigation.subtype_identifier();
+  match.subtypes = navigation.subtypes();
   return match;
 }
 
@@ -557,7 +557,7 @@ void ZeroSuggestProvider::ConvertResultsToAutocompleteMatches() {
     for (const auto& url : most_visited_urls_) {
       SearchSuggestionParser::NavigationResult nav(
           client()->GetSchemeClassifier(), url.url,
-          AutocompleteMatchType::NAVSUGGEST, {}, 0, url.title, std::string(),
+          AutocompleteMatchType::NAVSUGGEST, {}, url.title, std::string(),
           false, relevance, true, current_query_string16);
       matches_.push_back(NavigationToMatch(nav));
       --relevance;

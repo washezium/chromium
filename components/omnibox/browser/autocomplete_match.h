@@ -616,10 +616,16 @@ struct AutocompleteMatch {
   bool has_tab_match = false;
 
   // Used to identify the specific source / type for suggestions by the
-  // suggest server. See |result_subtype_identifier| in omnibox.proto for more
+  // suggest server. See |result_subtypes| in omnibox.proto for more
   // details.
-  // The identifier 0 is reserved for cases where this specific type is unset.
-  int subtype_identifier = 0;
+  // We use flat_set to help us deduplicate repetitive elements.
+  // The order of elements reported back via AQS is irrelevant, and in the case
+  // we have repetitive subtypes (eg. as a result of Chrome enriching the set
+  // with its own metadata) we want to merge these subtypes together.
+  // flat_set uses std::vector as a container, allowing us to reduce memory
+  // overhead of keeping a handful of integers, while offering similar
+  // functionality as std::set.
+  base::flat_set<int> subtypes;
 
   // Set with a keyword provider match if this match can show a keyword hint.
   // For example, if this is a SearchProvider match for "www.amazon.com",
