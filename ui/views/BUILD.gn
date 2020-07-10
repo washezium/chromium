@@ -1104,6 +1104,7 @@ test("views_unittests") {
     "metadata/type_conversion_unittest.cc",
     "paint_info_unittest.cc",
     "rect_based_targeting_utils_unittest.cc",
+    "repeat_controller_unittest.cc",
     "run_all_unittests_main.cc",
     "selection_controller_unittest.cc",
     "test/widget_test_unittest.cc",
