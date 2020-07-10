@@ -146,6 +146,12 @@ suite(extension_item_tests.suiteName, function() {
         flush();
         testVisible(item, '#dev-reload-button', false);
 
+        item.set('data.disableReasons.reloading', true);
+        flush();
+        testVisible(item, '#dev-reload-button', true);
+
+        item.set('data.disableReasons.reloading', false);
+        flush();
         item.set(
             'data.state', chrome.developerPrivate.ExtensionState.TERMINATED);
         flush();
