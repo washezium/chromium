@@ -32,6 +32,8 @@ class PasswordSaveUnsyncedCredentialsLocallyView
 
   void CreateLayout();
 
+  void OnSaveClicked();
+
   // LocationBarBubbleDelegateView:
   bool ShouldShowCloseButton() const override;
   gfx::Size CalculatePreferredSize() const override;

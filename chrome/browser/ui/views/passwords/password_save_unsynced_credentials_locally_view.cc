@@ -30,9 +30,9 @@ PasswordSaveUnsyncedCredentialsLocallyView::
                              /*easily_dismissable=*/false),
       controller_(PasswordsModelDelegateFromWebContents(web_contents)) {
   SetButtons(ui::DIALOG_BUTTON_OK | ui::DIALOG_BUTTON_CANCEL);
-  SetAcceptCallback(base::BindOnce(
-      &SaveUnsyncedCredentialsLocallyBubbleController::OnSaveClicked,
-      base::Unretained(&controller_)));
+  SetAcceptCallback(
+      base::BindOnce(&PasswordSaveUnsyncedCredentialsLocallyView::OnSaveClicked,
+                     base::Unretained(this)));
   SetButtonLabel(ui::DIALOG_BUTTON_OK,
                  l10n_util::GetStringUTF16(
                      IDS_PASSWORD_MANAGER_SAVE_UNSYNCED_CREDENTIALS_BUTTON));
@@ -87,6 +87,11 @@ void PasswordSaveUnsyncedCredentialsLocallyView::CreateLayout() {
     row_layout->SetFlexForView(username_label, 1);
     row_layout->SetFlexForView(password_label, 1);
   }
+}
+
+void PasswordSaveUnsyncedCredentialsLocallyView::OnSaveClicked() {
+  controller_.OnSaveClicked(
+      std::vector<bool>(controller_.unsynced_credentials().size(), true));
 }
 
 bool PasswordSaveUnsyncedCredentialsLocallyView::ShouldShowCloseButton() const {
