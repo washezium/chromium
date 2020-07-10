@@ -25,7 +25,7 @@ constexpr QRCodeGenerator::QRVersionInfo version_infos[] = {
     // See table 9 in the spec for the source of these numbers.
 
     // 5-M
-    // 134 bytes, as 2 segments of 67.
+    // 134 bytes, as 2 blocks of 67.
     {
         5,   // version
         37,  // size (num tiles in each axis)
@@ -42,7 +42,7 @@ constexpr QRCodeGenerator::QRVersionInfo version_infos[] = {
     },
 
     // 7-M
-    // 196 bytes, as 4 segments of 49.
+    // 196 bytes, as 4 blocks of 49.
     {
         7,   // version
         45,  // size (num tiles in each axis)
@@ -202,55 +202,54 @@ base::Optional<GeneratedCode> QRCodeGenerator::Generate(
     prefixed_data[i] = prefixed_data[i % (in.size() + framing_offset_bytes)];
   }
 
-  // Each segment of input data is expanded with error correcting
+  // Each block of input data is expanded with error correcting
   // information and then interleaved.
 
   // Error Correction for Group 0, present for all versions.
-  size_t num_segments = version_info_->num_segments;
-  size_t segment_bytes = version_info_->segment_bytes();
-  size_t segment_ec_bytes = version_info_->segment_ec_bytes();
-  uint8_t expanded_segments[num_segments][segment_bytes];
-  for (size_t i = 0; i < num_segments; i++) {
-    AddErrorCorrection(&expanded_segments[i][0],
-                       &prefixed_data[version_info_->segment_data_bytes * i],
-                       segment_bytes, segment_ec_bytes);
+  size_t num_blocks = version_info_->num_blocks;
+  size_t block_bytes = version_info_->block_bytes();
+  size_t block_ec_bytes = version_info_->block_ec_bytes();
+  uint8_t expanded_blocks[num_blocks][block_bytes];
+  for (size_t i = 0; i < num_blocks; i++) {
+    AddErrorCorrection(&expanded_blocks[i][0],
+                       &prefixed_data[version_info_->block_data_bytes * i],
+                       block_bytes, block_ec_bytes);
   }
 
   // Error Correction for Group 1, present for some versions.
   // Factor out the number of bytes written by the prior group.
-  size_t num_segments_1 = version_info_->num_segments_1;
-  size_t segment_bytes_1 = version_info_->segment_bytes_1();
+  size_t num_blocks_1 = version_info_->num_blocks_1;
+  size_t block_bytes_1 = version_info_->block_bytes_1();
   // TODO(skare): Reenable when extendiong to v13.
   // Additionally do not use a zero-length array; nonstandard.
   /*
-  int group_data_offset = version_info_->segment_data_bytes * num_segments;
-  size_t segment_ec_bytes_1 = version_info_->segment_ec_bytes_1();
-  uint8_t expanded_segments_1[num_segments_1][segment_bytes_1];
-  if (version_info_->num_segments_1 > 0) {
-    for (size_t i = 0; i < num_segments_1; i++) {
+  int group_data_offset = version_info_->block_data_bytes * num_blocks;
+  size_t block_ec_bytes_1 = version_info_->block_ec_bytes_1();
+  uint8_t expanded_blocks_1[num_blocks_1][block_bytes_1];
+  if (version_info_->num_blocks_1 > 0) {
+    for (size_t i = 0; i < num_blocks_1; i++) {
       AddErrorCorrection(
-          &expanded_segments_1[i][0],
+          &expanded_blocks_1[i][0],
           &prefixed_data[group_data_offset +
-                         version_info_->segment_data_bytes_1 * i],
-          segment_bytes_1, segment_ec_bytes_1);
+                         version_info_->block_data_bytes_1 * i],
+          block_bytes_1, block_ec_bytes_1);
     }
   }
   */
 
   size_t total_bytes = version_info_->total_bytes();
   uint8_t interleaved_data[total_bytes];
-  CHECK(total_bytes ==
-        segment_bytes * num_segments + segment_bytes_1 * num_segments_1)
+  CHECK(total_bytes == block_bytes * num_blocks + block_bytes_1 * num_blocks_1)
       << "internal error";
 
   size_t k = 0;
-  // Interleave data from all segments.
+  // Interleave data from all blocks.
   // If we have multiple groups, the later groups may have more bytes in their
-  // segments after we exhaust data in the first group.
+  // blocks after we exhaust data in the first group.
   // TODO(skare): Extend when enabling v13.
-  for (size_t j = 0; j < segment_bytes; j++) {
-    for (size_t i = 0; i < num_segments; i++) {
-      interleaved_data[k++] = expanded_segments[i][j];
+  for (size_t j = 0; j < block_bytes; j++) {
+    for (size_t i = 0; i < num_blocks; i++) {
+      interleaved_data[k++] = expanded_blocks[i][j];
     }
   }
 
@@ -532,13 +531,13 @@ uint8_t QRCodeGenerator::GF28Mul(uint16_t a, uint16_t b) {
 
 // AddErrorCorrection writes the Reed-Solomon expanded version of |in| to
 // |out|.
-// |out| should have length segment_bytes for the code's version.
-// |in| should have length segment_data_bytes for the code's version.
+// |out| should have length block_bytes for the code's version.
+// |in| should have length block_data_bytes for the code's version.
 void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
                                          const uint8_t in[],
-                                         size_t segment_bytes,
-                                         size_t segment_ec_bytes) {
-  // kGenerator is the product of (z - x^i) for 0 <= i < |segment_ec_bytes|,
+                                         size_t block_bytes,
+                                         size_t block_ec_bytes) {
+  // kGenerator is the product of (z - x^i) for 0 <= i < |block_ec_bytes|,
   // where x is the term of GF(2^8) and z is the term of a polynomial ring
   // over GF(2^8). It's generated with the following Sage script:
   //
@@ -579,7 +578,7 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
   };
 
   const std::vector<uint8_t>* generator = nullptr;
-  switch (segment_ec_bytes) {
+  switch (block_ec_bytes) {
     case 18:
       generator = &kGenerator18;
       break;
@@ -590,8 +589,8 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
       generator = &kGenerator24;
       break;
     default: {
-      NOTREACHED() << "Unsupported Generator Polynomial for segment_ec_bytes: "
-                   << segment_ec_bytes;
+      NOTREACHED() << "Unsupported Generator Polynomial for block_ec_bytes: "
+                   << block_ec_bytes;
       return;
     }
   }
@@ -602,30 +601,30 @@ void QRCodeGenerator::AddErrorCorrection(uint8_t out[],
   // the coefficient of z^i.
 
   // Multiplication of |in| by x^k thus just involves moving it up.
-  std::unique_ptr<uint8_t[]> remainder(new uint8_t[segment_bytes]);
-  memset(remainder.get(), 0, segment_ec_bytes);
-  size_t segment_data_bytes = segment_bytes - segment_ec_bytes;
+  std::unique_ptr<uint8_t[]> remainder(new uint8_t[block_bytes]);
+  memset(remainder.get(), 0, block_ec_bytes);
+  size_t block_data_bytes = block_bytes - block_ec_bytes;
   // Reed-Solomon input is backwards. See section 7.5.2.
-  for (size_t i = 0; i < segment_data_bytes; i++) {
-    remainder[segment_ec_bytes + i] = in[segment_data_bytes - 1 - i];
+  for (size_t i = 0; i < block_data_bytes; i++) {
+    remainder[block_ec_bytes + i] = in[block_data_bytes - 1 - i];
   }
 
   // Progressively eliminate the leading coefficient by subtracting some
   // multiple of |generator| until we have a value smaller than |generator|.
-  for (size_t i = segment_bytes - 1; i >= segment_ec_bytes; i--) {
+  for (size_t i = block_bytes - 1; i >= block_ec_bytes; i--) {
     // The leading coefficient of |generator| is 1, so the multiple to
     // subtract to eliminate the leading term of |remainder| is the value of
     // that leading term. The polynomial ring is characteristic two, so
     // subtraction is the same as addition, which is XOR.
     for (size_t j = 0; j < generator->size() - 1; j++) {
-      remainder[i - segment_ec_bytes + j] ^=
+      remainder[i - block_ec_bytes + j] ^=
           GF28Mul(generator->at(j), remainder[i]);
     }
   }
 
-  memmove(out, in, segment_data_bytes);
+  memmove(out, in, block_data_bytes);
   // Remove the Reed-Solomon remainder again to match QR's convention.
-  for (size_t i = 0; i < segment_ec_bytes; i++) {
-    out[segment_data_bytes + i] = remainder[segment_ec_bytes - 1 - i];
+  for (size_t i = 0; i < block_ec_bytes; i++) {
+    out[block_data_bytes + i] = remainder[block_ec_bytes - 1 - i];
   }
 }
