@@ -653,6 +653,42 @@ TEST_F(DragHandleContextualNudgeTest,
   EXPECT_FALSE(drag_handle->gesture_nudge_target_visibility());
 }
 
+TEST_F(DragHandleContextualNudgeTest, GestureSwipeHidesDragHandleNudge) {
+  base::HistogramTester histogram_tester;
+
+  TabletModeControllerTestApi().EnterTabletMode();
+
+  // Creates a widget to put shelf into in-app state.
+  views::Widget* widget = CreateTestWidget();
+  widget->Maximize();
+
+  ShelfWidget* const shelf_widget = GetShelfWidget();
+  DragHandle* const drag_handle = shelf_widget->GetDragHandle();
+
+  ASSERT_TRUE(drag_handle->has_show_drag_handle_timer_for_testing());
+  drag_handle->fire_show_drag_handle_timer_for_testing();
+  EXPECT_TRUE(drag_handle->gesture_nudge_target_visibility());
+
+  const gfx::Point start = drag_handle->GetBoundsInScreen().CenterPoint();
+  // Simulates a swipe up from the drag handle to perform the in app to home
+  // gesture.
+  GetEventGenerator()->GestureScrollSequence(
+      start, start + gfx::Vector2d(0, -300),
+      base::TimeDelta::FromMilliseconds(10),
+      /*num_steps = */ 5);
+
+  // The nudge should be hidden when the gesture completes.
+  EXPECT_FALSE(drag_handle->gesture_nudge_target_visibility());
+  GetAppListTestHelper()->CheckVisibility(true);
+
+  histogram_tester.ExpectBucketCount(
+      "Ash.ContextualNudgeDismissContext.InAppToHome",
+      contextual_tooltip::DismissNudgeReason::kPerformedGesture, 1);
+  histogram_tester.ExpectTimeBucketCount(
+      "Ash.ContextualNudgeDismissTime.InAppToHome",
+      base::TimeDelta::FromSeconds(0), 1);
+}
+
 // Tests that drag handle nudge gets hidden when the user performs window drag
 // from shelf to home.
 TEST_F(DragHandleContextualNudgeTest, FlingFromShelfToHomeHidesTheNudge) {

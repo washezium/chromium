@@ -2407,13 +2407,6 @@ void ShelfLayoutManager::CompleteDrag(const ui::LocatedEvent& event_in_screen) {
   // Hotseat gestures are meaningful only in tablet mode with hotseat enabled.
   if (chromeos::switches::ShouldShowShelfHotseat() &&
       Shell::Get()->IsInTabletMode()) {
-    if (features::AreContextualNudgesEnabled() &&
-        window_drag_result == ShelfWindowDragResult::kGoToHomeScreen) {
-      contextual_tooltip::HandleGesturePerformed(
-          Shell::Get()->session_controller()->GetActivePrefService(),
-          contextual_tooltip::TooltipType::kInAppToHome);
-    }
-
     base::Optional<InAppShelfGestures> gesture_to_record =
         CalculateHotseatGestureToRecord(window_drag_result,
                                         transitioned_from_overview_to_home,
