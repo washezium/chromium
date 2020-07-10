@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/lacros/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/lacros_util.h"
 
 #include "components/account_id/account_id.h"
 #include "components/user_manager/fake_user_manager.h"

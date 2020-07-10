@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_LACROS_LACROS_LOADER_H_
-#define CHROME_BROWSER_CHROMEOS_LACROS_LACROS_LOADER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_
+#define CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_
 
 #include "base/callback.h"
 #include "base/files/file_path.h"
@@ -49,4 +49,4 @@ class LacrosLoader {
   base::WeakPtrFactory<LacrosLoader> weak_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_CHROMEOS_LACROS_LACROS_LOADER_H_
+#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_

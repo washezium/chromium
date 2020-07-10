@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/lacros/ash_chrome_service_impl.h"
+#include "chrome/browser/chromeos/crosapi/ash_chrome_service_impl.h"
 
 #include <utility>
 
 #include "base/logging.h"
+#include "chrome/browser/chromeos/crosapi/screen_manager_crosapi.h"
 #include "chrome/browser/chromeos/crosapi/select_file_crosapi.h"
-#include "chrome/browser/chromeos/lacros/screen_manager_crosapi.h"
 #include "chromeos/crosapi/mojom/screen_manager.mojom.h"
 #include "chromeos/crosapi/mojom/select_file.mojom.h"
 

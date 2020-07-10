@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/lacros/lacros_manager.h"
+#include "chrome/browser/chromeos/crosapi/lacros_manager.h"
 
 #include <string>
 #include <utility>
@@ -22,9 +22,9 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/task/task_traits.h"
 #include "base/task/thread_pool.h"
-#include "chrome/browser/chromeos/lacros/ash_chrome_service_impl.h"
-#include "chrome/browser/chromeos/lacros/lacros_loader.h"
-#include "chrome/browser/chromeos/lacros/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/ash_chrome_service_impl.h"
+#include "chrome/browser/chromeos/crosapi/lacros_loader.h"
+#include "chrome/browser/chromeos/crosapi/lacros_util.h"
 #include "chrome/browser/component_updater/cros_component_manager.h"
 #include "chromeos/constants/chromeos_features.h"
 #include "chromeos/constants/chromeos_switches.h"
