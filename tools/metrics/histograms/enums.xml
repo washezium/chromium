@@ -21105,6 +21105,8 @@ Called by update_document_policy_enum.py.-->
   <int value="733" label="DevicePrintersAccessMode"/>
   <int value="734" label="DeviceNativePrintersBlocklist"/>
   <int value="735" label="DeviceNativePrintersAllowlist"/>
+  <int value="736" label="URLBlocklist"/>
+  <int value="737" label="URLAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
