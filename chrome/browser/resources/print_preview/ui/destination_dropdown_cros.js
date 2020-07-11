@@ -227,6 +227,7 @@ Polymer({
       }
       items[currentIndex].toggleAttribute('highlighted_', false);
       items[nextIndex].toggleAttribute('highlighted_', true);
+      items[nextIndex].focus();
     } else {
       const currentIndex =
           items.findIndex(item => item.value === this.value.key);
@@ -261,6 +262,7 @@ Polymer({
     if (dropdownItem) {
       this.fire('dropdown-value-selected', dropdownItem);
     }
+    this.$$('#destination-dropdown').focus();
   },
 
   /**
