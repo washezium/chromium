@@ -30,7 +30,6 @@
 #include "content/shell/renderer/web_test/app_banner_service.h"
 #include "content/shell/renderer/web_test/blink_test_helpers.h"
 #include "content/shell/renderer/web_test/blink_test_runner.h"
-#include "content/shell/renderer/web_test/layout_dump.h"
 #include "content/shell/renderer/web_test/mock_web_document_subresource_filter.h"
 #include "content/shell/renderer/web_test/pixel_dump.h"
 #include "content/shell/renderer/web_test/spell_check_client.h"
@@ -70,7 +69,6 @@
 #include "third_party/blink/public/web/web_script_source.h"
 #include "third_party/blink/public/web/web_security_policy.h"
 #include "third_party/blink/public/web/web_serialized_script_value.h"
-#include "third_party/blink/public/web/web_settings.h"
 #include "third_party/blink/public/web/web_testing_support.h"
 #include "third_party/blink/public/web/web_view.h"
 #include "third_party/skia/include/core/SkBitmap.h"
@@ -2223,8 +2221,6 @@ void TestRunner::Install(WebFrameTestProxy* frame,
 
 void TestRunner::SetMainView(blink::WebView* web_view) {
   main_view_ = web_view;
-  if (disable_v8_cache_)
-    SetV8CacheDisabled(true);
 }
 
 void TestRunner::Reset(WebFrameTestProxy* main_frame) {
@@ -2302,11 +2298,6 @@ bool TestRunner::ShouldDumpEditingCallbacks() const {
   return web_test_runtime_flags_.dump_editting_callbacks();
 }
 
-void TestRunner::SetShouldDumpAsText(bool value) {
-  web_test_runtime_flags_.set_dump_as_text(value);
-  OnWebTestRuntimeFlagsChanged();
-}
-
 void TestRunner::SetShouldDumpAsLayout(bool value) {
   web_test_runtime_flags_.set_dump_as_layout(value);
   OnWebTestRuntimeFlagsChanged();
@@ -2327,8 +2318,21 @@ void TestRunner::SetCustomTextOutput(const std::string& text) {
 }
 
 bool TestRunner::ShouldGeneratePixelResults() {
-  CheckResponseMimeType();
   return web_test_runtime_flags_.generate_pixel_results();
+}
+
+TextResultType TestRunner::ShouldGenerateTextResults() {
+  if (web_test_runtime_flags_.dump_as_text()) {
+    return TextResultType::kText;
+  } else if (web_test_runtime_flags_.dump_as_markup()) {
+    DCHECK(!web_test_runtime_flags_.is_printing());
+    return TextResultType::kMarkup;
+  } else if (web_test_runtime_flags_.dump_as_layout()) {
+    if (web_test_runtime_flags_.is_printing())
+      return TextResultType::kLayoutAsPrinting;
+    return TextResultType::kLayout;
+  }
+  return TextResultType::kEmpty;
 }
 
 bool TestRunner::ShouldStayOnPageAfterHandlingBeforeUnload() const {
@@ -2349,13 +2353,7 @@ const std::vector<uint8_t>& TestRunner::GetAudioData() const {
 }
 
 bool TestRunner::IsRecursiveLayoutDumpRequested() {
-  CheckResponseMimeType();
   return web_test_runtime_flags_.dump_child_frames();
-}
-
-std::string TestRunner::DumpLayout(blink::WebLocalFrame* frame) {
-  CheckResponseMimeType();
-  return DumpLayoutAsString(frame, web_test_runtime_flags_);
 }
 
 bool TestRunner::CanDumpPixelsFromRenderer() const {
@@ -2481,7 +2479,6 @@ void TestRunner::AddLoadingFrame(blink::WebFrame* frame) {
     OnWebTestRuntimeFlagsChanged();
   }
 
-  LOG(ERROR) << "AddLoadingFrame " << frame;
   loading_frames_.push_back(frame);
   frame_will_start_load_ = false;
 }
@@ -2597,16 +2594,6 @@ void TestRunner::SetDragImage(const SkBitmap& drag_image) {
 
 bool TestRunner::ShouldDumpNavigationPolicy() const {
   return web_test_runtime_flags_.dump_navigation_policy();
-}
-
-void TestRunner::SetV8CacheDisabled(bool disabled) {
-  if (!main_view_) {
-    disable_v8_cache_ = disabled;
-    return;
-  }
-  main_view_->GetSettings()->SetV8CacheOptions(
-      disabled ? blink::WebSettings::V8CacheOptions::kNone
-               : blink::WebSettings::V8CacheOptions::kDefault);
 }
 
 class WorkItemBackForward : public TestRunner::WorkItem {
@@ -3136,33 +3123,6 @@ void TestRunner::OnWebTestRuntimeFlagsChanged() {
       web_test_runtime_flags_.tracked_dictionary().changed_values().Clone());
 
   web_test_runtime_flags_.tracked_dictionary().ResetChangeTracking();
-}
-
-void TestRunner::CheckResponseMimeType() {
-  // Text output: the test page can request different types of output which we
-  // handle here.
-
-  if (web_test_runtime_flags_.dump_as_text())
-    return;
-
-  if (!main_view_)
-    return;
-
-  if (!main_view_->MainFrame()->IsWebLocalFrame())
-    return;
-
-  blink::WebDocumentLoader* document_loader =
-      main_view_->MainFrame()->ToWebLocalFrame()->GetDocumentLoader();
-  if (!document_loader)
-    return;
-
-  std::string mimeType = document_loader->GetResponse().MimeType().Utf8();
-  if (mimeType != "text/plain")
-    return;
-
-  web_test_runtime_flags_.set_dump_as_text(true);
-  web_test_runtime_flags_.set_generate_pixel_results(false);
-  OnWebTestRuntimeFlagsChanged();
 }
 
 void TestRunner::FinishTest() {

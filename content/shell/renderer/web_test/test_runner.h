@@ -23,6 +23,7 @@
 #include "content/shell/common/web_test/web_test.mojom.h"
 #include "content/shell/common/web_test/web_test_bluetooth_fake_adapter_setter.mojom.h"
 #include "content/shell/renderer/web_test/gamepad_controller.h"
+#include "content/shell/renderer/web_test/layout_dump.h"
 #include "content/shell/renderer/web_test/mock_content_settings_client.h"
 #include "content/shell/renderer/web_test/mock_screen_orientation_client.h"
 #include "content/shell/renderer/web_test/web_test_runtime_flags.h"
@@ -40,7 +41,6 @@ class DictionaryValue;
 namespace blink {
 class WebContentSettingsClient;
 class WebFrame;
-class WebLocalFrame;
 class WebString;
 class WebView;
 }  // namespace blink
@@ -133,10 +133,6 @@ class TestRunner {
   // (i.e. by calling testRunner.dumpChildFramesAsText() from javascript).
   bool IsRecursiveLayoutDumpRequested();
 
-  // Dumps layout of |frame| using the mode requested by the current test
-  // (i.e. text mode if testRunner.dumpAsText() was called from javascript).
-  std::string DumpLayout(blink::WebLocalFrame* frame);
-
   // Returns true if the selection window should be painted onto captured
   // pixels.
   bool ShouldDumpSelectionRect() const;
@@ -167,6 +163,8 @@ class TestRunner {
   // Returns true if pixel results should be generated at the end of the test.
   bool ShouldGeneratePixelResults();
 
+  TextResultType ShouldGenerateTextResults();
+
   // Activate the window holding the given main frame, and set focus on the
   // frame's widget.
   void FocusWindow(RenderFrame* main_frame, bool focus);
@@ -179,8 +177,6 @@ class TestRunner {
   std::string CustomDumpText() const;
   void ShowDevTools(const std::string& settings,
                     const std::string& frontend_url);
-  void SetV8CacheDisabled(bool);
-  void SetShouldDumpAsText(bool);
   void SetShouldDumpAsLayout(bool);
   void SetCustomTextOutput(const std::string& text);
   void SetShouldGeneratePixelResults(bool);
@@ -499,8 +495,6 @@ class TestRunner {
   ///////////////////////////////////////////////////////////////////////////
   // Internal helpers
 
-  void CheckResponseMimeType();
-
   mojo::AssociatedRemote<mojom::WebTestControlHost>&
   GetWebTestControlHostRemote();
   void HandleWebTestControlHostDisconnected();
@@ -584,9 +578,6 @@ class TestRunner {
   // An effective connection type settable by web tests.
   blink::WebEffectiveConnectionType effective_connection_type_ =
       blink::WebEffectiveConnectionType::kTypeUnknown;
-
-  // Forces v8 compilation cache to be disabled (used for inspector tests).
-  bool disable_v8_cache_ = false;
 
   base::WeakPtrFactory<TestRunner> weak_factory_{this};
 
