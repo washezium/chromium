@@ -88,10 +88,7 @@ bool ResponseValid(const FidoAuthenticator& authenticator,
                        android_client_data_ext_in) {
   // The underlying code must take care of filling in the credential from the
   // allow list as needed.
-  if (!response.credential()) {
-    NOTREACHED();
-    return false;
-  }
+  CHECK(response.credential());
 
   if (response.GetRpIdHash() !=
           fido_parsing_utils::CreateSHA256Hash(request.rp_id) &&
