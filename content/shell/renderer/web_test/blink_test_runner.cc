@@ -198,7 +198,10 @@ void BlinkTestRunner::DidCommitNavigationInMainFrame() {
     return;
 
   waiting_for_reset_navigation_to_about_blank_ = false;
-  test_runner->Reset(static_cast<WebFrameTestProxy*>(main_frame));
+
+  static_cast<WebFrameTestProxy*>(main_frame)->Reset();
+  test_runner->Reset();
+
   // Ack to the browser (this could converted to be a mojo reply).
   GetWebTestControlHostRemote()->ResetRendererAfterWebTestDone();
 }
@@ -231,7 +234,6 @@ void BlinkTestRunner::ApplyTestConfiguration(
   test_config_ = params.Clone();
 
   is_main_window_ = true;
-  test_runner->SetMainView(web_view_test_proxy_->GetWebView());
   test_runner->SetTestIsRunning(true);
 
   std::string spec = GURL(test_config_->test_url).spec();

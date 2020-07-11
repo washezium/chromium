@@ -82,10 +82,8 @@ class TestRunner {
 
   void Install(WebFrameTestProxy* frame, SpellCheckClient* spell_check);
 
-  void SetMainView(blink::WebView*);
-
-  // Resets state across the whole renderer process for the next test.
-  void Reset(WebFrameTestProxy* main_frame);
+  // Resets global TestRunner state for the next test.
+  void Reset();
 
   // Resets state on the |web_view_test_proxy| for the next test.
   void ResetWebView(WebViewTestProxy* web_view_test_proxy);
@@ -314,7 +312,9 @@ class TestRunner {
   void QueueReload();
   void QueueLoadingScript(const std::string& script);
   void QueueNonLoadingScript(const std::string& script);
-  void QueueLoad(const std::string& url, const std::string& target);
+  void QueueLoad(const GURL& current_url,
+                 const std::string& relative_url,
+                 const std::string& target);
 
   // Called from the TestRunnerBindings to inform that the test has modified
   // the TestPreferences. This will update the WebkitPreferences in the renderer
@@ -541,7 +541,6 @@ class TestRunner {
   // WAV audio data is stored here.
   std::vector<uint8_t> audio_data_;
 
-  blink::WebView* main_view_ = nullptr;
   base::flat_set<WebFrameTestProxy*> main_frames_;
   // The set of all render views in this renderer process. This may include
   // cross-site windows accessible from this process, or parts of same-site

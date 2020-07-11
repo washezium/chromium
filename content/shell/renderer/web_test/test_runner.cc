@@ -902,7 +902,7 @@ void TestRunnerBindings::QueueLoad(gin::Arguments* args) {
   std::string target;
   args->GetNext(&url);
   args->GetNext(&target);
-  runner_->QueueLoad(url, target);
+  runner_->QueueLoad(GURL(GetWebFrame()->GetDocument().Url()), url, target);
 }
 
 void TestRunnerBindings::SetCustomPolicyDelegate(gin::Arguments* args) {
@@ -2204,6 +2204,8 @@ TestRunner::TestRunner()
   //
   // Stores state to be restored after each test.
   blink::WebTestingSupport::SaveRuntimeFeatures();
+
+  Reset();
 }
 
 TestRunner::~TestRunner() = default;
@@ -2219,14 +2221,7 @@ void TestRunner::Install(WebFrameTestProxy* frame,
   gamepad_controller_.Install(frame->GetWebFrame());
 }
 
-void TestRunner::SetMainView(blink::WebView* web_view) {
-  main_view_ = web_view;
-}
-
-void TestRunner::Reset(WebFrameTestProxy* main_frame) {
-  if (main_frame)
-    main_frame->Reset();
-
+void TestRunner::Reset() {
   loading_frames_.clear();
   web_test_runtime_flags_.Reset();
   mock_screen_orientation_client_.ResetData();
@@ -2707,21 +2702,10 @@ class WorkItemLoad : public TestRunner::WorkItem {
   std::string target_;
 };
 
-void TestRunner::QueueLoad(const std::string& url, const std::string& target) {
-  if (!main_view_)
-    return;
-
-  // TODO(lukasza): testRunner.queueLoad(...) should work even if the main
-  // frame is remote (ideally testRunner.queueLoad would bind to and execute
-  // in the context of a specific local frame - resolving relative urls should
-  // be done on relative to the calling frame's url).
-  CHECK(main_view_->MainFrame()->IsWebLocalFrame())
-      << "This function cannot be called if the main frame is not "
-         "a local frame.";
-
-  GURL current_url =
-      main_view_->MainFrame()->ToWebLocalFrame()->GetDocument().Url();
-  GURL full_url = current_url.Resolve(url);
+void TestRunner::QueueLoad(const GURL& current_url,
+                           const std::string& relative_url,
+                           const std::string& target) {
+  GURL full_url = current_url.Resolve(relative_url);
   work_queue_.AddWork(new WorkItemLoad(full_url, target));
 }
 

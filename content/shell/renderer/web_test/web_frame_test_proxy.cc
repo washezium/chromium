@@ -14,7 +14,6 @@
 #include "content/shell/renderer/web_test/gc_controller.h"
 #include "content/shell/renderer/web_test/layout_dump.h"
 #include "content/shell/renderer/web_test/spell_check_client.h"
-#include "content/shell/renderer/web_test/test_interfaces.h"
 #include "content/shell/renderer/web_test/test_plugin.h"
 #include "content/shell/renderer/web_test/test_runner.h"
 #include "content/shell/renderer/web_test/web_view_test_proxy.h"
