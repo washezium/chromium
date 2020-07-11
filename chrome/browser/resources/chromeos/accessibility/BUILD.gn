@@ -131,7 +131,17 @@ group("browser_tests") {
   }
 }
 
-js2gtest("unit_tests_js") {
+group("unit_tests_js") {
+  testonly = true
+  if (is_chromeos) {
+    deps = [
+      ":misc_unit_tests_js",
+      "chromevox:chromevox_unit_js_tests",
+    ]
+  }
+}
+
+js2gtest("misc_unit_tests_js") {
   test_type = "unit"
   sources = [
     "braille_ime/braille_ime_unittest.js",

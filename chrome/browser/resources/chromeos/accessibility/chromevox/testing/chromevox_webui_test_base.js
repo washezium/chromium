@@ -6,12 +6,9 @@ GEN_INCLUDE(['../../common/testing/assert_additions.js']);
 GEN_INCLUDE(['common.js', '../../common/testing/callback_helper.js']);
 
 /**
- * Base test fixture for ChromeVox unit tests.
- * Note that while conceptually these are unit tests, these tests need
- * to run in a full web page, so they're actually run as WebUI browser
- * tests.
+ * Base test fixture for ChromeVox webui tests. Run in a Blink renderer.
  */
-ChromeVoxUnitTestBase = class extends testing.Test {
+ChromeVoxWebUITestBase = class extends testing.Test {
   constructor() {
     super();
     if (this.isAsync) {
@@ -115,14 +112,14 @@ ChromeVoxUnitTestBase = class extends testing.Test {
 // its first pass where it uses this file to generate C++ code.
 
 /** @override */
-ChromeVoxUnitTestBase.prototype.browsePreload = DUMMY_URL;
-
-/** @override */
-ChromeVoxUnitTestBase.prototype.isAsync = false;
+ChromeVoxWebUITestBase.prototype.isAsync = false;
 
 /**
  * @override
  * It doesn't make sense to run the accessibility audit on these tests,
  * since many of them are deliberately testing inaccessible html.
  */
-ChromeVoxUnitTestBase.prototype.runAccessibilityChecks = false;
+ChromeVoxWebUITestBase.prototype.runAccessibilityChecks = false;
+
+/** @override */
+ChromeVoxWebUITestBase.prototype.browsePreload = DUMMY_URL;
