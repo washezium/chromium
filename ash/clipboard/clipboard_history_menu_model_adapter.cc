@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/clipboard/multipaste_menu_model_adapter.h"
+#include "ash/clipboard/clipboard_history_menu_model_adapter.h"
 
 #include "ui/base/models/simple_menu_model.h"
 #include "ui/base/ui_base_types.h"
@@ -13,13 +13,13 @@
 
 namespace ash {
 
-MultipasteMenuModelAdapter::MultipasteMenuModelAdapter(
+ClipboardHistoryMenuModelAdapter::ClipboardHistoryMenuModelAdapter(
     std::unique_ptr<ui::SimpleMenuModel> model)
     : views::MenuModelAdapter(model.get()), model_(std::move(model)) {}
 
-MultipasteMenuModelAdapter::~MultipasteMenuModelAdapter() = default;
+ClipboardHistoryMenuModelAdapter::~ClipboardHistoryMenuModelAdapter() = default;
 
-void MultipasteMenuModelAdapter::Run(const gfx::Rect& anchor_rect) {
+void ClipboardHistoryMenuModelAdapter::Run(const gfx::Rect& anchor_rect) {
   DCHECK(!root_view_);
   DCHECK(model_);
 

@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/clipboard/multipaste_controller.h"
+#include "ash/clipboard/clipboard_history_controller.h"
 
 #include <queue>
 
 #include "ash/accelerators/accelerator_controller_impl.h"
 #include "ash/clipboard/clipboard_history.h"
-#include "ash/clipboard/multipaste_menu_model_adapter.h"
+#include "ash/clipboard/clipboard_history_menu_model_adapter.h"
 #include "ash/public/cpp/window_tree_host_lookup.h"
 #include "ash/resources/vector_icons/vector_icons.h"
 #include "ash/shell.h"
@@ -100,12 +100,13 @@ void WriteClipboardDataToClipboard(const ui::ClipboardData& data) {
   // TODO(newcomer): Handle custom data types, which could be files.
 }
 
-class MultipasteMenuDelegate : public ui::SimpleMenuModel::Delegate {
+class ClipboardHistoryMenuDelegate : public ui::SimpleMenuModel::Delegate {
  public:
-  MultipasteMenuDelegate(MultipasteController* controller)
+  ClipboardHistoryMenuDelegate(ClipboardHistoryController* controller)
       : controller_(controller) {}
-  MultipasteMenuDelegate(const MultipasteMenuDelegate&) = delete;
-  MultipasteMenuDelegate& operator=(const MultipasteMenuDelegate&) = delete;
+  ClipboardHistoryMenuDelegate(const ClipboardHistoryMenuDelegate&) = delete;
+  ClipboardHistoryMenuDelegate& operator=(const ClipboardHistoryMenuDelegate&) =
+      delete;
 
   // ui::SimpleMenuModel::Delegate:
   void ExecuteCommand(int command_id, int event_flags) override {
@@ -113,20 +114,21 @@ class MultipasteMenuDelegate : public ui::SimpleMenuModel::Delegate {
   }
 
  private:
-  // The controller responsible for showing the Multipaste menu.
-  MultipasteController* const controller_;
+  // The controller responsible for showing the Clipboard History menu.
+  ClipboardHistoryController* const controller_;
 };
 
 }  // namespace
 
-class MultipasteAcceleratorTarget : public ui::AcceleratorTarget {
+class ClipboardHistoryAcceleratorTarget : public ui::AcceleratorTarget {
  public:
-  MultipasteAcceleratorTarget(MultipasteController* controller)
+  ClipboardHistoryAcceleratorTarget(ClipboardHistoryController* controller)
       : controller_(controller) {}
-  MultipasteAcceleratorTarget(const MultipasteAcceleratorTarget&) = delete;
-  MultipasteAcceleratorTarget& operator=(const MultipasteAcceleratorTarget&) =
+  ClipboardHistoryAcceleratorTarget(const ClipboardHistoryAcceleratorTarget&) =
       delete;
-  ~MultipasteAcceleratorTarget() override = default;
+  ClipboardHistoryAcceleratorTarget& operator=(
+      const ClipboardHistoryAcceleratorTarget&) = delete;
+  ~ClipboardHistoryAcceleratorTarget() override = default;
 
   void Init() {
     ui::Accelerator show_menu_combo(ui::VKEY_V, ui::EF_COMMAND_DOWN);
@@ -148,26 +150,27 @@ class MultipasteAcceleratorTarget : public ui::AcceleratorTarget {
     return controller_->CanShowMenu();
   }
 
-  // The controller responsible for showing the Multipaste menu.
-  MultipasteController* const controller_;
+  // The controller responsible for showing the Clipboard History menu.
+  ClipboardHistoryController* const controller_;
 };
 
-MultipasteController::MultipasteController()
+ClipboardHistoryController::ClipboardHistoryController()
     : clipboard_history_(std::make_unique<ClipboardHistory>()),
-      accelerator_target_(std::make_unique<MultipasteAcceleratorTarget>(this)),
-      menu_delegate_(std::make_unique<MultipasteMenuDelegate>(this)) {}
+      accelerator_target_(
+          std::make_unique<ClipboardHistoryAcceleratorTarget>(this)),
+      menu_delegate_(std::make_unique<ClipboardHistoryMenuDelegate>(this)) {}
 
-MultipasteController::~MultipasteController() = default;
+ClipboardHistoryController::~ClipboardHistoryController() = default;
 
-void MultipasteController::Init() {
+void ClipboardHistoryController::Init() {
   accelerator_target_->Init();
 }
 
-bool MultipasteController::CanShowMenu() const {
+bool ClipboardHistoryController::CanShowMenu() const {
   return !clipboard_history_->IsEmpty();
 }
 
-void MultipasteController::ShowMenu() {
+void ClipboardHistoryController::ShowMenu() {
   auto* host = ash::GetWindowTreeHostForDisplay(
       display::Screen::GetScreen()->GetPrimaryDisplay().id());
   const gfx::Rect textfield_bounds =
@@ -204,11 +207,11 @@ void MultipasteController::ShowMenu() {
       ui::ImageModel::FromVectorIcon(ash::kDeleteIcon));
 
   context_menu_ =
-      std::make_unique<MultipasteMenuModelAdapter>(std::move(menu_model));
+      std::make_unique<ClipboardHistoryMenuModelAdapter>(std::move(menu_model));
   context_menu_->Run(textfield_bounds);
 }
 
-void MultipasteController::MenuOptionSelected(int index) {
+void ClipboardHistoryController::MenuOptionSelected(int index) {
   auto it = clipboard_items_.begin();
   std::advance(it, index);
 

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ASH_CLIPBOARD_MULTIPASTE_MENU_MODEL_ADAPTER_H_
-#define ASH_CLIPBOARD_MULTIPASTE_MENU_MODEL_ADAPTER_H_
+#ifndef ASH_CLIPBOARD_CLIPBOARD_HISTORY_MENU_MODEL_ADAPTER_H_
+#define ASH_CLIPBOARD_CLIPBOARD_HISTORY_MENU_MODEL_ADAPTER_H_
 
 #include <memory>
 
@@ -24,15 +24,17 @@ class MenuRunner;
 
 namespace ash {
 
-// Used to show the multipaste menu, which holds the last few things copied.
-class MultipasteMenuModelAdapter : views::MenuModelAdapter {
+// Used to show the clipboard history menu, which holds the last few things
+// copied.
+class ClipboardHistoryMenuModelAdapter : views::MenuModelAdapter {
  public:
-  explicit MultipasteMenuModelAdapter(
+  explicit ClipboardHistoryMenuModelAdapter(
       std::unique_ptr<ui::SimpleMenuModel> model);
-  MultipasteMenuModelAdapter(const MultipasteMenuModelAdapter&) = delete;
-  MultipasteMenuModelAdapter& operator=(const MultipasteMenuModelAdapter&) =
+  ClipboardHistoryMenuModelAdapter(const ClipboardHistoryMenuModelAdapter&) =
       delete;
-  ~MultipasteMenuModelAdapter() override;
+  ClipboardHistoryMenuModelAdapter& operator=(
+      const ClipboardHistoryMenuModelAdapter&) = delete;
+  ~ClipboardHistoryMenuModelAdapter() override;
 
   // Shows the menu, anchored below |anchor_rect|.
   void Run(const gfx::Rect& anchor_rect);
@@ -49,4 +51,4 @@ class MultipasteMenuModelAdapter : views::MenuModelAdapter {
 
 }  // namespace ash
 
-#endif  // ASH_CLIPBOARD_MULTIPASTE_MENU_MODEL_ADAPTER_H_
+#endif  // ASH_CLIPBOARD_CLIPBOARD_HISTORY_MENU_MODEL_ADAPTER_H_
