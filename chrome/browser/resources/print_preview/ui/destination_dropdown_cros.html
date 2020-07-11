@@ -79,6 +79,11 @@
     width: 100%;
   }
 
+  :host([disabled]) #destination-display-container {
+    cursor: default;
+    opacity: var(--cr-disabled-opacity);
+  }
+
   #destination-display {
     box-sizing: border-box;
     overflow: hidden;
