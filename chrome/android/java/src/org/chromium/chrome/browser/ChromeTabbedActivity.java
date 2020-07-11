@@ -1007,6 +1007,8 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
             if (CommandLine.getInstance().hasSwitch(ContentSwitches.ENABLE_TEST_INTENTS)) {
                 handleDebugIntent(intent);
             }
+
+            DefaultBrowserPromoUtils.onNewIntentReceived(intent);
         } finally {
             TraceEvent.end("ChromeTabbedActivity.onNewIntentWithNative");
         }

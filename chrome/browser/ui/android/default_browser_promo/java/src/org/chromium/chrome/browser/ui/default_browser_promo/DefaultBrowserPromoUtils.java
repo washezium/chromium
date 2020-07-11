@@ -5,10 +5,12 @@
 package org.chromium.chrome.browser.ui.default_browser_promo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.ContextUtils;
 import org.chromium.base.PackageManagerUtils;
@@ -46,7 +48,8 @@ public class DefaultBrowserPromoUtils {
     private static final String PROMO_COUNT_PARAM = "max_promo_count";
     private static final String PROMO_INTERVAL_PARAM = "promo_interval";
 
-    private static final String CHROME_STABLE_PACKAGE_NAME = "com.android.chrome";
+    static final String DISAMBIGUATION_SHEET_PROMOED_KEY = "disambiguation_sheet_promoed";
+    static final String CHROME_STABLE_PACKAGE_NAME = "com.android.chrome";
 
     // TODO(crbug.com/1090103): move to some util class for reuse.
     private static final String[] CHROME_PACKAGE_NAMES = {CHROME_STABLE_PACKAGE_NAME,
@@ -172,7 +175,19 @@ public class DefaultBrowserPromoUtils {
                 ChromePreferenceKeys.DEFAULT_BROWSER_PROMO_PROMOED_BY_SYSTEM_SETTINGS, false);
     }
 
-    private static boolean isChromePreStableInstalled() {
+    /**
+     * Called on new intent is received on the activity so that we can record some metrics.
+     */
+    public static void onNewIntentReceived(Intent intent) {
+        boolean promoed = intent.getBooleanExtra(DISAMBIGUATION_SHEET_PROMOED_KEY, false);
+        if (promoed) {
+            DefaultBrowserPromoMetrics.recordLaunchedByDisambiguationSheet(
+                    getCurrentDefaultBrowserState());
+        }
+    }
+
+    @VisibleForTesting
+    static boolean isChromePreStableInstalled() {
         for (ResolveInfo info : PackageManagerUtils.queryAllWebBrowsersInfo()) {
             for (String name : CHROME_PACKAGE_NAMES) {
                 if (name.equals(CHROME_STABLE_PACKAGE_NAME)) continue;
