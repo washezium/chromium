@@ -547,11 +547,6 @@ void ZeroSuggestProvider::ConvertResultsToAutocompleteMatches() {
     }
     matches_.push_back(current_text_match_);
     int relevance = 600;
-    if (num_results > 0) {
-      UMA_HISTOGRAM_COUNTS_1M(
-          "Omnibox.ZeroSuggest.MostVisitedResultsCounterfactual",
-          most_visited_urls_.size());
-    }
     const base::string16 current_query_string16(
         base::ASCIIToUTF16(current_query_));
     for (const auto& url : most_visited_urls_) {
