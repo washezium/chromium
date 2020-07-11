@@ -5937,7 +5937,8 @@ Unknown properties are collapsed to zero. -->
   <int value="11" label="Trace upload succeeded"/>
   <int value="12" label="Startup scenario triggered"/>
   <int value="13" label="Large upload waiting to retry"/>
-  <int value="14" label="Reached code scenario triggered"/>
+  <int value="14" label="System scenario triggered"/>
+  <int value="15" label="Reached code scenario triggered"/>
 </enum>
 
 <enum name="BackingStoreResults">
