@@ -138,10 +138,11 @@ void GetAssertionTask::GetAssertion() {
   // and filter out IDs that are too large to originate from this device.
   allow_list_batches_ =
       FilterAndBatchCredentialDescriptors(request_.allow_list, *device());
+  DCHECK(!allow_list_batches_.empty());
 
   // If filtering eliminated all entries from the allowList, just collect a
   // dummy touch, then fail the request.
-  if (allow_list_batches_.empty()) {
+  if (allow_list_batches_.size() == 1 && allow_list_batches_[0].empty()) {
     dummy_register_operation_ = std::make_unique<Ctap2DeviceOperation<
         CtapMakeCredentialRequest, AuthenticatorMakeCredentialResponse>>(
         device(), MakeCredentialTask::GetTouchRequest(device()),
