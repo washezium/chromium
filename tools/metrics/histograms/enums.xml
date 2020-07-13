@@ -23896,6 +23896,7 @@ Called by update_extension_histograms.py.-->
   <int value="1483" label="INPUTMETHODPRIVATE_SETAUTOCORRECTRANGE"/>
   <int value="1484" label="PLATFORMKEYSINTERNAL_GETPUBLICKEYBYSPKI"/>
   <int value="1485" label="CERTIFICATEPROVIDER_SETCERTIFICATES"/>
+  <int value="1486" label="AUTOTESTPRIVATE_DISABLEAUTOMATION"/>
 </enum>
 
 <enum name="ExtensionIconState">
