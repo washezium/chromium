@@ -44187,6 +44187,7 @@ from previous Chrome versions.
   <int value="5" label="Profile Chooser"/>
   <int value="6" label="Passwords Accessory Sheet"/>
   <int value="7" label="Touch To Fill"/>
+  <int value="8" label="Safe state bubble"/>
 </enum>
 
 <enum name="ManifestFetchResultType">
