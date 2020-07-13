@@ -2894,6 +2894,7 @@ static_library("browser") {
       "//chrome/browser/offline_pages/prefetch/notifications",
       "//chrome/browser/optimization_guide/android:jni_headers",
       "//chrome/browser/password_check/android",
+      "//chrome/browser/password_check/android/internal",
       "//chrome/browser/payments/android:jni_headers",
       "//chrome/browser/safety_check/android",
       "//chrome/browser/share",
