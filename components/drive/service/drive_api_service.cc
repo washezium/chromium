@@ -539,7 +539,7 @@ CancelCallback DriveAPIService::TrashResource(
   std::unique_ptr<FilesTrashRequest> request =
       std::make_unique<FilesTrashRequest>(
           sender_.get(), url_generator_,
-          base::Bind(&EntryActionCallbackAdapter, callback));
+          base::BindOnce(&EntryActionCallbackAdapter, callback));
   request->set_file_id(resource_id);
   request->set_fields(kFileResourceFields);
   return sender_->StartRequestWithAuthRetry(std::move(request));
