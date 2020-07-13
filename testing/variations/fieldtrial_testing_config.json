@@ -6102,11 +6102,25 @@
     "SafeBrowsingRealTimeUrlLookupEnabledWithToken": [
         {
             "platforms": [
-                "android",
                 "chromeos",
                 "linux",
                 "mac",
                 "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "SafeBrowsingRealTimeUrlLookupEnabledWithToken"
+                    ]
+                }
+            ]
+        }
+    ],
+    "SafeBrowsingRealTimeUrlLookupEnabledWithTokenAndroid": [
+        {
+            "platforms": [
+                "android"
             ],
             "experiments": [
                 {
