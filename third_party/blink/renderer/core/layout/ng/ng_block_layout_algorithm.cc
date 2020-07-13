@@ -925,11 +925,7 @@ scoped_refptr<const NGLayoutResult> NGBlockLayoutAlgorithm::FinishLayout(
       return container_builder_.Abort(NGLayoutResult::kNeedsEarlierBreak);
   }
 
-  NGOutOfFlowLayoutPart(
-      Node(), ConstraintSpace(),
-      container_builder_.Borders() + container_builder_.Scrollbar(),
-      &container_builder_)
-      .Run();
+  NGOutOfFlowLayoutPart(Node(), ConstraintSpace(), &container_builder_).Run();
 
 #if DCHECK_IS_ON()
   // If we're not participating in a fragmentation context, no block
