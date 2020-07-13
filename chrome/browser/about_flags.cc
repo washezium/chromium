@@ -3938,6 +3938,11 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kUsePreferredIntervalForVideoDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kUsePreferredIntervalForVideo)},
 
+    {"force-preferred-interval-for-video",
+     flag_descriptions::kForcePreferredIntervalForVideoName,
+     flag_descriptions::kForcePreferredIntervalForVideoDescription, kOsDesktop,
+     FEATURE_VALUE_TYPE(features::kForcePreferredIntervalForVideo)},
+
     {"split-partially-occluded-quads",
      flag_descriptions::kSplitPartiallyOccludedQuadsName,
      flag_descriptions::kSplitPartiallyOccludedQuadsDescription, kOsAll,

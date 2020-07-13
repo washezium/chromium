@@ -271,6 +271,9 @@ extern const char kForceColorProfileHDR10[];
 extern const char kForceColorProfileName[];
 extern const char kForceColorProfileDescription[];
 
+extern const char kForcePreferredIntervalForVideoName[];
+extern const char kForcePreferredIntervalForVideoDescription[];
+
 extern const char kDynamicColorGamutName[];
 extern const char kDynamicColorGamutDescription[];
 

@@ -40570,6 +40570,7 @@ from previous Chrome versions.
   <int value="-1064302126"
       label="OmniboxAlternateMatchDescriptionSeparator:enabled"/>
   <int value="-1062119671" label="enable-password-force-saving"/>
+  <int value="-1060541241" label="ForcePreferredIntervalForVideo:enabled"/>
   <int value="-1060395248" label="PasswordSearchMobile:enabled"/>
   <int value="-1056860259"
       label="OmniboxEnableClipboardProviderImageSuggestions:enabled"/>
@@ -42414,6 +42415,7 @@ from previous Chrome versions.
   <int value="1004909189"
       label="ContentSuggestionsThumbnailDominantColor:disabled"/>
   <int value="1005684777" label="PictureInPicture:disabled"/>
+  <int value="1006080779" label="ForcePreferredIntervalForVideo:disabled"/>
   <int value="1006608931" label="ArcEnableUnifiedAudioFocus:disabled"/>
   <int value="1006691801" label="ConditionalTabStripAndroid:disabled"/>
   <int value="1007444341" label="enable-prefixed-encrypted-media"/>
