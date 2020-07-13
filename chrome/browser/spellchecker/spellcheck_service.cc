@@ -392,6 +392,19 @@ void SpellcheckService::InitForRenderer(content::RenderProcessHost* host) {
   const PrefService* prefs = user_prefs::UserPrefs::Get(context);
   std::vector<spellcheck::mojom::SpellCheckBDictLanguagePtr> dictionaries;
 
+  bool enable_if_uninitialized = false;
+#if defined(OS_WIN)
+  if (spellcheck::UseBrowserSpellChecker() &&
+      base::FeatureList::IsEnabled(
+          spellcheck::kWinDelaySpellcheckServiceInit)) {
+    // If initialization of the spellcheck service is on-demand, the
+    // renderer-side SpellCheck object needs to start out as enabled in order
+    // for a click on editable content to initialize the spellcheck service.
+    if (!dictionaries_loaded())
+      enable_if_uninitialized = true;
+  }
+#endif  // defined(OS_WIN)
+
   for (const auto& hunspell_dictionary : hunspell_dictionaries_) {
     dictionaries.push_back(spellcheck::mojom::SpellCheckBDictLanguage::New(
         hunspell_dictionary->GetDictionaryFile().Duplicate(),
@@ -399,7 +412,7 @@ void SpellcheckService::InitForRenderer(content::RenderProcessHost* host) {
   }
 
   bool enable = prefs->GetBoolean(spellcheck::prefs::kSpellCheckEnable) &&
-                !dictionaries.empty();
+                (!dictionaries.empty() || enable_if_uninitialized);
 
   std::vector<std::string> custom_words;
   if (enable) {
