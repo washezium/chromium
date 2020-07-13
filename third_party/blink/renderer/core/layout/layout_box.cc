@@ -2911,6 +2911,11 @@ const NGPhysicalBoxFragment* LayoutBox::GetPhysicalFragment(
   return &To<NGPhysicalBoxFragment>(layout_results_[index]->PhysicalFragment());
 }
 
+const NGPhysicalBoxFragment&
+LayoutBox::NGPhysicalFragmentList::Iterator::operator*() const {
+  return To<NGPhysicalBoxFragment>((*iterator_)->PhysicalFragment());
+}
+
 const FragmentData* LayoutBox::FragmentDataFromPhysicalFragment(
     const NGPhysicalBoxFragment& physical_fragment) const {
   const FragmentData* fragment_data = &FirstFragment();

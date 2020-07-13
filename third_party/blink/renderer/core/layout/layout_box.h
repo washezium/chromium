@@ -1005,6 +1005,48 @@ class CORE_EXPORT LayoutBox : public LayoutBoxModelObject {
       base::Optional<NGFragmentGeometry>* initial_fragment_geometry,
       NGLayoutCacheStatus* out_cache_status);
 
+  using NGLayoutResultList = Vector<scoped_refptr<const NGLayoutResult>, 1>;
+  class NGPhysicalFragmentList {
+    STACK_ALLOCATED();
+
+   public:
+    explicit NGPhysicalFragmentList(const NGLayoutResultList& layout_results)
+        : layout_results_(layout_results) {}
+
+    wtf_size_t Size() const { return layout_results_.size(); }
+    bool IsEmpty() const { return layout_results_.IsEmpty(); }
+
+    class Iterator : public std::iterator<std::forward_iterator_tag,
+                                          NGPhysicalBoxFragment> {
+     public:
+      explicit Iterator(const NGLayoutResultList::const_iterator& iterator)
+          : iterator_(iterator) {}
+
+      const NGPhysicalBoxFragment& operator*() const;
+
+      void operator++() { ++iterator_; }
+
+      bool operator==(const Iterator& other) const {
+        return iterator_ == other.iterator_;
+      }
+      bool operator!=(const Iterator& other) const {
+        return !operator==(other);
+      }
+
+     private:
+      NGLayoutResultList::const_iterator iterator_;
+    };
+
+    Iterator begin() const { return Iterator(layout_results_.begin()); }
+    Iterator end() const { return Iterator(layout_results_.end()); }
+
+   private:
+    const NGLayoutResultList& layout_results_;
+  };
+
+  NGPhysicalFragmentList PhysicalFragments() const {
+    return NGPhysicalFragmentList(layout_results_);
+  }
   const NGPhysicalBoxFragment* GetPhysicalFragment(wtf_size_t i) const;
   const FragmentData* FragmentDataFromPhysicalFragment(
       const NGPhysicalBoxFragment&) const;
@@ -1944,7 +1986,7 @@ class CORE_EXPORT LayoutBox : public LayoutBoxModelObject {
 
   Persistent<LayoutBoxRareData> rare_data_;
   scoped_refptr<const NGLayoutResult> measure_result_;
-  Vector<scoped_refptr<const NGLayoutResult>, 1> layout_results_;
+  NGLayoutResultList layout_results_;
 };
 
 DEFINE_LAYOUT_OBJECT_TYPE_CASTS(LayoutBox, IsBox());
