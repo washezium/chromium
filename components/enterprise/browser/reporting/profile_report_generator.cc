@@ -2,13 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/enterprise/reporting/profile_report_generator.h"
+#include "components/enterprise/browser/reporting/profile_report_generator.h"
 
 #include <utility>
 
 #include "base/files/file_path.h"
-#include "base/strings/utf_string_conversions.h"
-#include "base/util/values/values_util.h"
 #include "components/enterprise/browser/reporting/policy_info.h"
 #include "components/policy/core/browser/policy_conversions.h"
 
