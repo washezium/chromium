@@ -6892,3 +6892,13 @@ crbug.com/1104186 [ Win ] fast/forms/color-scheme/suggestion-picker/time-suggest
 
 crbug.com/1104195 inspector-protocol/css/css-set-effective-property-value.js [ Pass Failure ]
 crbug.com/1104333 http/tests/devtools/bindings/inline-styles-binding.js [ Pass Failure ]
+
+# Sheriff 2020-07-13
+
+crbug.com/1104910 [ Mac ] external/wpt/webaudio/the-audio-api/the-oscillatornode-interface/osc-basic-waveform.html [ Pass Failure ]
+crbug.com/1104910 [ Mac10.13 ] fast/dom/cssTarget-crash.html [ Pass Failure ]
+crbug.com/1104910 [ Mac10.13 ] fast/peerconnection/RTCPeerConnection-reload-interesting-usage.html [ Pass Failure ]
+crbug.com/1104910 [ Win ] http/tests/devtools/tracing/timeline-js/timeline-js-line-level-profile-no-url-end-to-end.js [ Pass Failure ]
+crbug.com/1104910 [ Linux ] inspector-protocol/stylesheet-tracking-restart.js [ Pass Failure ]
+crbug.com/1104910 [ Linux ] virtual/web-components-v0-disabled/fast/dom/cssTarget-crash.html [ Pass Failure ]
+crbug.com/1104910 [ Win ] virtual/cache-storage-eager-reading/external/wpt/service-workers/service-worker/registration-updateviacache.https.html [ Pass Failure ] 
