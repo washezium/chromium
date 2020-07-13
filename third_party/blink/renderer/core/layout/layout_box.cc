@@ -244,7 +244,7 @@ LayoutBoxRareData::LayoutBoxRareData()
       has_override_containing_block_content_logical_width_(false),
       has_override_containing_block_content_logical_height_(false),
       has_override_percentage_resolution_block_size_(false),
-      has_previous_content_box_rect_and_layout_overflow_rect_(false),
+      has_previous_content_box_and_overflow_rects_(false),
       percent_height_container_(nullptr),
       snap_container_(nullptr),
       snap_areas_(nullptr) {}
@@ -6699,14 +6699,15 @@ bool LayoutBox::ComputeShouldClipOverflow() const {
   return HasOverflowClip() || ShouldApplyPaintContainment() || HasControlClip();
 }
 
-void LayoutBox::MutableForPainting::
-    SavePreviousContentBoxRectAndLayoutOverflowRect() {
+void LayoutBox::MutableForPainting::SavePreviousContentBoxAndOverflowRects() {
   auto& rare_data = GetLayoutBox().EnsureRareData();
-  rare_data.has_previous_content_box_rect_and_layout_overflow_rect_ = true;
+  rare_data.has_previous_content_box_and_overflow_rects_ = true;
   rare_data.previous_physical_content_box_rect_ =
       GetLayoutBox().PhysicalContentBoxRect();
   rare_data.previous_physical_layout_overflow_rect_ =
       GetLayoutBox().PhysicalLayoutOverflowRect();
+  rare_data.previous_physical_self_visual_overflow_rect_ =
+      GetLayoutBox().PhysicalSelfVisualOverflowRect();
 }
 
 RasterEffectOutset LayoutBox::VisualRectOutsetForRasterEffects() const {
