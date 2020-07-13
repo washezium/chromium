@@ -21138,6 +21138,7 @@ Called by update_document_policy_enum.py.-->
   <int value="736" label="URLBlocklist"/>
   <int value="737" label="URLAllowlist"/>
   <int value="738" label="ExtensionInstallAllowlist"/>
+  <int value="739" label="ShowFullUrlsInAddressBar"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
