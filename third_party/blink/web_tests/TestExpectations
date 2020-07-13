@@ -1451,7 +1451,7 @@ crbug.com/1053725 [ Mac ] virtual/web-components-v0-disabled/fast/dom/title-text
 
 # Needs triage:
 crbug.com/1053725 [ Mac ] fast/css/button-height.html [ Skip ]
-crbug.com/1053725 [ Mac ] fast/css/css2-system-color.html [ Skip ]
+crbug.com/1104697 fast/css/css2-system-color.html [ Pass Failure ]
 crbug.com/1053725 [ Mac ] fast/css-grid-layout/preferred-width-computed-after-layout.html [ Skip ]
 crbug.com/1053725 [ Mac ] fast/css/text-overflow-ellipsis-button.html [ Skip ]
 crbug.com/1053725 [ Mac ] editing/selection/replaced-boundaries-3.html [ Skip ]
