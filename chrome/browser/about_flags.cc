@@ -5866,6 +5866,10 @@ bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
     return true;
   }
 
+  if (!strcmp("password-change-support", entry.internal_name)) {
+    return !base::FeatureList::IsEnabled(features::kTeamfoodFlags);
+  }
+
   if (flags::IsFlagExpired(entry.internal_name))
     return true;
 
