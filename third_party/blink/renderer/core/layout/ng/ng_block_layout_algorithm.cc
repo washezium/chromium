@@ -2771,8 +2771,13 @@ void NGBlockLayoutAlgorithm::LayoutRubyText(
     }
   }
 
-  NGConstraintSpaceBuilder builder(
-      ConstraintSpace(), ruby_text_child->Style().GetWritingMode(), true);
+  const ComputedStyle& rt_style = ruby_text_child->Style();
+  NGConstraintSpaceBuilder builder(ConstraintSpace(), rt_style.GetWritingMode(),
+                                   true);
+  SetOrthogonalFallbackInlineSizeIfNeeded(Style(), *ruby_text_child, &builder);
+  if (!IsParallelWritingMode(Style().GetWritingMode(),
+                             rt_style.GetWritingMode()))
+    builder.SetIsShrinkToFit(rt_style.LogicalWidth().IsAuto());
   builder.SetAvailableSize(ChildAvailableSize());
 
   scoped_refptr<const NGLayoutResult> result =
