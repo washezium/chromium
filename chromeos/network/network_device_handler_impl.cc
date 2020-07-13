@@ -25,8 +25,8 @@
 #include "chromeos/dbus/shill/shill_device_client.h"
 #include "chromeos/dbus/shill/shill_ipconfig_client.h"
 #include "chromeos/network/device_state.h"
+#include "chromeos/network/network_event_log.h"
 #include "chromeos/network/network_state_handler.h"
-#include "components/device_event_log/device_event_log.h"
 #include "dbus/object_path.h"
 #include "third_party/cros_system_api/dbus/service_constants.h"
 
@@ -50,6 +50,18 @@ std::string GetErrorNameForShillError(const std::string& shill_error_name) {
   if (shill_error_name == shill::kErrorResultNotFound)
     return NetworkDeviceHandler::kErrorDeviceMissing;
   return NetworkDeviceHandler::kErrorUnknown;
+}
+
+void GetPropertiesCallback(const std::string& device_path,
+                           network_handler::ResultCallback callback,
+                           DBusMethodCallStatus call_status,
+                           base::Value result) {
+  if (call_status != DBUS_METHOD_CALL_SUCCESS) {
+    NET_LOG(ERROR) << "GetProperties failed: " << NetworkPathId(device_path)
+                   << " Status: " << call_status;
+    std::move(callback).Run(device_path, base::nullopt);
+  }
+  std::move(callback).Run(device_path, std::move(result));
 }
 
 void InvokeErrorCallback(const std::string& device_path,
@@ -230,12 +242,10 @@ NetworkDeviceHandlerImpl::~NetworkDeviceHandlerImpl() {
 
 void NetworkDeviceHandlerImpl::GetDeviceProperties(
     const std::string& device_path,
-    network_handler::DictionaryResultCallback callback,
-    const network_handler::ErrorCallback& error_callback) const {
+    network_handler::ResultCallback callback) const {
   ShillDeviceClient::Get()->GetProperties(
       dbus::ObjectPath(device_path),
-      base::BindOnce(&network_handler::GetPropertiesCallback,
-                     std::move(callback), error_callback, device_path));
+      base::BindOnce(&GetPropertiesCallback, device_path, std::move(callback)));
 }
 
 void NetworkDeviceHandlerImpl::SetDeviceProperty(
@@ -517,8 +527,7 @@ void NetworkDeviceHandlerImpl::ApplyMACAddressRandomizationToShill() {
           device_state->path(),
           base::BindOnce(
               &NetworkDeviceHandlerImpl::HandleMACAddressRandomization,
-              weak_ptr_factory_.GetWeakPtr()),
-          network_handler::ErrorCallback());
+              weak_ptr_factory_.GetWeakPtr()));
       return;
     case MACAddressRandomizationSupport::SUPPORTED:
       SetDevicePropertyInternal(
@@ -665,10 +674,12 @@ void NetworkDeviceHandlerImpl::
 
 void NetworkDeviceHandlerImpl::HandleMACAddressRandomization(
     const std::string& device_path,
-    const base::DictionaryValue& properties) {
-  bool supported;
-  if (!properties.GetBooleanWithoutPathExpansion(
-          shill::kMacAddressRandomizationSupportedProperty, &supported)) {
+    base::Optional<base::Value> properties) {
+  if (!properties)
+    return;
+  base::Optional<bool> supported =
+      properties->FindBoolKey(shill::kMacAddressRandomizationSupportedProperty);
+  if (!supported.has_value()) {
     if (base::SysInfo::IsRunningOnChromeOS()) {
       NET_LOG(ERROR) << "Failed to determine if device " << device_path
                      << " supports MAC address randomization";
@@ -677,7 +688,7 @@ void NetworkDeviceHandlerImpl::HandleMACAddressRandomization(
   }
 
   // Try to set MAC address randomization if it's supported.
-  if (supported) {
+  if (*supported) {
     mac_addr_randomization_supported_ =
         MACAddressRandomizationSupport::SUPPORTED;
     ApplyMACAddressRandomizationToShill();

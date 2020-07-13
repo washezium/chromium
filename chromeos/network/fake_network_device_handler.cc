@@ -12,8 +12,7 @@ FakeNetworkDeviceHandler::~FakeNetworkDeviceHandler() = default;
 
 void FakeNetworkDeviceHandler::GetDeviceProperties(
     const std::string& device_path,
-    network_handler::DictionaryResultCallback callback,
-    const network_handler::ErrorCallback& error_callback) const {}
+    network_handler::ResultCallback callback) const {}
 
 void FakeNetworkDeviceHandler::SetDeviceProperty(
     const std::string& device_path,

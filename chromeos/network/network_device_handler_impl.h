@@ -32,8 +32,7 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkDeviceHandlerImpl
   // NetworkDeviceHandler overrides
   void GetDeviceProperties(
       const std::string& device_path,
-      network_handler::DictionaryResultCallback callback,
-      const network_handler::ErrorCallback& error_callback) const override;
+      network_handler::ResultCallback callback) const override;
 
   void SetDeviceProperty(
       const std::string& device_path,
@@ -178,7 +177,7 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkDeviceHandlerImpl
   // supported, also apply |mac_addr_randomization_enabled_| to the
   // shill device.
   void HandleMACAddressRandomization(const std::string& device_path,
-                                     const base::DictionaryValue& properties);
+                                     base::Optional<base::Value> properties);
 
   // Get the DeviceState for the wifi device, if any.
   const DeviceState* GetWifiDeviceState(

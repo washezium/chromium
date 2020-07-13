@@ -25,11 +25,9 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) MockNetworkDeviceHandler
   MockNetworkDeviceHandler();
   virtual ~MockNetworkDeviceHandler();
 
-  MOCK_CONST_METHOD3(
-      GetDeviceProperties,
-      void(const std::string& device_path,
-           network_handler::DictionaryResultCallback callback,
-           const network_handler::ErrorCallback& error_callback));
+  MOCK_CONST_METHOD2(GetDeviceProperties,
+                     void(const std::string& device_path,
+                          network_handler::ResultCallback callback));
 
   MOCK_METHOD5(SetDeviceProperty,
                void(const std::string& device_path,

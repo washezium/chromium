@@ -27,6 +27,7 @@ namespace {
 const char kDefaultCellularDevicePath[] = "stub_cellular_device";
 const char kUnknownCellularDevicePath[] = "unknown_cellular_device";
 const char kDefaultWifiDevicePath[] = "stub_wifi_device";
+const char kResultFailure[] = "failure";
 const char kResultSuccess[] = "success";
 const char kDefaultPin[] = "1111";
 
@@ -88,10 +89,15 @@ class NetworkDeviceHandlerTest : public testing::Test {
 
   void SuccessCallback() { result_ = kResultSuccess; }
 
-  void PropertiesSuccessCallback(const std::string& device_path,
-                                 const base::DictionaryValue& properties) {
+  void GetPropertiesCallback(const std::string& device_path,
+                             base::Optional<base::Value> properties) {
+    if (!properties) {
+      result_ = kResultFailure;
+      return;
+    }
     result_ = kResultSuccess;
-    properties_.reset(properties.DeepCopy());
+    properties_ = base::DictionaryValue::From(
+        std::make_unique<base::Value>(std::move(*properties)));
   }
 
   void StringSuccessCallback(const std::string& result) {
@@ -103,9 +109,8 @@ class NetworkDeviceHandlerTest : public testing::Test {
                            const std::string& expected_result) {
     network_device_handler_->GetDeviceProperties(
         device_path,
-        base::BindOnce(&NetworkDeviceHandlerTest::PropertiesSuccessCallback,
-                       base::Unretained(this)),
-        error_callback_);
+        base::BindOnce(&NetworkDeviceHandlerTest::GetPropertiesCallback,
+                       base::Unretained(this)));
     base::RunLoop().RunUntilIdle();
     ASSERT_EQ(expected_result, result_);
   }
