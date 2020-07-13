@@ -21137,6 +21137,7 @@ Called by update_document_policy_enum.py.-->
   <int value="735" label="DeviceNativePrintersAllowlist"/>
   <int value="736" label="URLBlocklist"/>
   <int value="737" label="URLAllowlist"/>
+  <int value="738" label="ExtensionInstallAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
