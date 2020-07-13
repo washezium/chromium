@@ -13,6 +13,7 @@
 #include "third_party/blink/renderer/core/paint/compositing/composited_layer_mapping.h"
 #include "third_party/blink/renderer/core/paint/paint_layer.h"
 #include "third_party/blink/renderer/core/paint/paint_layer_scrollable_area.h"
+#include "third_party/blink/renderer/core/paint/rounded_border_geometry.h"
 #include "third_party/blink/renderer/core/style/border_edge.h"
 #include "third_party/blink/renderer/platform/geometry/layout_rect.h"
 #include "third_party/blink/renderer/platform/geometry/layout_unit.h"
@@ -479,8 +480,9 @@ void BackgroundImageGeometry::ComputeDestRectAdjustments(
         // rounds down. We should FromFloatFloor or FromFloatCeil to
         // move toward the border.
         FloatRect inner_border_rect =
-            positioning_box_.StyleRef()
-                .GetRoundedInnerBorderFor(unsnapped_positioning_area)
+            RoundedBorderGeometry::PixelSnappedRoundedInnerBorder(
+                positioning_box_.StyleRef(),
+                PhysicalRectToBeNoop(unsnapped_positioning_area))
                 .Rect();
         snapped_dest_adjust.SetLeft(LayoutUnit(inner_border_rect.X()) -
                                     unsnapped_dest_rect_.X());
@@ -516,8 +518,9 @@ void BackgroundImageGeometry::ComputeDestRectAdjustments(
       BorderEdge edges[4];
       positioning_box_.StyleRef().GetBorderEdgeInfo(edges);
       FloatRect inner_border_rect =
-          positioning_box_.StyleRef()
-              .GetRoundedInnerBorderFor(unsnapped_positioning_area)
+          RoundedBorderGeometry::PixelSnappedRoundedInnerBorder(
+              positioning_box_.StyleRef(),
+              PhysicalRectToBeNoop(unsnapped_positioning_area))
               .Rect();
       LayoutRectOutsets box_outsets = positioning_box_.BorderBoxOutsets();
       if (edges[static_cast<unsigned>(BoxSide::kTop)].ObscuresBackground()) {
@@ -578,8 +581,9 @@ void BackgroundImageGeometry::ComputePositioningAreaAdjustments(
         // border by more than a pixel when done (particularly under magnifying
         // zoom).
         FloatRect inner_border_rect =
-            positioning_box_.StyleRef()
-                .GetRoundedInnerBorderFor(unsnapped_positioning_area)
+            RoundedBorderGeometry::PixelSnappedRoundedInnerBorder(
+                positioning_box_.StyleRef(),
+                PhysicalRectToBeNoop(unsnapped_positioning_area))
                 .Rect();
         snapped_box_outset.SetLeft(LayoutUnit(inner_border_rect.X()) -
                                    unsnapped_positioning_area.X());
