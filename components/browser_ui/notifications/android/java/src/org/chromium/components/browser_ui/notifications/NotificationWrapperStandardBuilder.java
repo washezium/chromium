@@ -21,12 +21,12 @@ import org.chromium.components.browser_ui.notifications.channels.ChannelsInitial
 /**
  * Wraps a {@link Notification.Builder} object.
  */
-public class NotificationBuilder implements ChromeNotificationBuilder {
+public class NotificationWrapperStandardBuilder implements NotificationWrapperBuilder {
     private final Notification.Builder mBuilder;
     private final Context mContext;
     private final NotificationMetadata mMetadata;
 
-    public NotificationBuilder(Context context, String channelId,
+    public NotificationWrapperStandardBuilder(Context context, String channelId,
             ChannelsInitializer channelsInitializer, NotificationMetadata metadata) {
         mContext = context;
         mBuilder = new Notification.Builder(mContext);
@@ -38,43 +38,43 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setAutoCancel(boolean autoCancel) {
+    public NotificationWrapperBuilder setAutoCancel(boolean autoCancel) {
         mBuilder.setAutoCancel(autoCancel);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setContentIntent(PendingIntent contentIntent) {
+    public NotificationWrapperBuilder setContentIntent(PendingIntent contentIntent) {
         mBuilder.setContentIntent(contentIntent);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setContentIntent(PendingIntentProvider contentIntent) {
+    public NotificationWrapperBuilder setContentIntent(PendingIntentProvider contentIntent) {
         mBuilder.setContentIntent(contentIntent.getPendingIntent());
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setContentTitle(CharSequence title) {
+    public NotificationWrapperBuilder setContentTitle(CharSequence title) {
         mBuilder.setContentTitle(title);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setContentText(CharSequence text) {
+    public NotificationWrapperBuilder setContentText(CharSequence text) {
         mBuilder.setContentText(text);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setSmallIcon(int icon) {
+    public NotificationWrapperBuilder setSmallIcon(int icon) {
         mBuilder.setSmallIcon(icon);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setSmallIcon(Icon icon) {
+    public NotificationWrapperBuilder setSmallIcon(Icon icon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mBuilder.setSmallIcon(icon);
         }
@@ -82,62 +82,63 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setColor(int argb) {
+    public NotificationWrapperBuilder setColor(int argb) {
         mBuilder.setColor(argb);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setTicker(CharSequence text) {
+    public NotificationWrapperBuilder setTicker(CharSequence text) {
         mBuilder.setTicker(text);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setLocalOnly(boolean localOnly) {
+    public NotificationWrapperBuilder setLocalOnly(boolean localOnly) {
         mBuilder.setLocalOnly(localOnly);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setGroup(String group) {
+    public NotificationWrapperBuilder setGroup(String group) {
         mBuilder.setGroup(group);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setGroupSummary(boolean isGroupSummary) {
+    public NotificationWrapperBuilder setGroupSummary(boolean isGroupSummary) {
         mBuilder.setGroupSummary(isGroupSummary);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder addExtras(Bundle extras) {
+    public NotificationWrapperBuilder addExtras(Bundle extras) {
         mBuilder.addExtras(extras);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setOngoing(boolean ongoing) {
+    public NotificationWrapperBuilder setOngoing(boolean ongoing) {
         mBuilder.setOngoing(ongoing);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setVisibility(int visibility) {
+    public NotificationWrapperBuilder setVisibility(int visibility) {
         mBuilder.setVisibility(visibility);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setShowWhen(boolean showWhen) {
+    public NotificationWrapperBuilder setShowWhen(boolean showWhen) {
         mBuilder.setShowWhen(showWhen);
         return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotificationBuilder addAction(int icon, CharSequence title, PendingIntent intent) {
+    public NotificationWrapperBuilder addAction(
+            int icon, CharSequence title, PendingIntent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mBuilder.addAction(
                     new Notification.Action
@@ -150,20 +151,20 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder addAction(int icon, CharSequence title,
+    public NotificationWrapperBuilder addAction(int icon, CharSequence title,
             PendingIntentProvider pendingIntentProvider, int actionType) {
         addAction(icon, title, pendingIntentProvider.getPendingIntent());
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder addAction(Notification.Action action) {
+    public NotificationWrapperBuilder addAction(Notification.Action action) {
         mBuilder.addAction(action);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder addAction(
+    public NotificationWrapperBuilder addAction(
             Notification.Action action, int flags, int actionType) {
         action.actionIntent =
                 new PendingIntentProvider(action.actionIntent, flags).getPendingIntent();
@@ -172,20 +173,20 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setDeleteIntent(PendingIntent intent) {
+    public NotificationWrapperBuilder setDeleteIntent(PendingIntent intent) {
         mBuilder.setDeleteIntent(intent);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setDeleteIntent(PendingIntentProvider intent) {
+    public NotificationWrapperBuilder setDeleteIntent(PendingIntentProvider intent) {
         mBuilder.setDeleteIntent(intent.getPendingIntent());
         return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotificationBuilder setPriorityBeforeO(int pri) {
+    public NotificationWrapperBuilder setPriorityBeforeO(int pri) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             mBuilder.setPriority(pri);
         }
@@ -193,20 +194,20 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setProgress(int max, int percentage, boolean indeterminate) {
+    public NotificationWrapperBuilder setProgress(int max, int percentage, boolean indeterminate) {
         mBuilder.setProgress(max, percentage, indeterminate);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setSubText(CharSequence text) {
+    public NotificationWrapperBuilder setSubText(CharSequence text) {
         mBuilder.setSubText(text);
         return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotificationBuilder setContentInfo(String info) {
+    public NotificationWrapperBuilder setContentInfo(String info) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             mBuilder.setContentInfo(info);
         } else {
@@ -216,50 +217,50 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setWhen(long time) {
+    public NotificationWrapperBuilder setWhen(long time) {
         mBuilder.setWhen(time);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setLargeIcon(Bitmap icon) {
+    public NotificationWrapperBuilder setLargeIcon(Bitmap icon) {
         mBuilder.setLargeIcon(icon);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setVibrate(long[] vibratePattern) {
+    public NotificationWrapperBuilder setVibrate(long[] vibratePattern) {
         mBuilder.setVibrate(vibratePattern);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setSound(Uri sound) {
+    public NotificationWrapperBuilder setSound(Uri sound) {
         mBuilder.setSound(sound);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setDefaults(int defaults) {
+    public NotificationWrapperBuilder setDefaults(int defaults) {
         mBuilder.setDefaults(defaults);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setOnlyAlertOnce(boolean onlyAlertOnce) {
+    public NotificationWrapperBuilder setOnlyAlertOnce(boolean onlyAlertOnce) {
         mBuilder.setOnlyAlertOnce(onlyAlertOnce);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setPublicVersion(Notification publicNotification) {
+    public NotificationWrapperBuilder setPublicVersion(Notification publicNotification) {
         mBuilder.setPublicVersion(publicNotification);
         return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotificationBuilder setContent(RemoteViews views) {
+    public NotificationWrapperBuilder setContent(RemoteViews views) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mBuilder.setCustomContentView(views);
         } else {
@@ -269,19 +270,19 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setStyle(Notification.BigPictureStyle style) {
+    public NotificationWrapperBuilder setStyle(Notification.BigPictureStyle style) {
         mBuilder.setStyle(style);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setStyle(Notification.BigTextStyle style) {
+    public NotificationWrapperBuilder setStyle(Notification.BigTextStyle style) {
         mBuilder.setStyle(style);
         return this;
     }
 
     @Override
-    public ChromeNotificationBuilder setMediaStyle(MediaSessionCompat session, int[] actions,
+    public NotificationWrapperBuilder setMediaStyle(MediaSessionCompat session, int[] actions,
             PendingIntent intent, boolean showCancelButton) {
         Notification.MediaStyle style = new Notification.MediaStyle();
         style.setMediaSession(((MediaSession) session.getMediaSession()).getSessionToken());
@@ -291,33 +292,33 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotificationBuilder setCategory(String category) {
+    public NotificationWrapperBuilder setCategory(String category) {
         mBuilder.setCategory(category);
         return this;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotification buildWithBigContentView(RemoteViews view) {
+    public NotificationWrapper buildWithBigContentView(RemoteViews view) {
         assert mMetadata != null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return new ChromeNotification(
+            return new NotificationWrapper(
                     mBuilder.setCustomBigContentView(view).build(), mMetadata);
         } else {
             Notification notification = mBuilder.build();
             notification.bigContentView = view;
-            return new ChromeNotification(notification, mMetadata);
+            return new NotificationWrapper(notification, mMetadata);
         }
     }
 
     @Override
-    public ChromeNotification buildWithBigTextStyle(String bigText) {
+    public NotificationWrapper buildWithBigTextStyle(String bigText) {
         Notification.BigTextStyle bigTextStyle = new Notification.BigTextStyle();
         bigTextStyle.setBuilder(mBuilder);
         bigTextStyle.bigText(bigText);
 
         assert mMetadata != null;
-        return new ChromeNotification(bigTextStyle.build(), mMetadata);
+        return new NotificationWrapper(bigTextStyle.build(), mMetadata);
     }
 
     @Override
@@ -326,9 +327,9 @@ public class NotificationBuilder implements ChromeNotificationBuilder {
     }
 
     @Override
-    public ChromeNotification buildChromeNotification() {
+    public NotificationWrapper buildNotificationWrapper() {
         assert mMetadata != null;
-        return new ChromeNotification(build(), mMetadata);
+        return new NotificationWrapper(build(), mMetadata);
     }
 
     protected Notification.Builder getBuilder() {

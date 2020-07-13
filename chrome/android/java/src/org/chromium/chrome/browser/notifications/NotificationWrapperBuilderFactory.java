@@ -14,16 +14,16 @@ import androidx.annotation.Nullable;
 import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.notifications.channels.ChromeChannelDefinitions;
-import org.chromium.components.browser_ui.notifications.ChromeNotificationBuilder;
 import org.chromium.components.browser_ui.notifications.NotificationManagerProxyImpl;
 import org.chromium.components.browser_ui.notifications.NotificationMetadata;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperBuilder;
 import org.chromium.components.browser_ui.notifications.channels.ChannelsInitializer;
 
 /**
  * Factory which supplies the appropriate type of notification builder based on Android version.
  * Should be used for all notifications we create, to ensure a notification channel is set on O.
  */
-public class NotificationBuilderFactory {
+public class NotificationWrapperBuilderFactory {
     /**
      * Creates either a Notification.Builder or NotificationCompat.Builder under the hood, wrapped
      * in our own common interface, and ensures the notification channel has been initialized.
@@ -35,18 +35,18 @@ public class NotificationBuilderFactory {
      *                  will be created if it did not already exist. Must be a known channel within
      *                  {@link ChannelsInitializer#ensureInitialized(String)}.
      */
-    public static ChromeNotificationBuilder createChromeNotificationBuilder(
+    public static NotificationWrapperBuilder createNotificationWrapperBuilder(
             boolean preferCompat, String channelId) {
-        return createChromeNotificationBuilder(
+        return createNotificationWrapperBuilder(
                 preferCompat, channelId, null /* remoteAppPackageName */, null /* metadata */);
     }
 
     /**
-     * See {@link #createChromeNotificationBuilder(boolean, String, String, NotificationMetadata)}.
+     * See {@link #createNotificationWrapperBuilder(boolean, String, String, NotificationMetadata)}.
      */
-    public static ChromeNotificationBuilder createChromeNotificationBuilder(
+    public static NotificationWrapperBuilder createNotificationWrapperBuilder(
             boolean preferCompat, String channelId, @Nullable String remoteAppPackageName) {
-        return createChromeNotificationBuilder(
+        return createNotificationWrapperBuilder(
                 preferCompat, channelId, remoteAppPackageName, null /* metadata */);
     }
 
@@ -56,7 +56,7 @@ public class NotificationBuilderFactory {
      * and passes it to the builder.
      * @param metadata Metadata contains notification id, tag, etc.
      */
-    public static ChromeNotificationBuilder createChromeNotificationBuilder(boolean preferCompat,
+    public static NotificationWrapperBuilder createNotificationWrapperBuilder(boolean preferCompat,
             String channelId, @Nullable String remoteAppPackageName,
             @Nullable NotificationMetadata metadata) {
         Context context = ContextUtils.getApplicationContext();
@@ -65,8 +65,8 @@ public class NotificationBuilderFactory {
             try {
                 context = context.createPackageContext(remoteAppPackageName, 0);
             } catch (PackageManager.NameNotFoundException e) {
-                throw new RuntimeException("Failed to create context for package "
-                        + remoteAppPackageName, e);
+                throw new RuntimeException(
+                        "Failed to create context for package " + remoteAppPackageName, e);
             }
         }
 
@@ -76,8 +76,9 @@ public class NotificationBuilderFactory {
         ChannelsInitializer channelsInitializer = new ChannelsInitializer(notificationManagerProxy,
                 ChromeChannelDefinitions.getInstance(), context.getResources());
 
-        return preferCompat
-                ? new NotificationCompatBuilder(context, channelId, channelsInitializer, metadata)
-                : new NotificationBuilder(context, channelId, channelsInitializer, metadata);
+        return preferCompat ? new ChromeNotificationWrapperCompatBuilder(
+                       context, channelId, channelsInitializer, metadata)
+                            : new ChromeNotificationWrapperStandardBuilder(
+                                    context, channelId, channelsInitializer, metadata);
     }
 }

@@ -11,12 +11,12 @@ import androidx.annotation.Nullable;
 /**
  * A wrapper class of {@link Notification}, which also contains the notification id and tag, etc.
  */
-public class ChromeNotification {
+public class NotificationWrapper {
     @Nullable
     private final Notification mNotification;
     private final NotificationMetadata mNotificationMetadata;
 
-    public ChromeNotification(@Nullable Notification notification, NotificationMetadata metadata) {
+    public NotificationWrapper(@Nullable Notification notification, NotificationMetadata metadata) {
         assert metadata != null;
         mNotification = notification;
         mNotificationMetadata = metadata;

@@ -4,21 +4,22 @@
 
 package org.chromium.chrome.browser.notifications;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 
-import org.chromium.components.browser_ui.notifications.ChromeNotificationBuilder;
 import org.chromium.components.browser_ui.notifications.NotificationMetadata;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperBuilder;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperStandardBuilder;
 import org.chromium.components.browser_ui.notifications.PendingIntentProvider;
 import org.chromium.components.browser_ui.notifications.channels.ChannelsInitializer;
 
 /**
- * Extends the base NotificationCompatBuilder to add UMA by way of
- * {@link NotificationIntentInterceptor}.
+ * Extends the base {@link NotificationWrapperStandardBuilder} to add UMA by way of {@link
+ * NotificationIntentInterceptor}.
  */
-public class NotificationCompatBuilder
-        extends org.chromium.components.browser_ui.notifications.NotificationCompatBuilder {
-    NotificationCompatBuilder(Context context, String channelId,
+public class ChromeNotificationWrapperStandardBuilder extends NotificationWrapperStandardBuilder {
+    ChromeNotificationWrapperStandardBuilder(Context context, String channelId,
             ChannelsInitializer channelsInitializer, NotificationMetadata metadata) {
         super(context, channelId, channelsInitializer, metadata);
         if (metadata != null) {
@@ -28,15 +29,15 @@ public class NotificationCompatBuilder
     }
 
     @Override
-    public ChromeNotificationBuilder setContentIntent(PendingIntentProvider contentIntent) {
+    public NotificationWrapperBuilder setContentIntent(PendingIntentProvider contentIntent) {
         PendingIntent pendingIntent = NotificationIntentInterceptor.createInterceptPendingIntent(
                 NotificationIntentInterceptor.IntentType.CONTENT_INTENT, 0 /* intentId */,
                 getMetadata(), contentIntent);
-        return setContentIntent(pendingIntent);
+        return super.setContentIntent(pendingIntent);
     }
 
     @Override
-    public ChromeNotificationBuilder addAction(int icon, CharSequence title,
+    public NotificationWrapperBuilder addAction(int icon, CharSequence title,
             PendingIntentProvider pendingIntentProvider,
             @NotificationUmaTracker.ActionType int actionType) {
         PendingIntent pendingIntent = NotificationIntentInterceptor.createInterceptPendingIntent(
@@ -46,7 +47,18 @@ public class NotificationCompatBuilder
     }
 
     @Override
-    public ChromeNotificationBuilder setDeleteIntent(PendingIntentProvider intent) {
+    public NotificationWrapperBuilder addAction(Notification.Action action, int flags,
+            @NotificationUmaTracker.ActionType int actionType) {
+        PendingIntent pendingIntent = NotificationIntentInterceptor.createInterceptPendingIntent(
+                NotificationIntentInterceptor.IntentType.ACTION_INTENT, actionType, getMetadata(),
+                new PendingIntentProvider(action.actionIntent, flags));
+        action.actionIntent = pendingIntent;
+        addAction(action);
+        return this;
+    }
+
+    @Override
+    public NotificationWrapperBuilder setDeleteIntent(PendingIntentProvider intent) {
         return setDeleteIntent(NotificationIntentInterceptor.createInterceptPendingIntent(
                 NotificationIntentInterceptor.IntentType.DELETE_INTENT, 0 /* intentId */,
                 getMetadata(), intent));

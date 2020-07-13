@@ -22,20 +22,21 @@ import org.chromium.chrome.R;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.browser.notifications.channels.ChromeChannelDefinitions;
 import org.chromium.chrome.test.ChromeJUnit4ClassRunner;
-import org.chromium.components.browser_ui.notifications.ChromeNotification;
-import org.chromium.components.browser_ui.notifications.ChromeNotificationBuilder;
 import org.chromium.components.browser_ui.notifications.NotificationManagerProxy;
 import org.chromium.components.browser_ui.notifications.NotificationManagerProxyImpl;
 import org.chromium.components.browser_ui.notifications.NotificationMetadata;
+import org.chromium.components.browser_ui.notifications.NotificationWrapper;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperBuilder;
 
 /**
- * Tests that ChromeNotificationBuilders created using
- * {@link NotificationBuilderFactory#createChromeNotificationBuilder(boolean, String)} can be built
- * and the notifications they build don't cause a crash when passed to NotificationManager#notify.
+ * Tests that NotificationWrapperBuilders created using
+ * {@link NotificationWrapperBuilderFactory#createNotificationWrapperBuilder(boolean, String)} can
+ * be built and the notifications they build don't cause a crash when passed to
+ * NotificationManager#notify.
  */
 @RunWith(ChromeJUnit4ClassRunner.class)
 @CommandLineFlags.Add({ChromeSwitches.DISABLE_FIRST_RUN_EXPERIENCE})
-public class NotificationBuilderFactoryTest {
+public class NotificationWrapperBuilderFactoryTest {
     private static final int TEST_NOTIFICATION_ID = 101;
 
     private NotificationManagerProxy mNotificationManager;
@@ -69,8 +70,8 @@ public class NotificationBuilderFactoryTest {
     @MediumTest
     @Test
     public void buildNotificationAndNotifyDoesNotCrash() {
-        ChromeNotificationBuilder notificationBuilder =
-                NotificationBuilderFactory.createChromeNotificationBuilder(
+        NotificationWrapperBuilder notificationBuilder =
+                NotificationWrapperBuilderFactory.createNotificationWrapperBuilder(
                         false, ChromeChannelDefinitions.ChannelId.BROWSER);
 
         Notification notification = notificationBuilder.setContentTitle("Title")
@@ -82,8 +83,8 @@ public class NotificationBuilderFactoryTest {
     @MediumTest
     @Test
     public void buildCompatNotificationAndNotifyDoesNotCrash() {
-        ChromeNotificationBuilder notificationBuilder =
-                NotificationBuilderFactory.createChromeNotificationBuilder(
+        NotificationWrapperBuilder notificationBuilder =
+                NotificationWrapperBuilderFactory.createNotificationWrapperBuilder(
                         true, ChromeChannelDefinitions.ChannelId.BROWSER);
 
         Notification notification = notificationBuilder.setContentTitle("Title")
@@ -95,17 +96,17 @@ public class NotificationBuilderFactoryTest {
 
     @MediumTest
     @Test
-    public void buildChromeNotification() {
-        ChromeNotificationBuilder builder =
-                NotificationBuilderFactory.createChromeNotificationBuilder(true,
+    public void buildNotificationWrapper() {
+        NotificationWrapperBuilder builder =
+                NotificationWrapperBuilderFactory.createNotificationWrapperBuilder(true,
                         ChromeChannelDefinitions.ChannelId.BROWSER, null,
                         new NotificationMetadata(
                                 NotificationUmaTracker.SystemNotificationType.BROWSER_ACTIONS, null,
                                 TEST_NOTIFICATION_ID));
 
-        ChromeNotification notification = builder.setContentTitle("Title")
-                                                  .setSmallIcon(R.drawable.ic_chrome)
-                                                  .buildChromeNotification();
+        NotificationWrapper notification = builder.setContentTitle("Title")
+                                                   .setSmallIcon(R.drawable.ic_chrome)
+                                                   .buildNotificationWrapper();
 
         mNotificationManager.notify(notification);
     }

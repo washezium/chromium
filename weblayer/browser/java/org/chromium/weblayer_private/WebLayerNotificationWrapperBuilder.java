@@ -15,32 +15,32 @@ import android.webkit.WebViewFactory;
 import androidx.annotation.NonNull;
 
 import org.chromium.base.ContextUtils;
-import org.chromium.components.browser_ui.notifications.ChromeNotificationBuilder;
-import org.chromium.components.browser_ui.notifications.NotificationBuilder;
 import org.chromium.components.browser_ui.notifications.NotificationManagerProxyImpl;
 import org.chromium.components.browser_ui.notifications.NotificationMetadata;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperBuilder;
+import org.chromium.components.browser_ui.notifications.NotificationWrapperStandardBuilder;
 import org.chromium.components.browser_ui.notifications.channels.ChannelsInitializer;
 
 /** A notification builder for WebLayer which has extra logic to make icons work correctly. */
-final class WebLayerNotificationBuilder extends NotificationBuilder {
+final class WebLayerNotificationWrapperBuilder extends NotificationWrapperStandardBuilder {
     /** Creates a notification builder. */
-    public static WebLayerNotificationBuilder create(
+    public static WebLayerNotificationWrapperBuilder create(
             @WebLayerNotificationChannels.ChannelId String channelId,
             @NonNull NotificationMetadata metadata) {
         Context appContext = ContextUtils.getApplicationContext();
         ChannelsInitializer initializer =
                 new ChannelsInitializer(new NotificationManagerProxyImpl(appContext),
                         WebLayerNotificationChannels.getInstance(), appContext.getResources());
-        return new WebLayerNotificationBuilder(appContext, channelId, initializer, metadata);
+        return new WebLayerNotificationWrapperBuilder(appContext, channelId, initializer, metadata);
     }
 
-    private WebLayerNotificationBuilder(Context context, String channelId,
+    private WebLayerNotificationWrapperBuilder(Context context, String channelId,
             ChannelsInitializer channelsInitializer, NotificationMetadata metadata) {
         super(context, channelId, channelsInitializer, metadata);
     }
 
     @Override
-    public ChromeNotificationBuilder setSmallIcon(int icon) {
+    public NotificationWrapperBuilder setSmallIcon(int icon) {
         if (WebLayerImpl.isAndroidResource(icon)) {
             super.setSmallIcon(icon);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -54,7 +54,8 @@ final class WebLayerNotificationBuilder extends NotificationBuilder {
 
     @Override
     @SuppressWarnings("deprecation")
-    public ChromeNotificationBuilder addAction(int icon, CharSequence title, PendingIntent intent) {
+    public NotificationWrapperBuilder addAction(
+            int icon, CharSequence title, PendingIntent intent) {
         if (WebLayerImpl.isAndroidResource(icon)) {
             super.addAction(icon, title, intent);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
