@@ -1113,6 +1113,10 @@ AutofillAssistantState Controller::GetState() {
   return state_;
 }
 
+int64_t Controller::GetErrorCausingNavigationId() const {
+  return error_causing_navigation_id_;
+}
+
 void Controller::OnScriptSelected(const ScriptHandle& handle,
                                   std::unique_ptr<TriggerContext> context) {
   ExecuteScript(handle.path, handle.start_message, handle.needs_ui,
@@ -1693,8 +1697,10 @@ void Controller::DidStartNavigation(
       web_contents()->GetLastCommittedURL().is_valid() &&
       !navigation_handle->WasServerRedirect() &&
       !navigation_handle->IsRendererInitiated()) {
+    error_causing_navigation_id_ = navigation_handle->GetNavigationId();
     OnScriptError(l10n_util::GetStringUTF8(IDS_AUTOFILL_ASSISTANT_GIVE_UP),
                   Metrics::DropOutReason::NAVIGATION);
+    return;
   }
 }
 
