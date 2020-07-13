@@ -1373,7 +1373,6 @@ chrome_java_sources = [
   "java/src/org/chromium/chrome/browser/settings/MainSettings.java",
   "java/src/org/chromium/chrome/browser/settings/SettingsActivity.java",
   "java/src/org/chromium/chrome/browser/settings/SettingsLauncherImpl.java",
-  "java/src/org/chromium/chrome/browser/share/ChromeShareExtras.java",
   "java/src/org/chromium/chrome/browser/share/LensUtils.java",
   "java/src/org/chromium/chrome/browser/share/OptionalShareTargetsManager.java",
   "java/src/org/chromium/chrome/browser/share/ShareButtonController.java",
