@@ -444,7 +444,7 @@ crbug.com/1056492 external/wpt/svg/painting/reftests/marker-path-001.svg [ Failu
 crbug.com/1050993 [ Linux ] virtual/gpu-rasterization/images/drag-image-descendant-painting-sibling.html [ Crash Pass Timeout ]
 
 # Flaky test.
-crbug.com/1054894 http/tests/images/image-decode-in-frame.html [ Pass Timeout ]
+crbug.com/1054894 [ Mac ] http/tests/images/image-decode-in-frame.html [ Pass Failure ]
 
 # ====== Paint team owned tests to here ======
 
