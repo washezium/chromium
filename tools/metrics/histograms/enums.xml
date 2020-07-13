@@ -39944,6 +39944,7 @@ from previous Chrome versions.
   <int value="-1696619241" label="OmniboxWrapPopupPosition:disabled"/>
   <int value="-1696366449" label="disable-permissions-bubbles"/>
   <int value="-1695774453" label="skip-extra-ash-window-positioning"/>
+  <int value="-1693498375" label="CdmFactoryDaemon:enabled"/>
   <int value="-1692967465"
       label="ContextMenuPerformanceInfoAndRemoteHintFetching:enabled"/>
   <int value="-1692384483" label="disambiguate-autofill-server-name-types"/>
@@ -41323,6 +41324,7 @@ from previous Chrome versions.
   <int value="-225505731" label="CCTModule:enabled"/>
   <int value="-222296540" label="VirtualKeyboardBorderedKey:disabled"/>
   <int value="-220599034" label="UsePdfCompositorServiceForPrint:enabled"/>
+  <int value="-217885320" label="CdmFactoryDaemon:disabled"/>
   <int value="-216219963" label="ash-shelf-color-scheme"/>
   <int value="-215580565"
       label="OmniboxEnableClipboardProviderImageSuggestions:disabled"/>

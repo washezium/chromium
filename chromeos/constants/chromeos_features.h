@@ -44,6 +44,8 @@ extern const base::Feature kBluetoothNextHandsfreeProfile;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kCameraSystemWebApp;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
+extern const base::Feature kCdmFactoryDaemon;
+COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kCrostiniPortForwarding;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kCrostiniDiskResizing;
