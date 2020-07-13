@@ -1576,6 +1576,19 @@ ci.fyi_builder(
     goma_backend = None,
 )
 
+# This is launching & collecting entirely isolated tests.
+# OS shouldn't matter.
+ci.fyi_builder(
+    name = 'mac-osxbeta-rel',
+    console_view_entry = ci.console_view_entry(
+        category = 'mac',
+        short_name = 'beta',
+    ),
+    goma_backend = None,
+    main_console_view = None,
+    triggered_by = ['ci/Mac Builder'],
+)
+
 ci.fyi_builder(
     name = 'win-pixel-builder-rel',
     console_view_entry = ci.console_view_entry(
@@ -1902,6 +1915,17 @@ ci.fyi_mac_builder(
     os = os.MAC_ANY,
 )
 
+
+ci.fyi_windows_builder(
+    name = 'Win10 Tests x64 1803',
+    console_view_entry = ci.console_view_entry(
+        category = 'win10|1803',
+    ),
+    goma_backend = None,
+    main_console_view = None,
+    os = os.WINDOWS_10,
+    triggered_by = ['ci/Win x64 Builder'],
+)
 
 ci.fyi_windows_builder(
     name = 'Win 10 Fast Ring',
