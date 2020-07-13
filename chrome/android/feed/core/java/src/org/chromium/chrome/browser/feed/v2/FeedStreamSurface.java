@@ -383,6 +383,16 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         updateContentsInPlace(newContentList);
     }
 
+    @CalledByNative
+    void replaceDataStoreEntry(String key, byte[] data) {
+        if (mSurfaceScope != null) mSurfaceScope.replaceDataStoreEntry(key, data);
+    }
+
+    @CalledByNative
+    void removeDataStoreEntry(String key) {
+        if (mSurfaceScope != null) mSurfaceScope.removeDataStoreEntry(key);
+    }
+
     private void updateContentsInPlace(
             ArrayList<FeedListContentManager.FeedContent> newContentList) {
         // 1) Builds the hash set based on keys of new contents.
