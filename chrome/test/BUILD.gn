@@ -4338,6 +4338,7 @@ test("unit_tests") {
       "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
       "//chrome/browser/resource_coordinator/tab_ranker:tab_features_test_helper",
       "//chrome/services/sharing:unit_tests",
+      "//chrome/services/sharing/nearby/platform_v2:unit_tests",
       "//chrome/services/sharing/nearby_decoder:unit_tests",
       "//chrome/services/sharing/public/cpp:unit_tests",
       "//chrome/services/speech:unit_tests",
