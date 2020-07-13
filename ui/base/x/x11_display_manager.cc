@@ -76,11 +76,6 @@ bool XDisplayManager::ProcessEvent(x11::Event* x11_event) {
   DCHECK(x11_event);
   XEvent* xev = &x11_event->xlib_event();
   int ev_type = xev->type - xrandr_event_base_;
-  if (ev_type == x11::RandR::ScreenChangeNotifyEvent::opcode) {
-    // Pass the event through to xlib.
-    XRRUpdateConfiguration(xev);
-    return true;
-  }
   if (ev_type == x11::RandR::NotifyEvent::opcode ||
       (xev->type == PropertyNotify &&
        xev->xproperty.atom ==
