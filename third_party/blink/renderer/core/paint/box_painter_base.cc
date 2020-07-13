@@ -533,8 +533,8 @@ inline bool PaintFastBottomLayer(Node* node,
 
     if (!image_border.Rect().IsEmpty()) {
       // We cannot optimize if the tile is too small.
-      if (geometry.TileSize().Width() < image_border.Rect().Width() ||
-          geometry.TileSize().Height() < image_border.Rect().Height())
+      if (geometry.TileSize().width < image_border.Rect().Width() ||
+          geometry.TileSize().height < image_border.Rect().Height())
         return false;
 
       // Phase calculation uses the actual painted location, given by the
