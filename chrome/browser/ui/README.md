@@ -8,15 +8,15 @@ This directory is often referred to in conversation as "cbui", pronounced "sea
 bee you eye".
 
 Important subdirectories:
-  views - the Views implementation of the UI, used on Windows, Mac, Linux, and
+* views - the Views implementation of the UI, used on Windows, Mac, Linux, and
           ChromeOS. This includes things like the browser window itself, tabs,
           dialogs, etc.
-  cocoa - the remaining Cocoa UI, used only on Mac. This directory used to
+* cocoa - the remaining Cocoa UI, used only on Mac. This directory used to
           contain a separate full implementation of the UI, parallel to the
           Views implementation.
-  android - part of the Android implementation of the UI. See also
+* android - part of the Android implementation of the UI. See also
             //chrome/browser/android.
-  webui - the WebUI parts of the browser UI. This includes things like the
+* webui - the WebUI parts of the browser UI. This includes things like the
           chrome://settings page and other WebUI pages.
 
 A common pattern is for code in //chrome/browser/ui to define a
@@ -27,11 +27,11 @@ Android implementation is often a stub.
 
 This pattern often looks like this:
 
-//chrome/browser/ui/browser_dialogs.h:
-  void ShowMyDialog(...);
+[//chrome/browser/ui/browser_dialogs.h](browser_dialogs.h):  
+    void ShowMyDialog(...);
 
-//chrome/browser/ui/views/my_dialog_views.cc:
-  void ShowMyDialog(...) { ... }
+//chrome/browser/ui/views/my_dialog_views.cc:  
+    void ShowMyDialog(...) { ... }
 
-//chrome/browser/ui/android/my_dialog_android.cc:
-  void ShowMyDialog(...) { ... }
+//chrome/browser/ui/android/my_dialog_android.cc:  
+    void ShowMyDialog(...) { ... }
