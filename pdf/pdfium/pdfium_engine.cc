@@ -41,6 +41,7 @@
 #include "pdf/pdfium/pdfium_mem_buffer_file_write.h"
 #include "pdf/pdfium/pdfium_permissions.h"
 #include "pdf/pdfium/pdfium_unsupported_features.h"
+#include "pdf/ppapi_migration/bitmap.h"
 #include "pdf/ppapi_migration/input_event_conversions.h"
 #include "pdf/url_loader_wrapper_impl.h"
 #include "ppapi/c/ppb_input_event.h"
@@ -56,6 +57,7 @@
 #include "third_party/pdfium/public/fpdf_fwlevent.h"
 #include "third_party/pdfium/public/fpdf_ppo.h"
 #include "third_party/pdfium/public/fpdf_searchex.h"
+#include "third_party/skia/include/core/SkBitmap.h"
 #include "ui/events/keycodes/keyboard_codes.h"
 #include "ui/gfx/geometry/rect.h"
 #include "v8/include/v8.h"
@@ -3501,8 +3503,12 @@ void PDFiumEngine::DrawPageShadow(const pp::Rect& page_rc,
         depth, factor, client_->GetBackgroundColor());
   }
 
+  // TODO(crbug.com/1099020): Converting to SkBitmap here may seem silly, but
+  // this is part of a migration from pp::ImageData to SkBitmap in general.
   DCHECK(!image_data->is_null());
-  DrawShadow(image_data, shadow_rect, page_rect, clip_rect, *page_shadow_);
+  SkBitmap bitmap =
+      SkBitmapFromPPImageData(std::make_unique<pp::ImageData>(*image_data));
+  DrawShadow(bitmap, shadow_rect, page_rect, clip_rect, *page_shadow_);
 }
 
 void PDFiumEngine::GetRegion(const pp::Point& location,

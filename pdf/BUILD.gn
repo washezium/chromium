@@ -57,6 +57,8 @@ if (enable_pdf) {
       "pdf_ppapi.cc",
       "pdf_transform.cc",
       "pdf_transform.h",
+      "ppapi_migration/bitmap.cc",
+      "ppapi_migration/bitmap.h",
       "ppapi_migration/callback.cc",
       "ppapi_migration/callback.h",
       "ppapi_migration/geometry_conversions.cc",
@@ -91,6 +93,7 @@ if (enable_pdf) {
       "//net",
       "//ppapi/cpp:objects",
       "//ppapi/cpp/private:internal_module",
+      "//skia",
       "//ui/base",
       "//ui/gfx/range",
     ]
