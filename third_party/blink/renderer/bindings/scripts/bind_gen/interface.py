@@ -1225,17 +1225,11 @@ def make_report_deprecate_as(cg_context):
     return node
 
 
-def make_report_measure_as(cg_context):
+def _make_measure_web_feature_constant(cg_context):
     assert isinstance(cg_context, CodeGenContext)
 
     target = cg_context.member_like or cg_context.property_
     ext_attrs = target.extended_attributes
-    if not ("Measure" in ext_attrs or "MeasureAs" in ext_attrs):
-        assert "HighEntropy" not in ext_attrs, "{}: {}".format(
-            cg_context.idl_location_and_name,
-            "[HighEntropy] must be specified with either [Measure] or "
-            "[MeasureAs].")
-        return None
 
     suffix = ""
     if cg_context.attribute_get:
@@ -1248,6 +1242,7 @@ def make_report_measure_as(cg_context):
         suffix = "_ConstructorGetter"
     elif cg_context.operation:
         suffix = "_Method"
+
     name = ext_attrs.value_of("MeasureAs") or ext_attrs.value_of("Measure")
     if name:
         name = "k{}".format(name)
@@ -1259,30 +1254,57 @@ def make_report_measure_as(cg_context):
             name_style.raw.upper_camel_case(cg_context.property_.identifier),
             suffix)
 
-    node = SequenceNode()
+    return "WebFeature::{}".format(name)
 
-    pattern = ("// [Measure], [MeasureAs]\n"
-               "UseCounter::Count(${execution_context}, WebFeature::{_1});")
-    _1 = name
-    node.append(TextNode(_format(pattern, _1=_1)))
+
+def make_report_high_entropy(cg_context):
+    assert isinstance(cg_context, CodeGenContext)
+
+    target = cg_context.member_like or cg_context.property_
+    ext_attrs = target.extended_attributes
+    if cg_context.attribute_set or "HighEntropy" not in ext_attrs:
+        return None
+    assert "Measure" in ext_attrs or "MeasureAs" in ext_attrs, "{}: {}".format(
+        cg_context.idl_location_and_name,
+        "[HighEntropy] must be specified with either [Measure] or "
+        "[MeasureAs].")
+
+    if ext_attrs.value_of("HighEntropy") == "Direct":
+        text = _format(
+            "// [HighEntropy=Direct]\n"
+            "Dactyloscoper::RecordDirectSurface"
+            "(${execution_context}, {measure_constant}, ${return_value});",
+            measure_constant=_make_measure_web_feature_constant(cg_context))
+    else:
+        text = _format(
+            "// [HighEntropy]\n"
+            "Dactyloscoper::Record(${execution_context}, {measure_constant});",
+            measure_constant=_make_measure_web_feature_constant(cg_context))
+    node = TextNode(text)
+    node.accumulate(
+        CodeGenAccumulator.require_include_headers(
+            ["third_party/blink/renderer/core/frame/dactyloscoper.h"]))
+    return node
+
+
+def make_report_measure_as(cg_context):
+    assert isinstance(cg_context, CodeGenContext)
+
+    target = cg_context.member_like or cg_context.property_
+    ext_attrs = target.extended_attributes
+    if not ("Measure" in ext_attrs or "MeasureAs" in ext_attrs):
+        return None
+
+    text = _format(
+        "// [Measure], [MeasureAs]\n"
+        "UseCounter::Count(${execution_context}, {measure_constant});",
+        measure_constant=_make_measure_web_feature_constant(cg_context))
+    node = TextNode(text)
     node.accumulate(
         CodeGenAccumulator.require_include_headers([
             "third_party/blink/renderer/core/frame/web_feature.h",
             "third_party/blink/renderer/platform/instrumentation/use_counter.h",
         ]))
-
-    if "HighEntropy" not in ext_attrs or cg_context.attribute_set:
-        return node
-
-    pattern = (
-        "// [HighEntropy]\n"
-        "Dactyloscoper::Record(${execution_context}, WebFeature::{_1});")
-    _1 = name
-    node.append(TextNode(_format(pattern, _1=_1)))
-    node.accumulate(
-        CodeGenAccumulator.require_include_headers(
-            ["third_party/blink/renderer/core/frame/dactyloscoper.h"]))
-
     return node
 
 
@@ -1632,6 +1654,7 @@ def make_attribute_get_callback_def(cg_context, function_name):
         EmptyNode(),
         make_check_security_of_return_value(cg_context),
         make_v8_set_return_value(cg_context),
+        make_report_high_entropy(cg_context),
         make_return_value_cache_update_value(cg_context),
     ])
 
@@ -1753,6 +1776,7 @@ def make_constant_callback_def(cg_context, function_name):
         logging_nodes,
         EmptyNode(),
         TextNode(v8_set_return_value),
+        make_report_high_entropy(cg_context),
     ])
 
     return func_def
@@ -2013,6 +2037,7 @@ def make_operation_function_def(cg_context, function_name):
         EmptyNode(),
         make_check_security_of_return_value(cg_context),
         make_v8_set_return_value(cg_context),
+        make_report_high_entropy(cg_context),
     ])
 
     return func_def
