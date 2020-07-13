@@ -99,6 +99,8 @@ const char kPrefetchLoopPage[] = "/prerender/prefetch_loop.html";
 const char kPrefetchMetaCSP[] = "/prerender/prefetch_meta_csp.html";
 const char kPrefetchNostorePage[] = "/prerender/prefetch_nostore_page.html";
 const char kPrefetchPage[] = "/prerender/prefetch_page.html";
+const char kPrefetchPageWithFragment[] =
+    "/prerender/prefetch_page.html#fragment";
 const char kPrefetchPage2[] = "/prerender/prefetch_page2.html";
 const char kPrefetchPageBigger[] = "/prerender/prefetch_page_bigger.html";
 const char kPrefetchPageMultipleResourceTypes[] =
@@ -1031,6 +1033,15 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
   // |PrefetchClientRedirect| above.
   WaitForRequestCount(src_server()->GetURL(kPrefetchScript2), 1);
   WaitForRequestCount(src_server()->GetURL(kPrefetchDownloadFile), 0);
+}
+
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, PrefetchPageWithFragment) {
+  std::unique_ptr<TestPrerender> test_prerender = PrefetchFromFile(
+      kPrefetchPageWithFragment, FINAL_STATUS_NOSTATE_PREFETCH_FINISHED);
+
+  test_prerender->WaitForLoads(0);
+  WaitForRequestCount(src_server()->GetURL(kPrefetchScript), 1);
+  WaitForRequestCount(src_server()->GetURL(kPrefetchScript2), 0);
 }
 
 // Checks that a prefetch of a CRX will result in a cancellation due to

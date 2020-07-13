@@ -449,27 +449,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
         expect_swap_to_succeed);
   }
 
-  void NavigateToURL(const std::string& dest_html_file) const {
-    NavigateToURLWithDisposition(dest_html_file,
-                                 WindowOpenDisposition::CURRENT_TAB, true);
-  }
-
-  void NavigateToURLWithDisposition(const std::string& dest_html_file,
-                                    WindowOpenDisposition disposition,
-                                    bool expect_swap_to_succeed) const {
-    GURL dest_url = embedded_test_server()->GetURL(dest_html_file);
-    NavigateToURLWithDisposition(dest_url, disposition, expect_swap_to_succeed);
-  }
-
-  void NavigateToURLWithDisposition(const GURL& dest_url,
-                                    WindowOpenDisposition disposition,
-                                    bool expect_swap_to_succeed) const {
-    NavigateToURLWithParams(
-        content::OpenURLParams(dest_url, Referrer(), disposition,
-                               ui::PAGE_TRANSITION_TYPED, false),
-        expect_swap_to_succeed);
-  }
-
   void NavigateToURLWithParams(const content::OpenURLParams& params,
                                bool expect_swap_to_succeed) const {
     NavigateToURLImpl(params, expect_swap_to_succeed);
@@ -975,50 +954,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerAfterPrerender) {
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, final));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderPageWithFragment) {
-  PrerenderTestURL("/prerender/prerender_page.html#fragment", FINAL_STATUS_USED,
-                   1);
-
-  ChannelDestructionWatcher channel_close_watcher;
-  channel_close_watcher.WatchChannel(browser()
-                                         ->tab_strip_model()
-                                         ->GetActiveWebContents()
-                                         ->GetMainFrame()
-                                         ->GetProcess());
-  NavigateToDestURL();
-  channel_close_watcher.WaitForChannelClose();
-
-  ASSERT_TRUE(IsEmptyPrerenderLinkManager());
-}
-
-// Checks that we do not use a prerendered page when navigating from
-// the main page to a fragment.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderPageNavigateFragment) {
-  PrerenderTestURL("/prerender/no_prerender_page.html",
-                   FINAL_STATUS_APP_TERMINATING, 1);
-  NavigateToURLWithDisposition("/prerender/no_prerender_page.html#fragment",
-                               WindowOpenDisposition::CURRENT_TAB, false);
-}
-
-// Checks that we do not use a prerendered page when we prerender a fragment
-// but navigate to the main page.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderFragmentNavigatePage) {
-  PrerenderTestURL("/prerender/no_prerender_page.html#fragment",
-                   FINAL_STATUS_APP_TERMINATING, 1);
-  NavigateToURLWithDisposition("/prerender/no_prerender_page.html",
-                               WindowOpenDisposition::CURRENT_TAB, false);
-}
-
-// Checks that we do not use a prerendered page when we prerender a fragment
-// but navigate to a different fragment on the same page.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest,
-                       PrerenderFragmentNavigateFragment) {
-  PrerenderTestURL("/prerender/no_prerender_page.html#other_fragment",
-                   FINAL_STATUS_APP_TERMINATING, 1);
-  NavigateToURLWithDisposition("/prerender/no_prerender_page.html#fragment",
-                               WindowOpenDisposition::CURRENT_TAB, false);
 }
 
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderCancelAll) {
