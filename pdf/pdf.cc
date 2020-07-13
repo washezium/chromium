@@ -10,7 +10,7 @@
 
 #include "base/macros.h"
 #include "pdf/out_of_process_instance.h"
-#include "pdf/pdf_ppapi.h"
+#include "pdf/pdf_init.h"
 
 namespace chrome_pdf {
 
