@@ -11,13 +11,19 @@ import subprocess
 import sys
 
 
-def embed_version(input_file, output_file, version):
+def embed_version(input_file, output_file, version, product_full_name):
     fin = open(input_file, 'r')
     fout = open(output_file, 'w')
-    replace_string = 'UPDATE_VERSION=\"' + version + '\"'
 
-    for line in fin:
-        fout.write(line.replace('UPDATE_VERSION=', replace_string))
+    if version:
+        replace_string = 'UPDATE_VERSION=\"' + version + '\"'
+        for line in fin:
+            fout.write(line.replace('UPDATE_VERSION=', replace_string))
+
+    if product_full_name:
+        replace_string = 'PRODUCT_NAME=\"' + product_full_name + '\"'
+        for line in fin:
+            fout.write(line.replace('PRODUCT_NAME=', replace_string))
 
     fin.close()
     fout.close()
@@ -36,16 +42,21 @@ def parse_options():
         '-v',
         '--version',
         help='Version of the application bundle being built.')
+    parser.add_option(
+        '-p',
+        '--product_full_name',
+        help='Name of the product being built.')
     options, _ = parser.parse_args()
 
-    if not options.version:
-        parser.error('You must provide a version')
+    if not options.version and not options.product_full_name:
+        parser.error('You must provide a version or a product name')
 
     return options
 
 
 def main(options):
-    embed_version(options.input_file, options.output_file, options.version)
+    embed_version(options.input_file, options.output_file,
+                  options.version, options.product_full_name)
     return 0
 
 
