@@ -597,6 +597,11 @@ class DeepScanningReportingTest : public DeepScanningRequestTest {
                 /*disabled*/ {});
   }
 
+  void TearDown() override {
+    extensions::SafeBrowsingPrivateEventRouterFactory::GetForProfile(profile_)
+        ->SetCloudPolicyClientForTesting(nullptr);
+  }
+
  protected:
   std::unique_ptr<policy::MockCloudPolicyClient> client_;
 };
