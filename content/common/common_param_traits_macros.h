@@ -24,9 +24,8 @@ IPC_ENUM_TRAITS_MAX_VALUE(blink::WebDeviceEmulationParams::ScreenPosition,
 IPC_ENUM_TRAITS_MAX_VALUE(content::ScreenOrientationValues,
                           content::SCREEN_ORIENTATION_VALUES_LAST)
 
-IPC_ENUM_TRAITS_MIN_MAX_VALUE(blink::WebScreenOrientationType,
-                              blink::kWebScreenOrientationUndefined,
-                              blink::WebScreenOrientationTypeLast)
+IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::ScreenOrientation,
+                          blink::mojom::ScreenOrientation::kMaxValue)
 
 IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::DisplayMode,
                           blink::mojom::DisplayMode::kMaxValue)

@@ -264,13 +264,13 @@ MediaControlsOrientationLockDelegate::ComputeOrientationLock() const {
 
   ChromeClient& chrome_client = frame->GetChromeClient();
   switch (chrome_client.GetScreenInfo(*frame).orientation_type) {
-    case kWebScreenOrientationPortraitPrimary:
-    case kWebScreenOrientationPortraitSecondary:
+    case mojom::blink::ScreenOrientation::kPortraitPrimary:
+    case mojom::blink::ScreenOrientation::kPortraitSecondary:
       return kWebScreenOrientationLockPortrait;
-    case kWebScreenOrientationLandscapePrimary:
-    case kWebScreenOrientationLandscapeSecondary:
+    case mojom::blink::ScreenOrientation::kLandscapePrimary:
+    case mojom::blink::ScreenOrientation::kLandscapeSecondary:
       return kWebScreenOrientationLockLandscape;
-    case kWebScreenOrientationUndefined:
+    case mojom::blink::ScreenOrientation::kUndefined:
       return kWebScreenOrientationLockLandscape;
   }
 

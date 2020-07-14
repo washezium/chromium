@@ -13,7 +13,7 @@
 #include "mojo/public/cpp/bindings/scoped_interface_endpoint_handle.h"
 #include "services/device/public/mojom/screen_orientation.mojom.h"
 #include "third_party/blink/public/common/screen_orientation/web_screen_orientation_lock_type.h"
-#include "third_party/blink/public/common/screen_orientation/web_screen_orientation_type.h"
+#include "third_party/blink/public/mojom/widget/screen_orientation.mojom.h"
 
 namespace blink {
 class WebLocalFrame;
@@ -28,9 +28,9 @@ class MockScreenOrientationClient : public device::mojom::ScreenOrientation {
 
   void ResetData();
   bool UpdateDeviceOrientation(blink::WebLocalFrame* main_frame,
-                               blink::WebScreenOrientationType orientation);
+                               blink::mojom::ScreenOrientation orientation);
 
-  blink::WebScreenOrientationType CurrentOrientationType() const;
+  blink::mojom::ScreenOrientation CurrentOrientationType() const;
   unsigned CurrentOrientationAngle() const;
   bool IsDisabled() const { return is_disabled_; }
   void SetDisabled(bool disabled);
@@ -48,16 +48,19 @@ class MockScreenOrientationClient : public device::mojom::ScreenOrientation {
                       LockOrientationCallback callback);
   void ResetLockSync();
 
-  bool UpdateScreenOrientation(blink::WebScreenOrientationType);
-  bool IsOrientationAllowedByCurrentLock(blink::WebScreenOrientationType);
-  blink::WebScreenOrientationType SuitableOrientationForCurrentLock();
-  static unsigned OrientationTypeToAngle(blink::WebScreenOrientationType);
+  bool UpdateScreenOrientation(blink::mojom::ScreenOrientation);
+  bool IsOrientationAllowedByCurrentLock(blink::mojom::ScreenOrientation);
+  blink::mojom::ScreenOrientation SuitableOrientationForCurrentLock();
+  static unsigned OrientationTypeToAngle(blink::mojom::ScreenOrientation);
 
-  blink::WebLocalFrame* main_frame_;
-  blink::WebScreenOrientationLockType current_lock_;
-  blink::WebScreenOrientationType device_orientation_;
-  blink::WebScreenOrientationType current_orientation_;
-  bool is_disabled_;
+  blink::WebLocalFrame* main_frame_ = nullptr;
+  blink::WebScreenOrientationLockType current_lock_ =
+      blink::kWebScreenOrientationLockDefault;
+  blink::mojom::ScreenOrientation device_orientation_ =
+      blink::mojom::ScreenOrientation::kPortraitPrimary;
+  blink::mojom::ScreenOrientation current_orientation_ =
+      blink::mojom::ScreenOrientation::kPortraitPrimary;
+  bool is_disabled_ = false;
   mojo::AssociatedReceiverSet<device::mojom::ScreenOrientation> receivers_;
 
   DISALLOW_COPY_AND_ASSIGN(MockScreenOrientationClient);

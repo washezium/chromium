@@ -6,7 +6,6 @@
 
 #include "content/browser/renderer_host/display_util.h"
 #include "testing/gtest/include/gtest/gtest.h"
-#include "third_party/blink/public/common/screen_orientation/web_screen_orientation_type.h"
 #include "ui/display/display.h"
 
 namespace content {

@@ -8,7 +8,6 @@
 
 #include "base/stl_util.h"
 #include "services/network/public/mojom/web_sandbox_flags.mojom-blink.h"
-#include "third_party/blink/public/common/screen_orientation/web_screen_orientation_type.h"
 #include "third_party/blink/renderer/bindings/core/v8/script_promise.h"
 #include "third_party/blink/renderer/bindings/core/v8/script_promise_resolver.h"
 #include "third_party/blink/renderer/core/dom/dom_exception.h"
@@ -19,15 +18,15 @@
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 
-// This code assumes that WebScreenOrientationType values are included in
+// This code assumes that mojom::blink::ScreenOrientation values are included in
 // WebScreenOrientationLockType.
-STATIC_ASSERT_ENUM(blink::kWebScreenOrientationPortraitPrimary,
+STATIC_ASSERT_ENUM(blink::mojom::blink::ScreenOrientation::kPortraitPrimary,
                    blink::kWebScreenOrientationLockPortraitPrimary);
-STATIC_ASSERT_ENUM(blink::kWebScreenOrientationPortraitSecondary,
+STATIC_ASSERT_ENUM(blink::mojom::blink::ScreenOrientation::kPortraitSecondary,
                    blink::kWebScreenOrientationLockPortraitSecondary);
-STATIC_ASSERT_ENUM(blink::kWebScreenOrientationLandscapePrimary,
+STATIC_ASSERT_ENUM(blink::mojom::blink::ScreenOrientation::kLandscapePrimary,
                    blink::kWebScreenOrientationLockLandscapePrimary);
-STATIC_ASSERT_ENUM(blink::kWebScreenOrientationLandscapeSecondary,
+STATIC_ASSERT_ENUM(blink::mojom::blink::ScreenOrientation::kLandscapeSecondary,
                    blink::kWebScreenOrientationLockLandscapeSecondary);
 
 namespace blink {
@@ -66,7 +65,7 @@ static ScreenOrientationInfo* OrientationsMap(unsigned& length) {
 }
 
 const AtomicString& ScreenOrientation::OrientationTypeToString(
-    WebScreenOrientationType orientation) {
+    mojom::blink::ScreenOrientation orientation) {
   unsigned length = 0;
   ScreenOrientationInfo* orientation_map = OrientationsMap(length);
   for (unsigned i = 0; i < length; ++i) {
@@ -103,7 +102,7 @@ ScreenOrientation* ScreenOrientation::Create(LocalDOMWindow* window) {
 
 ScreenOrientation::ScreenOrientation(LocalDOMWindow* window)
     : ExecutionContextClient(window),
-      type_(kWebScreenOrientationUndefined),
+      type_(mojom::blink::ScreenOrientation::kUndefined),
       angle_(0) {}
 
 ScreenOrientation::~ScreenOrientation() = default;
@@ -124,7 +123,7 @@ uint16_t ScreenOrientation::angle() const {
   return angle_;
 }
 
-void ScreenOrientation::SetType(WebScreenOrientationType type) {
+void ScreenOrientation::SetType(mojom::blink::ScreenOrientation type) {
   type_ = type;
 }
 
