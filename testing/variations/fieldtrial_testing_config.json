@@ -5418,6 +5418,21 @@
             ]
         }
     ],
+    "QRCodeGenerationStudy": [
+        {
+            "platforms": [
+                "ios"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "QRCodeGeneration"
+                    ]
+                }
+            ]
+        }
+    ],
     "QUIC": [
         {
             "platforms": [
@@ -8043,21 +8058,6 @@
                     "name": "Enabled",
                     "enable_features": [
                         "WinrtSensorsImplementation"
-                    ]
-                }
-            ]
-        }
-    ],
-    "iOSQRCodeGenerator": [
-        {
-            "platforms": [
-                "ios"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "QRCodeGeneration"
                     ]
                 }
             ]
