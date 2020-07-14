@@ -787,15 +787,9 @@ class DragAndDropBrowserTest : public InProcessBrowserTest,
   DISALLOW_COPY_AND_ASSIGN(DragAndDropBrowserTest);
 };
 
-#if defined(OS_WIN)
-// Flaky: https://crbug.com/988938
-#define MAYBE_DropTextFromOutside DISABLED_DropTextFromOutside
-#else
-#define MAYBE_DropTextFromOutside DropTextFromOutside
-#endif
 // Scenario: drag text from outside the browser and drop to the right frame.
 // Test coverage: dragover, drop DOM events.
-IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, MAYBE_DropTextFromOutside) {
+IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, DropTextFromOutside) {
   std::string frame_site = use_cross_site_subframe() ? "b.com" : "a.com";
   ASSERT_TRUE(NavigateToTestPage("a.com"));
   ASSERT_TRUE(NavigateRightFrame(frame_site, "drop_target.html"));
@@ -829,12 +823,6 @@ IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, MAYBE_DropTextFromOutside) {
   }
 }
 
-#if defined(OS_WIN)
-// Flaky: https://crbug.com/988938
-#define MAYBE_DropValidUrlFromOutside DISABLED_DropValidUrlFromOutside
-#else
-#define MAYBE_DropValidUrlFromOutside DropValidUrlFromOutside
-#endif
 // Scenario: drag URL from outside the browser and drop to the right frame
 // (e.g. this is similar to a drag that starts from the bookmarks bar, except
 // that here there is no drag start event - as-if the drag was started in
@@ -843,7 +831,7 @@ IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, MAYBE_DropTextFromOutside) {
 // This test mostly focuses on covering 1) the navigation path, 2) focus
 // behavior.  This test explicitly does not cover the dragover and/or drop DOM
 // events - they are already covered via the DropTextFromOutside test above.
-IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, MAYBE_DropValidUrlFromOutside) {
+IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, DropValidUrlFromOutside) {
   std::string frame_site = use_cross_site_subframe() ? "b.com" : "a.com";
   ASSERT_TRUE(NavigateToTestPage("a.com"));
   ASSERT_TRUE(NavigateRightFrame(frame_site, "title1.html"));
@@ -939,8 +927,7 @@ IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, DropFileFromOutside) {
   EXPECT_TRUE(ui_test_utils::IsViewFocused(browser(), VIEW_ID_TAB_CONTAINER));
 }
 
-#if defined(OS_WIN) || defined(OS_LINUX) || defined(THREAD_SANITIZER)
-// Win/Linux Flaky: https://crbug.com/988938
+#if defined(THREAD_SANITIZER)
 // TSAN Race condition: crbug.com/1005095
 #define MAYBE_DropForbiddenUrlFromOutside DISABLED_DropForbiddenUrlFromOutside
 #else
@@ -984,15 +971,9 @@ IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest,
   EXPECT_EQ(initial_history_count, controller.GetEntryCount());
 }
 
-#if !defined(NDEBUG) || defined(OS_WIN)
-// Flaky: https://crbug.com/988938
-#define MAYBE_DragStartInFrame DISABLED_DragStartInFrame
-#else
-#define MAYBE_DragStartInFrame DragStartInFrame
-#endif
 // Scenario: starting a drag in left frame
 // Test coverage: dragstart DOM event, dragstart data passed to the OS.
-IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, MAYBE_DragStartInFrame) {
+IN_PROC_BROWSER_TEST_P(DragAndDropBrowserTest, DragStartInFrame) {
   std::string frame_site = use_cross_site_subframe() ? "b.com" : "a.com";
   ASSERT_TRUE(NavigateToTestPage("a.com"));
   ASSERT_TRUE(NavigateLeftFrame(frame_site, "image_source.html"));
