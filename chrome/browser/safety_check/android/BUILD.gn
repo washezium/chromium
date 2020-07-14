@@ -36,6 +36,7 @@ android_library("java") {
     ":java_resources",
     "//base:base_java",
     "//base:jni_java",
+    "//chrome/browser/preferences:java",
     "//components/browser_ui/settings/android:java",
     "//third_party/android_deps:android_support_v7_appcompat_java",
     "//third_party/android_deps:androidx_fragment_fragment_java",
