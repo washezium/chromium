@@ -419,7 +419,7 @@ PhysicalRect NGPhysicalBoxFragment::ComputeSelfInkOverflow() const {
           PhysicalOffset(),
           GetLayoutObject()->OutlineRectsShouldIncludeBlockVisualOverflow(),
           &outline_rects);
-      PhysicalRect rect = UnionRectEvenIfEmpty(outline_rects);
+      PhysicalRect rect = UnionRect(outline_rects);
       rect.Inflate(LayoutUnit(style.OutlineOutsetExtent()));
       ink_overflow.Unite(rect);
     }
