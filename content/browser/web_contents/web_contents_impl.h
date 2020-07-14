@@ -1200,7 +1200,7 @@ class CONTENT_EXPORT WebContentsImpl : public WebContents,
   void OnDidRunInsecureContent(RenderFrameHostImpl* source,
                                const GURL& security_origin,
                                const GURL& target_url);
-  void OnDidDisplayContentWithCertificateErrors(RenderFrameHostImpl* source);
+  void OnDidDisplayContentWithCertificateErrors();
   void OnDidRunContentWithCertificateErrors(RenderFrameHostImpl* source);
 
   JavaScriptDialogNavigationDeferrer* GetJavaScriptDialogNavigationDeferrer() {
