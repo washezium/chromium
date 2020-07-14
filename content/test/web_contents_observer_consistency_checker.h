@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_TEST_WEB_CONTENTS_OBSERVER_SEQUENCE_CHECKER_H_
-#define CONTENT_TEST_WEB_CONTENTS_OBSERVER_SEQUENCE_CHECKER_H_
+#ifndef CONTENT_TEST_WEB_CONTENTS_OBSERVER_CONSISTENCY_CHECKER_H_
+#define CONTENT_TEST_WEB_CONTENTS_OBSERVER_CONSISTENCY_CHECKER_H_
 
 #include <map>
 #include <set>
@@ -18,25 +18,27 @@
 
 namespace content {
 
-// If your test framework enables a ContentBrowserSequenceChecker, this sequence
-// checker is automatically installed on all WebContentses during your test.
+// If your test framework enables a ContentBrowserConsistencyChecker, this
+// consistency checker is automatically installed on all WebContentses during
+// your test.
 //
-// WebContentsObserverSequenceChecker is a WebContentsObserver that checks the
-// sequence of observer calls, and CHECK()s if they are inconsistent. These
-// checks are test-only code designed to find bugs in the implementation of the
-// content layer by validating the contract between WebContents and its
+// WebContentsObserverConsistencyChecker is a WebContentsObserver that checks
+// the consistency of observer calls, and CHECK()s if they are inconsistent.
+// These checks are test-only code designed to find bugs in the implementation
+// of the content layer by validating the contract between WebContents and its
 // observers.
 //
 // For example, WebContentsObserver::RenderFrameCreated announces the existence
 // of a new RenderFrameHost, so that method call must occur before the
 // RenderFrameHost is referenced by some other WebContentsObserver method.
-class WebContentsObserverSequenceChecker : public WebContentsObserver,
-                                           public base::SupportsUserData::Data {
+class WebContentsObserverConsistencyChecker
+    : public WebContentsObserver,
+      public base::SupportsUserData::Data {
  public:
-  ~WebContentsObserverSequenceChecker() override;
+  ~WebContentsObserverConsistencyChecker() override;
 
   // Enables these checks on |web_contents|. Usually
-  // ContentBrowserSequenceChecker should call this for you.
+  // ContentBrowserConsistencyChecker should call this for you.
   static void Enable(WebContents* web_contents);
 
   // WebContentsObserver implementation.
@@ -80,7 +82,7 @@ class WebContentsObserverSequenceChecker : public WebContentsObserver,
   void DidStopLoading() override;
 
  private:
-  explicit WebContentsObserverSequenceChecker(WebContents* web_contents);
+  explicit WebContentsObserverConsistencyChecker(WebContents* web_contents);
 
   std::string Format(RenderFrameHost* render_frame_host);
   void AssertRenderFrameExists(RenderFrameHost* render_frame_host);
@@ -106,9 +108,9 @@ class WebContentsObserverSequenceChecker : public WebContentsObserver,
 
   bool web_contents_destroyed_;
 
-  DISALLOW_COPY_AND_ASSIGN(WebContentsObserverSequenceChecker);
+  DISALLOW_COPY_AND_ASSIGN(WebContentsObserverConsistencyChecker);
 };
 
 }  // namespace content
 
-#endif  // CONTENT_TEST_WEB_CONTENTS_OBSERVER_SEQUENCE_CHECKER_H_
+#endif  // CONTENT_TEST_WEB_CONTENTS_OBSERVER_CONSISTENCY_CHECKER_H_

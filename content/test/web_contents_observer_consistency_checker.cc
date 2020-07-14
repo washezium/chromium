@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/test/web_contents_observer_sequence_checker.h"
+#include "content/test/web_contents_observer_consistency_checker.h"
 
 #include "base/memory/ptr_util.h"
 #include "base/stl_util.h"
@@ -23,8 +23,8 @@ namespace content {
 
 namespace {
 
-const char kWebContentsObserverSequenceCheckerKey[] =
-    "WebContentsObserverSequenceChecker";
+const char kWebContentsObserverConsistencyCheckerKey[] =
+    "WebContentsObserverConsistencyChecker";
 
 GlobalRoutingID GetRoutingPair(RenderFrameHost* host) {
   if (!host)
@@ -35,15 +35,16 @@ GlobalRoutingID GetRoutingPair(RenderFrameHost* host) {
 }  // namespace
 
 // static
-void WebContentsObserverSequenceChecker::Enable(WebContents* web_contents) {
-  if (web_contents->GetUserData(&kWebContentsObserverSequenceCheckerKey))
+void WebContentsObserverConsistencyChecker::Enable(WebContents* web_contents) {
+  if (web_contents->GetUserData(&kWebContentsObserverConsistencyCheckerKey))
     return;
   web_contents->SetUserData(
-      &kWebContentsObserverSequenceCheckerKey,
-      base::WrapUnique(new WebContentsObserverSequenceChecker(web_contents)));
+      &kWebContentsObserverConsistencyCheckerKey,
+      base::WrapUnique(
+          new WebContentsObserverConsistencyChecker(web_contents)));
 }
 
-void WebContentsObserverSequenceChecker::RenderFrameCreated(
+void WebContentsObserverConsistencyChecker::RenderFrameCreated(
     RenderFrameHost* render_frame_host) {
   CHECK(!web_contents_destroyed_);
   GlobalRoutingID routing_pair = GetRoutingPair(render_frame_host);
@@ -80,7 +81,7 @@ void WebContentsObserverSequenceChecker::RenderFrameCreated(
   }
 }
 
-void WebContentsObserverSequenceChecker::RenderFrameDeleted(
+void WebContentsObserverConsistencyChecker::RenderFrameDeleted(
     RenderFrameHost* render_frame_host) {
   CHECK(!web_contents_destroyed_);
   CHECK(!render_frame_host->IsRenderFrameCreated())
@@ -113,12 +114,12 @@ void WebContentsObserverSequenceChecker::RenderFrameDeleted(
     CHECK_NE(id.render_frame_host, render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::RenderFrameForInterstitialPageCreated(
-    RenderFrameHost* render_frame_host) {
+void WebContentsObserverConsistencyChecker::
+    RenderFrameForInterstitialPageCreated(RenderFrameHost* render_frame_host) {
   // TODO(nick): Record this.
 }
 
-void WebContentsObserverSequenceChecker::RenderFrameHostChanged(
+void WebContentsObserverConsistencyChecker::RenderFrameHostChanged(
     RenderFrameHost* old_host,
     RenderFrameHost* new_host) {
   CHECK(new_host);
@@ -165,7 +166,7 @@ void WebContentsObserverSequenceChecker::RenderFrameHostChanged(
   }
 }
 
-void WebContentsObserverSequenceChecker::FrameDeleted(
+void WebContentsObserverConsistencyChecker::FrameDeleted(
     RenderFrameHost* render_frame_host) {
   // A frame can be deleted before RenderFrame in the renderer process is
   // created, so there is not much that can be enforced here.
@@ -184,7 +185,7 @@ void WebContentsObserverSequenceChecker::FrameDeleted(
     AssertRenderFrameExists(render_frame_host->GetParent());
 }
 
-void WebContentsObserverSequenceChecker::DidStartNavigation(
+void WebContentsObserverConsistencyChecker::DidStartNavigation(
     NavigationHandle* navigation_handle) {
   CHECK(!NavigationIsOngoing(navigation_handle));
 
@@ -195,7 +196,7 @@ void WebContentsObserverSequenceChecker::DidStartNavigation(
   ongoing_navigations_.insert(navigation_handle);
 }
 
-void WebContentsObserverSequenceChecker::DidRedirectNavigation(
+void WebContentsObserverConsistencyChecker::DidRedirectNavigation(
     NavigationHandle* navigation_handle) {
   CHECK(NavigationIsOngoing(navigation_handle));
 
@@ -205,7 +206,7 @@ void WebContentsObserverSequenceChecker::DidRedirectNavigation(
   CHECK_EQ(navigation_handle->GetWebContents(), web_contents());
 }
 
-void WebContentsObserverSequenceChecker::ReadyToCommitNavigation(
+void WebContentsObserverConsistencyChecker::ReadyToCommitNavigation(
     NavigationHandle* navigation_handle) {
   CHECK(NavigationIsOngoing(navigation_handle));
 
@@ -219,7 +220,7 @@ void WebContentsObserverSequenceChecker::ReadyToCommitNavigation(
                      navigation_handle->GetRenderFrameHost()));
 }
 
-void WebContentsObserverSequenceChecker::DidFinishNavigation(
+void WebContentsObserverConsistencyChecker::DidFinishNavigation(
     NavigationHandle* navigation_handle) {
   CHECK(NavigationIsOngoing(navigation_handle));
 
@@ -247,34 +248,35 @@ void WebContentsObserverSequenceChecker::DidFinishNavigation(
   ongoing_navigations_.erase(navigation_handle);
 }
 
-void WebContentsObserverSequenceChecker::DocumentAvailableInMainFrame() {
+void WebContentsObserverConsistencyChecker::DocumentAvailableInMainFrame() {
   AssertMainFrameExists();
 }
 
-void WebContentsObserverSequenceChecker::DocumentOnLoadCompletedInMainFrame() {
+void WebContentsObserverConsistencyChecker::
+    DocumentOnLoadCompletedInMainFrame() {
   CHECK(web_contents()->IsDocumentOnLoadCompletedInMainFrame());
   AssertMainFrameExists();
 }
 
-void WebContentsObserverSequenceChecker::DOMContentLoaded(
+void WebContentsObserverConsistencyChecker::DOMContentLoaded(
     RenderFrameHost* render_frame_host) {
   AssertRenderFrameExists(render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::DidFinishLoad(
+void WebContentsObserverConsistencyChecker::DidFinishLoad(
     RenderFrameHost* render_frame_host,
     const GURL& validated_url) {
   AssertRenderFrameExists(render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::DidFailLoad(
+void WebContentsObserverConsistencyChecker::DidFailLoad(
     RenderFrameHost* render_frame_host,
     const GURL& validated_url,
     int error_code) {
   AssertRenderFrameExists(render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::DidOpenRequestedURL(
+void WebContentsObserverConsistencyChecker::DidOpenRequestedURL(
     WebContents* new_contents,
     RenderFrameHost* source_render_frame_host,
     const GURL& url,
@@ -286,7 +288,7 @@ void WebContentsObserverSequenceChecker::DidOpenRequestedURL(
   AssertRenderFrameExists(source_render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::MediaStartedPlaying(
+void WebContentsObserverConsistencyChecker::MediaStartedPlaying(
     const MediaPlayerInfo& media_info,
     const MediaPlayerId& id) {
   CHECK(!web_contents_destroyed_);
@@ -294,7 +296,7 @@ void WebContentsObserverSequenceChecker::MediaStartedPlaying(
   active_media_players_.push_back(id);
 }
 
-void WebContentsObserverSequenceChecker::MediaStoppedPlaying(
+void WebContentsObserverConsistencyChecker::MediaStoppedPlaying(
     const MediaPlayerInfo& media_info,
     const MediaPlayerId& id,
     WebContentsObserver::MediaStoppedReason reason) {
@@ -303,7 +305,7 @@ void WebContentsObserverSequenceChecker::MediaStoppedPlaying(
   base::Erase(active_media_players_, id);
 }
 
-bool WebContentsObserverSequenceChecker::OnMessageReceived(
+bool WebContentsObserverConsistencyChecker::OnMessageReceived(
     const IPC::Message& message,
     RenderFrameHost* render_frame_host) {
   CHECK(render_frame_host->IsRenderFrameLive());
@@ -312,7 +314,7 @@ bool WebContentsObserverSequenceChecker::OnMessageReceived(
   return false;
 }
 
-void WebContentsObserverSequenceChecker::WebContentsDestroyed() {
+void WebContentsObserverConsistencyChecker::WebContentsDestroyed() {
   CHECK(!web_contents_destroyed_);
   web_contents_destroyed_ = true;
   CHECK(ongoing_navigations_.empty());
@@ -320,7 +322,7 @@ void WebContentsObserverSequenceChecker::WebContentsDestroyed() {
   CHECK(live_routes_.empty());
 }
 
-void WebContentsObserverSequenceChecker::DidStartLoading() {
+void WebContentsObserverConsistencyChecker::DidStartLoading() {
   // TODO(clamy): add checks for the loading state in the rest of observer
   // methods.
   CHECK(!is_loading_);
@@ -328,25 +330,26 @@ void WebContentsObserverSequenceChecker::DidStartLoading() {
   is_loading_ = true;
 }
 
-void WebContentsObserverSequenceChecker::DidStopLoading() {
+void WebContentsObserverConsistencyChecker::DidStopLoading() {
   // TODO(crbug.com/466089): Add back CHECK(is_loading_). The CHECK was removed
   // because of flaky failures during browser_test shutdown.
   CHECK(!web_contents()->IsLoading());
   is_loading_ = false;
 }
 
-WebContentsObserverSequenceChecker::WebContentsObserverSequenceChecker(
+WebContentsObserverConsistencyChecker::WebContentsObserverConsistencyChecker(
     WebContents* web_contents)
     : WebContentsObserver(web_contents),
       is_loading_(false),
       web_contents_destroyed_(false) {}
 
-WebContentsObserverSequenceChecker::~WebContentsObserverSequenceChecker() {
+WebContentsObserverConsistencyChecker::
+    ~WebContentsObserverConsistencyChecker() {
   CHECK(web_contents_destroyed_);
   CHECK(ready_to_commit_hosts_.empty());
 }
 
-void WebContentsObserverSequenceChecker::AssertRenderFrameExists(
+void WebContentsObserverConsistencyChecker::AssertRenderFrameExists(
     RenderFrameHost* render_frame_host) {
   CHECK(!web_contents_destroyed_);
   GlobalRoutingID routing_pair = GetRoutingPair(render_frame_host);
@@ -364,11 +367,11 @@ void WebContentsObserverSequenceChecker::AssertRenderFrameExists(
       << "called on that frame:" << Format(render_frame_host);
 }
 
-void WebContentsObserverSequenceChecker::AssertMainFrameExists() {
+void WebContentsObserverConsistencyChecker::AssertMainFrameExists() {
   AssertRenderFrameExists(web_contents()->GetMainFrame());
 }
 
-std::string WebContentsObserverSequenceChecker::Format(
+std::string WebContentsObserverConsistencyChecker::Format(
     RenderFrameHost* render_frame_host) {
   return base::StringPrintf(
       "(%d, %d -> %s)", render_frame_host->GetProcess()->GetID(),
@@ -376,13 +379,13 @@ std::string WebContentsObserverSequenceChecker::Format(
       render_frame_host->GetSiteInstance()->GetSiteURL().spec().c_str());
 }
 
-bool WebContentsObserverSequenceChecker::NavigationIsOngoing(
+bool WebContentsObserverConsistencyChecker::NavigationIsOngoing(
     NavigationHandle* navigation_handle) {
   auto it = ongoing_navigations_.find(navigation_handle);
   return it != ongoing_navigations_.end();
 }
 
-void WebContentsObserverSequenceChecker::EnsureStableParentValue(
+void WebContentsObserverConsistencyChecker::EnsureStableParentValue(
     RenderFrameHost* render_frame_host) {
   GlobalRoutingID routing_pair = GetRoutingPair(render_frame_host);
   GlobalRoutingID parent_routing_pair =
@@ -398,7 +401,7 @@ void WebContentsObserverSequenceChecker::EnsureStableParentValue(
   }
 }
 
-bool WebContentsObserverSequenceChecker::HasAnyChildren(
+bool WebContentsObserverConsistencyChecker::HasAnyChildren(
     RenderFrameHost* parent) {
   GlobalRoutingID parent_routing_pair = GetRoutingPair(parent);
   for (auto& entry : parent_ids_) {

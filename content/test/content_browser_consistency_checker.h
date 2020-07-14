@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_TEST_CONTENT_BROWSER_SEQUENCE_CHECKER_H_
-#define CONTENT_TEST_CONTENT_BROWSER_SEQUENCE_CHECKER_H_
+#ifndef CONTENT_TEST_CONTENT_BROWSER_CONSISTENCY_CHECKER_H_
+#define CONTENT_TEST_CONTENT_BROWSER_CONSISTENCY_CHECKER_H_
 
 #include "base/callback.h"
 #include "base/macros.h"
@@ -12,7 +12,7 @@ namespace content {
 
 class WebContents;
 
-// While an instance of this class exists, a bunch of sequence checks are
+// While an instance of this class exists, a bunch of consistency checks are
 // enabled to validate the correctness of the browser side of the content layer
 // implementation. It's good to enable these in both unit tests and browser
 // tests, as a means of detecting bugs in the implementation of the content api.
@@ -23,10 +23,10 @@ class WebContents;
 // typically need to enable them.
 //
 // For the nuts and bolts of what the checks enforce, see the implementation.
-class ContentBrowserSequenceChecker {
+class ContentBrowserConsistencyChecker {
  public:
-  ContentBrowserSequenceChecker();
-  ~ContentBrowserSequenceChecker();
+  ContentBrowserConsistencyChecker();
+  ~ContentBrowserConsistencyChecker();
 
  private:
   void OnWebContentsCreated(WebContents* web_contents);
@@ -34,9 +34,9 @@ class ContentBrowserSequenceChecker {
   // The callback needs to be cached so that it can be unregistered.
   base::RepeatingCallback<void(WebContents*)> creation_hook_;
 
-  DISALLOW_COPY_AND_ASSIGN(ContentBrowserSequenceChecker);
+  DISALLOW_COPY_AND_ASSIGN(ContentBrowserConsistencyChecker);
 };
 
 }  // namespace content
 
-#endif  // CONTENT_TEST_CONTENT_BROWSER_SEQUENCE_CHECKER_H_
+#endif  // CONTENT_TEST_CONTENT_BROWSER_CONSISTENCY_CHECKER_H_
