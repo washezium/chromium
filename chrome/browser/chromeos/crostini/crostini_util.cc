@@ -285,12 +285,6 @@ bool ShouldAllowContainerUpgrade(Profile* profile) {
                  kCrostiniDefaultVmName, kCrostiniDefaultContainerName));
 }
 
-void LaunchCrostiniApp(Profile* profile,
-                       const std::string& app_id,
-                       int64_t display_id) {
-  LaunchCrostiniApp(profile, app_id, display_id, {}, base::DoNothing());
-}
-
 void AddSpinner(crostini::CrostiniManager::RestartId restart_id,
                 const std::string& app_id,
                 Profile* profile) {
@@ -406,9 +400,9 @@ void LaunchCrostiniApp(Profile* profile,
 
   if (crostini_manager->IsUncleanStartup()) {
     // Prompt for user-restart.
-    return ShowCrostiniRecoveryView(profile,
-                                    crostini::CrostiniUISurface::kAppList,
-                                    app_id, display_id, std::move(callback));
+    return ShowCrostiniRecoveryView(
+        profile, crostini::CrostiniUISurface::kAppList, app_id, display_id,
+        files, std::move(callback));
   }
 
   if (crostini_manager->ShouldPromptContainerUpgrade(
