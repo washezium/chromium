@@ -37,7 +37,7 @@ void crostini::ShowCrostiniRecoveryView(
     const std::string& app_id,
     int64_t display_id,
     const std::vector<storage::FileSystemURL>& files,
-    crostini::LaunchCrostiniAppCallback callback) {
+    crostini::CrostiniSuccessCallback callback) {
   CrostiniRecoveryView::Show(profile, app_id, display_id, files,
                              std::move(callback));
   base::UmaHistogramEnumeration(kCrostiniRecoverySourceHistogram, ui_surface,
@@ -49,7 +49,7 @@ void CrostiniRecoveryView::Show(
     const std::string& app_id,
     int64_t display_id,
     const std::vector<storage::FileSystemURL>& files,
-    crostini::LaunchCrostiniAppCallback callback) {
+    crostini::CrostiniSuccessCallback callback) {
   DCHECK(crostini::CrostiniFeatures::Get()->IsUIAllowed(profile));
   // Any new apps launched during recovery are immediately cancelled.
   if (g_crostini_recovery_view) {
@@ -112,7 +112,7 @@ CrostiniRecoveryView::CrostiniRecoveryView(
     const std::string& app_id,
     int64_t display_id,
     const std::vector<storage::FileSystemURL>& files,
-    crostini::LaunchCrostiniAppCallback callback)
+    crostini::CrostiniSuccessCallback callback)
     : profile_(profile),
       app_id_(app_id),
       display_id_(display_id),

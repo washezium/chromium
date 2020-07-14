@@ -5,7 +5,7 @@
 #ifndef CHROME_BROWSER_UI_VIEWS_CROSTINI_CROSTINI_RECOVERY_VIEW_H_
 #define CHROME_BROWSER_UI_VIEWS_CROSTINI_CROSTINI_RECOVERY_VIEW_H_
 
-#include "chrome/browser/chromeos/crostini/crostini_util.h"
+#include "chrome/browser/chromeos/crostini/crostini_simple_types.h"
 #include "storage/browser/file_system/file_system_url.h"
 #include "ui/views/bubble/bubble_dialog_delegate_view.h"
 
@@ -23,7 +23,7 @@ class CrostiniRecoveryView : public views::BubbleDialogDelegateView {
                    const std::string& app_id,
                    int64_t display_id,
                    const std::vector<storage::FileSystemURL>& files,
-                   crostini::LaunchCrostiniAppCallback callback);
+                   crostini::CrostiniSuccessCallback callback);
 
   // views::DialogDelegateView:
   gfx::Size CalculatePreferredSize() const override;
@@ -37,7 +37,7 @@ class CrostiniRecoveryView : public views::BubbleDialogDelegateView {
                        const std::string& app_id,
                        int64_t display_id,
                        const std::vector<storage::FileSystemURL>& files,
-                       crostini::LaunchCrostiniAppCallback callback);
+                       crostini::CrostiniSuccessCallback callback);
   ~CrostiniRecoveryView() override;
 
   void OnStopVm(crostini::CrostiniResult result);
@@ -46,7 +46,7 @@ class CrostiniRecoveryView : public views::BubbleDialogDelegateView {
   std::string app_id_;
   int64_t display_id_;
   const std::vector<storage::FileSystemURL> files_;
-  crostini::LaunchCrostiniAppCallback callback_;
+  crostini::CrostiniSuccessCallback callback_;
 
   base::WeakPtrFactory<CrostiniRecoveryView> weak_ptr_factory_;
 };

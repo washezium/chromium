@@ -71,9 +71,6 @@ inline bool operator!=(const ContainerId& lhs,
 std::ostream& operator<<(std::ostream& ostream,
                          const ContainerId& container_id);
 
-using LaunchCrostiniAppCallback =
-    base::OnceCallback<void(bool success, const std::string& failure_reason)>;
-
 // Checks if user profile is able to a crostini app with a given app_id.
 bool IsUninstallable(Profile* profile, const std::string& app_id);
 
@@ -98,7 +95,7 @@ void LaunchCrostiniApp(Profile* profile,
                        const std::string& app_id,
                        int64_t display_id,
                        const std::vector<storage::FileSystemURL>& files = {},
-                       LaunchCrostiniAppCallback callback = base::DoNothing());
+                       CrostiniSuccessCallback callback = base::DoNothing());
 
 // Retrieves cryptohome_id from profile.
 std::string CryptohomeIdForProfile(Profile* profile);
@@ -175,7 +172,7 @@ void ShowCrostiniRecoveryView(Profile* profile,
                               const std::string& app_id,
                               int64_t display_id,
                               const std::vector<storage::FileSystemURL>& files,
-                              LaunchCrostiniAppCallback callback);
+                              CrostiniSuccessCallback callback);
 
 // Add a newly created LXD container to the kCrostiniContainers pref
 void AddNewLxdContainerToPrefs(Profile* profile,

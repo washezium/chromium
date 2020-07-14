@@ -127,15 +127,16 @@ void OnCrostiniRestarted(Profile* profile,
   std::move(callback).Run();
 }
 
-void OnApplicationLaunched(crostini::LaunchCrostiniAppCallback callback,
+void OnApplicationLaunched(crostini::CrostiniSuccessCallback callback,
                            const std::string& app_id,
-                           bool success) {
+                           bool success,
+                           const std::string& failure_reason) {
   if (!success) {
     OnLaunchFailed(app_id, crostini::CrostiniResult::UNKNOWN_ERROR);
   } else {
     RecordAppLaunchResultHistogram(crostini::CrostiniResult::SUCCESS);
   }
-  std::move(callback).Run(success, success ? "" : "Failed to launch " + app_id);
+  std::move(callback).Run(success, failure_reason);
 }
 
 void OnSharePathForLaunchApplication(
@@ -145,7 +146,7 @@ void OnSharePathForLaunchApplication(
     int64_t display_id,
     const std::vector<std::string>& files,
     bool display_scaled,
-    crostini::LaunchCrostiniAppCallback callback,
+    crostini::CrostiniSuccessCallback callback,
     bool success,
     const std::string& failure_reason) {
   if (!success) {
@@ -163,9 +164,11 @@ void OnSharePathForLaunchApplication(
     ChromeLauncherController::instance()
         ->GetShelfSpinnerController()
         ->CloseSpinner(app_id);
-    Browser* browser = LaunchTerminal(profile, display_id, container_id, cwd);
-    return OnApplicationLaunched(std::move(callback), app_id,
-                                 browser != nullptr);
+    if (!LaunchTerminal(profile, display_id, container_id, cwd)) {
+      return OnApplicationLaunched(std::move(callback), app_id, false,
+                                   "failed to launch terminal");
+    }
+    return OnApplicationLaunched(std::move(callback), app_id, true, "");
   }
   crostini::CrostiniManager::GetForProfile(profile)->LaunchContainerApplication(
       container_id, registration.DesktopFileId(), files, display_scaled,
@@ -179,7 +182,7 @@ void LaunchApplication(
     int64_t display_id,
     const std::vector<storage::FileSystemURL>& files,
     bool display_scaled,
-    crostini::LaunchCrostiniAppCallback callback) {
+    crostini::CrostiniSuccessCallback callback) {
   ChromeLauncherController* chrome_launcher_controller =
       ChromeLauncherController::instance();
   DCHECK(chrome_launcher_controller);
@@ -315,7 +318,7 @@ void LaunchCrostiniAppImpl(
     int64_t display_id,
     const std::vector<storage::FileSystemURL>& files,
     base::Optional<guest_os::GuestOsRegistryService::Registration> registration,
-    LaunchCrostiniAppCallback callback) {
+    CrostiniSuccessCallback callback) {
   auto* crostini_manager = crostini::CrostiniManager::GetForProfile(profile);
   auto* registry_service =
       guest_os::GuestOsRegistryServiceFactory::GetForProfile(profile);
@@ -372,7 +375,7 @@ void LaunchCrostiniApp(Profile* profile,
                        const std::string& app_id,
                        int64_t display_id,
                        const std::vector<storage::FileSystemURL>& files,
-                       LaunchCrostiniAppCallback callback) {
+                       CrostiniSuccessCallback callback) {
   // Policies can change under us, and crostini may now be forbidden.
   if (!CrostiniFeatures::Get()->IsUIAllowed(profile)) {
     return std::move(callback).Run(false, "Crostini UI not allowed");
