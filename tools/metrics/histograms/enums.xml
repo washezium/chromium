@@ -51279,6 +51279,9 @@ Called by update_net_trust_anchors.py.-->
 </enum>
 
 <enum name="OmniboxEditUrlSuggestionAction">
+  <obsolete>
+    Deprecated 06/2020 as histogram expired.
+  </obsolete>
   <int value="0" label="Edit tapped."/>
   <int value="1" label="Copy tapped."/>
   <int value="2" label="Share tapped."/>
