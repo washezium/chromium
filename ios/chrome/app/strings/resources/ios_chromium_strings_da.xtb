@@ -3,6 +3,7 @@
 <translationbundle lang="da">
 <translation id="102360288709523007">Hjælp med at gøre Chromium bedre ved at sende brugsstatistik og nedbrudsrapporter til Google.</translation>
 <translation id="1185134272377778587">Om Chromium</translation>
+<translation id="1257458525759135959">Hvis du vil gemme billeder, skal du trykke på Indstillinger for at give Chromium tilladelse til at tilføje dine billeder</translation>
 <translation id="1472013873724362412">Din konto fungerer ikke sammen med Chromium. Kontakt din domæneadministrator, eller brug en almindelig Google-konto til at logge ind.</translation>
 <translation id="1507010443238049608">Vær med til at forbedre Chromiums funktioner og effektivitet</translation>
 <translation id="1617663976202781617">Data fra Chromium Sync</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Angiv din placering, og få en bedre oplevelse, når du bruger Chromium.</translation>
 <translation id="8586442755830160949">Copyright <ph name="YEAR" /> Forfatterne bag Chromium. Alle rettigheder forbeholdes.</translation>
 <translation id="8776843108004031667">Denne konto og data, som ikke er gemt, fjernes fra Chromium.</translation>
-<translation id="8809780021347235332">Tryk på Indstillinger, og giv Chromium tilladelse til at anvende dine billeder for at gemme billeder</translation>
 <translation id="9022552996538154597">Log ind på Chromium</translation>
 <translation id="985602178874221306">Forfatterne til Chromium</translation>
 </translationbundle>

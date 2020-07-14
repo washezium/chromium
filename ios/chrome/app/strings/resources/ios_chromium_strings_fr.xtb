@@ -3,6 +3,7 @@
 <translationbundle lang="fr">
 <translation id="102360288709523007">Envoyez à Google des statistiques d'utilisation et des rapports d'erreur pour améliorer Chromium.</translation>
 <translation id="1185134272377778587">À propos de Chromium</translation>
+<translation id="1257458525759135959">Pour enregistrer une image, appuyez sur "Paramètres" afin que Chromium puisse l'ajouter à vos photos</translation>
 <translation id="1472013873724362412">Votre compte n'est pas compatible avec Chromium. Veuillez contacter l'administrateur de votre domaine ou utiliser un compte Google standard pour vous connecter.</translation>
 <translation id="1507010443238049608">Contribuer à l'amélioration des fonctionnalités et des performances de Chromium</translation>
 <translation id="1617663976202781617">Données issues de la synchronisation Chromium</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Améliorez votre expérience Google dans Chromium grâce à votre position.</translation>
 <translation id="8586442755830160949">Copyright Auteurs de Chromium <ph name="YEAR" />. Tous droits réservés.</translation>
 <translation id="8776843108004031667">Ce compte et les données non enregistrées seront supprimés de Chromium.</translation>
-<translation id="8809780021347235332">Pour enregistrer des images, appuyez sur "Paramètres" afin d'autoriser Chromium à utiliser vos photos</translation>
 <translation id="9022552996538154597">Se connecter à Chromium</translation>
 <translation id="985602178874221306">Auteurs de Chromium</translation>
 </translationbundle>

@@ -3,6 +3,7 @@
 <translationbundle lang="fi">
 <translation id="102360288709523007">Auta parantamaan Chromiumia lähettämällä käyttötilastoja ja virheraportteja Googlelle.</translation>
 <translation id="1185134272377778587">Tietoja Chromiumista</translation>
+<translation id="1257458525759135959">Anna Chromiumin lisätä uusia kuvia valitsemalla Asetukset, niin voit tallentaa kuvia.</translation>
 <translation id="1472013873724362412">Tilisi ei toimi Chromiumilla. Ota yhteyttä verkkotunnuksesi järjestelmänvalvojaan tai kirjaudu sisään tavallisella Google-tilillä.</translation>
 <translation id="1507010443238049608">Auta parantamaan Chromiumin ominaisuuksia ja suorituskykyä</translation>
 <translation id="1617663976202781617">Chromiumin synkronointidata</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Saat sijaintitietojen avulla paremman Googlen käyttökokemuksen Chromiumissa.</translation>
 <translation id="8586442755830160949">Copyright <ph name="YEAR" /> The Chromium Authors. Kaikki oikeudet pidätetään.</translation>
 <translation id="8776843108004031667">Tämä tili ja kaikki tallentamaton data poistetaan Chromiumista.</translation>
-<translation id="8809780021347235332">Anna Chromiumille lupa käyttää kuviasi valitsemalla Asetukset, niin voit tallentaa kuvia.</translation>
 <translation id="9022552996538154597">Kirjaudu sisään Chromiumiin</translation>
 <translation id="985602178874221306">The Chromium Authors</translation>
 </translationbundle>

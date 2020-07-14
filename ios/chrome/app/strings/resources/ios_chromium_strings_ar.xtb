@@ -3,6 +3,7 @@
 <translationbundle lang="ar">
 <translation id="102360288709523007">‏ساعد في تحسين Chromium بإرسال إحصاءات الاستخدام وتقارير الأعطال إلى Google.</translation>
 <translation id="1185134272377778587">‏لمحة عن Chromium</translation>
+<translation id="1257458525759135959">‏لحفظ الصور، يُرجى النقر على "الإعدادات" للسماح لمتصفّح Chromium بأن يضيف إلى صورك.</translation>
 <translation id="1472013873724362412">‏لا يعمل حسابك على Chromium. يُرجى الاتصال بمشرف النطاق أو استخدام حساب Google عادي لتسجيل الدخول.</translation>
 <translation id="1507010443238049608">‏المساعدة على تحسين ميزات Chromium وأدائه</translation>
 <translation id="1617663976202781617">‏البيانات من مزامنة Chromium</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">‏احصل على تجربة أفضل لاستخدام Google في Chromium استنادًا إلى موقعك.</translation>
 <translation id="8586442755830160949">‏حقوق الطبع والنشر لعام <ph name="YEAR" /> لصالح The Chromium Authors. جميع الحقوق محفوظة.</translation>
 <translation id="8776843108004031667">‏ستتم إزالة هذا الحساب بالإضافة إلى أي بيانات لم يتم حفظها من Chromium.</translation>
-<translation id="8809780021347235332">‏لحفظ الصور، انقر على الإعدادات للسماح لمتصفح Chromium باستخدام صورك</translation>
 <translation id="9022552996538154597">‏تسجيل الدخول إلى Chromium</translation>
 <translation id="985602178874221306">The Chromium Authors</translation>
 </translationbundle>

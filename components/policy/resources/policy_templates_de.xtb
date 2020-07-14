@@ -832,7 +832,7 @@ Wenn die Richtlinie "EnableMediaRouter" auf "false" gesetzt ist, hat der Wert di
       Ist sie auf "False" gesetzt oder nicht konfiguriert, wird keine Schaltfläche angezeigt.</translation>
 <translation id="2294382669900758280">Das Abspielen von Videos in Android-Apps wird nicht berücksichtigt, auch wenn diese Richtlinie auf <ph name="TRUE" /> gesetzt ist.</translation>
 <translation id="2299220924812062390">Liste der aktivierten Plug-ins angeben</translation>
-<translation id="2303795211377219696">AutoFill für Kreditkarten aktivieren</translation>
+<translation id="2303795211377219696">"Automatisches Ausfüllen" für Kreditkarten aktivieren</translation>
 <translation id="2307496301287881990">Status von Display und Grafikkarte melden</translation>
 <translation id="2309390639296060546">Standardeinstellung für "Standortbestimmung"</translation>
 <translation id="2327252517317514801">Domains definieren, die auf die G Suite zugreifen dürfen</translation>
@@ -2073,9 +2073,9 @@ Wird die Richtlinie auf "false" gesetzt oder nicht konfiguriert, wird kein Zerti
       Wenn diese Richtlinie auf "true" gesetzt ist, versucht Chrome, einige URLs in einem alternativen Browser, wie z. B. Internet Explorer, zu starten. Diese Funktion wird mithilfe der Richtlinien in der Gruppe <ph name="LEGACY_BROWSER_SUPPORT_POLICY_GROUP" /> konfiguriert.
 
       Sie ist ein Ersatz für die Erweiterung <ph name="LEGACY_BROWSER_SUPPORT_EXTENSION_NAME" />. Konfigurationen von der Erweiterung werden nicht für diese Funktion übernommen. Es wird jedoch dringend empfohlen, stattdessen die Chrome-Richtlinien zu verwenden. Dadurch wird eine bessere Kompatibilität in der Zukunft gewährleistet.</translation>
-<translation id="398884292557092447">Wenn die Richtlinie auf "True" gesetzt oder nicht konfiguriert ist, können Nutzer die AutoFill-Vorschläge für Kreditkarten in der UI steuern.
+<translation id="398884292557092447">Wenn die Richtlinie auf "True" gesetzt oder nicht konfiguriert ist, können Nutzer die Vorschläge zum automatischen Ausfüllen für Kreditkarten in der UI steuern.
 
-      Ist sie auf "False" gesetzt, schlägt AutoFill keine Kreditkartendaten vor und füllt entsprechende Felder auch nicht automatisch aus. Außerdem werden keine zusätzlichen Kreditkartendaten gespeichert, die Nutzer beim Surfen im Internet eventuell senden.</translation>
+      Ist sie auf "False" gesetzt, schlägt die Funktion "Automatisches Ausfüllen" keine Kreditkartendaten vor und füllt entsprechende Felder auch nicht automatisch aus. Außerdem werden keine zusätzlichen Kreditkartendaten gespeichert, die Nutzer beim Surfen im Internet eventuell senden.</translation>
 <translation id="3992309308803906690">Hiermit wird die Liste der URLs für die Unternehmensanmeldung konfiguriert (nur HTTP- und HTTPS-Schemas). Der Passwortschutzdienst erfasst auf diesen URLs den Salted-Hash-Wert von Passwörtern und verwendet ihn, um zu prüfen, ob Passwörter wiederverwendet werden.
       Ihre Anmeldeseiten müssen den Richtlinien unter https://www.chromium.org/developers/design-documents/create-amazing-password-forms entsprechen, damit Salted-Hash-Werte von Passwörtern in <ph name="PRODUCT_NAME" /> richtig erfasst werden können.
 
@@ -2485,7 +2485,7 @@ Diese Richtlinie hat keine Auswirkungen darauf, ob die lokalen Nutzerdaten auf d
       Eine vollständige Erläuterung finden Sie unter https://www.chromestatus.com/features/5675755719622656.
       Wenn diese Richtlinie aktiviert ist, dürfen Websites gleichzeitig mit der Navigation neue Fenster oder Tabs öffnen.
       Wenn diese Richtlinie deaktiviert oder nicht festgelegt ist, dürfen Websites neue Fenster oder Tabs nicht gleichzeitig mit der Navigation öffnen.</translation>
-<translation id="4680961954980851756">AutoFill aktivieren</translation>
+<translation id="4680961954980851756">"Automatisches Ausfüllen" aktivieren</translation>
 <translation id="4693779768620889402">Erweiterungsbasierte Ziele</translation>
 <translation id="4699592681017489215">Mit dieser Richtlinie kann ein lokaler Parameter konfiguriert werden, der dazu dient, DNS-Abfangprüfungen zu deaktivieren. Durch die Prüfungen wird ermittelt, ob sich der Browser hinter einem Proxy befindet, der unbekannte Hostnamen weiterleitet.
 
@@ -2625,9 +2625,9 @@ Diese Richtlinie hat keine Auswirkungen darauf, ob die lokalen Nutzerdaten auf d
 <translation id="4988291787868618635">Auszuführende Aktion bei Erreichen der Inaktivitätsverzögerung</translation>
 <translation id="4996086761250834365">Produktanalysen durch <ph name="PLUGIN_VM_NAME" /> zulassen</translation>
 <translation id="500149597848135831">Alle Variationen aktivieren</translation>
-<translation id="5017369989680827157">Wenn die Richtlinie auf "True" gesetzt oder nicht konfiguriert ist, können Nutzer die Funktion "AutoFill" für Adressen in der UI steuern.
+<translation id="5017369989680827157">Wenn die Richtlinie auf "True" gesetzt oder nicht konfiguriert ist, können Nutzer die Funktion "Automatisches Ausfüllen" für Adressen in der UI steuern.
 
-      Ist sie auf "False" gesetzt, schlägt AutoFill keine Adressinformationen vor und füllt entsprechende Felder auch nicht automatisch aus. Außerdem werden keine zusätzlichen Adressinformationen gespeichert, die Nutzer beim Surfen im Internet senden.</translation>
+      Ist sie auf "False" gesetzt, schlägt "Automatisches Ausfüllen" keine Adressinformationen vor und füllt entsprechende Felder auch nicht automatisch aus. Außerdem werden keine zusätzlichen Adressinformationen gespeichert, die Nutzer beim Surfen im Internet senden.</translation>
 <translation id="5022551015331996656">Ist "URL-Liste öffnen" als Startaktion ausgewählt, können Sie die Liste der URLs angeben, die geöffnet werden. Ist die Richtlinie nicht konfiguriert, wird keine URL beim Start geöffnet.
 
           Die Richtlinie wird nur umgesetzt, wenn für die Richtlinie RestoreOnStartup die Option RestoreOnStartupIsURLs festgelegt ist.
@@ -3223,7 +3223,7 @@ Wenn diese Richtlinie zu "false" geändert wird, wirkt sich dies auf den Start n
       </translation>
 <translation id="572155275267014074">Android-Einstellungen</translation>
 <translation id="5728154254076636808">Erstellung von Roaming-Kopien für <ph name="PRODUCT_NAME" />-Profildaten aktivieren</translation>
-<translation id="5732972008943405952">AutoFill-Formulardaten bei erster Ausführung aus Standardbrowser importieren</translation>
+<translation id="5732972008943405952">Formulardaten zum automatischen Ausfüllen bei erster Ausführung aus Standardbrowser importieren</translation>
 <translation id="574098933844699859">Diese Richtlinie legt fest, ob Systeminformationen (z. B. Chrome OS-Version, Seriennummer des Geräts) auf dem Anmeldebildschirm immer angezeigt oder ausgeblendet werden.
 
       Wenn diese Richtlinie auf "true" gesetzt ist, wird erzwungen, dass Systeminformationen angezeigt werden.
@@ -3538,9 +3538,9 @@ Wenn diese Einstellung deaktiviert oder nicht konfiguriert ist, wird kein Proxy 
 
       Wird diese Einstellung nicht konfiguriert oder auf "True" gesetzt, melden registrierte Geräte die Zeiträume, in denen ein Nutzer auf dem Gerät aktiv ist. Wird für diese Einstellung "False" festgelegt, werden die Geräteaktivitätszeiten weder aufgezeichnet noch gemeldet.</translation>
 <translation id="6212868225782276239">Alle Drucker außer denen in der schwarzen Liste werden angezeigt.</translation>
-<translation id="6219965209794245435">Bei einer Aktivierung erzwingt diese Richtlinie den Import von AutoFill-Formulardaten aus dem vorherigen Standardbrowser. Darüber hinaus wirkt sich die Richtlinie auch auf den Importdialog aus.
+<translation id="6219965209794245435">Bei einer Aktivierung erzwingt diese Richtlinie den Import von Formulardaten zum automatischen Ausfüllen aus dem vorherigen Standardbrowser. Darüber hinaus wirkt sich die Richtlinie auch auf den Importdialog aus.
 
-      Wenn die Richtlinie deaktiviert ist, erfolgt kein Import der AutoFill-Formulardaten.
+      Wenn die Richtlinie deaktiviert ist, erfolgt kein Import der Formulardaten zum automatischen Ausfüllen.
 
       Ist die Richtlinie nicht konfiguriert, wird der Nutzer möglicherweise gefragt, ob ein Import erfolgen soll, oder der Import findet automatisch statt.</translation>
 <translation id="6221175752766085998">Zertifikate zulassen, die von lokalen Vertrauensankern ausgestellt werden, bei denen die "subjectAlternativeName"-Erweiterung fehlt</translation>
@@ -3660,7 +3660,7 @@ Ein Teil der Proxyeinstellungen ist für Android-Apps verfügbar und kann auf fr
 <translation id="6449476513004303784">Nutzern nicht erlauben, Zertifikate zu verwalten</translation>
 <translation id="6453641799812499182">Einschränkungen bei <ph name="CORS" />-Prüfungen in der neuen <ph name="CORS" />-Implementierung aktivieren</translation>
 <translation id="645425387487868471">Erzwungene Anmeldung für <ph name="PRODUCT_NAME" /> aktivieren</translation>
-<translation id="6464074037294098618">AutoFill für Adressen aktivieren</translation>
+<translation id="6464074037294098618">"Automatisches Ausfüllen" für Adressen aktivieren</translation>
 <translation id="6467613372414922590">Hosts für natives Messaging, die ohne Berechtigung des Administrators installiert wurden, auf Nutzerebene zulassen</translation>
 <translation id="6468980648680553776">Diese Richtlinie wurde eingestellt. Verwenden Sie stattdessen "RemoteAccessHostClientDomainList".</translation>
 <translation id="6473623140202114570">Hiermit wird die Liste der Domains konfiguriert, auf denen durch Safe Browsing keine Warnungen ausgelöst werden.</translation>
@@ -4649,7 +4649,7 @@ Ist diese Richtlinie auf einem verwalteten Gerät nicht festgelegt, dürfen kein
 Auf nicht verwalteten Geräten dürfen virtuelle Maschinen ausgeführt werden.</translation>
 <translation id="8001701200415781021">Einschränken, welche Google-Konten als primäre Browserkonten in <ph name="PRODUCT_NAME" /> festgelegt werden können</translation>
 <translation id="8003853057959146975">Dateien zur Überprüfung auf Verstöße gegen die Richtlinie zum Schutz von sensiblen Daten senden</translation>
-<translation id="8009554972280451023">Wenn Sie diese Einstellung aktivieren, werden die in <ph name="PRODUCT_NAME" />-Profilen gespeicherten Einstellungen, etwa Lesezeichen, AutoFill-Daten und Passwörter, zusätzlich in eine Datei geschrieben, die sich im Roaming-Nutzerprofilordner oder an einem vom Administrator über die Richtlinie <ph name="ROAMING_PROFILE_LOCATION_POLICY_NAME" /> festgelegten Ort befindet. Durch die Aktivierung dieser Richtlinie wird die Cloudsynchronisierung deaktiviert.
+<translation id="8009554972280451023">Wenn Sie diese Einstellung aktivieren, werden die in <ph name="PRODUCT_NAME" />-Profilen gespeicherten Einstellungen, etwa Lesezeichen, Daten zum automatischen Ausfüllen und Passwörter, zusätzlich in eine Datei geschrieben, die sich im Roaming-Nutzerprofilordner oder an einem vom Administrator über die Richtlinie <ph name="ROAMING_PROFILE_LOCATION_POLICY_NAME" /> festgelegten Ort befindet. Durch die Aktivierung dieser Richtlinie wird die Cloudsynchronisierung deaktiviert.
 
       Wenn diese Richtlinie deaktiviert oder nicht konfiguriert ist, kommen nur die regulären lokalen Profile zum Einsatz.
 
@@ -4671,11 +4671,11 @@ Auf nicht verwalteten Geräten dürfen virtuelle Maschinen ausgeführt werden.</
       Diese Richtlinie kann nur über die Google Admin-Konsole konfiguriert werden.</translation>
 <translation id="8033913082323846868">Diese Richtlinie wurde in M70 eingestellt, bitte verwenden Sie stattdessen "AutofillAddressEnabled" und "AutofillCreditCardEnabled".
 
-      Aktiviert die AutoFill-Funktion von <ph name="PRODUCT_NAME" /> und ermöglicht es Nutzern, Webformulare mit zuvor gespeicherten Informationen wie Adresse oder Kreditkartendaten ausfüllen zu lassen.
+      Aktiviert die Funktion zum automatischen Ausfüllen von <ph name="PRODUCT_NAME" /> und ermöglicht es Nutzern, Webformulare mit zuvor gespeicherten Informationen wie Adresse oder Kreditkartendaten ausfüllen zu lassen.
 
-      Wenn Sie diese Einstellung deaktivieren, können Nutzer die AutoFill-Funktion nicht verwenden.
+      Wenn Sie diese Einstellung deaktivieren, können Nutzer die Funktion zum automatischen Ausfüllen nicht verwenden.
 
-      Ist diese Einstellung aktiviert oder nicht konfiguriert, kann der Nutzer selbst entscheiden, ob er AutoFill nutzen möchte. Er kann dann AutoFill-Profile konfigurieren und AutoFill nach eigenem Ermessen aktivieren und deaktivieren.</translation>
+      Ist diese Einstellung aktiviert oder nicht konfiguriert, kann der Nutzer selbst entscheiden, ob er "Automatisches Ausfüllen" nutzen möchte. Er kann dann Profile zum automatischen Ausfüllen konfigurieren und die Funktion nach eigenem Ermessen aktivieren und deaktivieren.</translation>
 <translation id="8044493735196713914">Startmodus von Geräten melden</translation>
 <translation id="8049769137921877885">Mit dieser Richtlinie wird festgelegt, ob Daten zu Richtlinien und zur Zeit des Richtlinienabrufs gesendet werden.
 
@@ -4948,7 +4948,7 @@ Unter Windows ist es empfehlenswert, Richtlinien über Gruppenrichtlinienobjekte
       Wenn die Richtlinie nicht konfiguriert ist, kann der Nutzer festlegen, ob <ph name="PRODUCT_NAME" /> der Standardbrowser ist und ob (falls nicht) entsprechende Benachrichtigungen angezeigt werden sollen.
 
       Hinweis für <ph name="MS_WIN_NAME" />-Administratoren: Diese Einstellung funktioniert nur auf Computern mit Windows 7. Bei neueren Versionen müssen Sie eine Datei mit "Standardanwendungszuordnungen" angeben, die <ph name="PRODUCT_NAME" /> zum Handler für die <ph name="HTTPS_PROTOCOL" />- und <ph name="HTTP_PROTOCOL" />-Protokolle sowie optional für das <ph name="FTP_PROTOCOL" />-Protokoll und weitere Dateiformate macht. Weitere Informationen finden Sie in der Chrome-Hilfe (https://support.google.com/chrome?p=make_chrome_default_win).</translation>
-<translation id="8445576299806775661">Nach jedem größeren Versionsupdate erstellt Chrome für den Fall eines Notfall-Rollbacks einen Snapshot bestimmter Browserdaten des Nutzers. Falls ein Notfall-Rollback für eine Version durchgeführt wird, für die der Nutzer einen passenden Snapshot hat, werden die darin gespeicherten Daten wiederhergestellt. Hierdurch verliert der Nutzer seine Einstellungen wie beispielsweise Lesezeichen und AutoFill-Daten nicht.
+<translation id="8445576299806775661">Nach jedem größeren Versionsupdate erstellt Chrome für den Fall eines Notfall-Rollbacks einen Snapshot bestimmter Browserdaten des Nutzers. Falls ein Notfall-Rollback für eine Version durchgeführt wird, für die der Nutzer einen passenden Snapshot hat, werden die darin gespeicherten Daten wiederhergestellt. Hierdurch verliert der Nutzer seine Einstellungen wie beispielsweise Lesezeichen und Daten für automatisches Ausfüllen nicht.
 
       Ist diese Richtlinie nicht konfiguriert, wird der Standardwert "3" verwendet.
 

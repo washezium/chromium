@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Oprește</translation>
 <translation id="1283524564873030414">Ultimele 24 de ore</translation>
 <translation id="1285320974508926690">Nu traduce niciodată acest site</translation>
+<translation id="1321993286294231467">Eroare la salvarea imaginii.</translation>
 <translation id="1323735185997015385">Șterge</translation>
 <translation id="132683371494960526">Atinge de două ori pentru a modifica dosarul părinte.</translation>
 <translation id="1340643665687018190">Meniul Închide</translation>
@@ -135,7 +136,6 @@ Site-urile nu pot folosi cookie-uri pentru a-ți vedea activitatea de navigare d
 <translation id="2529021024822217800">Deschide-le pe toate</translation>
 <translation id="2562041823070056534">Se trimite la <ph name="DEVICE_NAME" />...</translation>
 <translation id="2570206273416014374">Trimite anumite cookie-uri și căutări din bara de adrese și din caseta de căutare în motorul de căutare prestabilit.</translation>
-<translation id="2572712655377361602">O politică a dispozitivului a blocat accesul la fotografii</translation>
 <translation id="2578571896248130439">Trimite pagina web</translation>
 <translation id="2584132361465095047">Adaugă un cont…</translation>
 <translation id="2600682495497606169">Șterge cookie-urile site-ului</translation>
@@ -591,7 +591,6 @@ Site-urile pot folosi cookie-uri pentru a vedea activitatea ta de navigare de pe
 <translation id="7993619969781047893">Este posibil ca funcțiile de pe anumite site-uri să fie întrerupte</translation>
 <translation id="800361585186029508">Deschide adresele URL introduse în Google Chrome.</translation>
 <translation id="8007420562015504427">Căutare incognito</translation>
-<translation id="8019783059653722575">Astfel, poți să salvezi și să încarci fotografiile.</translation>
 <translation id="802154636333426148">Descărcarea nu a reușit</translation>
 <translation id="8023878949384262191">Extinde secțiunea.</translation>
 <translation id="804427445359061970">Aici vei vedea filele tale de pe alte dispozitive</translation>

@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Stopp</translation>
 <translation id="1283524564873030414">Senaste 24 timmarna</translation>
 <translation id="1285320974508926690">Översätt aldrig den här webbplatsen</translation>
+<translation id="1321993286294231467">Ett fel uppstod när bilden skulle sparas.</translation>
 <translation id="1323735185997015385">Radera</translation>
 <translation id="132683371494960526">Tryck snabbt två gånger om du vill ändra överordnad mapp.</translation>
 <translation id="1340643665687018190">Stäng menyn</translation>
@@ -135,7 +136,6 @@ Webbplatser får inte se din webbaktivitet på olika webbplatser med hjälp av c
 <translation id="2529021024822217800">Öppna alla</translation>
 <translation id="2562041823070056534">Skickar till <ph name="DEVICE_NAME" /> …</translation>
 <translation id="2570206273416014374">Skickar vissa cookies och sökningar från adressfältet och sökrutan till standardsökmotorn.</translation>
-<translation id="2572712655377361602">Åtkomsten till bilderna har blockerats av en enhetspolicy</translation>
 <translation id="2578571896248130439">Skicka webbsida</translation>
 <translation id="2584132361465095047">Lägg till konto …</translation>
 <translation id="2600682495497606169">Rensa cookies från webbplatsen</translation>
@@ -591,7 +591,6 @@ Webbplatser får se din webbaktivitet på olika webbplatser med hjälp av cookie
 <translation id="7993619969781047893">Funktioner kan sluta att fungera på vissa webbplatser</translation>
 <translation id="800361585186029508">Öppnar de angivna webbadresserna i Google Chrome.</translation>
 <translation id="8007420562015504427">Inkognitosökning</translation>
-<translation id="8019783059653722575">Det här gör att du kan spara foton och ladda upp dem.</translation>
 <translation id="802154636333426148">Nedladdningen misslyckades</translation>
 <translation id="8023878949384262191">Expanderar avsnittet.</translation>
 <translation id="804427445359061970">Flikar från andra enheter visas här</translation>

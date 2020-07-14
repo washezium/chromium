@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Interrumpir</translation>
 <translation id="1283524564873030414">Últimas 24 horas</translation>
 <translation id="1285320974508926690">No traducir nunca este sitio</translation>
+<translation id="1321993286294231467">No se ha podido guardar la imagen.</translation>
 <translation id="1323735185997015385">Eliminar</translation>
 <translation id="132683371494960526">Toca dos veces para cambiar la carpeta principal.</translation>
 <translation id="1340643665687018190">Cerrar el menú</translation>
@@ -135,7 +136,6 @@ Los sitios web no pueden usar cookies para ver tu actividad de navegación en ot
 <translation id="2529021024822217800">Abrir todos</translation>
 <translation id="2562041823070056534">Enviando a <ph name="DEVICE_NAME" />...</translation>
 <translation id="2570206273416014374">Envía algunas cookies y búsquedas de la barra de direcciones y del cuadro de búsqueda a tu buscador predeterminado.</translation>
-<translation id="2572712655377361602">Una política de dispositivos ha bloqueado el acceso a tus fotos</translation>
 <translation id="2578571896248130439">Enviar página web</translation>
 <translation id="2584132361465095047">Añadir cuenta…</translation>
 <translation id="2600682495497606169">Borrar cookies del sitio web</translation>
@@ -591,7 +591,6 @@ Los sitios web pueden usar cookies para ver tu actividad de navegación en otros
 <translation id="7993619969781047893">Es posible que las funciones de algunos sitios web no funcionen correctamente</translation>
 <translation id="800361585186029508">Abre las URL introducidas en Google Chrome.</translation>
 <translation id="8007420562015504427">Búsqueda en modo de incógnito</translation>
-<translation id="8019783059653722575">Esto te permite guardar fotos y subirlas.</translation>
 <translation id="802154636333426148">No se ha podido descargar el archivo</translation>
 <translation id="8023878949384262191">Amplía la sección.</translation>
 <translation id="804427445359061970">Aquí verás las pestañas de otros dispositivos</translation>

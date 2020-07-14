@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">રોકો</translation>
 <translation id="1283524564873030414">છેલ્લા 24 કલાક</translation>
 <translation id="1285320974508926690">આ સાઇટનું ક્યારેય ભાષાંતર કરશો નહીં</translation>
+<translation id="1321993286294231467">છબી સાચવવામાં ભૂલ.</translation>
 <translation id="1323735185997015385">ડિલીટ કરો</translation>
 <translation id="132683371494960526">મૂળ ફોલ્ડર બદલવા માટે બે વાર ટૅપ કરો.</translation>
 <translation id="1340643665687018190">મેનૂ બંધ કરો</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">બધા ખોલો</translation>
 <translation id="2562041823070056534"><ph name="DEVICE_NAME" /> પર મોકલી રહ્યાં છીએ...</translation>
 <translation id="2570206273416014374">ઍડ્રેસ બાર અને શોધ બૉક્સમાંથી કેટલીક કુકી અને શોધને તમારા ડિફૉલ્ટ શોધ એન્જિન પર મોકલે છે.</translation>
-<translation id="2572712655377361602">ઉપકરણ નીતિએ તમારા ફોટોની ઍક્સેસને અવરોધિત કરી</translation>
 <translation id="2578571896248130439">વેબપેજ મોકલો</translation>
 <translation id="2584132361465095047">એકાઉન્ટ ઉમેરો…</translation>
 <translation id="2600682495497606169">સાઇટ કુકી સાફ કરો</translation>
@@ -591,7 +591,6 @@
 <translation id="7993619969781047893">અમુક સાઇટ પરની સુવિધાઓને કદાચ બંધ કરવામાં આવી શકે</translation>
 <translation id="800361585186029508">ઇનપુટ કરેલા URLsને Google Chromeમાં ખોલે છે.</translation>
 <translation id="8007420562015504427">છૂપી શોધ</translation>
-<translation id="8019783059653722575">આ તમને ફોટો સાચવવા અને અપલોડ કરવા દે છે.</translation>
 <translation id="802154636333426148">ડાઉનલોડ નિષ્ફળ થયું</translation>
 <translation id="8023878949384262191">વિભાગને વિસ્તૃત કરે છે.</translation>
 <translation id="804427445359061970">તમને અન્ય ડિવાઇસમાંની તમારી ટૅબ અહીં મળશે</translation>

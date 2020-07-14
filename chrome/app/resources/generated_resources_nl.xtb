@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">Dit profiel kan niet worden gebruikt</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Tabblad toevoegen aan nieuwe groep}other{Tabbladen toevoegen aan nieuwe groep}}</translation>
 <translation id="1472675084647422956">Meer weergeven</translation>
+<translation id="1474785664565228650">Parallels Desktop moet worden herstart om de microfooninstelling te wijzigen. Herstart Parallels Desktop om door te gaan.</translation>
 <translation id="1475502736924165259">Je hebt certificaten die niet in een van de andere categorieën vallen</translation>
 <translation id="1476088332184200792">Kopiëren naar je apparaat</translation>
 <translation id="1476607407192946488">&amp;Taalinstellingen</translation>
@@ -2932,6 +2933,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="4648499713050786492">Ontgrendel je profiel voordat je een persoon toevoegt.</translation>
 <translation id="4650591383426000695">Je telefoon ontkoppelen van je <ph name="DEVICE_TYPE" /></translation>
 <translation id="4651484272688821107">Kan online component niet laden met bronnen van demomodus.</translation>
+<translation id="4652935475563630866">Parallels Desktop moet worden herstart om de camera-instelling te wijzigen. Herstart Parallels Desktop om door te gaan.</translation>
 <translation id="4653405415038586100">Fout bij configureren van Linux</translation>
 <translation id="465878909996028221">Alleen http- en https-bestandsprotocollen worden ondersteund voor browseromleidingen.</translation>
 <translation id="4659077111144409915">Primair account</translation>

@@ -3,6 +3,7 @@
 <translationbundle lang="et">
 <translation id="102360288709523007">Aidake muuta Chromium paremaks, saates Google'ile kasutusstatistikat ja krahhiaruandeid.</translation>
 <translation id="1185134272377778587">Teave Chromiumi kohta</translation>
+<translation id="1257458525759135959">Piltide salvestamiseks puudutage valikut Seaded, et lubada Chromiumil fotode lisamine</translation>
 <translation id="1472013873724362412">Teie konto ei tööta Chromiumis. Võtke ühendust domeeni administraatoriga või kasutage sisselogimiseks tavalist Google'i kontot.</translation>
 <translation id="1507010443238049608">Aidake täiustada Chromiumi funktsioone ja toimivust</translation>
 <translation id="1617663976202781617">Chromiumi andmete sünkroonimine</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Täiustage Chromiumis oma Google'i teenuste kasutuskogemust asukohateabe abil.</translation>
 <translation id="8586442755830160949">Autoriõigus <ph name="YEAR" /> The Chromium Authors. Kõik õigused on kaitstud.</translation>
 <translation id="8776843108004031667">See konto ja kõik salvestamata andmed eemaldatakse Chromiumist.</translation>
-<translation id="8809780021347235332">Kujutiste salvestamiseks puudutage valikut Seaded, et lubada Chromiumil teie fotode kasutamine</translation>
 <translation id="9022552996538154597">Logige Chromiumi sisse</translation>
 <translation id="985602178874221306">The Chromium Authors</translation>
 </translationbundle>

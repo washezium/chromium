@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">روکیں</translation>
 <translation id="1283524564873030414">گزشتہ 24 گھنٹے</translation>
 <translation id="1285320974508926690">اس سائٹ کا ترجمہ کبھی نہ کریں</translation>
+<translation id="1321993286294231467">تصویر محفوظ کرنے میں خرابی۔</translation>
 <translation id="1323735185997015385">حذف کریں</translation>
 <translation id="132683371494960526">پیرینٹ فولڈر تبدیل کرنے کیلئے دو بار تھپتھپائیں۔</translation>
 <translation id="1340643665687018190">مینو بند کریں</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">تمام کھولیں</translation>
 <translation id="2562041823070056534"><ph name="DEVICE_NAME" /> پر بھیجا جا رہا ہے…</translation>
 <translation id="2570206273416014374">آپ کے ڈیفالٹ سرچ انجن کو ایڈریس بار اور تلاش کے خانے سے کچھ کوکیز اور تلاشیں بھیجتی ہے۔</translation>
-<translation id="2572712655377361602">آلہ کی پالیسی نے آپ کی تصاویر تک رسائی کو مسدود کردیا</translation>
 <translation id="2578571896248130439">ویب صفحہ بھیجیں</translation>
 <translation id="2584132361465095047">اکاؤنٹ شامل کریں…</translation>
 <translation id="2600682495497606169">سائٹ کوکیز صاف کریں</translation>
@@ -591,7 +591,6 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="7993619969781047893">کچھ سائٹس پر خصوصیات میں خلل ہو سکتا ہے۔</translation>
 <translation id="800361585186029508">‏درج کردہ URLs کو Google Chrome میں کھولتا ہے۔</translation>
 <translation id="8007420562015504427">پوشیدگی وضع میں تلاش کریں</translation>
-<translation id="8019783059653722575">یہ آپ کو تصاویر محفوظ کرنے اور اپ لوڈ کرنے دیتا ہے۔</translation>
 <translation id="802154636333426148">ڈاؤن لوڈ ناکام ہوگیا</translation>
 <translation id="8023878949384262191">سیکشن کو پھیلاتا ہے۔</translation>
 <translation id="804427445359061970">آپ کو دوسرے آلات سے اپنے ٹیبز یہاں ملیں گے</translation>

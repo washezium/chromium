@@ -3,6 +3,7 @@
 <translationbundle lang="ja">
 <translation id="102360288709523007">使用統計情報と障害レポートを Google に送信して Chromium の機能向上に役立てる。</translation>
 <translation id="1185134272377778587">Chromium について</translation>
+<translation id="1257458525759135959">画像を保存するには、[設定] をタップして写真への追加を Chromium に許可してください</translation>
 <translation id="1472013873724362412">このアカウントは Chromium では使用できません。ドメイン管理者に問い合わせるか、通常の Google アカウントでログインしてください。</translation>
 <translation id="1507010443238049608">Chromium の機能と動作の改善に協力する</translation>
 <translation id="1617663976202781617">Chromium 同期のデータ</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">ユーザーの現在時に基づいて Chromium で Google を使いやすくします。</translation>
 <translation id="8586442755830160949">Copyright <ph name="YEAR" /> The Chromium Authors. All rights reserved.</translation>
 <translation id="8776843108004031667">このアカウントと保存されていないデータは Chromium から削除されます。</translation>
-<translation id="8809780021347235332">画像を保存するには、[設定] をタップして写真の使用を Chromium に許可してください</translation>
 <translation id="9022552996538154597">Chromium にログイン</translation>
 <translation id="985602178874221306">Chromium 開発者</translation>
 </translationbundle>

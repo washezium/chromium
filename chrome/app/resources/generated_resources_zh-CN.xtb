@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">无法使用这份个人资料</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{向新群组中添加标签页}other{向新群组中添加标签页}}</translation>
 <translation id="1472675084647422956">显示更多</translation>
+<translation id="1474785664565228650">重新启动 Parallels Desktop 后，对麦克风设置做出的更改才能生效。请重新启动 Parallels Desktop 以继续。</translation>
 <translation id="1475502736924165259">您有一些证书不属于前面的任何类别</translation>
 <translation id="1476088332184200792">复制到您的设备</translation>
 <translation id="1476607407192946488">语言设置(&amp;L)</translation>
@@ -2927,6 +2928,7 @@
 <translation id="4648499713050786492">在添加用户前，请先解锁您的个人资料。</translation>
 <translation id="4650591383426000695">将手机与 <ph name="DEVICE_TYPE" /> 断开连接</translation>
 <translation id="4651484272688821107">无法加载包含演示模式资源的在线组件。</translation>
+<translation id="4652935475563630866">重新启动 Parallels Desktop 后，对摄像头设置做出的更改才能生效。请重新启动 Parallels Desktop 以继续。</translation>
 <translation id="4653405415038586100">配置 Linux 时出错</translation>
 <translation id="465878909996028221">浏览器重定向仅支持 http、https 和文件协议。</translation>
 <translation id="4659077111144409915">主帐号</translation>

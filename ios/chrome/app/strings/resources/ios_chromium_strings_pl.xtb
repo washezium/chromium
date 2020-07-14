@@ -3,6 +3,7 @@
 <translationbundle lang="pl">
 <translation id="102360288709523007">Pomóż ulepszyć Chromium, wysyłając do Google statystyki użytkowania i raporty o awariach.</translation>
 <translation id="1185134272377778587">Chromium – informacje</translation>
+<translation id="1257458525759135959">Aby zapisać obrazy, kliknij Ustawienia i pozwól Chromium na dodanie ich do Twoich zdjęć</translation>
 <translation id="1472013873724362412">Twoje konto nie działa w Chromium. Skontaktuj się z administratorem domeny lub zaloguj się przy użyciu zwykłego konta Google.</translation>
 <translation id="1507010443238049608">Pomóż w ulepszaniu funkcji i działania Chromium</translation>
 <translation id="1617663976202781617">Dane z synchronizacji Chromium</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Włączenie udostępniania lokalizacji w Chromium pozwala w pełni korzystać z usług Google.</translation>
 <translation id="8586442755830160949">Copyright <ph name="YEAR" /> Autorzy Chromium. Wszelkie prawa zastrzeżone.</translation>
 <translation id="8776843108004031667">To konto razem z wszelkimi niezapisanymi danymi zostanie usunięte z Chromium.</translation>
-<translation id="8809780021347235332">Aby zapisać obrazy, kliknij Ustawienia i pozwól Chromium na użycie zdjęć</translation>
 <translation id="9022552996538154597">Zaloguj się w Chromium</translation>
 <translation id="985602178874221306">Autorzy Chromium</translation>
 </translationbundle>

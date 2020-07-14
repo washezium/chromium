@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">Can't use this profile</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Add tab to new group}other{Add tabs to new group}}</translation>
 <translation id="1472675084647422956">Show more</translation>
+<translation id="1474785664565228650">The change in microphone setting requires Parallels Desktop to relaunch. Relaunch Parallels Desktop to proceed.</translation>
 <translation id="1475502736924165259">You have certificates on file that do not fit into any of the other categories</translation>
 <translation id="1476088332184200792">Copy to Your Device</translation>
 <translation id="1476607407192946488">&amp;Language Settings</translation>
@@ -2932,6 +2933,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="4648499713050786492">Please unlock your profile before adding a person.</translation>
 <translation id="4650591383426000695">Disconnect your phone from your <ph name="DEVICE_TYPE" /></translation>
 <translation id="4651484272688821107">Could not load online component with demo mode resources.</translation>
+<translation id="4652935475563630866">The change in camera setting requires Parallels Desktop to relaunch. Relaunch Parallels Desktop to proceed.</translation>
 <translation id="4653405415038586100">Error configuring Linux</translation>
 <translation id="465878909996028221">Only http, https and file protocols are supported for browser redirects.</translation>
 <translation id="4659077111144409915">Primary account</translation>

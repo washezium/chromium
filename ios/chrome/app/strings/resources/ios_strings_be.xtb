@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Спыніць</translation>
 <translation id="1283524564873030414">За апошнія 24 гадзіны</translation>
 <translation id="1285320974508926690">Ніколі не перакладаць гэты сайт</translation>
+<translation id="1321993286294231467">Памылка пры захаванні фота.</translation>
 <translation id="1323735185997015385">Выдаліць</translation>
 <translation id="132683371494960526">Каб змяніць бацькоўскую папку, націсніце двойчы.</translation>
 <translation id="1340643665687018190">Закрыць меню</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">Адкрыць усе</translation>
 <translation id="2562041823070056534">Ідзе адпраўка на прыладу "<ph name="DEVICE_NAME" />"...</translation>
 <translation id="2570206273416014374">Адпраўляе вашай стандартнай пошукавай сістэме некаторыя файлы cookie, а таксама пошукавыя запыты, уведзеныя ў адрасным радку і полі пошуку.</translation>
-<translation id="2572712655377361602">Доступ да фота заблакіраваны палітыкай прылады</translation>
 <translation id="2578571896248130439">Адпраўка вэб-старонкі</translation>
 <translation id="2584132361465095047">Дадаць уліковы запіс…</translation>
 <translation id="2600682495497606169">Выдаліць файлы cookie сайта</translation>
@@ -591,7 +591,6 @@
 <translation id="7993619969781047893">Функцыі на некаторых сайтах могуць перастаць працаваць</translation>
 <translation id="800361585186029508">Адкрывае ўведзеныя URL-адрасы ў Google Chrome.</translation>
 <translation id="8007420562015504427">Пошук у рэжыме інкогніта</translation>
-<translation id="8019783059653722575">Гэта дазваляе захоўваць і запампоўваць фота.</translation>
 <translation id="802154636333426148">Збой спампоўкі</translation>
 <translation id="8023878949384262191">Разгортвае раздзел.</translation>
 <translation id="804427445359061970">Вашы ўкладкі з іншых прылад знаходзяцца тут</translation>

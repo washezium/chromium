@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">停止</translation>
 <translation id="1283524564873030414">过去 24 小时</translation>
 <translation id="1285320974508926690">一律不翻译此网站</translation>
+<translation id="1321993286294231467">保存图片时出错。</translation>
 <translation id="1323735185997015385">删除</translation>
 <translation id="132683371494960526">点按两次即可更改父文件夹。</translation>
 <translation id="1340643665687018190">关闭菜单</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">全部打开</translation>
 <translation id="2562041823070056534">正在发送到“<ph name="DEVICE_NAME" />”…</translation>
 <translation id="2570206273416014374">将一些 Cookie 以及地址栏和搜索框中的搜索字词发送给您的默认搜索引擎。</translation>
-<translation id="2572712655377361602">设备政策已禁用对您的照片的访问权限</translation>
 <translation id="2578571896248130439">发送网页</translation>
 <translation id="2584132361465095047">添加帐号…</translation>
 <translation id="2600682495497606169">清除网站 Cookie</translation>
@@ -591,7 +591,6 @@
 <translation id="7993619969781047893">某些网站上的功能可能会无法正常运作</translation>
 <translation id="800361585186029508">在 Google Chrome 中打开输入的网址。</translation>
 <translation id="8007420562015504427">无痕搜索</translation>
-<translation id="8019783059653722575">这样，您就可以保存并上传照片。</translation>
 <translation id="802154636333426148">下载失败</translation>
 <translation id="8023878949384262191">展开此部分。</translation>
 <translation id="804427445359061970">您在其他设备上打开的标签页会显示在此处</translation>

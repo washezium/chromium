@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Заустави</translation>
 <translation id="1283524564873030414">Последња 24 сата</translation>
 <translation id="1285320974508926690">Никад не преводи овај сајт</translation>
+<translation id="1321993286294231467">Дошло је до грешке при чувању слике.</translation>
 <translation id="1323735185997015385">Избриши</translation>
 <translation id="132683371494960526">Додирните двапут да бисте променили надређени директоријум.</translation>
 <translation id="1340643665687018190">Затвори мени</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">Отвори све</translation>
 <translation id="2562041823070056534">Шаље се на уређај <ph name="DEVICE_NAME" />...</translation>
 <translation id="2570206273416014374">Подразумеваном претраживачу шаље неке колачиће и претраге из траке за адресу и оквира за претрагу.</translation>
-<translation id="2572712655377361602">Смернице за уређај су блокирале приступ сликама</translation>
 <translation id="2578571896248130439">Пошаљите веб-страницу</translation>
 <translation id="2584132361465095047">Додај налог…</translation>
 <translation id="2600682495497606169">Обриши колачиће за сајт</translation>
@@ -591,7 +591,6 @@ Handoff треба да се омогући у одељку General (Опште)
 <translation id="7993619969781047893">Функције на неким сајтовима могу да престану са радом</translation>
 <translation id="800361585186029508">Отвара унете URL-ове у Google Chrome-у.</translation>
 <translation id="8007420562015504427">Претрага без архивирања</translation>
-<translation id="8019783059653722575">Ово вам омогућава да чувате и отпремате слике.</translation>
 <translation id="802154636333426148">Преузимање није успело</translation>
 <translation id="8023878949384262191">Проширује одељак.</translation>
 <translation id="804427445359061970">Овде ћете пронаћи картице са других уређаја</translation>

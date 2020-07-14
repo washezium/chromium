@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">Dieses Profil kann nicht verwendet werden</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Tab zu neuer Gruppe hinzufügen}other{Tabs zu neuer Gruppe hinzufügen}}</translation>
 <translation id="1472675084647422956">Mehr anzeigen</translation>
+<translation id="1474785664565228650">Nach dem Ändern der Mikrofoneinstellung muss Parallels Desktop neu gestartet werden. Starten Sie Parallels Desktop neu, um fortzufahren.</translation>
 <translation id="1475502736924165259">Einige Ihrer gespeicherten Zertifikate passen zu keiner der anderen Kategorien</translation>
 <translation id="1476088332184200792">Auf mein Gerät kopieren</translation>
 <translation id="1476607407192946488">&amp;Spracheinstellungen</translation>
@@ -1384,7 +1385,7 @@ Wenn Sie die Family Link App auf Ihrem Gerät installieren, können Sie die Eins
 <translation id="2705736684557713153">Scrollen Sie auf dem Bildschirm nach unten und aktivieren Sie die Option "Instant Tethering", wenn diese angezeigt wird. Falls nicht, brauchen Sie nichts weiter zu tun.</translation>
 <translation id="2707024448553392710">Komponente wird heruntergeladen.</translation>
 <translation id="270921614578699633">Durchschnitt bilden</translation>
-<translation id="2709516037105925701">AutoFill</translation>
+<translation id="2709516037105925701">Automatisches Ausfüllen</translation>
 <translation id="2710101514844343743">Nutzungsdaten &amp; Fehlerberichte</translation>
 <translation id="271033894570825754">Neu</translation>
 <translation id="2712173769900027643">Berechtigung anfordern</translation>
@@ -2928,6 +2929,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="4648499713050786492">Entsperren Sie Ihr Profil, bevor Sie eine Person hinzufügen.</translation>
 <translation id="4650591383426000695">Smartphone von <ph name="DEVICE_TYPE" /> trennen</translation>
 <translation id="4651484272688821107">Die Onlinekomponente konnte mit den Ressourcen des Demomodus nicht geladen werden.</translation>
+<translation id="4652935475563630866">Nach dem Ändern der Kameraeinstellung muss Parallels Desktop neu gestartet werden. Starten Sie Parallels Desktop neu, um fortzufahren.</translation>
 <translation id="4653405415038586100">Fehler bei der Konfiguration von Linux</translation>
 <translation id="465878909996028221">Nur HTTP-, HTTPS- und Dateiprotokolle werden für Browserweiterleitungen unterstützt.</translation>
 <translation id="4659077111144409915">Primäres Konto</translation>
@@ -4633,7 +4635,7 @@ Möchten Sie <ph name="CONTROL_PANEL_APPLET_NAME" /> starten?</translation>
 <translation id="6860097299815761905">Proxy-Einstellungen...</translation>
 <translation id="6860427144121307915">In Tab öffnen</translation>
 <translation id="686366188661646310">Passwort löschen?</translation>
-<translation id="6865313869410766144">AutoFill-Formulardaten</translation>
+<translation id="6865313869410766144">Formulardaten automatisch ausfüllen</translation>
 <translation id="6865598234501509159">Diese Seite ist nicht auf <ph name="LANGUAGE" /></translation>
 <translation id="6865708901122695652">WebRTC-Ereignisprotokolle (<ph name="WEBRTC_EVENT_LOG_COUNT" />)</translation>
 <translation id="686664946474413495">Farbtemperatur</translation>
@@ -6079,7 +6081,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="8656768832129462377">Nicht überprüfen</translation>
 <translation id="8658645149275195032"><ph name="APP_NAME" /> teilt Bildschirm und Audio mit <ph name="TAB_NAME" />.</translation>
 <translation id="8661290697478713397">Link in Inko&amp;gnito-Fenster öffnen</translation>
-<translation id="8662671328352114214">In <ph name="TYPE" />-Netzwerk einwählen</translation>
+<translation id="8662671328352114214">Mit <ph name="TYPE" /> verbinden</translation>
 <translation id="8662795692588422978">Personen</translation>
 <translation id="8662811608048051533">Sie werden von den meisten Websites abgemeldet.</translation>
 <translation id="8662911384982557515">Startseite zu <ph name="HOME_PAGE" /> ändern</translation>
@@ -6385,7 +6387,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="901668144954885282">In Google Drive sichern</translation>
 <translation id="9018218886431812662">Installation abgeschlossen</translation>
 <translation id="901834265349196618">E-Mail</translation>
-<translation id="9019062154811256702">AutoFill-Einstellungen lesen und ändern</translation>
+<translation id="9019062154811256702">Einstellungen für automatisches Ausfüllen lesen und ändern</translation>
 <translation id="9019894137004772119">Standort verwenden. Apps und Dienste mit Berechtigung zur Standortermittlung dürfen den Standort Ihres Geräts nutzen. Google kann Standortdaten in regelmäßigen Abständen erfassen und diese Daten auf anonyme Weise verwenden, um die Standortgenauigkeit und standortbezogene Dienste zu verbessern.</translation>
 <translation id="9020362265352758658">4-fach</translation>
 <translation id="9021662811137657072">Virus gefunden</translation>
@@ -6424,7 +6426,7 @@ Speichern Sie Ihre Schlüsseldatei an einem sicheren Ort. Sie benötigen die Dat
 <translation id="9057354806206861646">Aktualisierungszeitplan</translation>
 <translation id="9062468308252555888">14-fach</translation>
 <translation id="9063208415146866933">Fehler von Zeile <ph name="ERROR_LINE_START" /> bis <ph name="ERROR_LINE_END" /></translation>
-<translation id="9064275926664971810">AutoFill aktivieren, um Webformulare mit nur einem Klick auszufüllen</translation>
+<translation id="9064275926664971810">"Automatisches Ausfüllen" aktivieren, um Webformulare mit nur einem Klick auszufüllen</translation>
 <translation id="9065203028668620118">Bearbeiten</translation>
 <translation id="9066773882585798925">Text vorlesen lassen</translation>
 <translation id="9066782832737749352">Sprachausgabe</translation>

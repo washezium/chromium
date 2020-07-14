@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">No se puede usar este perfil</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Agregar pestaña a un grupo nuevo}other{Agregar pestañas a un grupo nuevo}}</translation>
 <translation id="1472675084647422956">Mostrar más</translation>
+<translation id="1474785664565228650">Es necesario que reinicies Parallels Desktop para aplicar los cambios en la configuración del micrófono. Para continuar, reinicia Parallels Desktop.</translation>
 <translation id="1475502736924165259">Tienes certificados archivados que no coinciden con ninguna de las demás categorías</translation>
 <translation id="1476088332184200792">Copiar a tu dispositivo</translation>
 <translation id="1476607407192946488">&amp;Configuración de idiomas</translation>
@@ -2929,6 +2930,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="4648499713050786492">Desbloquea tu perfil antes de agregar una persona.</translation>
 <translation id="4650591383426000695">Desconecta el teléfono de tu <ph name="DEVICE_TYPE" /></translation>
 <translation id="4651484272688821107">No se pudo cargar el componente en línea con los recursos del modo de demostración.</translation>
+<translation id="4652935475563630866">Es necesario que reinicies Parallels Desktop para aplicar los cambios en la configuración de la cámara. Para continuar, reinicia Parallels Desktop.</translation>
 <translation id="4653405415038586100">Se produjo un error al configurar Linux</translation>
 <translation id="465878909996028221">Solo se admiten los protocolos http, https y de archivo para las redirecciones a navegadores.</translation>
 <translation id="4659077111144409915">Cuenta principal</translation>

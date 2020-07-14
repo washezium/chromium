@@ -194,7 +194,7 @@
 <translation id="1232569758102978740">Senza titolo</translation>
 <translation id="1233497634904001272">Tocca di nuovo il token di sicurezza per completare la richiesta.</translation>
 <translation id="1233721473400465416">Lingua</translation>
-<translation id="1234808891666923653">Service Workers</translation>
+<translation id="1234808891666923653">Service worker</translation>
 <translation id="1235458158152011030">Reti note</translation>
 <translation id="123578888592755962">Disco pieno</translation>
 <translation id="1238191093934674082">VPN aperta</translation>
@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">Impossibile utilizzare questo profilo</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Aggiungi scheda a nuovo gruppo}other{Aggiungi schede a nuovo gruppo}}</translation>
 <translation id="1472675084647422956">Mostra altro</translation>
+<translation id="1474785664565228650">La modifica dell'impostazione del microfono richiede il riavvio di Parallels Desktop. Riavvia Parallels Desktop per continuare.</translation>
 <translation id="1475502736924165259">Hai certificati su file che non rientrano in nessuna delle altre categorie</translation>
 <translation id="1476088332184200792">Copia sul tuo dispositivo</translation>
 <translation id="1476607407192946488">&amp;Impostazioni lingua</translation>
@@ -2931,6 +2932,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="4648499713050786492">Sblocca il tuo profilo prima di aggiungere una persona.</translation>
 <translation id="4650591383426000695">Disconnetti il telefono da <ph name="DEVICE_TYPE" /></translation>
 <translation id="4651484272688821107">Impossibile caricare il componente online con le risorse della modalità demo.</translation>
+<translation id="4652935475563630866">La modifica dell'impostazione della videocamera richiede il riavvio di Parallels Desktop. Riavvia Parallels Desktop per continuare.</translation>
 <translation id="4653405415038586100">Errore durante la configurazione di Linux</translation>
 <translation id="465878909996028221">Per i reindirizzamenti del browser sono supportati solo http, https e i protocolli di file.</translation>
 <translation id="4659077111144409915">Account principale</translation>
@@ -3443,7 +3445,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="5336126339807372270">Non consentire ai siti di accedere ai dispositivi USB</translation>
 <translation id="5336688142483283574">Anche questa pagina verrà rimossa dalla tua cronologia e dall'attività di <ph name="SEARCH_ENGINE" />.</translation>
 <translation id="5337771866151525739">Installata da una terza parte.</translation>
-<translation id="5338503421962489998">Local storage</translation>
+<translation id="5338503421962489998">Archiviazione locale</translation>
 <translation id="5340638867532133571">Consenti ai siti di installare gestori dei pagamenti (opzione consigliata)</translation>
 <translation id="5341793073192892252">I seguenti cookie sono stati bloccati (i cookie di terze parti vengono bloccati senza eccezioni)</translation>
 <translation id="5341980496415249280">Attendi, compressione in corso…</translation>

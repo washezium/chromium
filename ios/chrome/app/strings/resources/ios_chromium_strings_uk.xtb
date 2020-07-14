@@ -3,6 +3,7 @@
 <translationbundle lang="uk">
 <translation id="102360288709523007">Допоможіть покращити Chromium, надсилаючи в Google статистику використання та звіти про аварійне завершення роботи.</translation>
 <translation id="1185134272377778587">Про Chromium</translation>
+<translation id="1257458525759135959">Щоб зберегти зображення, натисніть "Налаштування" та дозвольте Chromium додавати фотографії</translation>
 <translation id="1472013873724362412">Ваш обліковий запис не працює в Chromium. Зв’яжіться з адміністратором свого домену або ввійдіть у звичайний обліковий запис Google.</translation>
 <translation id="1507010443238049608">Сприяти покращенню функцій і підвищенню продуктивності Chromium</translation>
 <translation id="1617663976202781617">Дані синхронізації Chromium</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Знаючи ваше місцезнаходження, Google зможе створити для вас зручніші умови роботи в Chromium.</translation>
 <translation id="8586442755830160949">Авторське право <ph name="YEAR" /> Автори Chromium. Усі права захищено.</translation>
 <translation id="8776843108004031667">Цей обліковий запис і всі незбережені дані буде вилучено з Chromium.</translation>
-<translation id="8809780021347235332">Щоб зберегти зображення, торкніться опції "Параметри" та надайте Chromium доступ до ваших фото</translation>
 <translation id="9022552996538154597">Вхід у Chromium</translation>
 <translation id="985602178874221306">The Chromium Authors</translation>
 </translationbundle>

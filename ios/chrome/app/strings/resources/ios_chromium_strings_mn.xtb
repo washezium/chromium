@@ -3,6 +3,7 @@
 <translationbundle lang="mn">
 <translation id="102360288709523007">Хэрэглээний статистик мэдээлэл, алдааны тайланг Google-д автоматаар илгээж, Google Chrome-г сайжруулахад тусална уу.</translation>
 <translation id="1185134272377778587">Chromium-ийн тухай</translation>
+<translation id="1257458525759135959">Зургуудыг хадгалахын тулд Тохиргоон дээр товшиж, таны зургуудад нэмэхийг Chromium-д зөвшөөрнө үү</translation>
 <translation id="1472013873724362412">Таны бүртгэл Chromium-д ажилладаггүй. Нэвтрэхийн тулд та домайн админдаа хандах, эсвэл Google Бүртгэлийн энгийн хувилбарыг ашиглах боломжтой.</translation>
 <translation id="1507010443238049608">Chromium-н онцлог болон гүйцэтгэлийг сайжруулахад туслах</translation>
 <translation id="1617663976202781617">Chromium синкийн өгөгдөл</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Өөрийн байршилд тулгуурлан Chromium-г илүү сайн ашиглаж сураарай.</translation>
 <translation id="8586442755830160949">Chromium-ийн зохиогчийн эрх <ph name="YEAR" />. Бүх эрхийг хуулиар хамгаалсан.</translation>
 <translation id="8776843108004031667">Энэ бүртгэл болон хадгалаагүй аливаа өгөгдлийг Chromium-с хасна.</translation>
-<translation id="8809780021347235332">Зураг хадгалахын тулд Тохиргоог товшиж, Chromium-д таны зургийг ашиглах зөвшөөрөл олгоно уу</translation>
 <translation id="9022552996538154597">Chromium дансандаа нэвтрэх</translation>
 <translation id="985602178874221306">Chromium-ыг бүтээгчид</translation>
 </translationbundle>

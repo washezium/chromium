@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">বন্ধ কৰক</translation>
 <translation id="1283524564873030414">যোৱা ২৪ ঘণ্টাত</translation>
 <translation id="1285320974508926690">এই ছাইটটো কেতিয়াও অনুবাদ নকৰিব</translation>
+<translation id="1321993286294231467">প্ৰতিচ্ছবি ছেভ কৰোঁতে আঁসোৱাহ হৈছে।</translation>
 <translation id="1323735185997015385">মচক</translation>
 <translation id="132683371494960526">পেৰেণ্ট ফ’ল্ডাৰ সলনি কৰিবলৈ দুবাৰ টিপক৷</translation>
 <translation id="1340643665687018190">মেনু বন্ধ কৰক</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">সকলো খোলক</translation>
 <translation id="2562041823070056534"><ph name="DEVICE_NAME" />লৈ পঠিয়াই থকা হৈছে...</translation>
 <translation id="2570206273416014374">আপোনাৰ ডিফ’ল্ট সন্ধান ইঞ্জিনলৈ ঠিকনা বাৰ আৰু সন্ধান বাকছৰ পৰা কিছুমান কুকি আৰু সন্ধান পঠিয়ায়।</translation>
-<translation id="2572712655377361602">কোনো ডিভাইচৰ নীতিয়ে আপোনাৰ ফট'লৈ এক্সেছ অৱৰোধ কৰিছে</translation>
 <translation id="2578571896248130439">ৱেবপৃষ্ঠা পঠিয়াওক</translation>
 <translation id="2584132361465095047">একাউণ্ট যোগ দিয়ক…</translation>
 <translation id="2600682495497606169">ছাইটৰ কুকিসমূহ মচক</translation>
@@ -588,7 +588,6 @@
 <translation id="7993619969781047893">কিছুমান ছাইটত সুবিধাসমূহ ব্যাহত হ’ব পাৰে</translation>
 <translation id="800361585186029508">ইনপুট কৰা URLসমূহ Google Chromeত খোলে।</translation>
 <translation id="8007420562015504427">ইনক’গনিট’ ম’ডত সন্ধান কৰক</translation>
-<translation id="8019783059653722575">ইয়াৰ জৰিয়তে আপুনি ফট’ ছেভ কৰিব পাৰে আৰু আপল’ড কৰিব পাৰে৷</translation>
 <translation id="802154636333426148">ডাউনল’ড কৰিব পৰা নগ’ল</translation>
 <translation id="8023878949384262191">শাখাটো বিস্তাৰ কৰে।</translation>
 <translation id="804427445359061970">অন্য ডিভাইচসমূহৰ পৰা আপোনাৰ টেবসমূহ আপুনি ইয়াত বিচাৰি পাব</translation>

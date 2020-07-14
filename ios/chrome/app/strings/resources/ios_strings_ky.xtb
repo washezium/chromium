@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Токтотуу</translation>
 <translation id="1283524564873030414">Акыркы 24 саат</translation>
 <translation id="1285320974508926690">Бул сайт эч качан которулбасын</translation>
+<translation id="1321993286294231467">Сүрөттүн сактоодо ката кетти.</translation>
 <translation id="1323735185997015385">Жок кылуу</translation>
 <translation id="132683371494960526">Түпкү куржунду өзгөртүү үчүн эки жолу таптап коюңуз.</translation>
 <translation id="1340643665687018190">Менюну жабуу</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">Баарын ачуу</translation>
 <translation id="2562041823070056534"><ph name="DEVICE_NAME" /> түзмөгүнө жөнөтүлүүдө…</translation>
 <translation id="2570206273416014374">Дарек тилкесиндеги жана издөө кутучасындагы издөөлөрдү жана айрым cookie файлдарын демейки издөө тутумуна жөнөтөт.</translation>
-<translation id="2572712655377361602">Түзмөктүн саясаты боюнча сүрөттөрүңүздү колдонуу мүмкүнчүлүгү бөгөттөлгөн</translation>
 <translation id="2578571896248130439">Веб-баракчаны жөнөтүңүз</translation>
 <translation id="2584132361465095047">Аккаунт кошуу…</translation>
 <translation id="2600682495497606169">Сайттын cookie файлдарын өчүрүү</translation>
@@ -591,7 +591,6 @@ Handoff Жөндөөлөрдүн жалпы бөлүмүндө да иштети
 <translation id="7993619969781047893">Функциялар айрым сайттарда туура иштебеши мүмкүн</translation>
 <translation id="800361585186029508">URL'дерди Google Chrome'до ачат.</translation>
 <translation id="8007420562015504427">Жашыруун издөө</translation>
-<translation id="8019783059653722575">Бул сүрөттөрдү сактап жана жүктөп берүүгө жол ачат.</translation>
 <translation id="802154636333426148">Жүктөлүп алынбай калды</translation>
 <translation id="8023878949384262191">Бөлүмдү кеңейтет.</translation>
 <translation id="804427445359061970">Башка түзмөктөрдөгү өтмөктөрүңүздү ушул жерден табасыз</translation>

@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">Ky profil nuk mund të përdoret</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{Shto një skedë te grupi i ri}other{Shto skeda te grupi i ri}}</translation>
 <translation id="1472675084647422956">Shfaq më shumë</translation>
+<translation id="1474785664565228650">Ndryshimi në cilësimin e mikrofonit kërkon që të riniset Parallels Desktop. Rinis Parallels Desktop për të vazhduar.</translation>
 <translation id="1475502736924165259">Ke certifikata në skedar që nuk përputhen në asnjë nga kategoritë e tjera</translation>
 <translation id="1476088332184200792">Kopjo te pajisja jote</translation>
 <translation id="1476607407192946488">&amp;Cilësimet e gjuhës</translation>
@@ -2929,6 +2930,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="4648499713050786492">Shkyçe profilin tënd para se të shtosh një person.</translation>
 <translation id="4650591383426000695">Shkëput telefonin tënd nga <ph name="DEVICE_TYPE" /></translation>
 <translation id="4651484272688821107">Komponenti në linjë me burimet e modalitetit të demonstrimit nuk mund të ngarkohej.</translation>
+<translation id="4652935475563630866">Ndryshimi në cilësimin e kamerës kërkon që të riniset Parallels Desktop. Rinis Parallels Desktop për të vazhduar.</translation>
 <translation id="4653405415038586100">Gabim gjatë konfigurimit të Linux</translation>
 <translation id="465878909996028221">Për ridrejtimet e shfletuesve mbështeten vetëm protokollet http, https dhe të skedarëve.</translation>
 <translation id="4659077111144409915">Llogaria parësore</translation>

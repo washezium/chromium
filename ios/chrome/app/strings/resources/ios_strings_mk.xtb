@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">Запри</translation>
 <translation id="1283524564873030414">Изминатите 24 часа</translation>
 <translation id="1285320974508926690">Никогаш не преведувај ја оваа локација</translation>
+<translation id="1321993286294231467">Грешка при зачувувањето на сликата.</translation>
 <translation id="1323735185997015385">Избриши</translation>
 <translation id="132683371494960526">Допрете двапати за променување на изворна папка.</translation>
 <translation id="1340643665687018190">Затвори мени</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">Отвори ги сите</translation>
 <translation id="2562041823070056534">Се испраќа на <ph name="DEVICE_NAME" />…</translation>
 <translation id="2570206273416014374">Испраќа колачиња и пребарувања од лентата за адреси и полето за пребарување во вашиот стандарден пребарувач.</translation>
-<translation id="2572712655377361602">Правило на уредот го блокираше пристапот до фотографиите</translation>
 <translation id="2578571896248130439">Испратете веб-страница</translation>
 <translation id="2584132361465095047">Додајте сметка</translation>
 <translation id="2600682495497606169">Избриши ги колачињата од сајтот</translation>
@@ -591,7 +591,6 @@ Handoff мора да биде овозможен и во Општиот дел 
 <translation id="7993619969781047893">Функциите на некои сајтови може да не функционираат</translation>
 <translation id="800361585186029508">Ги отвора внесените URL-адреси во Google Chrome.</translation>
 <translation id="8007420562015504427">Инкогнито пребарување</translation>
-<translation id="8019783059653722575">Ова ви овозможува да зачувувате и да поставувате фотографии.</translation>
 <translation id="802154636333426148">Неуспешно преземање</translation>
 <translation id="8023878949384262191">Го проширува делот.</translation>
 <translation id="804427445359061970">Картичките од другите уреди ќе ги најдете тука</translation>

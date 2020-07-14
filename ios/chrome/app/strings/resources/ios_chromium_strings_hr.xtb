@@ -3,6 +3,7 @@
 <translationbundle lang="hr">
 <translation id="102360288709523007">Pomognite nam da poboljšamo Chromium slanjem statistike o upotrebi i izvješća o padu programa Googleu.</translation>
 <translation id="1185134272377778587">O pregledniku Chromium</translation>
+<translation id="1257458525759135959">Da bi se slike spremale, dodirnite Postavke kako biste dopustili Chromiumu da dodaje vašim fotografijama</translation>
 <translation id="1472013873724362412">Vaš račun ne funkcionira na Chromiumu. Obratite se administratoru domene ili se prijavite običnim Google računom.</translation>
 <translation id="1507010443238049608">Pomozite poboljšati Chromiumove značajke i izvedbu</translation>
 <translation id="1617663976202781617">Podaci sinkronizacije Chromiuma</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Doživite Google na bolji način u Chromiumu na temelju svoje lokacije.</translation>
 <translation id="8586442755830160949">Autorska prava <ph name="YEAR" />. Autori Chromiuma. Sva prava pridržana.</translation>
 <translation id="8776843108004031667">Taj račun i svi nespremljeni podaci uklonit će se iz Chromiuma.</translation>
-<translation id="8809780021347235332">Da biste spremili slike, dodirnite Postavke i omogućite Chromiumu upotrebu fotografija</translation>
 <translation id="9022552996538154597">Prijava na Chromium</translation>
 <translation id="985602178874221306">Autori Chromiuma</translation>
 </translationbundle>

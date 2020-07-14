@@ -3,6 +3,7 @@
 <translationbundle lang="pt-BR">
 <translation id="102360288709523007">Ajude a melhorar o Chromium. Envie estatísticas e relatórios de erros ao Google.</translation>
 <translation id="1185134272377778587">Sobre o Chromium</translation>
+<translation id="1257458525759135959">Para salvar imagens, toque em "Configurações" e permita que o Chromium as adicione às suas fotos</translation>
 <translation id="1472013873724362412">Sua conta não funciona com o Chromium. Entre em contato com o administrador do domínio ou use uma Conta do Google normal para fazer login.</translation>
 <translation id="1507010443238049608">Ajudar a melhorar os recursos e o desempenho do Chromium</translation>
 <translation id="1617663976202781617">Dados da sincronização do Chromium</translation>
@@ -49,7 +50,6 @@
 <translation id="8252885722420466166">Melhore sua experiência do Google no Chromium de acordo com seu local.</translation>
 <translation id="8586442755830160949">Copyright <ph name="YEAR" /> Autores do Chromium. Todos os direitos reservados.</translation>
 <translation id="8776843108004031667">A conta e os dados não salvos serão removidos do Chromium.</translation>
-<translation id="8809780021347235332">Para salvar imagens, toque em Ajustes para permitir que o Chromium use suas fotos.</translation>
 <translation id="9022552996538154597">Fazer login no Chromium</translation>
 <translation id="985602178874221306">Autores do Chromium</translation>
 </translationbundle>

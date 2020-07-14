@@ -31,6 +31,7 @@
 <translation id="1272079795634619415">বন্ধ</translation>
 <translation id="1283524564873030414">গত ২৪ ঘণ্টা</translation>
 <translation id="1285320974508926690">কখনই এই সাইটটিকে অনুবাদ করবেন না</translation>
+<translation id="1321993286294231467">ছবি সেভ করার সময় কোনও সমস্যা হয়েছে।</translation>
 <translation id="1323735185997015385">মুছুন</translation>
 <translation id="132683371494960526">মূল ফোল্ডার পরিবর্তন করতে দুবার আলতো চাপুন।</translation>
 <translation id="1340643665687018190">মেনু বন্ধ করুন</translation>
@@ -135,7 +136,6 @@
 <translation id="2529021024822217800">সবকটি খুলুন</translation>
 <translation id="2562041823070056534"><ph name="DEVICE_NAME" />-এ পাঠানো হচ্ছে…</translation>
 <translation id="2570206273416014374">অ্যাড্রেস বার ও সার্চ বক্স থেকে সার্চের তথ্য এবং কিছু কুকি আপনার ডিফল্ট সার্চ ইঞ্জিনে পাঠায়।</translation>
-<translation id="2572712655377361602">একটি ডিভাইস নীতি আপনার ফটোতে অ্যাক্সেস অবরুদ্ধ করেছে</translation>
 <translation id="2578571896248130439">ওয়েবপেজ পাঠান</translation>
 <translation id="2584132361465095047">অ্যাকাউন্ট যোগ করুন...</translation>
 <translation id="2600682495497606169">সাইটের কুকি মুছুন</translation>
@@ -592,7 +592,6 @@
 <translation id="7993619969781047893">কিছু কিছু সাইটের ফিচারগুলি কাজ নাও করতে পারে</translation>
 <translation id="800361585186029508">Google Chrome-এ ইনপুট করা ইউআরএলগুলি খোলে।</translation>
 <translation id="8007420562015504427">নতুন ছদ্মবেশী ট্যাবে সার্চ করুন</translation>
-<translation id="8019783059653722575">এটি আপনাকে ফটো সংরক্ষণ এবং আপলোড করতে দেয়।</translation>
 <translation id="802154636333426148">ডাউনলোড করা যায়নি</translation>
 <translation id="8023878949384262191">বিভাগটি প্রসারিত করে।</translation>
 <translation id="804427445359061970">আপনি অন্যান্য ডিভাইস থেকে নিজের ট্যাবগুলি এখানে দেখতে পাবেন</translation>

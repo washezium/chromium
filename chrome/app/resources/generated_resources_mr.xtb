@@ -377,6 +377,7 @@
 <translation id="1468571364034902819">ही प्रोफाइल वापरू शकत नाही</translation>
 <translation id="1470084204649225129">{NUM_TABS,plural, =1{नवीन गट यामध्ये टॅब जोडा}other{नवीन गट यामध्ये टॅब जोडा}}</translation>
 <translation id="1472675084647422956">अधिक दर्शवा</translation>
+<translation id="1474785664565228650">मायक्रोफोनच्या सेटिंगमधील बदलासाठी Parallels Desktop पुन्हा लाँच करणे आवश्यक आहे. Parallels Desktop वर पुढे सुरू ठेवण्यासाठी पुन्हा लाँच करा.</translation>
 <translation id="1475502736924165259">आपल्याकडे फाईलवर प्रमाणपत्रे आहेत जी अन्य कोणत्याही श्रेणींसाठी योग्य नाहीत</translation>
 <translation id="1476088332184200792">तुमच्या डिव्हाइसवर कॉपी करा</translation>
 <translation id="1476607407192946488">&amp;भाषा सेटिंग्ज</translation>
@@ -2929,6 +2930,7 @@
 <translation id="4648499713050786492">कृपया एखाद्या व्यक्तीस जोडण्यापूर्वी तुमचे प्रोफाईल अनलॉक करा.</translation>
 <translation id="4650591383426000695">तुमचा फोन <ph name="DEVICE_TYPE" /> वरून डिस्कनेक्ट करा</translation>
 <translation id="4651484272688821107">डेमो मोड स्रोतांनी ऑनलाइन घटक लोड करता आला नाही.</translation>
+<translation id="4652935475563630866">कॅमेऱ्याच्या सेटिंगमधील बदलासाठी Parallels Desktop पुन्हा लाँच करणे आवश्यक आहे. Parallels Desktop वर पुढे सुरू ठेवण्यासाठी पुन्हा लाँच करा.</translation>
 <translation id="4653405415038586100">Linux कॉन्फिगर करताना एरर आली</translation>
 <translation id="465878909996028221">फक्त http, https आणि फाइल प्रोटोकॉलना ब्राउझर रीडिरेक्‍टला सपोर्ट करते.</translation>
 <translation id="4659077111144409915">प्राथमिक खाते</translation>
