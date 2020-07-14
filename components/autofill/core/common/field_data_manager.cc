@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/autofill/content/renderer/field_data_manager.h"
+#include "components/autofill/core/common/field_data_manager.h"
 
 #include "base/check.h"
 #include "base/i18n/case_conversion.h"
-#include "third_party/blink/public/web/web_form_control_element.h"
 
 namespace autofill {
 
@@ -49,11 +48,9 @@ bool FieldDataManager::FindMachedValue(const base::string16& value) const {
   return false;
 }
 
-void FieldDataManager::UpdateFieldDataMap(
-    const blink::WebFormControlElement& element,
-    const base::string16& value,
-    FieldPropertiesMask mask) {
-  FieldRendererId id(element.UniqueRendererFormControlId());
+void FieldDataManager::UpdateFieldDataMap(FieldRendererId id,
+                                          const base::string16& value,
+                                          FieldPropertiesMask mask) {
   if (HasFieldData(id)) {
     field_value_and_properties_map_.at(id).first =
         base::Optional<base::string16>(value);
@@ -70,9 +67,8 @@ void FieldDataManager::UpdateFieldDataMap(
 }
 
 void FieldDataManager::UpdateFieldDataMapWithNullValue(
-    const blink::WebFormControlElement& element,
+    FieldRendererId id,
     FieldPropertiesMask mask) {
-  FieldRendererId id(element.UniqueRendererFormControlId());
   if (HasFieldData(id))
     field_value_and_properties_map_.at(id).second |= mask;
   else
@@ -82,6 +78,11 @@ void FieldDataManager::UpdateFieldDataMapWithNullValue(
 bool FieldDataManager::DidUserType(FieldRendererId id) const {
   return HasFieldData(id) &&
          (GetFieldPropertiesMask(id) & FieldPropertiesFlags::kUserTyped);
+}
+
+bool FieldDataManager::WasAutofilledOnUserTrigger(FieldRendererId id) const {
+  return HasFieldData(id) && (GetFieldPropertiesMask(id) &
+                              FieldPropertiesFlags::kAutofilledOnUserTrigger);
 }
 
 FieldDataManager::~FieldDataManager() = default;

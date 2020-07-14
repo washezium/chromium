@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_AUTOFILL_CONTENT_RENDERER_FIELD_DATA_MANAGER_H_
-#define COMPONENTS_AUTOFILL_CONTENT_RENDERER_FIELD_DATA_MANAGER_H_
+#ifndef COMPONENTS_AUTOFILL_CORE_COMMON_FIELD_DATA_MANAGER_H_
+#define COMPONENTS_AUTOFILL_CORE_COMMON_FIELD_DATA_MANAGER_H_
 
 #include <map>
 
@@ -11,10 +11,6 @@
 #include "base/strings/string16.h"
 #include "components/autofill/core/common/form_field_data.h"
 #include "components/autofill/core/common/renderer_id.h"
-
-namespace blink {
-class WebFormControlElement;
-}
 
 namespace autofill {
 
@@ -35,13 +31,12 @@ class FieldDataManager : public base::RefCounted<FieldDataManager> {
   // |field_value_and_properties_map_|.
   // Flags in |mask| are added with bitwise OR operation.
   // If |value| is empty, kUserTyped and kAutofilled should be cleared.
-  void UpdateFieldDataMap(const blink::WebFormControlElement& element,
+  void UpdateFieldDataMap(FieldRendererId id,
                           const base::string16& value,
                           FieldPropertiesMask mask);
   // Only update FieldPropertiesMask when value is null.
-  void UpdateFieldDataMapWithNullValue(
-      const blink::WebFormControlElement& element,
-      FieldPropertiesMask mask);
+  void UpdateFieldDataMapWithNullValue(FieldRendererId id,
+                                       FieldPropertiesMask mask);
 
   base::string16 GetUserTypedValue(FieldRendererId id) const;
   FieldPropertiesMask GetFieldPropertiesMask(FieldRendererId id) const;
@@ -50,6 +45,8 @@ class FieldDataManager : public base::RefCounted<FieldDataManager> {
   bool FindMachedValue(const base::string16& value) const;
 
   bool DidUserType(FieldRendererId id) const;
+
+  bool WasAutofilledOnUserTrigger(FieldRendererId id) const;
 
   const FieldDataMap& field_data_map() const {
     return field_value_and_properties_map_;
@@ -65,4 +62,4 @@ class FieldDataManager : public base::RefCounted<FieldDataManager> {
 
 }  // namespace autofill
 
-#endif  // COMPONENTS_AUTOFILL_CONTENT_RENDERER_FIELD_DATA_MANAGER_H_
+#endif  // COMPONENTS_AUTOFILL_CORE_COMMON_FIELD_DATA_MANAGER_H_
