@@ -570,7 +570,7 @@ void MediaStreamVideoTrack::StopAndNotify(base::OnceClosure callback) {
 }
 
 void MediaStreamVideoTrack::GetSettings(
-    WebMediaStreamTrack::Settings& settings) {
+    MediaStreamTrackPlatform::Settings& settings) {
   DCHECK_CALLED_ON_VALID_THREAD(main_render_thread_checker_);
   if (!source_)
     return;
@@ -599,7 +599,7 @@ void MediaStreamVideoTrack::GetSettings(
       settings.frame_rate = *computed_frame_rate_;
   }
 
-  settings.facing_mode = ToWebFacingMode(source_->device().video_facing);
+  settings.facing_mode = ToPlatformFacingMode(source_->device().video_facing);
   settings.resize_mode = WebString::FromASCII(std::string(
       adapter_settings().target_size() ? WebMediaStreamTrack::kResizeModeRescale
                                        : WebMediaStreamTrack::kResizeModeNone));

@@ -81,7 +81,7 @@ class MODULES_EXPORT MediaStreamVideoTrack : public MediaStreamTrackPlatform {
   void SetContentHint(
       WebMediaStreamTrack::ContentHintType content_hint) override;
   void StopAndNotify(base::OnceClosure callback) override;
-  void GetSettings(WebMediaStreamTrack::Settings& settings) override;
+  void GetSettings(MediaStreamTrackPlatform::Settings& settings) override;
 
   // Add |sink| to receive state changes on the main render thread and video
   // frames in the |callback| method on the IO-thread.

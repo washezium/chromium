@@ -133,7 +133,7 @@ void CheckVideoSourceAndTrack(blink::MediaStreamVideoSource* source,
       MediaStreamVideoTrack::GetVideoTrack(WebMediaStreamTrack(component));
   EXPECT_EQ(track->source(), source);
 
-  WebMediaStreamTrack::Settings settings;
+  MediaStreamTrackPlatform::Settings settings;
   track->GetSettings(settings);
   EXPECT_EQ(settings.width, expected_track_width);
   EXPECT_EQ(settings.height, expected_track_height);
@@ -1321,7 +1321,7 @@ TEST_F(UserMediaClientTest, ApplyConstraintsVideoDeviceStopped) {
             MediaStreamSource::kReadyStateEnded);
   EXPECT_FALSE(source->IsRunning());
   {
-    WebMediaStreamTrack::Settings settings;
+    MediaStreamTrackPlatform::Settings settings;
     track->GetSettings(settings);
     EXPECT_EQ(settings.width, -1);
     EXPECT_EQ(settings.height, -1);
@@ -1333,7 +1333,7 @@ TEST_F(UserMediaClientTest, ApplyConstraintsVideoDeviceStopped) {
             MediaStreamSource::kReadyStateEnded);
   EXPECT_FALSE(source->IsRunning());
   {
-    WebMediaStreamTrack::Settings settings;
+    MediaStreamTrackPlatform::Settings settings;
     track->GetSettings(settings);
     EXPECT_EQ(settings.width, -1);
     EXPECT_EQ(settings.height, -1);

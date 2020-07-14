@@ -100,7 +100,7 @@ class PLATFORM_EXPORT MediaStreamComponent final
       std::unique_ptr<MediaStreamTrackPlatform> platform_track) {
     platform_track_ = std::move(platform_track);
   }
-  void GetSettings(WebMediaStreamTrack::Settings&);
+  void GetSettings(MediaStreamTrackPlatform::Settings&);
 
   void Trace(Visitor*) const;
 
