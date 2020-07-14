@@ -1,1 +1,1 @@
-chromeos-chrome-amd64-airmont-85-4181.3-1594034008-benchmark-85.0.4183.22-r1-redacted.afdo.xz
+chromeos-chrome-amd64-airmont-85-4181.3-1594634650-benchmark-85.0.4183.24-r1-redacted.afdo.xz
