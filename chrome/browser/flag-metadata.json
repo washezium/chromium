@@ -144,11 +144,6 @@
     "expiry_milestone": 90
   },
   {
-    "name": "app-service-instance-registry",
-    "owners": [ "//components/services/app_service/OWNERS" ],
-    "expiry_milestone": 85
-  },
-  {
     "name": "app-service-intent-handling",
     "owners": [ "chromeos-apps-foundation-team@google.com" ],
     "expiry_milestone": 85

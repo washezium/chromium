@@ -1912,9 +1912,6 @@ extern const char kAllowScrollSettingsDescription[];
 extern const char kAppServiceAdaptiveIconName[];
 extern const char kAppServiceAdaptiveIconDescription[];
 
-extern const char kAppServiceInstanceRegistryName[];
-extern const char kAppServiceInstanceRegistryDescription[];
-
 extern const char kAppServiceIntentHandlingName[];
 extern const char kAppServiceIntentHandlingDescription[];
 

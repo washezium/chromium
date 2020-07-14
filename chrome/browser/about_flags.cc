@@ -4636,11 +4636,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kAppServiceAdaptiveIconDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(features::kAppServiceAdaptiveIcon)},
 
-    {"app-service-instance-registry",
-     flag_descriptions::kAppServiceInstanceRegistryName,
-     flag_descriptions::kAppServiceInstanceRegistryDescription, kOsCrOS,
-     FEATURE_VALUE_TYPE(features::kAppServiceInstanceRegistry)},
-
     {"app-service-intent-handling",
      flag_descriptions::kAppServiceIntentHandlingName,
      flag_descriptions::kAppServiceIntentHandlingDescription, kOsCrOS,
