@@ -13550,17 +13550,9 @@
       'id': 311,
       'caption': '''Set default display rotation, reapplied on every reboot''',
       'tags': [],
-      'desc': '''If this policy is set, each display is rotated to the
-      specified orientation on every reboot, and the first time it is connected
-      after the policy value has changed. Users may change the display
-      rotation via the settings page after logging in, but their
-      setting will be overridden by the policy value at the next reboot.
+      'desc': '''Setting the policy has each display rotate to the specified orientation on every reboot and the first time it's connected after the policy value changes. Users may change the display rotation through the settings page after signing in, but it changes back at the next reboot. This policy applies to primary and secondary displays.
 
-      This policy applies to both the primary and all secondary displays.
-
-      If the policy is not set, the default value is 0 degrees and the user is
-      free to change it. In this case, the default value is not reapplied at
-      restart.''',
+      If not set, the default value is 0 degrees and users are free to change it. In this case, the default value isn't reapplied at restart.''',
     },
     {
       'name': 'ArcEnabled',
@@ -18374,29 +18366,13 @@
       'id': 502,
       'caption': '''Set display resolution and scale factor''',
       'tags': [],
-      'desc': '''When this policy is set, resolution and scale factor of each
-      display are set to the specified values. External display settings are
-      applied to all connected external displays.
+      'desc': '''Setting the policy sets the resolution and scale factor for each display. External display settings apply to connected displays. (The policy doesn't apply if a display doesn't support the specified resolution or scale.)
 
-      Values of "external_width" and "external_height" should be specified in
-      pixels. Values of "external_scale_percentage" and
-      "internal_scale_percentage" should be specified in percents.
+      Setting <ph name="EXTERNAL_USE_NATIVE">external_use_native</ph> to True means the policy ignores <ph name="EXTERNAL_WIDTH">external_width</ph> and <ph name="EXTERNAL_HEIGHT">external_height</ph> and sets external displays to their native resolution. Setting <ph name="EXTERNAL_USE_NATIVE">external_use_native</ph> to False or leaving it and <ph name="EXTERNAL_WIDTH">external_width</ph> or <ph name="EXTERNAL_HEIGHT">external_height</ph> unset means the policy doesn't affect external displays.
 
-      If "external_use_native" is set to true, policy will ignore values of
-      "external_height" and "external_width" and set resolution of the external
-      displays to their native resolution.
+      Setting the recommended flag to True lets users change resolution and scale factor of any display through the settings page, but their settings change back at the next reboot. Setting the recommended flag to False or leaving it unset means users can't change the display settings.
 
-      If "external_use_native" is false or not provided and either
-      "external_height" or "external_width" is not provided, policy doesn't
-      affect the external display settings. If specified resolution or
-      scale factor is not supported by some display, policy is not applied to
-      that display.
-
-      If "recommended" flag is set to true, users may change resolution and
-      scale factor of any display via the settings page after logging in, but
-      their settings will be overriden by the policy value at the next reboot.
-      If "recommended" flag is set to false or not set, users can't change the
-      display settings.''',
+      Note: Set <ph name="EXTERNAL_WIDTH">external_width</ph> and <ph name="EXTERNAL_HEIGHT">external_height</ph> in pixels and <ph name="EXTERNAL_SCALE_PERCENTAGE">external_scale_percentage</ph> and <ph name="INTERNAL_SCALE_PERCENTAGE">internal_scale_percentage</ph> in percents.''',
     },
     {
       'name': 'PluginVmAllowed',
