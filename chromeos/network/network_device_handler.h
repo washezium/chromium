@@ -171,21 +171,6 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkDeviceHandler {
   // USB Ethernet device.
   virtual void SetUsbEthernetMacAddressSource(const std::string& source) = 0;
 
-  // Attempts to enable or disable TDLS for the specified IP or MAC address for
-  // the active wifi device.
-  virtual void SetWifiTDLSEnabled(
-      const std::string& ip_or_mac_address,
-      bool enabled,
-      const network_handler::StringResultCallback& callback,
-      const network_handler::ErrorCallback& error_callback) = 0;
-
-  // Returns the TDLS status for the specified IP or MAC address for
-  // the active wifi device.
-  virtual void GetWifiTDLSStatus(
-      const std::string& ip_or_mac_address,
-      const network_handler::StringResultCallback& callback,
-      const network_handler::ErrorCallback& error_callback) = 0;
-
   // Adds |ip_endpoint| to the list of tcp connections that the wifi device
   // should monitor to wake the system from suspend.
   virtual void AddWifiWakeOnPacketConnection(

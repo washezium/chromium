@@ -70,17 +70,6 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) FakeNetworkDeviceHandler
 
   void SetUsbEthernetMacAddressSource(const std::string& source) override;
 
-  void SetWifiTDLSEnabled(
-      const std::string& ip_or_mac_address,
-      bool enabled,
-      const network_handler::StringResultCallback& callback,
-      const network_handler::ErrorCallback& error_callback) override;
-
-  void GetWifiTDLSStatus(
-      const std::string& ip_or_mac_address,
-      const network_handler::StringResultCallback& callback,
-      const network_handler::ErrorCallback& error_callback) override;
-
   void AddWifiWakeOnPacketConnection(
       const net::IPEndPoint& ip_endpoint,
       const base::Closure& callback,
