@@ -576,6 +576,12 @@ void BlinkAXTreeSource::SerializeNode(WebAXObject src,
 
   if (accessibility_mode_.has_mode(ui::AXMode::kScreenReader) ||
       accessibility_mode_.has_mode(ui::AXMode::kPDF)) {
+    // Heading level.
+    if (ui::IsHeading(dst->role) && src.HeadingLevel()) {
+      dst->AddIntAttribute(ax::mojom::IntAttribute::kHierarchicalLevel,
+                           src.HeadingLevel());
+    }
+
     SerializeListAttributes(src, dst);
     SerializeTableAttributes(src, dst);
   }
@@ -1135,11 +1141,7 @@ void BlinkAXTreeSource::SerializeOtherScreenReaderAttributes(
                          src.ErrorMessage().AxID());
   }
 
-  if (ui::IsHeading(dst->role) && src.HeadingLevel()) {
-    dst->AddIntAttribute(ax::mojom::IntAttribute::kHierarchicalLevel,
-                         src.HeadingLevel());
-  } else if (ui::SupportsHierarchicalLevel(dst->role) &&
-             src.HierarchicalLevel()) {
+  if (ui::SupportsHierarchicalLevel(dst->role) && src.HierarchicalLevel()) {
     dst->AddIntAttribute(ax::mojom::IntAttribute::kHierarchicalLevel,
                          src.HierarchicalLevel());
   }
