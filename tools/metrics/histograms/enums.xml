@@ -28136,6 +28136,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3336" label="InlineOverflowScrollWithInlineEndPadding"/>
   <int value="3337" label="CSSSelectorPseudoWebKitDetailsMarker"/>
   <int value="3338" label="SerialPortGetInfo"/>
+  <int value="3347" label="RTCAdaptivePtime"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">

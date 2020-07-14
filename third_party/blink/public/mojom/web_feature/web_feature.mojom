@@ -2673,6 +2673,7 @@ enum WebFeature {
   kInlineOverflowScrollWithInlineEndPadding = 3336,
   kCSSSelectorPseudoWebKitDetailsMarker = 3337,
   kSerialPortGetInfo = 3338,
+  kRTCAdaptivePtime = 3347,
 
   // Add new features immediately above this line. Don't change assigned
   // numbers of any item, and don't reuse removed slots.
