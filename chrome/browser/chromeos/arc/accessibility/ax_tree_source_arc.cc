@@ -60,6 +60,9 @@ AXTreeSourceArc::~AXTreeSourceArc() {
 
 void AXTreeSourceArc::NotifyAccessibilityEvent(AXEventData* event_data) {
   root_id_.reset();
+  tree_map_.clear();
+  parent_map_.clear();
+  computed_bounds_.clear();
 
   window_id_ = event_data->window_id;
   is_notification_ = event_data->notification_key.has_value();
