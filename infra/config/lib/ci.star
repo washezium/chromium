@@ -885,15 +885,18 @@ def memory_builder(
   )
 
 
-def swangle_builder(*, name, builderless=True, **kwargs):
-  return ci.builder(
-      name = name,
-      builderless = builderless,
-      mastername = 'chromium.swangle',
-      service_account =
-      'chromium-ci-gpu-builder@chops-service-accounts.iam.gserviceaccount.com',
-      **kwargs
-  )
+def swangle_builder(*, name, builderless = True, pinned = True, **kwargs):
+    builder_args = dict(kwargs)
+    builder_args.update(
+        name = name,
+        builderless = builderless,
+        mastername = "chromium.swangle",
+        service_account =
+            "chromium-ci-gpu-builder@chops-service-accounts.iam.gserviceaccount.com",
+    )
+    if pinned:
+        builder_args.update(executable = "recipe:angle_chromium")
+    return ci.builder(**builder_args)
 
 
 def swangle_linux_builder(

@@ -3089,6 +3089,7 @@ ci.swangle_linux_builder(
         category = 'Chromium|Linux',
         short_name = 'x64',
     ),
+    pinned = False,
 )
 
 ci.swangle_linux_builder(
@@ -3129,6 +3130,7 @@ ci.swangle_linux_builder(
         category = 'DEPS|Linux',
         short_name = 'x64',
     ),
+    pinned = False,
 )
 
 ci.swangle_linux_builder(
@@ -3137,6 +3139,7 @@ ci.swangle_linux_builder(
         category = 'DEPS|Linux',
         short_name = 'x86',
     ),
+    pinned = False,
 )
 
 
@@ -3146,6 +3149,7 @@ ci.swangle_mac_builder(
         category = 'Chromium|Mac',
         short_name = 'x64',
     ),
+    pinned = False,
 )
 
 
@@ -3155,6 +3159,7 @@ ci.swangle_windows_builder(
         category = 'Chromium|Windows',
         short_name = 'x86',
     ),
+    pinned = False,
 )
 
 ci.swangle_windows_builder(
@@ -3195,6 +3200,7 @@ ci.swangle_windows_builder(
         category = 'DEPS|Windows',
         short_name = 'x64',
     ),
+    pinned = False,
 )
 
 ci.swangle_windows_builder(
@@ -3203,6 +3209,7 @@ ci.swangle_windows_builder(
         category = 'DEPS|Windows',
         short_name = 'x86',
     ),
+    pinned = False,
 )
 
 
