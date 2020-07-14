@@ -9,8 +9,7 @@
         id="filter-input"
         ref="autocomplete"
         :search="search"
-        @submit="onSelectOption"
-    ></Autocomplete>
+        @submit="onSelectOption"/>
   </div>
 </template>
 
@@ -24,7 +23,7 @@ const GraphFilterInput = {
     Autocomplete,
   },
   props: {
-    'nodeIds': Array
+    'nodeIds': Array,
   },
   methods: {
     search: function(searchTerm) {

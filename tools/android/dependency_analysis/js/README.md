@@ -55,7 +55,11 @@ npm run build && npm run serve-dist
 **To view the visualization, open `localhost:8888/package_view.html`.**
 
 ### Miscellaneous
-To run [ESLint](https://eslint.org/) on the JS (and fix fixable errors) using [npx](https://www.npmjs.com/package/npx) (bundled with npm):
+To run [ESLint](https://eslint.org/) on the JS and Vue files:
 ```
-npx eslint --fix *.js
+npm run lint
+```
+To let ESLint try and fix as many lint errors as it can:
+```
+npm run lint-fix
 ```

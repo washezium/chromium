@@ -4,8 +4,11 @@
 
 <template>
   <ul class="filter-items">
-    <li @click="removeFilter" v-for="node in nodeList">
-      {{node}}
+    <li
+        v-for="node in nodeList"
+        :key="node.id"
+        @click="removeFilter">
+      {{ node }}
     </li>
   </ul>
 </template>
@@ -14,7 +17,9 @@
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 
 const GraphFilterItems = {
-  props: ['nodeFilterData'],
+  props: {
+    nodeFilterData: Object,
+  },
   data: function() {
     return this.nodeFilterData;
   },

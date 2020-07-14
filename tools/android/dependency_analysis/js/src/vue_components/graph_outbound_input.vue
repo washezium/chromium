@@ -5,8 +5,15 @@
 <template>
   <div class="user-input-group">
     <label for="filter-outbound">Change outbound (yellow) depth:</label>
-    <input v-model.number="outboundDepth" type="number" id="filter-outbound">
-    <button @click="submitOutbound" type="button">Update Outbound</button>
+    <input
+        id="filter-outbound"
+        v-model.number="outboundDepth"
+        type="number">
+    <button
+        type="button"
+        @click="submitOutbound">
+      Update Outbound
+    </button>
   </div>
 </template>
 
@@ -14,7 +21,9 @@
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 
 const GraphOutboundInput = {
-  props: ['outboundDepthData'],
+  props: {
+    outboundDepthData: Object,
+  },
   data: function() {
     return this.outboundDepthData;
   },

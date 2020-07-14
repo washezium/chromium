@@ -3,7 +3,10 @@
      found in the LICENSE file. -->
 
 <template>
-  <svg id="graph-svg" width="960" height="600"></svg>
+  <svg
+      id="graph-svg"
+      width="960"
+      height="600"/>
 </template>
 
 <script>
@@ -11,16 +14,9 @@ import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 import {GraphView} from '../graph_view.js';
 
 const GraphVisualization = {
-  props: ['graphDataUpdateTicker', 'pageModel'],
-  /**
-   * Initializes the `GraphView` backing this visualization component. It's
-   * important we initialize on `mounted`, since GraphView's constructor binds
-   * to a DOM element which must exist at the time of construction.
-   */
-  mounted: function() {
-    this.graphView = new GraphView();
-    this.graphView.registerOnNodeClicked(
-        node => this.$emit(CUSTOM_EVENTS.NODE_CLICKED, node));
+  props: {
+    graphDataUpdateTicker: Number,
+    pageModel: Object,
   },
   watch: {
     /**
@@ -32,6 +28,16 @@ const GraphVisualization = {
     graphDataUpdateTicker: function() {
       this.graphView.updateGraphData(this.pageModel.getDataForD3());
     },
+  },
+  /**
+   * Initializes the `GraphView` backing this visualization component. It's
+   * important we initialize on `mounted`, since GraphView's constructor binds
+   * to a DOM element which must exist at the time of construction.
+   */
+  mounted: function() {
+    this.graphView = new GraphView();
+    this.graphView.registerOnNodeClicked(
+        node => this.$emit(CUSTOM_EVENTS.NODE_CLICKED, node));
   },
 };
 

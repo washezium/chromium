@@ -6,48 +6,40 @@
   <div id="page-container">
     <div id="page-controls">
       <GraphFilterInput
-        :node-ids="this.pageModel.getNodeIds()"
-        @[CUSTOM_EVENTS.FILTER_SUBMITTED]="this.addNodeToFilter"
-      ></GraphFilterInput>
+          :node-ids="pageModel.getNodeIds()"
+          @[CUSTOM_EVENTS.FILTER_SUBMITTED]="addNodeToFilter"/>
       <GraphFilterItems
-        :node-filter-data="this.pageModel.nodeFilterData"
-        @[CUSTOM_EVENTS.FILTER_ELEMENT_CLICKED]="this.removeNodeFromFilter"
-      ></GraphFilterItems>
+          :node-filter-data="pageModel.nodeFilterData"
+          @[CUSTOM_EVENTS.FILTER_ELEMENT_CLICKED]="removeNodeFromFilter"/>
       <GraphInboundInput
-        :inbound-depth-data="this.pageModel.inboundDepthData"
-        @[CUSTOM_EVENTS.INBOUND_DEPTH_UPDATED]="this.setInboundDepth"
-      ></GraphInboundInput>
+          :inbound-depth-data="pageModel.inboundDepthData"
+          @[CUSTOM_EVENTS.INBOUND_DEPTH_UPDATED]="setInboundDepth"/>
       <GraphOutboundInput
-        :outbound-depth-data="this.pageModel.outboundDepthData"
-        @[CUSTOM_EVENTS.OUTBOUND_DEPTH_UPDATED]="this.setOutboundDepth"
-      ></GraphOutboundInput>
+          :outbound-depth-data="pageModel.outboundDepthData"
+          @[CUSTOM_EVENTS.OUTBOUND_DEPTH_UPDATED]="setOutboundDepth"/>
     </div>
     <div id="graph-and-node-details-container">
       <GraphVisualization
-        :graph-data-update-ticker="this.graphDataUpdateTicker"
-        :page-model="this.pageModel"
-        @[CUSTOM_EVENTS.NODE_CLICKED]="graphNodeClicked"
-      ></GraphVisualization>
+          :graph-data-update-ticker="graphDataUpdateTicker"
+          :page-model="pageModel"
+          @[CUSTOM_EVENTS.NODE_CLICKED]="graphNodeClicked"/>
       <div id="node-details-container">
         <GraphSelectedNodeDetails
-          :selected-node-details-data="this.pageModel.selectedNodeDetailsData"
-          @[CUSTOM_EVENTS.ADD_TO_FILTER_CLICKED]="addNodeToFilter"
-          @[CUSTOM_EVENTS.REMOVE_FROM_FILTER_CLICKED]="removeNodeFromFilter"
-        ></GraphSelectedNodeDetails>
+            :selected-node-details-data="pageModel.selectedNodeDetailsData"
+            @[CUSTOM_EVENTS.ADD_TO_FILTER_CLICKED]="addNodeToFilter"
+            @[CUSTOM_EVENTS.REMOVE_FROM_FILTER_CLICKED]="removeNodeFromFilter"/>
         <LinkToGraph
-          v-if="this.pageModel.selectedNodeDetailsData.selectedNode !== null"
-          :filter="
-            [this.pageModel.selectedNodeDetailsData.selectedNode.packageName]"
-          :graph-type="PagePathName.PACKAGE"
-          :text="'View ' +
-            this.pageModel.selectedNodeDetailsData.selectedNode.packageName"
-        ></LinkToGraph>
+            v-if="pageModel.selectedNodeDetailsData.selectedNode !== null"
+            :filter="
+              [pageModel.selectedNodeDetailsData.selectedNode.packageName]"
+            :graph-type="PagePathName.PACKAGE"
+            :text="'View ' +
+              pageModel.selectedNodeDetailsData.selectedNode.packageName"/>
       </div>
     </div>
     <PageUrlGenerator
-      :page-path-name="this.pagePathName"
-      :node-filter-data="this.pageModel.nodeFilterData"
-    ></PageUrlGenerator>
+        :page-path-name="pagePathName"
+        :node-filter-data="pageModel.nodeFilterData"/>
   </div>
 </template>
 
@@ -79,7 +71,9 @@ const ClassGraphPage = {
     LinkToGraph,
     PageUrlGenerator,
   },
-  props: ['graphJson'],
+  props: {
+    graphJson: Object,
+  },
 
   /**
    * Various references to objects used across the entire class page.

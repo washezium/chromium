@@ -4,21 +4,20 @@
 
 <template>
   <div
-    v-if="selectedPackage !== null"
-    class="package-details-panel"
-  >
+      v-if="selectedPackage !== null"
+      class="package-details-panel">
     <LinkToGraph
-      :filter="classesInSelectedPackage"
-      :graphType="PagePathName.CLASS"
-      text="Class graph with all classes in this package"
-    ></LinkToGraph>
+        :filter="classesInSelectedPackage"
+        :graph-type="PagePathName.CLASS"
+        text="Class graph with all classes in this package"/>
     <ul>
-      <li v-for="classObj in classesWithShortNames">
+      <li
+          v-for="classObj in classesWithShortNames"
+          :key="classObj.name">
         <LinkToGraph
-          :filter="[classObj.name]"
-          :graphType="PagePathName.CLASS"
-          :text="classObj.shortName"
-        ></LinkToGraph>
+            :filter="[classObj.name]"
+            :graph-type="PagePathName.CLASS"
+            :text="classObj.shortName"/>
       </li>
     </ul>
   </div>
@@ -34,7 +33,9 @@ const PackageDetailsPanel = {
   components: {
     LinkToGraph,
   },
-  props: ['selectedPackage'],
+  props: {
+    selectedPackage: Object,
+  },
   computed: {
     PagePathName: () => PagePathName,
     classesInSelectedPackage: function() {

@@ -6,20 +6,28 @@
   <div class="selected-node-details">
     <template v-if="selectedNode !== null">
       <ul>
-        <li>Name: {{selectedNode.id}}</li>
-        <li>Display Name: {{selectedNode.displayName}}</li>
-        <li v-for="(value, key) in selectedNode.visualizationState">
-          {{key}}: {{value}}
+        <li>Name: {{ selectedNode.id }}</li>
+        <li>Display Name: {{ selectedNode.displayName }}</li>
+        <li
+            v-for="(value, key) in selectedNode.visualizationState"
+            :key="key">
+          {{ key }}: {{ value }}
         </li>
       </ul>
       <button
-        v-if="selectedNode.visualizationState.selectedByFilter"
-        @click="removeSelectedFromFilter">
+          v-if="selectedNode.visualizationState.selectedByFilter"
+          @click="removeSelectedFromFilter">
         Remove from filter
       </button>
-      <button v-else @click="addSelectedToFilter">Add to filter</button>
+      <button
+          v-else
+          @click="addSelectedToFilter">
+        Add to filter
+      </button>
     </template>
-    <div v-else>Click a node for more details.</div>
+    <div v-else>
+      Click a node for more details.
+    </div>
   </div>
 </template>
 
@@ -27,7 +35,9 @@
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 
 const GraphSelectedNodeDetails = {
-  props: ['selectedNodeDetailsData'],
+  props: {
+    selectedNodeDetailsData: Object,
+  },
   data: function() {
     return this.selectedNodeDetailsData;
   },

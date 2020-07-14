@@ -3,7 +3,7 @@
      found in the LICENSE file. -->
 
 <template>
-  <a :href="this.url">{{this.text}}</a>
+  <a :href="url">{{ text }}</a>
 </template>
 
 <script>

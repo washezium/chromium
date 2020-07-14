@@ -4,8 +4,13 @@
 
 <template>
   <div class="url-generator">
-    <button @click="generateUrl">Generate Current URL</button>
-    <input type="text" readonly ref="input">
+    <button @click="generateUrl">
+      Generate Current URL
+    </button>
+    <input
+        ref="input"
+        type="text"
+        readonly>
   </div>
 </template>
 
@@ -13,7 +18,10 @@
 import {generateUrlFromFilter} from '../url_processor.js';
 
 const PageUrlGenerator = {
-  props: ['pagePathName', 'nodeFilterData'],
+  props: {
+    pagePathName: String,
+    nodeFilterData: Object,
+  },
   data: function() {
     return this.nodeFilterData;
   },
