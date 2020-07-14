@@ -82,6 +82,7 @@ const char kChromeUIHistoryURL[] = "chrome://history/";
 const char kChromeUIIdentityInternalsHost[] = "identity-internals";
 const char kChromeUIInspectHost[] = "inspect";
 const char kChromeUIInspectURL[] = "chrome://inspect/";
+const char kChromeUIInternalsHost[] = "internals";
 const char kChromeUIInterstitialHost[] = "interstitials";
 const char kChromeUIInterstitialURL[] = "chrome://interstitials/";
 const char kChromeUIInterventionsInternalsHost[] = "interventions-internals";
@@ -177,7 +178,6 @@ const char kChromeUIWelcomeWin10Host[] = "welcome-win10";
 
 #if defined(OS_ANDROID)
 const char kChromeUIExploreSitesInternalsHost[] = "explore-sites-internals";
-const char kChromeUIInternalsHost[] = "internals";
 const char kChromeUIJavaCrashURL[] = "chrome://java-crash/";
 const char kChromeUINativeBookmarksURL[] = "chrome-native://bookmarks/";
 const char kChromeUINativeExploreURL[] = "chrome-native://explore";

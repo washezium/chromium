@@ -5914,6 +5914,8 @@ grit("dev_ui_browser_resources") {
     "//chrome/browser/engagement:mojo_bindings_js",
     "//chrome/browser/media:mojo_bindings_js",
     "//chrome/browser/media/feeds:mojo_bindings_js",
+    "//chrome/browser/resources/web_app_internals:components",
+    "//chrome/browser/ui/webui/internals/web_app:mojo_bindings_js",
     "//chrome/browser/ui/webui/interventions_internals:mojo_bindings_js",
   ]
   if (is_android) {

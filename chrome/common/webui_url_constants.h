@@ -88,6 +88,7 @@ extern const char kChromeUIHistoryURL[];
 extern const char kChromeUIIdentityInternalsHost[];
 extern const char kChromeUIInspectHost[];
 extern const char kChromeUIInspectURL[];
+extern const char kChromeUIInternalsHost[];
 extern const char kChromeUIInterstitialHost[];
 extern const char kChromeUIInterstitialURL[];
 extern const char kChromeUIInterventionsInternalsHost[];
@@ -179,7 +180,6 @@ extern const char kChromeUIWelcomeWin10Host[];
 
 #if defined(OS_ANDROID)
 extern const char kChromeUIExploreSitesInternalsHost[];
-extern const char kChromeUIInternalsHost[];
 extern const char kChromeUIJavaCrashURL[];
 extern const char kChromeUINativeBookmarksURL[];
 extern const char kChromeUINativeExploreURL[];
