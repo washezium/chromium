@@ -223,6 +223,7 @@ if (enable_pdf) {
       "//ppapi/c",
       "//ppapi/cpp:objects",
       "//printing",
+      "//skia",
       "//testing/gmock",
       "//testing/gtest",
       "//ui/gfx/geometry",

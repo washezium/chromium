@@ -2990,7 +2990,9 @@ bool PDFiumEngine::ContinuePaint(int progressive_index,
     pp::Rect dirty = progressive_paints_[progressive_index].rect();
     GetPDFiumRect(page_index, dirty, &start_x, &start_y, &size_x, &size_y);
 
-    ScopedFPDFBitmap new_bitmap = CreateBitmap(dirty, image_data);
+    SkBitmap skia_image_data =
+        SkBitmapFromPPImageData(std::make_unique<pp::ImageData>(*image_data));
+    ScopedFPDFBitmap new_bitmap = CreateBitmap(dirty, skia_image_data);
     FPDFBitmap_FillRect(new_bitmap.get(), start_x, start_y, size_x, size_y,
                         0xFFFFFFFF);
     rv = FPDF_RenderPageBitmap_Start(
@@ -2998,7 +3000,7 @@ bool PDFiumEngine::ContinuePaint(int progressive_index,
         ToPDFiumRotation(layout_.options().default_page_orientation()),
         GetRenderingFlags(), this);
     progressive_paints_[progressive_index].SetBitmapAndImageData(
-        std::move(new_bitmap), *image_data);
+        std::move(new_bitmap), std::move(skia_image_data));
   }
   return rv != FPDF_RENDER_TOBECONTINUED;
 }
@@ -3147,7 +3149,9 @@ void PDFiumEngine::DrawSelections(int progressive_index,
 
   void* region = nullptr;
   int stride;
-  GetRegion(dirty_in_screen.point(), image_data, &region, &stride);
+  SkBitmap skia_image_data =
+      SkBitmapFromPPImageData(std::make_unique<pp::ImageData>(*image_data));
+  GetRegion(dirty_in_screen.point(), skia_image_data, region, stride);
 
   std::vector<pp::Rect> highlighted_rects;
   pp::Rect visible_rect = GetVisibleRect();
@@ -3190,7 +3194,9 @@ void PDFiumEngine::PaintUnavailablePage(int page_index,
   int size_x;
   int size_y;
   GetPDFiumRect(page_index, dirty, &start_x, &start_y, &size_x, &size_y);
-  ScopedFPDFBitmap bitmap(CreateBitmap(dirty, image_data));
+  SkBitmap skia_image_data =
+      SkBitmapFromPPImageData(std::make_unique<pp::ImageData>(*image_data));
+  ScopedFPDFBitmap bitmap(CreateBitmap(dirty, skia_image_data));
   FPDFBitmap_FillRect(bitmap.get(), start_x, start_y, size_x, size_y,
                       kPendingPageColor);
 
@@ -3209,10 +3215,10 @@ int PDFiumEngine::GetProgressiveIndex(int page_index) const {
 }
 
 ScopedFPDFBitmap PDFiumEngine::CreateBitmap(const pp::Rect& rect,
-                                            pp::ImageData* image_data) const {
+                                            SkBitmap& image_data) const {
   void* region;
   int stride;
-  GetRegion(rect.point(), image_data, &region, &stride);
+  GetRegion(rect.point(), image_data, region, stride);
   if (!region)
     return nullptr;
   return ScopedFPDFBitmap(FPDFBitmap_CreateEx(rect.width(), rect.height(),
@@ -3512,29 +3518,29 @@ void PDFiumEngine::DrawPageShadow(const pp::Rect& page_rc,
 }
 
 void PDFiumEngine::GetRegion(const pp::Point& location,
-                             pp::ImageData* image_data,
-                             void** region,
-                             int* stride) const {
-  if (image_data->is_null()) {
+                             SkBitmap& image_data,
+                             void*& region,
+                             int& stride) const {
+  if (image_data.isNull()) {
     DCHECK(plugin_size_.IsEmpty());
-    *stride = 0;
-    *region = nullptr;
+    stride = 0;
+    region = nullptr;
     return;
   }
-  char* buffer = static_cast<char*>(image_data->data());
-  *stride = image_data->stride();
+  char* buffer = static_cast<char*>(image_data.getPixels());
+  stride = image_data.rowBytes();
 
   pp::Point offset_location = location + page_offset_;
   // TODO: update this when we support BIDI and scrollbars can be on the left.
   if (!buffer ||
       !pp::Rect(page_offset_, plugin_size_).Contains(offset_location)) {
-    *region = nullptr;
+    region = nullptr;
     return;
   }
 
-  buffer += location.y() * (*stride);
+  buffer += location.y() * stride;
   buffer += (location.x() + page_offset_.x()) * 4;
-  *region = buffer;
+  region = buffer;
 }
 
 void PDFiumEngine::OnSelectionTextChanged() {
@@ -4095,7 +4101,7 @@ PDFiumEngine::ProgressivePaint& PDFiumEngine::ProgressivePaint::operator=(
 
 void PDFiumEngine::ProgressivePaint::SetBitmapAndImageData(
     ScopedFPDFBitmap bitmap,
-    pp::ImageData image_data) {
+    SkBitmap image_data) {
   bitmap_ = std::move(bitmap);
   image_data_ = std::move(image_data);
 }
