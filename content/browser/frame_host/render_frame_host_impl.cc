@@ -5725,8 +5725,8 @@ void RenderFrameHostImpl::CommitNavigation(
   // TODO(creis): Remove this check after we've gathered enough information to
   // debug issues with browser-side security checks. https://crbug.com/931895.
   auto* policy = ChildProcessSecurityPolicyImpl::GetInstance();
-  const GURL& lock_url = GetSiteInstance()->lock_url();
-  if (lock_url != GURL(kUnreachableWebDataURL) &&
+  const ProcessLock process_lock = GetSiteInstance()->GetProcessLock();
+  if (process_lock != ProcessLock::CreateForErrorPage() &&
       common_params->url.IsStandard() &&
       !policy->CanAccessDataForOrigin(GetProcess()->GetID(),
                                       common_params->url) &&
@@ -5734,7 +5734,7 @@ void RenderFrameHostImpl::CommitNavigation(
     base::debug::SetCrashKeyString(
         base::debug::AllocateCrashKeyString("lock_url",
                                             base::debug::CrashKeySize::Size64),
-        lock_url.possibly_invalid_spec());
+        process_lock.ToString());
     base::debug::SetCrashKeyString(
         base::debug::AllocateCrashKeyString("commit_origin",
                                             base::debug::CrashKeySize::Size64),
@@ -5743,8 +5743,9 @@ void RenderFrameHostImpl::CommitNavigation(
         base::debug::AllocateCrashKeyString("is_main_frame",
                                             base::debug::CrashKeySize::Size32),
         frame_tree_node_->IsMainFrame() ? "true" : "false");
-    NOTREACHED() << "Commiting in incompatible process for URL: " << lock_url
-                 << " lock vs " << common_params->url.GetOrigin();
+    NOTREACHED() << "Commiting in incompatible process for URL: "
+                 << process_lock.lock_url() << " lock vs "
+                 << common_params->url.GetOrigin();
     base::debug::DumpWithoutCrashing();
   }
 
@@ -7818,7 +7819,7 @@ bool RenderFrameHostImpl::ValidateDidCommitParams(
       (is_same_document_navigation && IsLoadDataWithBaseURL(*params))) {
     // Allow bypass if the process isn't locked. Otherwise run normal checks.
     bypass_checks_for_webview = ChildProcessSecurityPolicyImpl::GetInstance()
-                                    ->GetOriginLock(process->GetID())
+                                    ->GetProcessLock(process->GetID())
                                     .is_empty();
   }
 
@@ -7836,7 +7837,8 @@ bool RenderFrameHostImpl::ValidateDidCommitParams(
                     << " origin '" << params->origin << "'"
                     << " lock '"
                     << ChildProcessSecurityPolicyImpl::GetInstance()
-                           ->GetOriginLock(process->GetID())
+                           ->GetProcessLock(process->GetID())
+                           .ToString()
                     << "'";
         VLOG(1) << "Blocked URL " << params->url.spec();
         LogCannotCommitUrlCrashKeys(params->url, is_same_document_navigation,
@@ -7851,7 +7853,8 @@ bool RenderFrameHostImpl::ValidateDidCommitParams(
                     << " origin '" << params->origin << "'"
                     << " lock '"
                     << ChildProcessSecurityPolicyImpl::GetInstance()
-                           ->GetOriginLock(process->GetID())
+                           ->GetProcessLock(process->GetID())
+                           .ToString()
                     << "'";
         DEBUG_ALIAS_FOR_ORIGIN(origin_debug_alias, params->origin);
         LogCannotCommitOriginCrashKeys(is_same_document_navigation,
@@ -8198,8 +8201,8 @@ RenderFrameHostImpl::CommitAsTracedValue(
   value->SetInteger("frame_tree_node", frame_tree_node_->frame_tree_node_id());
   value->SetInteger("site id", site_instance_->GetId());
   value->SetString("process lock", ChildProcessSecurityPolicyImpl::GetInstance()
-                                       ->GetOriginLock(process_->GetID())
-                                       .possibly_invalid_spec());
+                                       ->GetProcessLock(process_->GetID())
+                                       .ToString());
   value->SetString("origin", params->origin.Serialize());
   value->SetInteger("transition", params->transition);
 
@@ -8638,7 +8641,7 @@ void RenderFrameHostImpl::LogCannotCommitUrlCrashKeys(
   base::debug::SetCrashKeyString(
       base::debug::AllocateCrashKeyString("site_lock",
                                           base::debug::CrashKeySize::Size256),
-      GetSiteInstance()->lock_url().possibly_invalid_spec());
+      GetSiteInstance()->GetProcessLock().ToString());
 
   if (!GetSiteInstance()->IsDefaultSiteInstance()) {
     base::debug::SetCrashKeyString(
