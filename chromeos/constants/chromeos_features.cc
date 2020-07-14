@@ -275,6 +275,10 @@ const base::Feature kInstantTethering{"InstantTethering",
 const base::Feature kLacrosSupport{"LacrosSupport",
                                    base::FEATURE_DISABLED_BY_DEFAULT};
 
+// Enables or disables language settings update.
+const base::Feature kLanguageSettingsUpdate{"LanguageSettingsUpdate",
+                                            base::FEATURE_DISABLED_BY_DEFAULT};
+
 // Enables or disables device management disclosure on login / lock screen.
 const base::Feature kLoginDeviceManagementDisclosure{
     "LoginDeviceManagementDisclosure", base::FEATURE_DISABLED_BY_DEFAULT};
