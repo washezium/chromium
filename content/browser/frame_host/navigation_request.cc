@@ -1093,7 +1093,12 @@ NavigationRequest::NavigationRequest(
       navigation_ui_data_(std::move(navigation_ui_data)),
       state_(NOT_STARTED),
       restore_type_(entry ? entry->restore_type() : RestoreType::NONE),
-      reload_type_(entry ? entry->reload_type() : ReloadType::NONE),
+      // Some navigations, such as renderer-initiated subframe navigations,
+      // won't have a NavigationEntryImpl. Set |reload_type_| if applicable
+      // for them.
+      reload_type_(
+          entry ? entry->reload_type()
+                : NavigationTypeToReloadType(common_params_->navigation_type)),
       nav_entry_id_(entry ? entry->GetUniqueID() : 0),
       is_view_source_(false),
       bindings_(FrameNavigationEntry::kInvalidBindings),
@@ -4677,6 +4682,18 @@ bool NavigationRequest::GetIsOverridingUserAgent() {
 // static
 NavigationRequest* NavigationRequest::From(NavigationHandle* handle) {
   return static_cast<NavigationRequest*>(handle);
+}
+
+// static
+ReloadType NavigationRequest::NavigationTypeToReloadType(
+    mojom::NavigationType type) {
+  if (type == mojom::NavigationType::RELOAD)
+    return ReloadType::NORMAL;
+  if (type == mojom::NavigationType::RELOAD_BYPASSING_CACHE)
+    return ReloadType::BYPASSING_CACHE;
+  if (type == mojom::NavigationType::RELOAD_ORIGINAL_REQUEST_URL)
+    return ReloadType::ORIGINAL_REQUEST_URL;
+  return ReloadType::NONE;
 }
 
 bool NavigationRequest::IsNavigationStarted() const {
