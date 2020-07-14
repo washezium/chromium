@@ -1,4 +1,4 @@
 This is a testharness.js-based test.
-FAIL originIsolationRestricted must equal false assert_equals: expected (boolean) false but got (undefined) undefined
+FAIL originIsolationRestricted must equal true assert_equals: expected true but got false
 Harness: the test ran to completion.
 
