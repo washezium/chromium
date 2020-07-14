@@ -1065,6 +1065,7 @@ public class DownloadInfoBarController implements OfflineContentProvider.Observe
                 DownloadLaterUiEvent.DOWNLOAD_INFOBAR_CHANGE_SCHEDULE_CLICKED);
         mDownloadLaterDialogHelper.showChangeScheduleDialog(
                 currentSchedule, Source.DOWNLOAD_INFOBAR, (newSchedule) -> {
+                    if (newSchedule == null) return;
                     if (mUseNewDownloadPath) {
                         OfflineContentAggregatorFactory.get().changeSchedule(id, newSchedule);
                     } else {
