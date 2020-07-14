@@ -146,7 +146,7 @@ class AXTreeSourceArc : public ui::AXTreeSource<AccessibilityInfoDataWrapper*,
                AccessibilityInfoDataWrapper* info_data2) const override;
   AccessibilityInfoDataWrapper* GetNull() const override;
 
-  // AXActionHandler:
+  // AXActionHandlerBase:
   void PerformAction(const ui::AXActionData& data) override;
 
   // Maps an AccessibilityInfoDataWrapper ID to its tree data.
