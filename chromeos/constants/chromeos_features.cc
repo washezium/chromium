@@ -152,6 +152,10 @@ const base::Feature kDiscoverApp{"DiscoverApp",
 // If enabled, DriveFS will be used for Drive sync.
 const base::Feature kDriveFs{"DriveFS", base::FEATURE_ENABLED_BY_DEFAULT};
 
+// Enables duplex native messaging between DriveFS and extensions.
+const base::Feature kDriveFsBidirectionalNativeMessaging{
+    "DriveFsBidirectionalNativeMessaging", base::FEATURE_DISABLED_BY_DEFAULT};
+
 // Enables DriveFS' experimental local files mirroring functionality.
 const base::Feature kDriveFsMirroring{"DriveFsMirroring",
                                       base::FEATURE_DISABLED_BY_DEFAULT};
