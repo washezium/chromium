@@ -1378,7 +1378,7 @@ bool RenderFrameHostImpl::CreateNetworkServiceDefaultFactory(
   // wanted a factory associated to a navigation about to commit, the params
   // generated won't be correct. There is no good way of fixing this before
   // RenderDocumentHost (ie swapping RenderFrameHost on each navigation).
-  return CreateNetworkServiceDefaultFactoryInternal(
+  return CreateNetworkServiceDefaultFactoryAndObserve(
       CreateURLLoaderFactoryParamsForMainWorld(
           last_committed_origin_,
           mojo::Clone(last_committed_client_security_state_),
@@ -3532,18 +3532,7 @@ void RenderFrameHostImpl::UpdateSubresourceLoaderFactories() {
   mojo::PendingRemote<network::mojom::URLLoaderFactory> default_factory_remote;
   bool bypass_redirect_checks = false;
   if (recreate_default_url_loader_factory_after_network_service_crash_) {
-    mojo::PendingRemote<network::mojom::CrossOriginEmbedderPolicyReporter>
-        coep_reporter_remote;
-    if (coep_reporter_) {
-      coep_reporter_->Clone(
-          coep_reporter_remote.InitWithNewPipeAndPassReceiver());
-    }
-    bypass_redirect_checks = CreateNetworkServiceDefaultFactoryAndObserve(
-        CreateURLLoaderFactoryParamsForMainWorld(
-            last_committed_origin_,
-            mojo::Clone(last_committed_client_security_state_),
-            std::move(coep_reporter_remote),
-            DetermineAfterCommitWhetherToForbidTrustTokenRedemption(this)),
+    bypass_redirect_checks = CreateNetworkServiceDefaultFactory(
         default_factory_remote.InitWithNewPipeAndPassReceiver());
   }
 
