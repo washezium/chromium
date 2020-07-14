@@ -179,8 +179,8 @@ class ChromeProvidedSharingOptionsProvider {
                     RecordHistogram.recordMediumTimesHistogram(
                             "Sharing.SharingHubAndroid.TimeToShare",
                             System.currentTimeMillis() - mShareStartTime);
-                    mScreenshotCoordinator = new ScreenshotCoordinator(
-                            mActivity, mTabProvider.get(), mChromeOptionShareCallback);
+                    mScreenshotCoordinator = new ScreenshotCoordinator(mActivity,
+                            mTabProvider.get(), mChromeOptionShareCallback, mBottomSheetController);
                     // Capture a screenshot once the bottom sheet is fully hidden. The
                     // observer will then remove itself.
                     mBottomSheetController.addObserver(mSheetObserver);
