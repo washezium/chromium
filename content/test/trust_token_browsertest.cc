@@ -430,6 +430,11 @@ IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest, AdditionalSigningData) {
 }
 
 IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest, OverlongAdditionalSigningData) {
+  TrustTokenRequestHandler::Options options;
+  options.client_signing_outcome =
+      TrustTokenRequestHandler::SigningOutcome::kFailure;
+  request_handler_.UpdateOptions(std::move(options));
+
   base::RunLoop run_loop;
   GetNetworkService()->SetTrustTokenKeyCommitments(
       network::WrapKeyCommitmentForIssuer(
@@ -438,8 +443,8 @@ IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest, OverlongAdditionalSigningData) {
       run_loop.QuitClosure());
   run_loop.Run();
 
-  GURL start_url(server_.GetURL("/title1.html"));
-  EXPECT_TRUE(NavigateToURL(shell(), start_url));
+  GURL start_url = server_.GetURL("/title1.html");
+  ASSERT_TRUE(NavigateToURL(shell(), start_url));
 
   std::string cmd = R"(
   (async () => {
@@ -465,18 +470,23 @@ IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest, OverlongAdditionalSigningData) {
     fetch("/sign", {trustToken: {type: 'send-srr',
       signRequestData: 'include',
       issuer: $1,
-      additionalSigningData: $2}}).then(()=>"Success").catch(e=>e.name);)";
+      additionalSigningData: $2}}).then(()=>"Success");)";
 
-  EXPECT_THAT(
+  EXPECT_EQ(
+      "Success",
       EvalJs(shell(),
              JsReplace(cmd, url::Origin::Create(server_.base_url()).Serialize(),
-                       overlong_signing_data))
-          .ExtractString(),
-      HasSubstr("OperationError"));
+                       overlong_signing_data)));
+  EXPECT_EQ(request_handler_.LastVerificationError(), base::nullopt);
 }
 
 IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest,
                        AdditionalSigningDataNotAValidHeader) {
+  TrustTokenRequestHandler::Options options;
+  options.client_signing_outcome =
+      TrustTokenRequestHandler::SigningOutcome::kFailure;
+  request_handler_.UpdateOptions(std::move(options));
+
   base::RunLoop run_loop;
   GetNetworkService()->SetTrustTokenKeyCommitments(
       network::WrapKeyCommitmentForIssuer(
@@ -485,8 +495,8 @@ IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest,
       run_loop.QuitClosure());
   run_loop.Run();
 
-  GURL start_url(server_.GetURL("/title1.html"));
-  EXPECT_TRUE(NavigateToURL(shell(), start_url));
+  GURL start_url = server_.GetURL("/title1.html");
+  ASSERT_TRUE(NavigateToURL(shell(), start_url));
 
   std::string command = R"(
   (async () => {
@@ -502,14 +512,14 @@ IN_PROC_BROWSER_TEST_F(TrustTokenBrowsertest,
     fetch("/sign", {trustToken: {type: 'send-srr',
       signRequestData: 'include',
       issuer: $1,
-      additionalSigningData: '\r'}}).then(()=>"Success").catch(e=>e.name);)";
+      additionalSigningData: '\r'}}).then(()=>"Success");)";
 
-  EXPECT_THAT(
+  EXPECT_EQ(
+      "Success",
       EvalJs(shell(),
              JsReplace(command,
-                       url::Origin::Create(server_.base_url()).Serialize()))
-          .ExtractString(),
-      HasSubstr("OperationError"));
+                       url::Origin::Create(server_.base_url()).Serialize())));
+  EXPECT_EQ(request_handler_.LastVerificationError(), base::nullopt);
 }
 
 }  // namespace content
