@@ -91,15 +91,9 @@ public class SafetyCheckSettingsFragmentTest {
         Preference safeBrowsing = mFragment.findPreference(SAFE_BROWSING);
         Preference updates = mFragment.findPreference(UPDATES);
 
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(
-                             R.string.safety_check_unchecked),
-                passwords.getSummary());
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(
-                             R.string.safety_check_unchecked),
-                safeBrowsing.getSummary());
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(
-                             R.string.safety_check_unchecked),
-                updates.getSummary());
+        assertEquals("", passwords.getSummary());
+        assertEquals("", safeBrowsing.getSummary());
+        assertEquals("", updates.getSummary());
     }
 
     @Test
@@ -118,12 +112,8 @@ public class SafetyCheckSettingsFragmentTest {
             mModel.set(SafetyCheckProperties.UPDATES_STATE, UpdatesState.OUTDATED);
         });
 
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(
-                             R.string.safety_check_unchecked),
-                passwords.getSummary());
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(
-                             R.string.safety_check_checking),
-                safeBrowsing.getSummary());
+        assertEquals("", passwords.getSummary());
+        assertEquals("", safeBrowsing.getSummary());
         assertEquals(InstrumentationRegistry.getTargetContext().getString(
                              R.string.safety_check_updates_outdated),
                 updates.getSummary());
