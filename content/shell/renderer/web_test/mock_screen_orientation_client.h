@@ -12,7 +12,7 @@
 #include "mojo/public/cpp/bindings/associated_receiver_set.h"
 #include "mojo/public/cpp/bindings/scoped_interface_endpoint_handle.h"
 #include "services/device/public/mojom/screen_orientation.mojom.h"
-#include "third_party/blink/public/common/screen_orientation/web_screen_orientation_lock_type.h"
+#include "services/device/public/mojom/screen_orientation_lock_types.mojom.h"
 #include "third_party/blink/public/mojom/widget/screen_orientation.mojom.h"
 
 namespace blink {
@@ -39,12 +39,12 @@ class MockScreenOrientationClient : public device::mojom::ScreenOrientation {
   void OverrideAssociatedInterfaceProviderForFrame(blink::WebLocalFrame* frame);
 
   // device::mojom::ScreenOrientation implementation.
-  void LockOrientation(blink::WebScreenOrientationLockType orientation,
+  void LockOrientation(device::mojom::ScreenOrientationLockType orientation,
                        LockOrientationCallback callback) override;
   void UnlockOrientation() override;
 
  private:
-  void UpdateLockSync(blink::WebScreenOrientationLockType,
+  void UpdateLockSync(device::mojom::ScreenOrientationLockType,
                       LockOrientationCallback callback);
   void ResetLockSync();
 
@@ -54,8 +54,8 @@ class MockScreenOrientationClient : public device::mojom::ScreenOrientation {
   static unsigned OrientationTypeToAngle(blink::mojom::ScreenOrientation);
 
   blink::WebLocalFrame* main_frame_ = nullptr;
-  blink::WebScreenOrientationLockType current_lock_ =
-      blink::kWebScreenOrientationLockDefault;
+  device::mojom::ScreenOrientationLockType current_lock_ =
+      device::mojom::ScreenOrientationLockType::DEFAULT;
   blink::mojom::ScreenOrientation device_orientation_ =
       blink::mojom::ScreenOrientation::kPortraitPrimary;
   blink::mojom::ScreenOrientation current_orientation_ =

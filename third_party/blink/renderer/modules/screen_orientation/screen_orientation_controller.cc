@@ -197,7 +197,7 @@ void ScreenOrientationController::SetOrientation(
 }
 
 void ScreenOrientationController::lock(
-    WebScreenOrientationLockType orientation,
+    device::mojom::blink::ScreenOrientationLockType orientation,
     std::unique_ptr<WebLockOrientationCallback> callback) {
   // When detached, the |screen_orientation_service_| is no longer valid.
   if (!screen_orientation_service_.is_bound())
