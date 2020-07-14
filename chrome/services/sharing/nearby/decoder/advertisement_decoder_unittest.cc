@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "chrome/services/sharing/nearby_decoder/advertisement_decoder.h"
+#include "chrome/services/sharing/nearby/decoder/advertisement_decoder.h"
 
 #include "base/strings/strcat.h"
 #include "base/test/task_environment.h"

@@ -4,7 +4,7 @@
 
 import("//testing/libfuzzer/fuzzer_test.gni")
 
-source_set("nearby_decoder") {
+source_set("decoder") {
   sources = [
     "advertisement_decoder.cc",
     "advertisement_decoder.h",
@@ -30,7 +30,7 @@ source_set("unit_tests") {
   ]
 
   deps = [
-    ":nearby_decoder",
+    ":decoder",
     "//base/test:test_support",
     "//testing/gmock",
     "//testing/gtest",
@@ -40,7 +40,7 @@ source_set("unit_tests") {
 fuzzer_test("nearby_decoder_fuzzer") {
   sources = [ "nearby_decoder_fuzzer.cc" ]
   deps = [
-    ":nearby_decoder",
+    ":decoder",
     "//base",
     "//mojo/core/embedder",
   ]

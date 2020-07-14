@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_BLUETOOTH_ADAPTER_H_
-#define CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_BLUETOOTH_ADAPTER_H_
+#ifndef CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_BLUETOOTH_ADAPTER_H_
+#define CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_BLUETOOTH_ADAPTER_H_
 
 #include "device/bluetooth/public/mojom/adapter.mojom.h"
 #include "mojo/public/cpp/bindings/receiver.h"
@@ -31,4 +31,4 @@ class MockBluetoothAdapater : public mojom::Adapter {
 
 }  // namespace bluetooth
 
-#endif  // CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_BLUETOOTH_ADAPTER_H_
+#endif  // CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_BLUETOOTH_ADAPTER_H_

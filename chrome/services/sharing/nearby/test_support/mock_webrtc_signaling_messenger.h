@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_WEBRTC_SIGNALING_MESSENGER_H_
-#define CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_WEBRTC_SIGNALING_MESSENGER_H_
+#ifndef CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_WEBRTC_SIGNALING_MESSENGER_H_
+#define CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_WEBRTC_SIGNALING_MESSENGER_H_
 
 #include "chrome/services/sharing/public/mojom/webrtc_signaling_messenger.mojom.h"
 #include "mojo/public/cpp/bindings/receiver.h"
@@ -32,4 +32,4 @@ class MockWebRtcSignalingMessenger : public mojom::WebRtcSignalingMessenger {
 
 }  // namespace sharing
 
-#endif  // CHROME_SERVICES_SHARING_NEARBY_TEST_MOCK_WEBRTC_SIGNALING_MESSENGER_H_
+#endif  // CHROME_SERVICES_SHARING_NEARBY_TEST_SUPPORT_MOCK_WEBRTC_SIGNALING_MESSENGER_H_

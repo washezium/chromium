@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/services/sharing/nearby/test/mock_webrtc_signaling_messenger.h"
+#include "chrome/services/sharing/nearby/test_support/mock_webrtc_signaling_messenger.h"
 
 namespace sharing {
 

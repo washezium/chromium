@@ -4,7 +4,7 @@
 
 #include <utility>
 
-#include "chrome/services/sharing/nearby_decoder/advertisement_decoder.h"
+#include "chrome/services/sharing/nearby/decoder/advertisement_decoder.h"
 
 #include "base/logging.h"
 #include "base/memory/ptr_util.h"

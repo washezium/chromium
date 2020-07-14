@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/services/sharing/nearby_decoder/nearby_decoder.h"
+#include "chrome/services/sharing/nearby/decoder/nearby_decoder.h"
 
 #include <memory>
 #include <string>
@@ -10,7 +10,7 @@
 
 #include "base/callback.h"
 #include "base/optional.h"
-#include "chrome/services/sharing/nearby_decoder/advertisement_decoder.h"
+#include "chrome/services/sharing/nearby/decoder/advertisement_decoder.h"
 #include "chrome/services/sharing/public/cpp/advertisement.h"
 #include "chrome/services/sharing/public/mojom/nearby_decoder_types.mojom.h"
 #include "chrome/services/sharing/public/proto/wire_format.pb.h"
