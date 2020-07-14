@@ -157,15 +157,15 @@ ScreenOrientationProvider::GetNaturalLockType() const {
   rwh->GetScreenInfo(&screen_info);
 
   switch (screen_info.orientation_type) {
-    case SCREEN_ORIENTATION_VALUES_PORTRAIT_PRIMARY:
-    case SCREEN_ORIENTATION_VALUES_PORTRAIT_SECONDARY:
+    case blink::mojom::ScreenOrientation::kPortraitPrimary:
+    case blink::mojom::ScreenOrientation::kPortraitSecondary:
       if (screen_info.orientation_angle == 0 ||
           screen_info.orientation_angle == 180) {
         return blink::kWebScreenOrientationLockPortraitPrimary;
       }
       return blink::kWebScreenOrientationLockLandscapePrimary;
-    case SCREEN_ORIENTATION_VALUES_LANDSCAPE_PRIMARY:
-    case SCREEN_ORIENTATION_VALUES_LANDSCAPE_SECONDARY:
+    case blink::mojom::ScreenOrientation::kLandscapePrimary:
+    case blink::mojom::ScreenOrientation::kLandscapeSecondary:
       if (screen_info.orientation_angle == 0 ||
           screen_info.orientation_angle == 180) {
         return blink::kWebScreenOrientationLockLandscapePrimary;
@@ -191,26 +191,26 @@ bool ScreenOrientationProvider::LockMatchesCurrentOrientation(
   switch (lock) {
     case blink::kWebScreenOrientationLockPortraitPrimary:
       return screen_info.orientation_type ==
-             SCREEN_ORIENTATION_VALUES_PORTRAIT_PRIMARY;
+             blink::mojom::ScreenOrientation::kPortraitPrimary;
     case blink::kWebScreenOrientationLockPortraitSecondary:
       return screen_info.orientation_type ==
-             SCREEN_ORIENTATION_VALUES_PORTRAIT_SECONDARY;
+             blink::mojom::ScreenOrientation::kPortraitSecondary;
     case blink::kWebScreenOrientationLockLandscapePrimary:
       return screen_info.orientation_type ==
-             SCREEN_ORIENTATION_VALUES_LANDSCAPE_PRIMARY;
+             blink::mojom::ScreenOrientation::kLandscapePrimary;
     case blink::kWebScreenOrientationLockLandscapeSecondary:
       return screen_info.orientation_type ==
-             SCREEN_ORIENTATION_VALUES_LANDSCAPE_SECONDARY;
+             blink::mojom::ScreenOrientation::kLandscapeSecondary;
     case blink::kWebScreenOrientationLockLandscape:
       return screen_info.orientation_type ==
-                 SCREEN_ORIENTATION_VALUES_LANDSCAPE_PRIMARY ||
+                 blink::mojom::ScreenOrientation::kLandscapePrimary ||
              screen_info.orientation_type ==
-                 SCREEN_ORIENTATION_VALUES_LANDSCAPE_SECONDARY;
+                 blink::mojom::ScreenOrientation::kLandscapeSecondary;
     case blink::kWebScreenOrientationLockPortrait:
       return screen_info.orientation_type ==
-                 SCREEN_ORIENTATION_VALUES_PORTRAIT_PRIMARY ||
+                 blink::mojom::ScreenOrientation::kPortraitPrimary ||
              screen_info.orientation_type ==
-                 SCREEN_ORIENTATION_VALUES_PORTRAIT_SECONDARY;
+                 blink::mojom::ScreenOrientation::kPortraitSecondary;
     case blink::kWebScreenOrientationLockAny:
       return true;
     case blink::kWebScreenOrientationLockNatural:

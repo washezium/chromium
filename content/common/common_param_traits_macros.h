@@ -11,6 +11,7 @@
 #include "cc/trees/browser_controls_params.h"
 #include "content/common/frame_messages.h"
 #include "content/common/visual_properties.h"
+#include "content/public/common/screen_orientation_values.h"
 #include "ipc/ipc_message_macros.h"
 #include "third_party/blink/public/web/web_device_emulation_params.h"
 
