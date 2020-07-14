@@ -89,21 +89,6 @@
             ]
         }
     ],
-    "AndroidBlockIntentNonSafelistedHeaders": [
-        {
-            "platforms": [
-                "android"
-            ],
-            "experiments": [
-                {
-                    "name": "EnabledLaunch",
-                    "enable_features": [
-                        "AndroidBlockIntentNonSafelistedHeaders"
-                    ]
-                }
-            ]
-        }
-    ],
     "AndroidDarkSearch": [
         {
             "platforms": [
