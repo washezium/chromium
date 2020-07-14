@@ -379,7 +379,8 @@ INSTANTIATE_TEST_SUITE_P(
     CombineWithCompositorModes({LayerTreeTest::RENDERER_GL,
                                 LayerTreeTest::RENDERER_SKIA_GL}));
 
-TEST_P(LayerTreeHostCopyRequestTestLayerDestroyed, Test) {
+// TODO(crbug/1096962): Investigate flakiness and reenable test once fixed.
+TEST_P(LayerTreeHostCopyRequestTestLayerDestroyed, DISABLED_Test) {
   RunTest(compositor_mode());
 }
 
