@@ -45,6 +45,7 @@ var OSSettingsV3BrowserTest = class extends PolymerTest {
  ['MultideviceSmartLockSubPage', 'multidevice_smartlock_subpage_test.m.js'],
  ['MultideviceFeatureItem', 'multidevice_feature_item_tests.m.js'],
  ['MultideviceFeatureToggle', 'multidevice_feature_toggle_tests.m.js'],
+ ['PersonalizationPage', 'personalization_page_test.m.js'],
 ].forEach(test => registerTest(...test));
 
 function registerTest(testName, module, caseName) {

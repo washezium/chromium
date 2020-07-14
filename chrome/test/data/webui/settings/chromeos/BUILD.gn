@@ -48,6 +48,8 @@ js_modulizer("modulize") {
     "test_os_reset_browser_proxy.js",
     "test_os_lifetime_browser_proxy.js",
     "test_multidevice_browser_proxy.js",
+    "test_wallpaper_browser_proxy.js",
+    "personalization_page_test.js",
   ]
   namespace_rewrites =
       os_settings_namespace_rewrites + os_test_namespace_rewrites

@@ -266,7 +266,7 @@ group("closure_compile_module") {
     #"os_settings_ui:closure_compile_module",
     #"os_toolbar:closure_compile_module",
     #"parental_controls_page:closure_compile_module",
-    #"personalization_page:closure_compile_module",
+    "personalization_page:closure_compile_module",
   ]
 }
 

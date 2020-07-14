@@ -246,6 +246,8 @@ if (include_js_tests) {
         "$root_gen_dir/chrome/test/data/webui/settings/chromeos/test_os_reset_browser_proxy.m.js",
         "$root_gen_dir/chrome/test/data/webui/settings/chromeos/test_os_lifetime_browser_proxy.m.js",
         "$root_gen_dir/chrome/test/data/webui/settings/chromeos/test_multidevice_browser_proxy.m.js",
+        "$root_gen_dir/chrome/test/data/webui/settings/chromeos/personalization_page_test.m.js",
+        "$root_gen_dir/chrome/test/data/webui/settings/chromeos/test_wallpaper_browser_proxy.m.js",
       ]
     }
     defines = [ "HAS_OUT_OF_PROC_TEST_RUNNER" ]
