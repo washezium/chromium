@@ -1,7 +1,15 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+<!-- Copyright 2020 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
 
+<template>
+  <div class="url-generator">
+    <button @click="generateUrl">Generate Current URL</button>
+    <input type="text" readonly ref="input">
+  </div>
+</template>
+
+<script>
 import {generateUrlFromFilter} from '../url_processor.js';
 
 const PageUrlGenerator = {
@@ -21,13 +29,14 @@ const PageUrlGenerator = {
       this.$refs.input.select();
     },
   },
-  template: `
-    <div class="url-generator">
-      <button @click="generateUrl">Generate Current URL</button>
-      <input type="text" readonly ref="input">
-    </div>`,
 };
 
-export {
-  PageUrlGenerator,
-};
+export default PageUrlGenerator;
+</script>
+
+<style scoped>
+.url-generator {
+  display: flex;
+  flex-direction: row;
+}
+</style>

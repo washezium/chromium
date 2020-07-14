@@ -1,7 +1,12 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+<!-- Copyright 2020 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
 
+<template>
+  <svg id="graph-svg" width="960" height="600"></svg>
+</template>
+
+<script>
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 import {GraphView} from '../graph_view.js';
 
@@ -28,12 +33,35 @@ const GraphVisualization = {
       this.graphView.updateGraphData(this.pageModel.getDataForD3());
     },
   },
-  template: `
-    <div id="graph-container">
-      <svg id="graph-svg" width="960" height="600"></svg>
-    </div>`,
 };
 
-export {
-  GraphVisualization,
-};
+export default GraphVisualization;
+</script>
+
+<style>
+.graph-edges line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.graph-nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.graph-labels text {
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.graph-nodes circle.locked {
+  stroke: #000;
+  stroke-width: 3;
+}
+</style>
+
+<style scoped>
+#graph-svg {
+  background-color: #eee;
+}
+</style>

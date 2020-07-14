@@ -1,36 +1,79 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+<!-- Copyright 2020 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
 
+<template>
+  <div id="page-container">
+    <div id="page-controls">
+      <GraphFilterInput
+        :node-ids="this.pageModel.getNodeIds()"
+        @[CUSTOM_EVENTS.FILTER_SUBMITTED]="this.addNodeToFilter"
+      ></GraphFilterInput>
+      <GraphFilterItems
+        :node-filter-data="this.pageModel.nodeFilterData"
+        @[CUSTOM_EVENTS.FILTER_ELEMENT_CLICKED]="this.removeNodeFromFilter"
+      ></GraphFilterItems>
+      <GraphInboundInput
+        :inbound-depth-data="this.pageModel.inboundDepthData"
+        @[CUSTOM_EVENTS.INBOUND_DEPTH_UPDATED]="this.setInboundDepth"
+      ></GraphInboundInput>
+      <GraphOutboundInput
+        :outbound-depth-data="this.pageModel.outboundDepthData"
+        @[CUSTOM_EVENTS.OUTBOUND_DEPTH_UPDATED]="this.setOutboundDepth"
+      ></GraphOutboundInput>
+    </div>
+    <div id="graph-and-node-details-container">
+      <GraphVisualization
+        :graph-data-update-ticker="this.graphDataUpdateTicker"
+        :page-model="this.pageModel"
+        @[CUSTOM_EVENTS.NODE_CLICKED]="graphNodeClicked"
+      ></GraphVisualization>
+      <div id="node-details-container">
+        <GraphSelectedNodeDetails
+          :selected-node-details-data="this.pageModel.selectedNodeDetailsData"
+          @[CUSTOM_EVENTS.ADD_TO_FILTER_CLICKED]="addNodeToFilter"
+          @[CUSTOM_EVENTS.REMOVE_FROM_FILTER_CLICKED]="removeNodeFromFilter"
+        ></GraphSelectedNodeDetails>
+        <PackageDetailsPanel
+          :selected-package=
+            "this.pageModel.selectedNodeDetailsData.selectedNode"
+        ></PackageDetailsPanel>
+      </div>
+    </div>
+    <PageUrlGenerator
+      :page-path-name="this.pagePathName"
+      :node-filter-data="this.pageModel.nodeFilterData"
+    ></PageUrlGenerator>
+  </div>
+</template>
+
+<script>
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
+import {PagePathName, generateFilterFromUrl} from '../url_processor.js';
 
-import {GraphFilterInput} from './graph_filter_input.js';
-import {GraphFilterItems} from './graph_filter_items.js';
-import {GraphInboundInput} from './graph_inbound_input.js';
-import {GraphOutboundInput} from './graph_outbound_input.js';
-import {GraphSelectedNodeDetails} from './graph_selected_node_details.js';
-import {GraphVisualization} from './graph_visualization.js';
-import {PackageDetailsPanel} from './package_details_panel.js';
-import {PageUrlGenerator} from './page_url_generator.js';
-
-import {generateFilterFromUrl} from '../url_processor.js';
 import {GraphNode} from '../graph_model.js';
 import {PageModel} from '../page_model.js';
-import {PagePathName} from '../url_processor.js';
 import {parsePackageGraphModelFromJson} from '../process_graph_json.js';
 
-import Vue from 'vue';
+import GraphFilterInput from './graph_filter_input.vue';
+import GraphFilterItems from './graph_filter_items.vue';
+import GraphInboundInput from './graph_inbound_input.vue';
+import GraphOutboundInput from './graph_outbound_input.vue';
+import GraphSelectedNodeDetails from './graph_selected_node_details.vue';
+import GraphVisualization from './graph_visualization.vue';
+import PackageDetailsPanel from './package_details_panel.vue';
+import PageUrlGenerator from './page_url_generator.vue';
 
-const PackageGraphPage = Vue.component('package-graph-page', {
+const PackageGraphPage = {
   components: {
-    'graph-filter-input': GraphFilterInput,
-    'graph-filter-items': GraphFilterItems,
-    'graph-inbound-input': GraphInboundInput,
-    'graph-outbound-input': GraphOutboundInput,
-    'graph-selected-node-details': GraphSelectedNodeDetails,
-    'graph-visualization': GraphVisualization,
-    'package-details-panel': PackageDetailsPanel,
-    'page-url-generator': PageUrlGenerator,
+    GraphFilterInput,
+    GraphFilterItems,
+    GraphInboundInput,
+    GraphOutboundInput,
+    GraphSelectedNodeDetails,
+    GraphVisualization,
+    PackageDetailsPanel,
+    PageUrlGenerator,
   },
   props: ['graphJson'],
 
@@ -56,6 +99,9 @@ const PackageGraphPage = Vue.component('package-graph-page', {
       pagePathName: PagePathName.PACKAGE,
       graphDataUpdateTicker: 0,
     };
+  },
+  computed: {
+    CUSTOM_EVENTS: () => CUSTOM_EVENTS,
   },
   /**
    * Parses out data from the current URL to initialize the visualization with.
@@ -127,51 +173,37 @@ const PackageGraphPage = Vue.component('package-graph-page', {
       this.pageModel.selectedNodeDetailsData.selectedNode = node;
     },
   },
-  template: `
-    <div id="page-container">
-      <div id="page-controls">
-        <graph-filter-input
-          :node-ids="this.pageModel.getNodeIds()"
-          @${CUSTOM_EVENTS.FILTER_SUBMITTED}="this.addNodeToFilter"
-        ></graph-filter-input>
-        <graph-filter-items
-          :node-filter-data="this.pageModel.nodeFilterData"
-          @${CUSTOM_EVENTS.FILTER_ELEMENT_CLICKED}="this.removeNodeFromFilter"
-        ></graph-filter-items>
-        <graph-inbound-input
-          :inbound-depth-data="this.pageModel.inboundDepthData"
-          @${CUSTOM_EVENTS.INBOUND_DEPTH_UPDATED}="this.setInboundDepth"
-        ></graph-inbound-input>
-        <graph-outbound-input
-          :outbound-depth-data="this.pageModel.outboundDepthData"
-          @${CUSTOM_EVENTS.OUTBOUND_DEPTH_UPDATED}="this.setOutboundDepth"
-        ></graph-outbound-input>
-      </div>
-      <div id="graph-and-node-details-container">
-        <graph-visualization
-          :graph-data-update-ticker="this.graphDataUpdateTicker"
-          :page-model="this.pageModel"
-          @${CUSTOM_EVENTS.NODE_CLICKED}="graphNodeClicked"
-        ></graph-visualization>
-        <div id="node-details-container">
-          <graph-selected-node-details
-            :selected-node-details-data="this.pageModel.selectedNodeDetailsData"
-            @${CUSTOM_EVENTS.ADD_TO_FILTER_CLICKED}="addNodeToFilter"
-            @${CUSTOM_EVENTS.REMOVE_FROM_FILTER_CLICKED}="removeNodeFromFilter"
-          ></graph-selected-node-details>
-          <package-details-panel
-            :selected-package=
-              "this.pageModel.selectedNodeDetailsData.selectedNode"
-          ></package-details-panel>
-        </div>
-      </div>
-      <page-url-generator
-        :page-path-name="this.pagePathName"
-        :node-filter-data="this.pageModel.nodeFilterData"
-      ></page-url-generator>
-    </div>`,
-});
-
-export {
-  PackageGraphPage,
 };
+
+export default PackageGraphPage;
+</script>
+
+<style>
+.user-input-group {
+  display: flex;
+  flex-direction: column;
+}
+</style>
+
+<style scoped>
+#page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#page-controls {
+  display: flex;
+  flex-direction: row;
+  height: 15vh;
+}
+
+#graph-and-node-details-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#node-details-container {
+  display: flex;
+  flex-direction: column;
+}
+</style>

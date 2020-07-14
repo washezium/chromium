@@ -47,6 +47,11 @@ npm run serve-dist
 ```
 This command will open a simple HTTP server serving the contents of the `dist/` directory.
 
+To build and serve, you can execute the two commands together:
+```
+npm run build && npm run serve-dist
+```
+
 **To view the visualization, open `localhost:8888/package_view.html`.**
 
 ### Miscellaneous
