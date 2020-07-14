@@ -4,7 +4,12 @@
 
 import {CUSTOM_EVENTS} from '../vue_custom_events.js';
 
+import Autocomplete from '@trevoreyre/autocomplete-vue';
+
 const GraphFilterInput = {
+  components: {
+    Autocomplete,
+  },
   props: {'nodeIds': Array},
   methods: {
     search: function(searchTerm) {

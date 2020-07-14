@@ -19,6 +19,8 @@ import {PageModel} from '../page_model.js';
 import {PagePathName} from '../url_processor.js';
 import {parsePackageGraphModelFromJson} from '../process_graph_json.js';
 
+import Vue from 'vue';
+
 const PackageGraphPage = Vue.component('package-graph-page', {
   components: {
     'graph-filter-input': GraphFilterInput,
