@@ -13,32 +13,12 @@
 #include "third_party/blink/renderer/bindings/modules/v8/v8_double_range.h"
 #include "third_party/blink/renderer/bindings/modules/v8/v8_long_range.h"
 #include "third_party/blink/renderer/bindings/modules/v8/v8_media_track_capabilities.h"
+#include "third_party/blink/renderer/modules/mediastream/media_stream_constraints_util_video_device.h"
 #include "third_party/blink/renderer/platform/mediastream/media_stream_audio_processor_options.h"
 #include "third_party/blink/renderer/platform/mediastream/media_stream_audio_source.h"
 #include "third_party/webrtc/modules/audio_processing/include/audio_processing.h"
 
 namespace blink {
-
-namespace {
-
-// TODO(c.padhi): Merge this method with ToPlatformFacingMode() in
-// media_stream_constraints_util_video_device.h, see https://crbug.com/821668.
-MediaStreamTrackPlatform::FacingMode ToPlatformFacingMode(
-    media::VideoFacingMode facing_mode) {
-  switch (facing_mode) {
-    case media::MEDIA_VIDEO_FACING_NONE:
-      return MediaStreamTrackPlatform::FacingMode::kNone;
-    case media::MEDIA_VIDEO_FACING_USER:
-      return MediaStreamTrackPlatform::FacingMode::kUser;
-    case media::MEDIA_VIDEO_FACING_ENVIRONMENT:
-      return MediaStreamTrackPlatform::FacingMode::kEnvironment;
-    default:
-      NOTREACHED();
-      return MediaStreamTrackPlatform::FacingMode::kNone;
-  }
-}
-
-}  // namespace
 
 InputDeviceInfo::InputDeviceInfo(const String& device_id,
                                  const String& label,
