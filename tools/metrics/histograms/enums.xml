@@ -75956,6 +75956,12 @@ Called by update_scheduler_enums.py.-->
   </int>
 </enum>
 
+<enum name="ZeroRttState">
+  <int value="0" label="Attempted and succeeded"/>
+  <int value="1" label="Attempted and rejected"/>
+  <int value="2" label="Not Attempted"/>
+</enum>
+
 <enum name="ZeroStateResultType">
   <int value="0" label="Unknown"/>
   <int value="1" label="Unanticipated"/>
