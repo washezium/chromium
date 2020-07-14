@@ -2,26 +2,25 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef THIRD_PARTY_BLINK_PUBLIC_PLATFORM_MODULES_MEDIASTREAM_WEB_PLATFORM_MEDIA_STREAM_TRACK_H_
-#define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_MODULES_MEDIASTREAM_WEB_PLATFORM_MEDIA_STREAM_TRACK_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_MEDIASTREAM_MEDIA_STREAM_TRACK_PLATFORM_H_
+#define THIRD_PARTY_BLINK_RENDERER_PLATFORM_MEDIASTREAM_MEDIA_STREAM_TRACK_PLATFORM_H_
 
 #include <string>
 
 #include "base/callback.h"
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_track.h"
-#include "third_party/blink/public/platform/web_common.h"
+#include "third_party/blink/renderer/platform/platform_export.h"
 
 namespace blink {
 
-// WebPlatformMediaStreamTrack is a low-level object backing a
+// MediaStreamTrackPlatform is a low-level object backing a
 // WebMediaStreamTrack.
-class BLINK_PLATFORM_EXPORT WebPlatformMediaStreamTrack {
+class PLATFORM_EXPORT MediaStreamTrackPlatform {
  public:
-  explicit WebPlatformMediaStreamTrack(bool is_local_track);
-  virtual ~WebPlatformMediaStreamTrack();
+  explicit MediaStreamTrackPlatform(bool is_local_track);
+  virtual ~MediaStreamTrackPlatform();
 
-  static WebPlatformMediaStreamTrack* GetTrack(
-      const WebMediaStreamTrack& track);
+  static MediaStreamTrackPlatform* GetTrack(const WebMediaStreamTrack& track);
 
   virtual void SetEnabled(bool enabled) = 0;
 
@@ -42,9 +41,9 @@ class BLINK_PLATFORM_EXPORT WebPlatformMediaStreamTrack {
   const bool is_local_track_;
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(WebPlatformMediaStreamTrack);
+  DISALLOW_COPY_AND_ASSIGN(MediaStreamTrackPlatform);
 };
 
 }  // namespace blink
 
-#endif  // THIRD_PARTY_BLINK_PUBLIC_PLATFORM_MODULES_MEDIASTREAM_WEB_PLATFORM_MEDIA_STREAM_TRACK_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_MEDIASTREAM_MEDIA_STREAM_TRACK_PLATFORM_H_

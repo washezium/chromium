@@ -104,7 +104,7 @@ void MediaStreamComponent::SetContentHint(
     return;
   content_hint_ = hint;
 
-  WebPlatformMediaStreamTrack* native_track = GetPlatformTrack();
+  MediaStreamTrackPlatform* native_track = GetPlatformTrack();
   if (native_track)
     native_track->SetContentHint(ContentHint());
 }

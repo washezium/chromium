@@ -382,7 +382,7 @@ MediaStreamVideoTrack::MediaStreamVideoTrack(
     MediaStreamVideoSource* source,
     MediaStreamVideoSource::ConstraintsOnceCallback callback,
     bool enabled)
-    : WebPlatformMediaStreamTrack(true),
+    : MediaStreamTrackPlatform(true),
       adapter_settings_(std::make_unique<VideoTrackAdapterSettings>(
           VideoTrackAdapterSettings())),
       is_screencast_(false),
@@ -419,7 +419,7 @@ MediaStreamVideoTrack::MediaStreamVideoTrack(
     bool pan_tilt_zoom_allowed,
     MediaStreamVideoSource::ConstraintsOnceCallback callback,
     bool enabled)
-    : WebPlatformMediaStreamTrack(true),
+    : MediaStreamTrackPlatform(true),
       adapter_settings_(
           std::make_unique<VideoTrackAdapterSettings>(adapter_settings)),
       noise_reduction_(noise_reduction),

@@ -15,10 +15,10 @@
 #include "third_party/blink/public/platform/modules/mediastream/secure_display_link_tracker.h"
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_sink.h"
 #include "third_party/blink/public/platform/modules/mediastream/web_media_stream_track.h"
-#include "third_party/blink/public/platform/modules/mediastream/web_platform_media_stream_track.h"
 #include "third_party/blink/public/web/modules/mediastream/encoded_video_frame.h"
 #include "third_party/blink/public/web/modules/mediastream/media_stream_video_source.h"
 #include "third_party/blink/renderer/modules/modules_export.h"
+#include "third_party/blink/renderer/platform/mediastream/media_stream_track_platform.h"
 #include "third_party/blink/renderer/platform/wtf/vector.h"
 
 namespace blink {
@@ -26,10 +26,9 @@ namespace blink {
 class VideoTrackAdapterSettings;
 
 // MediaStreamVideoTrack is a video-specific representation of a
-// WebPlatformMediaStreamTrack. It is owned by a MediaStreamComponent
+// MediaStreamTrackPlatform. It is owned by a MediaStreamComponent
 // and can be retrieved using MediaStreamComponent::GetPlatformTrack().
-class MODULES_EXPORT MediaStreamVideoTrack
-    : public WebPlatformMediaStreamTrack {
+class MODULES_EXPORT MediaStreamVideoTrack : public MediaStreamTrackPlatform {
  public:
   // Help method to create a WebMediaStreamTrack and a
   // MediaStreamVideoTrack instance. The MediaStreamVideoTrack object is owned

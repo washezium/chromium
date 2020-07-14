@@ -157,8 +157,7 @@ bool ConstraintsHaveImageCapture(const MediaTrackConstraints* constraints) {
 std::unique_ptr<WebAudioSourceProvider>
 CreateWebAudioSourceFromMediaStreamTrack(MediaStreamComponent* component,
                                          int context_sample_rate) {
-  WebPlatformMediaStreamTrack* media_stream_track =
-      component->GetPlatformTrack();
+  MediaStreamTrackPlatform* media_stream_track = component->GetPlatformTrack();
   if (!media_stream_track) {
     DLOG(ERROR) << "Native track missing for webaudio source.";
     return nullptr;
@@ -193,7 +192,7 @@ void CloneNativeVideoMediaStreamTrack(MediaStreamComponent* original,
 
 void DidSetMediaStreamTrackEnabled(MediaStreamComponent* component) {
   auto* native_track =
-      WebPlatformMediaStreamTrack::GetTrack(WebMediaStreamTrack(component));
+      MediaStreamTrackPlatform::GetTrack(WebMediaStreamTrack(component));
   if (native_track)
     native_track->SetEnabled(component->Enabled());
 }
