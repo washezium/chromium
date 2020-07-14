@@ -690,6 +690,8 @@ clang_tot_linux_builder(
 
 clang_tot_linux_builder(
     name = 'ToTLinuxASanLibfuzzer',
+    # Requires a large disk, so has a machine specifically devoted to it
+    builderless = False,
     short_name = 'fuz',
 )
 

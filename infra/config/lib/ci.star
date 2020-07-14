@@ -555,14 +555,14 @@ def chromiumos_builder(*, name, **kwargs):
   )
 
 
-def clang_builder(*, name, cores=32, properties=None, **kwargs):
+def clang_builder(*, name, builderless=True, cores=32, properties=None, **kwargs):
   properties = properties or {}
   properties.update({
     'perf_dashboard_machine_group': 'ChromiumClang',
   })
   return ci_builder(
       name = name,
-      builderless = True,
+      builderless = builderless,
       cores = cores,
       # Because these run ToT Clang, goma is not used.
       # Naturally the runtime will be ~4-8h on average, depending on config.
