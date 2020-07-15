@@ -2049,7 +2049,7 @@ void OmniboxViewViews::OnAfterUserAction(views::Textfield* sender) {
 void OmniboxViewViews::OnAfterCutOrCopy(ui::ClipboardBuffer clipboard_buffer) {
   ui::Clipboard* cb = ui::Clipboard::GetForCurrentThread();
   base::string16 selected_text;
-  cb->ReadText(clipboard_buffer, &selected_text);
+  cb->ReadText(clipboard_buffer, /* data_dst = */ nullptr, &selected_text);
   GURL url;
   bool write_url = false;
   model()->AdjustTextForCopy(GetSelectedRange().GetMin(), &selected_text, &url,
