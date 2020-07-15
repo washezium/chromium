@@ -34,8 +34,7 @@ public class PlayerFrameBitmapState {
      * Whether we currently need a bitmap tile. This is used for deleting bitmaps that we don't
      * need and freeing up memory.
      */
-    @VisibleForTesting
-    boolean[][] mRequiredBitmaps;
+    private boolean[][] mRequiredBitmaps;
     /** Delegate for accessing native to request bitmaps. */
     private final PlayerCompositorDelegate mCompositorDelegate;
     private final PlayerFrameBitmapStateController mStateController;
@@ -58,6 +57,11 @@ public class PlayerFrameBitmapState {
         mBitmapMatrix = new Bitmap[rows][cols];
         mPendingBitmapRequests = new boolean[rows][cols];
         mRequiredBitmaps = new boolean[rows][cols];
+    }
+
+    @VisibleForTesting
+    boolean[][] getRequiredBitmapsForTest() {
+        return mRequiredBitmaps;
     }
 
     Bitmap[][] getMatrix() {
