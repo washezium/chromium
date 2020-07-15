@@ -6858,7 +6858,6 @@ crbug.com/1104910 [ Mac ] external/wpt/webaudio/the-audio-api/the-oscillatornode
 crbug.com/1104910 fast/dom/cssTarget-crash.html [ Pass Timeout Failure ]
 crbug.com/1104910 fast/peerconnection/RTCPeerConnection-reload-interesting-usage.html [ Pass Failure ]
 crbug.com/1104910 [ Win ] virtual/cache-storage-eager-reading/external/wpt/service-workers/service-worker/registration-updateviacache.https.html [ Pass Failure ]
-crbug.com/1104910 [ Win ] http/tests/devtools/elements/styles-1/dynamic-style-tag.js [ Pass Failure ]
 crbug.com/1104910 [ Mac10.15 ] editing/selection/selection-background.html [ Pass Failure ]
 crbug.com/1104910 [ Linux ] external/wpt/referrer-policy/gen/worker-module.http-rp/unsafe-url/worker-classic.http.html [ Pass Failure ]
 crbug.com/1104910 [ Linux ] external/wpt/referrer-policy/gen/worker-module.http-rp/unset/worker-module.http.html [ Pass Failure ]
