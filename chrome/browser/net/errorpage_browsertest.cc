@@ -866,11 +866,10 @@ class ErrorPageOfflineTest : public ErrorPageTest {
       SetEnterpriseUsersDefaults(&policy_map);
 #endif
     if (set_allow_dinosaur_easter_egg_) {
-      policy_map.Set(
-          policy::key::kAllowDinosaurEasterEgg, policy::POLICY_LEVEL_MANDATORY,
-          policy::POLICY_SCOPE_USER, policy::POLICY_SOURCE_CLOUD,
-          std::make_unique<base::Value>(value_of_allow_dinosaur_easter_egg_),
-          nullptr);
+      policy_map.Set(policy::key::kAllowDinosaurEasterEgg,
+                     policy::POLICY_LEVEL_MANDATORY, policy::POLICY_SCOPE_USER,
+                     policy::POLICY_SOURCE_CLOUD,
+                     base::Value(value_of_allow_dinosaur_easter_egg_), nullptr);
     }
     policy_provider_.UpdateChromePolicy(policy_map);
 
