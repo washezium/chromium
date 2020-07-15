@@ -139,32 +139,6 @@ constexpr int kFileIconSize = 24;
 // The offset from the file icon to the danger icon.
 constexpr int kDangerIconOffset = 8;
 
-// The separator is drawn as a border. It's one dp wide.
-class SeparatorBorder : public views::Border {
- public:
-  explicit SeparatorBorder(SkColor separator_color)
-      : views::Border(separator_color) {}
-  ~SeparatorBorder() override {}
-
-  void Paint(const views::View& view, gfx::Canvas* canvas) override {
-    // The FocusRing replaces the separator border when we have focus.
-    if (view.HasFocus())
-      return;
-    int end_x = base::i18n::IsRTL() ? 0 : view.width() - 1;
-    canvas->DrawLine(gfx::Point(end_x, kTopBottomPadding),
-                     gfx::Point(end_x, view.height() - kTopBottomPadding),
-                     color());
-  }
-
-  gfx::Insets GetInsets() const override { return gfx::Insets(0, 0, 0, 1); }
-
-  gfx::Size GetMinimumSize() const override {
-    return gfx::Size(1, 2 * kTopBottomPadding + 1);
-  }
-
-  DISALLOW_COPY_AND_ASSIGN(SeparatorBorder);
-};
-
 // A stub subclass of Button that has no visuals.
 class TransparentButton : public views::Button {
  public:
@@ -691,13 +665,26 @@ gfx::Size DownloadItemView::CalculatePreferredSize() const {
                                    2 * kMinimumVerticalPadding + child_height));
 }
 
-void DownloadItemView::OnPaint(gfx::Canvas* canvas) {
+void DownloadItemView::OnPaintBackground(gfx::Canvas* canvas) {
   // Make sure to draw |this| opaquely. Since the toolbar color can be partially
   // transparent, start with a black backdrop (which is the default initialized
   // color for opaque canvases).
   canvas->DrawColor(SK_ColorBLACK);
   canvas->DrawColor(
       GetThemeProvider()->GetColor(ThemeProperties::COLOR_DOWNLOAD_SHELF));
+
+  // Draw the separator as part of the background. It will be covered by the
+  // focus ring when the view has focus.
+  const int end_x = base::i18n::IsRTL() ? 0 : width() - 1;
+  const SkColor separator_color = GetThemeProvider()->GetColor(
+      ThemeProperties::COLOR_TOOLBAR_VERTICAL_SEPARATOR);
+  canvas->DrawLine(gfx::Point(end_x, kTopBottomPadding),
+                   gfx::Point(end_x, height() - kTopBottomPadding),
+                   separator_color);
+}
+
+void DownloadItemView::OnPaint(gfx::Canvas* canvas) {
+  OnPaintBackground(canvas);
 
   DrawIcon(canvas);
   OnPaintBorder(canvas);
@@ -859,10 +846,6 @@ void DownloadItemView::LoadIconIfItemPathChanged() {
 void DownloadItemView::UpdateColorsFromTheme() {
   if (!GetThemeProvider())
     return;
-
-  open_button_->SetBorder(
-      std::make_unique<SeparatorBorder>(GetThemeProvider()->GetColor(
-          ThemeProperties::COLOR_TOOLBAR_VERTICAL_SEPARATOR)));
 
   file_name_label_->SetTextStyle(GetEnabled() ? views::style::STYLE_PRIMARY
                                               : views::style::STYLE_DISABLED);

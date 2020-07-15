@@ -105,6 +105,7 @@ class DownloadItemView : public views::View,
  protected:
   // views::View:
   gfx::Size CalculatePreferredSize() const override;
+  void OnPaintBackground(gfx::Canvas* canvas) override;
   void OnPaint(gfx::Canvas* canvas) override;
   void OnThemeChanged() override;
 
