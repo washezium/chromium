@@ -150,7 +150,7 @@ Status StorageQueue::Init() {
   // Initiate periodic uploading, if needed.
   if (!options_.upload_period().is_zero()) {
     upload_timer_.Start(FROM_HERE, options_.upload_period(), this,
-                        &StorageQueue::PeriodicUpload);
+                        &StorageQueue::Flush);
   }
   return Status::StatusOK();
 }
@@ -564,18 +564,6 @@ class StorageQueue::ReadContext : public TaskRunnerContext<Status> {
   SEQUENCE_CHECKER(read_sequence_checker_);
 };
 
-void StorageQueue::PeriodicUpload() {
-  // Note: new uploader created every time PeriodicUpload is called.
-  StatusOr<std::unique_ptr<UploaderInterface>> uploader =
-      start_upload_cb_.Run();
-  if (!uploader.ok()) {
-    LOG(ERROR) << "Failed to provide the Uploader, status="
-               << uploader.status();
-    return;
-  }
-  Start<ReadContext>(std::move(uploader.ValueOrDie()), this);
-}
-
 class StorageQueue::WriteContext : public TaskRunnerContext<Status> {
  public:
   WriteContext(base::span<const uint8_t> data,
@@ -778,6 +766,18 @@ Status StorageQueue::RemoveUnusedFiles(uint64_t seq_number) {
   }
   // Even if there were errors, ignore them.
   return Status::StatusOK();
+}
+
+void StorageQueue::Flush() {
+  // Note: new uploader created every time Flush is called.
+  StatusOr<std::unique_ptr<UploaderInterface>> uploader =
+      start_upload_cb_.Run();
+  if (!uploader.ok()) {
+    LOG(ERROR) << "Failed to provide the Uploader, status="
+               << uploader.status();
+    return;
+  }
+  Start<ReadContext>(std::move(uploader.ValueOrDie()), this);
 }
 
 //
