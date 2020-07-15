@@ -2509,6 +2509,11 @@ const char kChromeDuetLabelsName[] = "Chrome Duet Labels";
 const char kChromeDuetLabelsDescription[] =
     "Enables Chrome Duet (split toolbar) labels.";
 
+const char kChromeShareHighlightsAndroidName[] =
+    "Chrome Share text highlights on Android";
+const char kChromeShareHighlightsAndroidDescription[] =
+    "Enables UI to generate and share link to text highlights on Android";
+
 const char kChromeShareQRCodeName[] = "Chrome Share QRCodes";
 const char kChromeShareQRCodeDescription[] =
     "Enables UI to generate and scan QR Codes on Android";
