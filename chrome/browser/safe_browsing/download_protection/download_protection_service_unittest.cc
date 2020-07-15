@@ -3658,7 +3658,7 @@ TEST_P(EnhancedProtectionDownloadTest, AccessTokenForEnhancedProtectionUsers) {
   WebUIInfoSingleton::GetInstance()->AddListenerForTesting();
 
   {
-    SetEnhancedProtectionPref(profile()->GetPrefs(), true);
+    SetEnhancedProtectionPrefForTests(profile()->GetPrefs(), true);
     NiceMockDownloadItem item;
     content::DownloadItemUtils::AttachInfo(&item, profile(), nullptr);
     PrepareBasicDownloadItem(&item,
@@ -3691,7 +3691,7 @@ TEST_P(EnhancedProtectionDownloadTest, AccessTokenForEnhancedProtectionUsers) {
   }
 
   {
-    SetEnhancedProtectionPref(profile()->GetPrefs(), false);
+    SetEnhancedProtectionPrefForTests(profile()->GetPrefs(), false);
     NiceMockDownloadItem item;
     content::DownloadItemUtils::AttachInfo(&item, profile(), nullptr);
     PrepareBasicDownloadItem(&item,
@@ -3731,7 +3731,7 @@ TEST_P(EnhancedProtectionDownloadTest, AccessTokenOnlyWhenSignedIn) {
 
   identity_test_env_adaptor_->identity_test_env()
       ->SetAutomaticIssueOfAccessTokens(/*grant=*/true);
-  SetEnhancedProtectionPref(profile()->GetPrefs(), true);
+  SetEnhancedProtectionPrefForTests(profile()->GetPrefs(), true);
 
   WebUIInfoSingleton::GetInstance()->AddListenerForTesting();
 
@@ -3811,7 +3811,7 @@ TEST_P(EnhancedProtectionDownloadTest, NoAccessTokenWhileIncognito) {
   WebUIInfoSingleton::GetInstance()->AddListenerForTesting();
 
   {
-    SetEnhancedProtectionPref(profile()->GetPrefs(), true);
+    SetEnhancedProtectionPrefForTests(profile()->GetPrefs(), true);
     NiceMockDownloadItem item;
     content::DownloadItemUtils::AttachInfo(
         &item, profile()->GetPrimaryOTRProfile(), nullptr);
