@@ -3382,6 +3382,13 @@ list.autocomplete-suggestions > [lead] {
   margin-top: 2px;
 }
 
+body.files-ng #gear-menu,
+body.files-ng #share-menu,
+body.files-ng #sort-menu,
+body.files-ng #tasks-menu {
+  margin-top: 8px;
+}
+
 #gear-menu > cr-menu-item:not(.menuitem-button),
 #sort-menu > cr-menu-item {
   margin-inline-end: 50px;
