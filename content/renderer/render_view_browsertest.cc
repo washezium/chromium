@@ -1658,6 +1658,53 @@ TEST_F(RenderViewImplTextInputStateChanged,
             actual_active_element_selection_bounds);
 }
 
+TEST_F(RenderViewImplTextInputStateChanged,
+       EditContextGetLayoutBoundsWithOverflowFloatingValues) {
+  // Load an HTML page.
+  LoadHTML(
+      "<html>"
+      "<head>"
+      "</head>"
+      "<body>"
+      "</body>"
+      "</html>");
+  ClearState();
+  // Create an EditContext with control and selection bounds and set input
+  // panel policy to auto.
+  ExecuteJavaScriptForTests(
+      "const editContext = new EditContext(); "
+      "editContext.focus();editContext.inputPanelPolicy=\"auto\"; "
+      "const control_bound = new DOMRect(-3964254814208.000000, "
+      "-60129542144.000000, 674309865472.000000, 64424509440.000000); "
+      "const selection_bound = new DOMRect(10, 20, 1, 5); "
+      "editContext.updateLayout(control_bound, selection_bound);");
+  // This RunLoop is waiting for EditContext to be created and layout bounds
+  // to be updated in the EditContext.
+  base::RunLoop run_loop;
+  base::ThreadTaskRunnerHandle::Get()->PostTask(FROM_HERE,
+                                                run_loop.QuitClosure());
+  run_loop.Run();
+  // Update the IME status and verify if our IME backend sends an IPC message
+  // to notify layout bounds of the EditContext.
+  main_widget()->UpdateTextInputState();
+  base::RunLoop().RunUntilIdle();
+  EXPECT_EQ(1u, updated_states().size());
+  blink::WebRect edit_context_control_bounds_expected(-2147483648, -2147483648,
+                                                      0, 2147483647);
+  blink::WebRect edit_context_selection_bounds_expected(10, 20, 1, 5);
+  main_widget()->ConvertViewportToWindow(&edit_context_control_bounds_expected);
+  main_widget()->ConvertViewportToWindow(
+      &edit_context_selection_bounds_expected);
+  blink::WebRect actual_active_element_control_bounds(
+      updated_states()[0]->edit_context_control_bounds.value());
+  blink::WebRect actual_active_element_selection_bounds(
+      updated_states()[0]->edit_context_selection_bounds.value());
+  EXPECT_EQ(edit_context_control_bounds_expected,
+            actual_active_element_control_bounds);
+  EXPECT_EQ(edit_context_selection_bounds_expected,
+            actual_active_element_selection_bounds);
+}
+
 TEST_F(RenderViewImplTextInputStateChanged, ActiveElementGetLayoutBounds) {
   // Load an HTML page consisting of one input fields.
   LoadHTML(
