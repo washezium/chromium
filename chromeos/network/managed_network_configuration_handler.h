@@ -21,7 +21,6 @@
 namespace base {
 class DictionaryValue;
 class ListValue;
-class Value;
 }  // namespace base
 
 namespace chromeos {
@@ -93,12 +92,6 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) ManagedNetworkConfigurationHandler {
   virtual void SetProperties(
       const std::string& service_path,
       const base::DictionaryValue& user_settings,
-      const base::Closure& callback,
-      const network_handler::ErrorCallback& error_callback) = 0;
-
-  virtual void SetManagerProperty(
-      const std::string& property_name,
-      const base::Value& value,
       const base::Closure& callback,
       const network_handler::ErrorCallback& error_callback) = 0;
 

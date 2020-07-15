@@ -60,12 +60,6 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) ManagedNetworkConfigurationHandlerImpl
       const base::Closure& callback,
       const network_handler::ErrorCallback& error_callback) override;
 
-  void SetManagerProperty(
-      const std::string& property_name,
-      const base::Value& value,
-      const base::Closure& callback,
-      const network_handler::ErrorCallback& error_callback) override;
-
   void CreateConfiguration(
       const std::string& userhash,
       const base::DictionaryValue& properties,

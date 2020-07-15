@@ -303,15 +303,6 @@ void ManagedNetworkConfigurationHandlerImpl::SetProperties(
                      error_callback);
 }
 
-void ManagedNetworkConfigurationHandlerImpl::SetManagerProperty(
-    const std::string& property_name,
-    const base::Value& value,
-    const base::Closure& callback,
-    const network_handler::ErrorCallback& error_callback) {
-  network_configuration_handler_->SetManagerProperty(property_name, value,
-                                                     callback, error_callback);
-}
-
 void ManagedNetworkConfigurationHandlerImpl::SetManagedActiveProxyValues(
     const std::string& guid,
     base::DictionaryValue* dictionary) {
