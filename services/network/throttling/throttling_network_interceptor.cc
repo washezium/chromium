@@ -18,7 +18,7 @@ namespace network {
 
 namespace {
 
-int64_t kPacketSize = 1500;
+constexpr int64_t kPacketSize = 1500;
 
 base::TimeDelta CalculateTickLength(double throughput) {
   if (!throughput)

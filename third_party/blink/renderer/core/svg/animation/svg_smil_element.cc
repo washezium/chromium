@@ -345,7 +345,7 @@ void SVGSMILElement::RemovedFrom(ContainerNode& root_parent) {
 SMILTime SVGSMILElement::ParseOffsetValue(const String& data) {
   bool ok;
   double result = 0;
-  String parse = data.StripWhiteSpace();
+  const String parse = data.StripWhiteSpace();
   if (parse.EndsWith('h')) {
     result = parse.Left(parse.length() - 1).ToDouble(&ok) *
              base::Time::kSecondsPerHour;
@@ -1042,7 +1042,7 @@ SVGSMILElement::ProgressState SVGSMILElement::CalculateProgressState(
       simple_time = simple_time - SMILTime::Epsilon();
     } else {
       simple_time = simple_duration;
-      repeat--;
+      --repeat;
     }
   } else {
     repeat = active_time / simple_duration;
