@@ -825,20 +825,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderNoSSLReferrer) {
   NavigateToDestURL();
 }
 
-// Checks that renderers using excessive memory will be terminated.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderExcessiveMemory) {
-  ASSERT_TRUE(GetPrerenderManager());
-  GetPrerenderManager()->mutable_config().max_bytes = 30 * 1024 * 1024;
-  // The excessive memory kill may happen before or after the load event as it
-  // happens asynchronously with IPC calls. Even if the test does not start
-  // allocating until after load, the browser process might notice before the
-  // message gets through. This happens on XP debug bots because they're so
-  // slow. Instead, don't bother checking the load event count.
-  DisableLoadEventCheck();
-  PrerenderTestURL("/prerender/prerender_excessive_memory.html",
-                   FINAL_STATUS_MEMORY_LIMIT_EXCEEDED, 0);
-}
-
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerBeforePrerender) {
   const base::string16 any_prerender = MatchTaskManagerPrerender("*");
   const base::string16 any_tab = MatchTaskManagerTab("*");

@@ -1788,4 +1788,19 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
   OpenDestURLViaClickNewForegroundTab(url);
 }
 
+// Checks that renderers using excessive memory will be terminated.
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, PrerenderExcessiveMemory) {
+  ASSERT_TRUE(GetPrerenderManager());
+  GetPrerenderManager()->mutable_config().max_bytes = 100;
+  // The excessive memory kill may happen before or after the load event as it
+  // happens asynchronously with IPC calls. Even if the test does not start
+  // allocating until after load, the browser process might notice before the
+  // message gets through. This happens on XP debug bots because they're so
+  // slow. Instead, don't bother checking the load event count.
+  DisableLoadEventCheck();
+  PrefetchFromURL(
+      src_server()->GetURL("/prerender/prerender_excessive_memory.html"),
+      FINAL_STATUS_MEMORY_LIMIT_EXCEEDED);
+}
+
 }  // namespace prerender
