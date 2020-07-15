@@ -621,7 +621,7 @@ const base::Feature kMediaFoundationAsyncH264Encoding{
 
 // Enables AV1 decode acceleration for Windows.
 const base::Feature MEDIA_EXPORT kMediaFoundationAV1Decoding{
-    "MediaFoundationAV1Decoding", base::FEATURE_DISABLED_BY_DEFAULT};
+    "MediaFoundationAV1Decoding", base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Enables MediaFoundation based video capture
 const base::Feature kMediaFoundationVideoCapture{
