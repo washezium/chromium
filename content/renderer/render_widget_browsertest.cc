@@ -81,7 +81,7 @@ TEST_F(RenderWidgetTest, OnSynchronizeVisualProperties) {
   // The initial bounds is empty, so setting it to the same thing should do
   // nothing.
   VisualProperties visual_properties;
-  visual_properties.screen_info = ScreenInfo();
+  visual_properties.screen_info = blink::ScreenInfo();
   visual_properties.new_size = gfx::Size();
   visual_properties.compositor_viewport_pixel_rect = gfx::Rect();
   visual_properties.is_fullscreen_granted = false;

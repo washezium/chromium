@@ -732,7 +732,7 @@ void RenderViewTest::Resize(gfx::Size new_size,
       view->GetMainRenderFrame()->GetLocalRootRenderWidget();
 
   VisualProperties visual_properties;
-  visual_properties.screen_info = ScreenInfo();
+  visual_properties.screen_info = blink::ScreenInfo();
   visual_properties.new_size = new_size;
   visual_properties.compositor_viewport_pixel_rect = gfx::Rect(new_size);
   visual_properties.is_fullscreen_granted = is_fullscreen_granted;

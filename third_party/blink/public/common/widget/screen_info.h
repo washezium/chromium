@@ -28,8 +28,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef THIRD_PARTY_BLINK_PUBLIC_PLATFORM_WEB_SCREEN_INFO_H_
-#define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_WEB_SCREEN_INFO_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_SCREEN_INFO_H_
+#define THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_SCREEN_INFO_H_
 
 #include "third_party/blink/public/mojom/widget/screen_orientation.mojom-shared.h"
 #include "ui/gfx/color_space.h"
@@ -37,7 +37,7 @@
 
 namespace blink {
 
-struct WebScreenInfo {
+struct ScreenInfo {
   // Device scale factor. Specifies the ratio between physical and logical
   // pixels.
   float device_scale_factor = 1.f;
@@ -54,6 +54,10 @@ struct WebScreenInfo {
 
   // This can be true for black and white printers
   bool is_monochrome = false;
+
+  // The display frequency in Hz of the monitor. Set to 0 if it fails in the
+  // monitor frequency query.
+  int display_frequency = 0;
 
   // This is set from the rcMonitor member of MONITORINFOEX, to whit:
   //   "A RECT structure that specifies the display monitor rectangle,
@@ -83,21 +87,22 @@ struct WebScreenInfo {
   // TODO(crbug.com/840189): we should use an enum rather than a number here.
   uint16_t orientation_angle = 0;
 
-  WebScreenInfo() = default;
+  ScreenInfo() = default;
 
-  bool operator==(const WebScreenInfo& other) const {
+  bool operator==(const ScreenInfo& other) const {
     return this->device_scale_factor == other.device_scale_factor &&
            this->color_space == other.color_space &&
            this->depth == other.depth &&
            this->depth_per_component == other.depth_per_component &&
            this->is_monochrome == other.is_monochrome &&
+           this->display_frequency == other.display_frequency &&
            this->rect == other.rect &&
            this->available_rect == other.available_rect &&
            this->orientation_type == other.orientation_type &&
            this->orientation_angle == other.orientation_angle;
   }
 
-  bool operator!=(const WebScreenInfo& other) const {
+  bool operator!=(const ScreenInfo& other) const {
     return !this->operator==(other);
   }
 };

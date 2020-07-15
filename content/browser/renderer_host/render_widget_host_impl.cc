@@ -1748,7 +1748,7 @@ void RenderWidgetHostImpl::RemoveObserver(RenderWidgetHostObserver* observer) {
   observers_.RemoveObserver(observer);
 }
 
-void RenderWidgetHostImpl::GetScreenInfo(ScreenInfo* result) {
+void RenderWidgetHostImpl::GetScreenInfo(blink::ScreenInfo* result) {
   TRACE_EVENT0("renderer_host", "RenderWidgetHostImpl::GetScreenInfo");
   if (view_)
     view_->GetScreenInfo(result);
@@ -1762,6 +1762,10 @@ void RenderWidgetHostImpl::GetScreenInfo(ScreenInfo* result) {
   // can be const.
   if (IsUseZoomForDSFEnabled())
     input_router_->SetDeviceScaleFactor(result->device_scale_factor);
+}
+
+float RenderWidgetHostImpl::GetDeviceScaleFactor() {
+  return GetScaleFactorForView(view_.get());
 }
 
 base::Optional<cc::TouchAction> RenderWidgetHostImpl::GetAllowedTouchAction() {

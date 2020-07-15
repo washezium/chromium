@@ -10,7 +10,7 @@
 #include "cc/trees/browser_controls_params.h"
 #include "components/viz/common/surfaces/local_surface_id_allocation.h"
 #include "content/common/content_export.h"
-#include "content/public/common/screen_info.h"
+#include "third_party/blink/public/common/widget/screen_info.h"
 #include "third_party/blink/public/mojom/manifest/display_mode.mojom.h"
 #include "ui/gfx/geometry/size.h"
 
@@ -58,7 +58,7 @@ struct CONTENT_EXPORT VisualProperties {
   VisualProperties& operator=(const VisualProperties& other);
 
   // Information about the screen (dpi, depth, etc..).
-  ScreenInfo screen_info;
+  blink::ScreenInfo screen_info;
 
   // Whether or not blink should be in auto-resize mode.
   bool auto_resize_enabled = false;

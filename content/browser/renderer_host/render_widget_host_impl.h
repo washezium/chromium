@@ -106,7 +106,6 @@ class TimeoutMonitor;
 class TouchEmulator;
 class WebCursor;
 struct VisualProperties;
-struct ScreenInfo;
 
 // This implements the RenderWidgetHost interface that is exposed to
 // embedders of content, and adds things only visible to content.
@@ -223,7 +222,8 @@ class CONTENT_EXPORT RenderWidgetHostImpl
       RenderWidgetHost::InputEventObserver* observer) override;
   void AddObserver(RenderWidgetHostObserver* observer) override;
   void RemoveObserver(RenderWidgetHostObserver* observer) override;
-  void GetScreenInfo(content::ScreenInfo* result) override;
+  void GetScreenInfo(blink::ScreenInfo* result) override;
+  float GetDeviceScaleFactor() override;
   base::Optional<cc::TouchAction> GetAllowedTouchAction() override;
   // |drop_data| must have been filtered. The embedder should call
   // FilterDropData before passing the drop data to RWHI.

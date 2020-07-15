@@ -156,7 +156,7 @@ class InteractiveRenderWidget : public RenderWidget {
                      /*is_hidden=*/false,
                      /*never_composited=*/false) {}
 
-  void Init(blink::WebWidget* widget, const ScreenInfo& screen_info) {
+  void Init(blink::WebWidget* widget, const blink::ScreenInfo& screen_info) {
     Initialize(base::NullCallback(), widget, screen_info);
   }
 
@@ -243,7 +243,7 @@ class RenderWidgetUnittest : public testing::Test {
         widget_.get(), web_local_frame_, frame_widget_host.Unbind(),
         std::move(frame_widget_receiver), widget_host.Unbind(),
         std::move(widget_receiver));
-    widget_->Init(web_frame_widget_, ScreenInfo());
+    widget_->Init(web_frame_widget_, blink::ScreenInfo());
     web_view_->DidAttachLocalMainFrame();
   }
 
@@ -297,7 +297,7 @@ class RenderWidgetExternalWidgetUnittest : public testing::Test {
         std::move(widget_host_remote), std::move(widget_receiver));
 
     widget_ = std::make_unique<InteractiveRenderWidget>(&compositor_deps_);
-    widget_->Init(external_web_widget_.get(), ScreenInfo());
+    widget_->Init(external_web_widget_.get(), blink::ScreenInfo());
   }
 
   void TearDown() override {

@@ -2032,7 +2032,7 @@ bool RenderFrameHostImpl::CreateRenderFrame(
   if (owned_render_widget_host_) {
     DCHECK(parent_);
     DCHECK_NE(parent_routing_id, MSG_ROUTING_NONE);
-    ScreenInfo screen_info;
+    blink::ScreenInfo screen_info;
     parent_->GetRenderWidgetHost()->GetScreenInfo(&screen_info);
     RenderWidgetHostView* rwhv = RenderWidgetHostViewChildFrame::Create(
         owned_render_widget_host_.get(), screen_info);
