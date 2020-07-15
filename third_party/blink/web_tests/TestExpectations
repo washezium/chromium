@@ -6877,3 +6877,4 @@ crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-on-navig
 crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-resource-preview.js [ Pass Failure ]
 crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-selection-on-reload.js [ Pass Failure ]
 crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-websql.js [ Pass Failure ]
+crbug.com/1101262 http/tests/devtools/resource-tree/resource-tree-non-unique-url.js [ Pass Failure ]
