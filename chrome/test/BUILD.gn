@@ -3363,7 +3363,6 @@ test("unit_tests") {
     "../browser/prefs/proxy_policy_unittest.cc",
     "../browser/prefs/session_startup_pref_unittest.cc",
     "../browser/prerender/isolated/isolated_prerender_proxy_configurator_unittest.cc",
-    "../browser/prerender/isolated/isolated_prerender_service_workers_observer_unittest.cc",
     "../browser/prerender/isolated/isolated_prerender_tab_helper_unittest.cc",
     "../browser/prerender/isolated/isolated_prerender_url_loader_interceptor_unittest.cc",
     "../browser/prerender/prerender_history_unittest.cc",

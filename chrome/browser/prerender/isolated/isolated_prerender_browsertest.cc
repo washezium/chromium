@@ -31,7 +31,6 @@
 #include "chrome/browser/prerender/isolated/isolated_prerender_proxy_configurator.h"
 #include "chrome/browser/prerender/isolated/isolated_prerender_service.h"
 #include "chrome/browser/prerender/isolated/isolated_prerender_service_factory.h"
-#include "chrome/browser/prerender/isolated/isolated_prerender_service_workers_observer.h"
 #include "chrome/browser/prerender/isolated/isolated_prerender_subresource_manager.h"
 #include "chrome/browser/prerender/isolated/isolated_prerender_tab_helper.h"
 #include "chrome/browser/prerender/isolated/isolated_prerender_test_utils.h"
@@ -70,6 +69,7 @@
 #include "content/public/browser/navigation_entry.h"
 #include "content/public/browser/network_service_instance.h"
 #include "content/public/browser/notification_observer.h"
+#include "content/public/browser/service_worker_context.h"
 #include "content/public/browser/storage_partition.h"
 #include "content/public/common/network_service_util.h"
 #include "content/public/common/page_type.h"
@@ -790,16 +790,13 @@ IN_PROC_BROWSER_TEST_F(
   EXPECT_EQ("DONE", EvalJs(GetWebContents(),
                            "register('network_fallback_worker.js');"));
 
-  IsolatedPrerenderService* isolated_prerender_service =
-      IsolatedPrerenderServiceFactory::GetForProfile(browser()->profile());
-  EXPECT_EQ(base::Optional<bool>(true),
-            isolated_prerender_service->service_workers_observer()
-                ->IsServiceWorkerRegisteredForOrigin(
-                    url::Origin::Create(GetOriginServerURL("/"))));
-  EXPECT_EQ(base::Optional<bool>(false),
-            isolated_prerender_service->service_workers_observer()
-                ->IsServiceWorkerRegisteredForOrigin(
-                    url::Origin::Create(GURL("https://unregistered.com"))));
+  content::ServiceWorkerContext* service_worker_context_ =
+      content::BrowserContext::GetDefaultStoragePartition(browser()->profile())
+          ->GetServiceWorkerContext();
+  EXPECT_EQ(true, service_worker_context_->MaybeHasRegistrationForOrigin(
+                      url::Origin::Create(GetOriginServerURL("/"))));
+  EXPECT_EQ(false, service_worker_context_->MaybeHasRegistrationForOrigin(
+                       url::Origin::Create(GURL("https://unregistered.com"))));
 
   GURL prefetch_url = GetOriginServerURL("/title2.html");
 
