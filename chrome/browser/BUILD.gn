@@ -2951,6 +2951,7 @@ static_library("browser") {
       "//third_party/smhasher:murmurhash2",
       "//url:origin_android",
     ]
+    allow_circular_includes_from += [ "//chrome/browser/share" ]
 
     deps += [ "//chrome/browser/engagement/android:jni_headers" ]
     deps -= [ "//components/storage_monitor" ]
