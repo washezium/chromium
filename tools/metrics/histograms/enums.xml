@@ -11967,6 +11967,11 @@ Called by update_net_error_codes.py.-->
   <int value="1" label="Unseen"/>
 </enum>
 
+<enum name="ContextualSearchGestureIsTap">
+  <int value="0" label="Longpress"/>
+  <int value="1" label="Tap"/>
+</enum>
+
 <enum name="ContextualSearchIconSpriteAnimated">
   <int value="0" label="Animated, seen, from tap"/>
   <int value="1" label="Animated, not seen, from tap"/>
