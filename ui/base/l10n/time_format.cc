@@ -10,6 +10,7 @@
 #include "base/component_export.h"
 #include "base/lazy_instance.h"
 #include "base/notreached.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/strings/string_util.h"
 #include "base/time/time.h"
 #include "third_party/icu/source/common/unicode/unistr.h"
@@ -55,10 +56,7 @@ base::string16 TimeFormat::DetailedWithMonthAndYear(
     int cutoff,
     const base::TimeDelta& delta,
     bool with_month_and_year) {
-  if (delta < TimeDelta::FromSeconds(0)) {
-    NOTREACHED() << "Negative duration";
-    return base::string16();
-  }
+  DCHECK_GE(delta, TimeDelta());
 
   // Negative cutoff: always use two-value format.
   if (cutoff < 0)
@@ -85,7 +83,7 @@ base::string16 TimeFormat::DetailedWithMonthAndYear(
   const Formatter* formatter = g_container.Get().Get(format, length);
   if (delta < kMinute - kHalfSecond) {
     // Anything up to 59.500 seconds is formatted as seconds.
-    const int seconds = static_cast<int>((delta + kHalfSecond).InSeconds());
+    const int seconds = base::Round(delta.InSecondsF());
     formatter->Format(Formatter::UNIT_SEC, seconds, &time_string);
   } else if (delta < kHour - (cutoff < base::Time::kMinutesPerHour
                                   ? kHalfMinute
@@ -98,8 +96,8 @@ base::string16 TimeFormat::DetailedWithMonthAndYear(
       formatter->Format(Formatter::UNIT_MIN, minutes, &time_string);
     } else {
       const int minutes = (delta + kHalfSecond).InMinutes();
-      const int seconds = static_cast<int>((delta + kHalfSecond).InSeconds() %
-                                           base::Time::kSecondsPerMinute);
+      const int seconds =
+          base::Round(delta.InSecondsF()) % base::Time::kSecondsPerMinute;
       formatter->Format(Formatter::TWO_UNITS_MIN_SEC,
                         minutes, seconds, &time_string);
     }
@@ -166,9 +164,9 @@ base::string16 TimeFormat::RelativeDate(
     return base::string16();
   if (time >= midnight_today)
     return l10n_util::GetStringUTF16(IDS_PAST_TIME_TODAY);
-  if (time >= yesterday)
-    return l10n_util::GetStringUTF16(IDS_PAST_TIME_YESTERDAY);
-  return base::string16();
+  return (time >= yesterday)
+             ? l10n_util::GetStringUTF16(IDS_PAST_TIME_YESTERDAY)
+             : base::string16();
 }
 
 }  // namespace ui

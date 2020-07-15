@@ -360,9 +360,7 @@ SMILTime SVGSMILElement::ParseOffsetValue(const String& data) {
   } else {
     result = parse.ToDouble(&ok);
   }
-  if (!ok)
-    return SMILTime::Unresolved();
-  return SMILTime::FromSecondsD(result);
+  return ok ? SMILTime::FromSecondsD(result) : SMILTime::Unresolved();
 }
 
 SMILTime SVGSMILElement::ParseClockValue(const String& data) {
