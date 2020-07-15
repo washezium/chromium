@@ -1546,11 +1546,11 @@ class LayerTreeHostTestEarlyDamageCheckStops : public LayerTreeHostTest {
     // Change the child layer each frame. Since the child layer is translated
     // past the viewport, it should not cause damage, but webview will still
     // invalidate if the frame doesn't check for damage early.
-    child_->SetOpacity(1.0 / (float)(frame + 1));
+    child_->SetOpacity(1.0f / (frame + 1));
 
     // For |damaged_frame_limit| consecutive frames, cause actual damage.
     if (frame >= 3 && frame < (damaged_frame_limit_ + 3)) {
-      root_->SetOpacity(1.0 / (float)frame);
+      root_->SetOpacity(1.0f / frame);
     }
   }
 
