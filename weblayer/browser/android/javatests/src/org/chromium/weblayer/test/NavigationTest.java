@@ -735,6 +735,7 @@ public class NavigationTest {
 
     @Test
     @SmallTest
+    @MinWebLayerVersion(84)
     public void testSetUserAgentString() throws Exception {
         TestWebServer testServer = TestWebServer.start();
         InstrumentationActivity activity = mActivityTestRule.launchShellWithUrl(null);
