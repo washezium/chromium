@@ -192,6 +192,29 @@ public class AwContentsTest {
         Assert.assertEquals(newBlockNetworkLoads, awSettings.getBlockNetworkLoads());
     }
 
+    @Test
+    @SmallTest
+    @Feature({"AndroidWebView"})
+    public void testBackgroundColorInDarkMode() throws Throwable {
+        mActivityTestRule.runOnUiThread(() -> {
+            AwContents awContents =
+                    mActivityTestRule.createAwTestContainerView(mContentsClient).getAwContents();
+            AwSettings awSettings = awContents.getSettings();
+
+            Assert.assertEquals(awContents.getEffectiveBackgroundColorForTesting(), Color.WHITE);
+
+            awSettings.setForceDarkMode(AwSettings.FORCE_DARK_ON);
+            Assert.assertTrue(awSettings.isDarkMode());
+            Assert.assertEquals(awContents.getEffectiveBackgroundColorForTesting(), Color.BLACK);
+
+            awContents.setBackgroundColor(Color.RED);
+            Assert.assertEquals(awContents.getEffectiveBackgroundColorForTesting(), Color.RED);
+
+            awContents.destroy();
+            Assert.assertEquals(awContents.getEffectiveBackgroundColorForTesting(), Color.RED);
+        });
+    }
+
     private int callDocumentHasImagesSync(final AwContents awContents)
             throws Throwable, InterruptedException {
         // Set up a container to hold the result object and a semaphore to
