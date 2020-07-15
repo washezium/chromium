@@ -574,7 +574,10 @@ void CertProvisioningScheduler::WaitForInternetConnection() {
     return;
   }
 
-  VLOG(0) << "Waiting for internet connection";
+  if (!workers_.empty()) {
+    VLOG(0) << "Waiting for internet connection";
+  }
+
   is_waiting_for_online_ = true;
   for (auto& kv : workers_) {
     auto& worker_ptr = kv.second;
