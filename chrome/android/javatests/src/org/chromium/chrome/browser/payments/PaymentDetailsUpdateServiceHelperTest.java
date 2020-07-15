@@ -134,8 +134,8 @@ public class PaymentDetailsUpdateServiceHelperTest {
 
         // Populate shipping options.
         List<PaymentShippingOption> shippingOptions = new ArrayList<PaymentShippingOption>();
-        shippingOptions.add(new PaymentShippingOption(
-                "shippingId", "Free shipping", "CAD", "0.00", /*selected=*/true));
+        shippingOptions.add(new PaymentShippingOption("shippingId", "Free shipping",
+                new PaymentCurrencyAmount("CAD", "0.00"), /*selected=*/true));
 
         // Populate address errors.
         Bundle bundledShippingAddressErrors = new Bundle();
@@ -179,11 +179,10 @@ public class PaymentDetailsUpdateServiceHelperTest {
                 shippingOption.getString(PaymentShippingOption.EXTRA_SHIPPING_OPTION_ID));
         Assert.assertEquals("Free shipping",
                 shippingOption.getString(PaymentShippingOption.EXTRA_SHIPPING_OPTION_LABEL));
-        Assert.assertEquals("CAD",
-                shippingOption.getString(
-                        PaymentShippingOption.EXTRA_SHIPPING_OPTION_AMOUNT_CURRENCY));
-        Assert.assertEquals("0.00",
-                shippingOption.getString(PaymentShippingOption.EXTRA_SHIPPING_OPTION_AMOUNT_VALUE));
+        Bundle amount =
+                shippingOption.getBundle(PaymentShippingOption.EXTRA_SHIPPING_OPTION_AMOUNT);
+        Assert.assertEquals("CAD", amount.getString(PaymentCurrencyAmount.EXTRA_CURRENCY));
+        Assert.assertEquals("0.00", amount.getString(PaymentCurrencyAmount.EXTRA_VALUE));
         Assert.assertTrue(
                 shippingOption.getBoolean(PaymentShippingOption.EXTRA_SHIPPING_OPTION_SELECTED));
 
