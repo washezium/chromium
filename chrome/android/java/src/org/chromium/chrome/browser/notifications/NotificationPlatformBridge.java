@@ -223,20 +223,17 @@ public class NotificationPlatformBridge {
 
     @Nullable
     static String getNotificationReply(Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            // RemoteInput was added in KITKAT_WATCH.
-            if (intent.getStringExtra(NotificationConstants.EXTRA_NOTIFICATION_REPLY) != null) {
-                // If the notification click went through the job scheduler, we will have set
-                // the reply as a standard string extra.
-                return intent.getStringExtra(NotificationConstants.EXTRA_NOTIFICATION_REPLY);
-            }
-            Bundle remoteInputResults = RemoteInput.getResultsFromIntent(intent);
-            if (remoteInputResults != null) {
-                CharSequence reply =
-                        remoteInputResults.getCharSequence(NotificationConstants.KEY_TEXT_REPLY);
-                if (reply != null) {
-                    return reply.toString();
-                }
+        if (intent.getStringExtra(NotificationConstants.EXTRA_NOTIFICATION_REPLY) != null) {
+            // If the notification click went through the job scheduler, we will have set
+            // the reply as a standard string extra.
+            return intent.getStringExtra(NotificationConstants.EXTRA_NOTIFICATION_REPLY);
+        }
+        Bundle remoteInputResults = RemoteInput.getResultsFromIntent(intent);
+        if (remoteInputResults != null) {
+            CharSequence reply =
+                    remoteInputResults.getCharSequence(NotificationConstants.KEY_TEXT_REPLY);
+            if (reply != null) {
+                return reply.toString();
             }
         }
         return null;

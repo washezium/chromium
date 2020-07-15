@@ -6,7 +6,6 @@ package org.chromium.chrome.browser.notifications;
 
 import static org.junit.Assert.assertThat;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.RemoteInput;
@@ -32,7 +31,6 @@ import org.junit.runner.RunWith;
 import org.chromium.base.metrics.RecordHistogram;
 import org.chromium.base.test.util.CommandLineFlags;
 import org.chromium.base.test.util.Feature;
-import org.chromium.base.test.util.MinAndroidSdkLevel;
 import org.chromium.base.test.util.UserActionTester;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.engagement.SiteEngagementService;
@@ -221,18 +219,16 @@ public class NotificationPlatformBridgeTest {
         Assert.assertTrue(tickerText.contains("MyNotification"));
         Assert.assertTrue(tickerText.contains("Hello"));
 
-        // On L+, verify the public version of the notification contains the notification's origin,
+        // Verify the public version of the notification contains the notification's origin,
         // and that the body text has been replaced.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Assert.assertNotNull(notification.publicVersion);
-            Assert.assertEquals(context.getString(R.string.notification_hidden_text),
-                    NotificationTestUtil.getExtraText(notification.publicVersion));
-        }
+        Assert.assertNotNull(notification.publicVersion);
+        Assert.assertEquals(context.getString(R.string.notification_hidden_text),
+                NotificationTestUtil.getExtraText(notification.publicVersion));
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             // On N+, origin should be set as the subtext of the public notification.
             Assert.assertEquals(expectedOrigin,
                     NotificationTestUtil.getExtraSubText(notification.publicVersion));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        } else {
             // On L/M, origin should be the title of the public notification.
             Assert.assertEquals(
                     expectedOrigin, NotificationTestUtil.getExtraTitle(notification.publicVersion));
@@ -259,8 +255,6 @@ public class NotificationPlatformBridgeTest {
      * with a remote input on the action.
      */
     @Test
-    @MinAndroidSdkLevel(Build.VERSION_CODES.KITKAT_WATCH)
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) // RemoteInputs were only added in KITKAT_WATCH.
     @MediumTest
     @Feature({"Browser", "Notifications"})
     public void testShowNotificationWithTextAction() throws Exception {
@@ -289,8 +283,6 @@ public class NotificationPlatformBridgeTest {
      * appropriately.
      */
     @Test
-    @MinAndroidSdkLevel(Build.VERSION_CODES.KITKAT_WATCH)
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) // RemoteInputs were only added in KITKAT_WATCH.
     @MediumTest
     @Feature({"Browser", "Notifications"})
     public void testReplyToNotification() throws Exception {
@@ -315,7 +307,7 @@ public class NotificationPlatformBridgeTest {
         Assert.assertNotNull(remoteInputs);
 
         // Set a reply using the action's remote input key and send it on the intent.
-        Helper.sendIntentWithRemoteInput(context, action.actionIntent, remoteInputs,
+        sendIntentWithRemoteInput(context, action.actionIntent, remoteInputs,
                 remoteInputs[0].getResultKey(), "My Reply" /* reply */);
 
         // Check reply was received by the service worker (see android_test_worker.js).
@@ -336,8 +328,6 @@ public class NotificationPlatformBridgeTest {
      * incremented appropriately.
      */
     @Test
-    @MinAndroidSdkLevel(Build.VERSION_CODES.KITKAT_WATCH)
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) // RemoteInputs added in KITKAT_WATCH.
     @MediumTest
     @Feature({"Browser", "Notifications"})
     public void testReplyToNotificationWithEmptyReply() throws Exception {
@@ -360,7 +350,7 @@ public class NotificationPlatformBridgeTest {
         Assert.assertNotNull(remoteInputs);
 
         // Set a reply using the action's remote input key and send it on the intent.
-        Helper.sendIntentWithRemoteInput(context, action.actionIntent, remoteInputs,
+        sendIntentWithRemoteInput(context, action.actionIntent, remoteInputs,
                 remoteInputs[0].getResultKey(), "" /* reply */);
 
         // Check empty reply was received by the service worker (see android_test_worker.js).
@@ -369,24 +359,17 @@ public class NotificationPlatformBridgeTest {
         Assert.assertEquals(1.5, getEngagementScoreBlocking(), 0);
     }
 
-    //TODO(yolandyan): remove this after supporting SdkSuppress annotation
-    //Currently JUnit4 reflection would look for all test methods in a Test class, and
-    //this test uses RemoteInput as input, this would cause NoClassDefFoundError
-    //in lower than L devices
-    private static class Helper {
-        @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) // RemoteInputs added in KITKAT_WATCH.
-        private static void sendIntentWithRemoteInput(Context context, PendingIntent pendingIntent,
-                RemoteInput[] remoteInputs, String resultKey, String reply)
-                throws PendingIntent.CanceledException {
-            Bundle results = new Bundle();
-            results.putString(resultKey, reply);
-            Intent fillInIntent = new Intent().addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-            RemoteInput.addResultsToIntent(remoteInputs, fillInIntent, results);
+    private static void sendIntentWithRemoteInput(Context context, PendingIntent pendingIntent,
+            RemoteInput[] remoteInputs, String resultKey, String reply)
+            throws PendingIntent.CanceledException {
+        Bundle results = new Bundle();
+        results.putString(resultKey, reply);
+        Intent fillInIntent = new Intent().addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        RemoteInput.addResultsToIntent(remoteInputs, fillInIntent, results);
 
-            // Send the pending intent filled in with the additional information from the new
-            // intent.
-            pendingIntent.send(context, 0 /* code */, fillInIntent);
-        }
+        // Send the pending intent filled in with the additional information from the new
+        // intent.
+        pendingIntent.send(context, 0 /* code */, fillInIntent);
     }
 
     /**
@@ -396,7 +379,6 @@ public class NotificationPlatformBridgeTest {
      * incremented appropriately.
      */
     @Test
-    @TargetApi(Build.VERSION_CODES.KITKAT) // Notification.Action.actionIntent added in Android K.
     @MediumTest
     @Feature({"Browser", "Notifications"})
     public void testReplyToNotificationWithNoRemoteInput() throws Exception {
@@ -571,13 +553,10 @@ public class NotificationPlatformBridgeTest {
                     BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_chrome);
             Assert.assertTrue(expected.sameAs(smallIcon));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                // Public versions of notifications are only supported on L+.
-                Assert.assertNotNull(notification.publicVersion);
-                Bitmap publicSmallIcon = NotificationTestUtil.getSmallIconFromNotification(
-                        context, notification.publicVersion);
-                Assert.assertTrue(expected.sameAs(publicSmallIcon));
-            }
+            Assert.assertNotNull(notification.publicVersion);
+            Bitmap publicSmallIcon = NotificationTestUtil.getSmallIconFromNotification(
+                    context, notification.publicVersion);
+            Assert.assertTrue(expected.sameAs(publicSmallIcon));
         }
     }
 

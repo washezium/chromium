@@ -1055,10 +1055,6 @@ public class ContextualSearchManagerTest {
         // refinement from nearby taps. The double-tap timeout is sufficiently
         // short that this shouldn't conflict with tap refinement by the user.
         int doubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            // Some tests are flaky on KitKat.  See https://crbug.com/878517.
-            doubleTapTimeout *= 2;
-        }
         Thread.sleep(doubleTapTimeout);
     }
 
