@@ -524,7 +524,7 @@ ci.chromium_builder(
     ),
     cores = 32,
     os = os.WINDOWS_DEFAULT,
-    execution_timeout = 4 * time.hour,
+    execution_timeout = 6 * time.hour,
     tree_closing = False,
 )
 
@@ -537,7 +537,7 @@ ci.chromium_builder(
     ),
     cores = 32,
     os = os.WINDOWS_DEFAULT,
-    execution_timeout = 5 * time.hour,
+    execution_timeout = 6 * time.hour,
     tree_closing = False,
 )
 
