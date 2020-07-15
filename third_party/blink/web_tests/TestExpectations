@@ -6330,7 +6330,6 @@ crbug.com/1046784 http/tests/devtools/elements/styles-4/styles-inline-element-st
 crbug.com/1046784 http/tests/devtools/elements/styles-3/styles-add-invalid-property.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/elements/resolve-node-blocked.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/editor/text-editor-selection-to-search.js [ Pass Timeout ]
-crbug.com/1046784 http/tests/devtools/elements/shadow/breadcrumb-shadow-roots.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/animation/animation-KeyframeEffect-crash.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/animation/animation-group-matching-transitions.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/storage-panel-dom-storage.js [ Pass Timeout ]
