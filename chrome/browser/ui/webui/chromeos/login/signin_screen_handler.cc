@@ -413,8 +413,6 @@ void SigninScreenHandler::RegisterMessages() {
   AddRawCallback("offlineLogin", &SigninScreenHandler::HandleOfflineLogin);
   AddCallback("toggleEnrollmentScreen",
               &SigninScreenHandler::HandleToggleEnrollmentScreen);
-  AddCallback("toggleEnableDebuggingScreen",
-              &SigninScreenHandler::HandleToggleEnableDebuggingScreen);
   AddCallback("toggleKioskEnableScreen",
               &SigninScreenHandler::HandleToggleKioskEnableScreen);
   AddCallback("accountPickerReady",
@@ -1066,11 +1064,6 @@ void SigninScreenHandler::HandleOfflineLogin(const base::ListValue* args) {
 void SigninScreenHandler::HandleToggleEnrollmentScreen() {
   if (delegate_)
     delegate_->ShowEnterpriseEnrollmentScreen();
-}
-
-void SigninScreenHandler::HandleToggleEnableDebuggingScreen() {
-  if (delegate_)
-    delegate_->ShowEnableDebuggingScreen();
 }
 
 void SigninScreenHandler::HandleToggleKioskEnableScreen() {

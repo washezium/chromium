@@ -98,9 +98,6 @@ class SigninScreenHandlerDelegate {
   // Shows Enterprise Enrollment screen.
   virtual void ShowEnterpriseEnrollmentScreen() = 0;
 
-  // Shows Enable Developer Features screen.
-  virtual void ShowEnableDebuggingScreen() = 0;
-
   // Shows Kiosk Enable screen.
   virtual void ShowKioskEnableScreen() = 0;
 
@@ -279,7 +276,6 @@ class SigninScreenHandler
   void HandleLaunchSAMLPublicSession(const std::string& email);
   void HandleOfflineLogin(const base::ListValue* args);
   void HandleToggleEnrollmentScreen();
-  void HandleToggleEnableDebuggingScreen();
   void HandleToggleKioskEnableScreen();
   void HandleToggleResetScreen();
   void HandleToggleKioskAutolaunchScreen();
