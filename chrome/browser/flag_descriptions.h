@@ -1983,6 +1983,9 @@ extern const char kCdmFactoryDaemonDescription[];
 extern const char kContextualNudgesName[];
 extern const char kContextualNudgesDescription[];
 
+extern const char kCrosLanguageSettingsUpdateName[];
+extern const char kCrosLanguageSettingsUpdateDescription[];
+
 extern const char kCrosRegionsModeName[];
 extern const char kCrosRegionsModeDescription[];
 extern const char kCrosRegionsModeDefault[];
