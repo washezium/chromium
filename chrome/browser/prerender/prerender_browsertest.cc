@@ -464,18 +464,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
     OpenURLWithJSImpl("ClickPing", dest_url_, ping_url, false);
   }
 
-  void OpenDestURLViaClickNewWindow() const {
-    OpenURLWithJSImpl("ShiftClick", dest_url_, GURL(), true);
-  }
-
-  void OpenDestURLViaClickNewForegroundTab() const {
-#if defined(OS_MACOSX)
-    OpenURLWithJSImpl("MetaShiftClick", dest_url_, GURL(), true);
-#else
-    OpenURLWithJSImpl("CtrlShiftClick", dest_url_, GURL(), true);
-#endif
-  }
-
   void OpenDestURLViaWindowOpen() const { OpenURLViaWindowOpen(dest_url_); }
 
   void OpenURLViaWindowOpen(const GURL& url) const {
@@ -918,18 +906,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerAfterPrerender) {
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, final));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClickNewWindow) {
-  PrerenderTestURL("/prerender/prerender_page_with_link.html",
-                   FINAL_STATUS_APP_TERMINATING, 1);
-  OpenDestURLViaClickNewWindow();
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClickNewForegroundTab) {
-  PrerenderTestURL("/prerender/prerender_page_with_link.html",
-                   FINAL_STATUS_APP_TERMINATING, 1);
-  OpenDestURLViaClickNewForegroundTab();
 }
 
 // Checks that the referrer policy is used when prerendering.

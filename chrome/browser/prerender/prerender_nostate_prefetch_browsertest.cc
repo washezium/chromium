@@ -30,6 +30,7 @@
 #include "chrome/browser/task_manager/task_manager_browsertest_util.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/browser_commands.h"
+#include "chrome/browser/ui/browser_list.h"
 #include "chrome/browser/ui/tabs/tab_strip_model.h"
 #include "chrome/common/chrome_switches.h"
 #include "chrome/test/base/ui_test_utils.h"
@@ -44,6 +45,8 @@
 #include "content/public/browser/render_frame_host.h"
 #include "content/public/browser/render_process_host.h"
 #include "content/public/browser/storage_partition.h"
+#include "content/public/browser/web_contents.h"
+#include "content/public/browser/web_contents_observer.h"
 #include "content/public/common/result_codes.h"
 #include "content/public/common/url_constants.h"
 #include "content/public/test/browser_test.h"
@@ -120,6 +123,136 @@ const char kPrefetchSubresourceRedirectPage[] =
     "/prerender/prefetch_subresource_redirect.html";
 const char kServiceWorkerLoader[] = "/prerender/service_worker.html";
 const char kHungPrerenderPage[] = "/prerender/hung_prerender_page.html";
+
+// A navigation observer to wait on either a new load or a swap of a
+// WebContents. On swap, if the new WebContents is still loading, wait for that
+// load to complete as well. Note that the load must begin after the observer is
+// attached.
+class NavigationOrSwapObserver : public content::WebContentsObserver,
+                                 public TabStripModelObserver {
+ public:
+  // Waits for either a new load or a swap of |tab_strip_model|'s active
+  // WebContents.
+  NavigationOrSwapObserver(TabStripModel* tab_strip_model,
+                           content::WebContents* web_contents)
+      : content::WebContentsObserver(web_contents),
+        tab_strip_model_(tab_strip_model),
+        did_start_loading_(false),
+        number_of_loads_(1) {
+    EXPECT_NE(TabStripModel::kNoTab,
+              tab_strip_model->GetIndexOfWebContents(web_contents));
+    tab_strip_model_->AddObserver(this);
+  }
+
+  // Waits for either |number_of_loads| loads or a swap of |tab_strip_model|'s
+  // active WebContents.
+  NavigationOrSwapObserver(TabStripModel* tab_strip_model,
+                           content::WebContents* web_contents,
+                           int number_of_loads)
+      : content::WebContentsObserver(web_contents),
+        tab_strip_model_(tab_strip_model),
+        did_start_loading_(false),
+        number_of_loads_(number_of_loads) {
+    EXPECT_NE(TabStripModel::kNoTab,
+              tab_strip_model->GetIndexOfWebContents(web_contents));
+    tab_strip_model_->AddObserver(this);
+  }
+
+  ~NavigationOrSwapObserver() override {
+    tab_strip_model_->RemoveObserver(this);
+  }
+
+  void set_did_start_loading() { did_start_loading_ = true; }
+
+  void Wait() { loop_.Run(); }
+
+  // content::WebContentsObserver implementation:
+  void DidStartLoading() override { did_start_loading_ = true; }
+  void DidStopLoading() override {
+    if (!did_start_loading_)
+      return;
+    number_of_loads_--;
+    if (number_of_loads_ == 0)
+      loop_.Quit();
+  }
+
+  // TabStripModelObserver implementation:
+  void OnTabStripModelChanged(
+      TabStripModel* tab_strip_model,
+      const TabStripModelChange& change,
+      const TabStripSelectionChange& selection) override {
+    if (change.type() != TabStripModelChange::kReplaced)
+      return;
+
+    auto* replace = change.GetReplace();
+    if (replace->old_contents != web_contents())
+      return;
+
+    // Switch to observing the new WebContents.
+    Observe(replace->new_contents);
+    if (replace->new_contents->IsLoading()) {
+      // If the new WebContents is still loading, wait for it to complete.
+      // Only one load post-swap is supported.
+      did_start_loading_ = true;
+      number_of_loads_ = 1;
+    } else {
+      loop_.Quit();
+    }
+  }
+
+ private:
+  TabStripModel* tab_strip_model_;
+  bool did_start_loading_;
+  int number_of_loads_;
+  base::RunLoop loop_;
+};
+
+// Waits for a new tab to open and a navigation or swap in it.
+class NewTabNavigationOrSwapObserver : public TabStripModelObserver,
+                                       public BrowserListObserver {
+ public:
+  NewTabNavigationOrSwapObserver() {
+    BrowserList::AddObserver(this);
+    for (const Browser* browser : *BrowserList::GetInstance())
+      browser->tab_strip_model()->AddObserver(this);
+  }
+
+  ~NewTabNavigationOrSwapObserver() override {
+    BrowserList::RemoveObserver(this);
+  }
+
+  void Wait() {
+    new_tab_run_loop_.Run();
+    swap_observer_->Wait();
+  }
+
+  // TabStripModelObserver:
+  void OnTabStripModelChanged(
+      TabStripModel* tab_strip_model,
+      const TabStripModelChange& change,
+      const TabStripSelectionChange& selection) override {
+    if (change.type() != TabStripModelChange::kInserted || swap_observer_)
+      return;
+
+    content::WebContents* new_tab = change.GetInsert()->contents[0].contents;
+    swap_observer_ =
+        std::make_unique<NavigationOrSwapObserver>(tab_strip_model, new_tab);
+    swap_observer_->set_did_start_loading();
+
+    new_tab_run_loop_.Quit();
+  }
+
+  // BrowserListObserver:
+  void OnBrowserAdded(Browser* browser) override {
+    browser->tab_strip_model()->AddObserver(this);
+  }
+
+ private:
+  base::RunLoop new_tab_run_loop_;
+  std::unique_ptr<NavigationOrSwapObserver> swap_observer_;
+
+  DISALLOW_COPY_AND_ASSIGN(NewTabNavigationOrSwapObserver);
+};
 
 class NoStatePrefetchBrowserTest
     : public test_utils::PrerenderInProcessBrowserTest {
@@ -326,6 +459,47 @@ class NoStatePrefetchBrowserTest
         "    hadPrerenderEventErrors))",
         &had_prerender_event_errors));
     return had_prerender_event_errors;
+  }
+
+  // Opens the prerendered page using javascript functions in the loader
+  // page. |javascript_function_name| should be a 0 argument function which is
+  // invoked. |new_web_contents| is true if the navigation is expected to
+  // happen in a new WebContents via OpenURL.
+  void OpenURLWithJSImpl(const std::string& javascript_function_name,
+                         const GURL& url,
+                         const GURL& ping_url,
+                         bool new_web_contents) const {
+    content::WebContents* web_contents = GetActiveWebContents();
+    content::RenderFrameHost* render_frame_host = web_contents->GetMainFrame();
+    // Extra arguments in JS are ignored.
+    std::string javascript =
+        base::StringPrintf("%s('%s', '%s')", javascript_function_name.c_str(),
+                           url.spec().c_str(), ping_url.spec().c_str());
+
+    if (new_web_contents) {
+      NewTabNavigationOrSwapObserver observer;
+      render_frame_host->ExecuteJavaScriptWithUserGestureForTests(
+          base::ASCIIToUTF16(javascript));
+      observer.Wait();
+    } else {
+      NavigationOrSwapObserver observer(current_browser()->tab_strip_model(),
+                                        web_contents);
+      render_frame_host->ExecuteJavaScriptForTests(
+          base::ASCIIToUTF16(javascript), base::NullCallback());
+      observer.Wait();
+    }
+  }
+
+  void OpenDestURLViaClickNewWindow(GURL& dest_url) const {
+    OpenURLWithJSImpl("ShiftClick", dest_url, GURL(), true);
+  }
+
+  void OpenDestURLViaClickNewForegroundTab(GURL& dest_url) const {
+#if defined(OS_MACOSX)
+    OpenURLWithJSImpl("MetaShiftClick", dest_url, GURL(), true);
+#else
+    OpenURLWithJSImpl("CtrlShiftClick", dest_url, GURL(), true);
+#endif
   }
 
   bool check_load_events_ = true;
@@ -1596,6 +1770,22 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, PrerenderQuickQuit) {
   GURL url = src_server()->GetURL(kHungPrerenderPage);
   std::unique_ptr<TestPrerender> prerender =
       PrefetchFromURL(url, FINAL_STATUS_APP_TERMINATING);
+}
+
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, PrerenderClickNewWindow) {
+  GURL url = src_server()->GetURL("/prerender/prerender_page_with_link.html");
+  std::unique_ptr<TestPrerender> prerender =
+      PrefetchFromURL(url, FINAL_STATUS_NOSTATE_PREFETCH_FINISHED);
+  OpenDestURLViaClickNewWindow(url);
+}
+
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
+                       PrerenderClickNewForegroundTab) {
+  GURL url = src_server()->GetURL("/prerender/prerender_page_with_link.html");
+  std::unique_ptr<TestPrerender> prerender =
+      PrefetchFromURL(url, FINAL_STATUS_NOSTATE_PREFETCH_FINISHED);
+
+  OpenDestURLViaClickNewForegroundTab(url);
 }
 
 }  // namespace prerender
