@@ -5,6 +5,8 @@
 #ifndef CHROME_BROWSER_POLICY_EXTENSION_FORCE_INSTALL_MIXIN_H_
 #define CHROME_BROWSER_POLICY_EXTENSION_FORCE_INSTALL_MIXIN_H_
 
+#include <string>
+
 #include "base/files/file_path.h"
 #include "base/files/scoped_temp_dir.h"
 #include "base/optional.h"
@@ -48,13 +50,19 @@ class DevicePolicyCrosTestHelper;
 //       ...
 //       force_install_mixin_.InitWithDevicePolicyCrosTestHelper(...);
 //     }
-//     void ForceInstall() {
-//       EXPECT_TRUE(force_install_mixin_.ForceInstallFromCrx(...));
-//     }
 //     ExtensionForceInstallMixin force_install_mixin_{&mixin_host_};
 //   };
+//   IN_PROC_BROWSER_TEST_F(...) {
+//     EXPECT_TRUE(force_install_mixin_.ForceInstallFromCrx(...));
+//   }
 //
-// TODO(crbug.com/1090941): Add user policy, waiting for bg page, auto update.
+// Internally, the mixin owns an embedded test server that hosts files needed
+// for the forced installation:
+// * "/<extension_id>.xml" - update manifests referred to by policies,
+// * "/<extension_id>-<version>.crx" - CRX packages referred to by the update
+//   manifests.
+//
+// TODO(crbug.com/1090941): Add user policy, auto update.
 class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
  public:
   // The type of the waiting mode for the force installation operation.
@@ -63,6 +71,8 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
     kNone,
     // Wait until the extension is loaded.
     kLoad,
+    // Wait until the extension's background page is ready.
+    kBackgroundPageReady,
   };
 
   explicit ExtensionForceInstallMixin(InProcessBrowserTestMixinHost* host);
@@ -93,10 +103,11 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
   // |pem_path| - if non-empty, will be used to load the private key for packing
   // the extension; when empty, a random key will be generated. |extension_id| -
   // if non-null, will be set to the installed extension ID.
-  bool ForceInstallFromSourceDir(const base::FilePath& extension_dir_path,
-                                 const base::Optional<base::FilePath>& pem_path,
-                                 WaitMode wait_mode,
-                                 std::string* extension_id = nullptr);
+  bool ForceInstallFromSourceDir(
+      const base::FilePath& extension_dir_path,
+      const base::Optional<base::FilePath>& pem_path,
+      WaitMode wait_mode,
+      extensions::ExtensionId* extension_id = nullptr);
 
   // Returns the extension, or null if it's not installed yet.
   const extensions::Extension* GetInstalledExtension(
@@ -104,14 +115,17 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
   // Returns the extension, or null if it's not installed or not enabled yet.
   const extensions::Extension* GetEnabledExtension(
       const extensions::ExtensionId& extension_id) const;
+  // Returns whether the installed extension's background page is ready.
+  bool IsExtensionBackgroundPageReady(
+      const extensions::ExtensionId& extension_id) const;
 
   // InProcessBrowserTestMixin:
   void SetUpOnMainThread() override;
 
  private:
-  // Returns the directory whose contents are served by the embedded test
-  // server.
-  base::FilePath GetServedDirPath() const;
+  // Returns the path to the file that is served by the embedded test server
+  // under the given name.
+  base::FilePath GetPathInServedDir(const std::string& file_name) const;
   // Returns the URL of the update manifest pointing to the embedded test
   // server.
   GURL GetServedUpdateManifestUrl(
@@ -129,7 +143,7 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
   bool CreateAndServeCrx(const base::FilePath& extension_dir_path,
                          const base::Optional<base::FilePath>& pem_path,
                          const base::Version& extension_version,
-                         std::string* extension_id);
+                         extensions::ExtensionId* extension_id);
   // Force-installs the CRX file served by the embedded test server.
   bool ForceInstallFromServedCrx(const extensions::ExtensionId& extension_id,
                                  const base::Version& extension_version,
