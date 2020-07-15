@@ -6355,7 +6355,7 @@ crbug.com/1046784 http/tests/devtools/coverage/reveal-autoformat.js [ Pass Timeo
 crbug.com/1046784 http/tests/devtools/file-system-project.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/bindings/navigator-frame-attach-detach.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/devtools/forced-layout-in-microtask.js [ Pass Timeout ]
-crbug.com/1046784 http/tests/devtools/application-panel/resources-panel-iframe-idb.js [ Pass Timeout ]
+crbug.com/1046784 http/tests/devtools/application-panel/resources-panel-iframe-idb.js [ Pass Failure Timeout ]
 crbug.com/1046784 http/tests/devtools/a11y-axe-core/sources/scope-pane-a11y-test.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/inspector-protocol/service-worker/target-reloaded-after-crash.js [ Pass Timeout ]
 crbug.com/1046784 http/tests/inspector-protocol/network/navigate-iframe-out2in.js [ Pass Timeout ]
@@ -6872,3 +6872,9 @@ crbug.com/1105275 [ Mac ] fast/dom/Window/window-onFocus.html [ Pass Failure ]
 crbug.com/1105276 [ Mac ] virtual/threaded/fast/scroll-snap/snaps-after-keyboard-scrolling-rtl.html [ Pass Failure ]
 crbug.com/1105278 [ Mac ] external/wpt/clipboard-apis/feature-policy/clipboard-write/clipboard-write-enabled-on-self-origin-by-feature-policy.tentative.https.sub.html [ Pass Failure ]
 crbug.com/1105279 [ Mac ] virtual/threaded/fast/scroll-snap/snaps-for-different-key-granularity.html [ Pass Timeout Failure ]
+
+# Temporarily disable to land DevTools changes
+crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-on-navigation.js [ Pass Failure ]
+crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-resource-preview.js [ Pass Failure ]
+crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-selection-on-reload.js [ Pass Failure ]
+crbug.com/1101262 http/tests/devtools/application-panel/resources-panel-websql.js [ Pass Failure ]
