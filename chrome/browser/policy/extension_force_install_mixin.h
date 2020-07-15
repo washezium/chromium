@@ -27,6 +27,10 @@ class Extension;
 
 #if defined(OS_CHROMEOS)
 
+namespace chromeos {
+class DeviceStateMixin;
+}  // namespace chromeos
+
 namespace policy {
 class DevicePolicyCrosTestHelper;
 }  // namespace policy
@@ -85,6 +89,8 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
   // other method:
 
 #if defined(OS_CHROMEOS)
+  void InitWithDeviceStateMixin(Profile* profile,
+                                chromeos::DeviceStateMixin* device_state_mixin);
   void InitWithDevicePolicyCrosTestHelper(
       Profile* profile,
       policy::DevicePolicyCrosTestHelper* device_policy_cros_test_helper);
@@ -162,6 +168,7 @@ class ExtensionForceInstallMixin final : public InProcessBrowserTestMixin {
   net::EmbeddedTestServer embedded_test_server_;
   Profile* profile_ = nullptr;
 #if defined(OS_CHROMEOS)
+  chromeos::DeviceStateMixin* device_state_mixin_ = nullptr;
   policy::DevicePolicyCrosTestHelper* device_policy_cros_test_helper_ = nullptr;
 #endif
 };

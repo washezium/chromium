@@ -41,6 +41,7 @@
 #include "url/gurl.h"
 
 #if defined(OS_CHROMEOS)
+#include "chrome/browser/chromeos/login/test/device_state_mixin.h"
 #include "chrome/browser/chromeos/policy/device_policy_cros_browser_test.h"
 #include "components/policy/proto/chrome_device_policy.pb.h"
 #endif
@@ -232,6 +233,17 @@ std::string MakeForceInstallPolicyItemValue(
                             update_manifest_url.spec().c_str());
 }
 
+void UpdatePolicyViaDeviceStateMixin(
+    const extensions::ExtensionId& extension_id,
+    const GURL& update_manifest_url,
+    chromeos::DeviceStateMixin* device_state_mixin) {
+  device_state_mixin->RequestDevicePolicyUpdate()
+      ->policy_payload()
+      ->mutable_device_login_screen_extensions()
+      ->add_device_login_screen_extensions(
+          MakeForceInstallPolicyItemValue(extension_id, update_manifest_url));
+}
+
 void UpdatePolicyViaDevicePolicyCrosTestHelper(
     const extensions::ExtensionId& extension_id,
     const GURL& update_manifest_url,
@@ -255,6 +267,17 @@ ExtensionForceInstallMixin::ExtensionForceInstallMixin(
 ExtensionForceInstallMixin::~ExtensionForceInstallMixin() = default;
 
 #if defined(OS_CHROMEOS)
+
+void ExtensionForceInstallMixin::InitWithDeviceStateMixin(
+    Profile* profile,
+    chromeos::DeviceStateMixin* device_state_mixin) {
+  DCHECK(profile);
+  DCHECK(device_state_mixin);
+  DCHECK(!profile_) << "Init already called";
+  DCHECK(!device_state_mixin_);
+  profile_ = profile;
+  device_state_mixin_ = device_state_mixin;
+}
 
 void ExtensionForceInstallMixin::InitWithDevicePolicyCrosTestHelper(
     Profile* profile,
@@ -472,6 +495,11 @@ bool ExtensionForceInstallMixin::UpdatePolicy(
   DCHECK(profile_) << "Init not called";
 
 #if defined(OS_CHROMEOS)
+  if (device_state_mixin_) {
+    UpdatePolicyViaDeviceStateMixin(extension_id, update_manifest_url,
+                                    device_state_mixin_);
+    return true;
+  }
   if (device_policy_cros_test_helper_) {
     UpdatePolicyViaDevicePolicyCrosTestHelper(extension_id, update_manifest_url,
                                               device_policy_cros_test_helper_);
