@@ -167,6 +167,7 @@ ci.android_builder(
     # Higher build timeout since dbg ASAN builds can take a while on a clobber
     # build.
     execution_timeout = 4 * time.hour,
+    tree_closing = True,
 )
 
 ci.android_builder(
@@ -187,6 +188,7 @@ ci.android_builder(
     executable = 'recipe:swarming/deterministic_build',
     execution_timeout = 6 * time.hour,
     notifies = ['Deterministic Android'],
+    tree_closing = True,
 )
 
 ci.android_builder(
@@ -198,6 +200,7 @@ ci.android_builder(
     executable = 'recipe:swarming/deterministic_build',
     execution_timeout = 6 * time.hour,
     notifies = ['Deterministic Android'],
+    tree_closing = True,
 )
 
 ci.android_builder(
