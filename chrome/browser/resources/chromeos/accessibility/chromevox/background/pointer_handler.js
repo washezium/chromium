@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 /**
- * @fileoverview ChromeVox mouse handler.
+ * @fileoverview ChromeVox pointer handler. A pointer, in this context, is
+ * either user touch or mouse input.
  */
 
-goog.provide('BackgroundMouseHandler');
+goog.provide('PointerHandler');
 
 goog.require('BaseAutomationHandler');
 
@@ -14,7 +15,7 @@ const AutomationEvent = chrome.automation.AutomationEvent;
 const EventType = chrome.automation.EventType;
 const RoleType = chrome.automation.RoleType;
 
-BackgroundMouseHandler = class extends BaseAutomationHandler {
+PointerHandler = class extends BaseAutomationHandler {
   constructor() {
     super(null);
 
@@ -25,9 +26,9 @@ BackgroundMouseHandler = class extends BaseAutomationHandler {
     /** @private {number|undefined} */
     this.mouseY_;
     /** @private {!Date} */
-    this.lastHoverExit_ = new Date();
+    this.lastNoPointerAnchorEarconPlayedTime_ = new Date();
     /** @private {!AutomationNode|undefined} */
-    this.lastHoverTarget_;
+    this.lastValidNodeBeforePointerInvalidation_;
 
     chrome.automation.getDesktop((desktop) => {
       this.node_ = desktop;
@@ -117,9 +118,6 @@ BackgroundMouseHandler = class extends BaseAutomationHandler {
 
     let target = result;
 
-    // Save the last hover target for use by the gesture handler.
-    this.lastHoverTarget_ = target;
-
     // If the target is in an ExoSurface, which hosts remote content, trigger a
     // mouse move. This only occurs when we programmatically hit test content
     // within ARC++ for now. Mouse moves automatically trigger Android to send
@@ -144,17 +142,21 @@ BackgroundMouseHandler = class extends BaseAutomationHandler {
 
     target = targetLeaf || targetObject;
     if (!target) {
-      // This clears the anchor point in the TouchExplorationController (so
-      // things like double tap won't be directed to the previous target). It
-      // also ensures if a user touch explores back to the previous range, it
-      // will be announced again.
+      if (ChromeVoxState.instance.currentRange) {
+        this.lastValidNodeBeforePointerInvalidation_ =
+            ChromeVoxState.instance.currentRange.start.node;
+      }
+
+      // This clears the anchor point in the TouchExplorationController (so when
+      // a user touch explores back to the previous range, it will be announced
+      // again).
       ChromeVoxState.instance.setCurrentRange(null);
 
       // Play a earcon to let the user know they're in the middle of nowhere.
-      if ((new Date() - this.lastHoverExit_) >
-          BackgroundMouseHandler.MIN_HOVER_EXIT_SOUND_DELAY_MS) {
-        ChromeVox.earcons.playEarcon(Earcon.TOUCH_EXIT);
-        this.lastHoverExit_ = new Date();
+      if ((new Date() - this.lastNoPointerAnchorEarconPlayedTime_) >
+          PointerHandler.MIN_NO_POINTER_ANCHOR_SOUND_DELAY_MS) {
+        ChromeVox.earcons.playEarcon(Earcon.NO_POINTER_ANCHOR);
+        this.lastNoPointerAnchorEarconPlayedTime_ = new Date();
       }
       chrome.tts.stop();
       return;
@@ -171,16 +173,15 @@ BackgroundMouseHandler = class extends BaseAutomationHandler {
   }
 
   /**
-   * @return {!AutomationNode|undefined} The target of the last observed hover
-   *     event.
+   * @return {!AutomationNode|undefined} The last valid ChromeVox range start
+   *     node prior to an explicit invalidation/clearing of the range triggered
+   *     by a touch or mouse event on a "unpointable" target. That is, a target
+   *     ChromeVox never wants to place its range upon.
    */
-  get lastHoverTarget() {
-    return this.lastHoverTarget_;
+  get lastValidNodeBeforePointerInvalidation() {
+    return this.lastValidNodeBeforePointerInvalidation_;
   }
 };
 
 /** @const {number} */
-BackgroundMouseHandler.MIN_HOVER_EXIT_SOUND_DELAY_MS = 500;
-
-/** @type {!BackgroundMouseHandler} */
-BackgroundMouseHandler.instance = new BackgroundMouseHandler();
+PointerHandler.MIN_NO_POINTER_ANCHOR_SOUND_DELAY_MS = 500;
