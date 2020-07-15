@@ -73,7 +73,6 @@
 #include "content/common/frame_messages.h"
 #include "content/common/input_messages.h"
 #include "content/common/view_messages.h"
-#include "content/common/visual_properties.h"
 #include "content/common/widget_messages.h"
 #include "content/public/browser/browser_context.h"
 #include "content/public/browser/browser_thread.h"
@@ -103,6 +102,7 @@
 #include "skia/ext/platform_canvas.h"
 #include "storage/browser/file_system/isolated_context.h"
 #include "third_party/blink/public/common/input/synthetic_web_input_event_builders.h"
+#include "third_party/blink/public/common/widget/visual_properties.h"
 #include "third_party/blink/public/mojom/page/drag.mojom.h"
 #include "ui/base/clipboard/clipboard_constants.h"
 #include "ui/base/ui_base_switches.h"
@@ -825,8 +825,8 @@ void RenderWidgetHostImpl::RemoveImeInputEventObserver(
 }
 #endif
 
-VisualProperties RenderWidgetHostImpl::GetInitialVisualProperties() {
-  VisualProperties initial_props = GetVisualProperties();
+blink::VisualProperties RenderWidgetHostImpl::GetInitialVisualProperties() {
+  blink::VisualProperties initial_props = GetVisualProperties();
 
   // A RenderWidget being created in the renderer means the browser should
   // reset any state that may be set for the previous RenderWidget but which
@@ -836,7 +836,7 @@ VisualProperties RenderWidgetHostImpl::GetInitialVisualProperties() {
   return initial_props;
 }
 
-VisualProperties RenderWidgetHostImpl::GetVisualProperties() {
+blink::VisualProperties RenderWidgetHostImpl::GetVisualProperties() {
   // This is only called while the RenderWidgetHost is attached to a delegate
   // still.
   DCHECK(delegate_);
@@ -850,7 +850,7 @@ VisualProperties RenderWidgetHostImpl::GetVisualProperties() {
   // frame.
   const bool is_frame_widget = owner_delegate_ || owned_by_render_frame_host_;
 
-  VisualProperties visual_properties;
+  blink::VisualProperties visual_properties;
 
   GetScreenInfo(&visual_properties.screen_info);
   // Note: Later in this method, ScreenInfo rects might be overridden!
@@ -1072,7 +1072,7 @@ bool RenderWidgetHostImpl::SynchronizeVisualProperties(
     return false;
   }
 
-  auto visual_properties = std::make_unique<VisualProperties>();
+  auto visual_properties = std::make_unique<blink::VisualProperties>();
   *visual_properties = GetVisualProperties();
   if (!StoredVisualPropertiesNeedsUpdate(old_visual_properties_,
                                          *visual_properties))
@@ -2071,14 +2071,15 @@ void RenderWidgetHostImpl::RendererExited() {
 }
 
 void RenderWidgetHostImpl::ResetStateForCreatedRenderWidget(
-    const VisualProperties& initial_props) {
+    const blink::VisualProperties& initial_props) {
   // When the RenderWidget was destroyed, the ack may never come back. Don't
   // let that prevent us from speaking to the next RenderWidget.
   waiting_for_screen_rects_ack_ = false;
 
   visual_properties_ack_pending_ =
       DoesVisualPropertiesNeedAck(nullptr, initial_props);
-  old_visual_properties_ = std::make_unique<VisualProperties>(initial_props);
+  old_visual_properties_ =
+      std::make_unique<blink::VisualProperties>(initial_props);
 
   // Reconstruct the input router to ensure that it has fresh state for a new
   // RenderWidget. Otherwise it may be stuck waiting for the old renderer to ack
@@ -2428,8 +2429,8 @@ void RenderWidgetHostImpl::OnLocalSurfaceIdChanged(
 
 // static
 bool RenderWidgetHostImpl::DidVisualPropertiesSizeChange(
-    const VisualProperties& old_visual_properties,
-    const VisualProperties& new_visual_properties) {
+    const blink::VisualProperties& old_visual_properties,
+    const blink::VisualProperties& new_visual_properties) {
   return old_visual_properties.auto_resize_enabled !=
              new_visual_properties.auto_resize_enabled ||
          (old_visual_properties.auto_resize_enabled &&
@@ -2445,8 +2446,8 @@ bool RenderWidgetHostImpl::DidVisualPropertiesSizeChange(
 
 // static
 bool RenderWidgetHostImpl::DoesVisualPropertiesNeedAck(
-    const std::unique_ptr<VisualProperties>& old_visual_properties,
-    const VisualProperties& new_visual_properties) {
+    const std::unique_ptr<blink::VisualProperties>& old_visual_properties,
+    const blink::VisualProperties& new_visual_properties) {
   // We should throttle sending updated VisualProperties to the renderer to
   // the rate of commit. This ensures we don't overwhelm the renderer with
   // visual updates faster than it can keep up.  |needs_ack| corresponds to
@@ -2469,8 +2470,8 @@ bool RenderWidgetHostImpl::DoesVisualPropertiesNeedAck(
 
 // static
 bool RenderWidgetHostImpl::StoredVisualPropertiesNeedsUpdate(
-    const std::unique_ptr<VisualProperties>& old_visual_properties,
-    const VisualProperties& new_visual_properties) {
+    const std::unique_ptr<blink::VisualProperties>& old_visual_properties,
+    const blink::VisualProperties& new_visual_properties) {
   if (!old_visual_properties)
     return true;
 

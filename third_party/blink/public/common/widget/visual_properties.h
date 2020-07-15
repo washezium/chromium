@@ -2,19 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_COMMON_VISUAL_PROPERTIES_H_
-#define CONTENT_COMMON_VISUAL_PROPERTIES_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_VISUAL_PROPERTIES_H_
+#define THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_VISUAL_PROPERTIES_H_
 
 #include "base/optional.h"
 #include "base/time/time.h"
 #include "cc/trees/browser_controls_params.h"
 #include "components/viz/common/surfaces/local_surface_id_allocation.h"
-#include "content/common/content_export.h"
 #include "third_party/blink/public/common/widget/screen_info.h"
 #include "third_party/blink/public/mojom/manifest/display_mode.mojom.h"
 #include "ui/gfx/geometry/size.h"
 
-namespace content {
+namespace blink {
 
 // Visual properties contain context required to render a frame tree.
 // For legacy reasons, both Page visual properties [shared by all Renderers] and
@@ -50,15 +49,9 @@ namespace content {
 // In between (1) and (3), frames associated with RenderWidget A' will see
 // updated page properties from (1) but are still seeing old widget properties.
 
-struct CONTENT_EXPORT VisualProperties {
-  VisualProperties();
-  VisualProperties(const VisualProperties& other);
-  ~VisualProperties();
-
-  VisualProperties& operator=(const VisualProperties& other);
-
+struct VisualProperties {
   // Information about the screen (dpi, depth, etc..).
-  blink::ScreenInfo screen_info;
+  ScreenInfo screen_info;
 
   // Whether or not blink should be in auto-resize mode.
   bool auto_resize_enabled = false;
@@ -106,8 +99,7 @@ struct CONTENT_EXPORT VisualProperties {
   bool is_fullscreen_granted = false;
 
   // The display mode.
-  blink::mojom::DisplayMode display_mode =
-      blink::mojom::DisplayMode::kUndefined;
+  mojom::DisplayMode display_mode = mojom::DisplayMode::kUndefined;
 
   // This represents the latest capture sequence number requested. When this is
   // incremented, that means the caller wants to synchronize surfaces which
@@ -133,6 +125,6 @@ struct CONTENT_EXPORT VisualProperties {
   bool is_pinch_gesture_active = false;
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_COMMON_VISUAL_PROPERTIES_H_
+#endif  // THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_VISUAL_PROPERTIES_H_

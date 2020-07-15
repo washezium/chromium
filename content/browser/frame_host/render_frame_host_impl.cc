@@ -4837,7 +4837,7 @@ void RenderFrameHostImpl::CreateNewWindow(
   // nonsense with a semi-valid but incorrect ScreenInfo (it needs a
   // RenderWidgetHostView to be correct). An updates VisualProperties will get
   // to the RenderWidget eventually.
-  VisualProperties visual_properties;
+  blink::VisualProperties visual_properties;
   main_frame->GetLocalRenderWidgetHost()->GetScreenInfo(
       &visual_properties.screen_info);
   main_frame->GetLocalRenderWidgetHost()->BindFrameWidgetInterfaces(

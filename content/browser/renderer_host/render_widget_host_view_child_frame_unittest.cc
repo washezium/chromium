@@ -311,7 +311,7 @@ TEST_F(RenderWidgetHostViewChildFrameTest,
     ASSERT_EQ(WidgetMsg_UpdateVisualProperties::ID, msg->type());
     WidgetMsg_UpdateVisualProperties::Param params;
     WidgetMsg_UpdateVisualProperties::Read(msg, &params);
-    VisualProperties sent_visual_properties = std::get<0>(params);
+    blink::VisualProperties sent_visual_properties = std::get<0>(params);
 
     EXPECT_EQ(compositor_viewport_pixel_rect,
               sent_visual_properties.compositor_viewport_pixel_rect);

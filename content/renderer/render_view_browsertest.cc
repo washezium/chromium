@@ -518,8 +518,8 @@ class RenderViewImplScaleFactorTest : public RenderViewImplTest {
     ASSERT_EQ(dsf, widget->GetOriginalScreenInfo().device_scale_factor);
   }
 
-  VisualProperties MakeVisualPropertiesWithDeviceScaleFactor(float dsf) {
-    VisualProperties visual_properties;
+  blink::VisualProperties MakeVisualPropertiesWithDeviceScaleFactor(float dsf) {
+    blink::VisualProperties visual_properties;
     visual_properties.screen_info.device_scale_factor = dsf;
     visual_properties.new_size = gfx::Size(100, 100);
     visual_properties.compositor_viewport_pixel_rect = gfx::Rect(200, 200);
@@ -667,8 +667,8 @@ TEST_F(RenderViewImplTest, OnNavStateChanged) {
 
 class RenderViewImplEmulatingPopupTest : public RenderViewImplTest {
  protected:
-  VisualProperties InitialVisualProperties() override {
-    VisualProperties visual_properties =
+  blink::VisualProperties InitialVisualProperties() override {
+    blink::VisualProperties visual_properties =
         RenderViewImplTest::InitialVisualProperties();
     visual_properties.screen_info.rect = gfx::Rect(800, 600);
     return visual_properties;
@@ -1222,7 +1222,7 @@ TEST_F(RenderViewImplEnableZoomForDSFTest,
 
   // Early grab testing values as the main-frame widget becomes inaccessible
   // when it unloads.
-  VisualProperties test_visual_properties =
+  blink::VisualProperties test_visual_properties =
       MakeVisualPropertiesWithDeviceScaleFactor(device_scale);
 
   // Unload the main frame after which it should become a WebRemoteFrame.

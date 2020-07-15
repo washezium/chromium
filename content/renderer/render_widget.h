@@ -70,6 +70,7 @@ class SyncMessageFilter;
 }
 
 namespace blink {
+struct VisualProperties;
 struct WebDeviceEmulationParams;
 class WebDragData;
 class WebFrameWidget;
@@ -98,7 +99,6 @@ class RenderFrameProxy;
 class RenderViewImpl;
 class RenderWidgetDelegate;
 class RenderWidgetScreenMetricsEmulator;
-struct VisualProperties;
 
 // RenderWidget provides a communication bridge between a WebWidget and
 // a RenderWidgetHost, the latter of which lives in a different process.
@@ -459,7 +459,7 @@ class CONTENT_EXPORT RenderWidget
 
   // RenderWidget IPC message handlers.
   void OnClose();
-  void OnUpdateVisualProperties(const VisualProperties& properties);
+  void OnUpdateVisualProperties(const blink::VisualProperties& properties);
   void OnCreatingNewAck();
   void OnEnableDeviceEmulation(const blink::WebDeviceEmulationParams& params);
   void OnDisableDeviceEmulation();

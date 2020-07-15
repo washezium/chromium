@@ -476,7 +476,7 @@ void RenderWidget::OnClose() {
 }
 
 void RenderWidget::OnUpdateVisualProperties(
-    const VisualProperties& visual_properties_from_browser) {
+    const blink::VisualProperties& visual_properties_from_browser) {
   TRACE_EVENT0("renderer", "RenderWidget::OnUpdateVisualProperties");
 
   // UpdateVisualProperties is used to receive properties from the browser
@@ -534,7 +534,7 @@ void RenderWidget::OnUpdateVisualProperties(
   //   See also:
   //   https://docs.google.com/document/d/1G_fR1D_0c1yke8CqDMddoKrDGr3gy5t_ImEH4hKNIII/edit#
 
-  VisualProperties visual_properties = visual_properties_from_browser;
+  blink::VisualProperties visual_properties = visual_properties_from_browser;
   // Web tests can override the device scale factor in the renderer.
   if (device_scale_factor_for_testing_) {
     visual_properties.screen_info.device_scale_factor =

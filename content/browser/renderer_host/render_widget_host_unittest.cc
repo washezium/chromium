@@ -38,7 +38,6 @@
 #include "content/common/content_constants_internal.h"
 #include "content/common/input_messages.h"
 #include "content/common/render_frame_metadata.mojom.h"
-#include "content/common/visual_properties.h"
 #include "content/common/widget_messages.h"
 #include "content/public/browser/keyboard_event_processing_result.h"
 #include "content/public/common/content_features.h"
@@ -56,6 +55,7 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/common/input/synthetic_web_input_event_builders.h"
 #include "third_party/blink/public/common/page/page_zoom.h"
+#include "third_party/blink/public/common/widget/visual_properties.h"
 #include "third_party/blink/public/mojom/input/input_handler.mojom-shared.h"
 #include "ui/display/screen.h"
 #include "ui/events/base_event_utils.h"
@@ -482,8 +482,6 @@ class MockRenderWidgetHostOwnerDelegate
     : public StubRenderWidgetHostOwnerDelegate {
  public:
   MOCK_METHOD1(SetBackgroundOpaque, void(bool opaque));
-  MOCK_METHOD1(UpdatePageVisualProperties,
-               void(const VisualProperties& visual_properties));
   MOCK_METHOD0(IsMainFrameActive, bool());
 };
 
@@ -1029,7 +1027,7 @@ TEST_F(RenderWidgetHostTest, OverrideScreenInfoDuringFullscreenMode) {
   WidgetMsg_UpdateVisualProperties::Param param;
   ASSERT_TRUE(
       WidgetMsg_UpdateVisualProperties::Read(sink_->GetMessageAt(0), &param));
-  VisualProperties props = std::get<0>(param);
+  blink::VisualProperties props = std::get<0>(param);
   EXPECT_EQ(kScreenBounds, props.screen_info.rect);
   EXPECT_EQ(kScreenBounds, props.screen_info.available_rect);
 
@@ -1184,7 +1182,7 @@ TEST_F(RenderWidgetHostTest, ReceiveFrameTokenFromCrashedRenderer) {
   host_->SetView(view_.get());
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   ReinitalizeHost();
 
@@ -1210,7 +1208,7 @@ TEST_F(RenderWidgetHostTest, ReceiveFrameTokenFromDeletedRenderWidget) {
 
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   EXPECT_CALL(mock_owner_delegate_, IsMainFrameActive())
       .WillRepeatedly(Return(true));
@@ -1835,7 +1833,7 @@ TEST_F(RenderWidgetHostTest, RendererExitedResetsInputRouter) {
   host_->SetView(view_.get());
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   ReinitalizeHost();
 
@@ -1864,7 +1862,7 @@ TEST_F(RenderWidgetHostTest, DestroyingRenderWidgetResetsInputRouter) {
 
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   EXPECT_CALL(mock_owner_delegate_, IsMainFrameActive())
       .WillRepeatedly(Return(true));
@@ -1904,7 +1902,7 @@ TEST_F(RenderWidgetHostTest, RendererExitedResetsScreenRectsAck) {
   host_->SetView(view_.get());
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   ReinitalizeHost();
 
@@ -1941,7 +1939,7 @@ TEST_F(RenderWidgetHostTest, DestroyingRenderWidgetResetsScreenRectsAck) {
 
   // Make a new RenderWidget when the renderer is recreated and inform that a
   // RenderWidget is being created.
-  VisualProperties props = host_->GetInitialVisualProperties();
+  blink::VisualProperties props = host_->GetInitialVisualProperties();
   // The RenderWidget is recreated with the initial VisualProperties.
   EXPECT_CALL(mock_owner_delegate_, IsMainFrameActive())
       .WillRepeatedly(Return(true));
@@ -1973,7 +1971,7 @@ TEST_F(RenderWidgetHostTest, VisualProperties) {
   view_->SetMockCompositorViewportPixelSize(
       compositor_viewport_pixel_rect.size());
 
-  VisualProperties visual_properties = host_->GetVisualProperties();
+  blink::VisualProperties visual_properties = host_->GetVisualProperties();
   EXPECT_EQ(bounds.size(), visual_properties.new_size);
   EXPECT_EQ(compositor_viewport_pixel_rect,
             visual_properties.compositor_viewport_pixel_rect);
@@ -2021,7 +2019,6 @@ TEST_F(RenderWidgetHostInitialSizeTest, InitialSize) {
   // with the reqiest to new up the RenderView and so subsequent
   // SynchronizeVisualProperties calls should not result in new IPC (unless the
   // size has actually changed).
-  EXPECT_CALL(mock_owner_delegate_, UpdatePageVisualProperties(_)).Times(0);
   EXPECT_FALSE(host_->SynchronizeVisualProperties());
   EXPECT_EQ(initial_size_, host_->old_visual_properties_->new_size);
   EXPECT_TRUE(host_->visual_properties_ack_pending_);
@@ -2038,7 +2035,7 @@ TEST_F(RenderWidgetHostTest, HideUnthrottlesResize) {
     ASSERT_EQ(WidgetMsg_UpdateVisualProperties::ID, msg->type());
     WidgetMsg_UpdateVisualProperties::Param params;
     WidgetMsg_UpdateVisualProperties::Read(msg, &params);
-    VisualProperties visual_properties = std::get<0>(params);
+    blink::VisualProperties visual_properties = std::get<0>(params);
     // Size sent to the renderer.
     EXPECT_EQ(gfx::Size(100, 100), visual_properties.new_size);
   }

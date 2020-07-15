@@ -172,6 +172,7 @@ source_set("headers") {
     "web_package/signed_exchange_consts.h",
     "web_package/web_package_request_matcher.h",
     "widget/screen_info.h",
+    "widget/visual_properties.h",
   ]
 
   public_deps = [
@@ -193,6 +194,8 @@ source_set("headers") {
     ":buildflags",
     ":common_export",
     "//base",
+    "//cc",
+    "//components/viz/common",
     "//mojo/public/cpp/bindings",
     "//mojo/public/cpp/system",
     "//mojo/public/mojom/base",
