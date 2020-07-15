@@ -77,11 +77,7 @@
 #include "net/test/url_request/url_request_failed_job.h"
 #include "net/test/url_request/url_request_mock_data_job.h"
 #include "net/test/url_request/url_request_mock_http_job.h"
-#include "net/url_request/url_request_context.h"
-#include "net/url_request/url_request_context_getter.h"
-#include "net/url_request/url_request_job.h"
 #include "net/url_request/url_request_test_job.h"
-#include "net/url_request/url_request_test_util.h"
 #include "services/network/public/cpp/features.h"
 #include "ui/base/l10n/l10n_util.h"
 
