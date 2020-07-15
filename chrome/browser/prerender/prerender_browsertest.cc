@@ -30,10 +30,7 @@
 #include "base/test/simple_test_tick_clock.h"
 #include "base/test/test_timeouts.h"
 #include "base/threading/thread_restrictions.h"
-//#include "base/values.h"
 #include "build/build_config.h"
-//#include
-//"chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.h"
 #include "chrome/browser/chrome_content_browser_client.h"
 #include "chrome/browser/content_settings/host_content_settings_map_factory.h"
 #include "chrome/browser/extensions/api/web_navigation/web_navigation_api.h"
@@ -376,8 +373,7 @@ class NewTabNavigationOrSwapObserver : public TabStripModelObserver,
 class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
  public:
   PrerenderBrowserTest()
-      : call_javascript_(true),
-        check_load_events_(true),
+      : check_load_events_(true),
         loader_path_("/prerender/prerender_loader.html") {}
 
   ~PrerenderBrowserTest() override {}
@@ -520,10 +516,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
     EXPECT_TRUE(original_prerender_page);
   }
 
-  void DisableJavascriptCalls() { call_javascript_ = false; }
-
-  void EnableJavascriptCalls() { call_javascript_ = true; }
-
   void DisableLoadEventCheck() { check_load_events_ = false; }
 
   const PrerenderLinkManager* GetPrerenderLinkManager() const {
@@ -614,13 +606,7 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
     return GetPrerenderLinkManager()->CountRunningPrerenders();
   }
 
-  void SetLoaderHostOverride(const std::string& host) {
-    loader_host_override_ = host;
-  }
-
   void set_loader_path(const std::string& path) { loader_path_ = path; }
-
-  void set_loader_query(const std::string& query) { loader_query_ = query; }
 
   GURL GetCrossDomainTestUrl(const std::string& path) {
     static const std::string secondary_domain = "www.foo.com";
@@ -712,11 +698,7 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
     dest_url_ = prerender_url;
 
     GURL loader_url = ServeLoaderURL(loader_path_, "REPLACE_WITH_PRERENDER_URL",
-                                     prerender_url, "&" + loader_query_);
-    GURL::Replacements loader_replacements;
-    if (!loader_host_override_.empty())
-      loader_replacements.SetHostStr(loader_host_override_);
-    loader_url = loader_url.ReplaceComponents(loader_replacements);
+                                     prerender_url, "");
 
     std::vector<std::unique_ptr<TestPrerender>> prerenders =
         NavigateWithPrerenders(loader_url, expected_final_status_queue);
@@ -742,11 +724,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
       CHECK(prerender_contents);
       EXPECT_EQ(FINAL_STATUS_UNKNOWN, prerender_contents->final_status());
       EXPECT_FALSE(DidReceivePrerenderStopEventForLinkNumber(0));
-
-      if (call_javascript_) {
-        // Check if page behaves as expected while in prerendered state.
-        EXPECT_TRUE(DidPrerenderPass(prerender_contents->prerender_contents()));
-      }
     }
 
     // Test for proper event ordering.
@@ -775,8 +752,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
 
     if (web_contents && expect_swap_to_succeed) {
       EXPECT_EQ(web_contents, target_web_contents);
-      if (call_javascript_)
-        EXPECT_TRUE(DidDisplayPass(web_contents));
     }
   }
 
@@ -813,11 +788,8 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
   base::SimpleTestTickClock clock_;
 
   GURL dest_url_;
-  bool call_javascript_;
   bool check_load_events_;
-  std::string loader_host_override_;
   std::string loader_path_;
-  std::string loader_query_;
   base::test::ScopedFeatureList feature_list_;
   std::unique_ptr<content::URLLoaderInterceptor> interceptor_;
 };
@@ -877,14 +849,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderExcessiveMemory) {
   DisableLoadEventCheck();
   PrerenderTestURL("/prerender/prerender_excessive_memory.html",
                    FINAL_STATUS_MEMORY_LIMIT_EXCEEDED, 0);
-}
-
-// Checks shutdown code while a prerender is active.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderQuickQuit) {
-  DisableJavascriptCalls();
-  DisableLoadEventCheck();
-  PrerenderTestURL("/prerender/prerender_page.html",
-                   FINAL_STATUS_APP_TERMINATING, 0);
 }
 
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerBeforePrerender) {
@@ -954,41 +918,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerAfterPrerender) {
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, final));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderCancelAll) {
-  std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
-      "/prerender/prerender_page.html", FINAL_STATUS_CANCELLED, 1);
-
-  GetPrerenderManager()->CancelAllPrerenders();
-  prerender->WaitForStop();
-
-  EXPECT_FALSE(prerender->contents());
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderEvents) {
-  std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
-      "/prerender/prerender_page.html", FINAL_STATUS_CANCELLED, 1);
-
-  GetPrerenderManager()->CancelAllPrerenders();
-  prerender->WaitForStop();
-
-  WaitForPrerenderStartEventForLinkNumber(0);
-  WaitForPrerenderStopEventForLinkNumber(0);
-  EXPECT_FALSE(HadPrerenderEventErrors());
-}
-
-// Cancels the prerender of a page with its own prerender.  The second prerender
-// should never be started.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest,
-                       PrerenderCancelPrerenderWithPrerender) {
-  std::unique_ptr<TestPrerender> prerender = PrerenderTestURL(
-      "/prerender/prerender_infinite_a.html", FINAL_STATUS_CANCELLED, 1);
-
-  GetPrerenderManager()->CancelAllPrerenders();
-  prerender->WaitForStop();
-
-  EXPECT_FALSE(prerender->contents());
 }
 
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderClickNewWindow) {
