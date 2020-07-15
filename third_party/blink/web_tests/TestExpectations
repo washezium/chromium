@@ -6861,3 +6861,6 @@ crbug.com/1098844 external/wpt/wasm/jsapi/functions/entry-different-function-rea
 
 #Sheriff 2020-06-25
 crbug.com/1010170 media/video-played-reset.html [ Pass Failure ]
+
+#Sheriff 2020-06-30
+crbug.com/1099657 [ Mac10.13 ] virtual/threaded-no-composited-antialiasing/animations/svg-attribute-interpolation/svg-d-interpolation.html [ Pass Failure ]
