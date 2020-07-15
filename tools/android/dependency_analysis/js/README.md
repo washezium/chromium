@@ -19,7 +19,20 @@ cd $DEP_ANALYSIS_DIR
 **The following instructions assume you are in the `dependency_analysis/js` = `$DEP_ANALYSIS_DIR/js` directory.**
 
 ### Install dependencies
-You will need to install `npm` if it is not already installed (check with `npm -v`), either [from the site](https://www.npmjs.com/get-npm) or via [nvm](https://github.com/nvm-sh/nvm#about) (Node Version Manager).
+
+First, ensure you have a new Node.js version. The dependency viewer doesn't work with v8, for example.
+
+```
+node -v
+```
+
+Install the latest version with:
+
+```
+nvm install node
+```
+
+You will also need to install `npm` if it is not already installed (check with `npm -v`), either [from the site](https://www.npmjs.com/get-npm) or via [nvm](https://github.com/nvm-sh/nvm#about) (Node Version Manager).
 
 To install dependencies:
 
