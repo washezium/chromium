@@ -14,7 +14,7 @@
         }
     },
     "power_profile.sql": {
-        "hash": "89b27409972ed4ed5a1125d6c837273d404cb0d3",
-        "remote_path": "perfetto_data/power_profile.sql/20200610T163057/power_profile.sql"
+        "hash": "5bc5eae952c72d04403409a56838f66da13394d6",
+        "remote_path": "perfetto_data/power_profile.sql/20200713T171147/power_profile.sql"
     }
 }
