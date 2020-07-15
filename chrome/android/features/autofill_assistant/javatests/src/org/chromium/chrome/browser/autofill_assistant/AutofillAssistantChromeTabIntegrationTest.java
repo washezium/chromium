@@ -505,33 +505,8 @@ public class AutofillAssistantChromeTabIntegrationTest {
         onView(withId(org.chromium.chrome.R.id.url_bar))
                 .perform(click(), typeText(getURL(TEST_PAGE_B)), pressImeActionButton());
         waitUntilViewMatchesCondition(withText(containsString("Sorry")), isCompletelyDisplayed());
-    }
-
-    @Test
-    @MediumTest
-    public void navigatingInStoppedAutofillAssistantState() {
-        ArrayList<ActionProto> list = new ArrayList<>();
-        list.add((ActionProto) ActionProto.newBuilder()
-                         .setTell(TellProto.newBuilder().setMessage("Shutdown"))
-                         .build());
-        list.add((ActionProto) ActionProto.newBuilder().setStop(StopProto.newBuilder()).build());
-
-        AutofillAssistantTestScript script = new AutofillAssistantTestScript(
-                (SupportedScriptProto) SupportedScriptProto.newBuilder()
-                        .setPath(TEST_PAGE_A)
-                        .setPresentation(PresentationProto.newBuilder().setAutostart(true).setChip(
-                                ChipProto.newBuilder().setText("Done")))
-                        .build(),
-                list);
-        setupScripts(script);
-        startAutofillAssistantOnTab(TEST_PAGE_A);
-
-        waitUntilViewMatchesCondition(withText("Shutdown"), isCompletelyDisplayed());
-
-        onView(withId(org.chromium.chrome.R.id.url_bar))
-                .perform(click(), typeText(getURL(TEST_PAGE_B)));
-        onView(withId(org.chromium.chrome.R.id.url_bar)).perform(pressImeActionButton());
-        waitUntilViewAssertionTrue(
-                withId(R.id.autofill_assistant), doesNotExist(), DEFAULT_MAX_TIME_TO_POLL);
+        waitUntil(()
+                          -> mTestRule.getActivity().getActivityTab().getUrl().getSpec().equals(
+                                  getURL(TEST_PAGE_B)));
     }
 }

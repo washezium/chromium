@@ -1663,6 +1663,10 @@ void Controller::DidFinishLoad(content::RenderFrameHost* render_frame_host,
   OnUrlChange();
 }
 
+void Controller::ExpectNavigation() {
+  expect_navigation_ = true;
+}
+
 void Controller::DidStartNavigation(
     content::NavigationHandle* navigation_handle) {
   if (!navigation_handle->IsInMainFrame() ||
@@ -1673,6 +1677,12 @@ void Controller::DidStartNavigation(
   if (!navigating_to_new_document_) {
     navigating_to_new_document_ = true;
     ReportNavigationStateChanged();
+  }
+
+  // The navigation is expected, do not check for errors below.
+  if (expect_navigation_) {
+    expect_navigation_ = false;
+    return;
   }
 
   // The following types of navigations are allowed for the main frame, when
@@ -1691,8 +1701,6 @@ void Controller::DidStartNavigation(
   // Everything else, such as going back to a previous page, or refreshing the
   // page is considered an end condition. If going back to a previous page is
   // required, consider using the BROWSE state instead.
-  // Note that BROWSE state end conditions are in DidFinishNavigation, in order
-  // to be able to properly evaluate the committed url.
   if (state_ == AutofillAssistantState::PROMPT &&
       web_contents()->GetLastCommittedURL().is_valid() &&
       !navigation_handle->WasServerRedirect() &&
@@ -1702,6 +1710,23 @@ void Controller::DidStartNavigation(
                   Metrics::DropOutReason::NAVIGATION);
     return;
   }
+
+  if (base::FeatureList::IsEnabled(
+          features::kAutofillAssistantBreakOnRunningNavigation)) {
+    // When in RUNNING state, all renderer initiated navigation is allowed,
+    // user initiated navigation will cause an error.
+    if (state_ == AutofillAssistantState::RUNNING &&
+        !navigation_handle->WasServerRedirect() &&
+        !navigation_handle->IsRendererInitiated()) {
+      error_causing_navigation_id_ = navigation_handle->GetNavigationId();
+      OnScriptError(l10n_util::GetStringUTF8(IDS_AUTOFILL_ASSISTANT_GIVE_UP),
+                    Metrics::DropOutReason::NAVIGATION_WHILE_RUNNING);
+      return;
+    }
+  }
+
+  // Note that BROWSE state end conditions are in DidFinishNavigation, in order
+  // to be able to properly evaluate the committed url.
 }
 
 void Controller::DidFinishNavigation(

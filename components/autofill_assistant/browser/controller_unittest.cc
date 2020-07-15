@@ -1569,16 +1569,78 @@ TEST_F(ControllerTest, UnexpectedNavigationDuringPromptAction) {
   EXPECT_CALL(mock_observer_, OnStatusMessageChanged(testing::Not(never_shown)))
       .Times(testing::AnyNumber());
 
+  // Renderer (Document) initiated navigation is allowed.
+  EXPECT_CALL(mock_client_, Shutdown(_)).Times(0);
+  content::NavigationSimulator::NavigateAndCommitFromDocument(
+      GURL("http://a.example.com/page"), web_contents()->GetMainFrame());
+  EXPECT_EQ(AutofillAssistantState::PROMPT, controller_->GetState());
+
+  // Expected browser initiated navigation is allowed.
+  EXPECT_CALL(mock_client_, Shutdown(_)).Times(0);
+  controller_->ExpectNavigation();
+  content::NavigationSimulator::NavigateAndCommitFromBrowser(
+      web_contents(), GURL("http://b.example.com/page"));
+  EXPECT_EQ(AutofillAssistantState::PROMPT, controller_->GetState());
+
+  // Unexpected browser initiated navigation will cause an error.
   EXPECT_CALL(mock_client_, Shutdown(Metrics::DropOutReason::NAVIGATION));
   content::NavigationSimulator::NavigateAndCommitFromBrowser(
-      web_contents(), GURL("http://example.com/otherpage"));
-
+      web_contents(), GURL("http://c.example.com/page"));
   EXPECT_EQ(AutofillAssistantState::STOPPED, controller_->GetState());
 
   // Full history of state transitions.
   EXPECT_THAT(states_, ElementsAre(AutofillAssistantState::STARTING,
                                    AutofillAssistantState::RUNNING,
                                    AutofillAssistantState::PROMPT,
+                                   AutofillAssistantState::STOPPED));
+}
+
+TEST_F(ControllerTest, UnexpectedNavigationInRunningState) {
+  SupportsScriptResponseProto script_response;
+  AddRunnableScript(&script_response, "autostart")
+      ->mutable_presentation()
+      ->set_autostart(true);
+  SetNextScriptResponse(script_response);
+
+  ActionsResponseProto autostart_script;
+  auto* wait_for_dom = autostart_script.add_actions()->mutable_wait_for_dom();
+  wait_for_dom->set_timeout_ms(10000);
+  wait_for_dom->mutable_wait_condition()
+      ->mutable_match()
+      ->add_filters()
+      ->set_css_selector("#some-element");
+  SetupActionsForScript("autostart", autostart_script);
+
+  Start();
+  EXPECT_EQ(AutofillAssistantState::RUNNING, controller_->GetState());
+
+  // Document (not user) initiated navigation while in RUNNING state:
+  // The controller keeps going.
+  EXPECT_CALL(mock_client_, Shutdown(_)).Times(0);
+  content::NavigationSimulator::NavigateAndCommitFromDocument(
+      GURL("http://a.example.com/page"), web_contents()->GetMainFrame());
+  EXPECT_EQ(AutofillAssistantState::RUNNING, controller_->GetState());
+
+  // Expected browser initiated navigation while in RUNNING state:
+  // The controller keeps going.
+  EXPECT_CALL(mock_client_, Shutdown(_)).Times(0);
+  controller_->ExpectNavigation();
+  content::NavigationSimulator::NavigateAndCommitFromBrowser(
+      web_contents(), GURL("http://b.example.com/page"));
+  EXPECT_EQ(AutofillAssistantState::RUNNING, controller_->GetState());
+
+  // Unexpected browser initiated navigation while in RUNNING state:
+  // The controller stops the scripts, shows an error and shuts down.
+  EXPECT_CALL(mock_client_,
+              Shutdown(Metrics::DropOutReason::NAVIGATION_WHILE_RUNNING));
+  EXPECT_CALL(mock_observer_, OnStatusMessageChanged(_));
+  content::NavigationSimulator::NavigateAndCommitFromBrowser(
+      web_contents(), GURL("http://c.example.com/page"));
+  EXPECT_EQ(AutofillAssistantState::STOPPED, controller_->GetState());
+
+  // Full history of state transitions.
+  EXPECT_THAT(states_, ElementsAre(AutofillAssistantState::STARTING,
+                                   AutofillAssistantState::RUNNING,
                                    AutofillAssistantState::STOPPED));
 }
 
