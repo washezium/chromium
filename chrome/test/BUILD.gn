@@ -3932,6 +3932,7 @@ test("unit_tests") {
       "../browser/media/android/cdm/media_drm_origin_id_manager_unittest.cc",
       "../browser/metrics/chrome_android_metrics_provider_unittest.cc",
       "../browser/notifications/notification_platform_bridge_android_unittest.cc",
+      "../browser/offline_pages/prefetch/notifications/prefetch_notification_service_impl_unittest.cc",
       "../browser/omnibox/status/status_mediator_unittest.cc",
       "../browser/omnibox/suggestions/answer/answer_suggestion_processor_unittest.cc",
       "../browser/omnibox/suggestions/autocomplete_mediator_unittest.cc",
