@@ -304,7 +304,6 @@ jumbo_source_set("browser_sources") {
     "resource_coordinator_service.h",
     "restore_type.h",
     "same_site_data_remover.h",
-    "sandbox_type.h",
     "save_page_type.h",
     "screen_orientation_delegate.h",
     "screenlock_observer.h",
