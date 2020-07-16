@@ -17,24 +17,30 @@
 #include "content/public/browser/web_ui_controller_factory.h"
 #include "content/public/browser/web_ui_data_source.h"
 #include "content/public/common/url_constants.h"
+#include "services/network/public/mojom/content_security_policy.mojom.h"
 #include "ui/webui/mojo_web_ui_controller.h"
 #include "url/gurl.h"
 
 namespace {
 
+constexpr base::FilePath::CharType kRootDir[] =
+    FILE_PATH_LITERAL("chromeos/components/system_apps/public/js/");
+
 constexpr char kSystemAppTestHost[] = "system-app-test";
+constexpr char kSystemAppTestURL[] = "chrome://system-app-test";
+constexpr char kUntrustedSystemAppTestURL[] =
+    "chrome-untrusted://system-app-test/";
 
 bool IsSystemAppTestURL(const GURL& url) {
   return url.SchemeIs(content::kChromeUIScheme) &&
          url.host() == kSystemAppTestHost;
 }
 
-void HandleRequest(const base::FilePath& root_dir,
-                   const std::string& url_path,
+void HandleRequest(const std::string& url_path,
                    content::WebUIDataSource::GotDataCallback callback) {
   base::FilePath path;
   CHECK(base::PathService::Get(base::BasePathKey::DIR_SOURCE_ROOT, &path));
-  path = path.Append(root_dir);
+  path = path.Append(kRootDir);
   path = path.AppendASCII(url_path.substr(0, url_path.find("?")));
 
   std::string contents;
@@ -43,37 +49,64 @@ void HandleRequest(const base::FilePath& root_dir,
     CHECK(base::ReadFileToString(path, &contents)) << path.value();
   }
 
-  scoped_refptr<base::RefCountedString> ref_contents(
-      new base::RefCountedString);
-  ref_contents->data() = contents;
-  std::move(callback).Run(ref_contents);
+  std::move(callback).Run(base::RefCountedString::TakeString(&contents));
+}
+
+void SetRequestFilterForDataSource(content::WebUIDataSource& data_source) {
+  data_source.SetRequestFilter(
+      base::BindRepeating([](const std::string& path) { return true; }),
+      base::BindRepeating(&HandleRequest));
+}
+
+content::WebUIDataSource* CreateTrustedSysemAppTestDataSource() {
+  auto* trusted_source = content::WebUIDataSource::Create(kSystemAppTestHost);
+
+  // We need a CSP override to be able to embed a chrome-untrusted:// iframe.
+  // TODO(crbug.com/1105408): use FrameSrc instead of ChildSrc.
+  std::string csp =
+      std::string("child-src ") + kUntrustedSystemAppTestURL + ";";
+  trusted_source->OverrideContentSecurityPolicy(
+      network::mojom::CSPDirectiveName::ChildSrc, csp);
+
+  SetRequestFilterForDataSource(*trusted_source);
+  return trusted_source;
+}
+
+content::WebUIDataSource* CreateUntrustedSystemAppTestDataSource() {
+  auto* untrusted_source =
+      content::WebUIDataSource::Create(kUntrustedSystemAppTestURL);
+  untrusted_source->AddFrameAncestor(GURL(kSystemAppTestURL));
+
+  SetRequestFilterForDataSource(*untrusted_source);
+  return untrusted_source;
 }
 
 class JsLibraryTestWebUIController : public ui::MojoWebUIController {
  public:
-  explicit JsLibraryTestWebUIController(const base::FilePath& root_dir,
-                                        content::WebUI* web_ui)
+  explicit JsLibraryTestWebUIController(content::WebUI* web_ui)
       : ui::MojoWebUIController(web_ui) {
-    auto* data_source = content::WebUIDataSource::Create(kSystemAppTestHost);
-    data_source->SetRequestFilter(
-        base::BindRepeating([](const std::string& path) { return true; }),
-        base::BindRepeating(&HandleRequest, root_dir));
+    auto* browser_context = web_ui->GetWebContents()->GetBrowserContext();
 
-    content::WebUIDataSource::Add(web_ui->GetWebContents()->GetBrowserContext(),
-                                  data_source);
+    content::WebUIDataSource::Add(browser_context,
+                                  CreateTrustedSysemAppTestDataSource());
+    content::WebUIDataSource::Add(browser_context,
+                                  CreateUntrustedSystemAppTestDataSource());
+
+    // Add ability to request chrome-untrusted: URLs
+    web_ui->AddRequestableScheme(content::kChromeUIUntrustedScheme);
   }
 };
 
 class JsLibraryTestWebUIControllerFactory
     : public content::WebUIControllerFactory {
  public:
-  explicit JsLibraryTestWebUIControllerFactory(const base::FilePath& root_dir)
-      : root_dir_(root_dir) {}
+  JsLibraryTestWebUIControllerFactory() = default;
+  ~JsLibraryTestWebUIControllerFactory() override = default;
 
   std::unique_ptr<content::WebUIController> CreateWebUIControllerForURL(
       content::WebUI* web_ui,
       const GURL& url) override {
-    return std::make_unique<JsLibraryTestWebUIController>(root_dir_, web_ui);
+    return std::make_unique<JsLibraryTestWebUIController>(web_ui);
   }
 
   content::WebUI::TypeID GetWebUIType(content::BrowserContext* browser_context,
@@ -93,16 +126,12 @@ class JsLibraryTestWebUIControllerFactory
                               const GURL& url) override {
     return IsSystemAppTestURL(url);
   }
-
- private:
-  const base::FilePath root_dir_;
 };
 
 }  // namespace
 
-JsLibraryTest::JsLibraryTest(const base::FilePath& root_dir)
-    : factory_(
-          std::make_unique<JsLibraryTestWebUIControllerFactory>(root_dir)) {
+JsLibraryTest::JsLibraryTest()
+    : factory_(std::make_unique<JsLibraryTestWebUIControllerFactory>()) {
   content::WebUIControllerFactory::RegisterFactory(factory_.get());
 }
 

@@ -16,23 +16,14 @@ js2gtest("browser_tests_js") {
 
   defines = [ "HAS_OUT_OF_PROC_TEST_RUNNER" ]
 
-  deps = [ ":browser_test_support" ]
+  deps = [ "//chromeos/components/web_applications/test:test_support" ]
 
-  data = [ "message_pipe_test.html" ]
-}
-
-source_set("browser_test_support") {
-  testonly = true
-  sources = [
-    "message_pipe_browsertest.cc",
-    "message_pipe_browsertest.h",
-  ]
-
-  defines = [ "HAS_OUT_OF_PROC_TEST_RUNNER" ]
-
-  deps = [
-    "//chrome/test:test_support_ui",
-    "//chromeos/components/web_applications/test:test_support",
+  data = [
+    "message_pipe.js",
+    "test_data/message_pipe_browsertest_trusted.html",
+    "test_data/message_pipe_browsertest_trusted.js",
+    "test_data/message_pipe_browsertest_untrusted.html",
+    "test_data/message_pipe_browsertest_untrusted.js",
   ]
 }
 
@@ -57,7 +48,11 @@ js_type_check("closure_compile_message_pipe_browsertest_js") {
 
 js_library("message_pipe_browsertest_js") {
   testonly = true
-  sources = [ "message_pipe_browsertest.js" ]
+  sources = [
+    "message_pipe_browsertest.js",
+    "test_data/message_pipe_browsertest_trusted.js",
+    "test_data/message_pipe_browsertest_untrusted.js",
+  ]
   externs_list = [
     "//chromeos/components/web_applications/js2gtest_support.externs.js",
     "//third_party/chaijs/externs/chai-3.5.js",

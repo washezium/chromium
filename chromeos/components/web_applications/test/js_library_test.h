@@ -9,19 +9,16 @@
 
 #include "chrome/test/base/mojo_web_ui_browser_test.h"
 
-namespace base {
-class FilePath;
-}  // namespace base
-
 namespace content {
 class WebUIControllerFactory;
 }  // namespace content
 
-// Base test class used to test JS libraries for System Apps. It runs tests from
-// chrome://system-app-test and loads files from |root_dir|.
+// Base test class used to test JS libraries for System Apps. It setups
+// chrome://system-app-test and chrome-untrusted://system-app-test URLs and
+// loads files from chromeos/components/system_apps/public/js/.
 class JsLibraryTest : public MojoWebUIBrowserTest {
  public:
-  explicit JsLibraryTest(const base::FilePath& root_dir);
+  JsLibraryTest();
   ~JsLibraryTest() override;
 
   JsLibraryTest(const JsLibraryTest&) = delete;
