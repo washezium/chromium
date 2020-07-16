@@ -3215,7 +3215,7 @@
   {
     "name": "omnibox-pedal-suggestions",
     "owners": [ "orinj", "chrome-omnibox-team@google.com" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 95
   },
   {
     "name": "omnibox-preserve-default-match-against-async-update",
