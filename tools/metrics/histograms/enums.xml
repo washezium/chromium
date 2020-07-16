@@ -73755,9 +73755,18 @@ Called by update_scheduler_enums.py.-->
 </enum>
 
 <enum name="WebViewExtraHeaders">
+  <obsolete>
+    Replaced by WebViewExtraHeadersRedirect 2020-07
+  </obsolete>
   <int value="0" label="Added headers in StartRequest"/>
   <int value="1" label="Kept headers through same-origin redirect"/>
   <int value="2" label="Removed headers on cross-origin redirect"/>
+</enum>
+
+<enum name="WebViewExtraHeadersRedirect">
+  <int value="0" label="Same-origin redirect"/>
+  <int value="1" label="Same-domain (but cross-origin) redirect"/>
+  <int value="2" label="Cross-domain redirect"/>
 </enum>
 
 <enum name="WebViewUrlScheme">
