@@ -70,9 +70,6 @@
 #include "chrome/test/base/ui_test_utils.h"
 #include "components/browsing_data/content/browsing_data_helper.h"
 #include "components/content_settings/core/browser/host_content_settings_map.h"
-#include "components/omnibox/browser/omnibox_edit_model.h"
-#include "components/omnibox/browser/omnibox_popup_model.h"
-#include "components/omnibox/browser/omnibox_view.h"
 #include "components/page_load_metrics/browser/metrics_web_contents_observer.h"
 #include "components/page_load_metrics/browser/page_load_tracker.h"
 #include "components/page_load_metrics/common/test/page_load_metrics_test_util.h"
@@ -624,12 +621,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
             &display_test_result))
       return false;
     return display_test_result;
-  }
-
-  std::unique_ptr<TestPrerender> ExpectPrerender(
-      FinalStatus expected_final_status) {
-    return prerender_contents_factory()->ExpectPrerenderContents(
-        expected_final_status);
   }
 
   void AddPrerender(const GURL& url, int index) {
