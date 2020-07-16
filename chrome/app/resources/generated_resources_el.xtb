@@ -4196,6 +4196,7 @@
 <translation id="6270770586500173387">Αποστολή <ph name="BEGIN_LINK1" />πληροφοριών συστήματος και εφαρμογών<ph name="END_LINK1" /> και <ph name="BEGIN_LINK2" />μετρήσεων<ph name="END_LINK2" /></translation>
 <translation id="6272643420381259437">Παρουσιάστηκε κάποιο σφάλμα (<ph name="ERROR" />) κατά τη λήψη της προσθήκης</translation>
 <translation id="6273677812470008672">Ποιότητα</translation>
+<translation id="6273979226236203550">Ο κωδικός πρόσβασής σας είναι αποθηκευμένος σε αυτήν τη συσκευή και στον Λογαριασμό σας Google. Ποιον θέλετε να διαγράψετε;</translation>
 <translation id="6277105963844135994">Χρονικό όριο δικτύου</translation>
 <translation id="6277518330158259200">Λήψη στιγμιότυπου οθόνης</translation>
 <translation id="6278057325678116358">Χρήση GTK+</translation>
