@@ -15,6 +15,7 @@
 #include "cc/layers/ui_resource_layer.h"
 #include "chrome/browser/android/compositor/layer/layer.h"
 #include "chrome/browser/android/compositor/scene_layer/scene_layer.h"
+#include "chrome/browser/android/compositor/tab_content_manager.h"
 #include "third_party/skia/include/core/SkColor.h"
 
 namespace ui {
