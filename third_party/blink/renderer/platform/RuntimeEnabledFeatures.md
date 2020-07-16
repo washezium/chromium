@@ -179,7 +179,7 @@ https://groups.google.com/a/chromium.org/d/msg/blink-dev/JBakhu5J6Qs/re2LkfEslTA
 [virtual test suite]: <https://chromium.googlesource.com/chromium/src/+/master/docs/testing/web_tests.md#testing-runtime-flags>
 [flag-specific]: <https://chromium.googlesource.com/chromium/src/+/master/docs/testing/web_tests.md#testing-runtime-flags>
 [trybot (example)]: <https://chromium-review.googlesource.com/c/chromium/src/+/1850255>
-[LayoutNG (launch plan)]: <https://docs.google.com/document/d/17t6HjA5X8T5xq1LlKoLEGTn_MioGCdEPpijpJeLalK0/edit#heading=h.guvbepjyp0oj>
+[LayoutNG]: <https://docs.google.com/document/d/17t6HjA5X8T5xq1LlKoLEGTn_MioGCdEPpijpJeLalK0/edit#heading=h.guvbepjyp0oj>
 [BlinkGenPropertyTrees]: <https://crbug.com/836884>
 [blink launch process]: <https://www.chromium.org/blink/launching-features>
 [Blink extended attribute]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/bindings/IDLExtendedAttributes.md>
