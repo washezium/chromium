@@ -36,12 +36,30 @@ namespace {
 // The space between the right/bottom edge of the badge and the
 // right/bottom edge of the main icon.
 constexpr int kBadgeSpacing = 4;
+constexpr int kBadgeBorderWidth = 2;
 constexpr int kImageSize = BadgedProfilePhoto::kImageSize;
 // Width and Height of the badged icon.
 constexpr int kBadgedProfilePhotoSize = kImageSize + kBadgeSpacing;
 
+// An images view with an empty space for the badge.
+class ImageViewWithPlaceForBadge : public views::ImageView {
+  // views::ImageView
+  void OnPaint(gfx::Canvas* canvas) override {
+    const int kBadgeIconSize = gfx::kFaviconSize;
+    // Remove the part of the ImageView that contains the badge.
+    SkPath mask;
+    mask.addCircle(
+        /*x=*/kBadgedProfilePhotoSize - kBadgeIconSize / 2,
+        /*y=*/kBadgedProfilePhotoSize - kBadgeIconSize / 2,
+        /*radius=*/kBadgeIconSize / 2 + kBadgeBorderWidth);
+    mask.toggleInverseFillType();
+    canvas->ClipPath(mask, true);
+    ImageView::OnPaint(canvas);
+  }
+};
+
 // An image view that shows a vector icon and tracks changes in the theme.
-class VectorIconView : public views::ImageView {
+class VectorIconView : public ImageViewWithPlaceForBadge {
  public:
   explicit VectorIconView(const gfx::VectorIcon& icon, int size)
       : icon_(icon), size_(size) {}
@@ -82,7 +100,7 @@ class ImageWithBadge : public views::View {
 
 ImageWithBadge::ImageWithBadge(const gfx::ImageSkia& main_image) {
   set_can_process_events_within_subtree(false);
-  auto main_view = std::make_unique<views::ImageView>();
+  auto main_view = std::make_unique<ImageViewWithPlaceForBadge>();
   main_view->SetImage(main_image);
   main_view->SizeToPreferredSize();
   AddChildView(std::move(main_view));
@@ -172,6 +190,8 @@ MoveToAccountStoreBubbleView::MovingBannerView::MovingBannerView(
 
   from_view = AddChildView(std::move(from_image));
 
+  // TODO(crbug.com/1100814): this arrow will point to the wrong direction in
+  // RTL setup.
   auto arrow_view = std::make_unique<VectorIconView>(
       kBookmarkbarTouchOverflowIcon, kImageSize);
   AddChildView(std::move(arrow_view));
