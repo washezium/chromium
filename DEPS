@@ -43,8 +43,6 @@ gclient_gn_args = [
   'checkout_nacl',
   'checkout_oculus_sdk',
   'checkout_openxr',
-  'cros_boards',
-  'cros_boards_with_qemu_images',
   'mac_xcode_version',
 ]
 
@@ -156,14 +154,11 @@ vars = {
 
   # Default to the empty board. Desktop Chrome OS builds don't need cros SDK
   # dependencies. Other Chrome OS builds should always define this explicitly.
-  'cros_boards': Str(''),
-  'cros_boards_with_qemu_images': Str(''),
+  'cros_boards': '',
   # Building for CrOS is only supported on linux currently.
   'checkout_simplechrome': '(checkout_chromeos and host_os == "linux") and ("{cros_boards}" != "")',
   # Surround the board var in quotes so gclient doesn't try parsing the string
   # as an expression.
-  # TODO(crbug.com/937821): Replace uses of this var with
-  # 'cros_boards_with_qemu_images' above.
   'cros_download_vm': '(("{cros_boards}" == "amd64-generic") or ("{cros_boards}" == "betty")) or ("{cros_boards}" == "betty-pi-arc")',
   # Should we build and test for public (ie: full) CrOS images, or private
   # (ie: release) images.
