@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/web_contents_state.h"
+#include "chrome/browser/tab/web_contents_state.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -17,7 +17,7 @@
 #include "base/android/jni_string.h"
 #include "base/logging.h"
 #include "base/pickle.h"
-#include "chrome/android/chrome_jni_headers/WebContentsStateBridge_jni.h"
+#include "chrome/browser/tab/jni_headers/WebContentsStateBridge_jni.h"
 #include "components/embedder_support/android/browser_context/browser_context_handle.h"
 #include "components/sessions/content/content_serialized_navigation_builder.h"
 #include "components/sessions/core/serialized_navigation_entry.h"
@@ -267,7 +267,7 @@ bool ExtractNavigationEntries(
       // Read each SerializedNavigationEntry as a separate pickle to avoid
       // optional reads of one tab bleeding into the next tab's data.
       int tab_navigation_data_length = 0;
-      const char* tab_navigation_data = NULL;
+      const char* tab_navigation_data = nullptr;
       if (!iter.ReadInt(&tab_navigation_data_length) ||
           !iter.ReadBytes(&tab_navigation_data, tab_navigation_data_length)) {
         LOG(ERROR) << "Failed to restore tab entry from byte array. "
@@ -361,7 +361,7 @@ WebContents* RestoreContentsFromByteBuffer(
                                           &is_off_the_record,
                                           &current_entry_index, &navigations);
   if (!success)
-    return NULL;
+    return nullptr;
 
   std::vector<std::unique_ptr<content::NavigationEntry>> entries =
       sessions::ContentSerializedNavigationBuilder::ToNavigationEntries(

@@ -14,7 +14,6 @@ import org.chromium.ui.util.ColorUtils;
  * Object that contains the state of a tab, including its navigation history.
  */
 public class TabState {
-
     /** Special value for mTimestampMillis. */
     private static final long TIMESTAMP_NOT_SET = -1;
 

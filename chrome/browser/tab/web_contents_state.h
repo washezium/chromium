@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ANDROID_WEB_CONTENTS_STATE_H_
-#define CHROME_BROWSER_ANDROID_WEB_CONTENTS_STATE_H_
+#ifndef CHROME_BROWSER_TAB_WEB_CONTENTS_STATE_H_
+#define CHROME_BROWSER_TAB_WEB_CONTENTS_STATE_H_
 
 #include <vector>
 
@@ -17,7 +17,7 @@ class SerializedNavigationEntry;
 namespace content {
 class BrowserContext;
 class WebContents;
-}
+}  // namespace content
 
 // Stores state for a WebContents, including its navigation history.
 class WebContentsState {
@@ -73,4 +73,4 @@ class WebContentsState {
       jboolean is_off_the_record);
 };
 
-#endif  // CHROME_BROWSER_ANDROID_WEB_CONTENTS_STATE_H_
+#endif  // CHROME_BROWSER_TAB_WEB_CONTENTS_STATE_H_
