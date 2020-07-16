@@ -2076,11 +2076,8 @@ IFACEMETHODIMP AXPlatformNodeWin::get_VerticalViewSize(double* result) {
 HRESULT AXPlatformNodeWin::ISelectionItemProviderSetSelected(
     bool selected) const {
   UIA_VALIDATE_CALL();
-  int restriction;
-  if (GetIntAttribute(ax::mojom::IntAttribute::kRestriction, &restriction)) {
-    if (restriction == static_cast<int>(ax::mojom::Restriction::kDisabled))
-      return UIA_E_ELEMENTNOTENABLED;
-  }
+  if (GetData().GetRestriction() == ax::mojom::Restriction::kDisabled)
+    return UIA_E_ELEMENTNOTENABLED;
 
   // The platform implements selection follows focus for single-selection
   // container elements. Focus action can change a node's accessibility selected
@@ -7390,7 +7387,7 @@ int AXPlatformNodeWin::MSAAState() const {
   // TODO(dougt) unhandled ux::ax::mojom::State::kRequired
   // TODO(dougt) unhandled ux::ax::mojom::State::kRichlyEditable
 
-  if (data.HasBoolAttribute(ax::mojom::BoolAttribute::kSelected))
+  if (data.IsSelectable())
     msaa_state |= STATE_SYSTEM_SELECTABLE;
 
   if (data.GetBoolAttribute(ax::mojom::BoolAttribute::kSelected))
