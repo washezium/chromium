@@ -534,11 +534,15 @@ base::flat_set<device::FidoTransportProtocol> GetAvailableTransports(
 
 }  // namespace
 
-AuthenticatorCommon::AuthenticatorCommon(RenderFrameHost* render_frame_host)
+AuthenticatorCommon::AuthenticatorCommon(
+    RenderFrameHost* render_frame_host,
+    std::unique_ptr<base::OneShotTimer> timer)
     : render_frame_host_(render_frame_host),
       security_checker_(static_cast<RenderFrameHostImpl*>(render_frame_host)
-                            ->GetWebAuthRequestSecurityChecker()) {
+                            ->GetWebAuthRequestSecurityChecker()),
+      timer_(std::move(timer)) {
   DCHECK(render_frame_host_);
+  DCHECK(timer_);
   // Disable the back-forward cache for any document that makes WebAuthn
   // requests. Pages using privacy-sensitive APIs are generally exempt from
   // back-forward cache for now as a precaution.

@@ -16,7 +16,6 @@
 #include "base/containers/span.h"
 #include "base/macros.h"
 #include "base/optional.h"
-#include "base/timer/timer.h"
 #include "content/common/content_export.h"
 #include "content/public/browser/authenticator_request_client_delegate.h"
 #include "content/public/browser/web_contents_observer.h"
@@ -68,7 +67,9 @@ CONTENT_EXPORT extern const char kGetType[];
 // Common code for any WebAuthn Authenticator interfaces.
 class CONTENT_EXPORT AuthenticatorCommon {
  public:
-  explicit AuthenticatorCommon(RenderFrameHost* render_frame_host);
+  // Permits setting timer for testing.
+  AuthenticatorCommon(RenderFrameHost* render_frame_host,
+                      std::unique_ptr<base::OneShotTimer>);
   virtual ~AuthenticatorCommon();
 
   // This is not-quite an implementation of blink::mojom::Authenticator. The
@@ -182,8 +183,7 @@ class CONTENT_EXPORT AuthenticatorCommon {
   url::Origin caller_origin_;
   std::string relying_party_id_;
   scoped_refptr<WebAuthRequestSecurityChecker> security_checker_;
-  std::unique_ptr<base::OneShotTimer> timer_ =
-      std::make_unique<base::OneShotTimer>();
+  std::unique_ptr<base::OneShotTimer> timer_;
   base::Optional<device::AuthenticatorSelectionCriteria>
       authenticator_selection_criteria_;
   base::Optional<std::string> app_id_;
