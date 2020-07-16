@@ -192,11 +192,13 @@ class CONTENT_EXPORT AuthenticatorCommon {
   base::Optional<device::MakeCredentialRequestHandler::Options>
       make_credential_options_;
   base::Optional<device::CtapGetAssertionRequest> ctap_get_assertion_request_;
+  base::Optional<device::CtapGetAssertionOptions> ctap_get_assertion_options_;
   // awaiting_attestation_response_ is true if the embedder has been queried
   // about an attestsation decision and the response is still pending.
   bool awaiting_attestation_response_ = false;
   blink::mojom::AuthenticatorStatus error_awaiting_user_acknowledgement_ =
       blink::mojom::AuthenticatorStatus::NOT_ALLOWED_ERROR;
+  bool prf_requested_ = false;
 
   base::WeakPtrFactory<AuthenticatorCommon> weak_factory_{this};
 

@@ -4099,6 +4099,60 @@ TEST_F(PINAuthenticatorImplTest, MakeCredentialNoSupportedAlgorithm) {
   }
 }
 
+TEST_F(PINAuthenticatorImplTest, PRFCreatedOnCTAP2) {
+  // Check that credential creation requests that include the PRF extension use
+  // CTAP2 if possible.
+  SimulateNavigation(GURL(kTestOrigin1));
+
+  for (int i = 0; i < 3; i++) {
+    SCOPED_TRACE(i);
+
+    device::VirtualCtap2Device::Config config;
+    config.u2f_support = true;
+    config.pin_support = true;
+    config.hmac_secret_support = true;
+    virtual_device_factory_->mutable_state()->pin = kTestPIN;
+    virtual_device_factory_->mutable_state()->pin_retries =
+        device::kMaxPinRetries;
+    virtual_device_factory_->SetCtap2Config(config);
+
+    PublicKeyCredentialCreationOptionsPtr options =
+        GetTestPublicKeyCredentialCreationOptions();
+    // Set uv=discouraged so that U2F fallback is possible.
+    options->authenticator_selection->SetUserVerificationRequirementForTesting(
+        device::UserVerificationRequirement::kDiscouraged);
+
+    if (i == 0) {
+      // Sanity check: request should fallback to U2F. (If it doesn't fallback
+      // to U2F then the PIN test infrastructure will CHECK because
+      // |test_client_.expected| is empty.)
+      test_client_.expected.clear();
+    } else if (i == 1) {
+      // If PRF is requested, the fallback to U2F should not happen because the
+      // PRF request is higher priority than avoiding a PIN prompt. (The PIN
+      // test infrastructure will CHECK if |expected| is set and not used.)
+      options->prf_enable = true;
+      test_client_.expected = {{device::kMaxPinRetries, kTestPIN}};
+    } else {
+      // If PRF is requested, but the authenticator doesn't support it, then we
+      // should still use U2F.
+      options->prf_enable = true;
+      config.hmac_secret_support = false;
+      test_client_.expected.clear();
+    }
+
+    virtual_device_factory_->SetCtap2Config(config);
+
+    TestMakeCredentialCallback create_callback;
+    mojo::Remote<blink::mojom::Authenticator> authenticator =
+        ConnectToAuthenticator();
+    authenticator->MakeCredential(std::move(options),
+                                  create_callback.callback());
+    create_callback.WaitForCallback();
+    EXPECT_EQ(AuthenticatorStatus::SUCCESS, create_callback.status());
+  }
+}
+
 class InternalUVAuthenticatorImplTest : public UVAuthenticatorImplTest {
  public:
   struct TestCase {
@@ -5415,6 +5469,179 @@ TEST_F(ResidentKeyAuthenticatorImplTest, WinCredProtectApiVersion) {
   }
 }
 #endif  // defined(OS_WIN)
+
+TEST_F(ResidentKeyAuthenticatorImplTest, PRFExtension) {
+  NavigateAndCommit(GURL(kTestOrigin1));
+
+  base::Optional<device::PublicKeyCredentialDescriptor> credential;
+  mojo::Remote<blink::mojom::Authenticator> authenticator;
+  for (bool hmac_secret_supported : {false, true}) {
+    // Setting the PRF extension on an authenticator that doesn't support it
+    // should cause the extension to be echoed, but with enabled=false.
+    // Otherwise, enabled should be true.
+    device::VirtualCtap2Device::Config config;
+    config.hmac_secret_support = hmac_secret_supported;
+    config.max_credential_count_in_list = 3;
+    config.max_credential_id_length = 256;
+    config.pin_support = true;
+    config.resident_key_support = true;
+    virtual_device_factory_->SetCtap2Config(config);
+    authenticator = ConnectToAuthenticator();
+
+    PublicKeyCredentialCreationOptionsPtr options =
+        GetTestPublicKeyCredentialCreationOptions();
+    options->prf_enable = true;
+    options->authenticator_selection->SetRequireResidentKeyForTesting(
+        hmac_secret_supported);
+    options->user.id = {1, 2, 3, 4};
+    options->user.name = "name";
+    options->user.display_name = "displayName";
+    TestMakeCredentialCallback create_callback;
+    authenticator->MakeCredential(std::move(options),
+                                  create_callback.callback());
+    create_callback.WaitForCallback();
+    EXPECT_EQ(AuthenticatorStatus::SUCCESS, create_callback.status());
+
+    ASSERT_TRUE(create_callback.value()->echo_prf);
+    ASSERT_EQ(hmac_secret_supported, create_callback.value()->prf);
+
+    if (hmac_secret_supported) {
+      device::AuthenticatorData auth_data =
+          AuthDataFromMakeCredentialResponse(create_callback.value());
+      credential.emplace(device::CredentialType::kPublicKey,
+                         auth_data.GetCredentialId());
+    }
+  }
+
+  auto assertion = [&credential, &authenticator](
+                       std::vector<blink::mojom::PRFValuesPtr> inputs,
+                       unsigned allow_list_size =
+                           1) -> blink::mojom::PRFValuesPtr {
+    PublicKeyCredentialRequestOptionsPtr options =
+        GetTestPublicKeyCredentialRequestOptions();
+    options->prf_inputs = std::move(inputs);
+    options->allow_credentials.clear();
+    if (allow_list_size >= 1) {
+      for (unsigned i = 0; i < allow_list_size - 1; i++) {
+        std::vector<uint8_t> random_credential_id(32, static_cast<uint8_t>(i));
+        options->allow_credentials.emplace_back(
+            device::CredentialType::kPublicKey,
+            std::move(random_credential_id));
+      }
+      options->allow_credentials.push_back(*credential);
+    }
+
+    TestGetAssertionCallback assert_callback;
+    authenticator->GetAssertion(std::move(options), assert_callback.callback());
+    assert_callback.WaitForCallback();
+
+    EXPECT_EQ(AuthenticatorStatus::SUCCESS, assert_callback.status());
+    CHECK(assert_callback.value()->prf_results);
+    CHECK(!assert_callback.value()->prf_results->id);
+    return std::move(assert_callback.value()->prf_results);
+  };
+
+  const std::vector<uint8_t> salt1(32, 1);
+  const std::vector<uint8_t> salt2(32, 2);
+
+  auto prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt1;
+  std::vector<blink::mojom::PRFValuesPtr> inputs;
+  inputs.emplace_back(std::move(prf_value));
+  auto result = assertion(std::move(inputs));
+  const std::vector<uint8_t> salt1_eval = std::move(result->first);
+
+  // The result should be consistent
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt1;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs));
+  ASSERT_EQ(result->first, salt1_eval);
+
+  // Should be able to evaluate two points at once.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt1;
+  prf_value->second = salt2;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs));
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_TRUE(result->second);
+  const std::vector<uint8_t> salt2_eval = std::move(*result->second);
+  ASSERT_NE(salt1_eval, salt2_eval);
+
+  // Should be consistent if swapped.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt2;
+  prf_value->second = salt1;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs));
+  ASSERT_EQ(result->first, salt2_eval);
+  ASSERT_TRUE(result->second);
+  ASSERT_EQ(*result->second, salt1_eval);
+
+  // Should still trigger if the credential ID is specified
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->id.emplace(credential->id());
+  prf_value->first = salt1;
+  prf_value->second = salt2;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs));
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_TRUE(result->second);
+  ASSERT_EQ(*result->second, salt2_eval);
+
+  // And the specified credential ID should override any default inputs.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = std::vector<uint8_t>(32, 3);
+  inputs.emplace_back(std::move(prf_value));
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->id.emplace(credential->id());
+  prf_value->first = salt1;
+  prf_value->second = salt2;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs));
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_TRUE(result->second);
+  ASSERT_EQ(*result->second, salt2_eval);
+
+  // ... and that should still be true if there there are lots of dummy entries
+  // in the allowlist. Note that the virtual authenticator was configured such
+  // that this will cause multiple batches.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->id.emplace(credential->id());
+  prf_value->first = salt1;
+  prf_value->second = salt2;
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs), /*allowlist_size=*/20);
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_TRUE(result->second);
+  ASSERT_EQ(*result->second, salt2_eval);
+
+  // Default PRF values should be passed down when the allowlist is empty.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt1;
+  prf_value->second = salt2;
+  inputs.emplace_back(std::move(prf_value));
+  test_client_.expected_accounts = "01020304:name:displayName";
+  test_client_.selected_user_id = {1, 2, 3, 4};
+  result = assertion(std::move(inputs), /*allowlist_size=*/0);
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_TRUE(result->second);
+  ASSERT_EQ(*result->second, salt2_eval);
+
+  // And the default PRF values should be used if none of the specific values
+  // match.
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = salt1;
+  inputs.emplace_back(std::move(prf_value));
+  prf_value = blink::mojom::PRFValues::New();
+  prf_value->first = std::vector<uint8_t>(32, 3);
+  prf_value->id = std::vector<uint8_t>(32, 4);
+  inputs.emplace_back(std::move(prf_value));
+  result = assertion(std::move(inputs), /*allowlist_size=*/20);
+  ASSERT_EQ(result->first, salt1_eval);
+  ASSERT_FALSE(result->second);
+}
 
 class InternalAuthenticatorImplTest : public AuthenticatorTestBase {
  protected:
