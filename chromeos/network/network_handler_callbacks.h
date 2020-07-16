@@ -38,10 +38,9 @@ using PropertiesCallback =
 
 // An error callback used by both the configuration handler and the state
 // handler to receive error results from the API.
-typedef base::RepeatingCallback<void(
-    const std::string& error_name,
-    std::unique_ptr<base::DictionaryValue> error_data)>
-    ErrorCallback;
+using ErrorCallback =
+    base::OnceCallback<void(const std::string& error_name,
+                            std::unique_ptr<base::DictionaryValue> error_data)>;
 
 typedef base::Callback<void(const std::string& string_result)>
     StringResultCallback;
@@ -59,13 +58,13 @@ base::DictionaryValue* CreateErrorData(const std::string& path,
 // If not NULL, runs |error_callback| with an ErrorData dictionary created from
 // the other arguments.
 COMPONENT_EXPORT(CHROMEOS_NETWORK)
-void RunErrorCallback(const ErrorCallback& error_callback,
+void RunErrorCallback(ErrorCallback error_callback,
                       const std::string& path,
                       const std::string& error_name,
                       const std::string& error_detail);
 
 COMPONENT_EXPORT(CHROMEOS_NETWORK)
-base::DictionaryValue* CreateDBusErrorData(
+std::unique_ptr<base::DictionaryValue> CreateDBusErrorData(
     const std::string& path,
     const std::string& error_name,
     const std::string& error_detail,
@@ -80,7 +79,7 @@ base::DictionaryValue* CreateDBusErrorData(
 COMPONENT_EXPORT(CHROMEOS_NETWORK)
 void ShillErrorCallbackFunction(const std::string& error_name,
                                 const std::string& path,
-                                const ErrorCallback& error_callback,
+                                ErrorCallback error_callback,
                                 const std::string& dbus_error_name,
                                 const std::string& dbus_error_message);
 
