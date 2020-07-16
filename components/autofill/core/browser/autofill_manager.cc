@@ -1794,6 +1794,29 @@ void AutofillManager::FillOrPreviewDataModelForm(
       }
     }
 
+    // Do not fill fields that have been edited by the user, except if the field
+    // is empty and its initial value (= cached value) was empty as well. A
+    // similar check is done in ForEachMatchingFormFieldCommon(), which
+    // frequently has false negatives.
+    //
+    // The check
+    // (!form.fields[i].value.empty() ||
+    //  form.fields[i].value != form_structure->field(i)->value)
+    // is problematic at the moment because there's a refill happening with
+    // a FormData with empty (or default) values. That FormStructure is created
+    // by FormStructure::toFormData() and actually comes from a cached
+    // FormStructure.
+    if (base::FeatureList::IsEnabled(
+            features::kAutofillSkipFillingFieldsWithChangedValues) &&
+        (form.fields[i].properties_mask & kUserTyped) &&
+        (!form.fields[i].value.empty() ||
+         !form_structure->field(i)->value.empty()) &&
+        !cached_field->SameFieldAs(field)) {
+      buffer << Tr{} << field_number
+             << "Skipped: don't fill user-filled fields";
+      continue;
+    }
+
     // Don't fill previously autofilled fields except the initiating field or
     // when it's a refill.
     if (result.fields[i].is_autofilled && !cached_field->SameFieldAs(field) &&

@@ -242,6 +242,13 @@ const base::Feature kAutofillShowTypePredictions{
 const base::Feature kAutofillSkipComparingInferredLabels{
     "AutofillSkipComparingInferredLabels", base::FEATURE_DISABLED_BY_DEFAULT};
 
+// Controls whether to skip fields whose last seen value differs from the
+// initially value.
+// TODO(crbug.com/966873): Remove once launched.
+const base::Feature kAutofillSkipFillingFieldsWithChangedValues{
+    "AutofillSkipFillingFieldsWithChangedValues",
+    base::FEATURE_DISABLED_BY_DEFAULT};
+
 // Controls whether Autofill should search prefixes of all words/tokens when
 // filtering profiles, or only on prefixes of the whole string.
 const base::Feature kAutofillTokenPrefixMatching{
