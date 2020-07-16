@@ -128,6 +128,12 @@ class DownloadItemView : public views::View,
   // The space on the right side of the dangerous download label.
   static constexpr int kLabelPadding = 8;
 
+  // Returns the mode that best reflects the current model state.
+  Mode GetDesiredMode() const;
+
+  // Sets the current mode to |mode| and updates UI appropriately.
+  void UpdateMode(Mode mode);
+
   void OpenDownload();
 
   // Submits the downloaded file to the safebrowsing download feedback service.
@@ -142,7 +148,6 @@ class DownloadItemView : public views::View,
 
   void DrawIcon(gfx::Canvas* canvas);
   void LoadIcon();
-  void LoadIconIfItemPathChanged();
 
   // Update the button colors based on the current theme.
   void UpdateColorsFromTheme();
@@ -156,39 +161,6 @@ class DownloadItemView : public views::View,
 
   // Sets the state and triggers a repaint.
   void SetDropdownState(State new_state);
-
-  void SetMode(Mode mode);
-
-  // Starts showing the normal mode dialog, clearing the existing dialog.
-  void TransitionToNormalMode();
-
-  // Starts showing the mixed content dialog, clearing the existing dialog.
-  void TransitionToMixedContentDialog();
-
-  // Reverts from mixed content modes to normal download mode.
-  void ClearMixedContentDialog();
-
-  // Starts displaying the mixed content download warning.
-  void ShowMixedContentDialog();
-
-  // Starts showing the warning dialog, clearing the existing dialog.
-  void TransitionToWarningDialog();
-
-  // Reverts from dangerous mode to normal download mode.
-  void ClearWarningDialog();
-
-  // Starts displaying the dangerous download warning or the malicious download
-  // warning.
-  void ShowWarningDialog();
-
-  // Starts showing the deep scanning dialog, clearing the existing dialog.
-  void TransitionToDeepScanningDialog();
-
-  // Reverts from deep scanning mode to normal download mode.
-  void ClearDeepScanningDialog();
-
-  // Starts displaying the deep scanning warning.
-  void ShowDeepScanningDialog();
 
   // Returns the current warning icon (should only be called when the view is
   // actually showing a warning).
