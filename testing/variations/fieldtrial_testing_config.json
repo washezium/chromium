@@ -2956,6 +2956,21 @@
             ]
         }
     ],
+    "FullscreenBrowserScope": [
+        {
+            "platforms": [
+                "ios"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "FullscreenControllerBrowserScoped"
+                    ]
+                }
+            ]
+        }
+    ],
     "FuzzyAppSearch": [
         {
             "platforms": [
