@@ -3,18 +3,21 @@
 // found in the LICENSE file.
 
 /**
- * @fileoverview The 'nearby-discovery-page' component shows the discovery UI of
- * the Nearby Share flow. It shows a list of devices to select from.
+ * @fileoverview The 'nearby-device' component shows details of a remote device.
  */
-
-import 'chrome://resources/cr_elements/cr_button/cr_button.m.js';
-import './nearby_device.js';
-import './nearby_preview.js';
 
 import {html, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
 Polymer({
-  is: 'nearby-discovery-page',
+  is: 'nearby-device',
 
   _template: html`{__html_template__}`,
+
+  properties: {
+    /** The device name to show. */
+    name: {
+      type: String,
+      value: '',
+    },
+  },
 });
