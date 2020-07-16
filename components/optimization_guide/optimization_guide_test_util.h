@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
-#define CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
+#ifndef COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
+#define COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
 
 #include <memory>
 
@@ -21,4 +21,4 @@ GetSingleLeafDecisionTreePredictionModel(double threshold,
                                          double weight,
                                          double leaf_value);
 
-#endif  // CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
+#endif  // COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_TEST_UTIL_H_
