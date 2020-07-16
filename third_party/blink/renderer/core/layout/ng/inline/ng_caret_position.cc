@@ -299,7 +299,12 @@ NGCaretPosition ComputeNGCaretPosition(const PositionWithAffinity& position) {
     return NGCaretPosition();
 
   const NGOffsetMapping* mapping = NGInlineNode::GetOffsetMapping(context);
-  DCHECK(mapping);
+  if (!mapping) {
+    // TODO(yosin): We should find when we reach here[1].
+    // [1] http://crbug.com/1100481
+    NOTREACHED() << context;
+    return NGCaretPosition();
+  }
   const base::Optional<unsigned> maybe_offset =
       mapping->GetTextContentOffset(position.GetPosition());
   if (!maybe_offset.has_value()) {
