@@ -40,6 +40,26 @@ TEST_F(DecisionTreePredictorTest, InstantiateValidPredictor) {
   EXPECT_TRUE(predictor.IsValid());
 }
 
+TEST_F(DecisionTreePredictorTest, ValidPredictorFromModelSpec) {
+  auto model_proto = testing::GetModelProtoForPredictionResult(
+      mojom::DecisionTreePredictionResult::kTrue);
+  std::string model_string = model_proto->SerializeAsString();
+  auto predictor = DecisionTreePredictor::FromModelSpec(
+      mojom::DecisionTreeModelSpec::New(model_string));
+
+  EXPECT_TRUE(predictor->IsValid());
+}
+
+TEST_F(DecisionTreePredictorTest, InvalidPredictorFromModelSpec) {
+  // Scenario 1: initialize from an empty model spec pointer.
+  EXPECT_FALSE(DecisionTreePredictor::FromModelSpec({})->IsValid());
+
+  // Scenario 2: failed deserialization due to invalid model string.
+  EXPECT_FALSE(DecisionTreePredictor::FromModelSpec(
+                   mojom::DecisionTreeModelSpec::New("invalid model string"))
+                   ->IsValid());
+}
+
 TEST_F(DecisionTreePredictorTest, ModelPrediction) {
   mojom::DecisionTreePredictionResult g_result;
   double g_score;

@@ -5,6 +5,7 @@
 #include "chrome/services/machine_learning/public/cpp/decision_tree_model.h"
 
 #include <memory>
+#include <utility>
 
 #include "base/macros.h"
 #include "base/test/task_environment.h"
@@ -32,6 +33,25 @@ TEST_F(DecisionTreeModelTest, InstantiateValidModel) {
 TEST_F(DecisionTreeModelTest, InstantiateInvalidModel) {
   DecisionTreeModel model(nullptr);
   EXPECT_FALSE(model.IsValid());
+}
+
+TEST_F(DecisionTreeModelTest, ValidModelFromSpec) {
+  auto model_proto = testing::GetModelProtoForPredictionResult(
+      mojom::DecisionTreePredictionResult::kTrue);
+  std::string model_string = model_proto->SerializeAsString();
+  auto model = DecisionTreeModel::FromModelSpec(
+      mojom::DecisionTreeModelSpec::New(model_string));
+
+  EXPECT_TRUE(model->IsValid());
+}
+
+TEST_F(DecisionTreeModelTest, InvalidModelFromSpec) {
+  // Scenario 1: initialize from an empty model spec pointer.
+  EXPECT_FALSE(DecisionTreeModel::FromModelSpec({}));
+
+  // Scenario 2: failed deserialization due to invalid model string.
+  EXPECT_FALSE(DecisionTreeModel::FromModelSpec(
+      mojom::DecisionTreeModelSpec::New("invalid model string")));
 }
 
 TEST_F(DecisionTreeModelTest, ValidModelPrediction) {

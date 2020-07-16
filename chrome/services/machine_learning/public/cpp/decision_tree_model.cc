@@ -21,20 +21,21 @@ DecisionTreeModel::DecisionTreeModel(
     : prediction_model_(model_proto
                             ? optimization_guide::PredictionModel::Create(
                                   std::move(model_proto))
-                            : nullptr),
-      model_proto_(model_proto ? model_proto.get() : nullptr) {}
+                            : nullptr) {}
 
 DecisionTreeModel::~DecisionTreeModel() = default;
 
 // static
 std::unique_ptr<DecisionTreeModel> DecisionTreeModel::FromModelSpec(
     mojom::DecisionTreeModelSpecPtr spec) {
-  // TODO(crbug/1102428): Implement this.
-  return nullptr;
-}
+  if (!spec)
+    return nullptr;
+  auto model_proto =
+      std::make_unique<optimization_guide::proto::PredictionModel>();
 
-mojom::DecisionTreeModelSpecPtr DecisionTreeModel::ToModelSpec() const {
-  // TODO(crbug/1102428): Implement this.
+  if (model_proto->ParseFromString(std::move(spec)->serialized_model))
+    return std::make_unique<DecisionTreeModel>(std::move(model_proto));
+
   return nullptr;
 }
 

@@ -36,10 +36,6 @@ class DecisionTreeModel {
   static std::unique_ptr<DecisionTreeModel> FromModelSpec(
       mojom::DecisionTreeModelSpecPtr spec);
 
-  // Serializes the Decision Tree model proto into a model spec. Returns a
-  // |nullptr| if the serialization fails, or if the model is invalid.
-  mojom::DecisionTreeModelSpecPtr ToModelSpec() const;
-
   // Returns the DecisionTreePredictionResult by evaluating |prediction_model_|
   // using the provided |model_features|. |prediction_score| will be populated
   // with the score output by the model.
@@ -53,9 +49,6 @@ class DecisionTreeModel {
  private:
   // PredictionModel held by the Service.
   std::unique_ptr<optimization_guide::PredictionModel> prediction_model_;
-
-  // Handle to the underlying proto in |prediction_model_|.
-  optimization_guide::proto::PredictionModel* model_proto_;
 };
 
 }  // namespace machine_learning

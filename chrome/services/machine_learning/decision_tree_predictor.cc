@@ -19,8 +19,6 @@ DecisionTreePredictor::DecisionTreePredictor(
 // static
 std::unique_ptr<DecisionTreePredictor> DecisionTreePredictor::FromModelSpec(
     mojom::DecisionTreeModelSpecPtr spec) {
-  // TODO(crbug/1102428): Add test once |DecisionTreeModel::FromModelSpec| is
-  // implemented.
   return std::make_unique<DecisionTreePredictor>(
       DecisionTreeModel::FromModelSpec(std::move(spec)));
 }
