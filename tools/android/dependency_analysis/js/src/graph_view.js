@@ -15,10 +15,23 @@ const DEF_IDS = {
 // Parameters determining the force-directed simulation cooldown speed.
 // For more info on each param, see https://github.com/d3/d3-force.
 const SIMULATION_SPEED_PARAMS = {
-  ALPHA_ON_REHEAT: 1,
-  ALPHA_MIN: 0.03,
-  VELOCITY_DECAY_DEFAULT: 0.4,
+  // Alpha (or temperature, as in simulated annealing) is reset to this value
+  // for the simulation is reheated.
+  ALPHA_ON_REHEAT: 0.3,
+
+  // Alpha at which simulation freezes.
+  ALPHA_MIN: 0.001,
+
+  // A higher velocity decay indicates slower nodes (node movement is multiplied
+  // by (1-decay) each tick).
+
+  // The decay to use when there is no easing (eg. dragging nodes).
+  VELOCITY_DECAY_DEFAULT: 0.8,
+
+  // When nodes are eased, their decay starts at MAX (slow),
+  // transitions to MIN (fast), then back to MAX.
   VELOCITY_DECAY_MAX: 0.99,
+  VELOCITY_DECAY_MIN: 0,
 };
 
 // Colors for displayed nodes. These colors are temporary.
@@ -167,7 +180,7 @@ class GraphView {
     /** @private {LinearScaler} */
     this.velocityDecayScale_ = d3.scaleLinear()
         .domain([0, 1])
-        .range([SIMULATION_SPEED_PARAMS.VELOCITY_DECAY_DEFAULT,
+        .range([SIMULATION_SPEED_PARAMS.VELOCITY_DECAY_MIN,
           SIMULATION_SPEED_PARAMS.VELOCITY_DECAY_MAX]);
   }
 
@@ -284,11 +297,7 @@ class GraphView {
               .on('mousedown', node => this.onNodeClicked_(node))
               .call(d3.drag()
                   .on('drag', (node, idx, nodes) => {
-                    // TODO(yjlong): This should ideally be a call with `false`
-                    // (dragging should continue the simulation with constant
-                    // velocity), but for some reason the graph goes crazy with
-                    // that setting. Investigate and fix.
-                    this.reheatSimulation(/* shouldEase */ true);
+                    this.reheatSimulation(/* shouldEase */ false);
                     d3.select(nodes[idx]).classed('locked', true);
                     // Fix the node's position after it has been dragged.
                     node.fx = d3.event.x;
