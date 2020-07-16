@@ -116,11 +116,9 @@ void NetworkConnectionHandler::InitiateTetherNetworkConnection(
       base::BindOnce(&NetworkConnectionHandler::InvokeConnectSuccessCallback,
                      weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
                      std::move(success_callback)),
-      // TODO(crbug.com/1007660): Convert TetherDelegate to OnceCallback.
-      base::AdaptCallbackForRepeating(
-          base::BindOnce(&NetworkConnectionHandler::InvokeConnectErrorCallback,
-                         weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
-                         std::move(error_callback))));
+      base::BindOnce(&NetworkConnectionHandler::InvokeConnectErrorCallback,
+                     weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
+                     std::move(error_callback)));
 }
 
 void NetworkConnectionHandler::InitiateTetherNetworkDisconnection(
@@ -133,11 +131,9 @@ void NetworkConnectionHandler::InitiateTetherNetworkDisconnection(
       base::BindOnce(&NetworkConnectionHandler::InvokeConnectSuccessCallback,
                      weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
                      std::move(success_callback)),
-      // TODO(crbug.com/1007660): Convert TetherDelegate to OnceCallback.
-      base::AdaptCallbackForRepeating(
-          base::BindOnce(&NetworkConnectionHandler::InvokeConnectErrorCallback,
-                         weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
-                         std::move(error_callback))));
+      base::BindOnce(&NetworkConnectionHandler::InvokeConnectErrorCallback,
+                     weak_ptr_factory_.GetWeakPtr(), tether_network_guid,
+                     std::move(error_callback)));
 }
 
 // static

@@ -25,7 +25,7 @@ class WifiHotspotDisconnector {
   virtual void DisconnectFromWifiHotspot(
       const std::string& wifi_network_guid,
       base::OnceClosure success_callback,
-      const network_handler::StringResultCallback& error_callback) = 0;
+      network_handler::StringResultCallback error_callback) = 0;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(WifiHotspotDisconnector);

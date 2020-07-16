@@ -31,7 +31,7 @@ class TetherDisconnector {
   virtual void DisconnectFromNetwork(
       const std::string& tether_network_guid,
       base::OnceClosure success_callback,
-      const network_handler::StringResultCallback& error_callback,
+      network_handler::StringResultCallback error_callback,
       const TetherSessionCompletionLogger::SessionCompletionReason&
           session_completion_reason) = 0;
 

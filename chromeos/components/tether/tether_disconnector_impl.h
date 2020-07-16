@@ -40,7 +40,7 @@ class TetherDisconnectorImpl : public TetherDisconnector {
   void DisconnectFromNetwork(
       const std::string& tether_network_guid,
       base::OnceClosure success_callback,
-      const network_handler::StringResultCallback& error_callback,
+      network_handler::StringResultCallback error_callback,
       const TetherSessionCompletionLogger::SessionCompletionReason&
           session_completion_reason) override;
 
@@ -51,7 +51,7 @@ class TetherDisconnectorImpl : public TetherDisconnector {
       const std::string& tether_network_guid,
       const std::string& wifi_network_guid,
       base::OnceClosure success_callback,
-      const network_handler::StringResultCallback& error_callback);
+      network_handler::StringResultCallback error_callback);
 
   ActiveHost* active_host_;
   WifiHotspotDisconnector* wifi_hotspot_disconnector_;

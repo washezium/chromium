@@ -32,7 +32,7 @@ class FakeWifiHotspotDisconnector : public WifiHotspotDisconnector {
   void DisconnectFromWifiHotspot(
       const std::string& wifi_network_guid,
       base::OnceClosure success_callback,
-      const network_handler::StringResultCallback& error_callback) override;
+      network_handler::StringResultCallback error_callback) override;
 
  private:
   std::string last_disconnected_wifi_network_guid_;
