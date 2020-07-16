@@ -298,11 +298,9 @@ BOOL CALLBACK OnResourceFound(HMODULE module,
     return FALSE;
 
   if (StrStartsWith(name, kChromeArchivePrefix)) {
-    if (!ctx->chrome_resource_path->assign(full_path.get()))
-      return FALSE;
+    ctx->chrome_resource_path->assign(full_path);
   } else if (StrStartsWith(name, kSetupPrefix)) {
-    if (!ctx->setup_resource_path->assign(full_path.get()))
-      return FALSE;
+    ctx->setup_resource_path->assign(full_path);
   } else {
     // Resources should either start with 'chrome' or 'setup'. We don't handle
     // anything else.
@@ -366,16 +364,15 @@ ProcessExitResult UnpackBinaryResources(const Configuration& configuration,
     return ProcessExitResult(UNABLE_TO_EXTRACT_CHROME_ARCHIVE,
                              ::GetLastError());
   }
-  if (archive_path->length() == 0) {
+  if (archive_path->empty())
     return ProcessExitResult(UNABLE_TO_EXTRACT_CHROME_ARCHIVE);
-  }
 
   ProcessExitResult exit_code = ProcessExitResult(SUCCESS_EXIT_CODE);
 
   // If we found setup 'B7' resource (used for differential updates), handle
   // it.  Note that this is only for Chrome; Chromium installs are always
   // "full" installs.
-  if (setup_path->length() > 0) {
+  if (!setup_path->empty()) {
     CommandString cmd_line;
     PathString exe_path;
     // Get the path to setup.exe first.
@@ -405,8 +402,8 @@ ProcessExitResult UnpackBinaryResources(const Configuration& configuration,
 
     if (!exit_code.IsSuccess())
       DeleteFile(setup_path->get());
-    else if (!setup_path->assign(setup_dest_path.get()))
-      exit_code = ProcessExitResult(PATH_STRING_OVERFLOW);
+    else
+      setup_path->assign(setup_dest_path);
 
     return exit_code;
   }
@@ -417,7 +414,7 @@ ProcessExitResult UnpackBinaryResources(const Configuration& configuration,
                            reinterpret_cast<LONG_PTR>(&context))) {
     return ProcessExitResult(UNABLE_TO_EXTRACT_SETUP_BL, ::GetLastError());
   }
-  if (setup_path->length() == 0) {
+  if (setup_path->empty()) {
     // Neither setup_patch.packed.7z nor setup.ex_ was found.
     return ProcessExitResult(UNABLE_TO_EXTRACT_SETUP);
   }
@@ -427,14 +424,10 @@ ProcessExitResult UnpackBinaryResources(const Configuration& configuration,
   bool success =
       mini_installer::Expand(setup_path->get(), setup_dest_path.get());
   ::DeleteFile(setup_path->get());
-  if (success) {
-    if (!setup_path->assign(setup_dest_path.get())) {
-      ::DeleteFile(setup_dest_path.get());
-      exit_code = ProcessExitResult(PATH_STRING_OVERFLOW);
-    }
-  } else {
+  if (success)
+    setup_path->assign(setup_dest_path);
+  else
     exit_code = ProcessExitResult(UNABLE_TO_EXTRACT_SETUP_EXE);
-  }
 
 #if defined(COMPONENT_BUILD)
   if (exit_code.IsSuccess()) {
