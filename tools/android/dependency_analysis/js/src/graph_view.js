@@ -158,16 +158,28 @@ class GraphView {
     const width = +svg.attr('width');
     const height = +svg.attr('height');
 
-    const centeringStrengthY = 1.0;
+    const centeringStrengthY = 0.1;
     const centeringStrengthX = centeringStrengthY * (height / width);
     /** @private {*} */
     this.simulation_ = d3.forceSimulation()
         .alphaMin(SIMULATION_SPEED_PARAMS.ALPHA_MIN)
         .force('chargeForce', d3.forceManyBody().strength(-3000))
         .force('centerXForce',
-            d3.forceX(width / 2).strength(centeringStrengthX))
+            d3.forceX(width / 2).strength(node => {
+              if (node.visualizationState.selectedByFilter)
+                return centeringStrengthX * 20;
+              if (node.visualizationState.outboundDepth <= 1)
+                return centeringStrengthX * 5;
+              return centeringStrengthY;
+            }))
         .force('centerYForce',
-            d3.forceY(height / 2).strength(centeringStrengthY));
+            d3.forceY(height / 2).strength(node => {
+              if (node.visualizationState.selectedByFilter)
+                return centeringStrengthY * 20;
+              if (node.visualizationState.outboundDepth <= 1)
+                return centeringStrengthY * 5;
+              return centeringStrengthY;
+            }));
 
     /** @private {number} */
     this.reheatTicks_ = countNumReheatTicks();
