@@ -3444,6 +3444,16 @@ ui::AXMode WebContentsImpl::GetAccessibilityMode() {
   return accessibility_mode_;
 }
 
+void WebContentsImpl::AXTreeIDForMainFrameHasChanged() {
+  RenderWidgetHostViewBase* rwhv =
+      static_cast<RenderWidgetHostViewBase*>(GetRenderWidgetHostView());
+  if (rwhv)
+    rwhv->SetMainFrameAXTreeID(GetMainFrame()->GetAXTreeID());
+
+  for (auto& observer : observers_)
+    observer.AXTreeIDForMainFrameHasChanged();
+}
+
 void WebContentsImpl::AccessibilityEventReceived(
     const AXEventNotificationDetails& details) {
   for (auto& observer : observers_)

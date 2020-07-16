@@ -636,7 +636,16 @@ void HTMLFrameOwnerElement::ParseAttribute(
 void HTMLFrameOwnerElement::SetEmbeddingToken(
     const base::UnguessableToken& embedding_token) {
   DCHECK(ContentFrame());
+  if (embedding_token_ == embedding_token)
+    return;
+
   embedding_token_ = embedding_token;
+
+  // The embedding token is also used as the AXTreeID to reference the child
+  // accessibility tree for an HTMLFrameOwnerElement, so we need to notify the
+  // AXObjectCache object whenever this changes, to get the AX tree updated.
+  if (AXObjectCache* cache = GetDocument().ExistingAXObjectCache())
+    cache->EmbeddingTokenChanged(this);
 }
 
 const base::Optional<base::UnguessableToken>&
