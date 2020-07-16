@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_
-#define CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_
+#ifndef COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_
+#define COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_
 
 #include <memory>
 #include <queue>
@@ -21,6 +21,8 @@ class ReportingDelegateFactory;
 
 // Generate a report request queue that contains full profile information. The
 // request number in the queue is decided by the maximum report size setting.
+// TODO(crbug.com/1103732): Unit tests for this class are still in
+// chrome/browser/enterprise/reporting.
 class ReportRequestQueueGenerator {
   using ReportRequest = definition::ReportRequest;
   using ReportRequests = std::queue<std::unique_ptr<ReportRequest>>;
@@ -58,4 +60,4 @@ class ReportRequestQueueGenerator {
 
 }  // namespace enterprise_reporting
 
-#endif  // CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_
+#endif  // COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_REQUEST_QUEUE_GENERATOR_H_

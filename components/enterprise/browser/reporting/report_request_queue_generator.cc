@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/enterprise/reporting/report_request_queue_generator.h"
+#include "components/enterprise/browser/reporting/report_request_queue_generator.h"
 
 #include "base/bind.h"
 #include "base/callback.h"
@@ -10,6 +10,7 @@
 #include "base/metrics/histogram_functions.h"
 
 namespace enterprise_reporting {
+
 namespace {
 
 const size_t kMaximumReportSize =
