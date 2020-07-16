@@ -2580,7 +2580,7 @@ void AutofillManager::GetAvailableSuggestions(
     Suggestion warning_suggestion(
         l10n_util::GetStringUTF16(IDS_AUTOFILL_WARNING_MIXED_FORM));
     warning_suggestion.frontend_id = POPUP_ITEM_ID_MIXED_FORM_MESSAGE;
-    suggestions->assign(1, warning_suggestion);
+    suggestions->emplace_back(warning_suggestion);
     return;
   }
 
