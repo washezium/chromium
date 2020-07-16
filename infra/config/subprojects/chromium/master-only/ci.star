@@ -2955,7 +2955,7 @@ ci.memory_builder(
     cores = 32,
     # TODO(https://crbug.com/919430) Remove the larger timeout once compile
     # times have been brought down to reasonable level
-    execution_timeout = time.hour * 9 / 2,  # 4.5 (can't multiply float * duration)
+    execution_timeout = 4 * time.hour + 30 * time.minute,
     tree_closing = False,
 )
 
