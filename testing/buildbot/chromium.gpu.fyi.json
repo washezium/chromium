@@ -12470,7 +12470,8 @@
     "gtest_tests": [
       {
         "args": [
-          "--no-xvfb"
+          "--no-xvfb",
+          "--test-launcher-filter-file=../../testing/buildbot/filters/gpu.linux.skiarenderer_dawn_cc_unittests.filter"
         ],
         "merge": {
           "args": [],

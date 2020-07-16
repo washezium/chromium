@@ -2570,7 +2570,10 @@
 
     'gpu_skia_renderer_dawn_gtests': {
       'cc_unittests': {
-        'linux_args': ['--no-xvfb'],
+        'linux_args': [
+          '--no-xvfb',
+          '--test-launcher-filter-file=../../testing/buildbot/filters/gpu.linux.skiarenderer_dawn_cc_unittests.filter',
+        ],
       },
       'viz_unittests': {
         'linux_args': [
