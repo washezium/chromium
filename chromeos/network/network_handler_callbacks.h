@@ -45,9 +45,9 @@ using ErrorCallback =
 typedef base::Callback<void(const std::string& string_result)>
     StringResultCallback;
 
-typedef base::Callback<void(const std::string& service_path,
-                            const std::string& guid)>
-    ServiceResultCallback;
+using ServiceResultCallback =
+    base::OnceCallback<void(const std::string& service_path,
+                            const std::string& guid)>;
 
 // Create a DictionaryValue for passing to ErrorCallback.
 COMPONENT_EXPORT(CHROMEOS_NETWORK)

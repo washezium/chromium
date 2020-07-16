@@ -339,7 +339,7 @@ void ManagedNetworkConfigurationHandlerImpl::SetShillProperties(
 void ManagedNetworkConfigurationHandlerImpl::CreateConfiguration(
     const std::string& userhash,
     const base::DictionaryValue& properties,
-    const network_handler::ServiceResultCallback& callback,
+    network_handler::ServiceResultCallback callback,
     network_handler::ErrorCallback error_callback) const {
   std::string guid =
       GetStringFromDictionary(properties, ::onc::network_config::kGUID);
@@ -449,7 +449,7 @@ void ManagedNetworkConfigurationHandlerImpl::CreateConfiguration(
                                             validated_properties.get()));
 
   network_configuration_handler_->CreateShillConfiguration(
-      *shill_dictionary, callback, std::move(error_callback));
+      *shill_dictionary, std::move(callback), std::move(error_callback));
 }
 
 void ManagedNetworkConfigurationHandlerImpl::RemoveConfiguration(

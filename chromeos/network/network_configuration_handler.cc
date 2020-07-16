@@ -338,7 +338,7 @@ void NetworkConfigurationHandler::ClearShillProperties(
 
 void NetworkConfigurationHandler::CreateShillConfiguration(
     const base::DictionaryValue& shill_properties,
-    const network_handler::ServiceResultCallback& callback,
+    network_handler::ServiceResultCallback callback,
     network_handler::ErrorCallback error_callback) {
   ShillManagerClient* manager = ShillManagerClient::Get();
   std::string type;
@@ -372,7 +372,7 @@ void NetworkConfigurationHandler::CreateShillConfiguration(
       dbus::ObjectPath(profile_path), *properties_to_set,
       base::BindOnce(&NetworkConfigurationHandler::ConfigurationCompleted,
                      weak_ptr_factory_.GetWeakPtr(), profile_path, guid,
-                     base::Passed(&properties_copy), callback),
+                     base::Passed(&properties_copy), std::move(callback)),
       base::BindOnce(&NetworkConfigurationHandler::ConfigurationFailed,
                      weak_ptr_factory_.GetWeakPtr(),
                      std::move(error_callback)));
@@ -474,7 +474,7 @@ void NetworkConfigurationHandler::NetworkListChanged() {
       continue;
     }
     network_handler::ServiceResultCallback& callback = iter->second;
-    callback.Run(service_path, state->guid());
+    std::move(callback).Run(service_path, state->guid());
     iter = configure_callbacks_.erase(iter);
   }
 }
@@ -522,7 +522,7 @@ void NetworkConfigurationHandler::ConfigurationCompleted(
     const std::string& profile_path,
     const std::string& guid,
     std::unique_ptr<base::DictionaryValue> configure_properties,
-    const network_handler::ServiceResultCallback& callback,
+    network_handler::ServiceResultCallback callback,
     const dbus::ObjectPath& service_path) {
   // It is possible that the newly-configured network was already being tracked
   // by |network_state_handler_|. If this is the case, clear any existing error
@@ -542,7 +542,8 @@ void NetworkConfigurationHandler::ConfigurationCompleted(
   // |configure_callbacks_| will get triggered when NetworkStateHandler
   // notifies this that a state list update has occurred. |service_path|
   // is unique per configuration.
-  configure_callbacks_.insert(std::make_pair(service_path.value(), callback));
+  configure_callbacks_.insert(
+      std::make_pair(service_path.value(), std::move(callback)));
 }
 
 void NetworkConfigurationHandler::ProfileEntryDeleterCompleted(

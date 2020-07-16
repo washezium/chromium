@@ -59,7 +59,7 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) ManagedNetworkConfigurationHandlerImpl
   void CreateConfiguration(
       const std::string& userhash,
       const base::DictionaryValue& properties,
-      const network_handler::ServiceResultCallback& callback,
+      network_handler::ServiceResultCallback callback,
       network_handler::ErrorCallback error_callback) const override;
 
   void RemoveConfiguration(

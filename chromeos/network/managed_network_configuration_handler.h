@@ -99,7 +99,7 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) ManagedNetworkConfigurationHandler {
   virtual void CreateConfiguration(
       const std::string& userhash,
       const base::DictionaryValue& properties,
-      const network_handler::ServiceResultCallback& callback,
+      network_handler::ServiceResultCallback callback,
       network_handler::ErrorCallback error_callback) const = 0;
 
   // Removes the user's configuration from the network with |service_path|. The

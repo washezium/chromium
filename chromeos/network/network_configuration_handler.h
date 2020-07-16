@@ -94,10 +94,9 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkConfigurationHandler
   // Manager.ConfigureServiceForProfile. NOTE: Normally
   // ManagedNetworkConfigurationHandler should be used to call
   // CreateConfiguration. This will set GUID if not provided.
-  void CreateShillConfiguration(
-      const base::DictionaryValue& shill_properties,
-      const network_handler::ServiceResultCallback& callback,
-      network_handler::ErrorCallback error_callback);
+  void CreateShillConfiguration(const base::DictionaryValue& shill_properties,
+                                network_handler::ServiceResultCallback callback,
+                                network_handler::ErrorCallback error_callback);
 
   // Removes the network |service_path| from any profiles that include it.
   void RemoveConfiguration(const std::string& service_path,
@@ -147,7 +146,7 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkConfigurationHandler
       const std::string& profile_path,
       const std::string& guid,
       std::unique_ptr<base::DictionaryValue> configure_properties,
-      const network_handler::ServiceResultCallback& callback,
+      network_handler::ServiceResultCallback callback,
       const dbus::ObjectPath& service_path);
 
   void ConfigurationFailed(network_handler::ErrorCallback error_callback,
