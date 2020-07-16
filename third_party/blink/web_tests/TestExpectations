@@ -262,15 +262,7 @@ crbug.com/1007229 external/wpt/intersection-observer/same-origin-grand-child-ifr
 
 # not implemented yet
 crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/block-aspect-ratio-020.tentative.html [ Failure ]
-
-# abspos is not implemented yet for aspect-ratio
-crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-003.tentative.html [ Failure ]
-crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-005.tentative.html [ Failure ]
-crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-006.tentative.html [ Failure ]
 crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-008.tentative.html [ Failure ]
-
-# It is not clear if this test is correct. https://github.com/w3c/csswg-drafts/issues/5151
-crbug.com/1045668 external/wpt/css/css-sizing/aspect-ratio/abspos-004.tentative.html [ Failure ]
 
 # Incorrect blending with foreignObject and svg descendants.
 crbug.com/1102803 external/wpt/svg/extensibility/foreignObject/isolation-with-svg.html [ Failure ]
