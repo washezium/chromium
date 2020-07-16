@@ -850,12 +850,7 @@ void ArcApps::OnAppRemoved(const std::string& app_id) {
 
 void ArcApps::OnAppIconUpdated(const std::string& app_id,
                                const ArcAppIconDescriptor& descriptor) {
-  static constexpr uint32_t icon_effects = 0;
-  apps::mojom::AppPtr app = apps::mojom::App::New();
-  app->app_type = apps::mojom::AppType::kArc;
-  app->app_id = app_id;
-  app->icon_key = icon_key_factory_.MakeIconKey(icon_effects);
-  Publish(std::move(app), subscribers_);
+  SetIconEffect(app_id);
 }
 
 void ArcApps::OnAppNameUpdated(const std::string& app_id,
