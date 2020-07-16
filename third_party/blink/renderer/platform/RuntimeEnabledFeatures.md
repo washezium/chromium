@@ -14,7 +14,7 @@ Example:
 ```
 The status of the feature controls when it will be enabled in the Blink engine.
 
-| Status Value | Web feature enabled during web tests with content_shell [1] | Web feature enabled as part of web experimental features [2] | Web feature enabled in stable release | Non-web exposed feature enabled through a command line flag [3]
+| Status Value | Web feature enabled during [web tests] with content_shell [1] | Web feature enabled as part of web experimental features [2] | Web feature enabled in stable release | Non-web exposed feature enabled through a command line flag [3]
 |:---:|:---:|:---:|:---:|:---:|
 | <missing\> | No | No | No | Yes |
 | `test` | Yes | No | No | No |
@@ -134,16 +134,17 @@ interface ExistingObject {
 **Warning:** You will not be able to change the enabled state of these at runtime as the V8 object templates definitions are created during start up and will not be updated during runtime.
 
 ## Web Tests (JavaScript)
-Test whether a feature is enabled using:
+
+In [web tests], you can test whether a feature is enabled using:
 ```javascript
 internals.runtimeFlags.amazingNewFeatureEnabled
 ```
-This attribute is read only and cannot be changed.
+This attribute is read only and cannot be changed, unless `settable_from_internals: true` is specified for the feature.
 
-**Note:** The `internals` JavaScript API is only available in ContentShell for use by web tests and does not appear in released versions of Chromium.
+**Note:** The `internals` JavaScript API is only available in content_shell for use by web tests and does not appear in Chromium. In content_shell's browser mode, `--expose-internals-for-testing` is needed to have the `internals` JavaScript API.
 
 ### Running Web Tests
-When content_shell is run with `--stable-release-mode` flag, test-only features (ones listed in [runtime_enabled_features.json5] with `test`) are turned off.
+When content_shell is run for web tests with `--stable-release-mode` flag, test-only and experimental features (ones listed in [runtime_enabled_features.json5] with `status: "test"` or `status: "experimental"`) are turned off. The [virtual/stable] suite runs with the flag, which is one of the ways to ensure test coverage of production code path for these features.
 
 ## Generated Files
 [renderer/build/scripts/make_runtime_features.py][make_runtime_features.py] uses [runtime_enabled_features.json5] to generate:
@@ -173,7 +174,7 @@ After applying most other feature settings, the features requested feature setti
 https://groups.google.com/a/chromium.org/d/msg/blink-dev/JBakhu5J6Qs/re2LkfEslTAJ
 
 
-
+[web tests]: <https://chromium.googlesource.com/chromium/src/+/master/docs/testing/web_tests.md>
 [supportedPlatforms]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/platform/runtime_enabled_features.json5#36>
 [cssProperties]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/core/css/css_properties.json5>
 [virtual test suite]: <https://chromium.googlesource.com/chromium/src/+/master/docs/testing/web_tests.md#testing-runtime-flags>
@@ -187,3 +188,4 @@ https://groups.google.com/a/chromium.org/d/msg/blink-dev/JBakhu5J6Qs/re2LkfEslTA
 [runtime_enabled_features.json5]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/platform/runtime_enabled_features.json5>
 [make_internal_runtime_flags.py]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/build/scripts/make_internal_runtime_flags.py>
 [code_generator_v8.py]: <https://chromium.googlesource.com/chromium/src/+/master/third_party/blink/renderer/bindings/scripts/code_generator_v8.py>
+[virtual/stable]: <https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/web_tests/VirtualTestSuites;drc=9878f26d52d32871ed1c085444196e5453909eec;l=112>
