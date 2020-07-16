@@ -330,6 +330,12 @@ Textfield::Textfield()
   AddAccelerator(ui::Accelerator(ui::VKEY_C, ui::EF_CONTROL_DOWN));
   AddAccelerator(ui::Accelerator(ui::VKEY_V, ui::EF_CONTROL_DOWN));
 #endif
+
+  // Sometimes there are additional ignored views, such as the View representing
+  // the cursor, inside the text field. These should always be ignored by
+  // accessibility since a plain text field should always be a leaf node in the
+  // accessibility trees of all the platforms we support.
+  GetViewAccessibility().OverrideIsLeaf(true);
 }
 
 Textfield::~Textfield() {
@@ -1027,6 +1033,7 @@ void Textfield::OnDragDone() {
 
 void Textfield::GetAccessibleNodeData(ui::AXNodeData* node_data) {
   node_data->role = ax::mojom::Role::kTextField;
+
   if (label_ax_id_) {
     node_data->AddIntListAttribute(ax::mojom::IntListAttribute::kLabelledbyIds,
                                    {label_ax_id_});
