@@ -31,6 +31,7 @@
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/browser_commands.h"
 #include "chrome/browser/ui/browser_list.h"
+#include "chrome/browser/ui/browser_window.h"
 #include "chrome/browser/ui/tabs/tab_strip_model.h"
 #include "chrome/common/chrome_switches.h"
 #include "chrome/test/base/ui_test_utils.h"
@@ -1707,6 +1708,16 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchIncognitoBrowserTest,
   WaitForRequestCount(src_server()->GetURL(kPrefetchPage), 1);
   WaitForRequestCount(src_server()->GetURL(kPrefetchScript), 1);
   WaitForRequestCount(src_server()->GetURL(kPrefetchScript2), 0);
+}
+
+// Checks that prerenders are aborted when an incognito profile is closed.
+// ToDo(crbug.com/994068): The test is crashing on multiple platforms.
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchIncognitoBrowserTest,
+                       PrerenderIncognitoClosed) {
+  std::unique_ptr<TestPrerender> test_prerender =
+      PrefetchFromFile(kHungPrerenderPage, FINAL_STATUS_PROFILE_DESTROYED);
+  current_browser()->window()->Close();
+  test_prerender->WaitForStop();
 }
 
 // Checks that when the history is cleared, NoStatePrefetch history is cleared.
