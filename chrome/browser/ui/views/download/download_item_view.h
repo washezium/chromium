@@ -134,6 +134,9 @@ class DownloadItemView : public views::View,
   // Sets the current mode to |mode| and updates UI appropriately.
   void UpdateMode(Mode mode);
 
+  // Updates the visible and enabled state of all buttons.
+  void UpdateButtons();
+
   void OpenDownload();
 
   // Submits the downloaded file to the safebrowsing download feedback service.

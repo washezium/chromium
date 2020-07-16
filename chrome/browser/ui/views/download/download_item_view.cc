@@ -281,21 +281,17 @@ DownloadItemView::DownloadItemView(DownloadUIModel::DownloadUIModelPtr download,
   auto open_now_button = views::MdTextButton::Create(
       this, l10n_util::GetStringUTF16(IDS_OPEN_DOWNLOAD_NOW));
   open_now_button_ = AddChildView(std::move(open_now_button));
-  open_now_button_->SetVisible(false);
 
   auto save_button = views::MdTextButton::Create(this, base::string16());
   save_button_ = AddChildView(std::move(save_button));
-  save_button_->SetVisible(false);
 
   auto discard_button = views::MdTextButton::Create(
       this, l10n_util::GetStringUTF16(IDS_DISCARD_DOWNLOAD));
   discard_button_ = AddChildView(std::move(discard_button));
-  discard_button_->SetVisible(false);
 
   auto scan_button = views::MdTextButton::Create(
       this, l10n_util::GetStringUTF16(IDS_SCAN_DOWNLOAD));
   scan_button_ = AddChildView(std::move(scan_button));
-  scan_button_->SetVisible(false);
 
   auto dropdown_button = views::CreateVectorImageButton(this);
   dropdown_button->SetAccessibleName(l10n_util::GetStringUTF16(
@@ -305,11 +301,9 @@ DownloadItemView::DownloadItemView(DownloadUIModel::DownloadUIModelPtr download,
   dropdown_button->SetFocusForPlatform();
   dropdown_button_ = AddChildView(std::move(dropdown_button));
 
-  LoadIcon();
-
+  // Further configure default state, e.g. child visibility.
   OnDownloadUpdated();
 
-  SetDropdownState(NORMAL);
   UpdateColorsFromTheme();
 }
 
@@ -706,35 +700,19 @@ void DownloadItemView::UpdateMode(Mode mode) {
   // repeated and/or unnecessary code.  Refactor further.
 
   if (mode_ != Mode::kNormal) {
-    dropdown_state_ = NORMAL;
-
-    open_button_->SetEnabled(true);
     file_name_label_->SetVisible(true);
     status_label_->SetVisible(true);
     if (is_mixed_content(mode_) || is_download_warning(mode_)) {
-      save_button_->SetVisible(false);
-      discard_button_->SetVisible(false);
-      scan_button_->SetVisible(false);
       dangerous_download_label_->SetVisible(false);
-      dropdown_button_->SetVisible(true);
     } else if (mode_ == Mode::kDeepScanning) {
       deep_scanning_label_->SetVisible(false);
-      open_now_button_->SetVisible(false);
     }
   }
 
   mode_ = mode;
+  UpdateButtons();
 
   if (is_mixed_content(mode_)) {
-    dropdown_state_ = NORMAL;
-
-    if (mode_ == Mode::kMixedContentWarn) {
-      save_button_->SetVisible(true);
-      save_button_->SetText(model_->GetWarningConfirmButtonText());
-    } else {
-      discard_button_->SetVisible(true);
-    }
-
     dangerous_download_label_->SetVisible(true);
     const base::string16 filename = ElidedFilename();
     size_t filename_offset;
@@ -745,33 +723,22 @@ void DownloadItemView::UpdateMode(Mode mode) {
     dangerous_download_label_->SizeToFit(
         GetLabelWidth(*dangerous_download_label_));
 
-    open_button_->SetEnabled(false);
     file_name_label_->SetVisible(false);
     status_label_->SetVisible(false);
-    dropdown_button_->SetVisible(true);
   } else if (is_download_warning(mode_)) {
     time_download_warning_shown_ = base::Time::Now();
     download::DownloadDangerType danger_type = model_->GetDangerType();
     RecordDangerousDownloadWarningShown(danger_type);
 
-    dropdown_state_ = NORMAL;
-    if (mode_ == Mode::kDangerous) {
-      save_button_->SetVisible(true);
-      save_button_->SetText(model_->GetWarningConfirmButtonText());
-    }
-
     const base::string16 unelided_filename =
         model_->GetFileNameToReportUser().LossyDisplayName();
     if (danger_type == download::DOWNLOAD_DANGER_TYPE_PROMPT_FOR_SCANNING) {
-      scan_button_->SetVisible(true);
       announce_accessible_alert_soon_ = true;
       UpdateAccessibleAlert(
           l10n_util::GetStringFUTF16(
               IDS_PROMPT_APP_DEEP_SCANNING_ACCESSIBLE_ALERT, unelided_filename),
           false);
     } else {
-      if (!ChromeDownloadManagerDelegate::IsDangerTypeBlocked(danger_type))
-        discard_button_->SetVisible(true);
       size_t ignore;
       UpdateAccessibleAlert(model_->GetWarningText(unelided_filename, &ignore),
                             true);
@@ -787,13 +754,8 @@ void DownloadItemView::UpdateMode(Mode mode) {
     dangerous_download_label_->SizeToFit(
         GetLabelWidth(*dangerous_download_label_));
 
-    bool open_button_enabled =
-        (model_->GetDangerType() ==
-         download::DOWNLOAD_DANGER_TYPE_PROMPT_FOR_SCANNING);
-    open_button_->SetEnabled(open_button_enabled);
     file_name_label_->SetVisible(false);
     status_label_->SetVisible(false);
-    dropdown_button_->SetVisible(mode_ == Mode::kMalicious);
   } else if (mode_ == Mode::kDeepScanning) {
     const int id = (model_->download() &&
                     safe_browsing::DeepScanningRequest::ShouldUploadBinary(
@@ -807,15 +769,6 @@ void DownloadItemView::UpdateMode(Mode mode) {
         l10n_util::GetStringFUTF16(id, filename, &filename_offset));
     StyleFilename(*deep_scanning_label_, filename_offset, filename.length());
     deep_scanning_label_->SizeToFit(GetLabelWidth(*deep_scanning_label_));
-
-    if (enterprise_connectors::ConnectorsManager::GetInstance()
-            ->DelayUntilVerdict(
-                enterprise_connectors::AnalysisConnector::FILE_DOWNLOADED)) {
-      open_button_->SetEnabled(false);
-    } else {
-      open_now_button_->SetVisible(true);
-      open_button_->SetEnabled(true);
-    }
 
     file_name_label_->SetVisible(false);
     status_label_->SetVisible(false);
@@ -889,6 +842,38 @@ void DownloadItemView::UpdateMode(Mode mode) {
   // Force the shelf to layout again as our size has changed.
   shelf_->Layout();
   shelf_->SchedulePaint();
+}
+
+void DownloadItemView::UpdateButtons() {
+  bool prompt_to_scan = false, prompt_to_discard = false;
+  if (is_download_warning(mode_)) {
+    const auto danger_type = model_->GetDangerType();
+    prompt_to_scan =
+        danger_type == download::DOWNLOAD_DANGER_TYPE_PROMPT_FOR_SCANNING;
+    prompt_to_discard =
+        !prompt_to_scan &&
+        !ChromeDownloadManagerDelegate::IsDangerTypeBlocked(danger_type);
+  }
+
+  const bool allow_open_during_deep_scan =
+      (mode_ == Mode::kDeepScanning) &&
+      !enterprise_connectors::ConnectorsManager::GetInstance()
+           ->DelayUntilVerdict(
+               enterprise_connectors::AnalysisConnector::FILE_DOWNLOADED);
+  open_button_->SetEnabled((mode_ == Mode::kNormal) || prompt_to_scan ||
+                           allow_open_during_deep_scan);
+
+  open_now_button_->SetVisible(allow_open_during_deep_scan);
+
+  save_button_->SetVisible((mode_ == Mode::kDangerous) ||
+                           (mode_ == Mode::kMixedContentWarn));
+  save_button_->SetText(model_->GetWarningConfirmButtonText());
+
+  discard_button_->SetVisible((mode_ == Mode::kMixedContentBlock) ||
+                              prompt_to_discard);
+  scan_button_->SetVisible(prompt_to_scan);
+
+  dropdown_button_->SetVisible(mode_ != Mode::kDangerous);
 }
 
 void DownloadItemView::OpenDownload() {
