@@ -90,6 +90,7 @@ class ViewAXPlatformNodeDelegate : public ViewAccessibility,
 
   void SetPopupFocusOverride() override;
   void EndPopupFocusOverride() override;
+  bool IsFocusedForTesting() override;
 
  protected:
   explicit ViewAXPlatformNodeDelegate(View* view);
