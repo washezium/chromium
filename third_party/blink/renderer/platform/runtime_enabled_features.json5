@@ -663,6 +663,12 @@
       status: "experimental",
     },
     {
+      name: "DocumentPolicyNegotiation",
+      origin_trial_feature_name: "DocumentPolicyNegotiation",
+      status: "experimental",
+      depends_on: ['DocumentPolicy']
+    },
+    {
       name: "DocumentWrite",
     },
     {

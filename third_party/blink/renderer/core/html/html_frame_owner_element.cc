@@ -323,6 +323,10 @@ void HTMLFrameOwnerElement::UpdateContainerPolicy() {
 }
 
 void HTMLFrameOwnerElement::UpdateRequiredPolicy() {
+  if (!RuntimeEnabledFeatures::DocumentPolicyNegotiationEnabled(
+          GetExecutionContext()))
+    return;
+
   auto* frame = GetDocument().GetFrame();
   DocumentPolicy::FeatureState new_required_policy =
       frame
