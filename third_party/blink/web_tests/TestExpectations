@@ -6869,6 +6869,7 @@ crbug.com/1104910 [ Linux ] external/wpt/referrer-policy/gen/worker-module.http-
 
 crbug.com/1105270 [ Mac10.15 ] fast/events/open-window-from-another-frame.html [ Pass Timeout ]
 crbug.com/1105271 [ Mac ] virtual/prefer_compositing_to_lcd_text/scrollbars/custom-scrollbar-adjust-on-inactive-pseudo.html [ Pass Failure ]
+crbug.com/1105271 [ Mac ] scrollbars/custom-scrollbar-adjust-on-inactive-pseudo.html [ Pass Failure ]
 crbug.com/1105274 http/tests/devtools/tracing/timeline-js/timeline-js-line-level-profile-no-url-end-to-end.js [ Pass Timeout Failure ]
 crbug.com/1105275 [ Mac ] fast/dom/Window/window-onFocus.html [ Pass Failure ]
 
