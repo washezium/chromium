@@ -335,6 +335,10 @@ try_.chromium_linux_builder(
 )
 
 try_.chromium_linux_builder(
+    name = 'linux-lacros-rel',
+)
+
+try_.chromium_linux_builder(
     name = 'fuchsia-compile-x64-dbg',
     tryjob = try_.job(
         experiment_percentage = 50,
