@@ -23899,6 +23899,7 @@ Called by update_extension_histograms.py.-->
   <int value="1484" label="PLATFORMKEYSINTERNAL_GETPUBLICKEYBYSPKI"/>
   <int value="1485" label="CERTIFICATEPROVIDER_SETCERTIFICATES"/>
   <int value="1486" label="AUTOTESTPRIVATE_DISABLEAUTOMATION"/>
+  <int value="1487" label="INPUT_IME_SETASSISTIVEWINDOWBUTTONHIGHLIGHTED"/>
 </enum>
 
 <enum name="ExtensionIconState">
