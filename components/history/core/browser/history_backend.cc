@@ -834,7 +834,7 @@ void HistoryBackend::InitImpl(
   // favicons.  Thumbnails are stored in "top sites".  Consider
   // renaming "thumbnail" references to "favicons" or something of the
   // sort.
-  thumbnail_db_.reset(new ThumbnailDatabase(backend_client_.get()));
+  thumbnail_db_ = std::make_unique<ThumbnailDatabase>();
   if (thumbnail_db_->Init(thumbnail_name) != sql::INIT_OK) {
     // Unlike the main database, we don't error out when the database is too
     // new because this error is much less severe. Generally, this shouldn't

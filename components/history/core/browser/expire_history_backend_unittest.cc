@@ -162,7 +162,7 @@ class ExpireHistoryTest : public testing::Test, public HistoryBackendNotifier {
       main_db_.reset();
 
     base::FilePath thumb_name = path().Append(kFaviconsFilename);
-    thumb_db_.reset(new ThumbnailDatabase(nullptr));
+    thumb_db_ = std::make_unique<ThumbnailDatabase>();
     if (thumb_db_->Init(thumb_name) != sql::INIT_OK)
       thumb_db_.reset();
 

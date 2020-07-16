@@ -25,8 +25,6 @@ class Time;
 
 namespace history {
 
-class HistoryBackendClient;
-
 // The minimum number of days after which last_requested field gets updated.
 // All earlier updates are ignored.
 static const int kFaviconUpdateLastRequestedAfterDays = 10;
@@ -40,7 +38,7 @@ static const int kFaviconUpdateLastRequestedAfterDays = 10;
 // higher priority history operations.
 class ThumbnailDatabase {
  public:
-  explicit ThumbnailDatabase(HistoryBackendClient* backend_client);
+  ThumbnailDatabase();
   ~ThumbnailDatabase();
 
   // Must be called after creation but before any other methods are called.
@@ -308,8 +306,6 @@ class ThumbnailDatabase {
 
   sql::Database db_;
   sql::MetaTable meta_table_;
-
-  HistoryBackendClient* backend_client_;
 };
 
 }  // namespace history

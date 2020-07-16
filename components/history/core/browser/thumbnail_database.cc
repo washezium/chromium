@@ -22,7 +22,6 @@
 #include "base/strings/stringprintf.h"
 #include "base/time/time.h"
 #include "build/build_config.h"
-#include "components/history/core/browser/history_backend_client.h"
 #include "components/history/core/browser/url_database.h"
 #include "sql/recovery.h"
 #include "sql/statement.h"
@@ -202,7 +201,6 @@ bool InitIndices(sql::Database* db) {
 
 void DatabaseErrorCallback(sql::Database* db,
                            const base::FilePath& db_path,
-                           HistoryBackendClient* backend_client,
                            int extended_error,
                            sql::Statement* stmt) {
   // TODO(shess): Assert that this is running on a safe thread.
@@ -263,9 +261,7 @@ bool ThumbnailDatabase::IconMappingEnumerator::GetNextIconMapping(
   return true;
 }
 
-ThumbnailDatabase::ThumbnailDatabase(HistoryBackendClient* backend_client)
-    : backend_client_(backend_client) {
-}
+ThumbnailDatabase::ThumbnailDatabase() = default;
 
 ThumbnailDatabase::~ThumbnailDatabase() {
   // The DBCloseScoper will delete the DB and the cache.
@@ -1034,8 +1030,8 @@ favicon_base::IconType ThumbnailDatabase::FromPersistedIconType(int icon_type) {
 sql::InitStatus ThumbnailDatabase::OpenDatabase(sql::Database* db,
                                                 const base::FilePath& db_name) {
   db->set_histogram_tag("Thumbnail");
-  db->set_error_callback(base::BindRepeating(&DatabaseErrorCallback, db,
-                                             db_name, backend_client_));
+  db->set_error_callback(
+      base::BindRepeating(&DatabaseErrorCallback, db, db_name));
 
   // Thumbnails db now only stores favicons, so we don't need that big a page
   // size or cache.

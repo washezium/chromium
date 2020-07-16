@@ -213,7 +213,8 @@ class ThumbnailDatabaseTest : public testing::Test {
       return std::unique_ptr<ThumbnailDatabase>();
     }
 
-    std::unique_ptr<ThumbnailDatabase> db(new ThumbnailDatabase(nullptr));
+    std::unique_ptr<ThumbnailDatabase> db =
+        std::make_unique<ThumbnailDatabase>();
     EXPECT_EQ(sql::INIT_OK, db->Init(file_name_));
     db->BeginTransaction();
 
@@ -233,7 +234,7 @@ class ThumbnailDatabaseTest : public testing::Test {
 };
 
 TEST_F(ThumbnailDatabaseTest, AddIconMapping) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -257,7 +258,7 @@ TEST_F(ThumbnailDatabaseTest, AddIconMapping) {
 
 TEST_F(ThumbnailDatabaseTest,
        AddOnDemandFaviconBitmapCreatesCorrectTimestamps) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -284,7 +285,7 @@ TEST_F(ThumbnailDatabaseTest,
 }
 
 TEST_F(ThumbnailDatabaseTest, AddFaviconBitmapCreatesCorrectTimestamps) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -312,7 +313,7 @@ TEST_F(ThumbnailDatabaseTest, AddFaviconBitmapCreatesCorrectTimestamps) {
 
 TEST_F(ThumbnailDatabaseTest,
        GetFaviconLastUpdatedTimeReturnsFalseForNoBitmaps) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -326,7 +327,7 @@ TEST_F(ThumbnailDatabaseTest,
 }
 
 TEST_F(ThumbnailDatabaseTest, GetFaviconLastUpdatedTimeReturnsMaxTime) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -354,7 +355,7 @@ TEST_F(ThumbnailDatabaseTest, GetFaviconLastUpdatedTimeReturnsMaxTime) {
 }
 
 TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnDemandFavicons) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -386,7 +387,7 @@ TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnDemandFavicons) {
 }
 
 TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnlyInfrequently) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -414,7 +415,7 @@ TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnlyInfrequently) {
 }
 
 TEST_F(ThumbnailDatabaseTest, TouchDoesNotUpdateStandardFavicons) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -447,7 +448,7 @@ TEST_F(ThumbnailDatabaseTest, TouchDoesNotUpdateStandardFavicons) {
 // Test that ThumbnailDatabase::GetOldOnDemandFavicons() returns on-demand icons
 // which were requested prior to the passed in timestamp.
 TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsReturnsOld) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -482,7 +483,7 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsReturnsOld) {
 // icons stored via HistoryService::SetOnDemandFavicons() prior to on-demand
 // icons setting the "last_requested" time.
 TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnExpired) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -510,7 +511,7 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnExpired) {
 // Test that ThumbnailDatabase::GetOldOnDemandFavicons() does not return
 // on-demand icons which were requested after the passed in timestamp.
 TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnFresh) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -540,7 +541,7 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnFresh) {
 // Test that ThumbnailDatabase::GetOldOnDemandFavicons() does not return
 // non-expired on-visit icons.
 TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotDeleteStandard) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -563,7 +564,7 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotDeleteStandard) {
 }
 
 TEST_F(ThumbnailDatabaseTest, DeleteIconMappings) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -598,7 +599,7 @@ TEST_F(ThumbnailDatabaseTest, DeleteIconMappings) {
 }
 
 TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURL) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -631,7 +632,7 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURL) {
 }
 
 TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrls) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
 
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
@@ -705,7 +706,7 @@ TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrls) {
 
 // Test that RetainDataForPageUrls() expires retained favicons.
 TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrlsExpiresRetainedFavicons) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -731,7 +732,7 @@ TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrlsExpiresRetainedFavicons) {
 // Tests that deleting a favicon deletes the favicon row and favicon bitmap
 // rows from the database.
 TEST_F(ThumbnailDatabaseTest, DeleteFavicon) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -758,7 +759,7 @@ TEST_F(ThumbnailDatabaseTest, DeleteFavicon) {
 }
 
 TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLForReturnOrder) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -823,7 +824,7 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLForReturnOrder) {
 // Test that when multiple icon types are passed to GetIconMappingsForPageURL()
 // that the results are filtered according to the passed in types.
 TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLWithIconTypes) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -852,7 +853,7 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLWithIconTypes) {
 }
 
 TEST_F(ThumbnailDatabaseTest, FindFirstPageURLForHost) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -904,7 +905,7 @@ TEST_F(ThumbnailDatabaseTest, FindFirstPageURLForHost) {
 }
 
 TEST_F(ThumbnailDatabaseTest, HasMappingFor) {
-  ThumbnailDatabase db(nullptr);
+  ThumbnailDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -1040,7 +1041,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
 
   // Test that the contents make sense after clean open.
   {
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_TRUE(CheckPageHasIcon(&db, PageUrl1(),
@@ -1075,7 +1076,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Data for PageUrl2() was deleted, but the index entry remains,
@@ -1099,7 +1100,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
 
   // Database should also be recovered at higher levels.
   {
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Now this fails because there is no mapping.
@@ -1128,7 +1129,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_FALSE(db.GetIconMappingsForPageURL(PageUrl2(), nullptr));
@@ -1170,7 +1171,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Data for PageUrl2() was deleted, but the index entry remains,
@@ -1194,7 +1195,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
 
   // Database should also be recovered at higher levels.
   {
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Now this fails because there is no mapping.
@@ -1223,7 +1224,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_FALSE(db.GetIconMappingsForPageURL(PageUrl2(), nullptr));
@@ -1259,7 +1260,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery6) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
     ASSERT_TRUE(expecter.SawExpectedErrors());
   }
@@ -1303,7 +1304,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery5) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
     ASSERT_TRUE(expecter.SawExpectedErrors());
   }
@@ -1343,7 +1344,7 @@ TEST_F(ThumbnailDatabaseTest, WildSchema) {
     // All schema flaws should be cleaned up by Init().
     // TODO(shess): Differentiate between databases which need Raze()
     // and those which can be salvaged.
-    ThumbnailDatabase db(nullptr);
+    ThumbnailDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(db_path));
 
     // Verify that the resulting schema is correct, whether it

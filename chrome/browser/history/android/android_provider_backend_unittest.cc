@@ -166,9 +166,8 @@ class AndroidProviderBackendNotifier : public HistoryBackendNotifier {
 class AndroidProviderBackendTest : public testing::Test {
  public:
   AndroidProviderBackendTest()
-      : thumbnail_db_(NULL),
-        profile_manager_(TestingBrowserProcess::GetGlobal()),
-        bookmark_model_(NULL) {}
+      : profile_manager_(TestingBrowserProcess::GetGlobal()),
+        bookmark_model_(nullptr) {}
 
   ~AndroidProviderBackendTest() override {
     // Avoid use after frees by running any unhandled tasks before freeing this
@@ -2001,7 +2000,7 @@ TEST_F(AndroidProviderBackendTest, DeleteWithoutThumbnailDB) {
 
   {
     TestHistoryDatabase history_db;
-    ThumbnailDatabase thumbnail_db(NULL);
+    ThumbnailDatabase thumbnail_db;
     ASSERT_EQ(sql::INIT_OK, history_db.Init(history_db_name_));
     ASSERT_EQ(sql::INIT_OK, thumbnail_db.Init(thumbnail_db_name_));
 
@@ -2074,7 +2073,7 @@ TEST_F(AndroidProviderBackendTest, UpdateFaviconWithoutThumbnail) {
 
   {
     TestHistoryDatabase history_db;
-    ThumbnailDatabase thumbnail_db(NULL);
+    ThumbnailDatabase thumbnail_db;
     ASSERT_EQ(sql::INIT_OK, history_db.Init(history_db_name_));
     ASSERT_EQ(sql::INIT_OK, thumbnail_db.Init(thumbnail_db_name_));
     std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
