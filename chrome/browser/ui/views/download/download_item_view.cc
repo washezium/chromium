@@ -133,9 +133,6 @@ constexpr int kDefaultDownloadItemHeight = 48;
 // Amount of time between accessible alert events.
 constexpr auto kAccessibleAlertInterval = base::TimeDelta::FromSeconds(30);
 
-// The size of the file icon.
-constexpr int kFileIconSize = 24;
-
 // The offset from the file icon to the danger icon.
 constexpr int kDangerIconOffset = 8;
 
@@ -698,6 +695,7 @@ void DownloadItemView::UpdateMode(Mode mode) {
   // TODO(pkasting): Refactor further.
 
   mode_ = mode;
+  UpdateFilePath();
   UpdateLabels();
   UpdateButtons();
 
@@ -779,12 +777,29 @@ void DownloadItemView::UpdateMode(Mode mode) {
     }
   }
 
-  // We need to load the icon now that the download has the real path.
-  LoadIcon();
+  shelf_->InvalidateLayout();
+}
 
-  // Force the shelf to layout again as our size has changed.
-  shelf_->Layout();
-  shelf_->SchedulePaint();
+void DownloadItemView::UpdateFilePath() {
+  const base::FilePath file_path = model_->GetTargetFilePath();
+  if (file_path_ == file_path)
+    return;
+
+  file_path_ = file_path;
+  cancelable_task_tracker_.TryCancelAll();
+
+  // The small icon is not stored directly, but will be requested in other
+  // functions, so ask the icon manager to load it so it's cached.
+  IconManager* const im = g_browser_process->icon_manager();
+  im->LoadIcon(file_path_, IconLoader::SMALL,
+               base::BindOnce(&DownloadItemView::OnFileIconLoaded,
+                              base::Unretained(this), IconLoader::SMALL),
+               &cancelable_task_tracker_);
+
+  im->LoadIcon(file_path_, IconLoader::NORMAL,
+               base::BindOnce(&DownloadItemView::OnFileIconLoaded,
+                              base::Unretained(this), IconLoader::NORMAL),
+               &cancelable_task_tracker_);
 }
 
 void DownloadItemView::UpdateLabels() {
@@ -945,7 +960,7 @@ void DownloadItemView::DrawIcon(gfx::Canvas* canvas) {
     PaintDownloadProgress(canvas, progress_bounds, base::TimeDelta(), 100);
     canvas->Restore();
   } else if (use_new_warnings) {
-    current_icon = &icon_;
+    current_icon = &file_icon_;
   }
 
   if (!current_icon)
@@ -971,25 +986,6 @@ void DownloadItemView::DrawIcon(gfx::Canvas* canvas) {
     int icon_y = (height() - GetWarningIconSize()) / 2 + kDangerIconOffset;
     canvas->DrawImageInt(GetWarningIcon(), icon_x, icon_y);
   }
-}
-
-void DownloadItemView::LoadIcon() {
-  const base::FilePath last_download_item_path = model_->GetTargetFilePath();
-  if (last_download_item_path_ == last_download_item_path)
-    return;
-
-  last_download_item_path_ = last_download_item_path;
-
-  IconManager* im = g_browser_process->icon_manager();
-  im->LoadIcon(
-      last_download_item_path_, IconLoader::SMALL,
-      base::BindOnce(&DownloadItemView::OnExtractIconComplete,
-                     base::Unretained(this), IconLoader::IconSize::SMALL),
-      &cancelable_task_tracker_);
-  im->LoadIcon(last_download_item_path_, IconLoader::NORMAL,
-               base::BindOnce(&DownloadItemView::OnExtractIconComplete,
-                              base::Unretained(this), IconLoader::NORMAL),
-               &cancelable_task_tracker_);
 }
 
 void DownloadItemView::UpdateColorsFromTheme() {
@@ -1262,17 +1258,18 @@ void DownloadItemView::AnnounceAccessibleAlert() {
   announce_accessible_alert_soon_ = false;
 }
 
-void DownloadItemView::OnExtractIconComplete(IconLoader::IconSize icon_size,
-                                             gfx::Image icon_bitmap) {
-  if (!icon_bitmap.IsEmpty()) {
-    if (icon_size == IconLoader::IconSize::NORMAL) {
+void DownloadItemView::OnFileIconLoaded(IconLoader::IconSize icon_size,
+                                        gfx::Image icon_bitmap) {
+  if (icon_bitmap.IsEmpty()) {
+    if (icon_size == IconLoader::NORMAL) {
       // We want a 24x24 icon, but on Windows only 16x16 and 32x32 are
       // available. So take the NORMAL icon and downsize it.
-      icon_ = gfx::ImageSkiaOperations::CreateResizedImage(
+      constexpr gfx::Size kFileIconSize(24, 24);
+      file_icon_ = gfx::ImageSkiaOperations::CreateResizedImage(
           *icon_bitmap.ToImageSkia(), skia::ImageOperations::RESIZE_BEST,
-          gfx::Size(kFileIconSize, kFileIconSize));
+          kFileIconSize);
     }
-    shelf_->SchedulePaint();
+    SchedulePaint();
   }
 }
 
