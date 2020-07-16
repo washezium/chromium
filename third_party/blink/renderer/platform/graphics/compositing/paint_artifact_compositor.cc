@@ -178,7 +178,7 @@ static scoped_refptr<cc::Layer> CcLayerForPaintChunk(
     const auto& foreign_layer_display_item =
         static_cast<const ForeignLayerDisplayItem&>(display_item);
     layer = foreign_layer_display_item.GetLayer();
-    layer_offset = foreign_layer_display_item.Offset();
+    layer_offset = FloatPoint(foreign_layer_display_item.Offset());
   }
   layer->SetOffsetToTransformParent(
       gfx::Vector2dF(layer_offset + pending_layer_offset));
