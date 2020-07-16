@@ -9663,7 +9663,7 @@
 
       Setting the policy to Disabled allows no audio output while users are signed in.
 
-      Note: The policy affects all audio input (not just the built-in microphone), including audio accessibility features. Do not turn the policy on if a user requires a screen reader.''',
+      Note: The policy affects all audio output, including audio accessibility features. Do not turn the policy off if a user requires a screen reader.''',
     },
     {
       'name': 'AudioCaptureAllowed',
