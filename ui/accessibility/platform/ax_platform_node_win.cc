@@ -7348,10 +7348,9 @@ int AXPlatformNodeWin::MSAAState() const {
   if (ShouldNodeHaveFocusableState(data))
     msaa_state |= STATE_SYSTEM_FOCUSABLE;
 
-  if (data.HasIntAttribute(ax::mojom::IntAttribute::kHasPopup) ||
-      data.HasState(ax::mojom::State::kAutofillAvailable)) {
+  // Built-in autofill and autocomplete wil also set has popup.
+  if (data.HasIntAttribute(ax::mojom::IntAttribute::kHasPopup))
     msaa_state |= STATE_SYSTEM_HASPOPUP;
-  }
 
   // TODO(dougt) unhandled ux::ax::mojom::State::kHorizontal
 
