@@ -6882,16 +6882,6 @@ if (is_win) {
   }
 }
 
-if (is_chromeos) {
-  fuzzer_test("tokenized_string_fuzzer") {
-    sources = [ "../common/string_matching/tokenized_string_fuzzer.cc" ]
-    deps = [
-      "//base",
-      "//chrome/common/string_matching",
-    ]
-  }
-}
-
 if (is_win) {
   test("pixel_browser_tests") {
     sources = [ "pixel/demo/skia_gold_demo_pixeltest.cc" ]
