@@ -808,9 +808,9 @@
   'win10_nvidia_quadro_p400_experimental': {
     'swarming': {
       'dimensions': {
-        'gpu': '10de:1cb3-26.21.14.3102',
-        'os': 'Windows-10',
-        'pool': 'chromium.tests.gpu',
+        'gpu': '10de:1cb3-27.21.14.5148',
+        'os': 'Windows-10-18363',
+        'pool': 'chromium.tests.gpu.experimental',
       },
     },
   },
