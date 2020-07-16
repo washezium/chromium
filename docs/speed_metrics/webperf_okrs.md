@@ -16,8 +16,10 @@
   * {#page-visibility-20203}Continue [previous work](#page-visibility-20202) on exposing full
     **[Page Visibility](https://github.com/w3c/page-visibility/)** history. We intend to spec and ship the
     [VisibilityStateEntry](https://docs.google.com/document/d/1l5kHiJRkdQwEN-CYI5_mUNODhQVB5rCyjN4jHDdXDHA/edit).
-  * {#frame-timing-20203}Draft a spec for the
+  * {#frame-timing-20203}Work on the
     **[Frame Timing](https://docs.google.com/document/d/1t3A56iTN01ReEELJ18_jLYrvc13L3hDTXWK46AafKwE/edit)** proposal.
+      * Draft a spec.
+      * _(Stretch)_ Land a prototype of the API.
 
 ### Existing web performance API improvements
 
@@ -48,7 +50,7 @@
 * [Page abandonment](#page-abandonment-20202): Socialized a proposal for how to define abandonment and brainstormed ways in which
   we could expose the data to web developers. However, we have not yet reached a decision on how we plan to expose the data because
   there is no one actively working on solving design issues with [Origin Policy](https://wicg.github.io/origin-policy/).
-* [Event Timing]{#event-timing-20202}: shipped the API, which should be available on Chrome 85 (see chromestatus
+* [Event Timing](#event-timing-20202): Shipped the API, which should be available on Chrome 85 (see chromestatus
   [entry](https://www.chromestatus.com/feature/5167290693713920)).
 * [Page Visibility](#page-visibility-20202): Socialized our proposal and based on feedback will work on shipping
   VisibilityStateEntry (see the [explainer](https://docs.google.com/document/d/1l5kHiJRkdQwEN-CYI5_mUNODhQVB5rCyjN4jHDdXDHA/edit)).
