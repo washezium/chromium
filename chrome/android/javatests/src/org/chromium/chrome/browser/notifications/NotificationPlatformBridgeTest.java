@@ -6,6 +6,8 @@ package org.chromium.chrome.browser.notifications;
 
 import static org.junit.Assert.assertThat;
 
+import static org.chromium.components.content_settings.PrefNames.NOTIFICATIONS_VIBRATE_ENABLED;
+
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.RemoteInput;
@@ -36,7 +38,6 @@ import org.chromium.chrome.R;
 import org.chromium.chrome.browser.engagement.SiteEngagementService;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.browser.permissions.PermissionTestRule;
-import org.chromium.chrome.browser.preferences.Pref;
 import org.chromium.chrome.browser.preferences.PrefServiceBridge;
 import org.chromium.chrome.browser.profiles.Profile;
 import org.chromium.chrome.browser.tab.Tab;
@@ -444,7 +445,7 @@ public class NotificationPlatformBridgeTest {
         TestThreadUtils.runOnUiThreadBlocking(
                 ()
                         -> PrefServiceBridge.getInstance().setBoolean(
-                                Pref.NOTIFICATIONS_VIBRATE_ENABLED, false));
+                                NOTIFICATIONS_VIBRATE_ENABLED, false));
 
         Notification notification = showAndGetNotification("MyNotification", notificationOptions);
 
@@ -494,7 +495,7 @@ public class NotificationPlatformBridgeTest {
         TestThreadUtils.runOnUiThreadBlocking(
                 ()
                         -> Assert.assertTrue(PrefServiceBridge.getInstance().getBoolean(
-                                Pref.NOTIFICATIONS_VIBRATE_ENABLED)));
+                                NOTIFICATIONS_VIBRATE_ENABLED)));
 
         Notification notification = showAndGetNotification("MyNotification", "{ vibrate: 42 }");
 
