@@ -520,7 +520,8 @@ IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest, Allow_Wildcard) {
   EXPECT_TRUE(AutoplayAllowed(main_frame()));
 }
 
-IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest, Block) {
+// Flaky. See https://crbug.com/1106521.
+IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest, DISABLED_Block) {
   GURL main_url(
       embedded_test_server()->GetURL("example.com", kFramedTestPagePath));
   GURL foo_url(embedded_test_server()->GetURL("foo.com", kFramedTestPagePath));
@@ -563,7 +564,8 @@ IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest, Block_Wildcard) {
 }
 
 // Flaky. See https://crbug.com/1101524.
-IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest,  DISABLED_DefaultAllow) {
+IN_PROC_BROWSER_TEST_F(UnifiedAutoplaySettingBrowserTest,
+                       DISABLED_DefaultAllow) {
   GURL main_url(
       embedded_test_server()->GetURL("example.com", kFramedTestPagePath));
   GURL foo_url(embedded_test_server()->GetURL("foo.com", kFramedTestPagePath));
