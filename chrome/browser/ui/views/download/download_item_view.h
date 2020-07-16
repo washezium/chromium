@@ -134,11 +134,6 @@ class DownloadItemView : public views::View,
   // Sets the current mode to |mode| and updates UI appropriately.
   void UpdateMode(Mode mode);
 
-  // Updates the file path, and if necessary, begins loading the file icon in
-  // various sizes. This may eventually result in a callback to
-  // OnFileIconLoaded().
-  void UpdateFilePath();
-
   // Updates the visibility, text, size, etc. of all labels.
   void UpdateLabels();
 
@@ -154,6 +149,7 @@ class DownloadItemView : public views::View,
       DownloadCommands::Command download_command);
 
   void DrawIcon(gfx::Canvas* canvas);
+  void LoadIcon();
 
   // Update the button colors based on the current theme.
   void UpdateColorsFromTheme();
@@ -212,9 +208,7 @@ class DownloadItemView : public views::View,
   // reader to speak the current alert immediately.
   void AnnounceAccessibleAlert();
 
-  // Sets |file_icon_| to |icon|. Called when the icon manager has loaded the
-  // normal-size icon for the current file path.
-  void OnFileIconLoaded(IconLoader::IconSize icon_size, gfx::Image icon);
+  void OnExtractIconComplete(IconLoader::IconSize icon_size, gfx::Image icon);
 
   // Paint the common download animation progress foreground and background. If
   // |percent_done| < 0, the total size is indeterminate.
@@ -310,8 +304,6 @@ class DownloadItemView : public views::View,
   // button logic in DownloadItemView.
   views::Button* open_button_;
 
-  gfx::ImageSkia file_icon_;
-
   views::Label* file_name_label_;
   views::Label* status_label_;
   views::StyledLabel* warning_label_;
@@ -346,12 +338,16 @@ class DownloadItemView : public views::View,
   // Force the reading of the current alert text the next time it updates.
   bool announce_accessible_alert_soon_;
 
-  // |file_icon_| is based on the path of the downloaded item.  Store the path
-  // used, so that we can detect a change in the path and reload the icon.
-  base::FilePath file_path_;
+  // The icon loaded in the download shelf is based on the file path of the
+  // item.  Store the path used, so that we can detect a change in the path
+  // and reload the icon.
+  base::FilePath last_download_item_path_;
 
   // Deep scanning modal dialog confirming choice to "open now".
   TabModalConfirmDialog* open_now_modal_dialog_;
+
+  // Icon for the download.
+  gfx::ImageSkia icon_;
 
   // Method factory used to delay reenabling of the item when opening the
   // downloaded file.
