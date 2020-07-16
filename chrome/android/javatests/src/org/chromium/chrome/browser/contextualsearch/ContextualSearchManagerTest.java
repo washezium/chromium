@@ -150,7 +150,7 @@ public class ContextualSearchManagerTest {
     // TODO(crbug.com/1090043): Use @BeforeClass once this is fixed.
     private static class SharedStaticState {
         private static ChromeActivityTestRule<ChromeActivity> sActivityTestRule;
-        private static boolean sActivityStarted = false;
+        private static boolean sActivityStarted;
         public static ChromeActivityTestRule<ChromeActivity> getActivityTestRule() {
             if (sActivityTestRule == null) {
                 sActivityTestRule = new ChromeActivityTestRule<>(ChromeActivity.class);
