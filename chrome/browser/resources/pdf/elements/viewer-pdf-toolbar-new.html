@@ -135,7 +135,10 @@
                                         fittingType_)]]"
         on-click="onFitToButtonClick_">
     </cr-icon-button>
-    <cr-icon-button iron-icon="pdf:rotate-left"></cr-icon-button>
+    <cr-icon-button iron-icon="pdf:rotate-left"
+        disabled="[[annotationMode]]" aria-label$="$i18n{tooltipRotateCCW}"
+        title="$i18n{tooltipRotateCCW}" on-click="onRotateClick_">
+    </cr-icon-button>
   </div>
   <div id="end">
   <if expr="chromeos">
