@@ -34,6 +34,7 @@
 #include "chrome/browser/browser_features.h"
 #include "chrome/browser/chromeos/android_sms/android_sms_switches.h"
 #include "chrome/browser/flag_descriptions.h"
+#include "chrome/browser/lite_video/lite_video_switches.h"
 #include "chrome/browser/navigation_predictor/search_engine_preconnector.h"
 #include "chrome/browser/net/stub_resolver_config_reader.h"
 #include "chrome/browser/net/system_network_context_manager.h"
@@ -86,6 +87,7 @@
 #include "components/feed/feed_feature_list.h"
 #include "components/flags_ui/feature_entry.h"
 #include "components/flags_ui/feature_entry_macros.h"
+#include "components/flags_ui/flags_state.h"
 #include "components/flags_ui/flags_storage.h"
 #include "components/flags_ui/flags_ui_metrics.h"
 #include "components/flags_ui/flags_ui_switches.h"
@@ -5777,6 +5779,15 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kSharesheetDescription, kOsAll,
      FEATURE_VALUE_TYPE(features::kSharesheet)},
 #endif  // OS_CHROMEOS
+
+    {"enable-lite-video", flag_descriptions::kLiteVideoName,
+     flag_descriptions::kLiteVideoDescription, kOsAll,
+     FEATURE_VALUE_TYPE(features::kLiteVideo)},
+
+    {"lite-video-force-override-decision",
+     flag_descriptions::kLiteVideoForceOverrideDecisionName,
+     flag_descriptions::kLiteVideoForceOverrideDecisionDescription, kOsAll,
+     SINGLE_VALUE_TYPE(lite_video::switches::kLiteVideoForceOverrideDecision)}
 
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag

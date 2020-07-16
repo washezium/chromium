@@ -737,6 +737,12 @@ extern const char kLegacyTLSEnforcedDescription[];
 extern const char kLegacyTLSWarningsName[];
 extern const char kLegacyTLSWarningsDescription[];
 
+extern const char kLiteVideoName[];
+extern const char kLiteVideoDescription[];
+
+extern const char kLiteVideoForceOverrideDecisionName[];
+extern const char kLiteVideoForceOverrideDecisionDescription[];
+
 extern const char kLoadMediaRouterComponentExtensionName[];
 extern const char kLoadMediaRouterComponentExtensionDescription[];
 
