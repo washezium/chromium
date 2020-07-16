@@ -3785,8 +3785,8 @@ TEST_F(AutofillManagerTest, FillPartlyManuallyFilledForm) {
   CreateTestCreditCardFormData(&form, true, false);
   FormsSeen({form});
 
-  // "Michael" will be overridden with "Elvis" because Autofill is triggered
-  // from the first field.
+  // Michael will be overridden with Elvis because Autofill is triggered from
+  // the first field.
   form.fields[0].value = base::ASCIIToUTF16("Michael");
   form.fields[0].properties_mask |= kUserTyped;
 

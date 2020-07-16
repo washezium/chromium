@@ -1088,7 +1088,7 @@ void ForEachMatchingFormFieldCommon(
         // and the site, we'll sanitize the value. If the sanitized value is
         // empty, it means that the site has filled the field, in this case, the
         // field is not skipped. Nevertheless the below condition does not hold
-        // for sites that set the |kValue| attribute to the user-input value.
+        // for sites set the |kValue| attribute to the user-input value.
         (IsAutofillableInputElement(input_element) ||
          IsTextAreaElement(*element)) &&
         element->UserHasEditedTheField() &&
