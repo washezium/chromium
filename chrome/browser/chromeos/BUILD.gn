@@ -3188,6 +3188,7 @@ source_set("unit_tests") {
     "net/network_diagnostics/gateway_can_be_pinged_routine_unittest.cc",
     "net/network_diagnostics/has_secure_wifi_connection_routine_unittest.cc",
     "net/network_diagnostics/lan_connectivity_routine_unittest.cc",
+    "net/network_diagnostics/network_diagnostics_impl_unittest.cc",
     "net/network_diagnostics/network_diagnostics_routine_unittest.cc",
     "net/network_diagnostics/signal_strength_routine_unittest.cc",
     "net/network_health/network_health_unittest.cc",
