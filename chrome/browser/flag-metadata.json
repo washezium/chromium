@@ -3273,11 +3273,6 @@
     "expiry_milestone": 92
   },
   {
-    "name": "omnibox-tab-switch-suggestions-dedicated-row",
-    "owners": [ "orinj", "chrome-omnibox-team@google.com" ],
-    "expiry_milestone": 92
-  },
-  {
     "name": "omnibox-ui-elide-to-registrable-domain",
     "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
     "expiry_milestone": 89

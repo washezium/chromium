@@ -1901,13 +1901,8 @@ bool OmniboxViewViews::HandleKeyEvent(views::Textfield* textfield,
         model()->AcceptInput(WindowOpenDisposition::NEW_WINDOW,
                              event.time_stamp());
       } else {
-        if (model()->popup_model()->SelectedLineIsTabSwitchSuggestion()) {
-          model()->AcceptInput(WindowOpenDisposition::SWITCH_TO_TAB,
-                               event.time_stamp());
-        } else {
-          model()->AcceptInput(WindowOpenDisposition::CURRENT_TAB,
-                               event.time_stamp());
-        }
+        model()->AcceptInput(WindowOpenDisposition::CURRENT_TAB,
+                             event.time_stamp());
       }
       return true;
     }
