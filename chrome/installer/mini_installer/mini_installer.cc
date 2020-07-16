@@ -812,24 +812,6 @@ bool ProcessNonInstallOperations(const Configuration& configuration,
   }
 }
 
-// Returns true if we should delete the temp files we create (default).
-// Returns false iff the user has manually created a ChromeInstallerCleanup
-// string value in the registry under HKCU\\Software\\[Google|Chromium]
-// and set its value to "0".  That explicitly forbids the mini installer from
-// deleting these files.
-// Support for this has been publicly mentioned in troubleshooting tips so
-// we continue to support it.
-bool ShouldDeleteExtractedFiles() {
-  wchar_t value[2] = {0};
-  if (RegKey::ReadSZValue(HKEY_CURRENT_USER, kCleanupRegistryKey,
-                          kCleanupRegistryValue, value, _countof(value)) &&
-      value[0] == L'0') {
-    return false;
-  }
-
-  return true;
-}
-
 ProcessExitResult WMain(HMODULE module) {
   // Always start with deleting potential leftovers from previous installations.
   // This can make the difference between success and failure.  We've seen
@@ -881,7 +863,7 @@ ProcessExitResult WMain(HMODULE module) {
   if (exit_code.IsSuccess())
     exit_code = RunSetup(configuration, archive_path.get(), setup_path.get());
 
-  if (ShouldDeleteExtractedFiles())
+  if (configuration.should_delete_extracted_files())
     DeleteExtractedFiles(base_path.get(), archive_path.get(), setup_path.get());
 
 #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
