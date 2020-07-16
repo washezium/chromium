@@ -3285,7 +3285,7 @@
   {
     "name": "omnibox-ui-max-autocomplete-matches",
     "owners": [ "jdonnelly", "chrome-omnibox-team@google.com" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 95
   },
   {
     "name": "omnibox-ui-reveal-steady-state-url-path-query-and-ref-on-hover",
