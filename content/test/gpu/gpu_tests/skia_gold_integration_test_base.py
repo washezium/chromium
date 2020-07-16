@@ -242,7 +242,7 @@ class SkiaGoldIntegrationTestBase(gpu_integration_test.GpuIntegrationTest):
       raise Exception('GPU device information was incomplete')
     # TODO(senorblanco): This should probably be checking
     # for the presence of the extensions in system_info.gpu_aux_attributes
-    # in order to check for MSAA, rather than sniffing the blacklist.
+    # in order to check for MSAA, rather than sniffing the blocklist.
     params.msaa = not (('disable_chromium_framebuffer_multisample' in
                         system_info.gpu.driver_bug_workarounds) or
                        ('disable_multisample_render_to_texture' in system_info.

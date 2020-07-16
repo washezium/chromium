@@ -388,7 +388,7 @@ class ContextLostIntegrationTest(gpu_integration_test.GpuIntegrationTest):
     tab.EvaluateJavaScript('runTest()')
     self._WaitForTabAndCheckCompletion()
     # Attempting to create a WebGL 2.0 context when ES 3.0 is
-    # blacklisted should not cause the GPU process to crash.
+    # blocklisted should not cause the GPU process to crash.
     self._CheckCrashCount(tab, 0)
 
   def _ContextLost_MacWebGLMultisamplingHighPowerSwitchLosesContext(
