@@ -102,7 +102,6 @@ public class PopupTouchHandleDrawable extends View implements DisplayAndroidObse
     // Deferred runnable to avoid invalidating outside of frame dispatch,
     // in turn avoiding issues with sync barrier insertion.
     private Runnable mInvalidationRunnable;
-    private boolean mHasPendingInvalidate;
 
     private boolean mNeedsUpdateDrawable;
 
@@ -459,15 +458,12 @@ public class PopupTouchHandleDrawable extends View implements DisplayAndroidObse
     }
 
     private void scheduleInvalidate() {
-        if (mInvalidationRunnable == null) {
-            mInvalidationRunnable = () -> {
-                mHasPendingInvalidate = false;
-                doInvalidate();
-            };
-        }
+        if (mInvalidationRunnable != null) return;
 
-        if (mHasPendingInvalidate) return;
-        mHasPendingInvalidate = true;
+        mInvalidationRunnable = () -> {
+            mInvalidationRunnable = null;
+            doInvalidate();
+        };
         postOnAnimation(mInvalidationRunnable);
     }
 
