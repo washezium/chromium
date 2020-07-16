@@ -51,7 +51,7 @@ WifiHotspotDisconnectorImpl::~WifiHotspotDisconnectorImpl() = default;
 void WifiHotspotDisconnectorImpl::DisconnectFromWifiHotspot(
     const std::string& wifi_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   const NetworkState* wifi_network_state =
       network_state_handler_->GetNetworkStateFromGuid(wifi_network_guid);
   if (!wifi_network_state) {
@@ -98,7 +98,7 @@ void WifiHotspotDisconnectorImpl::OnSuccessfulWifiDisconnect(
     const std::string& wifi_network_guid,
     const std::string& wifi_network_path,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   PA_LOG(VERBOSE) << "Successfully disconnected from Wi-Fi network with GUID "
                   << wifi_network_guid << ".";
   CleanUpAfterWifiDisconnection(wifi_network_path, std::move(success_callback),
@@ -108,7 +108,7 @@ void WifiHotspotDisconnectorImpl::OnSuccessfulWifiDisconnect(
 void WifiHotspotDisconnectorImpl::OnFailedWifiDisconnect(
     const std::string& wifi_network_guid,
     const std::string& wifi_network_path,
-    network_handler::StringResultCallback error_callback,
+    StringErrorCallback error_callback,
     const std::string& error_name,
     std::unique_ptr<base::DictionaryValue> error_data) {
   PA_LOG(ERROR) << "Failed to disconnect from Wi-Fi network with GUID "
@@ -120,7 +120,7 @@ void WifiHotspotDisconnectorImpl::OnFailedWifiDisconnect(
 void WifiHotspotDisconnectorImpl::CleanUpAfterWifiDisconnection(
     const std::string& wifi_network_path,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   network_configuration_remover_->RemoveNetworkConfigurationByPath(
       wifi_network_path);
   pref_service_->ClearPref(prefs::kDisconnectingWifiNetworkPath);

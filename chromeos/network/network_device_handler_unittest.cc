@@ -79,11 +79,6 @@ class NetworkDeviceHandlerTest : public testing::Test {
                       base::Unretained(this));
   }
 
-  network_handler::StringResultCallback GetStringSuccessCallback() {
-    return base::Bind(&NetworkDeviceHandlerTest::StringSuccessCallback,
-                      base::Unretained(this));
-  }
-
   network_handler::ErrorCallback GetErrorCallback() {
     return base::BindOnce(&NetworkDeviceHandlerTest::ErrorCallback,
                           base::Unretained(this));

@@ -29,7 +29,7 @@ void OnFailedDisconnectionFromPreviousHost(
 
 NetworkConnectionHandlerTetherDelegate::Callbacks::Callbacks(
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback)
+    StringErrorCallback error_callback)
     : success_callback(std::move(success_callback)),
       error_callback(std::move(error_callback)) {}
 
@@ -65,7 +65,7 @@ NetworkConnectionHandlerTetherDelegate::
 void NetworkConnectionHandlerTetherDelegate::DisconnectFromNetwork(
     const std::string& tether_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   int request_num = next_request_num_++;
   request_num_to_callbacks_map_.emplace(
       request_num,
@@ -83,7 +83,7 @@ void NetworkConnectionHandlerTetherDelegate::DisconnectFromNetwork(
 void NetworkConnectionHandlerTetherDelegate::ConnectToNetwork(
     const std::string& tether_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   if (active_host_->GetActiveHostStatus() ==
       ActiveHost::ActiveHostStatus::CONNECTED) {
     if (active_host_->GetTetherNetworkGuid() == tether_network_guid) {

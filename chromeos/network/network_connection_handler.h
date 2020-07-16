@@ -110,21 +110,22 @@ class COMPONENT_EXPORT(CHROMEOS_NETWORK) NetworkConnectionHandler {
 
   class COMPONENT_EXPORT(CHROMEOS_NETWORK) TetherDelegate {
    public:
+    using StringErrorCallback =
+        base::OnceCallback<void(const std::string& string_result)>;
+
     // Connects to the Tether network with GUID |tether_network_guid|. On
     // success, invokes |success_callback|, and on failure, invokes
     // |error_callback|, passing the relevant error code declared above.
-    virtual void ConnectToNetwork(
-        const std::string& tether_network_guid,
-        base::OnceClosure success_callback,
-        network_handler::StringResultCallback error_callback) = 0;
+    virtual void ConnectToNetwork(const std::string& tether_network_guid,
+                                  base::OnceClosure success_callback,
+                                  StringErrorCallback error_callback) = 0;
 
     // Disconnects from the Tether network with GUID |tether_network_guid|. On
     // success, invokes |success_callback|, and on failure, invokes
     // |error_callback|, passing the relevant error code declared above.
-    virtual void DisconnectFromNetwork(
-        const std::string& tether_network_guid,
-        base::OnceClosure success_callback,
-        network_handler::StringResultCallback error_callback) = 0;
+    virtual void DisconnectFromNetwork(const std::string& tether_network_guid,
+                                       base::OnceClosure success_callback,
+                                       StringErrorCallback error_callback) = 0;
 
    protected:
     virtual ~TetherDelegate() {}

@@ -15,7 +15,7 @@ FakeWifiHotspotDisconnector::~FakeWifiHotspotDisconnector() = default;
 void FakeWifiHotspotDisconnector::DisconnectFromWifiHotspot(
     const std::string& wifi_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   last_disconnected_wifi_network_guid_ = wifi_network_guid;
 
   if (disconnection_error_name_.empty())

@@ -40,7 +40,7 @@ TetherDisconnectorImpl::~TetherDisconnectorImpl() = default;
 void TetherDisconnectorImpl::DisconnectFromNetwork(
     const std::string& tether_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback,
+    StringErrorCallback error_callback,
     const TetherSessionCompletionLogger::SessionCompletionReason&
         session_completion_reason) {
   DCHECK(!tether_network_guid.empty());
@@ -96,7 +96,7 @@ void TetherDisconnectorImpl::DisconnectActiveWifiConnection(
     const std::string& tether_network_guid,
     const std::string& wifi_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   // First, disconnect the active host so that the user gets visual indication
   // that the disconnection is in progress as quickly as possible.
   active_host_->SetActiveHostDisconnected();

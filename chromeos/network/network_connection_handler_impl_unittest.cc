@@ -98,20 +98,18 @@ class FakeTetherDelegate : public NetworkConnectionHandler::TetherDelegate {
     return last_delegate_function_type_;
   }
 
-  void ConnectToNetwork(
-      const std::string& service_path,
-      base::OnceClosure success_callback,
-      network_handler::StringResultCallback error_callback) override {
+  void ConnectToNetwork(const std::string& service_path,
+                        base::OnceClosure success_callback,
+                        StringErrorCallback error_callback) override {
     last_delegate_function_type_ = DelegateFunctionType::CONNECT;
     last_service_path_ = service_path;
     last_success_callback_ = std::move(success_callback);
     last_error_callback_ = std::move(error_callback);
   }
 
-  void DisconnectFromNetwork(
-      const std::string& service_path,
-      base::OnceClosure success_callback,
-      network_handler::StringResultCallback error_callback) override {
+  void DisconnectFromNetwork(const std::string& service_path,
+                             base::OnceClosure success_callback,
+                             StringErrorCallback error_callback) override {
     last_delegate_function_type_ = DelegateFunctionType::DISCONNECT;
     last_service_path_ = service_path;
     last_success_callback_ = std::move(success_callback);
@@ -122,14 +120,12 @@ class FakeTetherDelegate : public NetworkConnectionHandler::TetherDelegate {
 
   base::OnceClosure& last_success_callback() { return last_success_callback_; }
 
-  network_handler::StringResultCallback& last_error_callback() {
-    return last_error_callback_;
-  }
+  StringErrorCallback& last_error_callback() { return last_error_callback_; }
 
  private:
   std::string last_service_path_;
   base::OnceClosure last_success_callback_;
-  network_handler::StringResultCallback last_error_callback_;
+  StringErrorCallback last_error_callback_;
   DelegateFunctionType last_delegate_function_type_;
 };
 

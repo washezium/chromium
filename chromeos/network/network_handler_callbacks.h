@@ -42,9 +42,6 @@ using ErrorCallback =
     base::OnceCallback<void(const std::string& error_name,
                             std::unique_ptr<base::DictionaryValue> error_data)>;
 
-using StringResultCallback =
-    base::OnceCallback<void(const std::string& string_result)>;
-
 using ServiceResultCallback =
     base::OnceCallback<void(const std::string& service_path,
                             const std::string& guid)>;

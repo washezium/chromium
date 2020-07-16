@@ -73,7 +73,7 @@ TetherConnectorImpl::~TetherConnectorImpl() {
 void TetherConnectorImpl::ConnectToNetwork(
     const std::string& tether_network_guid,
     base::OnceClosure success_callback,
-    network_handler::StringResultCallback error_callback) {
+    StringErrorCallback error_callback) {
   DCHECK(!tether_network_guid.empty());
   DCHECK(!success_callback.is_null());
   DCHECK(!error_callback.is_null());
@@ -276,8 +276,7 @@ void TetherConnectorImpl::SetConnectionFailed(
   notification_presenter_->RemoveSetupRequiredNotification();
 
   // Save a copy of the callback before resetting it below.
-  network_handler::StringResultCallback error_callback =
-      std::move(error_callback_);
+  StringErrorCallback error_callback = std::move(error_callback_);
 
   std::string failed_connection_device_id = device_id_pending_connection_;
   device_id_pending_connection_.clear();

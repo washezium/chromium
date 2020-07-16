@@ -28,10 +28,9 @@ const char kSuccessResult[] = "success";
 class DummyTetherConnector : public FakeTetherConnector {
  public:
   // TetherConnector:
-  void ConnectToNetwork(
-      const std::string& tether_network_guid,
-      base::OnceClosure success_callback,
-      network_handler::StringResultCallback error_callback) override {}
+  void ConnectToNetwork(const std::string& tether_network_guid,
+                        base::OnceClosure success_callback,
+                        StringErrorCallback error_callback) override {}
 };
 
 // Does nothing when a disconnection is requested.
@@ -41,7 +40,7 @@ class DummyTetherDisconnector : public FakeTetherDisconnector {
   void DisconnectFromNetwork(
       const std::string& tether_network_guid,
       base::OnceClosure success_callback,
-      network_handler::StringResultCallback error_callback,
+      StringErrorCallback error_callback,
       const TetherSessionCompletionLogger::SessionCompletionReason&
           session_completion_reason) override {}
 };
