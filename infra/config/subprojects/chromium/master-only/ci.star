@@ -1266,6 +1266,9 @@ ci.fuzz_libfuzzer_builder(
         category = 'libfuzz',
         short_name = 'linux-ubsan',
     ),
+    # TODO(https://crbug.com/1106029) Use default timeout once goma outage is
+    # over
+    execution_timeout = 5 * time.hour,
     triggering_policy = scheduler.greedy_batching(
         max_concurrent_invocations = 5,
     ),
