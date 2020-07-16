@@ -121,6 +121,10 @@ ci.builder(
                 'cipd_yaml': 'third_party/android_sdk/cipd/platforms/android-29.yaml'
             },
             {
+                'sdk_package_name': 'platforms;android-30',
+                'cipd_yaml': 'third_party/android_sdk/cipd/platforms/android-30.yaml'
+            },
+            {
                 'sdk_package_name': 'platform-tools',
                 'cipd_yaml': 'third_party/android_sdk/cipd/platform-tools.yaml'
             },
@@ -131,6 +135,10 @@ ci.builder(
             {
                 'sdk_package_name': 'sources;android-29',
                 'cipd_yaml': 'third_party/android_sdk/cipd/sources/android-29.yaml'
+            },
+            {
+                'sdk_package_name': 'sources;android-30',
+                'cipd_yaml': 'third_party/android_sdk/cipd/sources/android-30.yaml'
             },
             {
                 'sdk_package_name': 'system-images;android-23;google_apis;x86',
@@ -152,6 +160,14 @@ ci.builder(
             {
                 'sdk_package_name': 'system-images;android-29;google_apis_playstore;x86',
                 'cipd_yaml': 'third_party/android_sdk/cipd/system_images/android-29/google_apis_playstore/x86.yaml'
+            },
+            {
+                'sdk_package_name': 'system-images;android-30;google_apis;x86',
+                'cipd_yaml': 'third_party/android_sdk/cipd/system_images/android-30/google_apis/x86.yaml'
+            },
+            {
+                'sdk_package_name': 'system-images;android-30;google_apis_playstore;x86',
+                'cipd_yaml': 'third_party/android_sdk/cipd/system_images/android-30/google_apis_playstore/x86.yaml'
             },
         ],
     },
