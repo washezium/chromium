@@ -71,7 +71,6 @@
 #include "content/browser/geolocation/geolocation_service_impl.h"
 #include "content/browser/gpu/gpu_data_manager_impl.h"
 #include "content/browser/installedapp/installed_app_provider_impl.h"
-#include "content/browser/interface_provider_filtering.h"
 #include "content/browser/loader/file_url_loader_factory.h"
 #include "content/browser/loader/navigation_url_loader_impl.h"
 #include "content/browser/loader/prefetch_url_loader_service.h"
@@ -4506,9 +4505,7 @@ void RenderFrameHostImpl::BindInterfaceProviderReceiver(
   DCHECK(!document_scoped_interface_provider_receiver_.is_bound());
   DCHECK(interface_provider_receiver.is_valid());
   document_scoped_interface_provider_receiver_.Bind(
-      FilterRendererExposedInterfaces(mojom::kNavigation_FrameSpec,
-                                      GetProcess()->GetID(),
-                                      std::move(interface_provider_receiver)));
+      std::move(interface_provider_receiver));
   document_scoped_interface_provider_receiver_.SetFilter(
       std::make_unique<ActiveURLMessageFilter>(this));
 }

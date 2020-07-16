@@ -37,7 +37,6 @@
 #include "base/threading/thread_task_runner_handle.h"
 #include "build/build_config.h"
 #include "build/lacros_buildflags.h"
-#include "chrome/app/chrome_content_browser_overlay_manifest.h"
 #include "chrome/browser/accessibility/accessibility_labels_service.h"
 #include "chrome/browser/accessibility/accessibility_labels_service_factory.h"
 #include "chrome/browser/accessibility/caption_util.h"
@@ -3843,13 +3842,6 @@ void ChromeContentBrowserClient::WillStartServiceManager() {
     sandbox::policy::EnableAudioSandbox(ShouldEnableAudioSandbox(policies));
   }
 #endif
-}
-
-base::Optional<service_manager::Manifest>
-ChromeContentBrowserClient::GetServiceManifestOverlay(base::StringPiece name) {
-  if (name == content::mojom::kBrowserServiceName)
-    return GetChromeContentBrowserOverlayManifest();
-  return base::nullopt;
 }
 
 void ChromeContentBrowserClient::OpenURL(
