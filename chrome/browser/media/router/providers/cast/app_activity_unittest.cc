@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/media/router/providers/cast/cast_activity_record.h"
+#include "chrome/browser/media/router/providers/cast/app_activity.h"
 
 #include <memory>
 #include <string>
@@ -18,8 +18,8 @@
 #include "base/test/values_test_util.h"
 #include "base/values.h"
 #include "chrome/browser/media/router/data_decoder_util.h"
-#include "chrome/browser/media/router/providers/cast/activity_record_test_base.h"
 #include "chrome/browser/media/router/providers/cast/cast_activity_manager.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity_test_base.h"
 #include "chrome/browser/media/router/providers/cast/cast_session_client.h"
 #include "chrome/browser/media/router/providers/cast/test_util.h"
 #include "chrome/browser/media/router/test/test_helper.h"
@@ -47,36 +47,36 @@ using testing::WithArgs;
 
 namespace media_router {
 
-class CastActivityRecordTest : public ActivityRecordTestBase {
+class AppActivityTest : public CastActivityTestBase {
  protected:
   void SetUp() override {
-    ActivityRecordTestBase::SetUp();
+    CastActivityTestBase::SetUp();
 
-    record_ = std::make_unique<CastActivityRecord>(
+    activity_ = std::make_unique<AppActivity>(
         MediaRoute(kRouteId, MediaSource(), kSinkId, "", false, false), kAppId,
         &message_handler_, &session_tracker_);
   }
 
-  void SetUpSession() { record_->SetOrUpdateSession(*session_, sink_, ""); }
+  void SetUpSession() { activity_->SetOrUpdateSession(*session_, sink_, ""); }
 
-  const CastActivityRecord::ClientMap& connected_clients() const {
-    return record_->connected_clients_;
+  const AppActivity::ClientMap& connected_clients() const {
+    return activity_->connected_clients_;
   }
 
-  MediaRoute& route() const { return record_->route_; }
+  MediaRoute& route() const { return activity_->route_; }
 
   MockCastSessionClient* AddMockClient(const std::string& client_id) {
     CastMediaSource source("dummySourceId", std::vector<CastAppInfo>());
     source.set_client_id(client_id);
-    record_->AddClient(source, url::Origin(), tab_id_counter_++);
+    activity_->AddClient(source, url::Origin(), tab_id_counter_++);
     return MockCastSessionClient::instances().back();
   }
 
   int tab_id_counter_ = 239;  // Arbitrary number.
-  std::unique_ptr<CastActivityRecord> record_;
+  std::unique_ptr<AppActivity> activity_;
 };
 
-TEST_F(CastActivityRecordTest, SendAppMessageToReceiver) {
+TEST_F(AppActivityTest, SendAppMessageToReceiver) {
   // TODO(crbug.com/954797): Test case where there is no session.
   // TODO(crbug.com/954797): Test case where message has invalid namespace.
 
@@ -106,12 +106,12 @@ TEST_F(CastActivityRecordTest, SendAppMessageToReceiver) {
 
   SetUpSession();
   EXPECT_EQ(cast_channel::Result::kFailed,
-            record_->SendAppMessageToReceiver(*message));
+            activity_->SendAppMessageToReceiver(*message));
   EXPECT_EQ(cast_channel::Result::kOk,
-            record_->SendAppMessageToReceiver(*message));
+            activity_->SendAppMessageToReceiver(*message));
 }
 
-TEST_F(CastActivityRecordTest, SendMediaRequestToReceiver) {
+TEST_F(AppActivityTest, SendMediaRequestToReceiver) {
   // TODO(crbug.com/954797): Test case where there is no session.
 
   const base::Optional<int> request_id = 1234;
@@ -138,11 +138,11 @@ TEST_F(CastActivityRecordTest, SendMediaRequestToReceiver) {
   })"));
 
   SetUpSession();
-  EXPECT_FALSE(record_->SendMediaRequestToReceiver(*message));
-  EXPECT_EQ(request_id, record_->SendMediaRequestToReceiver(*message));
+  EXPECT_FALSE(activity_->SendMediaRequestToReceiver(*message));
+  EXPECT_EQ(request_id, activity_->SendMediaRequestToReceiver(*message));
 }
 
-TEST_F(CastActivityRecordTest, SendSetVolumeRequestToReceiver) {
+TEST_F(AppActivityTest, SendSetVolumeRequestToReceiver) {
   // TODO(crbug.com/954797): Test case where no socket is found kChannelId.
   EXPECT_CALL(
       message_handler_,
@@ -170,10 +170,10 @@ TEST_F(CastActivityRecordTest, SendSetVolumeRequestToReceiver) {
       "sessionId": "theSessionId",
     },
   })"));
-  record_->SendSetVolumeRequestToReceiver(*message, callback.Get());
+  activity_->SendSetVolumeRequestToReceiver(*message, callback.Get());
 }
 
-TEST_F(CastActivityRecordTest, StopSessionOnReceiver) {
+TEST_F(AppActivityTest, StopSessionOnReceiver) {
   const base::Optional<std::string> client_id("theClientId");
   base::MockCallback<cast_channel::ResultCallback> callback;
 
@@ -184,10 +184,10 @@ TEST_F(CastActivityRecordTest, StopSessionOnReceiver) {
         std::move(callback).Run(cast_channel::Result::kOk);
       }));
   EXPECT_CALL(callback, Run(cast_channel::Result::kOk));
-  record_->StopSessionOnReceiver(client_id.value(), callback.Get());
+  activity_->StopSessionOnReceiver(client_id.value(), callback.Get());
 }
 
-TEST_F(CastActivityRecordTest, SendStopSessionMessageToClients) {
+TEST_F(AppActivityTest, SendStopSessionMessageToClients) {
   SetUpSession();
   auto* client = AddMockClient("theClientId");
   EXPECT_CALL(
@@ -195,10 +195,10 @@ TEST_F(CastActivityRecordTest, SendStopSessionMessageToClients) {
       SendMessageToClient(IsPresentationConnectionMessage(
           CreateReceiverActionStopMessage("theClientId", sink_, kHashToken)
               ->get_message())));
-  record_->SendStopSessionMessageToClients(kHashToken);
+  activity_->SendStopSessionMessageToClients(kHashToken);
 }
 
-TEST_F(CastActivityRecordTest, HandleLeaveSession) {
+TEST_F(AppActivityTest, HandleLeaveSession) {
   SetUpSession();
   AddMockClient("theClientId");
   AddMockClient("leaving");
@@ -211,19 +211,19 @@ TEST_F(CastActivityRecordTest, HandleLeaveSession) {
     EXPECT_CALL(*client, MatchesAutoJoinPolicy)
         .WillRepeatedly(Return(is_leaving));
   }
-  record_->HandleLeaveSession("theClientId");
+  activity_->HandleLeaveSession("theClientId");
   EXPECT_THAT(connected_clients(),
               UnorderedElementsAre(Pair("theClientId", _), Pair("keeping", _)));
 }
 
-TEST_F(CastActivityRecordTest, SendMessageToClientInvalid) {
+TEST_F(AppActivityTest, SendMessageToClientInvalid) {
   SetUpSession();
 
   // An invalid client ID is ignored.
-  record_->SendMessageToClient("theClientId", nullptr);
+  activity_->SendMessageToClient("theClientId", nullptr);
 }
 
-TEST_F(CastActivityRecordTest, SendMessageToClient) {
+TEST_F(AppActivityTest, SendMessageToClient) {
   SetUpSession();
 
   PresentationConnectionMessagePtr message =
@@ -233,10 +233,10 @@ TEST_F(CastActivityRecordTest, SendMessageToClient) {
   EXPECT_CALL(*client, SendMessageToClient).WillOnce([=](auto arg) {
     EXPECT_EQ(message_ptr, arg.get());
   });
-  record_->SendMessageToClient("theClientId", std::move(message));
+  activity_->SendMessageToClient("theClientId", std::move(message));
 }
 
-TEST_F(CastActivityRecordTest, AddRemoveClient) {
+TEST_F(AppActivityTest, AddRemoveClient) {
   // TODO(crbug.com/954797): Check value returned by AddClient().
 
   // Adding clients works as expected.
@@ -254,44 +254,44 @@ TEST_F(CastActivityRecordTest, AddRemoveClient) {
       UnorderedElementsAre(Pair("theClientId1", _), Pair("theClientId2", _)));
 
   // Removing a non-existant client is a no-op.
-  record_->RemoveClient("noSuchClient");
+  activity_->RemoveClient("noSuchClient");
   EXPECT_THAT(
       connected_clients(),
       UnorderedElementsAre(Pair("theClientId1", _), Pair("theClientId2", _)));
 
   // Removing clients works as expected.
-  record_->RemoveClient("theClientId1");
+  activity_->RemoveClient("theClientId1");
   EXPECT_THAT(connected_clients(),
               UnorderedElementsAre(Pair("theClientId2", _)));
-  record_->RemoveClient("theClientId2");
+  activity_->RemoveClient("theClientId2");
   EXPECT_TRUE(connected_clients().empty());
 }
 
-TEST_F(CastActivityRecordTest, SetOrUpdateSession) {
+TEST_F(AppActivityTest, SetOrUpdateSession) {
   AddMockClient("theClientId1");
   AddMockClient("theClientId2");
 
-  ASSERT_EQ(base::nullopt, record_->session_id());
+  ASSERT_EQ(base::nullopt, activity_->session_id());
   route().set_description("");
   for (auto* client : MockCastSessionClient::instances()) {
     EXPECT_CALL(*client, SendMessageToClient).Times(0);
   }
   ASSERT_EQ(session_->GetRouteDescription(), "theStatusText");
-  record_->SetOrUpdateSession(*session_, sink_, "");
+  activity_->SetOrUpdateSession(*session_, sink_, "");
   EXPECT_EQ("theStatusText", route().description());
-  EXPECT_EQ("theSessionId", record_->session_id());
+  EXPECT_EQ("theSessionId", activity_->session_id());
 
   route().set_description("");
   for (auto* client : MockCastSessionClient::instances()) {
     // TODO(jrw): Check argument of SendMessageToClient.
     EXPECT_CALL(*client, SendMessageToClient).Times(1);
   }
-  record_->SetOrUpdateSession(*session_, sink_, "theHashToken");
+  activity_->SetOrUpdateSession(*session_, sink_, "theHashToken");
   EXPECT_EQ("theStatusText", route().description());
-  EXPECT_EQ("theSessionId", record_->session_id());
+  EXPECT_EQ("theSessionId", activity_->session_id());
 }
 
-TEST_F(CastActivityRecordTest, ClosePresentationConnections) {
+TEST_F(AppActivityTest, ClosePresentationConnections) {
   constexpr auto reason = PresentationConnectionCloseReason::CONNECTION_ERROR;
 
   AddMockClient("theClientId1");
@@ -299,20 +299,20 @@ TEST_F(CastActivityRecordTest, ClosePresentationConnections) {
   for (auto* client : MockCastSessionClient::instances()) {
     EXPECT_CALL(*client, CloseConnection(reason));
   }
-  record_->ClosePresentationConnections(reason);
+  activity_->ClosePresentationConnections(reason);
 }
 
-TEST_F(CastActivityRecordTest, TerminatePresentationConnections) {
+TEST_F(AppActivityTest, TerminatePresentationConnections) {
   AddMockClient("theClientId1");
   AddMockClient("theClientId2");
   ASSERT_FALSE(MockCastSessionClient::instances().empty());
   for (auto* client : MockCastSessionClient::instances()) {
     EXPECT_CALL(*client, TerminateConnection());
   }
-  record_->TerminatePresentationConnections();
+  activity_->TerminatePresentationConnections();
 }
 
-TEST_F(CastActivityRecordTest, OnAppMessage) {
+TEST_F(AppActivityTest, OnAppMessage) {
   SetUpSession();
 
   auto* client = AddMockClient("theClientId");
@@ -323,10 +323,10 @@ TEST_F(CastActivityRecordTest, OnAppMessage) {
               SendMessageToClient(IsPresentationConnectionMessage(
                   CreateAppMessage("theSessionId", "theClientId", message)
                       ->get_message())));
-  record_->OnAppMessage(message);
+  activity_->OnAppMessage(message);
 }
 
-TEST_F(CastActivityRecordTest, OnAppMessageAllClients) {
+TEST_F(AppActivityTest, OnAppMessageAllClients) {
   SetUpSession();
 
   auto* client1 = AddMockClient("theClientId1");
@@ -342,16 +342,16 @@ TEST_F(CastActivityRecordTest, OnAppMessageAllClients) {
               SendMessageToClient(IsPresentationConnectionMessage(
                   CreateAppMessage("theSessionId", "theClientId2", message)
                       ->get_message())));
-  record_->OnAppMessage(message);
+  activity_->OnAppMessage(message);
 }
 
-TEST_F(CastActivityRecordTest, CloseConnectionOnReceiver) {
+TEST_F(AppActivityTest, CloseConnectionOnReceiver) {
   SetUpSession();
   AddMockClient("theClientId1");
 
   EXPECT_CALL(message_handler_, CloseConnection(kChannelId, "theClientId1",
                                                 session_->transport_id()));
-  record_->CloseConnectionOnReceiver("theClientId1");
+  activity_->CloseConnectionOnReceiver("theClientId1");
 }
 
 }  // namespace media_router

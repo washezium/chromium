@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/media/router/providers/cast/activity_record.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity.h"
 
 #include "base/logging.h"
 #include "chrome/browser/media/router/providers/cast/cast_internal_message_util.h"
@@ -10,19 +10,18 @@
 
 namespace media_router {
 
-ActivityRecord::ActivityRecord(
-    const MediaRoute& route,
-    const std::string& app_id,
-    cast_channel::CastMessageHandler* message_handler,
-    CastSessionTracker* session_tracker)
+CastActivity::CastActivity(const MediaRoute& route,
+                           const std::string& app_id,
+                           cast_channel::CastMessageHandler* message_handler,
+                           CastSessionTracker* session_tracker)
     : route_(route),
       app_id_(app_id),
       message_handler_(message_handler),
       session_tracker_(session_tracker) {}
 
-ActivityRecord::~ActivityRecord() = default;
+CastActivity::~CastActivity() = default;
 
-mojom::RoutePresentationConnectionPtr ActivityRecord::AddClient(
+mojom::RoutePresentationConnectionPtr CastActivity::AddClient(
     const CastMediaSource& source,
     const url::Origin& origin,
     int tab_id) {
@@ -42,7 +41,7 @@ mojom::RoutePresentationConnectionPtr ActivityRecord::AddClient(
   return presentation_connection;
 }
 
-void ActivityRecord::RemoveClient(const std::string& client_id) {
+void CastActivity::RemoveClient(const std::string& client_id) {
   // Don't erase by key here as the |client_id| may be referring to the
   // client being deleted.
   auto it = connected_clients_.find(client_id);
@@ -50,7 +49,7 @@ void ActivityRecord::RemoveClient(const std::string& client_id) {
     connected_clients_.erase(it);
 }
 
-CastSession* ActivityRecord::GetSession() const {
+CastSession* CastActivity::GetSession() const {
   if (!session_id_)
     return nullptr;
   CastSession* session = session_tracker_->GetSessionById(*session_id_);
@@ -62,9 +61,9 @@ CastSession* ActivityRecord::GetSession() const {
   return session;
 }
 
-void ActivityRecord::SetOrUpdateSession(const CastSession& session,
-                                        const MediaSinkInternal& sink,
-                                        const std::string& hash_token) {
+void CastActivity::SetOrUpdateSession(const CastSession& session,
+                                      const MediaSinkInternal& sink,
+                                      const std::string& hash_token) {
   DVLOG(2) << "SetOrUpdateSession old session_id = "
            << session_id_.value_or("<missing>")
            << ", new session_id = " << session.session_id();
@@ -80,7 +79,7 @@ void ActivityRecord::SetOrUpdateSession(const CastSession& session,
   }
 }
 
-void ActivityRecord::SendStopSessionMessageToClients(
+void CastActivity::SendStopSessionMessageToClients(
     const std::string& hash_token) {
   for (const auto& client : connected_clients_) {
     client.second->SendMessageToClient(
@@ -88,7 +87,7 @@ void ActivityRecord::SendStopSessionMessageToClients(
   }
 }
 
-void ActivityRecord::SendMessageToClient(
+void CastActivity::SendMessageToClient(
     const std::string& client_id,
     blink::mojom::PresentationConnectionMessagePtr message) {
   auto it = connected_clients_.find(client_id);
@@ -100,43 +99,43 @@ void ActivityRecord::SendMessageToClient(
   it->second->SendMessageToClient(std::move(message));
 }
 
-void ActivityRecord::SendMediaStatusToClients(const base::Value& media_status,
-                                              base::Optional<int> request_id) {
+void CastActivity::SendMediaStatusToClients(const base::Value& media_status,
+                                            base::Optional<int> request_id) {
   for (auto& client : connected_clients_)
     client.second->SendMediaStatusToClient(media_status, request_id);
 }
 
-void ActivityRecord::ClosePresentationConnections(
+void CastActivity::ClosePresentationConnections(
     blink::mojom::PresentationConnectionCloseReason close_reason) {
   for (auto& client : connected_clients_)
     client.second->CloseConnection(close_reason);
 }
 
-void ActivityRecord::TerminatePresentationConnections() {
+void CastActivity::TerminatePresentationConnections() {
   for (auto& client : connected_clients_)
     client.second->TerminateConnection();
 }
 
-base::Optional<int> ActivityRecord::SendMediaRequestToReceiver(
+base::Optional<int> CastActivity::SendMediaRequestToReceiver(
     const CastInternalMessage& cast_message) {
   NOTIMPLEMENTED();
   return base::nullopt;
 }
 
-cast_channel::Result ActivityRecord::SendAppMessageToReceiver(
+cast_channel::Result CastActivity::SendAppMessageToReceiver(
     const CastInternalMessage& cast_message) {
   NOTIMPLEMENTED();
   return cast_channel::Result::kFailed;
 }
 
-void ActivityRecord::SendSetVolumeRequestToReceiver(
+void CastActivity::SendSetVolumeRequestToReceiver(
     const CastInternalMessage& cast_message,
     cast_channel::ResultCallback callback) {
   NOTIMPLEMENTED();
   std::move(callback).Run(cast_channel::Result::kFailed);
 }
 
-void ActivityRecord::StopSessionOnReceiver(
+void CastActivity::StopSessionOnReceiver(
     const std::string& client_id,
     cast_channel::ResultCallback callback) {
   if (!session_id_) {
@@ -148,7 +147,7 @@ void ActivityRecord::StopSessionOnReceiver(
                                 std::move(callback));
 }
 
-void ActivityRecord::CloseConnectionOnReceiver(const std::string& client_id) {
+void CastActivity::CloseConnectionOnReceiver(const std::string& client_id) {
   CastSession* session = GetSession();
   if (!session)
     return;
@@ -156,7 +155,7 @@ void ActivityRecord::CloseConnectionOnReceiver(const std::string& client_id) {
                                     session->transport_id());
 }
 
-void ActivityRecord::HandleLeaveSession(const std::string& client_id) {
+void CastActivity::HandleLeaveSession(const std::string& client_id) {
   auto client_it = connected_clients_.find(client_id);
   CHECK(client_it != connected_clients_.end());
   auto& client = *client_it->second;
@@ -175,10 +174,10 @@ void ActivityRecord::HandleLeaveSession(const std::string& client_id) {
   }
 }
 
-void ActivityRecord::OnSessionUpdated(const CastSession& session,
-                                      const std::string& hash_token) {}
+void CastActivity::OnSessionUpdated(const CastSession& session,
+                                    const std::string& hash_token) {}
 
-CastSessionClientFactoryForTest* ActivityRecord::client_factory_for_test_ =
+CastSessionClientFactoryForTest* CastActivity::client_factory_for_test_ =
     nullptr;
 
 }  // namespace media_router

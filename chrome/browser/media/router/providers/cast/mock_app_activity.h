@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_CAST_ACTIVITY_RECORD_H_
-#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_CAST_ACTIVITY_RECORD_H_
+#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_APP_ACTIVITY_H_
+#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_APP_ACTIVITY_H_
 
 #include <string>
 
-#include "chrome/browser/media/router/providers/cast/cast_activity_record.h"
+#include "chrome/browser/media/router/providers/cast/app_activity.h"
 #include "chrome/browser/media/router/providers/cast/cast_internal_message_util.h"
 #include "chrome/browser/media/router/providers/cast/cast_session_client.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
@@ -16,10 +16,10 @@
 
 namespace media_router {
 
-class MockCastActivityRecord : public CastActivityRecord {
+class MockAppActivity : public AppActivity {
  public:
-  MockCastActivityRecord(const MediaRoute& route, const std::string& app_id);
-  ~MockCastActivityRecord() override;
+  MockAppActivity(const MediaRoute& route, const std::string& app_id);
+  ~MockAppActivity() override;
 
   MOCK_METHOD1(SendAppMessageToReceiver,
                cast_channel::Result(const CastInternalMessage& cast_message));
@@ -65,4 +65,4 @@ class MockCastActivityRecord : public CastActivityRecord {
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_CAST_ACTIVITY_RECORD_H_
+#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MOCK_APP_ACTIVITY_H_

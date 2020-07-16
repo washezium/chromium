@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_H_
-#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_H_
+#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_H_
+#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_H_
 
 #include <memory>
 #include <string>
@@ -26,30 +26,30 @@ class CastMessageHandler;
 
 namespace media_router {
 
-class CastActivityRecord;
-class MirroringActivityRecord;
+class AppActivity;
+class MirroringActivity;
 class CastSessionTracker;
 
-class ActivityRecordFactoryForTest {
+class CastActivityFactoryForTest {
  public:
-  virtual std::unique_ptr<CastActivityRecord> MakeCastActivityRecord(
+  virtual std::unique_ptr<AppActivity> MakeAppActivity(
       const MediaRoute& route,
       const std::string& app_id) = 0;
-  virtual std::unique_ptr<MirroringActivityRecord> MakeMirroringActivityRecord(
+  virtual std::unique_ptr<MirroringActivity> MakeMirroringActivity(
       const MediaRoute& route,
       const std::string& app_id,
       base::OnceClosure on_stop) = 0;
 };
 
-class ActivityRecord {
+class CastActivity {
  public:
-  ActivityRecord(const MediaRoute& route,
-                 const std::string& app_id,
-                 cast_channel::CastMessageHandler* message_handler,
-                 CastSessionTracker* session_tracker);
-  ActivityRecord(const ActivityRecord&) = delete;
-  ActivityRecord& operator=(const ActivityRecord&) = delete;
-  virtual ~ActivityRecord();
+  CastActivity(const MediaRoute& route,
+               const std::string& app_id,
+               cast_channel::CastMessageHandler* message_handler,
+               CastSessionTracker* session_tracker);
+  CastActivity(const CastActivity&) = delete;
+  CastActivity& operator=(const CastActivity&) = delete;
+  virtual ~CastActivity();
 
   const MediaRoute& route() const { return route_; }
   const std::string& app_id() const { return app_id_; }
@@ -193,4 +193,4 @@ class ActivityRecord {
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_H_
+#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_RECORD_H_
-#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_RECORD_H_
+#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_H_
+#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_H_
 
 #include <string>
 
@@ -11,7 +11,7 @@
 #include "base/memory/weak_ptr.h"
 #include "base/optional.h"
 #include "base/time/time.h"
-#include "chrome/browser/media/router/providers/cast/activity_record.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity.h"
 #include "chrome/browser/media/router/providers/cast/cast_session_tracker.h"
 #include "chrome/common/media_router/media_route.h"
 #include "chrome/common/media_router/mojom/media_router.mojom-forward.h"
@@ -29,9 +29,9 @@ namespace media_router {
 
 struct CastSinkExtraData;
 
-class MirroringActivityRecord : public ActivityRecord,
-                                public mirroring::mojom::SessionObserver,
-                                public mirroring::mojom::CastMessageChannel {
+class MirroringActivity : public CastActivity,
+                          public mirroring::mojom::SessionObserver,
+                          public mirroring::mojom::CastMessageChannel {
  public:
   using OnStopCallback = base::OnceClosure;
 
@@ -42,14 +42,14 @@ class MirroringActivityRecord : public ActivityRecord,
     kMaxValue = kOffscreenTab,
   };
 
-  MirroringActivityRecord(const MediaRoute& route,
-                          const std::string& app_id,
-                          cast_channel::CastMessageHandler* message_handler,
-                          CastSessionTracker* session_tracker,
-                          int target_tab_id,
-                          const CastSinkExtraData& cast_data,
-                          OnStopCallback callback);
-  ~MirroringActivityRecord() override;
+  MirroringActivity(const MediaRoute& route,
+                    const std::string& app_id,
+                    cast_channel::CastMessageHandler* message_handler,
+                    CastSessionTracker* session_tracker,
+                    int target_tab_id,
+                    const CastSinkExtraData& cast_data,
+                    OnStopCallback callback);
+  ~MirroringActivity() override;
 
   virtual void CreateMojoBindings(mojom::MediaRouter* media_router);
 
@@ -61,7 +61,7 @@ class MirroringActivityRecord : public ActivityRecord,
   // CastMessageChannel implementation
   void Send(mirroring::mojom::CastMessagePtr message) override;
 
-  // ActivityRecord implementation
+  // CastActivity implementation
   void OnAppMessage(const cast::channel::CastMessage& message) override;
   void OnInternalMessage(const cast_channel::InternalMessage& message) override;
 
@@ -100,9 +100,9 @@ class MirroringActivityRecord : public ActivityRecord,
   const base::Optional<MirroringType> mirroring_type_;
   const CastSinkExtraData cast_data_;
   OnStopCallback on_stop_;
-  base::WeakPtrFactory<MirroringActivityRecord> weak_ptr_factory_{this};
+  base::WeakPtrFactory<MirroringActivity> weak_ptr_factory_{this};
 };
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_RECORD_H_
+#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_MIRRORING_ACTIVITY_H_

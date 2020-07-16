@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_TEST_BASE_H_
-#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_TEST_BASE_H_
+#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_TEST_BASE_H_
+#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_TEST_BASE_H_
 
-#include "chrome/browser/media/router/providers/cast/activity_record.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity.h"
 #include "chrome/browser/media/router/providers/cast/cast_activity_manager.h"
 #include "chrome/browser/media/router/providers/cast/cast_internal_message_util.h"
 #include "chrome/browser/media/router/providers/cast/cast_session_client.h"
@@ -72,9 +72,9 @@ class MockCastActivityManager : public CastActivityManagerBase {
                    mojom::MediaRouteProvider::TerminateRouteCallback callback));
 };
 
-// Base class for testing subclasses of ActivityRecord.
-class ActivityRecordTestBase : public testing::Test,
-                               public CastSessionClientFactoryForTest {
+// Base class for testing subclasses of CastActivity.
+class CastActivityTestBase : public testing::Test,
+                             public CastSessionClientFactoryForTest {
  protected:
   static constexpr int kChannelId = 42;
   static const char* const kAppId;
@@ -82,8 +82,8 @@ class ActivityRecordTestBase : public testing::Test,
   static const char* const kSinkId;
   static const char* const kHashToken;
 
-  ActivityRecordTestBase();
-  ~ActivityRecordTestBase() override;
+  CastActivityTestBase();
+  ~CastActivityTestBase() override;
 
   void SetUp() override;
   void TearDown() override;
@@ -114,4 +114,4 @@ class ActivityRecordTestBase : public testing::Test,
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_ACTIVITY_RECORD_TEST_BASE_H_
+#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_TEST_BASE_H_

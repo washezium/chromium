@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/media/router/providers/cast/mirroring_activity_record.h"
+#include "chrome/browser/media/router/providers/cast/mirroring_activity.h"
 
 #include "base/test/bind_test_util.h"
 #include "base/test/mock_callback.h"
 #include "base/test/values_test_util.h"
-#include "chrome/browser/media/router/providers/cast/activity_record_test_base.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity_test_base.h"
 #include "chrome/browser/media/router/providers/cast/test_util.h"
 #include "chrome/browser/media/router/test/mock_mojo_media_router.h"
 #include "components/cast_channel/cast_test_util.h"
@@ -46,12 +46,12 @@ class MockCastMessageChannel : public mirroring::mojom::CastMessageChannel {
 
 }  // namespace
 
-class MirroringActivityRecordTest
-    : public ActivityRecordTestBase,
+class MirroringActivityTest
+    : public CastActivityTestBase,
       public testing::WithParamInterface<const char* /*namespace*/> {
  protected:
   void SetUp() override {
-    ActivityRecordTestBase::SetUp();
+    CastActivityTestBase::SetUp();
 
     auto make_mirroring_service =
         [this](mojo::PendingReceiver<mirroring::mojom::MirroringServiceHost>
@@ -70,22 +70,22 @@ class MirroringActivityRecordTest
         .WillByDefault(WithArg<2>(make_mirroring_service));
   }
 
-  void MakeRecord() { MakeRecord(MediaSource::ForTab(kTabId), kTabId); }
+  void MakeActivity() { MakeActivity(MediaSource::ForTab(kTabId), kTabId); }
 
-  void MakeRecord(const MediaSource& source, int tab_id = -1) {
+  void MakeActivity(const MediaSource& source, int tab_id = -1) {
     CastSinkExtraData cast_data;
     cast_data.cast_channel_id = kChannelId;
     cast_data.capabilities = cast_channel::AUDIO_OUT | cast_channel::VIDEO_OUT;
     MediaRoute route(kRouteId, source, kSinkId, kDescription, route_is_local_,
                      true);
     route.set_presentation_id(kPresentationId);
-    record_ = std::make_unique<MirroringActivityRecord>(
+    activity_ = std::make_unique<MirroringActivity>(
         route, kAppId, &message_handler_, &session_tracker_, kTabId, cast_data,
         on_stop_.Get());
 
-    if (route_is_local_) {
-      record_->CreateMojoBindings(&media_router_);
+    activity_->CreateMojoBindings(&media_router_);
 
+    if (route_is_local_) {
       EXPECT_CALL(*mirroring_service_, Start)
           .WillOnce(WithArg<3>(
               [this](mojo::PendingReceiver<mirroring::mojom::CastMessageChannel>
@@ -98,7 +98,7 @@ class MirroringActivityRecordTest
               }));
     }
 
-    record_->SetOrUpdateSession(*session_, sink_, kHashToken);
+    activity_->SetOrUpdateSession(*session_, sink_, kHashToken);
     RunUntilIdle();
   }
 
@@ -106,64 +106,64 @@ class MirroringActivityRecordTest
   MockCastMessageChannel* channel_to_service_ = nullptr;
   MockMirroringServiceHost* mirroring_service_ = nullptr;
   MockMojoMediaRouter media_router_;
-  base::MockCallback<MirroringActivityRecord::OnStopCallback> on_stop_;
-  std::unique_ptr<MirroringActivityRecord> record_;
+  base::MockCallback<MirroringActivity::OnStopCallback> on_stop_;
+  std::unique_ptr<MirroringActivity> activity_;
 };
 
 INSTANTIATE_TEST_CASE_P(Namespaces,
-                        MirroringActivityRecordTest,
+                        MirroringActivityTest,
                         testing::Values(mirroring::mojom::kWebRtcNamespace,
                                         mirroring::mojom::kRemotingNamespace));
 
-TEST_F(MirroringActivityRecordTest, CreateMojoBindingsForDesktop) {
+TEST_F(MirroringActivityTest, CreateMojoBindingsForDesktop) {
   EXPECT_CALL(media_router_,
               GetMirroringServiceHostForDesktop(_, kDesktopMediaId, _));
   MediaSource source = MediaSource::ForDesktop(kDesktopMediaId);
   ASSERT_TRUE(source.IsDesktopMirroringSource());
-  MakeRecord(source);
+  MakeActivity(source);
 }
 
-TEST_F(MirroringActivityRecordTest, CreateMojoBindingsForTab) {
+TEST_F(MirroringActivityTest, CreateMojoBindingsForTab) {
   EXPECT_CALL(media_router_, GetMirroringServiceHostForTab(kTabId, _));
   MediaSource source = MediaSource::ForTab(kTabId);
   ASSERT_TRUE(source.IsTabMirroringSource());
-  MakeRecord(source, kTabId);
+  MakeActivity(source, kTabId);
 }
 
-TEST_F(MirroringActivityRecordTest, CreateMojoBindingsForTabWithCastAppUrl) {
+TEST_F(MirroringActivityTest, CreateMojoBindingsForTabWithCastAppUrl) {
   GURL url(kMirroringAppUri);
   EXPECT_CALL(media_router_, GetMirroringServiceHostForTab(kTabId, _));
   MediaSource source = MediaSource::ForPresentationUrl(url);
   ASSERT_TRUE(source.IsCastPresentationUrl());
-  MakeRecord(source, kTabId);
+  MakeActivity(source, kTabId);
 }
 
-TEST_F(MirroringActivityRecordTest, CreateMojoBindingsForOffscreenTab) {
+TEST_F(MirroringActivityTest, CreateMojoBindingsForOffscreenTab) {
   static constexpr char kUrl[] = "http://wikipedia.org";
   GURL url(kUrl);
   EXPECT_CALL(media_router_,
               GetMirroringServiceHostForOffscreenTab(url, kPresentationId, _));
   MediaSource source = MediaSource::ForPresentationUrl(url);
   ASSERT_FALSE(source.IsCastPresentationUrl());
-  MakeRecord(source);
+  MakeActivity(source);
 }
 
-TEST_F(MirroringActivityRecordTest, OnError) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, OnError) {
+  MakeActivity();
   EXPECT_CALL(on_stop_, Run());
-  record_->OnError(mirroring::mojom::SessionError::CAST_TRANSPORT_ERROR);
+  activity_->OnError(mirroring::mojom::SessionError::CAST_TRANSPORT_ERROR);
   RunUntilIdle();
 }
 
-TEST_F(MirroringActivityRecordTest, DidStop) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, DidStop) {
+  MakeActivity();
   EXPECT_CALL(on_stop_, Run());
-  record_->DidStop();
+  activity_->DidStop();
   RunUntilIdle();
 }
 
-TEST_F(MirroringActivityRecordTest, SendWebRtc) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, SendWebRtc) {
+  MakeActivity();
   static constexpr char kPayload[] = R"({"foo": "bar"})";
   EXPECT_CALL(message_handler_, SendCastMessage(kChannelId, _))
       .WillOnce(
@@ -178,12 +178,13 @@ TEST_F(MirroringActivityRecordTest, SendWebRtc) {
             return cast_channel::Result::kOk;
           }));
 
-  record_->Send(mirroring::mojom::CastMessage::New("the_namespace", kPayload));
+  activity_->Send(
+      mirroring::mojom::CastMessage::New("the_namespace", kPayload));
   RunUntilIdle();
 }
 
-TEST_F(MirroringActivityRecordTest, SendRemoting) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, SendRemoting) {
+  MakeActivity();
   static constexpr char kPayload[] = R"({"type": "RPC"})";
   EXPECT_CALL(message_handler_, SendCastMessage(kChannelId, _))
       .WillOnce(WithArg<1>([](const cast::channel::CastMessage& cast_message) {
@@ -192,29 +193,30 @@ TEST_F(MirroringActivityRecordTest, SendRemoting) {
         return cast_channel::Result::kOk;
       }));
 
-  record_->Send(mirroring::mojom::CastMessage::New("the_namespace", kPayload));
+  activity_->Send(
+      mirroring::mojom::CastMessage::New("the_namespace", kPayload));
   RunUntilIdle();
 }
 
-TEST_F(MirroringActivityRecordTest, OnAppMessageWrongNamespace) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, OnAppMessageWrongNamespace) {
+  MakeActivity();
   EXPECT_CALL(*channel_to_service_, Send).Times(0);
   cast::channel::CastMessage message;
   message.set_namespace_("wrong_namespace");
-  record_->OnAppMessage(message);
+  activity_->OnAppMessage(message);
 }
 
-TEST_P(MirroringActivityRecordTest, OnAppMessageWrongNonlocal) {
+TEST_P(MirroringActivityTest, OnAppMessageWrongNonlocal) {
   route_is_local_ = false;
-  MakeRecord();
+  MakeActivity();
   ASSERT_FALSE(channel_to_service_);
   cast::channel::CastMessage message;
   message.set_namespace_(GetParam());
-  record_->OnAppMessage(message);
+  activity_->OnAppMessage(message);
 }
 
-TEST_P(MirroringActivityRecordTest, OnAppMessage) {
-  MakeRecord();
+TEST_P(MirroringActivityTest, OnAppMessage) {
+  MakeActivity();
 
   static constexpr char kPayload[] = R"({"foo": "bar"})";
 
@@ -229,19 +231,19 @@ TEST_P(MirroringActivityRecordTest, OnAppMessage) {
   message.set_protocol_version(
       cast::channel::CastMessage_ProtocolVersion_CASTV2_1_0);
   message.set_payload_utf8(kPayload);
-  record_->OnAppMessage(message);
+  activity_->OnAppMessage(message);
 }
 
-TEST_F(MirroringActivityRecordTest, OnInternalMessageNonlocal) {
+TEST_F(MirroringActivityTest, OnInternalMessageNonlocal) {
   route_is_local_ = false;
-  MakeRecord();
+  MakeActivity();
   ASSERT_FALSE(channel_to_service_);
-  record_->OnInternalMessage(cast_channel::InternalMessage(
+  activity_->OnInternalMessage(cast_channel::InternalMessage(
       cast_channel::CastMessageType::kPing, "the_namespace", base::Value()));
 }
 
-TEST_F(MirroringActivityRecordTest, OnInternalMessage) {
-  MakeRecord();
+TEST_F(MirroringActivityTest, OnInternalMessage) {
+  MakeActivity();
 
   static constexpr char kPayload[] = R"({"foo": "bar"})";
   static constexpr char kNamespace[] = "the_namespace";
@@ -252,7 +254,7 @@ TEST_F(MirroringActivityRecordTest, OnInternalMessage) {
         EXPECT_THAT(message->json_format_data, IsJson(kPayload));
       });
 
-  record_->OnInternalMessage(cast_channel::InternalMessage(
+  activity_->OnInternalMessage(cast_channel::InternalMessage(
       cast_channel::CastMessageType::kPing, kNamespace,
       base::test::ParseJson(kPayload)));
 }

@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_RECORD_H_
-#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_RECORD_H_
+#ifndef CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_APP_ACTIVITY_H_
+#define CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_APP_ACTIVITY_H_
 
 #include <memory>
 #include <string>
 
 #include "base/containers/flat_map.h"
 #include "base/optional.h"
-#include "chrome/browser/media/router/providers/cast/activity_record.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity.h"
 #include "chrome/browser/media/router/providers/cast/cast_media_controller.h"
 #include "chrome/common/media_router/mojom/media_router.mojom.h"
 #include "chrome/common/media_router/providers/cast/cast_media_source.h"
@@ -25,20 +25,19 @@ class Origin;
 
 namespace media_router {
 
-class CastActivityRecord;
 class CastInternalMessage;
 class CastSession;
 class CastSessionTracker;
 class MediaRoute;
 
-class CastActivityRecord : public ActivityRecord {
+// An activity corresponding to a Cast app, a.k.a. flinging.
+class AppActivity : public CastActivity {
  public:
-  // Creates a new record owned by |owner|.
-  CastActivityRecord(const MediaRoute& route,
-                     const std::string& app_id,
-                     cast_channel::CastMessageHandler* message_handler,
-                     CastSessionTracker* session_tracker);
-  ~CastActivityRecord() override;
+  AppActivity(const MediaRoute& route,
+              const std::string& app_id,
+              cast_channel::CastMessageHandler* message_handler,
+              CastSessionTracker* session_tracker);
+  ~AppActivity() override;
 
   void SendMediaStatusToClients(const base::Value& media_status,
                                 base::Optional<int> request_id) override;
@@ -67,11 +66,11 @@ class CastActivityRecord : public ActivityRecord {
  private:
   friend class CastSessionClientImpl;
   friend class CastActivityManager;
-  friend class CastActivityRecordTest;
+  friend class AppActivityTest;
 
   std::unique_ptr<CastMediaController> media_controller_;
 };
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_CAST_ACTIVITY_RECORD_H_
+#endif  // CHROME_BROWSER_MEDIA_ROUTER_PROVIDERS_CAST_APP_ACTIVITY_H_

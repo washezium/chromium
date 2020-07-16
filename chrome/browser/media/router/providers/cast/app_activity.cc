@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/media/router/providers/cast/cast_activity_record.h"
+#include "chrome/browser/media/router/providers/cast/app_activity.h"
 
 #include <algorithm>
 #include <memory>
@@ -20,22 +20,21 @@ using blink::mojom::PresentationConnectionMessagePtr;
 
 namespace media_router {
 
-CastActivityRecord::CastActivityRecord(
-    const MediaRoute& route,
-    const std::string& app_id,
-    cast_channel::CastMessageHandler* message_handler,
-    CastSessionTracker* session_tracker)
-    : ActivityRecord(route, app_id, message_handler, session_tracker) {}
+AppActivity::AppActivity(const MediaRoute& route,
+                         const std::string& app_id,
+                         cast_channel::CastMessageHandler* message_handler,
+                         CastSessionTracker* session_tracker)
+    : CastActivity(route, app_id, message_handler, session_tracker) {}
 
-CastActivityRecord::~CastActivityRecord() = default;
+AppActivity::~AppActivity() = default;
 
-void CastActivityRecord::OnSessionSet(const CastSession& session) {
+void AppActivity::OnSessionSet(const CastSession& session) {
   if (media_controller_)
     media_controller_->SetSession(session);
 }
 
-void CastActivityRecord::OnSessionUpdated(const CastSession& session,
-                                          const std::string& hash_token) {
+void AppActivity::OnSessionUpdated(const CastSession& session,
+                                   const std::string& hash_token) {
   for (auto& client : connected_clients_) {
     client.second->SendMessageToClient(
         CreateUpdateSessionMessage(session, client.first, sink_, hash_token));
@@ -44,7 +43,7 @@ void CastActivityRecord::OnSessionUpdated(const CastSession& session,
     media_controller_->SetSession(session);
 }
 
-cast_channel::Result CastActivityRecord::SendAppMessageToReceiver(
+cast_channel::Result AppActivity::SendAppMessageToReceiver(
     const CastInternalMessage& cast_message) {
   CastSessionClient* client = GetClient(cast_message.client_id());
   const CastSession* session = GetSession();
@@ -76,7 +75,7 @@ cast_channel::Result CastActivityRecord::SendAppMessageToReceiver(
           cast_message.client_id(), session->transport_id()));
 }
 
-base::Optional<int> CastActivityRecord::SendMediaRequestToReceiver(
+base::Optional<int> AppActivity::SendMediaRequestToReceiver(
     const CastInternalMessage& cast_message) {
   CastSession* session = GetSession();
   if (!session)
@@ -86,7 +85,7 @@ base::Optional<int> CastActivityRecord::SendMediaRequestToReceiver(
       cast_message.client_id(), session->transport_id());
 }
 
-void CastActivityRecord::SendSetVolumeRequestToReceiver(
+void AppActivity::SendSetVolumeRequestToReceiver(
     const CastInternalMessage& cast_message,
     cast_channel::ResultCallback callback) {
   message_handler_->SendSetVolumeRequest(
@@ -94,15 +93,14 @@ void CastActivityRecord::SendSetVolumeRequestToReceiver(
       cast_message.client_id(), std::move(callback));
 }
 
-void CastActivityRecord::SendMediaStatusToClients(
-    const base::Value& media_status,
-    base::Optional<int> request_id) {
-  ActivityRecord::SendMediaStatusToClients(media_status, request_id);
+void AppActivity::SendMediaStatusToClients(const base::Value& media_status,
+                                           base::Optional<int> request_id) {
+  CastActivity::SendMediaStatusToClients(media_status, request_id);
   if (media_controller_)
     media_controller_->SetMediaStatus(media_status);
 }
 
-void CastActivityRecord::CreateMediaController(
+void AppActivity::CreateMediaController(
     mojo::PendingReceiver<mojom::MediaController> media_controller,
     mojo::PendingRemote<mojom::MediaStatusObserver> observer) {
   media_controller_ = std::make_unique<CastMediaController>(
@@ -121,8 +119,7 @@ void CastActivityRecord::CreateMediaController(
   }
 }
 
-void CastActivityRecord::OnAppMessage(
-    const cast::channel::CastMessage& message) {
+void AppActivity::OnAppMessage(const cast::channel::CastMessage& message) {
   if (!session_id_) {
     DVLOG(2) << "No session associated with activity!";
     return;
@@ -140,11 +137,11 @@ void CastActivityRecord::OnAppMessage(
   }
 }
 
-void CastActivityRecord::OnInternalMessage(
+void AppActivity::OnInternalMessage(
     const cast_channel::InternalMessage& message) {}
 
-bool CastActivityRecord::CanJoinSession(const CastMediaSource& cast_source,
-                                        bool off_the_record) const {
+bool AppActivity::CanJoinSession(const CastMediaSource& cast_source,
+                                 bool off_the_record) const {
   if (!cast_source.ContainsApp(app_id()))
     return false;
 
@@ -157,9 +154,9 @@ bool CastActivityRecord::CanJoinSession(const CastMediaSource& cast_source,
   return true;
 }
 
-bool CastActivityRecord::HasJoinableClient(AutoJoinPolicy policy,
-                                           const url::Origin& origin,
-                                           int tab_id) const {
+bool AppActivity::HasJoinableClient(AutoJoinPolicy policy,
+                                    const url::Origin& origin,
+                                    int tab_id) const {
   return std::any_of(connected_clients_.begin(), connected_clients_.end(),
                      [policy, &origin, tab_id](const auto& client) {
                        return IsAutoJoinAllowed(policy, origin, tab_id,

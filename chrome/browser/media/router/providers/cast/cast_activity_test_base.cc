@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/media/router/providers/cast/activity_record_test_base.h"
+#include "chrome/browser/media/router/providers/cast/cast_activity_test_base.h"
 
 #include <algorithm>
 #include <memory>
@@ -54,16 +54,16 @@ MockCastActivityManager::MockCastActivityManager() = default;
 
 MockCastActivityManager::~MockCastActivityManager() = default;
 
-const char* const ActivityRecordTestBase::kAppId = "theAppId";
-const char* const ActivityRecordTestBase::kRouteId = "theRouteId";
-const char* const ActivityRecordTestBase::kSinkId = "cast:<id42>";
-const char* const ActivityRecordTestBase::kHashToken = "dummyHashToken";
+const char* const CastActivityTestBase::kAppId = "theAppId";
+const char* const CastActivityTestBase::kRouteId = "theRouteId";
+const char* const CastActivityTestBase::kSinkId = "cast:<id42>";
+const char* const CastActivityTestBase::kHashToken = "dummyHashToken";
 
-ActivityRecordTestBase::ActivityRecordTestBase() = default;
+CastActivityTestBase::CastActivityTestBase() = default;
 
-ActivityRecordTestBase::~ActivityRecordTestBase() = default;
+CastActivityTestBase::~CastActivityTestBase() = default;
 
-void ActivityRecordTestBase::SetUp() {
+void CastActivityTestBase::SetUp() {
   ASSERT_TRUE(MockCastSessionClient::instances().empty());
 
   media_sink_service_.AddOrUpdateSink(sink_);
@@ -72,7 +72,7 @@ void ActivityRecordTestBase::SetUp() {
   media_sink_service_.AddOrUpdateSink(sink_);
   ASSERT_EQ(kSinkId, sink_.id());
 
-  ActivityRecord::SetClientFactoryForTest(this);
+  CastActivity::SetClientFactoryForTest(this);
 
   std::unique_ptr<CastSession> session = CastSession::From(sink_, ParseJson(R"({
         "applications": [{
@@ -92,12 +92,12 @@ void ActivityRecordTestBase::SetUp() {
   session_tracker_.SetSessionForTest(kSinkId, std::move(session));
 }
 
-void ActivityRecordTestBase::TearDown() {
+void CastActivityTestBase::TearDown() {
   RunUntilIdle();
-  ActivityRecord::SetClientFactoryForTest(nullptr);
+  CastActivity::SetClientFactoryForTest(nullptr);
 }
 
-void ActivityRecordTestBase::RunUntilIdle() {
+void CastActivityTestBase::RunUntilIdle() {
   task_environment_.RunUntilIdle();
   testing::Mock::VerifyAndClearExpectations(&socket_service_);
   testing::Mock::VerifyAndClearExpectations(&message_handler_);
@@ -106,7 +106,7 @@ void ActivityRecordTestBase::RunUntilIdle() {
     testing::Mock::VerifyAndClearExpectations(&client);
 }
 
-std::unique_ptr<CastSessionClient> ActivityRecordTestBase::MakeClientForTest(
+std::unique_ptr<CastSessionClient> CastActivityTestBase::MakeClientForTest(
     const std::string& client_id,
     const url::Origin& origin,
     int tab_id) {
