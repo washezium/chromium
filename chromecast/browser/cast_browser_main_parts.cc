@@ -345,9 +345,6 @@ const DefaultCommandLineSwitch kDefaultSwitches[] = {
     {switches::kEnableUseZoomForDSF, "false"},
     // TODO(halliwell): Revert after fix for b/63101386.
     {switches::kDisallowNonExactResourceReuse, ""},
-    // Enable autoplay without requiring any user gesture.
-    {switches::kAutoplayPolicy,
-     switches::autoplay::kNoUserGestureRequiredPolicy},
     // Disable pinch zoom gesture.
     {switches::kDisablePinch, ""},
 };
