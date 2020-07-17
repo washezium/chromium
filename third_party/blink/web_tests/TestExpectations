@@ -2689,6 +2689,18 @@ crbug.com/1018465 external/wpt/css/css-pseudo/active-selection-056.html [ Failur
 crbug.com/1105958 external/wpt/payment-request/payment-is-showing.https.html [ Timeout ]
 
 # ====== New tests from wpt-importer added here ======
+crbug.com/626703 [ Mac10.10 ] virtual/omt-worker-fetch/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cors/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cache-storage-sequence/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cors/external/wpt/service-workers/cache-storage/window/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cache-storage-sequence/external/wpt/service-workers/cache-storage/window/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/omt-worker-fetch/external/wpt/service-workers/cache-storage/window/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cors/external/wpt/service-workers/cache-storage/worker/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cache-storage-eager-reading/external/wpt/service-workers/cache-storage/window/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/cache-storage-sequence/external/wpt/service-workers/cache-storage/worker/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] external/wpt/service-workers/cache-storage/window/cache-abort.https.html [ Failure Timeout ]
+crbug.com/626703 [ Mac10.10 ] virtual/omt-worker-fetch/external/wpt/service-workers/cache-storage/worker/cache-abort.https.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.10 ] virtual/cache-storage-eager-reading/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.11 ] virtual/cache-storage-eager-reading/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.12 ] virtual/cache-storage-eager-reading/external/wpt/service-workers/cache-storage/serviceworker/cache-abort.https.html [ Failure Timeout ]
