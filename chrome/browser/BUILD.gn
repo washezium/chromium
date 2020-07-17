@@ -1911,6 +1911,7 @@ static_library("browser") {
     "//components/error_page/common",
     "//components/favicon/content",
     "//components/favicon/core",
+    "//components/favicon/core:history_implementation",
     "//components/favicon_base",
     "//components/feature_engagement",
     "//components/federated_learning",
