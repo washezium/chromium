@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef EXTENSIONS_BROWSER_API_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_
-#define EXTENSIONS_BROWSER_API_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_
+#ifndef CHROME_BROWSER_CHROMEOS_EXTENSIONS_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_
+#define CHROME_BROWSER_CHROMEOS_EXTENSIONS_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_
 
 #include <memory>
 #include <string>
 
 #include "base/optional.h"
+#include "chrome/common/extensions/api/document_scan.h"
 #include "chromeos/dbus/lorgnette/lorgnette_service.pb.h"
 #include "extensions/browser/extension_function.h"
-#include "extensions/common/api/document_scan.h"
 
 namespace extensions {
 
@@ -44,4 +44,4 @@ class DocumentScanScanFunction : public ExtensionFunction {
 
 }  // namespace extensions
 
-#endif  // EXTENSIONS_BROWSER_API_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_
+#endif  // CHROME_BROWSER_CHROMEOS_EXTENSIONS_DOCUMENT_SCAN_DOCUMENT_SCAN_API_H_

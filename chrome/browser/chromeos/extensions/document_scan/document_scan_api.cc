@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "extensions/browser/api/document_scan/document_scan_api.h"
+#include "chrome/browser/chromeos/extensions/document_scan/document_scan_api.h"
 
 #include <utility>
 #include <vector>

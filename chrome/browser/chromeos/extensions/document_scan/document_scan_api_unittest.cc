@@ -8,12 +8,13 @@
 #include "base/memory/ref_counted.h"
 #include "base/optional.h"
 #include "base/values.h"
+#include "chrome/browser/chromeos/extensions/document_scan/document_scan_api.h"
+#include "chrome/browser/extensions/extension_api_unittest.h"
+#include "chrome/browser/extensions/extension_function_test_utils.h"
 #include "chromeos/dbus/dbus_thread_manager.h"
 #include "chromeos/dbus/fake_lorgnette_manager_client.h"
 #include "chromeos/dbus/lorgnette/lorgnette_service.pb.h"
-#include "extensions/browser/api/document_scan/document_scan_api.h"
 #include "extensions/browser/api_test_utils.h"
-#include "extensions/browser/api_unittest.h"
 #include "testing/gmock/include/gmock/gmock-matchers.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/cros_system_api/dbus/lorgnette/dbus-constants.h"
@@ -37,21 +38,21 @@ lorgnette::ListScannersResponse CreateListScannersResponse() {
 
 }  // namespace
 
-class DocumentScanScanFunctionTest : public ApiUnitTest {
+class DocumentScanScanFunctionTest : public ExtensionApiUnittest {
  public:
   DocumentScanScanFunctionTest()
       : function_(base::MakeRefCounted<DocumentScanScanFunction>()) {}
   ~DocumentScanScanFunctionTest() override {}
 
   void SetUp() override {
-    ApiUnitTest::SetUp();
+    ExtensionApiUnittest::SetUp();
     chromeos::DBusThreadManager::Initialize();
     function_->set_user_gesture(true);
   }
 
   void TearDown() override {
     chromeos::DBusThreadManager::Shutdown();
-    ApiUnitTest::TearDown();
+    ExtensionApiUnittest::TearDown();
   }
 
   chromeos::FakeLorgnetteManagerClient* GetLorgnetteManagerClient() {
@@ -62,8 +63,9 @@ class DocumentScanScanFunctionTest : public ApiUnitTest {
  protected:
   std::string RunFunctionAndReturnError(const std::string& args) {
     function_->set_extension(extension());
-    std::string error = api_test_utils::RunFunctionAndReturnError(
-        function_.get(), args, browser_context(), api_test_utils::NONE);
+    std::string error =
+        extension_function_test_utils::RunFunctionAndReturnError(
+            function_.get(), args, browser(), api_test_utils::NONE);
     return error;
   }
 
