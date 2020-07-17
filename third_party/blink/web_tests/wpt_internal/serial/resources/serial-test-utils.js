@@ -93,15 +93,18 @@ class DataPipeSink {
   }
 
   async write(chunk, controller) {
-    let {result, numBytes} = this._producer.writeData(chunk);
-    if (result == Mojo.RESULT_OK) {
-      if (numBytes < chunk.byteLength)
-        return this.write(chunk.slice(numBytes), controller);
-    } else if (result == Mojo.RESULT_FAILED_PRECONDITION) {
-      throw new DOMException("The pipe is closed.", "InvalidStateError");
-    } else if (result == Mojo.RESULT_SHOULD_WAIT) {
-      await this.writable();
-      return this.write(chunk, controller);
+    while (true) {
+      let {result, numBytes} = this._producer.writeData(chunk);
+      if (result == Mojo.RESULT_OK) {
+        if (numBytes == chunk.byteLength) {
+          return;
+        }
+        chunk = chunk.slice(numBytes);
+      } else if (result == Mojo.RESULT_FAILED_PRECONDITION) {
+        throw new DOMException('The pipe is closed.', 'InvalidStateError');
+      } else if (result == Mojo.RESULT_SHOULD_WAIT) {
+        await this.writable();
+      }
     }
   }
 
@@ -145,7 +148,7 @@ class FakeSerialPort {
   }
 
   write(data) {
-    this.writer_.write(data);
+    return this.writer_.write(data);
   }
 
   async read() {
@@ -246,8 +249,15 @@ class FakeSerialPort {
     }
   }
 
-  async flush() {
-    return { success: false };
+  async flush(mode) {
+    switch (mode) {
+      case device.mojom.SerialPortFlushMode.kReceive:
+        this.writer_.abort();
+        this.writer_.releaseLock();
+        this.writer_ = undefined;
+        this.writable_ = undefined;
+        break;
+    }
   }
 
   async getControlSignals() {

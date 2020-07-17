@@ -66,6 +66,16 @@ enum SerialStopBits {
   TWO,
 };
 
+enum SerialPortFlushMode {
+  // Flushes both receive and transmit buffers without discarding any bytes in
+  // the data pipes. This is for compatibility with chrome.serial.flush().
+  kReceiveAndTransmit,
+
+  // Flushes the receive buffers and discards data in the data_pipe_producer by
+  // closing it.
+  kReceive,
+};
+
 struct SerialConnectionOptions {
   uint32 bitrate = 0;
   SerialDataBits data_bits = NONE;
@@ -146,8 +156,8 @@ interface SerialPort {
   // called on |client| to indicate an error.
   StartReading(handle<data_pipe_producer> producer);
 
-  // Flushes input and output buffers.
-  Flush() => (bool success);
+  // Flushes buffers according to the selected |mode|.
+  Flush(SerialPortFlushMode mode) => ();
 
   // Reads current control signals (DCD, CTS, etc.).
   GetControlSignals() => (SerialPortControlSignals signals);

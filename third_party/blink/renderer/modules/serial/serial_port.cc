@@ -449,12 +449,21 @@ void SerialPort::AbortClose() {
   closing_ = false;
 }
 
+void SerialPort::Flush(
+    device::mojom::blink::SerialPortFlushMode mode,
+    device::mojom::blink::SerialPort::FlushCallback callback) {
+  DCHECK(port_.is_bound());
+  port_->Flush(mode, std::move(callback));
+}
+
 void SerialPort::UnderlyingSourceClosed() {
+  DCHECK(readable_);
   readable_ = nullptr;
   underlying_source_ = nullptr;
 }
 
 void SerialPort::UnderlyingSinkClosed() {
+  DCHECK(writable_);
   writable_ = nullptr;
   underlying_sink_ = nullptr;
 }

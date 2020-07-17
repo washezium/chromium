@@ -80,7 +80,7 @@ class SerialIoHandler : public base::RefCountedThreadSafe<SerialIoHandler> {
   void CancelWrite(mojom::SerialSendError reason);
 
   // Flushes input and output buffers.
-  virtual bool Flush() const = 0;
+  virtual void Flush(mojom::SerialPortFlushMode mode) const = 0;
 
   // Reads current control signals (DCD, CTS, etc.) into an existing
   // DeviceControlSignals structure. Returns |true| iff the signals were

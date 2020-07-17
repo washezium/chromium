@@ -126,7 +126,16 @@ class FakeSerialPort : public device::mojom::SerialPort {
     out_stream_watcher_.ArmOrNotify();
   }
 
-  void Flush(FlushCallback callback) override { std::move(callback).Run(true); }
+  void Flush(device::mojom::SerialPortFlushMode mode,
+             FlushCallback callback) override {
+    if (mode == device::mojom::SerialPortFlushMode::kReceiveAndTransmit) {
+      std::move(callback).Run();
+      return;
+    }
+
+    NOTREACHED();
+  }
+
   void GetControlSignals(GetControlSignalsCallback callback) override {
     auto signals = device::mojom::SerialPortControlSignals::New();
     signals->dcd = true;
