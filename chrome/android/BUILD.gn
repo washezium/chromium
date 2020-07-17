@@ -2253,7 +2253,7 @@ template("chrome_test_apk_tmpl") {
     }
     if (!is_java_debug) {
       proguard_enabled = true
-      proguard_configs = [ "//chrome/android/java/apk_for_test.flags" ]
+      proguard_configs = [ "//chrome/android/proguard/apk_for_test.flags" ]
     }
 
     # TODO(crbug.com/993340): Update test goldens with webp versions of images.
@@ -2305,7 +2305,7 @@ template("monochrome_test_apk_tmpl") {
         proguard_configs = []
       }
       proguard_enabled = true
-      proguard_configs += [ "//chrome/android/java/apk_for_test.flags" ]
+      proguard_configs += [ "//chrome/android/proguard/apk_for_test.flags" ]
     }
   }
 }
