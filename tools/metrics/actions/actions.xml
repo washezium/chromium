@@ -18356,12 +18356,31 @@ should be able to be added at any place in this file.
   </description>
 </action>
 
+<action name="PaintPreview.Player.LongPress">
+  <owner>ckitagawa@chromium.org</owner>
+  <owner>fredmello@chromium.org</owner>
+  <owner>mahmoudi@chromium.org</owner>
+  <description>
+    Records when the user long presses on the paint preview player.
+  </description>
+</action>
+
 <action name="PaintPreview.Player.Scrolled">
   <owner>ckitagawa@chromium.org</owner>
   <owner>fredmello@chromium.org</owner>
   <owner>mahmoudi@chromium.org</owner>
   <description>
     Records when the user scrolls the paint preview player.
+  </description>
+</action>
+
+<action name="PaintPreview.Player.UnconsumedTap">
+  <owner>ckitagawa@chromium.org</owner>
+  <owner>fredmello@chromium.org</owner>
+  <owner>mahmoudi@chromium.org</owner>
+  <description>
+    Records when the user taps on an area in the paint preview player that is
+    not a link.
   </description>
 </action>
 
