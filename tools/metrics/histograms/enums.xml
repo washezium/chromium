@@ -28506,6 +28506,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3347" label="RTCAdaptivePtime"/>
   <int value="3348"
       label="HTMLMetaElementReferrerPolicyMultipleTokensAffectingRequest"/>
+  <int value="3349" label="NavigationTimingL2"/>
+  <int value="3350" label="ResourceTiming"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
