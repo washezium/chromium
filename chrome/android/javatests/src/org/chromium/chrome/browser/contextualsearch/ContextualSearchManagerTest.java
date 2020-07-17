@@ -2899,6 +2899,7 @@ public class ContextualSearchManagerTest {
      * Tests that a simple Tap with language determination triggers translation.
      */
     @Test
+    @FlakyTest(message = "https://crbug.com/1105488")
     @SmallTest
     @Feature({"ContextualSearch"})
     @ParameterAnnotations.UseMethodParameter(FeatureParamProvider.class)
