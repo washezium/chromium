@@ -35,6 +35,7 @@
 #include "components/signin/public/identity_manager/identity_manager.h"
 #include "google_apis/gaia/core_account_id.h"
 
+using autofill::FieldDataManager;
 using autofill::FieldRendererId;
 using autofill::FormData;
 using autofill::FormFieldData;
@@ -565,6 +566,20 @@ bool PasswordFormManager::UpdateStateOnUserInput(
 void PasswordFormManager::SetDriver(
     const base::WeakPtr<PasswordManagerDriver>& driver) {
   driver_ = driver;
+}
+
+void PasswordFormManager::UpdateObservedFormDataWithFieldDataManagerInfo(
+    const FieldDataManager* field_data_manager) {
+  for (FormFieldData& field : observed_form_.fields) {
+    FieldRendererId field_id = field.unique_renderer_id;
+    if (!field_data_manager->HasFieldData(field_id))
+      continue;
+    field.typed_value = field_data_manager->GetUserTypedValue(field_id);
+    field.properties_mask =
+        field_data_manager->GetFieldPropertiesMask(field_id);
+    field.value =
+        field_data_manager->GetAutofilledValue(field_id).value_or(field.value);
+  }
 }
 #endif  // defined(OS_IOS)
 
