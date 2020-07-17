@@ -53244,12 +53244,13 @@ Called by update_net_trust_anchors.py.-->
   <int value="6" label="Opened automatically / Auto-signin toast"/>
   <int value="7" label="Opened manually / Offering a password to update"/>
   <int value="8" label="Opened automatically / Offering a password to update"/>
-  <int value="9"
+  <int value="9" label="Opened manually / Confirming generated password saved"/>
+  <int value="10"
       label="Opened automatically / Offering to save unsynced passwords
              locally"/>
-  <int value="10"
-      label="Opened automatically / Notification about compromised passwords"/>
   <int value="11"
+      label="Opened automatically / Notification about compromised passwords"/>
+  <int value="12"
       label="Opened automatically / Offering to move profile password to
              account store"/>
 </enum>
@@ -54399,9 +54400,9 @@ Called by update_net_trust_anchors.py.-->
   <int value="2" label="Clicked 'Nope'"/>
   <int value="3" label="Clicked 'Never'"/>
   <int value="4" label="Clicked 'Manage passwords'"/>
-  <int value="5" label="Clicked 'Done'"/>
+  <int value="5" label="Clicked 'Done' (obsolete)"/>
   <int value="6" label="Clicked 'Unblacklist' (obsolete)"/>
-  <int value="7" label="Clicked 'OK'"/>
+  <int value="7" label="Clicked 'OK' (obsolete)"/>
   <int value="8" label="Clicked on a credential (obsolete)"/>
   <int value="9" label="Auto-signin toast timeout"/>
   <int value="10" label="Auto-signin toast clicked (obsolete)"/>
