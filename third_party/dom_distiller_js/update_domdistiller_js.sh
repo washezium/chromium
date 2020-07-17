@@ -43,12 +43,12 @@
   # rejoin. Finally, remove the trailing ',' and concat to $bugs.
   git log ${curr_gitsha}..${new_gitsha} \
     | grep -E 'BUG=|Bug:' \
-    | sed -e 's/.*\(BUG=\|Bug:\)\(.*\)/\2/' -e 's/\s*//g' -e '/^$/d' \
+    | sed -e 's/.*\(BUG=\|Bug:\)\(.*\)/\2/' -e 's/\s*//g' -e '/^$/d' -e '/None/d' \
     | tr ',' '\n' \
     | sort \
     | uniq \
-    | tr '\n' ',' \
-    | head --bytes=-1 \
+    | tr '\n' ', ' \
+    | head --bytes=-2 \
     >> $bugs
 
   echo >> $bugs  # add a newline
