@@ -100,11 +100,10 @@ class CORE_EXPORT DocumentInit final {
     return imports_controller_;
   }
 
-  bool HasSecurityContext() const { return TreeRootDocumentLoader(); }
   bool IsSrcdocDocument() const;
   bool ShouldSetURL() const;
 
-  DocumentInit& WithDocumentLoader(DocumentLoader*);
+  DocumentInit& WithDocumentLoader(DocumentLoader*, Document* owner_document);
   LocalFrame* GetFrame() const;
   UseCounter* GetUseCounter() const;
 
@@ -131,9 +130,6 @@ class CORE_EXPORT DocumentInit final {
   const KURL& Url() const { return url_; }
 
   const KURL& GetCookieUrl() const;
-
-  // Specifies the Document to inherit security configurations from.
-  DocumentInit& WithOwnerDocument(Document*);
 
   DocumentInit& WithSrcdocDocument(bool is_srcdoc_document);
 
