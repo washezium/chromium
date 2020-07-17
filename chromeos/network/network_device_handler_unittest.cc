@@ -74,7 +74,7 @@ class NetworkDeviceHandlerTest : public testing::Test {
     shill_clients::Shutdown();
   }
 
-  base::Closure GetSuccessCallback() {
+  base::OnceClosure GetSuccessCallback() {
     return base::Bind(&NetworkDeviceHandlerTest::SuccessCallback,
                       base::Unretained(this));
   }
