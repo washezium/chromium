@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "third_party/blink/renderer/modules/mediastream/media_stream_renderer_factory_impl.h"
+#include "third_party/blink/renderer/modules/mediastream/media_stream_renderer_factory.h"
 
 #include <utility>
 
@@ -47,19 +47,19 @@ void SendLogMessage(const WTF::String& message) {
 
 }  // namespace
 
-MediaStreamRendererFactoryImpl::MediaStreamRendererFactoryImpl() {}
+MediaStreamRendererFactory::MediaStreamRendererFactory() {}
 
-MediaStreamRendererFactoryImpl::~MediaStreamRendererFactoryImpl() {}
+MediaStreamRendererFactory::~MediaStreamRendererFactory() {}
 
 scoped_refptr<WebMediaStreamVideoRenderer>
-MediaStreamRendererFactoryImpl::GetVideoRenderer(
+MediaStreamRendererFactory::GetVideoRenderer(
     const WebMediaStream& web_stream,
     const WebMediaStreamVideoRenderer::RepaintCB& repaint_cb,
     scoped_refptr<base::SingleThreadTaskRunner> io_task_runner,
     scoped_refptr<base::SingleThreadTaskRunner> main_render_task_runner) {
   DCHECK(!web_stream.IsNull());
 
-  DVLOG(1) << "MediaStreamRendererFactoryImpl::GetVideoRenderer stream:"
+  DVLOG(1) << "MediaStreamRendererFactory::GetVideoRenderer stream:"
            << web_stream.Id().Utf8();
 
   MediaStreamDescriptor& descriptor = *web_stream;
@@ -76,7 +76,7 @@ MediaStreamRendererFactoryImpl::GetVideoRenderer(
 }
 
 scoped_refptr<WebMediaStreamAudioRenderer>
-MediaStreamRendererFactoryImpl::GetAudioRenderer(
+MediaStreamRendererFactory::GetAudioRenderer(
     const WebMediaStream& web_stream,
     WebLocalFrame* web_frame,
     const WebString& device_id,
