@@ -148,49 +148,6 @@ class DownloadItemView : public views::View,
   // Updates the accessible alert and timers for normal mode.
   void UpdateAccessibleAlertAndTimersForNormalMode();
 
-  void OpenDownload();
-
-  // Submits the downloaded file to the safebrowsing download feedback service.
-  // Returns whether submission was successful. Applies |download_command|, if
-  // submission fails.
-  bool SubmitDownloadToFeedbackService(
-      DownloadCommands::Command download_command);
-
-  void DrawIcon(gfx::Canvas* canvas);
-
-  // Update the button colors based on the current theme.
-  void UpdateColorsFromTheme();
-
-  void UpdateDropdownButton();
-
-  // Shows the context menu at the specified location. |point| is in the view's
-  // coordinate system.
-  void ShowContextMenuImpl(const gfx::Rect& rect,
-                           ui::MenuSourceType source_type);
-
-  // Sets the state and triggers a repaint.
-  void SetDropdownState(State new_state);
-
-  // Returns the current warning icon (should only be called when the view is
-  // actually showing a warning).
-  gfx::ImageSkia GetWarningIcon();
-
-  // Sets |size| with the size of the Save and Discard buttons (they have the
-  // same size).
-  gfx::Size GetButtonSize() const;
-
-  // Returns either:
-  //   * 200, if |label| can fit in one line given at most 200 DIP width.
-  //   * The minimum width needed to display |label| on two lines.
-  int GetLabelWidth(const views::StyledLabel& label) const;
-
-  // Reenables the item after it has been disabled when a user clicked it to
-  // open the downloaded file.
-  void Reenable();
-
-  // Releases drop down button after showing a context menu.
-  void ReleaseDropdown();
-
   // Update accessible status text.
   // If |is_last_update| is false, then a timer is used to notify screen readers
   // to speak the alert text on a regular interval. If |is_last_update| is true,
@@ -217,27 +174,47 @@ class DownloadItemView : public views::View,
                              const base::TimeDelta& indeterminate_progress_time,
                              int percent_done) const;
 
-  // Show/Hide/Reset |animation| based on the state transition specified by
-  // |from| and |to|.
-  void AnimateStateTransition(State from,
-                              State to,
-                              gfx::SlideAnimation* animation);
+  // When not in normal mode, returns the current help/warning/error icon.
+  gfx::ImageSkia GetWarningIcon();
 
   // Returns the text and style to use for the status label.
   std::pair<base::string16, int> GetStatusTextAndStyle() const;
+
+  // Returns the size of any button visible next to the label (all visible
+  // buttons are given the same size).
+  gfx::Size GetButtonSize() const;
 
   // Returns the file name to report to user. It might be elided to fit into
   // the text width.
   base::string16 ElidedFilename();
 
+  // Returns either:
+  //   * 200, if |label| can fit in one line given at most 200 DIP width.
+  //   * The minimum width needed to display |label| on two lines.
+  int GetLabelWidth(const views::StyledLabel& label) const;
+
+  // Sets the state and triggers a repaint.
+  void SetDropdownState(State new_state);
+
+  // Sets |dropdown_button_| to have the correct image for the current state.
+  void UpdateDropdownButton();
+
+  // Shows the context menu at the specified location. |point| is in the view's
+  // coordinate system.
+  void ShowContextMenuImpl(const gfx::Rect& rect,
+                           ui::MenuSourceType source_type);
+
   // Opens a file while async scanning is still pending.
   void OpenDownloadDuringAsyncScanning();
 
+  // Submits the downloaded file to the safebrowsing download feedback service.
+  // Applies |download_command| if submission succeeds. Returns whether
+  // submission was successful.
+  bool SubmitDownloadToFeedbackService(
+      DownloadCommands::Command download_command);
+
   // Returns the height/width of the warning icon, in dp.
   static int GetWarningIconSize();
-
-  // Returns the height/width of the error icon, in dp.
-  static int GetErrorIconSize();
 
   // Starts deep scanning for this download item.
   void ConfirmDeepScanning();
