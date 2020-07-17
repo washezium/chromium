@@ -2924,16 +2924,16 @@ ci.linux_builder(
     schedule = '0 0,6,12,18 * * *',
     service_account = 'component-mapping-updater@chops-service-accounts.iam.gserviceaccount.com',
     triggered_by = [],
-    extra_notifies = ['metadata-mapping'],
+    notifies = ['metadata-mapping'],
+    tree_closing = False,
 )
 
 ci.linux_builder(
     name = 'metadata-exporter',
     executable = 'recipe:chromium_export_metadata',
-    schedule = '0 0,6,12,18 * * *',
     service_account = 'component-mapping-updater@chops-service-accounts.iam.gserviceaccount.com',
-    triggered_by = [],
-    extra_notifies = ['metadata-mapping'],
+    notifies = ['metadata-mapping'],
+    tree_closing = False,
 )
 
 ci.mac_ios_builder(
