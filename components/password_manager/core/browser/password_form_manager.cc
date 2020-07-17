@@ -975,9 +975,6 @@ void PasswordFormManager::PresaveGeneratedPasswordInternal(
 
 void PasswordFormManager::CalculateFillingAssistanceMetric(
     const FormData& submitted_form) {
-  // TODO(https://crbug.com/918846): implement collecting all necessary data
-  // on iOS.
-#if not defined(OS_IOS)
   std::set<std::pair<base::string16, PasswordForm::Store>> saved_usernames;
   std::set<std::pair<base::string16, PasswordForm::Store>> saved_passwords;
 
@@ -994,7 +991,6 @@ void PasswordFormManager::CalculateFillingAssistanceMetric(
       form_fetcher_->GetInteractionsStats(),
       client_->GetPasswordFeatureManager()
           ->ComputePasswordAccountStorageUsageLevel());
-#endif
 }
 
 bool PasswordFormManager::UsePossibleUsername(

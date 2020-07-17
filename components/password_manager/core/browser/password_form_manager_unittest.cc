@@ -1802,13 +1802,7 @@ TEST_P(PasswordFormManagerTest, Update) {
   EXPECT_GE(updated_form.date_last_used, kNow);
 }
 
-// TODO(https://crbug.com/918846): implement FillingAssistance metric on iOS.
-#if defined(OS_IOS)
-#define MAYBE_FillingAssistanceMetric DISABLED_FillingAssistanceMetric
-#else
-#define MAYBE_FillingAssistanceMetric FillingAssistanceMetric
-#endif
-TEST_P(PasswordFormManagerTest, MAYBE_FillingAssistanceMetric) {
+TEST_P(PasswordFormManagerTest, FillingAssistanceMetric) {
   SetNonFederatedAndNotifyFetchCompleted({&saved_match_});
 
   // Simulate that the user fills the saved credentials manually.
