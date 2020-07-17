@@ -521,7 +521,14 @@ TEST_P(PasswordFormManagerTest, Autofill) {
   task_environment_.FastForwardUntilNoTasksRemain();
 
   EXPECT_EQ(observed_form_.url, fill_data.url);
+
+  // On Android Touch To Fill will prevent autofilling credentials on page load.
+#if defined(OS_ANDROID)
+  EXPECT_TRUE(fill_data.wait_for_username);
+#else
   EXPECT_FALSE(fill_data.wait_for_username);
+#endif
+
   EXPECT_EQ(observed_form_.fields[1].name, fill_data.username_field.name);
   EXPECT_EQ(saved_match_.username_value, fill_data.username_field.value);
   EXPECT_EQ(observed_form_.fields[2].name, fill_data.password_field.name);
