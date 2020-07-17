@@ -49,15 +49,9 @@ TransitionInterpolation::CurrentNonInterpolableValue() const {
 void TransitionInterpolation::Apply(StyleResolverState& state) const {
   CSSInterpolationTypesMap map(state.GetDocument().GetPropertyRegistry(),
                                state.GetDocument());
-  if (RuntimeEnabledFeatures::CSSCascadeEnabled()) {
-    CSSInterpolationEnvironment environment(map, state, nullptr, nullptr);
-    type_.Apply(CurrentInterpolableValue(), CurrentNonInterpolableValue(),
-                environment);
-  } else {
-    CSSInterpolationEnvironment environment(map, state, nullptr);
-    type_.Apply(CurrentInterpolableValue(), CurrentNonInterpolableValue(),
-                environment);
-  }
+  CSSInterpolationEnvironment environment(map, state, nullptr, nullptr);
+  type_.Apply(CurrentInterpolableValue(), CurrentNonInterpolableValue(),
+              environment);
 }
 
 std::unique_ptr<TypedInterpolationValue>

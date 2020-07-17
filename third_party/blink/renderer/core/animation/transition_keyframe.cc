@@ -17,7 +17,6 @@
 #include "third_party/blink/renderer/core/css/resolver/style_resolver.h"
 #include "third_party/blink/renderer/core/dom/document.h"
 #include "third_party/blink/renderer/core/style/computed_style.h"
-#include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 
 namespace blink {
 
@@ -48,16 +47,9 @@ void TransitionKeyframe::AddKeyframePropertiesToV8Object(
   StyleResolverState state(document, *element);
   state.SetStyle(ComputedStyle::Create());
   CSSInterpolationTypesMap map(document.GetPropertyRegistry(), document);
-
-  if (RuntimeEnabledFeatures::CSSCascadeEnabled()) {
-    CSSInterpolationEnvironment environment(map, state, nullptr, nullptr);
-    value_->GetType().Apply(value_->GetInterpolableValue(),
-                            value_->GetNonInterpolableValue(), environment);
-  } else {
-    CSSInterpolationEnvironment environment(map, state, nullptr);
-    value_->GetType().Apply(value_->GetInterpolableValue(),
-                            value_->GetNonInterpolableValue(), environment);
-  }
+  CSSInterpolationEnvironment environment(map, state, nullptr, nullptr);
+  value_->GetType().Apply(value_->GetInterpolableValue(),
+                          value_->GetNonInterpolableValue(), environment);
 
   const ComputedStyle* style = state.Style();
   String property_value =
