@@ -490,6 +490,15 @@ IntPoint PaintLayerScrollableArea::ConvertFromRootFrame(
   return view->GetFrameView()->ConvertFromRootFrame(point_in_root_frame);
 }
 
+IntPoint PaintLayerScrollableArea::ConvertFromRootFrameToVisualViewport(
+    const IntPoint& point_in_root_frame) const {
+  LocalFrameView* frame_view = GetLayoutBox()->GetFrameView();
+  DCHECK(frame_view);
+  const auto* page = frame_view->GetPage();
+  const auto& viewport = page->GetVisualViewport();
+  return viewport.RootFrameToViewport(point_in_root_frame);
+}
+
 int PaintLayerScrollableArea::ScrollSize(
     ScrollbarOrientation orientation) const {
   IntSize scroll_dimensions =
@@ -923,6 +932,19 @@ int PaintLayerScrollableArea::PageStep(ScrollbarOrientation orientation) const {
                       ScrollableArea::MinFractionToStepWhenPaging();
   int page_step = max(min_page_step, length - MaxOverlapBetweenPages());
   return max(page_step, 1);
+}
+
+bool PaintLayerScrollableArea::IsRootFrameLayoutViewport() const {
+  LocalFrame* frame = GetLayoutBox()->GetFrame();
+  if (!frame || !frame->View())
+    return false;
+
+  RootFrameViewport* root_frame_viewport =
+      frame->View()->GetRootFrameViewport();
+  if (!root_frame_viewport)
+    return false;
+
+  return &root_frame_viewport->LayoutViewport() == this;
 }
 
 LayoutBox* PaintLayerScrollableArea::GetLayoutBox() const {

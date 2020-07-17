@@ -2940,4 +2940,43 @@ TEST_P(PaintLayerTest,
       target->EnclosingDirectlyCompositableLayerCrossingFrameBoundaries());
 }
 
+TEST_P(PaintLayerTest, GlobalRootScrollerHitTest) {
+  SetBodyInnerHTML(R"HTML(
+    <style>
+      :root {
+        clip-path: circle(30%);
+        background:blue;
+        transform: rotate(30deg);
+        transform-style: preserve-3d;
+      }
+      #perspective {
+        perspective:100px;
+      }
+      #threedee {
+        transform: rotate3d(1, 1, 1, 45deg);
+        width:100px; height:200px;
+      }
+    </style>
+    <div id="perspective">
+      <div id="threedee"></div>
+    </div>
+  )HTML");
+  GetDocument().GetPage()->SetPageScaleFactor(2);
+  UpdateAllLifecyclePhasesForTest();
+
+  const HitTestRequest hit_request(HitTestRequest::kActive);
+  const HitTestLocation location(IntPoint(400, 300));
+  HitTestResult result;
+  GetLayoutView().HitTestNoLifecycleUpdate(location, result);
+  EXPECT_EQ(result.InnerNode(), GetDocument().documentElement());
+  EXPECT_EQ(result.GetScrollbar(), nullptr);
+
+  if (GetDocument().GetPage()->GetScrollbarTheme().AllowsHitTest()) {
+    const HitTestLocation location_scrollbar(IntPoint(790, 300));
+    HitTestResult result_scrollbar;
+    EXPECT_EQ(result_scrollbar.InnerNode(), &GetDocument());
+    EXPECT_NE(result_scrollbar.GetScrollbar(), nullptr);
+  }
+}
+
 }  // namespace blink
