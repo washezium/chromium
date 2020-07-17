@@ -93,6 +93,10 @@ ci.builder(
                 'cipd_yaml': 'third_party/android_sdk/cipd/build-tools/29.0.2.yaml'
             },
             {
+                'sdk_package_name': 'build-tools;30.0.1',
+                'cipd_yaml': 'third_party/android_sdk/cipd/build-tools/30.0.1.yaml'
+            },
+            {
                 'sdk_package_name': 'cmdline-tools;latest',
                 'cipd_yaml': 'third_party/android_sdk/cipd/cmdline-tools.yaml'
             },
@@ -136,10 +140,11 @@ ci.builder(
                 'sdk_package_name': 'sources;android-29',
                 'cipd_yaml': 'third_party/android_sdk/cipd/sources/android-29.yaml'
             },
-            {
-                'sdk_package_name': 'sources;android-30',
-                'cipd_yaml': 'third_party/android_sdk/cipd/sources/android-30.yaml'
-            },
+            # Not yet available as R is not released to AOSP.
+            #{
+            #    'sdk_package_name': 'sources;android-30',
+            #    'cipd_yaml': 'third_party/android_sdk/cipd/sources/android-30.yaml'
+            #},
             {
                 'sdk_package_name': 'system-images;android-23;google_apis;x86',
                 'cipd_yaml': 'third_party/android_sdk/cipd/system_images/android-23/google_apis/x86.yaml'
