@@ -144,7 +144,7 @@ class AutoConnectHandlerTest : public testing::Test {
         nullptr /* prohibited_technologies_handler */);
 
     test_network_connection_handler_.reset(
-        new TestNetworkConnectionHandler(base::Bind(
+        new TestNetworkConnectionHandler(base::BindOnce(
             &AutoConnectHandlerTest::SetDisconnected, base::Unretained(this))));
 
     client_cert_resolver_.reset(new ClientCertResolver());
