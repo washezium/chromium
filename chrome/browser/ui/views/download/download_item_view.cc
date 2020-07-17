@@ -14,11 +14,13 @@
 #include "base/bind.h"
 #include "base/bind_helpers.h"
 #include "base/callback.h"
+#include "base/containers/flat_map.h"
 #include "base/feature_list.h"
 #include "base/files/file_path.h"
 #include "base/i18n/rtl.h"
 #include "base/macros.h"
 #include "base/metrics/histogram_macros.h"
+#include "base/no_destructor.h"
 #include "base/numerics/math_constants.h"
 #include "base/single_thread_task_runner.h"
 #include "base/strings/sys_string_conversions.h"
@@ -72,7 +74,6 @@
 #include "ui/base/text/bytes_formatting.h"
 #include "ui/base/theme_provider.h"
 #include "ui/events/event.h"
-#include "ui/gfx/animation/slide_animation.h"
 #include "ui/gfx/animation/tween.h"
 #include "ui/gfx/canvas.h"
 #include "ui/gfx/color_palette.h"
@@ -226,6 +227,15 @@ DownloadItemView::DownloadItemView(DownloadUIModel::DownloadUIModelPtr download,
       model_(std::move(download)),
       creation_time_(base::Time::Now()),
       time_download_warning_shown_(base::Time()),
+      indeterminate_progress_timer_(
+          FROM_HERE,
+          base::TimeDelta::FromMilliseconds(30),
+          base::BindRepeating(
+              [](DownloadItemView* view) {
+                if (view->model_->PercentComplete() < 0)
+                  view->SchedulePaint();
+              },
+              base::Unretained(this))),
       accessible_alert_(accessible_alert),
       announce_accessible_alert_soon_(false) {
   views::InstallRectHighlightPathGenerator(this);
@@ -296,12 +306,14 @@ DownloadItemView::DownloadItemView(DownloadUIModel::DownloadUIModelPtr download,
   dropdown_button->SetFocusForPlatform();
   dropdown_button_ = AddChildView(std::move(dropdown_button));
 
+  complete_animation_.SetSlideDuration(base::TimeDelta::FromMilliseconds(2500));
+  complete_animation_.SetTweenType(gfx::Tween::LINEAR);
+
   // Further configure default state, e.g. child visibility.
   OnDownloadUpdated();
 }
 
 DownloadItemView::~DownloadItemView() {
-  StopDownloadProgress();
   model_->RemoveObserver(this);
 }
 
@@ -493,8 +505,7 @@ void DownloadItemView::ButtonPressed(views::Button* sender,
     }
     if (has_warning_label(mode_))
       return;
-    if (complete_animation_.get() && complete_animation_->is_animating())
-      complete_animation_->End();
+    complete_animation_.End();
     OpenDownload();
     return;
   }
@@ -547,8 +558,6 @@ void DownloadItemView::OnDownloadUpdated() {
     tooltip_text_ = new_tip;
     TooltipTextChanged();
   }
-
-  UpdateAccessibleName();
 }
 
 void DownloadItemView::OnDownloadOpened() {
@@ -692,20 +701,30 @@ DownloadItemView::Mode DownloadItemView::GetDesiredMode() const {
 }
 
 void DownloadItemView::UpdateMode(Mode mode) {
-  // TODO(pkasting): Refactor further.
-
   mode_ = mode;
   UpdateFilePath();
   UpdateLabels();
   UpdateButtons();
+
+  // Update the accessible name to contain the status text, filename, and
+  // warning message (if any). The name will be presented when the download item
+  // receives focus.
+  const base::string16 unelided_filename =
+      model_->GetFileNameToReportUser().LossyDisplayName();
+  accessible_name_ =
+      has_warning_label(mode_)
+          ? warning_label_->GetText()
+          : (status_label_->GetText() + base::char16(' ') + unelided_filename);
+  open_button_->SetAccessibleName(accessible_name_);
+  // Do not fire text changed notifications. Screen readers are notified of
+  // status changes via the accessible alert notifications, and text change
+  // notifications would be redundant.
 
   if (is_download_warning(mode_)) {
     time_download_warning_shown_ = base::Time::Now();
     download::DownloadDangerType danger_type = model_->GetDangerType();
     RecordDangerousDownloadWarningShown(danger_type);
 
-    const base::string16 unelided_filename =
-        model_->GetFileNameToReportUser().LossyDisplayName();
     if (danger_type == download::DOWNLOAD_DANGER_TYPE_PROMPT_FOR_SCANNING) {
       announce_accessible_alert_soon_ = true;
       UpdateAccessibleAlert(
@@ -719,62 +738,11 @@ void DownloadItemView::UpdateMode(Mode mode) {
     }
   } else if (mode_ == Mode::kDeepScanning) {
     UpdateAccessibleAlert(
-        l10n_util::GetStringFUTF16(
-            IDS_DEEP_SCANNING_ACCESSIBLE_ALERT,
-            model_->GetFileNameToReportUser().LossyDisplayName()),
+        l10n_util::GetStringFUTF16(IDS_DEEP_SCANNING_ACCESSIBLE_ALERT,
+                                   unelided_filename),
         false);
   } else if (mode_ == Mode::kNormal) {
-    switch (model_->GetState()) {
-      case DownloadItem::IN_PROGRESS:
-        // No need to send accessible alert for "paused", as the button ends
-        // up being refocused in the actual use case, and the name of the
-        // button reports that the download has been paused.
-        // Reset the status counter so that user receives immediate feedback
-        // once the download is resumed.
-        if (!model_->IsPaused())
-          UpdateAccessibleAlert(GetInProgressAccessibleAlertText(), false);
-        model_->IsPaused() ? StopDownloadProgress() : StartDownloadProgress();
-        break;
-      case DownloadItem::INTERRUPTED:
-        model_->GetFileNameToReportUser().LossyDisplayName();
-        UpdateAccessibleAlert(
-            l10n_util::GetStringFUTF16(
-                IDS_DOWNLOAD_FAILED_ACCESSIBLE_ALERT,
-                model_->GetFileNameToReportUser().LossyDisplayName()),
-            true);
-        StopDownloadProgress();
-        complete_animation_ = std::make_unique<gfx::SlideAnimation>(this);
-        complete_animation_->SetSlideDuration(
-            base::TimeDelta::FromMilliseconds(2500));
-        complete_animation_->SetTweenType(gfx::Tween::LINEAR);
-        complete_animation_->Show();
-        break;
-      case DownloadItem::COMPLETE:
-        UpdateAccessibleAlert(
-            l10n_util::GetStringFUTF16(
-                IDS_DOWNLOAD_COMPLETE_ACCESSIBLE_ALERT,
-                model_->GetFileNameToReportUser().LossyDisplayName()),
-            true);
-        StopDownloadProgress();
-        complete_animation_ = std::make_unique<gfx::SlideAnimation>(this);
-        complete_animation_->SetSlideDuration(
-            base::TimeDelta::FromMilliseconds(2500));
-        complete_animation_->SetTweenType(gfx::Tween::LINEAR);
-        complete_animation_->Show();
-        break;
-      case DownloadItem::CANCELLED:
-        UpdateAccessibleAlert(
-            l10n_util::GetStringFUTF16(
-                IDS_DOWNLOAD_CANCELLED_ACCESSIBLE_ALERT,
-                model_->GetFileNameToReportUser().LossyDisplayName()),
-            true);
-        StopDownloadProgress();
-        if (complete_animation_)
-          complete_animation_->Stop();
-        break;
-      default:
-        NOTREACHED();
-    }
+    UpdateAccessibleAlertAndTimersForNormalMode();
   }
 
   shelf_->InvalidateLayout();
@@ -871,6 +839,49 @@ void DownloadItemView::UpdateButtons() {
   dropdown_button_->SetVisible(mode_ != Mode::kDangerous);
 }
 
+void DownloadItemView::UpdateAccessibleAlertAndTimersForNormalMode() {
+  using State = download::DownloadItem::DownloadState;
+  const State state = model_->GetState();
+  if ((state == State::IN_PROGRESS) && !model_->IsPaused()) {
+    UpdateAccessibleAlert(GetInProgressAccessibleAlertText(), false);
+
+    if (!indeterminate_progress_timer_.IsRunning()) {
+      indeterminate_progress_start_time_ = base::TimeTicks::Now();
+      indeterminate_progress_timer_.Reset();
+    }
+    return;
+  }
+
+  if (state != State::IN_PROGRESS) {
+    if (state == State::CANCELLED) {
+      complete_animation_.Stop();
+    } else {
+      complete_animation_.Reset();
+      complete_animation_.Show();
+    }
+
+    // Send accessible alert since the download has terminated. No need to alert
+    // for "in progress but paused", as the button ends up being refocused in
+    // the actual use case, and the name of the button reports that the download
+    // has been paused.
+    static const base::NoDestructor<base::flat_map<State, int>> kMap({
+        {State::INTERRUPTED, IDS_DOWNLOAD_FAILED_ACCESSIBLE_ALERT},
+        {State::COMPLETE, IDS_DOWNLOAD_COMPLETE_ACCESSIBLE_ALERT},
+        {State::CANCELLED, IDS_DOWNLOAD_CANCELLED_ACCESSIBLE_ALERT},
+    });
+    const base::string16 alert_text = l10n_util::GetStringFUTF16(
+        kMap->at(state), model_->GetFileNameToReportUser().LossyDisplayName());
+    UpdateAccessibleAlert(alert_text, true);
+  }
+
+  accessible_alert_timer_.AbandonAndStop();
+  if (indeterminate_progress_timer_.IsRunning()) {
+    indeterminate_progress_time_elapsed_ +=
+        base::TimeTicks::Now() - indeterminate_progress_start_time_;
+    indeterminate_progress_timer_.Stop();
+  }
+}
+
 void DownloadItemView::OpenDownload() {
   DCHECK(!is_download_warning(mode_));
   // We're interested in how long it takes users to open downloads.  If they
@@ -941,19 +952,22 @@ void DownloadItemView::DrawIcon(gfx::Canvas* canvas) {
 
   if (state == DownloadItem::IN_PROGRESS &&
       !(use_new_warnings && show_warning_icon)) {
-    base::TimeDelta progress_time = previous_progress_elapsed_;
-    if (!model_->IsPaused())
-      progress_time += base::TimeTicks::Now() - progress_start_time_;
-    PaintDownloadProgress(canvas, progress_bounds, progress_time,
+    base::TimeDelta indeterminate_progress_time =
+        indeterminate_progress_time_elapsed_;
+    if (!model_->IsPaused()) {
+      indeterminate_progress_time +=
+          base::TimeTicks::Now() - indeterminate_progress_start_time_;
+    }
+    PaintDownloadProgress(canvas, progress_bounds, indeterminate_progress_time,
                           model_->PercentComplete());
-  } else if (complete_animation_.get() && complete_animation_->is_animating()) {
+  } else if (complete_animation_.is_animating()) {
     DCHECK_EQ(Mode::kNormal, mode_);
     // Loop back and forth five times.
     double start = 0, end = 5;
     if (model_->GetState() == download::DownloadItem::INTERRUPTED)
       std::swap(start, end);
     const double value = gfx::Tween::DoubleValueBetween(
-        complete_animation_->GetCurrentValue(), start, end);
+        complete_animation_.GetCurrentValue(), start, end);
     const double opacity = std::sin((value + 0.5) * base::kPiDouble) / 2 + 0.5;
     canvas->SaveLayerAlpha(
         static_cast<uint8_t>(gfx::Tween::IntValueBetween(opacity, 0, 255)));
@@ -1160,40 +1174,6 @@ void DownloadItemView::ReleaseDropdown() {
   announce_accessible_alert_soon_ = true;
 }
 
-void DownloadItemView::StartDownloadProgress() {
-  if (progress_timer_.IsRunning())
-    return;
-  progress_start_time_ = base::TimeTicks::Now();
-  progress_timer_.Start(FROM_HERE, base::TimeDelta::FromMilliseconds(30),
-                        base::Bind(&DownloadItemView::ProgressTimerFired,
-                                   base::Unretained(this)));
-}
-
-void DownloadItemView::StopDownloadProgress() {
-  accessible_alert_timer_.AbandonAndStop();
-  if (!progress_timer_.IsRunning())
-    return;
-  previous_progress_elapsed_ += base::TimeTicks::Now() - progress_start_time_;
-  progress_start_time_ = base::TimeTicks();
-  progress_timer_.Stop();
-}
-
-void DownloadItemView::UpdateAccessibleName() {
-  base::string16 new_name;
-  if (has_warning_label(mode_)) {
-    new_name = warning_label_->GetText();
-  } else {
-    new_name = status_label_->GetText() + base::char16(' ') +
-               model_->GetFileNameToReportUser().LossyDisplayName();
-  }
-
-  // Do not fire text changed notifications. Screen readers are notified of
-  // status changes via the accessible alert notifications, and text change
-  // notifications would be redundant.
-  accessible_name_ = new_name;
-  open_button_->SetAccessibleName(new_name);
-}
-
 void DownloadItemView::UpdateAccessibleAlert(
     const base::string16& accessible_alert_text,
     bool is_last_update) {
@@ -1219,10 +1199,8 @@ void DownloadItemView::UpdateAccessibleAlert(
 
 base::string16 DownloadItemView::GetInProgressAccessibleAlertText() {
   // If opening when complete or there is a warning, use the full status text.
-  if (model_->GetOpenWhenComplete() || has_warning_label(mode_)) {
-    UpdateAccessibleName();
+  if (model_->GetOpenWhenComplete() || has_warning_label(mode_))
     return accessible_name_;
-  }
 
   // Prefer to announce the time remaining, if known.
   base::TimeDelta remaining;
@@ -1320,13 +1298,6 @@ void DownloadItemView::AnimateStateTransition(State from,
   } else if (from != to) {
     animation->Reset((to == HOT) ? 1.0 : 0.0);
   }
-}
-
-void DownloadItemView::ProgressTimerFired() {
-  // Only repaint for the indeterminate size case. Otherwise, we'll repaint only
-  // when there's an update notified via OnDownloadUpdated().
-  if (model_->PercentComplete() < 0)
-    SchedulePaint();
 }
 
 std::pair<base::string16, int> DownloadItemView::GetStatusTextAndStyle() const {

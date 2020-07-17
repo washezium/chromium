@@ -33,6 +33,7 @@
 #include "chrome/browser/ui/tab_modal_confirm_dialog.h"
 #include "components/download/public/common/download_item.h"
 #include "content/public/browser/download_manager.h"
+#include "ui/gfx/animation/slide_animation.h"
 #include "ui/gfx/font_list.h"
 #include "ui/views/animation/animation_delegate_views.h"
 #include "ui/views/context_menu_controller.h"
@@ -44,7 +45,6 @@ class DownloadShelfContextMenuView;
 namespace gfx {
 class Image;
 class ImageSkia;
-class SlideAnimation;
 }
 
 namespace views {
@@ -145,6 +145,9 @@ class DownloadItemView : public views::View,
   // Updates the visible and enabled state of all buttons.
   void UpdateButtons();
 
+  // Updates the accessible alert and timers for normal mode.
+  void UpdateAccessibleAlertAndTimersForNormalMode();
+
   void OpenDownload();
 
   // Submits the downloaded file to the safebrowsing download feedback service.
@@ -188,16 +191,6 @@ class DownloadItemView : public views::View,
   // Releases drop down button after showing a context menu.
   void ReleaseDropdown();
 
-  // Timer callback for handling animations
-  void StartDownloadProgress();
-  void StopDownloadProgress();
-
-  // Update the accessible name to reflect the current state of the control,
-  // so that screenreaders can access the filename, status text, and
-  // dangerous download warning message (if any). The name will be presented
-  // when the download item receives focus.
-  void UpdateAccessibleName();
-
   // Update accessible status text.
   // If |is_last_update| is false, then a timer is used to notify screen readers
   // to speak the alert text on a regular interval. If |is_last_update| is true,
@@ -229,9 +222,6 @@ class DownloadItemView : public views::View,
   void AnimateStateTransition(State from,
                               State to,
                               gfx::SlideAnimation* animation);
-
-  // Callback for |progress_timer_|.
-  void ProgressTimerFired();
 
   // Returns the text and style to use for the status label.
   std::pair<base::string16, int> GetStatusTextAndStyle() const;
@@ -276,14 +266,6 @@ class DownloadItemView : public views::View,
   // Mode of the download item view.
   Mode mode_;
 
-  // When download progress last began animating (pausing and resuming will
-  // update this). Used for downloads of unknown size.
-  base::TimeTicks progress_start_time_;
-
-  // Keeps the amount of time spent already animating. Used to keep track of
-  // total active time for downloads of unknown size.
-  base::TimeDelta previous_progress_elapsed_;
-
   // Whether we are dragging the download button.
   bool dragging_;
 
@@ -295,12 +277,6 @@ class DownloadItemView : public views::View,
 
   // A model class to control the status text we display.
   DownloadUIModel::DownloadUIModelPtr model_;
-
-  // Animation for download complete.
-  std::unique_ptr<gfx::SlideAnimation> complete_animation_;
-
-  // Progress animation
-  base::RepeatingTimer progress_timer_;
 
   // The "open download" button. This button is visually transparent and fills
   // the entire bounds of the DownloadItemView, to make the DownloadItemView
@@ -331,6 +307,17 @@ class DownloadItemView : public views::View,
 
   // The currently running download context menu.
   std::unique_ptr<DownloadShelfContextMenuView> context_menu_;
+
+  base::RepeatingTimer indeterminate_progress_timer_;
+
+  // The start of the most recent active period of downloading a file of
+  // indeterminate size.
+  base::TimeTicks indeterminate_progress_start_time_;
+
+  // The total active time downloading a file of indeterminate size.
+  base::TimeDelta indeterminate_progress_time_elapsed_;
+
+  gfx::SlideAnimation complete_animation_{this};
 
   // The name of this view as reported to assistive technology.
   base::string16 accessible_name_;
