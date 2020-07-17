@@ -219,7 +219,6 @@ const base::Feature* kFeaturesExposedToJava[] = {
     &features::kDnsOverHttps,
     &net::features::kSameSiteByDefaultCookies,
     &net::features::kCookiesWithoutSameSiteMustBeSecure,
-    &paint_preview::kPaintPreviewCaptureExperiment,
     &paint_preview::kPaintPreviewDemo,
     &paint_preview::kPaintPreviewShowOnStartup,
     &permissions::features::kPermissionDelegation,

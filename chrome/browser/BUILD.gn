@@ -4819,10 +4819,7 @@ static_library("browser") {
     ]
 
     if (is_android) {
-      deps += [
-        "//components/paint_preview/browser/android",
-        "//components/paint_preview/player/android",
-      ]
+      deps += [ "//components/paint_preview/player/android" ]
     }
   }
 
