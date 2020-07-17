@@ -2,14 +2,12 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-source_set("test_support") {
+source_set("test") {
   testonly = true
 
   sources = [
-    "mock_bluetooth_adapter.cc",
-    "mock_bluetooth_adapter.h",
-    "mock_webrtc_dependencies.cc",
-    "mock_webrtc_dependencies.h",
+    "mock_sharing_connection_host.cc",
+    "mock_sharing_connection_host.h",
   ]
 
   deps = [
