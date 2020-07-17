@@ -307,6 +307,7 @@
 #include "content/public/common/web_preferences.h"
 #include "content/public/common/window_container_type.mojom-shared.h"
 #include "device/vr/buildflags/buildflags.h"
+#include "extensions/browser/process_map.h"
 #include "extensions/buildflags/buildflags.h"
 #include "google_apis/gaia/gaia_urls.h"
 #include "google_apis/google_api_keys.h"
