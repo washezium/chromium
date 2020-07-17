@@ -630,6 +630,21 @@ _CONFIG = [
     },
     {
         'paths':
+        ['third_party/blink/renderer/core/frame/web_local_frame_impl.cc'],
+        'allowed': [
+            'ui::AXTreeID',
+            'ui::AXTreeIDUnknown',
+        ],
+    },
+    {
+        'paths':
+        ['third_party/blink/renderer/core/frame/web_local_frame_impl.h'],
+        'allowed': [
+            'ui::AXTreeID',
+        ],
+    },
+    {
+        'paths':
         ['third_party/blink/renderer/core/fileapi/file_reader_loader.cc'],
         'allowed': [
             'net::ERR_FILE_NOT_FOUND',
