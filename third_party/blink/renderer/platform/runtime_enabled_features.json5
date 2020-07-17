@@ -322,6 +322,9 @@
       status: {"Android": "stable"},
     },
     {
+      name: "CompositeSVG",
+    },
+    {
       name: "ComputedAccessibilityInfo",
       status: "experimental",
     },
