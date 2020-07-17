@@ -2943,6 +2943,16 @@
     "expiry_milestone": 85
   },
   {
+    "name": "mixed-forms-disable-autofill",
+    "owners": [ "carlosil" ],
+    "expiry_milestone": 88
+  },
+  {
+    "name": "mixed-forms-interstitial",
+    "owners": [ "carlosil" ],
+    "expiry_milestone": 88
+  },
+  {
     "name": "mobile-google-srp",
     "owners": [ "gambard" ],
     "expiry_milestone": 88

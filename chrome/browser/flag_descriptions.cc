@@ -1325,6 +1325,19 @@ const char kMixBrowserTypeTabsDescription[] =
     "Allows tabs to be dragged between any browsers that support tabs, "
     "including apps";
 
+const char kMixedFormsDisableAutofillName[] =
+    "Disable autofill for mixed forms";
+const char kMixedFormsDisableAutofillDescription[] =
+    "If enabled, autofill is not allowed for mixed forms (forms on HTTPS sites "
+    "that submit over HTTP), and a warning bubble will be shown instead. "
+    "Autofill for passwords is not affected by this setting.";
+
+const char kMixedFormsInterstitialName[] = "Mixed forms interstitial";
+const char kMixedFormsInterstitialDescription[] =
+    "When enabled, a full-page interstitial warning is shown when a mixed "
+    "content form (a form on an HTTPS site that submits over HTTP) is "
+    "submitted.";
+
 const char kMobileIdentityConsistencyName[] = "Mobile identity consistency";
 const char kMobileIdentityConsistencyDescription[] =
     "Enables stronger identity consistency on mobile";

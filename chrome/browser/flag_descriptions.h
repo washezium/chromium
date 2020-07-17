@@ -782,6 +782,12 @@ extern const char kMediaRouterCastAllowAllIPsDescription[];
 extern const char kMixBrowserTypeTabsName[];
 extern const char kMixBrowserTypeTabsDescription[];
 
+extern const char kMixedFormsDisableAutofillName[];
+extern const char kMixedFormsDisableAutofillDescription[];
+
+extern const char kMixedFormsInterstitialName[];
+extern const char kMixedFormsInterstitialDescription[];
+
 extern const char kMobileIdentityConsistencyName[];
 extern const char kMobileIdentityConsistencyDescription[];
 

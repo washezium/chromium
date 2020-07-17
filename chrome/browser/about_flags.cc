@@ -5946,8 +5946,18 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kEditPasswordsInDesktopSettingsName,
      flag_descriptions::kEditPasswordsInDesktopSettingsDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(
-         password_manager::features::kEditPasswordsInDesktopSettings)}
+         password_manager::features::kEditPasswordsInDesktopSettings)},
 #endif  // !defined(OS_ANDROID)
+
+    {"mixed-forms-disable-autofill",
+     flag_descriptions::kMixedFormsDisableAutofillName,
+     flag_descriptions::kMixedFormsDisableAutofillDescription, kOsAll,
+     FEATURE_VALUE_TYPE(autofill::features::kAutofillPreventMixedFormsFilling)},
+
+    {"mixed-forms-interstitial", flag_descriptions::kMixedFormsInterstitialName,
+     flag_descriptions::kMixedFormsInterstitialDescription, kOsAll,
+     FEATURE_VALUE_TYPE(
+         security_interstitials::kInsecureFormSubmissionInterstitial)}
 
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag

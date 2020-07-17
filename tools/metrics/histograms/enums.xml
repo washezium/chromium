@@ -40173,6 +40173,7 @@ from previous Chrome versions.
   <int value="-1573468162" label="ClientStorageAccessContextAuditing:enabled"/>
   <int value="-1572010356" label="enable-privet-v3"/>
   <int value="-1571841513" label="enable-devtools-experiments"/>
+  <int value="-1568737447" label="InsecureFormSubmissionInterstitial:enabled"/>
   <int value="-1568559155" label="WebSocketHandshakeReuseConnection:enabled"/>
   <int value="-1567727398" label="DesktopPWAsWithoutExtensions:disabled"/>
   <int value="-1564232131"
@@ -42084,6 +42085,7 @@ from previous Chrome versions.
   <int value="492985975" label="use-monitor-color-space"/>
   <int value="493903641" label="disable-appcontainer"/>
   <int value="494733611" label="disable-drop-sync-credential"/>
+  <int value="494939785" label="InsecureFormSubmissionInterstitial:disabled"/>
   <int value="497137719" label="OmniboxVoiceSearchAlwaysVisible:disabled"/>
   <int value="500177932" label="ArcSmartTextSelection:disabled"/>
   <int value="501477022" label="DrawOcclusion:enabled"/>
@@ -42427,6 +42429,7 @@ from previous Chrome versions.
   <int value="871435095" label="EnableAggregatedMlAppRanking:disabled"/>
   <int value="871713352" label="ImprovedLanguageSettings:enabled"/>
   <int value="876879670" label="OfflinePagesInDownloadHomeOpenInCct:enabled"/>
+  <int value="877059804" label="AutofillPreventMixedFormsFilling:disabled"/>
   <int value="878773995" label="ChromeHomeBottomNavLabels:disabled"/>
   <int value="879699575" label="disable-gesture-tap-highlight"/>
   <int value="879992337" label="disable-pull-to-refresh-effect"/>
@@ -43224,6 +43227,7 @@ from previous Chrome versions.
   <int value="1747279677" label="disable-delegated-renderer"/>
   <int value="1748481830" label="AppManagement:enabled"/>
   <int value="1749028785" label="SubresourceRedirect:disabled"/>
+  <int value="1750693293" label="AutofillPreventMixedFormsFilling:enabled"/>
   <int value="1752168018" label="enable-stale-while-revalidate"/>
   <int value="1755024316" label="HostWindowsInAppShimProcess:disabled"/>
   <int value="1758262950"
