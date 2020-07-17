@@ -1015,6 +1015,57 @@ const FeatureEntry::FeatureVariation kOmniboxRichAutocompletionVariations[] = {
         nullptr,
     }};
 
+const FeatureEntry::FeatureVariation
+    kOmniboxRichAutocompletionMinCharVariations[] = {
+        {
+            "Title 0 / Non Prefix 0",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "0"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "0"}},
+            2,
+            nullptr,
+        },
+        {
+            "Title 0 / Non Prefix 3",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "0"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "3"}},
+            2,
+            nullptr,
+        },
+        {
+            "Title 0 / Non Prefix 5",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "0"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "5"}},
+            2,
+            nullptr,
+        },
+        {
+            "Title 3 / Non Prefix 3",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "3"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "3"}},
+            2,
+            nullptr,
+        },
+        {
+            "Title 3 / Non Prefix 5",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "3"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "5"}},
+            2,
+            nullptr,
+        },
+        {
+            "Title 5 / Non Prefix 5",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteTitlesMinChar", "5"},
+                {"RichAutocompletionAutocompleteNonPrefixMinChar", "5"}},
+            2,
+            nullptr,
+        }};
+
 #endif  // defined(OS_LINUX) || defined(OS_MACOSX) || defined(OS_WIN)
 
 const FeatureEntry::FeatureParam kOmniboxOnFocusSuggestionsParamSERP[] = {
@@ -3536,6 +3587,13 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kOmniboxRichAutocompletionDescription, kOsDesktop,
      FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kRichAutocompletion,
                                     kOmniboxRichAutocompletionVariations,
+                                    "OmniboxBundledExperimentV1")},
+    {"omnibox-rich-autocompletion-min-char",
+     flag_descriptions::kOmniboxRichAutocompletionMinCharName,
+     flag_descriptions::kOmniboxRichAutocompletionMinCharDescription,
+     kOsDesktop,
+     FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kRichAutocompletion,
+                                    kOmniboxRichAutocompletionMinCharVariations,
                                     "OmniboxBundledExperimentV1")},
 #endif  // defined(OS_LINUX) || defined(OS_MACOSX) || defined(OS_WIN)
 

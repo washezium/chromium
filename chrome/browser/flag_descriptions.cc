@@ -1488,6 +1488,10 @@ const char kOmniboxRichAutocompletionDescription[] =
     "'2-Line UI' includes titles (and URLs when autocompleting titles) on a "
     "2nd line, 3) 'Title AC' autocompletes titles, and 4) 'Non-Prefix AC' "
     "autocompletes non-prefixes.";
+const char kOmniboxRichAutocompletionMinCharName[] =
+    "Omnibox Rich Autocompletion Min Characters";
+const char kOmniboxRichAutocompletionMinCharDescription[] =
+    "Specifies min input character length to trigger rich autocompletion.";
 
 const char kOmniboxOnFocusSuggestionsName[] = "Omnibox on-focus suggestions";
 const char kOmniboxOnFocusSuggestionsDescription[] =

@@ -865,6 +865,8 @@ extern const char kOmniboxLocalEntitySuggestionsDescription[];
 
 extern const char kOmniboxRichAutocompletionName[];
 extern const char kOmniboxRichAutocompletionDescription[];
+extern const char kOmniboxRichAutocompletionMinCharName[];
+extern const char kOmniboxRichAutocompletionMinCharDescription[];
 
 extern const char kOmniboxOnFocusSuggestionsName[];
 extern const char kOmniboxOnFocusSuggestionsDescription[];
