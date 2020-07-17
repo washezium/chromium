@@ -6266,6 +6266,47 @@ should be able to be added at any place in this file.
   <description>Please enter the description of this user action.</description>
 </action>
 
+<action name="Extensions.ContextMenu.Hosts.LearnMoreClicked">
+  <owner>tjudkins@chromium.org</owner>
+  <owner>extensions-core@chromium.org</owner>
+  <description>
+    The user clicked the &quot;Learn more about site access&quot; option in the
+    runtime host permissions section of an extension's context menu. This is
+    recorded for both keyboard and mouse activations.
+  </description>
+</action>
+
+<action name="Extensions.ContextMenu.Hosts.OnAllSitesClicked">
+  <owner>tjudkins@chromium.org</owner>
+  <owner>extensions-core@chromium.org</owner>
+  <description>
+    The user clicked the &quot;On all sites&quot; option in the runtime host
+    permissions section of an extension's context menu. This is recorded for
+    both keyboard and mouse activations.
+  </description>
+</action>
+
+<action name="Extensions.ContextMenu.Hosts.OnClickClicked">
+  <owner>tjudkins@chromium.org</owner>
+  <owner>extensions-core@chromium.org</owner>
+  <description>
+    The user clicked the &quot;When you click the extension&quot; option in the
+    runtime host permissions section of an extension's context menu. This is
+    recorded for both keyboard and mouse activations.
+  </description>
+</action>
+
+<action name="Extensions.ContextMenu.Hosts.OnSiteClicked">
+  <owner>tjudkins@chromium.org</owner>
+  <owner>extensions-core@chromium.org</owner>
+  <description>
+    The user clicked the &quot;On {site}&quot; option in the runtime host
+    permissions section of an extension's context menu, where &quot;{site}&quot;
+    is the domain of the current page. This is recorded for both keyboard and
+    mouse activations.
+  </description>
+</action>
+
 <action name="Extensions.ExtensionDisabled">
   <owner>archanasimha@chromium.org</owner>
   <description>
@@ -6349,6 +6390,15 @@ should be able to be added at any place in this file.
   <description>
     The user opened the Extensions Menu in the toolbar. This is recorded for
     both keyboard and mouse activation.
+  </description>
+</action>
+
+<action name="Extensions.Toolbar.MoreActionsButtonPressedFromMenu">
+  <owner>tjudkins@chromium.org</owner>
+  <owner>extensions-core@chromium.org</owner>
+  <description>
+    The user activated the more actions button for an extension in the
+    Extensions Menu. This is recorded for both keyboard and mouse activation.
   </description>
 </action>
 
