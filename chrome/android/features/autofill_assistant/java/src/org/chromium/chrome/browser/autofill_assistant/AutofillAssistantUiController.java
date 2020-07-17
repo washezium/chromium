@@ -179,6 +179,12 @@ public class AutofillAssistantUiController {
                                 safeNativeStop(DropOutReason.TAB_DETACHED);
                                 return;
                             }
+
+                            // If we have an open snackbar, execute the callback immediately. This
+                            // may shut down the Autofill Assistant.
+                            if (mSnackbarController != null) {
+                                mSnackbarController.onDismissNoAction(/* actionData= */ null);
+                            }
                             AutofillAssistantClient.fromWebContents(mWebContents).destroyUi();
                         }
                     }
@@ -382,9 +388,10 @@ public class AutofillAssistantUiController {
 
     // Native methods.
     private void safeSnackbarResult(boolean undo) {
-        if (mNativeUiController != 0) {
+        if (mSnackbarController != null && mNativeUiController != 0) {
             AutofillAssistantUiControllerJni.get().snackbarResult(
                     mNativeUiController, AutofillAssistantUiController.this, undo);
+            mSnackbarController = null;
         }
     }
 
