@@ -8,9 +8,9 @@
 #include <memory>
 
 #include "base/i18n/number_formatting.h"
-#include "base/message_loop/message_loop_current.h"
 #include "base/strings/strcat.h"
 #include "base/strings/utf_string_conversions.h"
+#include "base/task/current_thread.h"
 #include "base/trace_event/trace_event.h"
 #include "ui/gfx/linux/drm_util_linux.h"
 #include "ui/ozone/platform/wayland/host/wayland_connection.h"
@@ -701,7 +701,7 @@ void WaylandBufferManagerHost::CreateDmabufBasedBuffer(
     uint32_t format,
     uint32_t planes_count,
     uint32_t buffer_id) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
   DCHECK(error_message_.empty());
 
   TRACE_EVENT2("wayland", "WaylandBufferManagerHost::CreateDmabufBasedBuffer",
@@ -741,7 +741,7 @@ void WaylandBufferManagerHost::CreateShmBasedBuffer(mojo::PlatformHandle shm_fd,
                                                     uint64_t length,
                                                     const gfx::Size& size,
                                                     uint32_t buffer_id) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
   DCHECK(error_message_.empty());
 
   TRACE_EVENT1("wayland", "WaylandBufferManagerHost::CreateShmBasedBuffer",
@@ -765,7 +765,7 @@ void WaylandBufferManagerHost::CreateShmBasedBuffer(mojo::PlatformHandle shm_fd,
 void WaylandBufferManagerHost::CommitBuffer(gfx::AcceleratedWidget widget,
                                             uint32_t buffer_id,
                                             const gfx::Rect& damage_region) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
 
   TRACE_EVENT1("wayland", "WaylandBufferManagerHost::CommitBuffer", "Buffer id",
                buffer_id);
@@ -792,7 +792,7 @@ void WaylandBufferManagerHost::CommitBuffer(gfx::AcceleratedWidget widget,
 
 void WaylandBufferManagerHost::DestroyBuffer(gfx::AcceleratedWidget widget,
                                              uint32_t buffer_id) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
 
   TRACE_EVENT1("wayland", "WaylandBufferManagerHost::DestroyBuffer",
                "Buffer id", buffer_id);
@@ -983,7 +983,7 @@ void WaylandBufferManagerHost::OnSubmission(
     gfx::AcceleratedWidget widget,
     uint32_t buffer_id,
     const gfx::SwapResult& swap_result) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
 
   DCHECK(buffer_manager_gpu_associated_);
   buffer_manager_gpu_associated_->OnSubmission(widget, buffer_id, swap_result);
@@ -993,7 +993,7 @@ void WaylandBufferManagerHost::OnPresentation(
     gfx::AcceleratedWidget widget,
     uint32_t buffer_id,
     const gfx::PresentationFeedback& feedback) {
-  DCHECK(base::MessageLoopCurrentForUI::IsSet());
+  DCHECK(base::CurrentUIThread::IsSet());
 
   DCHECK(buffer_manager_gpu_associated_);
   buffer_manager_gpu_associated_->OnPresentation(widget, buffer_id, feedback);
