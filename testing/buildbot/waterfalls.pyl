@@ -2104,6 +2104,7 @@
           'all',
         ],
         'mixins': [
+          'chromium-tests-ios14',
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',
@@ -2120,6 +2121,7 @@
           'all',
         ],
         'mixins': [
+          'chromium-tests-ios14',
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',

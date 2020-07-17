@@ -207,6 +207,13 @@
       'service_account': 'chromium-tester@chops-service-accounts.iam.gserviceaccount.com',
     },
   },
+  'chromium-tests-ios14': {
+    'swarming': {
+      'dimensions': {
+        'pool': 'chromium.tests.ios14',
+      },
+    },
+  },
   # TODO(crbug.com/1057152): Add this mixin unconditionally for all CrOS device
   # tests.
   'cros_device_flash': {
