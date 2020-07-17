@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.settings.language;
+package org.chromium.chrome.browser.language.settings;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -33,11 +33,7 @@ import org.chromium.base.test.util.CommandLineFlags;
 import org.chromium.base.test.util.Restriction;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
-import org.chromium.chrome.browser.language.settings.LanguageItem;
-import org.chromium.chrome.browser.language.settings.LanguageListBaseAdapter;
-import org.chromium.chrome.browser.language.settings.LanguageSettings;
 import org.chromium.chrome.browser.preferences.Pref;
-import org.chromium.chrome.browser.preferences.PrefServiceBridge;
 import org.chromium.chrome.browser.settings.SettingsActivity;
 import org.chromium.chrome.browser.settings.SettingsActivityTestRule;
 import org.chromium.chrome.browser.translate.TranslateBridge;
@@ -148,8 +144,8 @@ public class LanguageSettingsTest {
         onView(allOf(hasSibling(withText(R.string.languages_item_option_offer_to_translate)),
                        withId(R.id.menu_item_end_icon)))
                 .check((v, e) -> {
-                    Assert.assertNotNull(
-                            "There should exist an icon next to the text to indicate 'offer to translate' is on",
+                    Assert.assertNotNull("There should exist an icon next to the text to indicate "
+                                    + "'offer to translate' is on",
                             ((ImageView) v).getDrawable());
                 });
 
@@ -187,9 +183,9 @@ public class LanguageSettingsTest {
         boolean enabledInDefault = pref.isChecked();
         TestThreadUtils.runOnUiThreadBlocking(() -> {
             boolean enabled =
-                    PrefServiceBridge.getInstance().getBoolean(Pref.OFFER_TRANSLATE_ENABLED);
-            Assert.assertEquals(
-                    "The state of switch widget is different from local preference of 'offer to translate'.",
+                    LanguageSettings.getPrefService().getBoolean(Pref.OFFER_TRANSLATE_ENABLED);
+            Assert.assertEquals("The state of switch widget is different from local preference of "
+                            + "'offer to translate'.",
                     enabledInDefault, enabled);
         });
 
@@ -204,10 +200,10 @@ public class LanguageSettingsTest {
         // Toggle the switch.
         onView(withId(R.id.switchWidget)).perform(click());
         TestThreadUtils.runOnUiThreadBlocking(() -> {
-            Assert.assertEquals(
-                    "Preference of 'offer to translate' should be toggled when switch widget is clicked.",
+            Assert.assertEquals("Preference of 'offer to translate' should be toggled when switch "
+                            + "widget is clicked.",
                     !enabledInDefault,
-                    PrefServiceBridge.getInstance().getBoolean(Pref.OFFER_TRANSLATE_ENABLED));
+                    LanguageSettings.getPrefService().getBoolean(Pref.OFFER_TRANSLATE_ENABLED));
         });
 
         TestThreadUtils.runOnUiThreadBlocking((Runnable) moreButton::performClick);
@@ -217,7 +213,7 @@ public class LanguageSettingsTest {
 
         // Reset state.
         TestThreadUtils.runOnUiThreadBlocking(() -> {
-            PrefServiceBridge.getInstance().setBoolean(
+            LanguageSettings.getPrefService().setBoolean(
                     Pref.OFFER_TRANSLATE_ENABLED, enabledInDefault);
         });
     }
