@@ -7,6 +7,7 @@
 
 #include "third_party/blink/renderer/core/animation/interpolation_environment.h"
 #include "third_party/blink/renderer/core/css/resolver/style_resolver_state.h"
+#include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 
 namespace blink {
 
@@ -23,7 +24,9 @@ class CSSInterpolationEnvironment : public InterpolationEnvironment {
       : InterpolationEnvironment(map),
         state_(&state),
         style_(state.Style()),
-        variable_resolver_(variable_resolver) {}
+        variable_resolver_(variable_resolver) {
+    DCHECK(!RuntimeEnabledFeatures::CSSCascadeEnabled());
+  }
 
   explicit CSSInterpolationEnvironment(const InterpolationTypesMap& map,
                                        StyleResolverState& state,
@@ -33,7 +36,9 @@ class CSSInterpolationEnvironment : public InterpolationEnvironment {
         state_(&state),
         style_(state.Style()),
         cascade_(cascade),
-        cascade_resolver_(cascade_resolver) {}
+        cascade_resolver_(cascade_resolver) {
+    DCHECK(RuntimeEnabledFeatures::CSSCascadeEnabled());
+  }
 
   explicit CSSInterpolationEnvironment(const InterpolationTypesMap& map,
                                        const ComputedStyle& style)
