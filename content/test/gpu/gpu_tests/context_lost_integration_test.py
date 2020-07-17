@@ -362,8 +362,6 @@ class ContextLostIntegrationTest(gpu_integration_test.GpuIntegrationTest):
     self._RestartBrowser('must restart after tests that kill the GPU process')
 
   def _ContextLost_WorkerRAFAfterGPUCrash(self, test_path):
-    self.RestartBrowserIfNecessaryWithArgs(
-        [cba.ENABLE_EXPERIMENTAL_WEB_PLATFORM_FEATURES])
     self.RestartBrowserIfNecessaryWithArgs([])
     self._NavigateAndWaitForLoad(test_path)
     self._KillGPUProcess(1, False)
@@ -373,7 +371,6 @@ class ContextLostIntegrationTest(gpu_integration_test.GpuIntegrationTest):
   def _ContextLost_WorkerRAFAfterGPUCrash_OOPD(self, test_path):
     self.RestartBrowserIfNecessaryWithArgs([
         '--enable-viz-display-compositor',
-        cba.ENABLE_EXPERIMENTAL_WEB_PLATFORM_FEATURES,
     ])
     self._NavigateAndWaitForLoad(test_path)
     self._KillGPUProcess(1, False)
