@@ -122,7 +122,6 @@ class CORE_EXPORT DocumentInit final {
   Type GetType() const { return type_; }
   const String& GetMimeType() const { return mime_type_; }
   bool IsForExternalHandler() const { return is_for_external_handler_; }
-  Color GetPluginBackgroundColor() const { return plugin_background_color_; }
 
   // Used when creating Documents not attached to a window.
   DocumentInit& WithExecutionContext(ExecutionContext*);
@@ -189,7 +188,6 @@ class CORE_EXPORT DocumentInit final {
   KURL web_bundle_claimed_url_;
 
   bool is_for_external_handler_ = false;
-  Color plugin_background_color_;
 
 #if DCHECK_IS_ON()
   bool for_test_ = false;

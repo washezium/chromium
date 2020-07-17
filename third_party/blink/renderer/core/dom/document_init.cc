@@ -220,11 +220,6 @@ DocumentInit& DocumentInit::WithTypeFrom(const String& mime_type) {
   mime_type_ = mime_type;
   type_ = ComputeDocumentType(GetFrame(), Url(), mime_type_,
                               &is_for_external_handler_);
-  if (type_ == Type::kPlugin) {
-    plugin_background_color_ =
-        GetPluginData(GetFrame(), Url())
-            ->PluginBackgroundColorForMimeType(mime_type_);
-  }
   return *this;
 }
 
