@@ -271,6 +271,8 @@ public abstract class ChromeFeatureList {
             "CookiesWithoutSameSiteMustBeSecure";
     public static final String DARKEN_WEBSITES_CHECKBOX_IN_THEMES_SETTING =
             "DarkenWebsitesCheckboxInThemesSetting";
+    public static final String DECOUPLE_SYNC_FROM_ANDROID_MASTER_SYNC =
+            "DecoupleSyncFromAndroidMasterSync";
     public static final String DIRECT_ACTIONS = "DirectActions";
     public static final String DNS_OVER_HTTPS = "DnsOverHttps";
     public static final String DOWNLOAD_FILE_PROVIDER = "DownloadFileProvider";
