@@ -5,8 +5,6 @@
 #ifndef CONTENT_BROWSER_SITE_INSTANCE_IMPL_H_
 #define CONTENT_BROWSER_SITE_INSTANCE_IMPL_H_
 
-#include <functional>
-
 #include <stddef.h>
 #include <stdint.h>
 
