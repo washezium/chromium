@@ -18834,7 +18834,11 @@
       'tags': [],
       'desc': '''Setting the policy to True allows pages to show pop-ups while the pages unload.
 
-      Setting the policy to False or leaving it unset prevents pages from showing pop-ups while the pages unload.''',
+      Setting the policy to False or leaving it unset prevents pages from showing pop-ups while the pages unload.
+
+      This policy will be removed in Chrome 88.
+
+      See https://www.chromestatus.com/feature/5989473649164288.''',
     },
     {
       'name': 'DeviceWilcoDtcConfiguration',
