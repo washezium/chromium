@@ -566,6 +566,7 @@ if (is_android) {
       "//base:base_java",
       "//base:base_java_test_support",
       "//chrome/android:chrome_all_java",
+      "//chrome/browser/tabmodel:java",
       "//components/crash/android:handler_java",
       "//components/crash/android:java",
       "//components/module_installer/android:module_installer_java",
