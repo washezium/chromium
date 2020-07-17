@@ -201,7 +201,7 @@ class AndroidProviderBackendTest : public testing::Test {
     ASSERT_TRUE(temp_dir_.CreateUniqueTempDir());
 
     history_db_name_ = temp_dir_.GetPath().AppendASCII(kHistoryFilename);
-    thumbnail_db_name_ = temp_dir_.GetPath().AppendASCII(kFaviconsFilename);
+    favicon_db_name_ = temp_dir_.GetPath().AppendASCII(kFaviconsFilename);
     android_cache_db_name_ =
         temp_dir_.GetPath().AppendASCII("TestAndroidCache.db");
   }
@@ -250,11 +250,11 @@ class AndroidProviderBackendTest : public testing::Test {
   AndroidProviderBackendNotifier notifier_;
   scoped_refptr<HistoryBackend> history_backend_;
   TestHistoryDatabase history_db_;
-  ThumbnailDatabase thumbnail_db_;
+  FaviconDatabase favicon_db_;
   base::ScopedTempDir temp_dir_;
   base::FilePath android_cache_db_name_;
   base::FilePath history_db_name_;
-  base::FilePath thumbnail_db_name_;
+  base::FilePath favicon_db_name_;
 
   TestingProfileManager profile_manager_;
   BookmarkModel* bookmark_model_;
@@ -322,17 +322,17 @@ TEST_F(AndroidProviderBackendTest, UpdateTables) {
   history_backend->Closing();
   }
 
-  // The history_db_name and thumbnail_db_name files should be created by
+  // The history_db_name and favicon_db_name files should be created by
   // HistoryBackend. We need to open the same database files.
   ASSERT_TRUE(base::PathExists(history_db_name_));
-  ASSERT_TRUE(base::PathExists(thumbnail_db_name_));
+  ASSERT_TRUE(base::PathExists(favicon_db_name_));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   // Set url1 as bookmark.
   AddBookmark(url1);
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   ASSERT_TRUE(backend->EnsureInitializedAndUpdated());
@@ -461,18 +461,18 @@ TEST_F(AndroidProviderBackendTest, QueryHistoryAndBookmarks) {
   history_backend->Closing();
   }
 
-  // The history_db_name and thumbnail_db_name files should be created by
+  // The history_db_name and favicon_db_name files should be created by
   // HistoryBackend. We need to open the same database files.
   ASSERT_TRUE(base::PathExists(history_db_name_));
-  ASSERT_TRUE(base::PathExists(thumbnail_db_name_));
+  ASSERT_TRUE(base::PathExists(favicon_db_name_));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   // Set url1 as bookmark.
   AddBookmark(url1);
 
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   std::vector<HistoryAndBookmarkRow::ColumnID> projections;
@@ -556,9 +556,9 @@ TEST_F(AndroidProviderBackendTest, InsertHistoryAndBookmark) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   ASSERT_TRUE(backend->InsertHistoryAndBookmark(row1));
@@ -665,10 +665,10 @@ TEST_F(AndroidProviderBackendTest, DeleteHistoryAndBookmarks) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
 
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   ASSERT_TRUE(backend->InsertHistoryAndBookmark(row1));
@@ -764,9 +764,9 @@ TEST_F(AndroidProviderBackendTest, DeleteHistoryAndBookmarks) {
 
 TEST_F(AndroidProviderBackendTest, IsValidHistoryAndBookmarkRow) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   // The created time and last visit time are too close to have required visit
@@ -854,9 +854,9 @@ TEST_F(AndroidProviderBackendTest, UpdateURL) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -1035,9 +1035,9 @@ TEST_F(AndroidProviderBackendTest, UpdateVisitCount) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -1115,9 +1115,9 @@ TEST_F(AndroidProviderBackendTest, UpdateLastVisitTime) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -1176,9 +1176,9 @@ TEST_F(AndroidProviderBackendTest, UpdateFavicon) {
   row1.set_title(UTF8ToUTF16("cnn"));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -1206,12 +1206,12 @@ TEST_F(AndroidProviderBackendTest, UpdateFavicon) {
               notifier_.favicon_changed()->find(row1.url()));
 
   std::vector<IconMapping> icon_mappings;
-  EXPECT_TRUE(thumbnail_db_.GetIconMappingsForPageURL(
+  EXPECT_TRUE(favicon_db_.GetIconMappingsForPageURL(
       row1.url(), {favicon_base::IconType::kFavicon}, &icon_mappings));
   EXPECT_EQ(1u, icon_mappings.size());
   std::vector<FaviconBitmap> favicon_bitmaps;
-  EXPECT_TRUE(thumbnail_db_.GetFaviconBitmaps(icon_mappings[0].icon_id,
-                                              &favicon_bitmaps));
+  EXPECT_TRUE(favicon_db_.GetFaviconBitmaps(icon_mappings[0].icon_id,
+                                            &favicon_bitmaps));
   EXPECT_EQ(1u, favicon_bitmaps.size());
   EXPECT_TRUE(favicon_bitmaps[0].bitmap_data.get());
   EXPECT_EQ(1u, favicon_bitmaps[0].bitmap_data->size());
@@ -1235,15 +1235,15 @@ TEST_F(AndroidProviderBackendTest, UpdateFavicon) {
   ASSERT_TRUE(notifier_.favicon_changed()->end() !=
               notifier_.favicon_changed()->find(row1.url()));
 
-  EXPECT_FALSE(thumbnail_db_.GetIconMappingsForPageURL(
+  EXPECT_FALSE(favicon_db_.GetIconMappingsForPageURL(
       row1.url(), {favicon_base::IconType::kFavicon}, NULL));
 }
 
 TEST_F(AndroidProviderBackendTest, UpdateSearchTermTable) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   // Insert a keyword search item to verify if the update succeeds.
   HistoryAndBookmarkRow row1;
@@ -1319,9 +1319,9 @@ TEST_F(AndroidProviderBackendTest, UpdateSearchTermTable) {
 
 TEST_F(AndroidProviderBackendTest, QuerySearchTerms) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   // Insert a keyword search item to verify if we can find it.
   HistoryAndBookmarkRow row1;
@@ -1353,9 +1353,9 @@ TEST_F(AndroidProviderBackendTest, QuerySearchTerms) {
 
 TEST_F(AndroidProviderBackendTest, UpdateSearchTerms) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   // Insert a keyword.
   HistoryAndBookmarkRow row1;
@@ -1457,9 +1457,9 @@ TEST_F(AndroidProviderBackendTest, UpdateSearchTerms) {
 
 TEST_F(AndroidProviderBackendTest, DeleteSearchTerms) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   // Insert a keyword.
   HistoryAndBookmarkRow row1;
@@ -1563,9 +1563,9 @@ TEST_F(AndroidProviderBackendTest, DeleteSearchTerms) {
 
 TEST_F(AndroidProviderBackendTest, InsertSearchTerm) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   SearchRow search_row;
   search_row.set_search_term(UTF8ToUTF16("google"));
@@ -1617,9 +1617,9 @@ TEST_F(AndroidProviderBackendTest, DeleteHistory) {
   row2.set_favicon(base::RefCountedBytes::TakeVector(&data));
 
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -1672,19 +1672,19 @@ TEST_F(AndroidProviderBackendTest, DeleteHistory) {
 
 TEST_F(AndroidProviderBackendTest, TestMultipleNestingTransaction) {
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
 
   // Create the nested transactions.
   history_db_.BeginTransaction();
   history_db_.BeginTransaction();
   history_db_.BeginTransaction();
-  thumbnail_db_.BeginTransaction();
-  thumbnail_db_.BeginTransaction();
+  favicon_db_.BeginTransaction();
+  favicon_db_.BeginTransaction();
   int history_transaction = history_db_.transaction_nesting();
-  int thumbnail_transaction = thumbnail_db_.transaction_nesting();
+  int favicon_transaction = favicon_db_.transaction_nesting();
 
   // Insert a row to verify the transaction number are not changed
   // after a transaction commit.
@@ -1697,13 +1697,13 @@ TEST_F(AndroidProviderBackendTest, TestMultipleNestingTransaction) {
   row1.set_title(UTF8ToUTF16("cnn"));
   ASSERT_TRUE(backend->InsertHistoryAndBookmark(row1));
   EXPECT_EQ(history_transaction, history_db_.transaction_nesting());
-  EXPECT_EQ(thumbnail_transaction, thumbnail_db_.transaction_nesting());
+  EXPECT_EQ(favicon_transaction, favicon_db_.transaction_nesting());
 
   // Insert the same URL, it should failed. The transaction are still same
   // after a rollback.
   ASSERT_FALSE(backend->InsertHistoryAndBookmark(row1));
   EXPECT_EQ(history_transaction, history_db_.transaction_nesting());
-  EXPECT_EQ(thumbnail_transaction, thumbnail_db_.transaction_nesting());
+  EXPECT_EQ(favicon_transaction, favicon_db_.transaction_nesting());
 
   // Insert another row to verify we are still fine after the previous
   // rollback.
@@ -1715,16 +1715,16 @@ TEST_F(AndroidProviderBackendTest, TestMultipleNestingTransaction) {
   row2.set_title(UTF8ToUTF16("example"));
   ASSERT_TRUE(backend->InsertHistoryAndBookmark(row2));
   EXPECT_EQ(history_transaction, history_db_.transaction_nesting());
-  EXPECT_EQ(thumbnail_transaction, thumbnail_db_.transaction_nesting());
+  EXPECT_EQ(favicon_transaction, favicon_db_.transaction_nesting());
 }
 
 TEST_F(AndroidProviderBackendTest, TestAndroidCTSComplianceForZeroVisitCount) {
   // This is to verify the last visit time and created time are same when visit
   // count is 0.
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   URLRow url_row(GURL("http://www.google.com"));
   url_row.set_last_visit(Time::Now());
@@ -1759,9 +1759,9 @@ TEST_F(AndroidProviderBackendTest, AndroidCTSComplianceFolderColumnExists) {
   // returned when folder is 0 and the non bookmark rows returned when folder
   // is 1.
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
-  ASSERT_EQ(sql::INIT_OK, thumbnail_db_.Init(thumbnail_db_name_));
+  ASSERT_EQ(sql::INIT_OK, favicon_db_.Init(favicon_db_name_));
   std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-      android_cache_db_name_, &history_db_, &thumbnail_db_,
+      android_cache_db_name_, &history_db_, &favicon_db_,
       history_backend_client_.get(), &notifier_));
   HistoryAndBookmarkRow row1;
   row1.set_raw_url("cnn.com");
@@ -1809,7 +1809,7 @@ TEST_F(AndroidProviderBackendTest, AndroidCTSComplianceFolderColumnExists) {
   EXPECT_FALSE(statement->statement()->Step());
 }
 
-TEST_F(AndroidProviderBackendTest, QueryWithoutThumbnailDB) {
+TEST_F(AndroidProviderBackendTest, QueryWithoutFaviconDB) {
   GURL url1("http://www.cnn.com");
   const base::string16 title1(UTF8ToUTF16("cnn"));
   std::vector<VisitInfo> visits1;
@@ -1858,10 +1858,10 @@ TEST_F(AndroidProviderBackendTest, QueryWithoutThumbnailDB) {
   history_backend->Closing();
   }
 
-  // The history_db_name and thumbnail_db_name files should be created by
+  // The history_db_name and favicon_db_name files should be created by
   // HistoryBackend. We need to open the same database files.
   ASSERT_TRUE(base::PathExists(history_db_name_));
-  ASSERT_TRUE(base::PathExists(thumbnail_db_name_));
+  ASSERT_TRUE(base::PathExists(favicon_db_name_));
 
   // Only creates the history database
   ASSERT_EQ(sql::INIT_OK, history_db_.Init(history_db_name_));
@@ -1910,7 +1910,7 @@ TEST_F(AndroidProviderBackendTest, QueryWithoutThumbnailDB) {
   EXPECT_EQ(3, statement->statement()->ColumnInt(5));
   std::vector<unsigned char> favicon2;
   EXPECT_EQ(6, statement->favicon_index());
-  // No favicon because thumbnail database wasn't initialized.
+  // No favicon because favicon database wasn't initialized.
   EXPECT_EQ(0, statement->statement()->ColumnByteLength(6));
   EXPECT_FALSE(statement->statement()->ColumnBool(7));
 
@@ -1918,7 +1918,7 @@ TEST_F(AndroidProviderBackendTest, QueryWithoutThumbnailDB) {
   EXPECT_FALSE(statement->statement()->Step());
 }
 
-TEST_F(AndroidProviderBackendTest, InsertWithoutThumbnailDB) {
+TEST_F(AndroidProviderBackendTest, InsertWithoutFaviconDB) {
   HistoryAndBookmarkRow row1;
   row1.set_raw_url("cnn.com");
   row1.set_url(GURL("http://cnn.com"));
@@ -1973,12 +1973,12 @@ TEST_F(AndroidProviderBackendTest, InsertWithoutThumbnailDB) {
             (*notifier_.modified_details())[0].last_visit());
   EXPECT_EQ(row2.title(),
             (*notifier_.modified_details())[0].title());
-  // Favicon details is still false because thumbnail database wasn't
+  // Favicon details is still false because favicon database wasn't
   // initialized, we ignore any changes of favicon.
   ASSERT_FALSE(notifier_.favicon_changed());
 }
 
-TEST_F(AndroidProviderBackendTest, DeleteWithoutThumbnailDB) {
+TEST_F(AndroidProviderBackendTest, DeleteWithoutFaviconDB) {
   HistoryAndBookmarkRow row1;
   row1.set_raw_url("cnn.com");
   row1.set_url(GURL("http://cnn.com"));
@@ -2000,12 +2000,12 @@ TEST_F(AndroidProviderBackendTest, DeleteWithoutThumbnailDB) {
 
   {
     TestHistoryDatabase history_db;
-    ThumbnailDatabase thumbnail_db;
+    FaviconDatabase favicon_db;
     ASSERT_EQ(sql::INIT_OK, history_db.Init(history_db_name_));
-    ASSERT_EQ(sql::INIT_OK, thumbnail_db.Init(thumbnail_db_name_));
+    ASSERT_EQ(sql::INIT_OK, favicon_db.Init(favicon_db_name_));
 
     std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-        android_cache_db_name_, &history_db, &thumbnail_db,
+        android_cache_db_name_, &history_db, &favicon_db,
         history_backend_client_.get(), &notifier_));
 
     ASSERT_TRUE(backend->InsertHistoryAndBookmark(row1));
@@ -2061,7 +2061,7 @@ TEST_F(AndroidProviderBackendTest, DeleteWithoutThumbnailDB) {
   ASSERT_FALSE(statement1->statement()->Step());
 }
 
-TEST_F(AndroidProviderBackendTest, UpdateFaviconWithoutThumbnail) {
+TEST_F(AndroidProviderBackendTest, UpdateFaviconWithoutFavicon) {
   HistoryAndBookmarkRow row1;
   row1.set_raw_url("cnn.com");
   row1.set_url(GURL("http://cnn.com"));
@@ -2073,11 +2073,11 @@ TEST_F(AndroidProviderBackendTest, UpdateFaviconWithoutThumbnail) {
 
   {
     TestHistoryDatabase history_db;
-    ThumbnailDatabase thumbnail_db;
+    FaviconDatabase favicon_db;
     ASSERT_EQ(sql::INIT_OK, history_db.Init(history_db_name_));
-    ASSERT_EQ(sql::INIT_OK, thumbnail_db.Init(thumbnail_db_name_));
+    ASSERT_EQ(sql::INIT_OK, favicon_db.Init(favicon_db_name_));
     std::unique_ptr<AndroidProviderBackend> backend(new AndroidProviderBackend(
-        android_cache_db_name_, &history_db, &thumbnail_db,
+        android_cache_db_name_, &history_db, &favicon_db,
         history_backend_client_.get(), &notifier_));
 
     AndroidURLID id1 = backend->InsertHistoryAndBookmark(row1);
@@ -2108,7 +2108,7 @@ TEST_F(AndroidProviderBackendTest, UpdateFaviconWithoutThumbnail) {
   EXPECT_FALSE(notifier_.deleted_details());
   ASSERT_TRUE(notifier_.modified_details());
   ASSERT_EQ(1u, notifier_.modified_details()->size());
-  // No favicon will be updated as thumbnail database is missing.
+  // No favicon will be updated as favicon database is missing.
   EXPECT_FALSE(notifier_.favicon_changed());
 }
 

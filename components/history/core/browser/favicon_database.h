@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_HISTORY_CORE_BROWSER_THUMBNAIL_DATABASE_H_
-#define COMPONENTS_HISTORY_CORE_BROWSER_THUMBNAIL_DATABASE_H_
+#ifndef COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_
+#define COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_
 
 #include <vector>
 
@@ -21,7 +21,7 @@ namespace base {
 class FilePath;
 class RefCountedMemory;
 class Time;
-}
+}  // namespace base
 
 namespace history {
 
@@ -30,16 +30,11 @@ namespace history {
 static const int kFaviconUpdateLastRequestedAfterDays = 10;
 
 // This database interface is owned by the history backend and runs on the
-// history thread. It is a totally separate component from history partially
-// because we may want to move it to its own thread in the future. The
-// operations we will do on this database will be slow, but we can tolerate
-// higher latency (it's OK for thumbnails to come in slower than the rest
-// of the data). Moving this to a separate thread would not block potentially
-// higher priority history operations.
-class ThumbnailDatabase {
+// history thread.
+class FaviconDatabase {
  public:
-  ThumbnailDatabase();
-  ~ThumbnailDatabase();
+  FaviconDatabase();
+  ~FaviconDatabase();
 
   // Must be called after creation but before any other methods are called.
   // When not INIT_OK, no other functions should be called.
@@ -52,9 +47,7 @@ class ThumbnailDatabase {
   // Transactions on the database.
   void BeginTransaction();
   void CommitTransaction();
-  int transaction_nesting() const {
-    return db_.transaction_nesting();
-  }
+  int transaction_nesting() const { return db_.transaction_nesting(); }
   void RollbackTransaction();
 
   // Vacuums the database. This will cause sqlite to defragment and collect
@@ -241,7 +234,7 @@ class ThumbnailDatabase {
     bool GetNextIconMapping(IconMapping* icon_mapping);
 
    private:
-    friend class ThumbnailDatabase;
+    friend class FaviconDatabase;
 
     // Used to query database and return the data for filling IconMapping in
     // each call of GetNextIconMapping().
@@ -266,16 +259,16 @@ class ThumbnailDatabase {
   static favicon_base::IconType FromPersistedIconType(int icon_type);
 
  private:
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, RetainDataForPageUrls);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest,
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, RetainDataForPageUrls);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest,
                            RetainDataForPageUrlsExpiresRetainedFavicons);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version3);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version4);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version5);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version6);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version7);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, Version8);
-  FRIEND_TEST_ALL_PREFIXES(ThumbnailDatabaseTest, WildSchema);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version3);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version4);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version5);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version6);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version7);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, Version8);
+  FRIEND_TEST_ALL_PREFIXES(FaviconDatabaseTest, WildSchema);
 
   // Open database on a given filename. If the file does not exist,
   // it is created.
@@ -310,4 +303,4 @@ class ThumbnailDatabase {
 
 }  // namespace history
 
-#endif  // COMPONENTS_HISTORY_CORE_BROWSER_THUMBNAIL_DATABASE_H_
+#endif  // COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_

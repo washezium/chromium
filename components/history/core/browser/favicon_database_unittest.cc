@@ -14,7 +14,7 @@
 #include "base/path_service.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
-#include "components/history/core/browser/thumbnail_database.h"
+#include "components/history/core/browser/favicon_database.h"
 #include "components/history/core/test/database_test_utils.h"
 #include "sql/database.h"
 #include "sql/recovery.h"
@@ -107,7 +107,7 @@ void VerifyTablesAndColumns(sql::Database* db) {
 
 // Adds a favicon at |icon_url| with |icon_type| with default bitmap data and
 // maps |page_url| to |icon_url|.
-void AddAndMapFaviconSimple(ThumbnailDatabase* db,
+void AddAndMapFaviconSimple(FaviconDatabase* db,
                             const GURL& page_url,
                             const GURL& icon_url,
                             favicon_base::IconType icon_type) {
@@ -131,7 +131,7 @@ void VerifyDatabaseEmpty(sql::Database* db) {
 
 // Helper to check that an expected mapping exists.
 WARN_UNUSED_RESULT bool CheckPageHasIcon(
-    ThumbnailDatabase* db,
+    FaviconDatabase* db,
     const GURL& page_url,
     favicon_base::IconType expected_icon_type,
     const GURL& expected_icon_url,
@@ -182,8 +182,8 @@ WARN_UNUSED_RESULT bool CheckPageHasIcon(
     return false;
   }
 
-  if (memcmp(favicon_bitmaps[0].bitmap_data->front(),
-             expected_icon_contents, expected_icon_contents_size)) {
+  if (memcmp(favicon_bitmaps[0].bitmap_data->front(), expected_icon_contents,
+             expected_icon_contents_size)) {
     ADD_FAILURE() << "failed to match |expected_icon_contents|";
     return false;
   }
@@ -200,21 +200,20 @@ void SortMappingsByIconUrl(std::vector<IconMapping>* mappings) {
 
 }  // namespace
 
-class ThumbnailDatabaseTest : public testing::Test {
+class FaviconDatabaseTest : public testing::Test {
  public:
-  ThumbnailDatabaseTest() {}
-  ~ThumbnailDatabaseTest() override {}
+  FaviconDatabaseTest() {}
+  ~FaviconDatabaseTest() override {}
 
-  // Initialize a thumbnail database instance from the SQL file at
+  // Initialize a favicon database instance from the SQL file at
   // |golden_path| in the "History/" subdirectory of test data.
-  std::unique_ptr<ThumbnailDatabase> LoadFromGolden(const char* golden_path) {
+  std::unique_ptr<FaviconDatabase> LoadFromGolden(const char* golden_path) {
     if (!CreateDatabaseFromSQL(file_name_, golden_path)) {
       ADD_FAILURE() << "Failed loading " << golden_path;
-      return std::unique_ptr<ThumbnailDatabase>();
+      return std::unique_ptr<FaviconDatabase>();
     }
 
-    std::unique_ptr<ThumbnailDatabase> db =
-        std::make_unique<ThumbnailDatabase>();
+    std::unique_ptr<FaviconDatabase> db = std::make_unique<FaviconDatabase>();
     EXPECT_EQ(sql::INIT_OK, db->Init(file_name_));
     db->BeginTransaction();
 
@@ -233,8 +232,8 @@ class ThumbnailDatabaseTest : public testing::Test {
   base::FilePath file_name_;
 };
 
-TEST_F(ThumbnailDatabaseTest, AddIconMapping) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, AddIconMapping) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -256,9 +255,8 @@ TEST_F(ThumbnailDatabaseTest, AddIconMapping) {
   EXPECT_EQ(id, icon_mappings.front().icon_id);
 }
 
-TEST_F(ThumbnailDatabaseTest,
-       AddOnDemandFaviconBitmapCreatesCorrectTimestamps) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, AddOnDemandFaviconBitmapCreatesCorrectTimestamps) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -284,8 +282,8 @@ TEST_F(ThumbnailDatabaseTest,
   EXPECT_EQ(add_time, last_requested);
 }
 
-TEST_F(ThumbnailDatabaseTest, AddFaviconBitmapCreatesCorrectTimestamps) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, AddFaviconBitmapCreatesCorrectTimestamps) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -311,9 +309,8 @@ TEST_F(ThumbnailDatabaseTest, AddFaviconBitmapCreatesCorrectTimestamps) {
   EXPECT_EQ(base::Time(), last_requested);
 }
 
-TEST_F(ThumbnailDatabaseTest,
-       GetFaviconLastUpdatedTimeReturnsFalseForNoBitmaps) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetFaviconLastUpdatedTimeReturnsFalseForNoBitmaps) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -326,8 +323,8 @@ TEST_F(ThumbnailDatabaseTest,
   ASSERT_FALSE(db.GetFaviconLastUpdatedTime(icon, &last_updated));
 }
 
-TEST_F(ThumbnailDatabaseTest, GetFaviconLastUpdatedTimeReturnsMaxTime) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetFaviconLastUpdatedTimeReturnsMaxTime) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -354,8 +351,8 @@ TEST_F(ThumbnailDatabaseTest, GetFaviconLastUpdatedTimeReturnsMaxTime) {
   EXPECT_EQ(add_time1, last_updated);
 }
 
-TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnDemandFavicons) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, TouchUpdatesOnDemandFavicons) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -386,8 +383,8 @@ TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnDemandFavicons) {
   EXPECT_EQ(end, last_requested);  // Updates the last_requested field.
 }
 
-TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnlyInfrequently) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, TouchUpdatesOnlyInfrequently) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -414,8 +411,8 @@ TEST_F(ThumbnailDatabaseTest, TouchUpdatesOnlyInfrequently) {
   EXPECT_EQ(start, last_requested);  // No update.
 }
 
-TEST_F(ThumbnailDatabaseTest, TouchDoesNotUpdateStandardFavicons) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, TouchDoesNotUpdateStandardFavicons) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -445,10 +442,10 @@ TEST_F(ThumbnailDatabaseTest, TouchDoesNotUpdateStandardFavicons) {
   EXPECT_EQ(base::Time(), last_requested);  // No update.
 }
 
-// Test that ThumbnailDatabase::GetOldOnDemandFavicons() returns on-demand icons
+// Test that FaviconDatabase::GetOldOnDemandFavicons() returns on-demand icons
 // which were requested prior to the passed in timestamp.
-TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsReturnsOld) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetOldOnDemandFaviconsReturnsOld) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -478,12 +475,12 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsReturnsOld) {
                                          ElementsAre(page_url1, page_url2))))));
 }
 
-// Test that ThumbnailDatabase::GetOldOnDemandFavicons() returns on-visit icons
+// Test that FaviconDatabase::GetOldOnDemandFavicons() returns on-visit icons
 // if the on-visit icons have expired. We need this behavior in order to delete
 // icons stored via HistoryService::SetOnDemandFavicons() prior to on-demand
 // icons setting the "last_requested" time.
-TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnExpired) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnExpired) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -508,10 +505,10 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnExpired) {
   EXPECT_TRUE(map.empty());
 }
 
-// Test that ThumbnailDatabase::GetOldOnDemandFavicons() does not return
+// Test that FaviconDatabase::GetOldOnDemandFavicons() does not return
 // on-demand icons which were requested after the passed in timestamp.
-TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnFresh) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnFresh) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -538,10 +535,10 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotReturnFresh) {
   EXPECT_TRUE(map.empty());
 }
 
-// Test that ThumbnailDatabase::GetOldOnDemandFavicons() does not return
+// Test that FaviconDatabase::GetOldOnDemandFavicons() does not return
 // non-expired on-visit icons.
-TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotDeleteStandard) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetOldOnDemandFaviconsDoesNotDeleteStandard) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -563,8 +560,8 @@ TEST_F(ThumbnailDatabaseTest, GetOldOnDemandFaviconsDoesNotDeleteStandard) {
   EXPECT_TRUE(map.empty());
 }
 
-TEST_F(ThumbnailDatabaseTest, DeleteIconMappings) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, DeleteIconMappings) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -598,8 +595,8 @@ TEST_F(ThumbnailDatabaseTest, DeleteIconMappings) {
       url, {favicon_base::IconType::kFavicon}, nullptr));
 }
 
-TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURL) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetIconMappingsForPageURL) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -631,8 +628,8 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURL) {
   EXPECT_EQ(id2, icon_mappings[1].icon_id);
 }
 
-TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrls) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, RetainDataForPageUrls) {
+  FaviconDatabase db;
 
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
@@ -705,8 +702,8 @@ TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrls) {
 }
 
 // Test that RetainDataForPageUrls() expires retained favicons.
-TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrlsExpiresRetainedFavicons) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, RetainDataForPageUrlsExpiresRetainedFavicons) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -731,8 +728,8 @@ TEST_F(ThumbnailDatabaseTest, RetainDataForPageUrlsExpiresRetainedFavicons) {
 
 // Tests that deleting a favicon deletes the favicon row and favicon bitmap
 // rows from the database.
-TEST_F(ThumbnailDatabaseTest, DeleteFavicon) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, DeleteFavicon) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -758,8 +755,8 @@ TEST_F(ThumbnailDatabaseTest, DeleteFavicon) {
   EXPECT_FALSE(db.GetFaviconBitmaps(id, nullptr));
 }
 
-TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLForReturnOrder) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetIconMappingsForPageURLForReturnOrder) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -823,8 +820,8 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLForReturnOrder) {
 
 // Test that when multiple icon types are passed to GetIconMappingsForPageURL()
 // that the results are filtered according to the passed in types.
-TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLWithIconTypes) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, GetIconMappingsForPageURLWithIconTypes) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -852,8 +849,8 @@ TEST_F(ThumbnailDatabaseTest, GetIconMappingsForPageURLWithIconTypes) {
   EXPECT_EQ(IconUrl2(), icon_mappings[2].icon_url);
 }
 
-TEST_F(ThumbnailDatabaseTest, FindFirstPageURLForHost) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, FindFirstPageURLForHost) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -904,8 +901,8 @@ TEST_F(ThumbnailDatabaseTest, FindFirstPageURLForHost) {
   EXPECT_EQ(IconUrl5(), icon_mappings[0].icon_url);
 }
 
-TEST_F(ThumbnailDatabaseTest, HasMappingFor) {
-  ThumbnailDatabase db;
+TEST_F(FaviconDatabaseTest, HasMappingFor) {
+  FaviconDatabase db;
   ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
   db.BeginTransaction();
 
@@ -950,8 +947,8 @@ TEST_F(ThumbnailDatabaseTest, HasMappingFor) {
 }
 
 // Test loading version 3 database.
-TEST_F(ThumbnailDatabaseTest, Version3) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v3.sql");
+TEST_F(FaviconDatabaseTest, Version3) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v3.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -960,8 +957,8 @@ TEST_F(ThumbnailDatabaseTest, Version3) {
 }
 
 // Test loading version 4 database.
-TEST_F(ThumbnailDatabaseTest, Version4) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v4.sql");
+TEST_F(FaviconDatabaseTest, Version4) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v4.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -970,8 +967,8 @@ TEST_F(ThumbnailDatabaseTest, Version4) {
 }
 
 // Test loading version 5 database.
-TEST_F(ThumbnailDatabaseTest, Version5) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v5.sql");
+TEST_F(FaviconDatabaseTest, Version5) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v5.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -980,8 +977,8 @@ TEST_F(ThumbnailDatabaseTest, Version5) {
 }
 
 // Test loading version 6 database.
-TEST_F(ThumbnailDatabaseTest, Version6) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v6.sql");
+TEST_F(FaviconDatabaseTest, Version6) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v6.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -990,8 +987,8 @@ TEST_F(ThumbnailDatabaseTest, Version6) {
 }
 
 // Test loading version 7 database.
-TEST_F(ThumbnailDatabaseTest, Version7) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v7.sql");
+TEST_F(FaviconDatabaseTest, Version7) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v7.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -1010,8 +1007,8 @@ TEST_F(ThumbnailDatabaseTest, Version7) {
 }
 
 // Test loading version 8 database.
-TEST_F(ThumbnailDatabaseTest, Version8) {
-  std::unique_ptr<ThumbnailDatabase> db = LoadFromGolden("Favicons.v8.sql");
+TEST_F(FaviconDatabaseTest, Version8) {
+  std::unique_ptr<FaviconDatabase> db = LoadFromGolden("Favicons.v8.sql");
   ASSERT_TRUE(db);
   VerifyTablesAndColumns(&db->db_);
 
@@ -1029,7 +1026,7 @@ TEST_F(ThumbnailDatabaseTest, Version8) {
                                kLargeSize, sizeof(kBlob2), kBlob2));
 }
 
-TEST_F(ThumbnailDatabaseTest, Recovery) {
+TEST_F(FaviconDatabaseTest, Recovery) {
   // Create an example database.
   {
     EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v8.sql"));
@@ -1041,7 +1038,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
 
   // Test that the contents make sense after clean open.
   {
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_TRUE(CheckPageHasIcon(&db, PageUrl1(),
@@ -1076,7 +1073,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Data for PageUrl2() was deleted, but the index entry remains,
@@ -1100,7 +1097,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
 
   // Database should also be recovered at higher levels.
   {
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Now this fails because there is no mapping.
@@ -1129,7 +1126,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_FALSE(db.GetIconMappingsForPageURL(PageUrl2(), nullptr));
@@ -1141,8 +1138,8 @@ TEST_F(ThumbnailDatabaseTest, Recovery) {
   }
 }
 
-TEST_F(ThumbnailDatabaseTest, Recovery7) {
-  // Create an example database without loading into ThumbnailDatabase
+TEST_F(FaviconDatabaseTest, Recovery7) {
+  // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
   EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v7.sql"));
 
@@ -1171,7 +1168,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Data for PageUrl2() was deleted, but the index entry remains,
@@ -1195,7 +1192,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
 
   // Database should also be recovered at higher levels.
   {
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     // Now this fails because there is no mapping.
@@ -1224,7 +1221,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
 
     EXPECT_FALSE(db.GetIconMappingsForPageURL(PageUrl2(), nullptr));
@@ -1236,8 +1233,8 @@ TEST_F(ThumbnailDatabaseTest, Recovery7) {
   }
 }
 
-TEST_F(ThumbnailDatabaseTest, Recovery6) {
-  // Create an example database without loading into ThumbnailDatabase
+TEST_F(FaviconDatabaseTest, Recovery6) {
+  // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
   EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v6.sql"));
 
@@ -1260,7 +1257,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery6) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
     ASSERT_TRUE(expecter.SawExpectedErrors());
   }
@@ -1280,8 +1277,8 @@ TEST_F(ThumbnailDatabaseTest, Recovery6) {
   }
 }
 
-TEST_F(ThumbnailDatabaseTest, Recovery5) {
-  // Create an example database without loading into ThumbnailDatabase
+TEST_F(FaviconDatabaseTest, Recovery5) {
+  // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
   EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v5.sql"));
 
@@ -1304,7 +1301,7 @@ TEST_F(ThumbnailDatabaseTest, Recovery5) {
   {
     sql::test::ScopedErrorExpecter expecter;
     expecter.ExpectError(SQLITE_CORRUPT);
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(file_name_));
     ASSERT_TRUE(expecter.SawExpectedErrors());
   }
@@ -1326,13 +1323,13 @@ TEST_F(ThumbnailDatabaseTest, Recovery5) {
 
 // Test that various broken schema found in the wild can be opened
 // successfully, and result in the correct schema.
-TEST_F(ThumbnailDatabaseTest, WildSchema) {
+TEST_F(FaviconDatabaseTest, WildSchema) {
   base::FilePath sql_path;
   EXPECT_TRUE(GetTestDataHistoryDir(&sql_path));
   sql_path = sql_path.AppendASCII("thumbnail_wild");
 
-  base::FileEnumerator fe(
-      sql_path, false, base::FileEnumerator::FILES, FILE_PATH_LITERAL("*.sql"));
+  base::FileEnumerator fe(sql_path, false, base::FileEnumerator::FILES,
+                          FILE_PATH_LITERAL("*.sql"));
   for (base::FilePath name = fe.Next(); !name.empty(); name = fe.Next()) {
     SCOPED_TRACE(name.BaseName().AsUTF8Unsafe());
     // Generate a database path based on the golden's basename.
@@ -1344,7 +1341,7 @@ TEST_F(ThumbnailDatabaseTest, WildSchema) {
     // All schema flaws should be cleaned up by Init().
     // TODO(shess): Differentiate between databases which need Raze()
     // and those which can be salvaged.
-    ThumbnailDatabase db;
+    FaviconDatabase db;
     ASSERT_EQ(sql::INIT_OK, db.Init(db_path));
 
     // Verify that the resulting schema is correct, whether it
@@ -1353,30 +1350,30 @@ TEST_F(ThumbnailDatabaseTest, WildSchema) {
   }
 }
 
-TEST(ThumbnailDatabaseIconTypeTest, ShouldBeBackwardCompatible) {
-  EXPECT_EQ(0, ThumbnailDatabase::ToPersistedIconType(
+TEST(FaviconDatabaseIconTypeTest, ShouldBeBackwardCompatible) {
+  EXPECT_EQ(0, FaviconDatabase::ToPersistedIconType(
                    favicon_base::IconType::kInvalid));
-  EXPECT_EQ(1, ThumbnailDatabase::ToPersistedIconType(
+  EXPECT_EQ(1, FaviconDatabase::ToPersistedIconType(
                    favicon_base::IconType::kFavicon));
-  EXPECT_EQ(2, ThumbnailDatabase::ToPersistedIconType(
+  EXPECT_EQ(2, FaviconDatabase::ToPersistedIconType(
                    favicon_base::IconType::kTouchIcon));
-  EXPECT_EQ(4, ThumbnailDatabase::ToPersistedIconType(
+  EXPECT_EQ(4, FaviconDatabase::ToPersistedIconType(
                    favicon_base::IconType::kTouchPrecomposedIcon));
-  EXPECT_EQ(8, ThumbnailDatabase::ToPersistedIconType(
+  EXPECT_EQ(8, FaviconDatabase::ToPersistedIconType(
                    favicon_base::IconType::kWebManifestIcon));
 
   EXPECT_EQ(favicon_base::IconType::kInvalid,
-            ThumbnailDatabase::FromPersistedIconType(0));
+            FaviconDatabase::FromPersistedIconType(0));
   EXPECT_EQ(favicon_base::IconType::kFavicon,
-            ThumbnailDatabase::FromPersistedIconType(1));
+            FaviconDatabase::FromPersistedIconType(1));
   EXPECT_EQ(favicon_base::IconType::kTouchIcon,
-            ThumbnailDatabase::FromPersistedIconType(2));
+            FaviconDatabase::FromPersistedIconType(2));
   EXPECT_EQ(favicon_base::IconType::kTouchPrecomposedIcon,
-            ThumbnailDatabase::FromPersistedIconType(4));
+            FaviconDatabase::FromPersistedIconType(4));
   EXPECT_EQ(favicon_base::IconType::kWebManifestIcon,
-            ThumbnailDatabase::FromPersistedIconType(8));
+            FaviconDatabase::FromPersistedIconType(8));
   EXPECT_EQ(favicon_base::IconType::kInvalid,
-            ThumbnailDatabase::FromPersistedIconType(16));
+            FaviconDatabase::FromPersistedIconType(16));
 }
 
 }  // namespace history
