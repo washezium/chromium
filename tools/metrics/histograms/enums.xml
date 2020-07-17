@@ -16748,6 +16748,109 @@ Called by update_document_policy_enum.py.-->
   <int value="7" label="UnsizedMedia"/>
 </enum>
 
+<enum name="DocumentScanSaneBackend">
+  <summary>
+    Various SANE backends (effectively scanner drivers) that can be used to scan
+    a document in Chrome OS. These values are defined in the SaneBackend enum in
+    chromeos/src/platform2/lorgnette/enums.h.
+  </summary>
+  <int value="0" label="UnknownBackend"/>
+  <int value="1" label="Abaton"/>
+  <int value="2" label="Agfafocus"/>
+  <int value="3" label="AirscanBrother"/>
+  <int value="4" label="AirscanCanon"/>
+  <int value="5" label="AirscanEpson"/>
+  <int value="6" label="AirscanHp"/>
+  <int value="7" label="AirscanKodak"/>
+  <int value="8" label="AirscanKonicaMinolta"/>
+  <int value="9" label="AirscanKyocera"/>
+  <int value="10" label="AirscanLexmark"/>
+  <int value="11" label="AirscanOther"/>
+  <int value="12" label="AirscanRicoh"/>
+  <int value="13" label="AirscanSamsung"/>
+  <int value="14" label="AirscanXerox"/>
+  <int value="15" label="Apple"/>
+  <int value="16" label="Artec"/>
+  <int value="17" label="ArtecEplus48U"/>
+  <int value="18" label="As6E"/>
+  <int value="19" label="Avision"/>
+  <int value="20" label="Bh"/>
+  <int value="21" label="Canon"/>
+  <int value="22" label="Canon630U"/>
+  <int value="23" label="CanonDr"/>
+  <int value="24" label="Cardscan"/>
+  <int value="25" label="Coolscan"/>
+  <int value="26" label="Coolscan2"/>
+  <int value="27" label="Coolscan3"/>
+  <int value="28" label="Dc210"/>
+  <int value="29" label="Dc240"/>
+  <int value="30" label="Dc25"/>
+  <int value="31" label="Dell1600NNet"/>
+  <int value="32" label="Dmc"/>
+  <int value="33" label="Epjitsu"/>
+  <int value="34" label="Epson"/>
+  <int value="35" label="Epson2"/>
+  <int value="36" label="Escl"/>
+  <int value="37" label="Fujitsu"/>
+  <int value="38" label="Genesys"/>
+  <int value="39" label="Gt68Xx"/>
+  <int value="40" label="Hp"/>
+  <int value="41" label="Hp3500"/>
+  <int value="42" label="Hp3900"/>
+  <int value="43" label="Hp4200"/>
+  <int value="44" label="Hp5400"/>
+  <int value="45" label="Hp5590"/>
+  <int value="46" label="Hpljm1005"/>
+  <int value="47" label="Hs2P"/>
+  <int value="48" label="Ibm"/>
+  <int value="49" label="Kodak"/>
+  <int value="50" label="Kodakaio"/>
+  <int value="51" label="Kvs1025"/>
+  <int value="52" label="Kvs20Xx"/>
+  <int value="53" label="Kvs40Xx"/>
+  <int value="54" label="Leo"/>
+  <int value="55" label="Lexmark"/>
+  <int value="56" label="Ma1509"/>
+  <int value="57" label="Magicolor"/>
+  <int value="58" label="Matsushita"/>
+  <int value="59" label="Microtek"/>
+  <int value="60" label="Microtek2"/>
+  <int value="61" label="Mustek"/>
+  <int value="62" label="MustekUsb"/>
+  <int value="63" label="MustekUsb2"/>
+  <int value="64" label="Nec"/>
+  <int value="65" label="Net"/>
+  <int value="66" label="Niash"/>
+  <int value="67" label="P5"/>
+  <int value="68" label="Pie"/>
+  <int value="69" label="Pixma"/>
+  <int value="70" label="Plustek"/>
+  <int value="71" label="PlustekPp"/>
+  <int value="72" label="Qcam"/>
+  <int value="73" label="Ricoh"/>
+  <int value="74" label="Ricoh2"/>
+  <int value="75" label="Rts8891"/>
+  <int value="76" label="S9036"/>
+  <int value="77" label="Sceptre"/>
+  <int value="78" label="Sharp"/>
+  <int value="79" label="Sm3600"/>
+  <int value="80" label="Sm3840"/>
+  <int value="81" label="Snapscan"/>
+  <int value="82" label="Sp15C"/>
+  <int value="83" label="St400"/>
+  <int value="84" label="Stv680"/>
+  <int value="85" label="Tamarack"/>
+  <int value="86" label="Teco1"/>
+  <int value="87" label="Teco2"/>
+  <int value="88" label="Teco3"/>
+  <int value="89" label="Test"/>
+  <int value="90" label="U12"/>
+  <int value="91" label="Umax"/>
+  <int value="92" label="Umax1220U"/>
+  <int value="93" label="UmaxPp"/>
+  <int value="94" label="XeroxMfp"/>
+</enum>
+
 <enum name="DocumentStateForDeferredLoading">
   <int value="0" label="Created"/>
   <int value="1" label="WouldLoadBecauseVisible"/>
