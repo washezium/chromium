@@ -18147,6 +18147,12 @@ Called by update_document_policy_enum.py.-->
   <int value="2" label="Schedule removed"/>
 </enum>
 
+<enum name="DownloadLaterPromptStatus">
+  <int value="0" label="Show initial"/>
+  <int value="1" label="Show prompt"/>
+  <int value="2" label="Don't show prompt"/>
+</enum>
+
 <enum name="DownloadLaterUiEvent">
   <int value="0" label="DOWNLOAD_LATER_DIALOG_SHOW"/>
   <int value="1" label="DOWNLOAD_LATER_DIALOG_COMPLETE"/>
