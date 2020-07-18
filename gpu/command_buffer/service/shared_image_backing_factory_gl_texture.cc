@@ -213,7 +213,8 @@ std::unique_ptr<SharedImageRepresentationDawn> ProduceDawnCommon(
 
   bool success = factory->CreateSharedImage(
       dst_mailbox, backing->format(), backing->size(), backing->color_space(),
-      gpu::kNullSurfaceHandle, backing->usage() | SHARED_IMAGE_USAGE_WEBGPU);
+      kTopLeft_GrSurfaceOrigin, kPremul_SkAlphaType, gpu::kNullSurfaceHandle,
+      backing->usage() | SHARED_IMAGE_USAGE_WEBGPU);
   if (!success) {
     DLOG(ERROR) << "Cannot create a shared image resource for internal blit";
     return nullptr;
@@ -466,7 +467,7 @@ sk_sp<SkSurface> SharedImageRepresentationSkiaImpl::BeginWriteAccess(
       /*gpu_compositing=*/true, format());
   auto surface = SkSurface::MakeFromBackendTexture(
       context_state_->gr_context(), promise_texture_->backendTexture(),
-      kTopLeft_GrSurfaceOrigin, final_msaa_count, sk_color_type,
+      backing()->surface_origin(), final_msaa_count, sk_color_type,
       backing()->color_space().ToSkColorSpace(), &surface_props);
   write_surface_ = surface.get();
   return surface;
@@ -544,12 +545,16 @@ SharedImageBackingGLTexture::SharedImageBackingGLTexture(
     viz::ResourceFormat format,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage,
     bool is_passthrough)
     : SharedImageBacking(mailbox,
                          format,
                          size,
                          color_space,
+                         surface_origin,
+                         alpha_type,
                          usage,
                          EstimatedSize(format, size),
                          false /* is_thread_safe */),
@@ -701,6 +706,8 @@ SharedImageBackingGLImage::SharedImageBackingGLImage(
     viz::ResourceFormat format,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage,
     const SharedImageBackingGLCommon::InitializeGLTextureParams& params,
     const UnpackStateAttribs& attribs,
@@ -709,6 +716,8 @@ SharedImageBackingGLImage::SharedImageBackingGLImage(
                          format,
                          size,
                          color_space,
+                         surface_origin,
+                         alpha_type,
                          usage,
                          EstimatedSize(format, size),
                          false /* is_thread_safe */),
@@ -1238,14 +1247,17 @@ SharedImageBackingFactoryGLTexture::CreateSharedImage(
     SurfaceHandle surface_handle,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage,
     bool is_thread_safe) {
   if (is_thread_safe) {
-    return MakeEglImageBacking(mailbox, format, size, color_space, usage);
+    return MakeEglImageBacking(mailbox, format, size, color_space,
+                               surface_origin, alpha_type, usage);
   } else {
     return CreateSharedImageInternal(mailbox, format, surface_handle, size,
-                                     color_space, usage,
-                                     base::span<const uint8_t>());
+                                     color_space, surface_origin, alpha_type,
+                                     usage, base::span<const uint8_t>());
   }
 }
 
@@ -1255,10 +1267,13 @@ SharedImageBackingFactoryGLTexture::CreateSharedImage(
     viz::ResourceFormat format,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage,
     base::span<const uint8_t> pixel_data) {
   return CreateSharedImageInternal(mailbox, format, kNullSurfaceHandle, size,
-                                   color_space, usage, pixel_data);
+                                   color_space, surface_origin, alpha_type,
+                                   usage, pixel_data);
 }
 
 std::unique_ptr<SharedImageBacking>
@@ -1270,6 +1285,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImage(
     SurfaceHandle surface_handle,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage) {
   if (!gpu_memory_buffer_formats_.Has(buffer_format)) {
     LOG(ERROR) << "CreateSharedImage: unsupported buffer format "
@@ -1332,8 +1349,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImage(
   params.framebuffer_attachment_angle =
       for_framebuffer_attachment && texture_usage_angle_;
   return std::make_unique<SharedImageBackingGLImage>(
-      image, mailbox, format, size, color_space, usage, params, attribs,
-      use_passthrough_);
+      image, mailbox, format, size, color_space, surface_origin, alpha_type,
+      usage, params, attribs, use_passthrough_);
 }
 
 std::unique_ptr<SharedImageBacking>
@@ -1346,8 +1363,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImageForTest(
     const gfx::Size& size,
     uint32_t usage) {
   auto result = std::make_unique<SharedImageBackingGLTexture>(
-      mailbox, format, size, gfx::ColorSpace(), usage,
-      false /* is_passthrough */);
+      mailbox, format, size, gfx::ColorSpace(), kTopLeft_GrSurfaceOrigin,
+      kPremul_SkAlphaType, usage, false /* is_passthrough */);
   SharedImageBackingGLCommon::InitializeGLTextureParams params;
   params.target = target;
   params.internal_format = viz::GLInternalFormat(format);
@@ -1397,6 +1414,8 @@ SharedImageBackingFactoryGLTexture::MakeEglImageBacking(
     viz::ResourceFormat format,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage) {
 #if defined(OS_ANDROID)
   const FormatInfo& format_info = format_info_[format];
@@ -1421,9 +1440,9 @@ SharedImageBackingFactoryGLTexture::MakeEglImageBacking(
   }
 
   return std::make_unique<SharedImageBackingEglImage>(
-      mailbox, format, size, color_space, usage, estimated_size,
-      format_info.gl_format, format_info.gl_type, batch_access_manager_,
-      workarounds_);
+      mailbox, format, size, color_space, surface_origin, alpha_type, usage,
+      estimated_size, format_info.gl_format, format_info.gl_type,
+      batch_access_manager_, workarounds_);
 #else
   return nullptr;
 #endif
@@ -1436,6 +1455,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImageInternal(
     SurfaceHandle surface_handle,
     const gfx::Size& size,
     const gfx::ColorSpace& color_space,
+    GrSurfaceOrigin surface_origin,
+    SkAlphaType alpha_type,
     uint32_t usage,
     base::span<const uint8_t> pixel_data) {
   const FormatInfo& format_info = format_info_[format];
@@ -1566,8 +1587,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImageInternal(
   if (image) {
     DCHECK(!format_info.swizzle);
     auto result = std::make_unique<SharedImageBackingGLImage>(
-        image, mailbox, format, size, color_space, usage, params, attribs,
-        use_passthrough_);
+        image, mailbox, format, size, color_space, surface_origin, alpha_type,
+        usage, params, attribs, use_passthrough_);
     if (!pixel_data.empty()) {
       result->InitializePixels(format_info.adjusted_format, format_info.gl_type,
                                pixel_data.data());
@@ -1575,7 +1596,8 @@ SharedImageBackingFactoryGLTexture::CreateSharedImageInternal(
     return std::move(result);
   } else {
     auto result = std::make_unique<SharedImageBackingGLTexture>(
-        mailbox, format, size, color_space, usage, use_passthrough_);
+        mailbox, format, size, color_space, surface_origin, alpha_type, usage,
+        use_passthrough_);
     result->InitializeGLTexture(0, params);
 
     gl::GLApi* api = gl::g_current_gl_context;

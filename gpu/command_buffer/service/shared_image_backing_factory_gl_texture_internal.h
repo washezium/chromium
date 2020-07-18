@@ -173,6 +173,8 @@ class SharedImageBackingGLTexture : public SharedImageBacking {
                               viz::ResourceFormat format,
                               const gfx::Size& size,
                               const gfx::ColorSpace& color_space,
+                              GrSurfaceOrigin surface_origin,
+                              SkAlphaType alpha_type,
                               uint32_t usage,
                               bool is_passthrough);
   SharedImageBackingGLTexture(const SharedImageBackingGLTexture&) = delete;
@@ -236,6 +238,8 @@ class SharedImageBackingGLImage
       viz::ResourceFormat format,
       const gfx::Size& size,
       const gfx::ColorSpace& color_space,
+      GrSurfaceOrigin surface_origin,
+      SkAlphaType alpha_type,
       uint32_t usage,
       const SharedImageBackingGLCommon::InitializeGLTextureParams& params,
       const SharedImageBackingFactoryGLTexture::UnpackStateAttribs& attribs,
