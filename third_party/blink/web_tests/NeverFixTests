@@ -2145,3 +2145,6 @@ virtual/subresource-web-bundles/external/wpt/web-bundle/subresource-loading/* [ 
 
 # No good way to automate this test yet
 external/wpt/native-file-system/showSaveFilePicker-manual.https.html [ Skip ]
+
+# This test requires a physical device connected.
+wpt_internal/serial/serialPort_loopback-manual.https.html [ Skip ]
