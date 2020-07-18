@@ -146,6 +146,7 @@ export class PDFViewerElement extends PDFViewerBaseElement {
       pdfFormSaveEnabled_: Boolean,
       pdfAnnotationsEnabled_: Boolean,
       printingEnabled_: Boolean,
+      viewportZoom_: Number,
     };
   }
 
@@ -197,6 +198,9 @@ export class PDFViewerElement extends PDFViewerBaseElement {
     /** @private {boolean} */
     this.printingEnabled_ = false;
 
+    /** @private {number} */
+    this.viewportZoom_ = 1;
+
     // Non-Polymer properties
 
     /** @private {number} */
@@ -245,6 +249,11 @@ export class PDFViewerElement extends PDFViewerBaseElement {
     this.toolbarEnabled_ =
         this.paramsParser.shouldShowToolbar(this.originalUrl);
     return this.toolbarEnabled_ ? MATERIAL_TOOLBAR_HEIGHT : 0;
+  }
+
+  /** @override */
+  hasFixedToolbar() {
+    return this.pdfViewerUpdateEnabled_;
   }
 
   /** @override */
@@ -722,6 +731,11 @@ export class PDFViewerElement extends PDFViewerBaseElement {
     } else {
       this.getToolbarNew_().forceFit(view);
     }
+  }
+
+  /** @override */
+  afterZoom(viewportZoom) {
+    this.viewportZoom_ = viewportZoom;
   }
 
   /** @override */
