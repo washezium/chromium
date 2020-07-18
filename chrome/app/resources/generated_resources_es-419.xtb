@@ -2879,7 +2879,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="4582563038311694664">Restablecer toda la configuración</translation>
 <translation id="4585793705637313973">Editar página</translation>
 <translation id="4586275095964870617">No se pudo abrir <ph name="URL" /> en otro navegador. Comunícate con tu administrador del sistema.</translation>
-<translation id="4589713469967853491">Se escribieron correctamente los registros en el directorio Descargas.</translation>
+<translation id="4589713469967853491">Se guardaron correctamente los registros en el directorio Descargas.</translation>
 <translation id="4590324241397107707">Almacenamiento en bases de datos</translation>
 <translation id="4592891116925567110">App de dibujo con la pluma stylus</translation>
 <translation id="4593021220803146968">&amp;Ir a <ph name="URL" /></translation>
@@ -4192,6 +4192,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="6270770586500173387">Enviar <ph name="BEGIN_LINK2" />métricas<ph name="END_LINK2" /> e <ph name="BEGIN_LINK1" />información de apps y el sistema<ph name="END_LINK1" /></translation>
 <translation id="6272643420381259437">Se produjo un error (<ph name="ERROR" />) al descargar el complemento</translation>
 <translation id="6273677812470008672">Calidad</translation>
+<translation id="6273979226236203550">La contraseña está almacenada en este dispositivo y en tu Cuenta de Google. ¿Cuál quieres borrar?</translation>
 <translation id="6277105963844135994">Tiempo de espera de red agotado</translation>
 <translation id="6277518330158259200">Tomar captura de pantalla</translation>
 <translation id="6278057325678116358">Usar GTK+</translation>
