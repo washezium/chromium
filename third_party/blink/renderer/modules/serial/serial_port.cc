@@ -456,6 +456,12 @@ void SerialPort::Flush(
   port_->Flush(mode, std::move(callback));
 }
 
+void SerialPort::Drain(
+    device::mojom::blink::SerialPort::DrainCallback callback) {
+  DCHECK(port_.is_bound());
+  port_->Drain(std::move(callback));
+}
+
 void SerialPort::UnderlyingSourceClosed() {
   DCHECK(readable_);
   readable_ = nullptr;

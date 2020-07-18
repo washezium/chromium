@@ -74,6 +74,10 @@ enum SerialPortFlushMode {
   // Flushes the receive buffers and discards data in the data_pipe_producer by
   // closing it.
   kReceive,
+
+  // Flushes the send buffers and discards data in the data_pipe_consumer by
+  // closing it.
+  kTransmit,
 };
 
 struct SerialConnectionOptions {
@@ -158,6 +162,10 @@ interface SerialPort {
 
   // Flushes buffers according to the selected |mode|.
   Flush(SerialPortFlushMode mode) => ();
+
+  // Waits for the data_pipe_consumer passed to StartWriting() to be closed and
+  // all buffered data to be transmitted by the port.
+  Drain() => ();
 
   // Reads current control signals (DCD, CTS, etc.).
   GetControlSignals() => (SerialPortControlSignals signals);

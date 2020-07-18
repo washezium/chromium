@@ -437,10 +437,18 @@ void SerialIoHandlerPosix::Flush(mojom::SerialPortFlushMode mode) const {
     case mojom::SerialPortFlushMode::kReceive:
       queue_selector = TCIFLUSH;
       break;
+    case mojom::SerialPortFlushMode::kTransmit:
+      queue_selector = TCOFLUSH;
+      break;
   }
 
   if (tcflush(file().GetPlatformFile(), queue_selector) != 0)
     VPLOG(1) << "Failed to flush port";
+}
+
+void SerialIoHandlerPosix::Drain() {
+  if (tcdrain(file().GetPlatformFile()) != 0)
+    VPLOG(1) << "Failed to drain port";
 }
 
 mojom::SerialPortControlSignalsPtr SerialIoHandlerPosix::GetControlSignals()

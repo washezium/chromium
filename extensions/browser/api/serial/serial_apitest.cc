@@ -136,6 +136,8 @@ class FakeSerialPort : public device::mojom::SerialPort {
     NOTREACHED();
   }
 
+  void Drain(DrainCallback callback) override { NOTREACHED(); }
+
   void GetControlSignals(GetControlSignalsCallback callback) override {
     auto signals = device::mojom::SerialPortControlSignals::New();
     signals->dcd = true;

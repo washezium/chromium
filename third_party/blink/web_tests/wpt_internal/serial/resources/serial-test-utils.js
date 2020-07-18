@@ -28,7 +28,7 @@ async function readWithLength(reader, targetLength) {
   let actualLength = 0;
 
   while (true) {
-    let { value, done } = await reader.read();
+    let {value, done} = await reader.read();
     chunks.push(value);
     actualLength += value.byteLength;
 
@@ -69,7 +69,8 @@ class DataPipeSource {
   }
 
   cancel() {
-    this.watcher_.cancel();
+    if (this.watcher_)
+      this.watcher_.cancel();
     this.consumer_.close();
   }
 
@@ -151,11 +152,14 @@ class FakeSerialPort {
     return this.writer_.write(data);
   }
 
-  async read() {
-    let reader = this.readable_.getReader();
-    let result = await reader.read();
-    reader.releaseLock();
-    return result;
+  read() {
+    return this.reader_.read();
+  }
+
+  // Reads from the port until at least |targetLength| is read or the stream is
+  // closed. The data is returned as a combined Uint8Array.
+  readWithLength(targetLength) {
+    return readWithLength(this.reader_, targetLength);
   }
 
   simulateReadError(error) {
@@ -175,7 +179,8 @@ class FakeSerialPort {
   }
 
   simulateWriteError(error) {
-    this.readable_.cancel();
+    this.reader_.cancel();
+    this.reader_ = undefined;
     this.readable_ = undefined;
     this.client_.onSendError(error);
   }
@@ -232,6 +237,7 @@ class FakeSerialPort {
 
   async startWriting(in_stream) {
     this.readable_ = new ReadableStream(new DataPipeSource(in_stream));
+    this.reader_ = this.readable_.getReader();
     if (this.readableResolver_) {
       this.readableResolver_();
       this.readableResolver_ = undefined;
@@ -257,7 +263,16 @@ class FakeSerialPort {
         this.writer_ = undefined;
         this.writable_ = undefined;
         break;
+      case device.mojom.SerialPortFlushMode.kTransmit:
+        this.reader_.cancel();
+        this.reader_ = undefined;
+        this.readable_ = undefined;
+        break;
     }
+  }
+
+  async drain() {
+    await this.reader_.closed;
   }
 
   async getControlSignals() {

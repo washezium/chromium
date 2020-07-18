@@ -52,6 +52,8 @@ class FakeSerialPort : public mojom::SerialPort {
     NOTREACHED();
   }
 
+  void Drain(DrainCallback callback) override { NOTREACHED(); }
+
   void GetControlSignals(GetControlSignalsCallback callback) override {
     NOTREACHED();
   }

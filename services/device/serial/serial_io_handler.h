@@ -82,6 +82,9 @@ class SerialIoHandler : public base::RefCountedThreadSafe<SerialIoHandler> {
   // Flushes input and output buffers.
   virtual void Flush(mojom::SerialPortFlushMode mode) const = 0;
 
+  // Drains output buffers.
+  virtual void Drain() = 0;
+
   // Reads current control signals (DCD, CTS, etc.) into an existing
   // DeviceControlSignals structure. Returns |true| iff the signals were
   // successfully read.

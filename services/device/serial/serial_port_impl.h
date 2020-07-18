@@ -58,6 +58,7 @@ class SerialPortImpl : public mojom::SerialPort {
   void StartWriting(mojo::ScopedDataPipeConsumerHandle consumer) override;
   void StartReading(mojo::ScopedDataPipeProducerHandle producer) override;
   void Flush(mojom::SerialPortFlushMode mode, FlushCallback callback) override;
+  void Drain(DrainCallback callback) override;
   void GetControlSignals(GetControlSignalsCallback callback) override;
   void SetControlSignals(mojom::SerialHostControlSignalsPtr signals,
                          SetControlSignalsCallback callback) override;
@@ -89,9 +90,11 @@ class SerialPortImpl : public mojom::SerialPort {
   mojo::ScopedDataPipeProducerHandle out_stream_;
   mojo::SimpleWatcher out_stream_watcher_;
 
-  // Holds the callback for a pending flush until pending read operations have
-  // been completed.
+  // Holds the callback for a flush or drain until pending operations have been
+  // completed.
   FlushCallback read_flush_callback_;
+  FlushCallback write_flush_callback_;
+  DrainCallback drain_callback_;
 
   base::WeakPtrFactory<SerialPortImpl> weak_factory_{this};
   DISALLOW_COPY_AND_ASSIGN(SerialPortImpl);

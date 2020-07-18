@@ -29,6 +29,7 @@ class FakeSerialIoHandler : public SerialIoHandler {
   }
 
   void Flush(mojom::SerialPortFlushMode mode) const override {}
+  void Drain() override {}
 
   mojom::SerialPortControlSignalsPtr GetControlSignals() const override {
     return mojom::SerialPortControlSignals::New();
@@ -162,6 +163,55 @@ TEST_F(SerialPortImplTest, FlushRead) {
   serial_port->Flush(mojom::SerialPortFlushMode::kReceive, loop.QuitClosure());
   loop.Run();
   watcher_loop.Run();
+}
+
+TEST_F(SerialPortImplTest, FlushWrite) {
+  mojo::Remote<mojom::SerialPort> serial_port;
+  mojo::SelfOwnedReceiverRef<mojom::SerialPortConnectionWatcher> watcher;
+  CreatePort(&serial_port, &watcher);
+
+  mojo::ScopedDataPipeProducerHandle producer;
+  mojo::ScopedDataPipeConsumerHandle consumer;
+  CreateDataPipe(&producer, &consumer);
+  serial_port->StartWriting(std::move(consumer));
+
+  // Calling Flush(kTransmit) should cause the data pipe to close.
+  base::RunLoop watcher_loop;
+  mojo::SimpleWatcher pipe_watcher(
+      FROM_HERE, mojo::SimpleWatcher::ArmingPolicy::AUTOMATIC);
+  EXPECT_EQ(pipe_watcher.Watch(producer.get(), MOJO_HANDLE_SIGNAL_PEER_CLOSED,
+                               MOJO_TRIGGER_CONDITION_SIGNALS_SATISFIED,
+                               base::BindLambdaForTesting(
+                                   [&](MojoResult result,
+                                       const mojo::HandleSignalsState& state) {
+                                     EXPECT_EQ(result, MOJO_RESULT_OK);
+                                     EXPECT_TRUE(state.peer_closed());
+                                     watcher_loop.Quit();
+                                   })),
+            MOJO_RESULT_OK);
+
+  base::RunLoop loop;
+  serial_port->Flush(mojom::SerialPortFlushMode::kTransmit, loop.QuitClosure());
+  loop.Run();
+  watcher_loop.Run();
+}
+
+TEST_F(SerialPortImplTest, Drain) {
+  mojo::Remote<mojom::SerialPort> serial_port;
+  mojo::SelfOwnedReceiverRef<mojom::SerialPortConnectionWatcher> watcher;
+  CreatePort(&serial_port, &watcher);
+
+  mojo::ScopedDataPipeProducerHandle producer;
+  mojo::ScopedDataPipeConsumerHandle consumer;
+  CreateDataPipe(&producer, &consumer);
+  serial_port->StartWriting(std::move(consumer));
+
+  // Drain() will wait for the data pipe to close before replying.
+  producer.reset();
+
+  base::RunLoop loop;
+  serial_port->Drain(loop.QuitClosure());
+  loop.Run();
 }
 
 }  // namespace device

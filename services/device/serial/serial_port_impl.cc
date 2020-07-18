@@ -105,25 +105,60 @@ void SerialPortImpl::StartReading(mojo::ScopedDataPipeProducerHandle producer) {
 
 void SerialPortImpl::Flush(mojom::SerialPortFlushMode mode,
                            FlushCallback callback) {
-  if (mode == mojom::SerialPortFlushMode::kReceive) {
-    io_handler_->CancelRead(mojom::SerialReceiveError::NONE);
+  switch (mode) {
+    case mojom::SerialPortFlushMode::kReceiveAndTransmit:
+      // Do nothing. This case exists to support the chrome.serial.flush()
+      // method.
+      break;
+    case mojom::SerialPortFlushMode::kReceive:
+      io_handler_->CancelRead(mojom::SerialReceiveError::NONE);
+      break;
+    case mojom::SerialPortFlushMode::kTransmit:
+      io_handler_->CancelWrite(mojom::SerialSendError::NONE);
+      break;
   }
 
   io_handler_->Flush(mode);
 
-  if (mode == mojom::SerialPortFlushMode::kReceive) {
-    if (io_handler_->IsReadPending()) {
-      // Delay closing |out_stream_| because |io_handler_| still holds a pointer
-      // into the shared memory owned by the pipe.
-      read_flush_callback_ = std::move(callback);
-      return;
-    }
+  switch (mode) {
+    case mojom::SerialPortFlushMode::kReceiveAndTransmit:
+      // Do nothing. This case exists to support the chrome.serial.flush()
+      // method.
+      break;
+    case mojom::SerialPortFlushMode::kReceive:
+      if (io_handler_->IsReadPending()) {
+        // Delay closing |out_stream_| because |io_handler_| still holds a
+        // pointer into the shared memory owned by the pipe.
+        read_flush_callback_ = std::move(callback);
+        return;
+      }
 
-    out_stream_watcher_.Cancel();
-    out_stream_.reset();
+      out_stream_watcher_.Cancel();
+      out_stream_.reset();
+      break;
+    case mojom::SerialPortFlushMode::kTransmit:
+      if (io_handler_->IsWritePending()) {
+        // Delay closing |in_stream_| because |io_handler_| still holds a
+        // pointer into the shared memory owned by the pipe.
+        write_flush_callback_ = std::move(callback);
+        return;
+      }
+
+      in_stream_watcher_.Cancel();
+      in_stream_.reset();
+      break;
   }
 
   std::move(callback).Run();
+}
+
+void SerialPortImpl::Drain(DrainCallback callback) {
+  if (!in_stream_) {
+    std::move(callback).Run();
+    return;
+  }
+
+  drain_callback_ = std::move(callback);
 }
 
 void SerialPortImpl::GetControlSignals(GetControlSignalsCallback callback) {
@@ -178,6 +213,11 @@ void SerialPortImpl::WriteToPort(MojoResult result,
     // The |in_stream_| has been closed.
     in_stream_watcher_.Cancel();
     in_stream_.reset();
+
+    if (drain_callback_) {
+      io_handler_->Drain();
+      std::move(drain_callback_).Run();
+    }
     return;
   }
   // The code should not reach other cases.

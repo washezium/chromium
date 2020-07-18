@@ -472,10 +472,18 @@ void SerialIoHandlerWin::Flush(mojom::SerialPortFlushMode mode) const {
     case mojom::SerialPortFlushMode::kReceive:
       flags = PURGE_RXCLEAR;
       break;
+    case mojom::SerialPortFlushMode::kTransmit:
+      flags = PURGE_TXCLEAR;
+      break;
   }
 
   if (!PurgeComm(file().GetPlatformFile(), flags))
     VPLOG(1) << "Failed to flush serial port";
+}
+
+void SerialIoHandlerWin::Drain() {
+  if (!FlushFileBuffers(file().GetPlatformFile()))
+    VPLOG(1) << "Failed to drain serial port";
 }
 
 mojom::SerialPortControlSignalsPtr SerialIoHandlerWin::GetControlSignals()
