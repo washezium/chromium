@@ -318,33 +318,6 @@ export class PDFViewerElement extends PDFViewerBaseElement {
       this.getToolbar_().hidden = false;
     }
 
-    document.body.addEventListener('change-page', e => {
-      this.viewport.goToPage(e.detail.page);
-      if (e.detail.origin === 'bookmark') {
-        PDFMetrics.record(PDFMetrics.UserAction.FOLLOW_BOOKMARK);
-      } else if (e.detail.origin === 'pageselector') {
-        PDFMetrics.record(PDFMetrics.UserAction.PAGE_SELECTOR_NAVIGATE);
-      }
-    });
-
-    document.body.addEventListener('change-page-and-xy', e => {
-      const point = this.viewport.convertPageToScreen(e.detail.page, e.detail);
-      this.goToPageAndXY_(e.detail.origin, e.detail.page, point);
-    });
-
-    document.body.addEventListener('navigate', e => {
-      const disposition = e.detail.newtab ?
-          PdfNavigator.WindowOpenDisposition.NEW_BACKGROUND_TAB :
-          PdfNavigator.WindowOpenDisposition.CURRENT_TAB;
-      this.navigator_.navigate(e.detail.uri, disposition);
-    });
-
-    document.body.addEventListener('dropdown-opened', e => {
-      if (e.detail === 'bookmarks') {
-        PDFMetrics.record(PDFMetrics.UserAction.OPEN_BOOKMARKS_PANEL);
-      }
-    });
-
     if (!this.pdfViewerUpdateEnabled_) {
       this.toolbarManager_ = new ToolbarManager(
           window, this.getToolbar_(), this.getZoomToolbar_());
@@ -833,6 +806,50 @@ export class PDFViewerElement extends PDFViewerBaseElement {
    */
   onToolbarSave_(e) {
     this.save_(e.detail);
+  }
+
+  /**
+   * @param {!CustomEvent<!{page: number, origin: string}>} e
+   * @private
+   */
+  onChangePage_(e) {
+    this.viewport.goToPage(e.detail.page);
+    if (e.detail.origin === 'bookmark') {
+      PDFMetrics.record(PDFMetrics.UserAction.FOLLOW_BOOKMARK);
+    } else if (e.detail.origin === 'pageselector') {
+      PDFMetrics.record(PDFMetrics.UserAction.PAGE_SELECTOR_NAVIGATE);
+    }
+  }
+
+  /**
+   * @param {!CustomEvent<!{
+   *   page: number, origin: string, x: number, y: number}>} e
+   * @private
+   */
+  onChangePageAndXy_(e) {
+    const point = this.viewport.convertPageToScreen(e.detail.page, e.detail);
+    this.goToPageAndXY_(e.detail.origin, e.detail.page, point);
+  }
+
+  /**
+   * @param {!CustomEvent<string>} e
+   * @private
+   */
+  onDropdownOpened_(e) {
+    if (e.detail === 'bookmarks') {
+      PDFMetrics.record(PDFMetrics.UserAction.OPEN_BOOKMARKS_PANEL);
+    }
+  }
+
+  /**
+   * @param {!CustomEvent<!{newtab: boolean, uri: string}>} e
+   * @private
+   */
+  onNavigate_(e) {
+    const disposition = e.detail.newtab ?
+        PdfNavigator.WindowOpenDisposition.NEW_BACKGROUND_TAB :
+        PdfNavigator.WindowOpenDisposition.CURRENT_TAB;
+    this.navigator_.navigate(e.detail.uri, disposition);
   }
 
   /**
