@@ -23,6 +23,21 @@ if (enable_pdf) {
   }
 
   static_library("pdf") {
+    sources = [ "pdf.cc" ]
+
+    configs += [ ":pdf_common_config" ]
+
+    public = [ "pdf.h" ]
+
+    deps = [
+      ":internal",
+      "//base",
+    ]
+  }
+
+  source_set("internal") {
+    visibility = [ ":*" ]
+
     sources = [
       "accessibility.cc",
       "accessibility.h",
@@ -50,7 +65,6 @@ if (enable_pdf) {
       "paint_manager.h",
       "paint_ready_rect.cc",
       "paint_ready_rect.h",
-      "pdf.cc",
       "pdf_engine.h",
       "pdf_init.cc",
       "pdf_init.h",
@@ -58,7 +72,6 @@ if (enable_pdf) {
       "pdf_transform.h",
       "pdfium/pdfium_api_string_buffer_adapter.cc",
       "pdfium/pdfium_api_string_buffer_adapter.h",
-      "pdfium/pdfium_assert_matching_enums.cc",
       "pdfium/pdfium_document.cc",
       "pdfium/pdfium_document.h",
       "pdfium/pdfium_engine.cc",
@@ -100,14 +113,6 @@ if (enable_pdf) {
 
     configs += [ ":pdf_common_config" ]
 
-    public = [ "pdf.h" ]
-
-    friend = [
-      ":pdf_unittests",
-      ":pdf_test_utils",
-      ":pdf_ppapi",
-    ]
-
     deps = [
       ":features",
       "//base",
@@ -132,6 +137,22 @@ if (enable_pdf) {
     }
   }
 
+  source_set("assert_enums") {
+    visibility = [ ":*" ]
+
+    sources = [ "pdfium/pdfium_assert_matching_enums.cc" ]
+
+    configs += [ ":pdf_common_config" ]
+
+    deps = [
+      ":internal",
+      ":pdf",
+      "//ppapi/c",
+      "//third_party/pdfium",
+      "//ui/base",
+    ]
+  }
+
   component("pdf_ppapi") {
     sources = [ "pdf_ppapi.cc" ]
 
@@ -142,6 +163,7 @@ if (enable_pdf) {
     public = [ "pdf_ppapi.h" ]
 
     deps = [
+      ":internal",
       ":pdf",
       "//base",
       "//ppapi/cpp:objects",
@@ -178,7 +200,7 @@ if (enable_pdf) {
     configs += [ "//build/config/compiler:noshadowing" ]
 
     deps = [
-      ":pdf",
+      ":internal",
       "//base",
       "//ppapi/cpp:objects",
       "//testing/gtest",
@@ -219,7 +241,9 @@ if (enable_pdf) {
     data = [ "test/data/" ]
 
     deps = [
+      ":assert_enums",
       ":features",
+      ":internal",
       ":pdf",
       ":pdf_test_utils",
       "//base",
