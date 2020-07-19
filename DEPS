@@ -176,6 +176,7 @@ vars = {
   'skia_git': 'https://skia.googlesource.com',
   'swiftshader_git': 'https://swiftshader.googlesource.com',
   'webrtc_git': 'https://webrtc.googlesource.com',
+  'github-webrtc':  'https://github.com/washezium',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling Skia
   # and whatever else without interference from each other.
@@ -1454,7 +1455,7 @@ deps = {
   },
 
   'src/third_party/webrtc':
-    Var('webrtc_git') + '/src.git' + '@' + '758c388d3fedac4a474b48a240af83dd3f6a5fc5',
+    Var('github-webrtc') + '/webrtc-tree.git' + '@' + '4b38b1dcd76a6df9b832061318fb09786bd0ff75',
 
   'src/third_party/libgifcodec':
      Var('skia_git') + '/libgifcodec' + '@'+  Var('libgifcodec_revision'),
