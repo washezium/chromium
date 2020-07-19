@@ -2702,6 +2702,11 @@ TEST_P(DownloadLaterTest, TestDownloadScheduleAfterTargetDetermined) {
     ASSERT_EQ(DOWNLOAD_INTERRUPT_REASON_CRASH, item->GetLastReason());
   }
 
+  if (param.state == DownloadItem::IN_PROGRESS) {
+    EXPECT_FALSE(item->GetDownloadSchedule().has_value())
+        << "Download schedule should be cleared before completion.";
+  }
+
   CleanupItem(item, download_file, param.state);
 }
 

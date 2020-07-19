@@ -1844,6 +1844,8 @@ void DownloadItemImpl::OnTargetResolved() {
     return;
   }
 
+  download_schedule_ = base::nullopt;
+
   TransitionTo(IN_PROGRESS_INTERNAL);
   // TODO(asanka): Calling UpdateObservers() prior to MaybeCompleteDownload() is
   // not safe. The download could be in an underminate state after invoking
