@@ -2744,5 +2744,21 @@ TEST_P(DownloadLaterTest, TestOnDownloadScheduleChanged) {
   }
 }
 
+TEST_F(DownloadItemTest, CancelWithDownloadSchedule) {
+  base::test::ScopedFeatureList scoped_feature_list;
+  scoped_feature_list.InitAndEnableFeature(features::kDownloadLater);
+
+  auto item = CreateDownloadItem(DownloadItem::DownloadState::INTERRUPTED,
+                                 DOWNLOAD_INTERRUPT_REASON_CRASH);
+  auto download_schedule = base::make_optional<DownloadSchedule>(
+      false, base::Time::Now() + base::TimeDelta::FromDays(10));
+  item->OnDownloadScheduleChanged(std::move(download_schedule));
+
+  EXPECT_EQ(item->GetState(), DownloadItem::DownloadState::INTERRUPTED);
+  EXPECT_TRUE(item->GetDownloadSchedule().has_value());
+  item->Cancel(true);
+  EXPECT_FALSE(item->GetDownloadSchedule().has_value());
+}
+
 }  // namespace
 }  // namespace download
