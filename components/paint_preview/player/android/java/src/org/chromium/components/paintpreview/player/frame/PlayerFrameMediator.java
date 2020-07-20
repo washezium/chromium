@@ -9,12 +9,10 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.Size;
 import android.view.View;
-import android.widget.OverScroller;
 
 import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.UnguessableToken;
-import org.chromium.components.paintpreview.player.OverscrollHandler;
 import org.chromium.components.paintpreview.player.PlayerCompositorDelegate;
 import org.chromium.components.paintpreview.player.PlayerGestureListener;
 import org.chromium.ui.modelutil.PropertyModel;
@@ -64,36 +62,29 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
     /** The viewport of this frame. */
     private final PlayerFrameViewport mViewport;
 
+    private float mInitialScaleFactor;
     /** Handles scaling of bitmaps. */
-    private final Matrix mBitmapScaleMatrix = new Matrix();
-
-    /** Handles scrolling. */
-    private final PlayerFrameScrollController mScrollController;
-    /** Handles scaling. */
-    private final PlayerFrameScaleController mScaleController;
+    private final Matrix mBitmapScaleMatrix;
 
     private final PlayerFrameBitmapStateController mBitmapStateController;
 
     private PlayerGestureListener mGestureListener;
 
     PlayerFrameMediator(PropertyModel model, PlayerCompositorDelegate compositorDelegate,
-            PlayerFrameViewport viewport, OverScroller scroller,
-            PlayerGestureListener gestureListener, UnguessableToken frameGuid, int contentWidth,
-            int contentHeight, int initialScrollX, int initialScrollY) {
+            PlayerGestureListener gestureListener, UnguessableToken frameGuid, Size contentSize,
+            int initialScrollX, int initialScrollY) {
+        mBitmapScaleMatrix = new Matrix();
         mModel = model;
         mModel.set(PlayerFrameProperties.SCALE_MATRIX, mBitmapScaleMatrix);
 
         mCompositorDelegate = compositorDelegate;
-        mViewport = viewport;
+        mGestureListener = gestureListener;
+        mViewport = new PlayerFrameViewport();
+        mInitialScaleFactor = 0f;
         mGuid = frameGuid;
-        mContentSize = new Size(contentWidth, contentHeight);
+        mContentSize = contentSize;
         mBitmapStateController = new PlayerFrameBitmapStateController(
                 mGuid, mViewport, mContentSize, mCompositorDelegate, this);
-        mScrollController = new PlayerFrameScrollController(scroller, mViewport, mContentSize, this,
-                gestureListener::onScroll, gestureListener::onFling);
-        mScaleController = new PlayerFrameScaleController(
-                mViewport, mContentSize, mBitmapScaleMatrix, this, gestureListener::onScale);
-        mGestureListener = gestureListener;
         mViewport.offset(initialScrollX, initialScrollY);
         mViewport.setScale(0f);
     }
@@ -143,15 +134,6 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
         setBitmapScaleMatrix(matrix, scaleFactor);
     }
 
-    /**
-     * Sets the overscroll-to-refresh handler on the {@link mScrollController}. This cannot be
-     * created at construction of this object as it needs to be created on top of the view
-     * hierarchy to show the animation.
-     */
-    void setOverscrollHandler(OverscrollHandler overscrollHandler) {
-        mScrollController.setOverscrollHandler(overscrollHandler);
-    }
-
     // PlayerFrameViewDelegate
 
     @Override
@@ -163,35 +145,10 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
         }
 
         // Set initial scale so that content width fits within the layout dimensions.
-        mScaleController.calculateInitialScaleFactor(width);
+        adjustInitialScaleFactor(width);
         final float scaleFactor = mViewport.getScale();
-        updateViewportSize(width, height,
-                (scaleFactor == 0f) ? mScaleController.getInitialScaleFactor() : scaleFactor);
-    }
-
-    @Override
-    public boolean scrollBy(float distanceX, float distanceY) {
-        return mScrollController.scrollBy(distanceX, distanceY);
-    }
-
-    @Override
-    public boolean onFling(float velocityX, float velocityY) {
-        return mScrollController.onFling(velocityX, velocityY);
-    }
-
-    @Override
-    public void onRelease() {
-        mScrollController.onRelease();
-    }
-
-    @Override
-    public boolean scaleBy(float scaleFactor, float focalPointX, float focalPointY) {
-        return mScaleController.scaleBy(scaleFactor, focalPointX, focalPointY);
-    }
-
-    @Override
-    public boolean scaleFinished(float scaleFactor, float focalPointX, float focalPointY) {
-        return mScaleController.scaleFinished(scaleFactor, focalPointX, focalPointY);
+        updateViewportSize(
+                width, height, (scaleFactor == 0f) ? getInitialScaleFactor() : scaleFactor);
     }
 
     @Override
@@ -211,6 +168,21 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
     }
 
     // PlayerFrameMediatorDelegate
+
+    @Override
+    public PlayerFrameViewport getViewport() {
+        return mViewport;
+    }
+
+    @Override
+    public Size getContentSize() {
+        return mContentSize;
+    }
+
+    @Override
+    public float getInitialScaleFactor() {
+        return mInitialScaleFactor;
+    }
 
     @Override
     public void onStartScaling() {
@@ -342,10 +314,9 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
 
     @VisibleForTesting
     void forceRedraw() {
-        mScaleController.calculateInitialScaleFactor(mViewport.getWidth());
+        adjustInitialScaleFactor(mViewport.getWidth());
         final float scaleFactor = mViewport.getScale();
-        mViewport.setScale(
-                (scaleFactor == 0f) ? mScaleController.getInitialScaleFactor() : scaleFactor);
+        mViewport.setScale((scaleFactor == 0f) ? getInitialScaleFactor() : scaleFactor);
         updateVisuals(true);
         for (int i = 0; i < mSubFrameViews.size(); i++) {
             if (mSubFrameViews.get(i).getVisibility() != View.VISIBLE) continue;
@@ -359,5 +330,13 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
                 (int) (((float) inRect.top) * scaleFactor),
                 (int) (((float) inRect.right) * scaleFactor),
                 (int) (((float) inRect.bottom) * scaleFactor));
+    }
+
+    /**
+     * Calculates the initial scale factor for a given viewport width.
+     * @param width The viewport width.
+     */
+    private void adjustInitialScaleFactor(float width) {
+        mInitialScaleFactor = width / ((float) mContentSize.getWidth());
     }
 }
