@@ -5,7 +5,6 @@
 #include "components/sync_bookmarks/synced_bookmark_tracker.h"
 
 #include <algorithm>
-#include <set>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -708,7 +707,7 @@ SyncedBookmarkTracker::ReorderUnsyncedEntitiesExceptDeletions(
   //    node. What's left in |nodes| are the roots of the forest.
   // 3. Start at each root in |nodes|, emit the update and recurse over its
   //    children.
-  std::set<const bookmarks::BookmarkNode*> nodes;
+  std::unordered_set<const bookmarks::BookmarkNode*> nodes;
   // Collect nodes with updates
   for (const SyncedBookmarkTracker::Entity* entity : entities) {
     DCHECK(entity->IsUnsynced());
