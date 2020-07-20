@@ -28608,6 +28608,7 @@ Called by update_feature_policy_enum.py.-->
   <int value="75" label="CrossOriginIsolated"/>
   <int value="76" label="ClipboardRead"/>
   <int value="77" label="ClipboardWrite"/>
+  <int value="78" label="WebShare"/>
 </enum>
 
 <enum name="FeaturePolicyImageCompressionFormat">
