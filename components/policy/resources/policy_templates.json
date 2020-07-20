@@ -3568,23 +3568,21 @@
       'id': 371,
       'caption': '''Allow download restrictions''',
       'tags': ['local-data-access'],
-      'desc': '''Configures the type of downloads that <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will completely block, without letting users override the security decision.
+      'desc': '''Setting the policy means users can't bypass download security decisions.
 
-      If you set this policy, <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will prevent certain types of downloads, and won't let user bypass the security warnings.
+       Setting the policy to:
 
-      When the 'Block dangerous downloads' option is chosen, all downloads are allowed, except for those that carry Safe Browsing warnings.
+      * Block dangerous downloads means all downloads are allowed, except for those that carry Safe Browsing warnings.
 
-      When the 'Block potentially dangerous downloads' option is chosen, all downloads allowed, except for those that carry Safe Browsing warnings of potentially dangerous downloads.
+      * Block potentially dangerous downloads means all downloads allowed, except for those that carry Safe Browsing warnings of potentially dangerous downloads.
 
-      When the 'Block all downloads' option is chosen, all downloads are blocked.
+      * Block all downloads means all downloads are blocked.
 
-      When the 'Block malicious downloads' option is chosen, all downloads are allowed, except for those that Safe Browsing assesses to be malware with high confidence. Unlike with dangerous downloads, this does not take into account file type, but does take into account the host.
+      * Block malicious downloads means all downloads are allowed, except for those that Safe Browsing assesses to be malware with high confidence. Unlike with dangerous downloads, this does not take into account file type, but does take into account the host.
 
-      When this policy is not set, (or the 'No special restrictions' option is chosen), the downloads will go through the usual security restrictions based on Safe Browsing analysis results.
+      * No special restrictions means the downloads go through the usual security restrictions based on Safe Browsing analysis results.
 
-      Note that these restrictions apply to downloads triggered from web page content, as well as the 'download link...' context menu option. These restrictions do not apply to the save / download of the currently displayed page, nor does it apply to saving as PDF from the printing options.
-
-      See https://developers.google.com/safe-browsing for more info on Safe Browsing.''',
+      Note: These restrictions apply to downloads triggered from webpage content, as well as the Download link... menu option. They don't apply to the download of the currently displayed page or to saving as PDF from the printing options. Read more about Safe Browsing ( https://developers.google.com/safe-browsing ).''',
       'label': '''Download restrictions''',
     },
     {
@@ -3602,13 +3600,11 @@
       'id': 64,
       'caption': '''Set download directory''',
       'tags': ['local-data-access'],
-      'desc': '''Configures the directory that <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will use for downloading files.
+      'desc': '''Setting the policy sets up the directory Chrome uses for downloading files. It uses the provided directory, whether or not users specify one or turned on the flag to be prompted for download location every time.
 
-      If you set this policy, <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will use the provided directory regardless whether the user has specified one or enabled the flag to be prompted for download location every time.
+      Leaving the policy unset means Chrome uses the default download directory, and users can change it.
 
-      See https://www.chromium.org/administrators/policy-list-3/user-data-directory-variables for a list of variables that can be used.
-
-      If this policy is left not set the default download directory will be used and the user will be able to change it.''',
+      Note: See a list of variables you can use ( https://www.chromium.org/administrators/policy-list-3/user-data-directory-variables ).''',
       'label': '''Set download directory''',
       'arc_support': 'This policy has no effect on Android apps. Android apps always use the default downloads directory and cannot access any files downloaded by <ph name="PRODUCT_OS_NAME">$2<ex>Google Chrome OS</ex></ph> into a non-default downloads directory.',
     },
@@ -15706,11 +15702,9 @@
       'id': 395,
       'caption': '''Ask where to save each file before downloading''',
       'tags': [],
-      'desc': '''
-      If the policy is enabled, the user will be asked where to save each file before downloading.
-      If the policy is disabled, downloads will start immediately, and the user will not be asked where to save the file.
-      If the policy is not configured, the user will be able to change this setting.
-      '''
+      'desc': '''Setting the policy to Enabled means users are asked where to save each file before downloading. Setting the policy to Disabled has downloads start immediately, and users aren't asked where to save the file.
+
+      Leaving the policy unset lets users change this setting.'''
     },
     {
       'name': 'UnaffiliatedArcAllowed',
@@ -15970,13 +15964,11 @@
       'id': 401,
       'caption': '''Set default download directory''',
       'tags': ['local-data-access'],
-      'desc': '''Configures the default directory that <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will use for downloading files.
+      'desc': '''Setting the policy changes the default directory that Chrome downloads files to, but users can change the directory.
 
-      If you set this policy, it will change the default directory that <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> downloads files to. This policy is not mandatory, so the user will be able to change the directory.
+      Leaving the policy unset means Chrome uses its platform-specific default directory.
 
-      If you do not set this policy, <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will use its usual default directory (platform-specific).
-
-      See https://www.chromium.org/administrators/policy-list-3/user-data-directory-variables for a list of variables that can be used.''',
+      Note: See a list of variables you can use ( https://www.chromium.org/administrators/policy-list-3/user-data-directory-variables ).''',
     },
     {
       'name': 'DeviceHostnameTemplate',
