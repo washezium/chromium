@@ -498,6 +498,26 @@ if (is_android) {
       "base/android/android_browser_test_browsertest_android.cc",
     ]
 
+    # Add unwind tables in android_browsertests apk to support enabling
+    # sampling profiler. The unwind tables are generated from debug info in the
+    # binary. Removing "default_symbols" and adding symbols config removes the
+    # "strip_debug" config that strips the debug info, on android_browsertests
+    # apk.
+    if (enable_arm_cfi_table) {
+      sources += [ "../common/profiler/stack_sampling_browsertest.cc" ]
+      deps += [
+        "//chrome/android/modules/stack_unwinder/internal:java",
+        "//chrome/android/modules/stack_unwinder/internal:stack_unwinder_for_testing",
+      ]
+      configs -= [ "//build/config/compiler:default_symbols" ]
+      if (symbol_level == 2) {
+        configs += [ "//build/config/compiler:symbols" ]
+      } else {
+        configs += [ "//build/config/compiler:minimal_symbols" ]
+      }
+      add_unwind_tables_in_apk = true
+    }
+
     data = [
       "$root_gen_dir/chrome/android/chrome_apk_paks/chrome_100_percent.pak",
       "$root_gen_dir/chrome/android/chrome_apk_paks/locales/en-US.pak",
