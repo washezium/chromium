@@ -4322,18 +4322,6 @@ hooks = [
     ],
   },
   {
-    'name': 'Fetch Android AFDO profile',
-    'pattern': '.',
-    'condition': 'checkout_android or checkout_linux',
-    'action': [ 'vpython',
-                'src/tools/download_optimization_profile.py',
-                '--newest_state=src/chrome/android/profiles/newest.txt',
-                '--local_state=src/chrome/android/profiles/local.txt',
-                '--output_name=src/chrome/android/profiles/afdo.prof',
-                '--gs_url_base=chromeos-prebuilt/afdo-job/llvm',
-    ],
-  },
-  {
     'name': 'gvr_static_shim_android_arm_1',
     'pattern': '\\.sha1',
     'condition': 'checkout_android',
