@@ -2449,13 +2449,13 @@ Jika kebijakan ini tidak disetel, setelan default-nya tidak diizinkan bagi pengg
 
           Jika setelan ini dinonaktifkan atau tidak ditetapkan, host akses jarak jauh dapat dikaitkan dengan pengguna lokal mana pun.</translation>
 <translation id="4591366717022345234">Sediakan Quick Fix Build untuk pengguna</translation>
-<translation id="4592246263545654202">Menentukan apakah pengguna dapat membuka halaman dalam Mode samaran di <ph name="PRODUCT_NAME" /> atau tidak.
+<translation id="4592246263545654202">Menentukan apakah pengguna dapat membuka halaman dalam mode Samaran di <ph name="PRODUCT_NAME" /> atau tidak.
 
-      Jika 'Enabled' dipilih atau kebijakan tidak ditetapkan, halaman dapat dibuka dalam Mode samaran.
+      Jika 'Enabled' dipilih atau kebijakan tidak ditetapkan, halaman dapat dibuka dalam mode Samaran.
 
-      Jika 'Disabled' dipilih, halaman tidak dapat dibuka dalam Mode samaran.
+      Jika 'Disabled' dipilih, halaman tidak dapat dibuka dalam mode Samaran.
 
-      Jika 'Forced' dipilih, halaman dapat dibuka HANYA dalam Mode samaran. Perhatikan bahwa 'Paksa' tidak berfungsi pada Android di Chrome</translation>
+      Jika 'Forced' dipilih, halaman dapat dibuka HANYA dalam mode Samaran. Perhatikan bahwa 'Paksa' tidak berfungsi pada Android di Chrome</translation>
 <translation id="4600786265870346112">Aktifkan kursor besar</translation>
 <translation id="4604931264910482931">Konfigurasikan daftar hitam perpesanan asli</translation>
 <translation id="4614701085541180174">Memungkinkan Anda menetapkan daftar pola URL yang menentukan situs tempat sertifikat klien dipilih secara otomatis di layar login dalam frame yang menghosting alur SAML, jika situs tersebut meminta sertifikat. Contoh penggunaan adalah ketika mengonfigurasikan sertifikat di seluruh perangkat untuk ditampilkan ke SAML IdP.

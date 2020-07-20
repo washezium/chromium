@@ -2917,11 +2917,11 @@ Se la norma non viene impostata, <ph name="PRODUCT_NAME" /> caricherà tutti gli
 
       Se il criterio viene impostato su False, il port forwarding nei container Crostini viene disattivato.</translation>
 <translation id="538108065117008131">Consenti a <ph name="PRODUCT_FRAME_NAME" /> di gestire i seguenti tipi di contenuto.</translation>
-<translation id="538768040137709073">Consente di attivare la funzione Appunti condivisi che permette agli utenti di inviare messaggi tra computer desktop Chrome e un dispositivo Android quando la sincronizzazione è attivata e l'utente ha effettuato l'accesso.
+<translation id="538768040137709073">Consente di attivare la funzione Appunti condivisi che permette agli utenti di inviare testi tra computer desktop Chrome e un dispositivo Android quando la sincronizzazione è attivata e l'utente ha effettuato l'accesso.
 
-          Se il criterio è impostato su true, la funzionalità di invio messaggi, cross-device, è attivata per gli utenti Chrome.
+          Se il criterio è impostato su true, la funzionalità di invio testi tra dispositivi è attivata per gli utenti Chrome.
 
-          Se il criterio è impostato su false, la funzionalità di invio messaggi, cross-device, è disattivata per gli utenti Chrome.
+          Se il criterio è impostato su false, la funzionalità di invio testi tra dispositivi è disattivata per gli utenti Chrome.
 
           Se imposti questo criterio, gli utenti non potranno modificarlo o ignorarlo.
 

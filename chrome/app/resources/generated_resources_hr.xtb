@@ -534,7 +534,7 @@
 <translation id="164936512206786300">Rasparivanje Bluetooth uređaja</translation>
 <translation id="1650371550981945235">Prikaži opcije unosa</translation>
 <translation id="1651008383952180276">Morate dvaput unijeti istu šifru</translation>
-<translation id="1652326691684645429">Omogućivanje značajke Dijeljenje s Android uređajima</translation>
+<translation id="1652326691684645429">Omogući Dijeljenje s Android uređajima</translation>
 <translation id="1653526288038954982">{NUM_PRINTER,plural, =1{Dodajte pisač na Google Cloud Print kako biste mogli ispisivati s bilo kojeg mjesta.}one{Dodajte # pisač na Google Cloud Print kako biste mogli ispisivati s bilo kojeg mjesta.}few{Dodajte # pisača na Google Cloud Print kako biste mogli ispisivati s bilo kojeg mjesta.}other{Dodajte # pisača na Google Cloud Print kako biste mogli ispisivati s bilo kojeg mjesta.}}</translation>
 <translation id="1656528038316521561">Prozirnost pozadine</translation>
 <translation id="1657406563541664238">Olakšajte nam poboljšanje preglednika <ph name="PRODUCT_NAME" /> automatskim slanjem statistike o upotrebi i izvješća o padu programa Googleu</translation>
@@ -1661,7 +1661,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="3022978424994383087">Nisam shvatio.</translation>
 <translation id="3023464535986383522">Odabir za govor</translation>
 <translation id="3024374909719388945">Koristi 24-satni sat</translation>
-<translation id="3027296729579831126">Uključite Dijeljenje s Android uređajima</translation>
+<translation id="3027296729579831126">Uključi Dijeljenje s Android uređajima</translation>
 <translation id="3029466929721441205">Prikaz alata pisaljke na polici</translation>
 <translation id="3031417829280473749">Agentica X</translation>
 <translation id="3031557471081358569">Odaberi stavke za uvoz:</translation>
@@ -2952,7 +2952,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="4673442866648850031">Alati pisaljke otvaraju se i zatvaraju kad se umetne ili izbaci pisaljka</translation>
 <translation id="4677772697204437347">Memorija grafičkog procesora</translation>
 <translation id="4680105648806843642">Na ovoj je stranici isključen zvuk</translation>
-<translation id="4681453295291708042">Onemogućivanje značajke Dijeljenje s Android uređajima</translation>
+<translation id="4681453295291708042">Onemogući Dijeljenje s Android uređajima</translation>
 <translation id="4681930562518940301">Otvori izvornu sl&amp;iku na novoj kartici</translation>
 <translation id="4682551433947286597">Pozadine se prikazuju na zaslonu za prijavu.</translation>
 <translation id="4683947955326903992"><ph name="PERCENTAGE" />% (zadano)</translation>
@@ -4720,7 +4720,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="6965978654500191972">Uređaj</translation>
 <translation id="696780070563539690">Web-lokacije ne mogu upotrebljavati vaše kolačiće za uvid u vašu aktivnost pregledavanja, primjerice radi prilagođavanja oglasa</translation>
 <translation id="6968288415730398122">Unesite zaporku da biste konfigurirali zaključavanje zaslona</translation>
-<translation id="6969047215179982698">Isključivanje značajke Dijeljenje s Android uređajima</translation>
+<translation id="6969047215179982698">Isključi Dijeljenje s Android uređajima</translation>
 <translation id="6970480684834282392">Vrsta pokretanja</translation>
 <translation id="6970856801391541997">Ispis određenih stranica</translation>
 <translation id="6972180789171089114">Audiozapisi/videozapisi</translation>

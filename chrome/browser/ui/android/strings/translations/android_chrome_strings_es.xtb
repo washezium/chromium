@@ -174,7 +174,7 @@ Toca cualquier palabra para buscarla. Para acotar la búsqueda, mantén pulsado 
 <translation id="2387895666653383613">Ajuste de texto</translation>
 <translation id="2394602618534698961">Los archivos que descargues aparecerán aquí</translation>
 <translation id="2407481962792080328">Esta función se activará cuando inicies sesión en tu cuenta de Google</translation>
-<translation id="2407674018644220013">¿Establecer <ph name="APP_NAME" /> como predeterminado?</translation>
+<translation id="2407674018644220013">¿Establecer <ph name="APP_NAME" /> como navegador predeterminado?</translation>
 <translation id="2410754283952462441">Elegir una cuenta</translation>
 <translation id="2414886740292270097">Oscuro</translation>
 <translation id="2426805022920575512">Elegir otra cuenta</translation>
@@ -722,7 +722,7 @@ Por ejemplo, algunos sitios web pueden responder a la solicitud mostrándote anu
 <translation id="6671495933530132209">Copiar imagen</translation>
 <translation id="6676840375528380067">¿Quieres borrar tus datos de Chrome en este dispositivo?</translation>
 <translation id="6689172468748959065">Fotos de perfil</translation>
-<translation id="6691888250440401212">1. Elige <ph name="APP_NAME" />\n2. Toca "Definir como predet."</translation>
+<translation id="6691888250440401212">1. Elige <ph name="APP_NAME" />\n2. Toca "Establecer como predeterminado"</translation>
 <translation id="6697492270171225480">Mostrar sugerencias de páginas similares cuando no se encuentre una página</translation>
 <translation id="6698801883190606802">Administrar datos sincronizados</translation>
 <translation id="6699370405921460408">Los servidores de Google optimizan las páginas web que visitas.</translation>
