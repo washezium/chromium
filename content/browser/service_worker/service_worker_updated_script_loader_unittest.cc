@@ -167,7 +167,8 @@ class ServiceWorkerUpdatedScriptLoaderTest : public testing::Test {
 
     // The response should also be stored in the storage.
     EXPECT_TRUE(ServiceWorkerUpdateCheckTestUtils::VerifyStoredResponse(
-        LookupResourceId(kScriptURL), context()->storage(), expected_body));
+        LookupResourceId(kScriptURL), context()->GetStorageControl(),
+        expected_body));
 
     std::string response;
     EXPECT_TRUE(mojo::BlockingCopyToString(client_->response_body_release(),

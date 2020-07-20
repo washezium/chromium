@@ -142,7 +142,7 @@ class ServiceWorkerScriptLoaderFactoryCopyResumeTest
     // The response should also be stored in the storage.
     EXPECT_TRUE(ServiceWorkerUpdateCheckTestUtils::VerifyStoredResponse(
         version_->script_cache_map()->LookupResourceId(script_url_),
-        helper_->context()->storage(), expected_body));
+        helper_->context()->GetStorageControl(), expected_body));
 
     EXPECT_TRUE(client_.has_received_response());
     EXPECT_TRUE(client_.response_body().is_valid());

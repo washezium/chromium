@@ -367,7 +367,7 @@ TEST_F(ServiceWorkerInstalledScriptsSenderTest, FailedToSendMetaData) {
 TEST_F(ServiceWorkerInstalledScriptsSenderTest, Histograms) {
   const GURL kMainScriptURL = version()->script_url();
   // Use script bodies small enough to be read by one
-  // ServiceWorkerResponseReader::ReadData(). The number of
+  // ServiceWorkerResourceReader::ReadData(). The number of
   // ServiceWorker.DiskCache.ReadResponseResult will be two per script (one is
   // reading the body and the other is saying EOD).
   std::map<GURL, ExpectedScriptInfo> kExpectedScriptInfoMap = {

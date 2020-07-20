@@ -11,6 +11,7 @@
 #include "base/callback.h"
 #include "base/command_line.h"
 #include "base/memory/weak_ptr.h"
+#include "base/run_loop.h"
 #include "base/task/post_task.h"
 #include "components/services/storage/public/mojom/service_worker_storage_control.mojom.h"
 #include "content/browser/service_worker/service_worker_cache_writer.h"
@@ -372,6 +373,28 @@ class MockServiceWorkerResourceWriter
   DISALLOW_COPY_AND_ASSIGN(MockServiceWorkerResourceWriter);
 };
 
+// A test implementation of ServiceWorkerDataPipeStateNotifier.
+class MockServiceWorkerDataPipeStateNotifier
+    : public storage::mojom::ServiceWorkerDataPipeStateNotifier {
+ public:
+  MockServiceWorkerDataPipeStateNotifier();
+  ~MockServiceWorkerDataPipeStateNotifier() override;
+
+  mojo::PendingRemote<storage::mojom::ServiceWorkerDataPipeStateNotifier>
+  BindNewPipeAndPassRemote();
+
+  int32_t WaitUntilComplete();
+
+ private:
+  // storage::mojom::ServiceWorkerDataPipeStateNotifier implementations:
+  void OnComplete(int32_t status) override;
+
+  base::Optional<int32_t> complete_status_;
+  base::OnceClosure on_complete_callback_;
+  mojo::Receiver<storage::mojom::ServiceWorkerDataPipeStateNotifier> receiver_{
+      this};
+};
+
 class ServiceWorkerUpdateCheckTestUtils {
  public:
   ServiceWorkerUpdateCheckTestUtils();
@@ -428,9 +451,10 @@ class ServiceWorkerUpdateCheckTestUtils {
   // Returns false if the entry for |resource_id| doesn't exist in the storage.
   // Returns true when response status is "OK" and response body is same as
   // expected if body exists.
-  static bool VerifyStoredResponse(int64_t resource_id,
-                                   ServiceWorkerStorage* storage,
-                                   const std::string& expected_body);
+  static bool VerifyStoredResponse(
+      int64_t resource_id,
+      mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
+      const std::string& expected_body);
 };
 
 // Reads all data from the given |handle| and returns data as a string.

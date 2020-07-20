@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "base/barrier_closure.h"
-#include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
 #include "base/time/time.h"
 #include "content/browser/frame_host/frame_tree_node.h"
@@ -707,6 +706,33 @@ void MockServiceWorkerResourceWriter::CompletePendingWrite() {
   base::RunLoop().RunUntilIdle();
 }
 
+MockServiceWorkerDataPipeStateNotifier::
+    MockServiceWorkerDataPipeStateNotifier() = default;
+
+MockServiceWorkerDataPipeStateNotifier::
+    ~MockServiceWorkerDataPipeStateNotifier() = default;
+
+mojo::PendingRemote<storage::mojom::ServiceWorkerDataPipeStateNotifier>
+MockServiceWorkerDataPipeStateNotifier::BindNewPipeAndPassRemote() {
+  return receiver_.BindNewPipeAndPassRemote();
+}
+
+int32_t MockServiceWorkerDataPipeStateNotifier::WaitUntilComplete() {
+  if (!complete_status_.has_value()) {
+    base::RunLoop loop;
+    on_complete_callback_ = loop.QuitClosure();
+    loop.Run();
+    DCHECK(complete_status_.has_value());
+  }
+  return *complete_status_;
+}
+
+void MockServiceWorkerDataPipeStateNotifier::OnComplete(int32_t status) {
+  complete_status_ = status;
+  if (on_complete_callback_)
+    std::move(on_complete_callback_).Run();
+}
+
 ServiceWorkerUpdateCheckTestUtils::ServiceWorkerUpdateCheckTestUtils() =
     default;
 ServiceWorkerUpdateCheckTestUtils::~ServiceWorkerUpdateCheckTestUtils() =
@@ -848,43 +874,57 @@ void ServiceWorkerUpdateCheckTestUtils::
 
 bool ServiceWorkerUpdateCheckTestUtils::VerifyStoredResponse(
     int64_t resource_id,
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const std::string& expected_body) {
   DCHECK(storage);
   if (resource_id == blink::mojom::kInvalidServiceWorkerResourceId)
     return false;
 
+  mojo::Remote<storage::mojom::ServiceWorkerResourceReader> reader;
+  storage->CreateResourceReader(resource_id,
+                                reader.BindNewPipeAndPassReceiver());
+
   // Verify the response status.
   size_t response_data_size = 0;
   {
-    std::unique_ptr<ServiceWorkerResponseReader> reader =
-        storage->CreateResponseReader(resource_id);
-    auto info_buffer = base::MakeRefCounted<HttpResponseInfoIOBuffer>();
-    net::TestCompletionCallback cb;
-    reader->ReadInfo(info_buffer.get(), cb.callback());
-    int rv = cb.WaitForResult();
+    int rv;
+    std::string status_text;
+    base::RunLoop loop;
+    reader->ReadResponseHead(base::BindLambdaForTesting(
+        [&](int status, network::mojom::URLResponseHeadPtr response_head,
+            base::Optional<mojo_base::BigBuffer> metadata) {
+          rv = status;
+          status_text = response_head->headers->GetStatusText();
+          response_data_size = response_head->content_length;
+          loop.Quit();
+        }));
+    loop.Run();
+
     if (rv < 0)
       return false;
     EXPECT_LT(0, rv);
-    EXPECT_EQ("OK", info_buffer->http_info->headers->GetStatusText());
-    response_data_size = info_buffer->response_data_size;
+    EXPECT_EQ("OK", status_text);
   }
 
   // Verify the response body.
   {
-    std::unique_ptr<ServiceWorkerResponseReader> reader =
-        storage->CreateResponseReader(resource_id);
-    auto buffer =
-        base::MakeRefCounted<net::IOBufferWithSize>(response_data_size);
-    net::TestCompletionCallback cb;
-    reader->ReadData(buffer.get(), buffer->size(), cb.callback());
-    int rv = cb.WaitForResult();
+    MockServiceWorkerDataPipeStateNotifier notifier;
+    mojo::ScopedDataPipeConsumerHandle data_consumer;
+    base::RunLoop loop;
+    reader->ReadData(response_data_size, notifier.BindNewPipeAndPassRemote(),
+                     base::BindLambdaForTesting(
+                         [&](mojo::ScopedDataPipeConsumerHandle pipe) {
+                           data_consumer = std::move(pipe);
+                           loop.Quit();
+                         }));
+    loop.Run();
+
+    std::string body = ReadDataPipe(std::move(data_consumer));
+    int rv = notifier.WaitUntilComplete();
     if (rv < 0)
       return false;
     EXPECT_EQ(static_cast<int>(expected_body.size()), rv);
-
-    std::string received_body(buffer->data(), rv);
-    EXPECT_EQ(expected_body, received_body);
+    EXPECT_EQ(expected_body, body);
   }
   return true;
 }
