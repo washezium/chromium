@@ -274,12 +274,6 @@ class DownloadItemView : public views::View,
 
   std::unique_ptr<DownloadShelfContextMenuView> context_menu_;
 
-  // The time at which this view was created.
-  base::Time creation_time_ = base::Time::Now();
-
-  // The time at which a dangerous download warning was displayed.
-  base::Time time_download_warning_shown_ = base::Time();
-
   base::RepeatingTimer indeterminate_progress_timer_;
 
   // The start of the most recent active period of downloading a file of

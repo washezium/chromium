@@ -19,7 +19,6 @@
 #include "base/feature_list.h"
 #include "base/files/file_path.h"
 #include "base/location.h"
-#include "base/metrics/histogram_macros.h"
 #include "base/no_destructor.h"
 #include "base/notreached.h"
 #include "base/numerics/math_constants.h"
@@ -482,23 +481,6 @@ void DownloadItemView::ButtonPressed(views::Button* sender,
     return;
   }
 
-  base::TimeDelta warning_duration;
-  if (!time_download_warning_shown_.is_null())
-    warning_duration = base::Time::Now() - time_download_warning_shown_;
-
-  if (mode_ == Mode::kMixedContentWarn && sender == save_button_) {
-    ExecuteCommand(DownloadCommands::KEEP);
-    return;
-  }
-  if (mode_ == Mode::kDangerous && sender == save_button_) {
-    // The user has confirmed a dangerous download.  We'd record how quickly the
-    // user did this to detect whether we're being clickjacked.
-    UMA_HISTOGRAM_LONG_TIMES("clickjacking.save_download", warning_duration);
-
-    MaybeSubmitDownloadToFeedbackService(DownloadCommands::KEEP);
-    return;
-  }
-
   if (sender == open_button_) {
     if ((mode_ == Mode::kDeepScanning) ||
         (model_->GetDangerType() ==
@@ -510,12 +492,6 @@ void DownloadItemView::ButtonPressed(views::Button* sender,
     if (has_warning_label(mode_))
       return;
     complete_animation_.End();
-
-    // We're interested in how long it takes users to open downloads.  If they
-    // open downloads super quickly, we should be concerned about clickjacking.
-    UMA_HISTOGRAM_LONG_TIMES("clickjacking.open_download",
-                             base::Time::Now() - creation_time_);
-
     announce_accessible_alert_soon_ = true;
     model_->OpenDownload();
     // WARNING: |this| may be deleted!
@@ -527,16 +503,12 @@ void DownloadItemView::ButtonPressed(views::Button* sender,
     return;
   }
 
-  DCHECK_EQ(discard_button_, sender);
-
-  if (is_mixed_content(mode_)) {
-    ExecuteCommand(DownloadCommands::DISCARD);
-    // WARNING: |this| may be deleted!
-    return;
-  }
-
-  UMA_HISTOGRAM_LONG_TIMES("clickjacking.discard_download", warning_duration);
-  MaybeSubmitDownloadToFeedbackService(DownloadCommands::DISCARD);
+  const auto command = (sender == save_button_) ? DownloadCommands::KEEP
+                                                : DownloadCommands::DISCARD;
+  if (is_mixed_content(mode_))
+    ExecuteCommand(command);
+  else
+    MaybeSubmitDownloadToFeedbackService(command);
   // WARNING: |this| may be deleted!
 }
 
@@ -833,7 +805,6 @@ void DownloadItemView::UpdateMode(Mode mode) {
   // notifications would be redundant.
 
   if (is_download_warning(mode_)) {
-    time_download_warning_shown_ = base::Time::Now();
     download::DownloadDangerType danger_type = model_->GetDangerType();
     RecordDangerousDownloadWarningShown(danger_type);
 
