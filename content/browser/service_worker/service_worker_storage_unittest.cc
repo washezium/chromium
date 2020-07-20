@@ -247,17 +247,26 @@ bool VerifyBasicResponse(
   return status_match && data_match;
 }
 
-int WriteResponseMetadata(ServiceWorkerStorage* storage,
-                          int64_t id,
-                          const std::string& metadata) {
-  scoped_refptr<IOBuffer> body_buffer =
-      base::MakeRefCounted<WrappedIOBuffer>(metadata.data());
-  std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer =
-      storage->CreateResponseMetadataWriter(id);
-  TestCompletionCallback cb;
-  metadata_writer->WriteMetadata(body_buffer.get(), metadata.length(),
-                                 cb.callback());
-  return cb.WaitForResult();
+int WriteResponseMetadata(
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
+    int64_t id,
+    const std::string& metadata) {
+  mojo_base::BigBuffer buffer(
+      base::as_bytes(base::make_span(metadata.data(), metadata.length())));
+
+  mojo::Remote<storage::mojom::ServiceWorkerResourceMetadataWriter>
+      metadata_writer;
+  storage->CreateResourceMetadataWriter(
+      id, metadata_writer.BindNewPipeAndPassReceiver());
+  int rv = 0;
+  base::RunLoop loop;
+  metadata_writer->WriteMetadata(std::move(buffer),
+                                 base::BindLambdaForTesting([&](int result) {
+                                   rv = result;
+                                   loop.Quit();
+                                 }));
+  loop.Run();
+  return rv;
 }
 
 int WriteMetadata(ServiceWorkerVersion* version,
@@ -719,7 +728,7 @@ TEST_F(ServiceWorkerStorageTest, DisabledStorage) {
   EXPECT_EQ(net::ERR_FAILED,
             WriteBasicResponse(storage_control(), kResourceId));
   EXPECT_EQ(net::ERR_FAILED,
-            WriteResponseMetadata(storage(), kResourceId, "foo"));
+            WriteResponseMetadata(storage_control(), kResourceId, "foo"));
 
   const std::string kUserDataKey = "key";
   std::vector<std::string> user_data_out;
@@ -1373,24 +1382,27 @@ TEST_F(ServiceWorkerResourceStorageTest,
   const char kMetadata2[] = "small";
   int64_t new_resource_id_ = GetNewResourceIdSync(storage());
   // Writing metadata to nonexistent resoirce ID must fail.
-  EXPECT_GE(0, WriteResponseMetadata(storage(), new_resource_id_, kMetadata1));
+  EXPECT_GE(0, WriteResponseMetadata(storage_control(), new_resource_id_,
+                                     kMetadata1));
 
   // Check metadata is written.
-  EXPECT_EQ(static_cast<int>(strlen(kMetadata1)),
-            WriteResponseMetadata(storage(), resource_id1_, kMetadata1));
+  EXPECT_EQ(
+      static_cast<int>(strlen(kMetadata1)),
+      WriteResponseMetadata(storage_control(), resource_id1_, kMetadata1));
   EXPECT_TRUE(
       VerifyResponseMetadata(storage_control(), resource_id1_, kMetadata1));
   EXPECT_TRUE(VerifyBasicResponse(storage_control(), resource_id1_, true));
 
   // Check metadata is written and truncated.
-  EXPECT_EQ(static_cast<int>(strlen(kMetadata2)),
-            WriteResponseMetadata(storage(), resource_id1_, kMetadata2));
+  EXPECT_EQ(
+      static_cast<int>(strlen(kMetadata2)),
+      WriteResponseMetadata(storage_control(), resource_id1_, kMetadata2));
   EXPECT_TRUE(
       VerifyResponseMetadata(storage_control(), resource_id1_, kMetadata2));
   EXPECT_TRUE(VerifyBasicResponse(storage_control(), resource_id1_, true));
 
   // Check metadata is deleted.
-  EXPECT_EQ(0, WriteResponseMetadata(storage(), resource_id1_, ""));
+  EXPECT_EQ(0, WriteResponseMetadata(storage_control(), resource_id1_, ""));
   EXPECT_FALSE(VerifyResponseMetadata(storage_control(), resource_id1_, ""));
   EXPECT_TRUE(VerifyBasicResponse(storage_control(), resource_id1_, true));
 }
