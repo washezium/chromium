@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import androidx.annotation.IntDef;
@@ -66,6 +68,8 @@ public class DefaultBrowserPromoUtils {
      *      4. On Chrome stable while no default browser is set and multiple chrome channels
      *         are installed.
      *      5. Less than the promo interval if re-promoing.
+     *      6. A browser other than chrome channel is default and default app setting is not
+     *         available in the current system.
      *
      * @param activity The context.
      * @param dispatcher The {@link ActivityLifecycleDispatcher} of the current activity.
@@ -118,8 +122,12 @@ public class DefaultBrowserPromoUtils {
         // Already default
         if (state == DefaultBrowserState.CHROME_DEFAULT) return false;
 
-        // Criteria 3
-        if (state == DefaultBrowserState.OTHER_DEFAULT && isCurrentDefaultBrowserChrome(info)) {
+        // Criteria 3 & Criteria 6
+        if (state == DefaultBrowserState.OTHER_DEFAULT
+                && (isCurrentDefaultBrowserChrome(info)
+                        || !doesManageDefaultAppsSettingsActivityExist())) {
+            // Default apps setting activity does not exist on L and M.  Early return
+            // before we write prefs and record metrics to skip the call to promo.
             return false;
         }
 
@@ -225,5 +233,12 @@ public class DefaultBrowserPromoUtils {
             return DefaultBrowserState.CHROME_DEFAULT; // Already default
         }
         return DefaultBrowserState.OTHER_DEFAULT;
+    }
+
+    private static boolean doesManageDefaultAppsSettingsActivityExist() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return false;
+        ResolveInfo info = PackageManagerUtils.resolveActivity(
+                new Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS), 0);
+        return info != null && info.match != 0;
     }
 }
