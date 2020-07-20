@@ -3347,6 +3347,10 @@
     "owners": [ "cros-customization@google.com", "hsuregan", "khorimoto" ],
     "expiry_milestone": 90
   },
+  { "name": "os-settings-polymer3",
+    "owners": [ "cros-customization@google.com", "tjohnsonkanu", "khorimoto" ],
+    "expiry_milestone": 90
+  },
   {
     "name": "overlay-new-layout",
     "owners": [ "donnd", "jinsukkim", "contextual-search-eng" ],

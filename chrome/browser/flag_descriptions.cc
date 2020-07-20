@@ -3959,6 +3959,10 @@ const char kMeteredShowToggleDescription[] =
     "The toggle allows users to set whether a network should be considered "
     "metered for purposes of bandwith usage (e.g. for automatic updates).";
 
+const char kOsSettingsPolymer3Name[] = "Enable OS Settings Polymer3";
+const char kOsSettingsPolymer3Description[] =
+    "Flips chrome://os-settings to show Polymer3 version.";
+
 const char kPrintServerUiName[] = "Print Server UI";
 const char kPrintServerUiDescription[] =
     "Enables users to add their own print server in the printer settings page.";
