@@ -99,8 +99,8 @@ public class AccountPickerBottomSheetTest {
     @Before
     public void setUp() {
         initMocks(this);
-        mAccountManagerTestRule.addAccount(PROFILE_DATA1.getAccountName(), PROFILE_DATA1);
-        mAccountManagerTestRule.addAccount(PROFILE_DATA2.getAccountName(), PROFILE_DATA2);
+        mAccountManagerTestRule.addAccount(PROFILE_DATA1);
+        mAccountManagerTestRule.addAccount(PROFILE_DATA2);
         mActivityTestRule.startMainActivityOnBlankPage();
     }
 

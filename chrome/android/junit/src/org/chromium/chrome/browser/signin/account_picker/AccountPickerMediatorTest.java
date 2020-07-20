@@ -109,6 +109,6 @@ public class AccountPickerMediatorTest {
     private void addAccount(String accountName, String fullName) {
         ProfileDataSource.ProfileData profileData =
                 new ProfileDataSource.ProfileData(accountName, null, fullName, null);
-        mAccountManagerTestRule.addAccount(accountName, profileData);
+        mAccountManagerTestRule.addAccount(profileData);
     }
 }
