@@ -198,7 +198,8 @@ void VmPermissionServiceProvider::SetPermissions(
     return;
   }
 
-  std::set<VmInfo::PermissionType> new_permissions(iter->second->permissions_);
+  base::flat_map<VmInfo::PermissionType, bool> new_permissions(
+      iter->second->permissions_);
   for (const auto& p : request.permissions()) {
     VmInfo::PermissionType kind;
     if (p.kind() == vm_permission_service::Permission::CAMERA) {
@@ -214,11 +215,7 @@ void VmPermissionServiceProvider::SetPermissions(
       return;
     }
 
-    if (p.allowed()) {
-      new_permissions.insert(kind);
-    } else {
-      new_permissions.erase(kind);
-    }
+    new_permissions[kind] = p.allowed();
   }
 
   // Commit final version of permissions.
@@ -257,8 +254,7 @@ void VmPermissionServiceProvider::GetPermissions(
   vm_permission_service::GetPermissionsResponse payload;
   for (auto permission : iter->second->permissions_) {
     auto* p = payload.add_permissions();
-    p->set_allowed(true);
-    switch (permission) {
+    switch (permission.first) {
       case VmInfo::PermissionCamera:
         p->set_kind(vm_permission_service::Permission::CAMERA);
         break;
@@ -266,6 +262,7 @@ void VmPermissionServiceProvider::GetPermissions(
         p->set_kind(vm_permission_service::Permission::MICROPHONE);
         break;
     }
+    p->set_allowed(permission.second);
   }
 
   dbus::MessageWriter writer(response.get());
@@ -296,16 +293,16 @@ void VmPermissionServiceProvider::UpdatePluginVmPermissions(VmInfo* vm) {
       plugin_vm::PluginVmManagerFactory::GetForProfile(profile);
   if (base::FeatureList::IsEnabled(
           chromeos::features::kPluginVmShowCameraPermissions) &&
-      prefs->GetBoolean(prefs::kVideoCaptureAllowed) &&
-      PluginVmManager->GetPermission(plugin_vm::PermissionType::kCamera)) {
-    vm->permissions_.insert(VmInfo::PermissionCamera);
+      prefs->GetBoolean(prefs::kVideoCaptureAllowed)) {
+    vm->permissions_[VmInfo::PermissionCamera] =
+        PluginVmManager->GetPermission(plugin_vm::PermissionType::kCamera);
   }
 
   if (base::FeatureList::IsEnabled(
           chromeos::features::kPluginVmShowMicrophonePermissions) &&
-      prefs->GetBoolean(prefs::kAudioCaptureAllowed) &&
-      PluginVmManager->GetPermission(plugin_vm::PermissionType::kMicrophone)) {
-    vm->permissions_.insert(VmInfo::PermissionMicrophone);
+      prefs->GetBoolean(prefs::kAudioCaptureAllowed)) {
+    vm->permissions_[VmInfo::PermissionMicrophone] =
+        PluginVmManager->GetPermission(plugin_vm::PermissionType::kMicrophone);
   }
 }
 

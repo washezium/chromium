@@ -5,11 +5,12 @@
 #ifndef CHROME_BROWSER_CHROMEOS_DBUS_VM_VM_PERMISSION_SERVICE_PROVIDER_H_
 #define CHROME_BROWSER_CHROMEOS_DBUS_VM_VM_PERMISSION_SERVICE_PROVIDER_H_
 
-#include <set>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "base/containers/flat_map.h"
 #include "base/macros.h"
 #include "base/memory/weak_ptr.h"
 #include "chromeos/dbus/services/cros_dbus_service.h"
@@ -109,7 +110,7 @@ class VmPermissionServiceProvider
     const std::string name_;
     const VmType type_;
 
-    std::set<PermissionType> permissions_;
+    base::flat_map<PermissionType, bool> permissions_;
 
     VmInfo(std::string owner_id, std::string name, VmType type);
     ~VmInfo();
