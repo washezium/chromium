@@ -2888,6 +2888,7 @@ Unknown properties are collapsed to zero. -->
   <int value="0" label="Impression"/>
   <int value="1" label="Launch"/>
   <int value="2" label="Abandon"/>
+  <int value="3" label="Ignore"/>
 </enum>
 
 <enum name="AppListUserEventError">
