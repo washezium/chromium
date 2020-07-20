@@ -43,7 +43,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.chromium.base.test.util.CommandLineFlags;
-import org.chromium.base.test.util.DisabledTest;
 import org.chromium.base.test.util.Restriction;
 import org.chromium.chrome.autofill_assistant.R;
 import org.chromium.chrome.browser.ChromeTabbedActivity;
@@ -470,7 +469,6 @@ public class AutofillAssistantChromeTabIntegrationTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "Flaky - https://crbug.com/1105146")
     public void interactingWithLocationBarHidesAutofillAssistant() {
         ArrayList<ActionProto> list = new ArrayList<>();
         list.add((ActionProto) ActionProto.newBuilder()
@@ -507,8 +505,5 @@ public class AutofillAssistantChromeTabIntegrationTest {
         onView(withId(org.chromium.chrome.R.id.url_bar))
                 .perform(click(), typeText(getURL(TEST_PAGE_B)), pressImeActionButton());
         waitUntilViewMatchesCondition(withText(containsString("Sorry")), isCompletelyDisplayed());
-        waitUntil(()
-                          -> mTestRule.getActivity().getActivityTab().getUrl().getSpec().equals(
-                                  getURL(TEST_PAGE_B)));
     }
 }
