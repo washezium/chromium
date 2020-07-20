@@ -135,7 +135,6 @@ using content::WebContents;
 using content::WebContentsObserver;
 using prerender::test_utils::TestPrerender;
 using prerender::test_utils::TestPrerenderContents;
-using task_manager::browsertest_util::WaitForTaskManagerRows;
 
 // crbug.com/708158
 #if !defined(OS_MACOSX) || !defined(ADDRESS_SANITIZER)
@@ -788,75 +787,6 @@ IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderNoSSLReferrer) {
 
   PrerenderTestURL(url, FINAL_STATUS_USED, 1);
   NavigateToDestURL();
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerBeforePrerender) {
-  const base::string16 any_prerender = MatchTaskManagerPrerender("*");
-  const base::string16 any_tab = MatchTaskManagerTab("*");
-  const base::string16 original = MatchTaskManagerTab("Preloader");
-  const base::string16 prerender = MatchTaskManagerPrerender("Prerender Page");
-  const base::string16 final = MatchTaskManagerTab("Prerender Page");
-
-  // Show the task manager. This populates the model.
-  chrome::OpenTaskManager(current_browser());
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
-
-  // Prerender a page in addition to the original tab.
-  PrerenderTestURL("/prerender/prerender_page.html", FINAL_STATUS_USED, 1);
-
-  // A TaskManager entry should appear like "Prerender: Prerender Page"
-  // alongside the original tab entry. There should be just these two entries.
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, original));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, final));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
-
-  // Swap in the prerendered content.
-  NavigateToDestURL();
-
-  // The "Prerender: " TaskManager entry should disappear, being replaced by a
-  // "Tab: Prerender Page" entry, and nothing else.
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, original));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, final));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
-}
-
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, OpenTaskManagerAfterPrerender) {
-  const base::string16 any_prerender = MatchTaskManagerPrerender("*");
-  const base::string16 any_tab = MatchTaskManagerTab("*");
-  const base::string16 original = MatchTaskManagerTab("Preloader");
-  const base::string16 prerender = MatchTaskManagerPrerender("Prerender Page");
-  const base::string16 final = MatchTaskManagerTab("Prerender Page");
-
-  // Start with two resources.
-  PrerenderTestURL("/prerender/prerender_page.html", FINAL_STATUS_USED, 1);
-
-  // Show the task manager. This populates the model. Importantly, we're doing
-  // this after the prerender WebContents already exists - the task manager
-  // needs to find it, it can't just listen for creation.
-  chrome::OpenTaskManager(current_browser());
-
-  // A TaskManager entry should appear like "Prerender: Prerender Page"
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, original));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, final));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
-
-  // Swap in the tab.
-  NavigateToDestURL();
-
-  // The "Prerender: Prerender Page" TaskManager row should disappear, being
-  // replaced by "Tab: Prerender Page"
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, prerender));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, original));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, final));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, any_tab));
-  ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(0, any_prerender));
 }
 
 // Checks that the referrer policy is used when prerendering.
