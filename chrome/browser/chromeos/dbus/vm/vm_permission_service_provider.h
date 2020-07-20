@@ -107,11 +107,11 @@ class VmPermissionServiceProvider
     enum VmType { CrostiniVm = 0, PluginVm = 1 };
     enum PermissionType { PermissionCamera = 0, PermissionMicrophone = 1 };
 
-    const std::string owner_id_;
-    const std::string name_;
-    const VmType type_;
+    const std::string owner_id;
+    const std::string name;
+    const VmType type;
 
-    base::flat_map<PermissionType, bool> permissions_;
+    base::flat_map<PermissionType, bool> permission_to_enabled_map;
 
     VmInfo(std::string owner_id, std::string name, VmType type);
     ~VmInfo();
