@@ -445,6 +445,7 @@ SyncedBookmarkTracker::BuildBookmarkModelMetadata() const {
   sync_pb::BookmarkModelMetadata model_metadata;
   model_metadata.set_bookmarks_full_title_reuploaded(
       bookmarks_full_title_reuploaded_);
+  model_metadata.set_last_sync_time(syncer::TimeToProtoTime(last_sync_time_));
   for (const std::pair<const std::string, std::unique_ptr<Entity>>& pair :
        sync_id_to_entities_map_) {
     DCHECK(pair.second) << " for ID " << pair.first;
