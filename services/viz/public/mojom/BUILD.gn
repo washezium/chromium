@@ -129,6 +129,16 @@ mojom("mojom") {
         "//ui/gfx/geometry/mojom",
       ]
     },
+    {
+      types = [
+        {
+          mojom = "viz.mojom.LocalSurfaceIdAllocation"
+          cpp = "::viz::LocalSurfaceIdAllocation"
+        },
+      ]
+      traits_headers = [ "//services/viz/public/cpp/compositing/local_surface_id_allocation_mojom_traits.h" ]
+      traits_public_deps = [ "//components/viz/common" ]
+    },
   ]
 
   cpp_typemaps = shared_cpp_typemaps
@@ -305,16 +315,6 @@ mojom("mojom") {
         "//services/viz/public/cpp:crash_keys",
         "//ui/gfx/geometry/mojom",
       ]
-    },
-    {
-      types = [
-        {
-          mojom = "viz.mojom.LocalSurfaceIdAllocation"
-          cpp = "::viz::LocalSurfaceIdAllocation"
-        },
-      ]
-      traits_headers = [ "//services/viz/public/cpp/compositing/local_surface_id_allocation_mojom_traits.h" ]
-      traits_public_deps = [ "//components/viz/common" ]
     },
     {
       types = [

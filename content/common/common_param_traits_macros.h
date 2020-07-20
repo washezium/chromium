@@ -31,15 +31,6 @@ IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::ScreenOrientation,
 IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::DisplayMode,
                           blink::mojom::DisplayMode::kMaxValue)
 
-IPC_STRUCT_TRAITS_BEGIN(cc::BrowserControlsParams)
-  IPC_STRUCT_TRAITS_MEMBER(top_controls_height)
-  IPC_STRUCT_TRAITS_MEMBER(top_controls_min_height)
-  IPC_STRUCT_TRAITS_MEMBER(bottom_controls_height)
-  IPC_STRUCT_TRAITS_MEMBER(bottom_controls_min_height)
-  IPC_STRUCT_TRAITS_MEMBER(animate_browser_controls_height_changes)
-  IPC_STRUCT_TRAITS_MEMBER(browser_controls_shrink_blink_size)
-IPC_STRUCT_TRAITS_END()
-
 IPC_STRUCT_TRAITS_BEGIN(blink::VisualProperties)
   IPC_STRUCT_TRAITS_MEMBER(screen_info)
   IPC_STRUCT_TRAITS_MEMBER(auto_resize_enabled)
