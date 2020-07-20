@@ -169,7 +169,7 @@ CreateServiceWorkerRegistrationAndVersion(ServiceWorkerContextCore* context,
 // all of tasks. If it's in another base::RunLoop, consider to use
 // WriteToDiskCacheAsync().
 storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheWithIdSync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     int64_t resource_id,
     const std::vector<std::pair<std::string, std::string>>& headers,
@@ -179,7 +179,7 @@ storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheWithIdSync(
 // Similar to WriteToDiskCacheWithIdSync() but instead of taking a resource id,
 // this assigns a new resource ID internally.
 storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheSync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     const std::vector<std::pair<std::string, std::string>>& headers,
     const std::string& body,
@@ -193,7 +193,7 @@ using WriteToDiskCacheCallback = base::OnceCallback<void(
 // base::RunUntilIdle because wiriting to the storage might happen on another
 // thread and base::RunLoop could get idle before writes has not finished yet.
 void WriteToDiskCacheAsync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     const std::vector<std::pair<std::string, std::string>>& headers,
     const std::string& body,

@@ -133,9 +133,9 @@ class ServiceWorkerScriptLoaderFactoryCopyResumeTest
 
   void SetUp() override {
     ServiceWorkerScriptLoaderFactoryTest::SetUp();
-    WriteToDiskCacheWithIdSync(helper_->context()->storage(), script_url_,
-                               kOldResourceId, kOldHeaders, kOldData,
-                               std::string());
+    WriteToDiskCacheWithIdSync(helper_->context()->GetStorageControl(),
+                               script_url_, kOldResourceId, kOldHeaders,
+                               kOldData, std::string());
   }
 
   void CheckResponse(const std::string& expected_body) {

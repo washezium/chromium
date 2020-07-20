@@ -83,8 +83,9 @@ class ServiceWorkerUpdatedScriptLoaderTest : public testing::Test {
     SetUpRegistration(kScriptURL);
 
     // Create the old script resource in storage.
-    WriteToDiskCacheWithIdSync(context()->storage(), kScriptURL, kOldResourceId,
-                               kOldHeaders, kOldData, std::string());
+    WriteToDiskCacheWithIdSync(context()->GetStorageControl(), kScriptURL,
+                               kOldResourceId, kOldHeaders, kOldData,
+                               std::string());
   }
 
   // Sets up ServiceWorkerRegistration and ServiceWorkerVersion. This should be

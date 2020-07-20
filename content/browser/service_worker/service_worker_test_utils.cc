@@ -152,106 +152,100 @@ class FakeNavigationClient : public mojom::NavigationClient {
   DISALLOW_COPY_AND_ASSIGN(FakeNavigationClient);
 };
 
-void OnWriteMetadataToDiskCache(
-    std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer,
-    const GURL& script_url,
-    int body_size,
-    int meta_data_size,
+class ResourceWriter {
+ public:
+  ResourceWriter(
+      const mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
+      const GURL& script_url,
+      const std::vector<std::pair<std::string, std::string>>& headers,
+      const std::string& body,
+      const std::string& meta_data)
+      : storage_(storage),
+        script_url_(script_url),
+        headers_(headers),
+        body_(body),
+        meta_data_(meta_data) {}
+
+  void Start(WriteToDiskCacheCallback callback) {
+    DCHECK(storage_.is_connected());
+    callback_ = std::move(callback);
+    storage_->GetNewResourceId(base::BindOnce(&ResourceWriter::DidGetResourceId,
+                                              base::Unretained(this)));
+  }
+
+  void StartWithResourceId(int64_t resource_id,
+                           WriteToDiskCacheCallback callback) {
+    DCHECK(storage_.is_connected());
+    callback_ = std::move(callback);
+    DidGetResourceId(resource_id);
+  }
+
+ private:
+  void DidGetResourceId(int64_t resource_id) {
+    DCHECK(storage_.is_connected());
+    DCHECK_NE(resource_id, blink::mojom::kInvalidServiceWorkerResourceId);
+
+    resource_id_ = resource_id;
+    storage_->CreateResourceWriter(resource_id,
+                                   body_writer_.BindNewPipeAndPassReceiver());
+    storage_->CreateResourceMetadataWriter(
+        resource_id, metadata_writer_.BindNewPipeAndPassReceiver());
+
+    auto response_head = network::mojom::URLResponseHead::New();
+    response_head->headers = base::MakeRefCounted<net::HttpResponseHeaders>(
+        net::HttpUtil::AssembleRawHeaders("HTTP/1.1 200 OK\n"));
+    response_head->request_time = base::Time::Now();
+    response_head->response_time = base::Time::Now();
+    response_head->content_length = body_.size();
+    for (const auto& header : headers_)
+      response_head->headers->AddHeader(header.first, header.second);
+
+    body_writer_->WriteResponseHead(
+        std::move(response_head),
+        base::BindOnce(&ResourceWriter::DidWriteResponseHead,
+                       base::Unretained(this)));
+  }
+
+  void DidWriteResponseHead(int result) {
+    DCHECK_GE(result, 0);
+    mojo_base::BigBuffer buffer(base::as_bytes(base::make_span(body_)));
+    body_writer_->WriteData(
+        std::move(buffer),
+        base::BindOnce(&ResourceWriter::DidWriteData, base::Unretained(this)));
+  }
+
+  void DidWriteData(int result) {
+    DCHECK_EQ(result, static_cast<int>(body_.size()));
+    mojo_base::BigBuffer buffer(base::as_bytes(base::make_span(meta_data_)));
+    metadata_writer_->WriteMetadata(
+        std::move(buffer), base::BindOnce(&ResourceWriter::DidWriteMetadata,
+                                          base::Unretained(this)));
+  }
+
+  void DidWriteMetadata(int result) {
+    DCHECK_EQ(result, static_cast<int>(meta_data_.size()));
+    std::move(callback_).Run(storage::mojom::ServiceWorkerResourceRecord::New(
+        resource_id_, script_url_, body_.size()));
+  }
+
+  const mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage_;
+  const GURL script_url_;
+  const std::vector<std::pair<std::string, std::string>> headers_;
+  const std::string body_;
+  const std::string meta_data_;
+  WriteToDiskCacheCallback callback_;
+
+  int64_t resource_id_ = blink::mojom::kInvalidServiceWorkerResourceId;
+  mojo::Remote<storage::mojom::ServiceWorkerResourceWriter> body_writer_;
+  mojo::Remote<storage::mojom::ServiceWorkerResourceMetadataWriter>
+      metadata_writer_;
+};
+
+void OnWriteToDiskCacheFinished(
+    std::unique_ptr<ResourceWriter> self_owned_writer,
     WriteToDiskCacheCallback callback,
-    int result) {
-  EXPECT_EQ(result, meta_data_size);
-  std::move(callback).Run(storage::mojom::ServiceWorkerResourceRecord::New(
-      metadata_writer->response_id(), script_url, body_size));
-}
-
-void OnWriteBodyDataToDiskCache(
-    std::unique_ptr<ServiceWorkerResponseWriter> writer,
-    std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer,
-    const GURL& script_url,
-    int body_size,
-    const std::string& meta_data,
-    WriteToDiskCacheCallback callback,
-    int result) {
-  EXPECT_EQ(result, body_size);
-  scoped_refptr<net::IOBuffer> meta_data_buffer =
-      base::MakeRefCounted<net::StringIOBuffer>(meta_data);
-  ServiceWorkerResponseMetadataWriter* metadata_writer_rawptr =
-      metadata_writer.get();
-  metadata_writer_rawptr->WriteMetadata(
-      meta_data_buffer.get(), meta_data.size(),
-      base::BindOnce(&OnWriteMetadataToDiskCache, std::move(metadata_writer),
-                     script_url, body_size, meta_data.size(),
-                     std::move(callback)));
-}
-
-void OnWriteBodyInfoToDiskCache(
-    std::unique_ptr<ServiceWorkerResponseWriter> writer,
-    std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer,
-    const GURL& script_url,
-    const std::string& body,
-    const std::string& meta_data,
-    WriteToDiskCacheCallback callback,
-    int result) {
-  EXPECT_GE(result, 0);
-  scoped_refptr<net::IOBuffer> body_buffer =
-      base::MakeRefCounted<net::StringIOBuffer>(body);
-  ServiceWorkerResponseWriter* writer_rawptr = writer.get();
-  writer_rawptr->WriteData(
-      body_buffer.get(), body.size(),
-      base::BindOnce(&OnWriteBodyDataToDiskCache, std::move(writer),
-                     std::move(metadata_writer), script_url, body.size(),
-                     meta_data, std::move(callback)));
-}
-
-void WriteToDiskCacheAsyncInternal(
-    const GURL& script_url,
-    const std::vector<std::pair<std::string, std::string>>& headers,
-    const std::string& body,
-    const std::string& meta_data,
-    std::unique_ptr<ServiceWorkerResponseWriter> body_writer,
-    std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer,
-    WriteToDiskCacheCallback callback) {
-  std::unique_ptr<net::HttpResponseInfo> http_info =
-      std::make_unique<net::HttpResponseInfo>();
-  http_info->request_time = base::Time::Now();
-  http_info->response_time = base::Time::Now();
-  http_info->headers =
-      base::MakeRefCounted<net::HttpResponseHeaders>("HTTP/1.0 200 OK\0\0");
-  for (const auto& header : headers)
-    http_info->headers->AddHeader(header.first, header.second);
-
-  scoped_refptr<HttpResponseInfoIOBuffer> info_buffer =
-      base::MakeRefCounted<HttpResponseInfoIOBuffer>(std::move(http_info));
-  info_buffer->response_data_size = body.size();
-  ServiceWorkerResponseWriter* writer_rawptr = body_writer.get();
-  writer_rawptr->WriteInfo(
-      info_buffer.get(),
-      base::BindOnce(&OnWriteBodyInfoToDiskCache, std::move(body_writer),
-                     std::move(metadata_writer), script_url, body, meta_data,
-                     std::move(callback)));
-}
-
-storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheSyncInternal(
-    const GURL& script_url,
-    const std::vector<std::pair<std::string, std::string>>& headers,
-    const std::string& body,
-    const std::string& meta_data,
-    std::unique_ptr<ServiceWorkerResponseWriter> body_writer,
-    std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer) {
-  storage::mojom::ServiceWorkerResourceRecordPtr record;
-
-  base::RunLoop loop;
-  WriteToDiskCacheAsyncInternal(
-      script_url, headers, body, meta_data, std::move(body_writer),
-      std::move(metadata_writer),
-      base::BindLambdaForTesting(
-          [&](storage::mojom::ServiceWorkerResourceRecordPtr result) {
-            record = std::move(result);
-            loop.Quit();
-          }));
-  loop.Run();
-
-  return record;
+    storage::mojom::ServiceWorkerResourceRecordPtr record) {
+  std::move(callback).Run(std::move(record));
 }
 
 }  // namespace
@@ -473,50 +467,56 @@ CreateServiceWorkerRegistrationAndVersion(ServiceWorkerContextCore* context,
 }
 
 storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheWithIdSync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     int64_t resource_id,
     const std::vector<std::pair<std::string, std::string>>& headers,
     const std::string& body,
     const std::string& meta_data) {
-  std::unique_ptr<ServiceWorkerResponseWriter> body_writer =
-      storage->CreateResponseWriter(resource_id);
-  std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer =
-      storage->CreateResponseMetadataWriter(resource_id);
-  return WriteToDiskCacheSyncInternal(script_url, headers, body, meta_data,
-                                      std::move(body_writer),
-                                      std::move(metadata_writer));
+  storage::mojom::ServiceWorkerResourceRecordPtr record;
+  ResourceWriter writer(storage, script_url, headers, body, meta_data);
+  base::RunLoop loop;
+  writer.StartWithResourceId(
+      resource_id,
+      base::BindLambdaForTesting(
+          [&](storage::mojom::ServiceWorkerResourceRecordPtr result) {
+            record = std::move(result);
+            loop.Quit();
+          }));
+  loop.Run();
+  return record;
 }
 
 storage::mojom::ServiceWorkerResourceRecordPtr WriteToDiskCacheSync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     const std::vector<std::pair<std::string, std::string>>& headers,
     const std::string& body,
     const std::string& meta_data) {
-  std::unique_ptr<ServiceWorkerResponseWriter> body_writer =
-      CreateNewResponseWriterSync(storage);
-  std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer =
-      storage->CreateResponseMetadataWriter(body_writer->response_id());
-  return WriteToDiskCacheSyncInternal(script_url, headers, body, meta_data,
-                                      std::move(body_writer),
-                                      std::move(metadata_writer));
+  storage::mojom::ServiceWorkerResourceRecordPtr record;
+  ResourceWriter writer(storage, script_url, headers, body, meta_data);
+  base::RunLoop loop;
+  writer.Start(base::BindLambdaForTesting(
+      [&](storage::mojom::ServiceWorkerResourceRecordPtr result) {
+        record = std::move(result);
+        loop.Quit();
+      }));
+  loop.Run();
+  return record;
 }
 
 void WriteToDiskCacheAsync(
-    ServiceWorkerStorage* storage,
+    mojo::Remote<storage::mojom::ServiceWorkerStorageControl>& storage,
     const GURL& script_url,
     const std::vector<std::pair<std::string, std::string>>& headers,
     const std::string& body,
     const std::string& meta_data,
     WriteToDiskCacheCallback callback) {
-  std::unique_ptr<ServiceWorkerResponseWriter> body_writer =
-      CreateNewResponseWriterSync(storage);
-  std::unique_ptr<ServiceWorkerResponseMetadataWriter> metadata_writer =
-      storage->CreateResponseMetadataWriter(body_writer->response_id());
-  WriteToDiskCacheAsyncInternal(
-      script_url, headers, body, meta_data, std::move(body_writer),
-      std::move(metadata_writer), std::move(callback));
+  auto writer = std::make_unique<ResourceWriter>(storage, script_url, headers,
+                                                 body, meta_data);
+  auto* raw_writer = writer.get();
+  raw_writer->Start(base::BindOnce(&OnWriteToDiskCacheFinished,
+                                   std::move(writer), std::move(callback)));
 }
 
 std::unique_ptr<ServiceWorkerResponseWriter> CreateNewResponseWriterSync(
