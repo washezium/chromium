@@ -35,6 +35,7 @@ std::unique_ptr<UiInterface> UiModuleFactory::Create(
   // one for Monochrome).
   const std::vector<const std::string> library_name_possibilities = {
       "monochrome_vr_partition",
+      "monochrome_64_vr_partition",
       "chrome_vr_partition",
   };
 
