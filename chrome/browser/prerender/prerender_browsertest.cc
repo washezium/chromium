@@ -761,14 +761,6 @@ class PrerenderBrowserTest : public test_utils::PrerenderInProcessBrowserTest {
   std::unique_ptr<content::URLLoaderInterceptor> interceptor_;
 };
 
-// Renders a page that contains a prerender link to a page that contains an
-// iframe with a source that requires http authentication. This should not
-// prerender successfully.
-IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderHttpAuthentication) {
-  PrerenderTestURL("/prerender/prerender_http_auth_container.html",
-                   FINAL_STATUS_AUTH_NEEDED, 0);
-}
-
 // Checks that the referrer is set when prerendering.
 IN_PROC_BROWSER_TEST_F(PrerenderBrowserTest, PrerenderReferrer) {
   PrerenderTestURL("/prerender/prerender_referrer.html", FINAL_STATUS_USED, 1);

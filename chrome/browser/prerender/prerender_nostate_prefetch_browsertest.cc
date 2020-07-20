@@ -1901,4 +1901,15 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, OpenTaskManager) {
   ASSERT_NO_FATAL_FAILURE(WaitForTaskManagerRows(1, prefetch_page));
 }
 
+// Renders a page that contains a prerender link to a page that contains an
+// img with a source that requires http authentication. This should not
+// prerender successfully.
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
+                       PrerenderHttpAuthentication) {
+  GURL url =
+      src_server()->GetURL("/prerender/prerender_http_auth_container.html");
+  std::unique_ptr<TestPrerender> prerender =
+      PrefetchFromURL(url, FINAL_STATUS_AUTH_NEEDED);
+}
+
 }  // namespace prerender
