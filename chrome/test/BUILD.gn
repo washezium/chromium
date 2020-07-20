@@ -3635,6 +3635,8 @@ test("unit_tests") {
       "../browser/nearby_sharing/nearby_process_manager_unittest.cc",
       "../browser/nearby_sharing/nearby_sharing_service_impl_unittest.cc",
       "../browser/nearby_sharing/webrtc_signaling_messenger_unittest.cc",
+      "../browser/performance_manager/test_support/page_discarding_utils.cc",
+      "../browser/performance_manager/test_support/page_discarding_utils.h",
       "../browser/profiles/profile_avatar_icon_util_unittest.cc",
       "../browser/profiles/profile_destroyer_unittest.cc",
       "../browser/safe_browsing/generated_safe_browsing_pref_unittest.cc",
@@ -4116,6 +4118,7 @@ test("unit_tests") {
       "../browser/performance_manager/persistence/site_data/unittest_utils.h",
 
       # Urgent discarding from performance_manager isn't supported on Android.
+      "../browser/performance_manager/policies/page_discarding_helper_unittest.cc",
       "../browser/performance_manager/policies/urgent_page_discarding_policy_unittest.cc",
 
       # Background tab loading from performance_manager isn't supported on Android.
