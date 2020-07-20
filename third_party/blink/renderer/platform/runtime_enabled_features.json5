@@ -1522,6 +1522,10 @@
       status: "experimental",
     },
     {
+      name: "QuotaChange",
+      status: "experimental",
+    },
+    {
       // Enabled when blink::features::kRawClipboard is enabled.
       name: "RawClipboard",
     },
