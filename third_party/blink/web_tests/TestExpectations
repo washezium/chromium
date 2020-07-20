@@ -5729,8 +5729,6 @@ crbug.com/943969 [ Win ] inspector-protocol/css/css-get-media-queries.js [ Pass 
 crbug.com/943969 [ Mac10.10 ] inspector-protocol/css/css-get-media-queries.js [ Pass Failure ]
 crbug.com/943969 [ Mac10.11 ] inspector-protocol/css/css-get-media-queries.js [ Pass Failure ]
 
-crbug.com/945085 [ Mac10.13 ] printing/composited-thead-tfoot-repeat.html [ Failure Pass ]
-
 # Sheriff 2019-03-25
 crbug.com/945665 http/tests/devtools/elements/styles-3/styles-add-new-rule-tab.js [ Pass Failure ]
 crbug.com/945665 http/tests/devtools/elements/styles-3/styles-add-new-rule.js [ Pass Failure Timeout ]
