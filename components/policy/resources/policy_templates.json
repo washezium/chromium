@@ -14191,9 +14191,9 @@
       'id': 333,
       'caption': '''Enable <ph name="PRODUCT_NAME">Google Cast</ph>''',
       'tags': [],
-      'desc': '''If this policy is set to true or is not set, <ph name="PRODUCT_NAME">Google Cast</ph> will be enabled, and users will be able to launch it from the app menu, page context menus, media controls on Cast-enabled websites, and (if shown) the Cast toolbar icon.
+      'desc': '''Setting the policy to Enabled or leaving it unset turns on <ph name="PRODUCT_NAME">Google Cast</ph>, which users can launch from the app menu, page context menus, media controls on Cast-enabled websites, and (if shown) the Cast toolbar icon.
 
-          If this policy set to false, <ph name="PRODUCT_NAME">Google Cast</ph> will be disabled.'''
+      Setting the policy to Disabled turns off <ph name="PRODUCT_NAME">Google Cast</ph>.'''
     },
     {
       'name': 'ShowCastIconInToolbar',
@@ -14209,11 +14209,11 @@
       'id': 362,
       'caption': '''Show the <ph name="PRODUCT_NAME">Google Cast</ph> toolbar icon''',
       'tags': [],
-      'desc': '''If this policy is set to true, the Cast toolbar icon will always be shown on the toolbar or the overflow menu, and users will not be able to remove it.
+      'desc': '''Setting the policy to Enabled displays the Cast toolbar icon on the toolbar or the overflow menu, and users can't remove it.
 
-          If this policy is set to false or is not set, users will be able to pin or remove the icon via its contextual menu.
+      Setting the policy to Disabled or leaving it unset lets users pin or remove the icon through its contextual menu.
 
-          If the policy "EnableMediaRouter" is set to false, then this policy's value would have no effect, and the toolbar icon would not be shown.'''
+      If the policy <ph name="ENABLE_MEDIA_ROUTER_POLICY_NAME">EnableMediaRouter</ph> is set to Disabled, then this policy's value has no effect, and the toolbar icon doesn't appear.'''
     },
     {
       'name': 'MediaRouterCastAllowAllIPs',
@@ -14229,13 +14229,11 @@
       'id': 437,
       'caption': '''Allow <ph name="PRODUCT_NAME">Google Cast</ph> to connect to Cast devices on all IP addresses.''',
       'tags': [],
-      'desc': '''If this policy is set to true, <ph name="PRODUCT_NAME">Google Cast</ph> will connect to Cast devices on all IP addresses, not just RFC1918/RFC4193 private addresses.
+      'desc': '''Unless <ph name="ENABLE_MEDIA_ROUTER_POLICY_NAME">EnableMediaRouter</ph> is set to Disabled, setting <ph name="MEDIA_ROUTER_CAST_ALLOW_ALL_IPS_POLICY_NAME">MediaRouterCastAllowAllIPs</ph> to Enabled connects <ph name="PRODUCT_NAME">Google Cast</ph> to Cast devices on all IP addresses, not just RFC1918/RFC4193 private addresses.
 
-          If this policy is set to false, <ph name="PRODUCT_NAME">Google Cast</ph> will connect to Cast devices on RFC1918/RFC4193 private addresses only.
+      Setting the policy to Disabled connects <ph name="PRODUCT_NAME">Google Cast</ph> to Cast devices only on RFC1918/RFC4193.
 
-          If this policy is not set, <ph name="PRODUCT_NAME">Google Cast</ph> will connect to Cast devices on RFC1918/RFC4193 private addresses only, unless the CastAllowAllIPs feature is enabled.
-
-          If the policy "EnableMediaRouter" is set to false, then this policy's value would have no effect.'''
+      Leaving the policy unset connects <ph name="PRODUCT_NAME">Google Cast</ph> to Cast devices only on RFC1918/RFC4193, unless the CastAllowAllIPs feature is turned on.'''
     },
     {
       'name': 'ArcBackupRestoreEnabled',
