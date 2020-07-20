@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ASH_SHELL_TOPLEVEL_WINDOW_H_
-#define ASH_SHELL_TOPLEVEL_WINDOW_H_
+#ifndef ASH_TEST_TOPLEVEL_WINDOW_H_
+#define ASH_TEST_TOPLEVEL_WINDOW_H_
 
 #include "base/macros.h"
 #include "ui/views/widget/widget_delegate.h"
@@ -48,4 +48,4 @@ class ToplevelWindow : public views::WidgetDelegateView {
 }  // namespace shell
 }  // namespace ash
 
-#endif  // ASH_SHELL_TOPLEVEL_WINDOW_H_
+#endif  // ASH_TEST_TOPLEVEL_WINDOW_H_

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/shell/toplevel_window.h"
+#include "ash/test/toplevel_window.h"
 
 #include "ash/shell.h"
 #include "ash/wm/window_positioner.h"
@@ -24,7 +24,7 @@ struct SavedState {
 
 // The last window state in ash_shell. We don't bother deleting
 // this on shutdown.
-SavedState* saved_state = NULL;
+SavedState* saved_state = nullptr;
 
 }  // namespace
 
@@ -46,7 +46,7 @@ views::Widget* ToplevelWindow::CreateToplevelWindow(
 // static
 void ToplevelWindow::ClearSavedStateForTest() {
   delete saved_state;
-  saved_state = NULL;
+  saved_state = nullptr;
 }
 
 ToplevelWindow::ToplevelWindow(const CreateParams& params)
