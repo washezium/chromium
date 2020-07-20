@@ -4293,6 +4293,7 @@ Unknown properties are collapsed to zero. -->
   <int value="22" label="User clicked back button"/>
   <int value="23" label="User clicked back button during onboarding"/>
   <int value="24" label="User navigatioin in RUNNING state"/>
+  <int value="25" label="The UI was closed unexpectedly"/>
 </enum>
 
 <enum name="AutofillAssistantFeatureModuleInstallation">

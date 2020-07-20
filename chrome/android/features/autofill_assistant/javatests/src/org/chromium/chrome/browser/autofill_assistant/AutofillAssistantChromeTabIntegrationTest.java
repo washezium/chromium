@@ -506,4 +506,38 @@ public class AutofillAssistantChromeTabIntegrationTest {
                 .perform(click(), typeText(getURL(TEST_PAGE_B)), pressImeActionButton());
         waitUntilViewMatchesCondition(withText(containsString("Sorry")), isCompletelyDisplayed());
     }
+
+    @Test
+    @MediumTest
+    public void switchingBackToTabWithStoppedAutofillAssistantShowsErrorMessage() {
+        ArrayList<ActionProto> list = new ArrayList<>();
+        list.add((ActionProto) ActionProto.newBuilder()
+                         .setTell(TellProto.newBuilder().setMessage("Shutdown"))
+                         .build());
+        list.add((ActionProto) ActionProto.newBuilder().setStop(StopProto.newBuilder()).build());
+
+        AutofillAssistantTestScript script = new AutofillAssistantTestScript(
+                (SupportedScriptProto) SupportedScriptProto.newBuilder()
+                        .setPath(TEST_PAGE_A)
+                        .setPresentation(PresentationProto.newBuilder().setAutostart(true).setChip(
+                                ChipProto.newBuilder().setText("Done")))
+                        .build(),
+                list);
+
+        int initialTabId =
+                TabModelUtils.getCurrentTabId(mTestRule.getActivity().getCurrentTabModel());
+
+        setupScripts(script);
+        startAutofillAssistantOnTab(TEST_PAGE_A);
+
+        waitUntilViewMatchesCondition(withText("Shutdown"), isCompletelyDisplayed());
+
+        ChromeTabUtils.fullyLoadUrlInNewTab(InstrumentationRegistry.getInstrumentation(),
+                mTestRule.getActivity(), getURL(TEST_PAGE_B), false);
+        waitUntilViewAssertionTrue(withText("Shutdown"), doesNotExist(), DEFAULT_MAX_TIME_TO_POLL);
+
+        ChromeTabUtils.closeCurrentTab(
+                InstrumentationRegistry.getInstrumentation(), mTestRule.getActivity());
+        waitUntilViewMatchesCondition(withText("Shutdown"), isCompletelyDisplayed());
+    }
 }
