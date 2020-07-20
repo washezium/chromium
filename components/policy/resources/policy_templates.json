@@ -18763,10 +18763,9 @@
       'example_value': True,
       'id': 527,
       'caption': '''"Allow Google Assistant to access screen context"''',
-      'desc': '''This policy gives Google Assistant permission to access screen context and send the info to server.
-      If the policy is enabled, Google Assistant will be allowed to access screen context.
-      If the policy is disabled, Google Assistant will not be allowed to access screen context.
-      If not set, users can decide whether to allow Google Assistant to access screen context or not''',
+      'desc': '''Setting the policy to Enabled lets Google Assistant access screen context and send that data to a server. Setting the policy to Disabled keeps Google Assistant from screen context.
+
+      Leaving the policy unset lets users decide to turn this feature on or off.''',
     },
     {
       'name': 'VoiceInteractionHotwordEnabled',
@@ -18782,12 +18781,9 @@
       'example_value': True,
       'id': 529,
       'caption': '''Allow Google Assistant to listen for the voice activation phrase''',
-      'desc': '''This policy gives Google Assistant permission to listen for the voice activation phrase.
+      'desc': '''Setting the policy to Enabled lets Google Assistant listen for the voice activation phrase. Setting the policy to Disabled keeps Google Assistant from listening for the phrase.
 
-      If the policy is enabled, Google Assistant would listen for the voice activation phrase.
-      If the policy is disabled, Google Assistant would not listen for the voice activation phrase.
-      If the policy is not set, users can decide whether to allow Google Assistant to listen for the voice activation phrase.
-      ''',
+      Leaving the policy unset lets users decide to turn this feature on or off.''',
     },
     {
       'name': 'VoiceInteractionQuickAnswersEnabled',
