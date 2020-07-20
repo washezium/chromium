@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_PRERENDER_UTIL_H_
-#define CHROME_COMMON_PRERENDER_UTIL_H_
+#ifndef COMPONENTS_PRERENDER_COMMON_PRERENDER_UTIL_H_
+#define COMPONENTS_PRERENDER_COMMON_PRERENDER_UTIL_H_
 
 #include <string>
 
@@ -43,4 +43,4 @@ void RecordPrefetchRedirectCount(const std::string& histogram_prefix,
 
 }  // namespace prerender
 
-#endif  // CHROME_COMMON_PRERENDER_UTIL_H_
+#endif  // COMPONENTS_PRERENDER_COMMON_PRERENDER_UTIL_H_

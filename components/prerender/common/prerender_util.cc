@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/prerender_util.h"
+#include "components/prerender/common/prerender_util.h"
 
 #include "base/metrics/histogram.h"
 #include "base/metrics/histogram_functions.h"
@@ -19,12 +19,15 @@ namespace {
 
 // Valid HTTP methods for both prefetch and prerendering.
 const char* const kValidHttpMethods[] = {
-    "GET", "HEAD",
+    "GET",
+    "HEAD",
 };
 
 // Additional valid HTTP methods for prerendering.
 const char* const kValidHttpMethodsForPrerendering[] = {
-    "OPTIONS", "POST", "TRACE",
+    "OPTIONS",
+    "POST",
+    "TRACE",
 };
 
 // This enum is used to define the buckets for the
