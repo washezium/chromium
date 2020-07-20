@@ -53208,6 +53208,12 @@ Called by update_net_trust_anchors.py.-->
   <int value="1" label="DocumentLevelTouchPreventDefaultCalled"/>
 </enum>
 
+<enum name="PasswordAccountStoreClearedOnStartup">
+  <int value="0" label="User is opted in, so no need to clear"/>
+  <int value="1" label="User is not opted in, and store was already empty"/>
+  <int value="2" label="User is not opted in, and store had to be cleared"/>
+</enum>
+
 <enum name="PasswordAddLoginSyncError">
   <int value="0" label="None"/>
   <int value="1" label="DB Not Available"/>
