@@ -6972,17 +6972,6 @@ crbug.com/924472 external/wpt/css/css-transforms/transform-box/svgbox-stroke-box
 
 crbug.com/1092135 [ Linux ] virtual/threaded/external/wpt/feature-policy/experimental-features/vertical-scroll-touch-block-manual.tentative.html [ Pass Timeout ]
 
-# FIXME(michaelludwig) - Suppress for Skia roll
-crbug.com/1097104 css3/filters/effect-reference-zoom-hw.html [ Pass Failure ]
-crbug.com/1097104 virtual/gpu-rasterization/images/color-profile-svg-fill-text.html [ Pass Failure ]
-crbug.com/1098743 css3/filters/backdrop-filter-boundary.html [ Pass Failure ]
-crbug.com/1098743 virtual/gpu-rasterization/images/color-profile-background-image-cross-fade-png.html [ Pass Failure ]
-crbug.com/1098743 virtual/gpu-rasterization/images/color-profile-background-image-cross-fade.html [ Pass Failure ]
-crbug.com/1098743 virtual/gpu-rasterization/images/color-profile-image-canvas-pattern.html [ Pass Failure ]
-crbug.com/1098743 virtual/gpu-rasterization/images/color-profile-mask-image-svg.html [ Pass Failure ]
-crbug.com/1098743 virtual/gpu-rasterization/images/cross-fade-background-size.html [ Pass Failure ]
-crbug.com/1098743 virtual/scalefactor200/css3/filters/backdrop-filter-edge-pixels.html [ Pass Failure ]
-
 # Sheriff 2020-06-16
 crbug.com/1044825 http/tests/devtools/network/resource-priority.js [ Pass Timeout ]
 
