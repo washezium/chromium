@@ -186,7 +186,7 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
 
     @Override
     public void onStartScaling() {
-        mBitmapStateController.invalidateLoadingBitmaps();
+        mBitmapStateController.onStartScaling();
     }
 
     @Override
@@ -224,6 +224,12 @@ class PlayerFrameMediator implements PlayerFrameViewDelegate, PlayerFrameMediato
         final float scaleFactor = mViewport.getScale();
         PlayerFrameBitmapState activeLoadingState =
                 mBitmapStateController.getBitmapState(scaleUpdated);
+
+        // Scaling locks the visible state from further updates. If the state is locked we
+        // should not progress updating anything other than |mBitmapScaleMatrix| until
+        // a new state is present.
+        if (activeLoadingState.isLocked()) return;
+
         Rect viewportRect = mViewport.asRect();
         updateSubframes(viewportRect, scaleFactor);
         // Let the view know |mViewport| changed. PropertyModelChangeProcessor is smart about
