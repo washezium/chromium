@@ -65,6 +65,7 @@ source_set("recent_tabs_ui") {
   ]
   deps = [
     ":recent_tabs_ui_constants",
+    "resources:recent_tabs_other_devices_empty",
     "//base",
     "//components/sessions",
     "//components/strings",
