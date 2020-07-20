@@ -1450,6 +1450,16 @@ IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
   WaitForRequestCount(src_server()->GetURL(kPrefetchScript), 0);
 }
 
+// Ensures that server redirects to a malware page will cancel prerenders.
+IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest, ServerRedirect) {
+  GURL url = src_server()->GetURL("/prerender/prerender_page.html");
+  GetFakeSafeBrowsingDatabaseManager()->SetThreatTypeForUrl(
+      url, safe_browsing::SB_THREAT_TYPE_URL_PHISHING);
+  PrefetchFromURL(src_server()->GetURL(
+                      CreateServerRedirect("/prerender/prerender_page.html")),
+                  FINAL_STATUS_SAFE_BROWSING, 0);
+}
+
 // If a subresource is unsafe, the corresponding request is cancelled.
 IN_PROC_BROWSER_TEST_F(NoStatePrefetchBrowserTest,
                        PrerenderSafeBrowsingSubresource) {
