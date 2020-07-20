@@ -90,6 +90,8 @@ class PLATFORM_EXPORT WidgetBase : public mojom::blink::Widget,
   void GetWidgetInputHandler(
       mojo::PendingReceiver<mojom::blink::WidgetInputHandler> request,
       mojo::PendingRemote<mojom::blink::WidgetInputHandlerHost> host) override;
+  void UpdateVisualProperties(
+      const VisualProperties& visual_properties) override;
 
   // LayerTreeDelegate overrides:
   // Applies viewport related properties during a commit from the compositor

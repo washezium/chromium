@@ -94,11 +94,6 @@ IPC_MESSAGE_ROUTED1(WidgetMsg_SetActive, bool /* active */)
 // are in progress.
 IPC_MESSAGE_ROUTED0(WidgetMsg_SetBounds_ACK)
 
-// Updates a RenderWidget's visual properties. This should include all
-// geometries and compositing inputs so that they are updated atomically.
-IPC_MESSAGE_ROUTED1(WidgetMsg_UpdateVisualProperties,
-                    blink::VisualProperties /* visual_properties */)
-
 // Informs the RenderWidget of its position on the user's screen, as well as
 // the position of the native window holding the RenderWidget.
 // TODO(danakj): These should be part of UpdateVisualProperties.

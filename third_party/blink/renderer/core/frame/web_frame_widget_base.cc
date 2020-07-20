@@ -550,6 +550,11 @@ bool WebFrameWidgetBase::ShouldAckSyntheticInputImmediately() {
   return false;
 }
 
+void WebFrameWidgetBase::UpdateVisualProperties(
+    const VisualProperties& visual_properties) {
+  Client()->UpdateVisualProperties(visual_properties);
+}
+
 void WebFrameWidgetBase::ScheduleAnimationForWebTests() {
   Client()->ScheduleAnimationForWebTests();
 }

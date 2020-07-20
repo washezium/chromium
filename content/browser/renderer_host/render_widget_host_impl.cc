@@ -929,14 +929,14 @@ blink::VisualProperties RenderWidgetHostImpl::GetVisualProperties() {
   //
   // The plumbing goes:
   // 1. Browser:    parent RenderWidgetHost
-  // 2. IPC           -> WidgetMsg_UpdateVisualProperties
+  // 2. IPC           -> blink::mojom::Widget::UpdateVisualProperties
   // 3. Renderer A: parent RenderWidget
   //                  (sometimes blink involved)
   // 4. Renderer A: child  RenderFrameProxy
   // 5. IPC           -> FrameHostMsg_SynchronizeVisualProperties
   // 6. Browser:    child  CrossProcessFrameConnector
   // 7. Browser:    parent RenderWidgetHost (We're here if |is_child_frame|.)
-  // 8. IPC           -> WidgetMsg_UpdateVisualProperties
+  // 8. IPC           -> blink::mojom::Widget::UpdateVisualProperties
   // 9. Renderer B: child  RenderWidget
 
   // This property comes from the top-level main frame.
@@ -1061,6 +1061,11 @@ bool RenderWidgetHostImpl::SynchronizeVisualProperties(
   if (!renderer_initialized_)
     return false;
 
+  // If we have not bound the blink widget interface put this request off.
+  // SynchronizeVisualProperties will get called after the channel is bound.
+  if (!blink_widget_)
+    return false;
+
   // Skip if the |delegate_| has already been detached because it's web contents
   // is being deleted, or if LocalSurfaceIdAllocation is suppressed, as we are
   // first updating our internal state from a child's request, before
@@ -1081,7 +1086,7 @@ bool RenderWidgetHostImpl::SynchronizeVisualProperties(
   visual_properties->scroll_focused_node_into_view =
       scroll_focused_node_into_view;
 
-  Send(new WidgetMsg_UpdateVisualProperties(routing_id_, *visual_properties));
+  blink_widget_->UpdateVisualProperties(*visual_properties);
 
   bool width_changed =
       !old_visual_properties_ || old_visual_properties_->new_size.width() !=

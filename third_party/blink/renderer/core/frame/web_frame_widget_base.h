@@ -331,6 +331,8 @@ class CORE_EXPORT WebFrameWidgetBase
   blink::FrameWidget* FrameWidget() override { return this; }
   void ScheduleAnimation() override;
   bool ShouldAckSyntheticInputImmediately() override;
+  void UpdateVisualProperties(
+      const VisualProperties& visual_properties) override;
   void ScheduleAnimationForWebTests() override;
 
   // mojom::blink::FrameWidget methods.

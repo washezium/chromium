@@ -223,6 +223,11 @@ void WidgetBase::GetWidgetInputHandler(
                                               std::move(host));
 }
 
+void WidgetBase::UpdateVisualProperties(
+    const VisualProperties& visual_properties) {
+  client_->UpdateVisualProperties(visual_properties);
+}
+
 void WidgetBase::ApplyViewportChanges(
     const cc::ApplyViewportChangesArgs& args) {
   client_->ApplyViewportChanges(args);

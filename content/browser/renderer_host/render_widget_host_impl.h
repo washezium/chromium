@@ -1124,9 +1124,10 @@ class CONTENT_EXPORT RenderWidgetHostImpl
   // frame to a child frame RenderWidgetHost. They are not used on a top-level
   // RenderWidgetHost. The child frame RenderWidgetHost stores these values to
   // pass them to the renderer, instead of computing them for itself. It
-  // collects them and passes them though WidgetMsg_UpdateVisualProperties so
-  // that the renderer receives updates in an atomic fashion along with a
-  // synchronization token for the compositor in a LocalSurfaceIdAllocation.
+  // collects them and passes them though
+  // blink::mojom::Widget::UpdateVisualProperties so that the renderer receives
+  // updates in an atomic fashion along with a synchronization token for the
+  // compositor in a LocalSurfaceIdAllocation.
   struct MainFramePropagationProperties {
     MainFramePropagationProperties();
     ~MainFramePropagationProperties();

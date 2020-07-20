@@ -28,27 +28,4 @@ IPC_ENUM_TRAITS_MAX_VALUE(device::mojom::ScreenOrientationLockType,
 IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::ScreenOrientation,
                           blink::mojom::ScreenOrientation::kMaxValue)
 
-IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::DisplayMode,
-                          blink::mojom::DisplayMode::kMaxValue)
-
-IPC_STRUCT_TRAITS_BEGIN(blink::VisualProperties)
-  IPC_STRUCT_TRAITS_MEMBER(screen_info)
-  IPC_STRUCT_TRAITS_MEMBER(auto_resize_enabled)
-  IPC_STRUCT_TRAITS_MEMBER(min_size_for_auto_resize)
-  IPC_STRUCT_TRAITS_MEMBER(max_size_for_auto_resize)
-  IPC_STRUCT_TRAITS_MEMBER(new_size)
-  IPC_STRUCT_TRAITS_MEMBER(visible_viewport_size)
-  IPC_STRUCT_TRAITS_MEMBER(compositor_viewport_pixel_rect)
-  IPC_STRUCT_TRAITS_MEMBER(browser_controls_params)
-  IPC_STRUCT_TRAITS_MEMBER(scroll_focused_node_into_view)
-  IPC_STRUCT_TRAITS_MEMBER(local_surface_id_allocation)
-  IPC_STRUCT_TRAITS_MEMBER(is_fullscreen_granted)
-  IPC_STRUCT_TRAITS_MEMBER(display_mode)
-  IPC_STRUCT_TRAITS_MEMBER(capture_sequence_number)
-  IPC_STRUCT_TRAITS_MEMBER(zoom_level)
-  IPC_STRUCT_TRAITS_MEMBER(page_scale_factor)
-  IPC_STRUCT_TRAITS_MEMBER(root_widget_window_segments)
-  IPC_STRUCT_TRAITS_MEMBER(is_pinch_gesture_active)
-IPC_STRUCT_TRAITS_END()
-
 #endif  // CONTENT_COMMON_COMMON_PARAM_TRAITS_MACROS_H_
