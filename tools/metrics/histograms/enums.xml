@@ -28514,6 +28514,8 @@ Called by update_use_counter_feature_enum.py.-->
       label="HTMLMetaElementReferrerPolicyMultipleTokensAffectingRequest"/>
   <int value="3349" label="NavigationTimingL2"/>
   <int value="3350" label="ResourceTiming"/>
+  <int value="3351" label="V8PointerEvent_AzimuthAngle_AttributeGetter"/>
+  <int value="3352" label="V8PointerEvent_AltitudeAngle_AttributeGetter"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
