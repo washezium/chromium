@@ -3805,6 +3805,8 @@ static_library("ui") {
       "views/toolbar/reload_button.h",
       "views/toolbar/sharesheet_button.cc",
       "views/toolbar/sharesheet_button.h",
+      "views/toolbar/tab_search_button.cc",
+      "views/toolbar/tab_search_button.h",
       "views/toolbar/toolbar_account_icon_container_view.cc",
       "views/toolbar/toolbar_account_icon_container_view.h",
       "views/toolbar/toolbar_action_view.cc",
