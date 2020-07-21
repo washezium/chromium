@@ -4909,7 +4909,7 @@ void RenderFrameHostImpl::CreatePortal(
   DCHECK(initial_replicated_state.origin.opaque());
 
   std::move(callback).Run(proxy_host->GetRoutingID(), initial_replicated_state,
-                          proxy_host->GetFrameToken(), (*it)->portal_token(),
+                          (*it)->portal_token(), proxy_host->GetFrameToken(),
                           (*it)->GetDevToolsFrameToken());
 }
 
