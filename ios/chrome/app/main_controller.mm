@@ -262,9 +262,6 @@ void MainControllerAuthenticationServiceDelegate::ClearBrowsingData(
 
   // Hander for the startup tasks, deferred or not.
   StartupTasks* _startupTasks;
-
-  // UI blocker used during first run in multiwindow.
-  std::unique_ptr<ScopedUIBlocker> _firstRunUIBlocker;
 }
 
 // The ChromeBrowserState associated with the main (non-OTR) browsing mode.
@@ -607,10 +604,6 @@ void MainControllerAuthenticationServiceDelegate::ClearBrowsingData(
               object:nil];
 
   [self markEulaAsAccepted];
-
-  if (IsMultiwindowSupported()) {
-    _firstRunUIBlocker.reset();
-  }
 }
 
 - (void)handleFirstRunUIDidFinish {
@@ -1085,11 +1078,6 @@ void MainControllerAuthenticationServiceDelegate::ClearBrowsingData(
          selector:@selector(handleFirstRunUIDidFinish)
              name:kChromeFirstRunUIDidFinishNotification
            object:nil];
-
-  if (IsMultiwindowSupported()) {
-    // Update the AppState.
-    _firstRunUIBlocker = std::make_unique<ScopedUIBlocker>(presentingScene);
-  }
 }
 
 - (void)crashIfRequested {
