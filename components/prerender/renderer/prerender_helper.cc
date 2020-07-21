@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/renderer/prerender/prerender_helper.h"
+#include "components/prerender/renderer/prerender_helper.h"
 
 #include "base/metrics/field_trial.h"
 #include "base/metrics/histogram_macros.h"
