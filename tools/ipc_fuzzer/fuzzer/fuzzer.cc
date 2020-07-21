@@ -663,13 +663,12 @@ struct FuzzTraits<base::UnsafeSharedMemoryRegion> {
 };
 
 template <>
-struct FuzzTraits<blink::WebDeviceEmulationParams::ScreenPosition> {
-  static bool Fuzz(blink::WebDeviceEmulationParams::ScreenPosition* p,
+struct FuzzTraits<blink::DeviceEmulationParams::ScreenPosition> {
+  static bool Fuzz(blink::DeviceEmulationParams::ScreenPosition* p,
                    Fuzzer* fuzzer) {
     int screen_position = RandInRange(
-        blink::WebDeviceEmulationParams::ScreenPosition::kScreenPositionLast +
-        1);
-    *p = static_cast<blink::WebDeviceEmulationParams::ScreenPosition>(
+        blink::DeviceEmulationParams::ScreenPosition::kScreenPositionLast + 1);
+    *p = static_cast<blink::DeviceEmulationParams::ScreenPosition>(
         screen_position);
     return true;
   }

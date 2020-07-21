@@ -1089,7 +1089,7 @@ void RenderViewImpl::ResizeWebWidgetForWidget(
 
 void RenderViewImpl::SetScreenMetricsEmulationParametersForWidget(
     bool enabled,
-    const blink::WebDeviceEmulationParams& params) {
+    const blink::DeviceEmulationParams& params) {
   if (enabled)
     GetWebView()->EnableDeviceEmulation(params);
   else

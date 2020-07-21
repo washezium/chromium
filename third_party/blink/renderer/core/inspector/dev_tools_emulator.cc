@@ -217,7 +217,7 @@ void DevToolsEmulator::SetPrimaryHoverType(HoverType hover_type) {
 }
 
 TransformationMatrix DevToolsEmulator::EnableDeviceEmulation(
-    const WebDeviceEmulationParams& params) {
+    const DeviceEmulationParams& params) {
   if (device_metrics_enabled_ &&
       emulation_params_.view_size == params.view_size &&
       emulation_params_.screen_position == params.screen_position &&
@@ -235,11 +235,11 @@ TransformationMatrix DevToolsEmulator::EnableDeviceEmulation(
   device_metrics_enabled_ = true;
 
   web_view_->GetPage()->GetSettings().SetDeviceScaleAdjustment(
-      calculateDeviceScaleAdjustment(params.view_size.width,
-                                     params.view_size.height,
+      calculateDeviceScaleAdjustment(params.view_size.width(),
+                                     params.view_size.height(),
                                      params.device_scale_factor));
 
-  if (params.screen_position == WebDeviceEmulationParams::kMobile)
+  if (params.screen_position == DeviceEmulationParams::kMobile)
     EnableMobileEmulation();
   else
     DisableMobileEmulation();

@@ -2889,8 +2889,7 @@ TransformationMatrix WebViewImpl::GetDeviceEmulationTransform() const {
   return device_emulation_transform_;
 }
 
-void WebViewImpl::EnableDeviceEmulation(
-    const WebDeviceEmulationParams& params) {
+void WebViewImpl::EnableDeviceEmulation(const DeviceEmulationParams& params) {
   TransformationMatrix device_emulation_transform =
       dev_tools_emulator_->EnableDeviceEmulation(params);
   SetDeviceEmulationTransform(device_emulation_transform);

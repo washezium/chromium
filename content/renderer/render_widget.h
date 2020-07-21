@@ -71,7 +71,7 @@ class SyncMessageFilter;
 
 namespace blink {
 struct VisualProperties;
-struct WebDeviceEmulationParams;
+struct DeviceEmulationParams;
 class WebDragData;
 class WebFrameWidget;
 class WebInputMethodController;
@@ -257,7 +257,7 @@ class CONTENT_EXPORT RenderWidget
   // RenderWidgetScreenMetricsEmulatorDelegate
   void SetScreenMetricsEmulationParameters(
       bool enabled,
-      const blink::WebDeviceEmulationParams& params) override;
+      const blink::DeviceEmulationParams& params) override;
   void SetScreenInfoAndSize(const blink::ScreenInfo& screen_info,
                             const gfx::Size& widget_size,
                             const gfx::Size& visible_viewport_size) override;
@@ -466,7 +466,7 @@ class CONTENT_EXPORT RenderWidget
   // RenderWidget IPC message handlers.
   void OnClose();
   void OnCreatingNewAck();
-  void OnEnableDeviceEmulation(const blink::WebDeviceEmulationParams& params);
+  void OnEnableDeviceEmulation(const blink::DeviceEmulationParams& params);
   void OnDisableDeviceEmulation();
   void OnWasHidden();
   void OnWasShown(

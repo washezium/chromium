@@ -79,6 +79,7 @@
 #include "third_party/blink/public/common/input/web_mouse_event.h"
 #include "third_party/blink/public/common/page/web_drag_operation.h"
 #include "third_party/blink/public/common/switches.h"
+#include "third_party/blink/public/common/widget/device_emulation_params.h"
 #include "third_party/blink/public/platform/file_path_conversion.h"
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/public/platform/scheduler/web_render_widget_scheduling_state.h"
@@ -89,7 +90,6 @@
 #include "third_party/blink/public/platform/web_size.h"
 #include "third_party/blink/public/platform/web_string.h"
 #include "third_party/blink/public/web/web_autofill_client.h"
-#include "third_party/blink/public/web/web_device_emulation_params.h"
 #include "third_party/blink/public/web/web_frame_widget.h"
 #include "third_party/blink/public/web/web_input_method_controller.h"
 #include "third_party/blink/public/web/web_local_frame.h"
@@ -127,10 +127,10 @@
 #include "third_party/skia/include/core/SkPixelRef.h"
 #endif  // defined(OS_POSIX)
 
-using blink::WebDeviceEmulationParams;
+using blink::DeviceEmulationParams;
+using blink::WebDragData;
 using blink::WebDragOperation;
 using blink::WebDragOperationsMask;
-using blink::WebDragData;
 using blink::WebFrameWidget;
 using blink::WebGestureEvent;
 using blink::WebInputEvent;
@@ -756,7 +756,7 @@ void RenderWidget::UpdateVisualProperties(
 }
 
 void RenderWidget::OnEnableDeviceEmulation(
-    const blink::WebDeviceEmulationParams& params) {
+    const blink::DeviceEmulationParams& params) {
   // Device emulation can only be applied to the local main frame render widget.
   // TODO(https://crbug.com/1006052): We should move emulation into the browser
   // and send consistent ScreenInfo and ScreenRects to all RenderWidgets based
@@ -1168,7 +1168,7 @@ void RenderWidget::SetScreenInfoAndSize(
 
 void RenderWidget::SetScreenMetricsEmulationParameters(
     bool enabled,
-    const blink::WebDeviceEmulationParams& params) {
+    const blink::DeviceEmulationParams& params) {
   // This is only supported in RenderView, which has an delegate().
   DCHECK(delegate());
   delegate()->SetScreenMetricsEmulationParametersForWidget(enabled, params);
