@@ -3071,7 +3071,7 @@ void RenderFrameImpl::CommitNavigation(
     network::mojom::URLLoaderClientEndpointsPtr url_loader_client_endpoints,
     std::unique_ptr<blink::PendingURLLoaderFactoryBundle>
         subresource_loader_factories,
-    base::Optional<std::vector<mojom::TransferrableURLLoaderPtr>>
+    base::Optional<std::vector<blink::mojom::TransferrableURLLoaderPtr>>
         subresource_overrides,
     blink::mojom::ControllerServiceWorkerInfoPtr controller_service_worker_info,
     blink::mojom::ServiceWorkerContainerInfoForClientPtr container_info,
@@ -3206,7 +3206,7 @@ void RenderFrameImpl::CommitNavigationWithParams(
     mojom::CommitNavigationParamsPtr commit_params,
     std::unique_ptr<blink::PendingURLLoaderFactoryBundle>
         subresource_loader_factories,
-    base::Optional<std::vector<mojom::TransferrableURLLoaderPtr>>
+    base::Optional<std::vector<blink::mojom::TransferrableURLLoaderPtr>>
         subresource_overrides,
     blink::mojom::ControllerServiceWorkerInfoPtr controller_service_worker_info,
     blink::mojom::ServiceWorkerContainerInfoForClientPtr container_info,
@@ -5809,7 +5809,7 @@ RenderFrameImpl::GetLoaderFactoryBundleFromCreator() {
 scoped_refptr<ChildURLLoaderFactoryBundle>
 RenderFrameImpl::CreateLoaderFactoryBundle(
     std::unique_ptr<blink::PendingURLLoaderFactoryBundle> info,
-    base::Optional<std::vector<mojom::TransferrableURLLoaderPtr>>
+    base::Optional<std::vector<blink::mojom::TransferrableURLLoaderPtr>>
         subresource_overrides,
     mojo::PendingRemote<network::mojom::URLLoaderFactory>
         prefetch_loader_factory) {

@@ -5640,7 +5640,7 @@ void RenderFrameHostImpl::CommitNavigation(
     network::mojom::URLLoaderClientEndpointsPtr url_loader_client_endpoints,
     bool is_view_source,
     base::Optional<SubresourceLoaderParams> subresource_loader_params,
-    base::Optional<std::vector<mojom::TransferrableURLLoaderPtr>>
+    base::Optional<std::vector<blink::mojom::TransferrableURLLoaderPtr>>
         subresource_overrides,
     blink::mojom::ServiceWorkerContainerInfoForClientPtr container_info,
     const base::UnguessableToken& devtools_navigation_token,
@@ -8218,7 +8218,7 @@ void RenderFrameHostImpl::SendCommitNavigation(
     network::mojom::URLLoaderClientEndpointsPtr url_loader_client_endpoints,
     std::unique_ptr<blink::PendingURLLoaderFactoryBundle>
         subresource_loader_factories,
-    base::Optional<std::vector<::content::mojom::TransferrableURLLoaderPtr>>
+    base::Optional<std::vector<blink::mojom::TransferrableURLLoaderPtr>>
         subresource_overrides,
     blink::mojom::ControllerServiceWorkerInfoPtr controller,
     blink::mojom::ServiceWorkerContainerInfoForClientPtr container_info,
