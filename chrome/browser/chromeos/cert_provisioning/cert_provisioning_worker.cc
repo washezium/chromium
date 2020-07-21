@@ -187,8 +187,7 @@ CertProvisioningWorkerImpl::CertProvisioningWorkerImpl(
       cloud_policy_client_(cloud_policy_client),
       invalidator_(std::move(invalidator)) {
   CHECK(profile);
-  platform_keys_service_ =
-      platform_keys::PlatformKeysServiceFactory::GetForBrowserContext(profile);
+  platform_keys_service_ = GetPlatformKeysService(cert_scope, profile);
   CHECK(platform_keys_service_);
 
   CHECK(pref_service);
