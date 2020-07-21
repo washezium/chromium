@@ -1380,7 +1380,8 @@ class CONTENT_EXPORT RenderFrameHostImpl
 #endif
 
   void CreateAudioInputStreamFactory(
-      mojo::PendingReceiver<mojom::RendererAudioInputStreamFactory> receiver);
+      mojo::PendingReceiver<blink::mojom::RendererAudioInputStreamFactory>
+          receiver);
 
   void CreateAudioOutputStreamFactory(
       mojo::PendingReceiver<mojom::RendererAudioOutputStreamFactory> receiver);
