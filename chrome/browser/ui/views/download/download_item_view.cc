@@ -475,7 +475,7 @@ void DownloadItemView::ButtonPressed(views::Button* sender,
   }
 
   if (sender == dropdown_button_) {
-    SetDropdownState(PUSHED);
+    SetDropdownPressed(true);
     ShowContextMenuImpl(dropdown_button_->GetBoundsInScreen(),
                         ui::GetMenuSourceTypeForEvent(event));
     return;
@@ -762,8 +762,7 @@ void DownloadItemView::OnThemeChanged() {
   shelf_->ConfigureButtonForTheme(discard_button_);
   shelf_->ConfigureButtonForTheme(scan_button_);
 
-  SchedulePaint();
-  UpdateDropdownButton();
+  UpdateDropdownButtonImage();
 }
 
 DownloadItemView::Mode DownloadItemView::GetDesiredMode() const {
@@ -1222,22 +1221,20 @@ int DownloadItemView::GetLabelWidth(const views::StyledLabel& label) const {
                                     std::move(lines_for_width));
 }
 
-void DownloadItemView::SetDropdownState(State new_state) {
-  if (new_state != dropdown_state_) {
-    dropdown_button_->AnimateInkDrop(new_state == PUSHED
+void DownloadItemView::SetDropdownPressed(bool pressed) {
+  if (dropdown_pressed_ != pressed) {
+    dropdown_pressed_ = pressed;
+    dropdown_button_->AnimateInkDrop(dropdown_pressed_
                                          ? views::InkDropState::ACTIVATED
                                          : views::InkDropState::DEACTIVATED,
                                      nullptr);
-    dropdown_state_ = new_state;
-    UpdateDropdownButton();
-    SchedulePaint();
+    UpdateDropdownButtonImage();
   }
 }
 
-void DownloadItemView::UpdateDropdownButton() {
+void DownloadItemView::UpdateDropdownButtonImage() {
   views::SetImageFromVectorIcon(
-      dropdown_button_,
-      dropdown_state_ == PUSHED ? kCaretDownIcon : kCaretUpIcon,
+      dropdown_button_, dropdown_pressed_ ? kCaretDownIcon : kCaretUpIcon,
       GetThemeProvider()->GetColor(ThemeProperties::COLOR_BOOKMARK_TEXT));
 }
 
@@ -1279,7 +1276,7 @@ void DownloadItemView::ShowContextMenuImpl(const gfx::Rect& rect,
   if (!context_menu_.get())
     context_menu_ = std::make_unique<DownloadShelfContextMenuView>(this);
   const auto release_dropdown = [](DownloadItemView* view) {
-    view->SetDropdownState(NORMAL);
+    view->SetDropdownPressed(false);
     // Make sure any new status from activating a context menu option is read.
     view->announce_accessible_alert_soon_ = true;
   };

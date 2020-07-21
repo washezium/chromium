@@ -116,8 +116,6 @@ class DownloadItemView : public views::View,
   void OnThemeChanged() override;
 
  private:
-  enum State { NORMAL = 0, HOT, PUSHED };
-
   // Returns the mode that best reflects the current model state.
   Mode GetDesiredMode() const;
 
@@ -188,10 +186,10 @@ class DownloadItemView : public views::View,
   int GetLabelWidth(const views::StyledLabel& label) const;
 
   // Sets the state and triggers a repaint.
-  void SetDropdownState(State new_state);
+  void SetDropdownPressed(bool pressed);
 
   // Sets |dropdown_button_| to have the correct image for the current state.
-  void UpdateDropdownButton();
+  void UpdateDropdownButtonImage();
 
   // Shows an appropriate prompt dialog when the user hits the "open" button
   // when not in normal mode.
@@ -269,8 +267,8 @@ class DownloadItemView : public views::View,
   views::MdTextButton* scan_button_;
   views::ImageButton* dropdown_button_;
 
-  // The current state (normal, hot or pushed) of the body and drop-down.
-  State dropdown_state_ = NORMAL;
+  // Whether the dropdown is currently pressed.
+  bool dropdown_pressed_ = false;
 
   std::unique_ptr<DownloadShelfContextMenuView> context_menu_;
 
