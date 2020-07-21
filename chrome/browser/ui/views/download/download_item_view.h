@@ -136,15 +136,11 @@ class DownloadItemView : public views::View,
   // Updates the accessible alert and timers for normal mode.
   void UpdateAccessibleAlertAndTimersForNormalMode();
 
-  // Update accessible status text.
-  // If |is_last_update| is false, then a timer is used to notify screen readers
-  // to speak the alert text on a regular interval. If |is_last_update| is true,
-  // then the screen reader is notified of the request to speak the alert
-  // immediately, and any running timer is ended.
-  void UpdateAccessibleAlert(const base::string16& alert, bool is_last_update);
+  // Update accessible status text, and announce it if desired.
+  void UpdateAccessibleAlert(const base::string16& alert);
 
   // Get the accessible alert text for a download that is currently in progress.
-  base::string16 GetInProgressAccessibleAlertText();
+  base::string16 GetInProgressAccessibleAlertText() const;
 
   // Callback for |accessible_update_timer_|, or can be used to ask a screen
   // reader to speak the current alert immediately.
@@ -290,7 +286,7 @@ class DownloadItemView : public views::View,
 
   // A hidden view for accessible status alerts that are spoken by screen
   // readers when a download changes state.
-  views::View* accessible_alert_;
+  views::View* const accessible_alert_;
 
   // A timer for accessible alerts that helps reduce the number of similar
   // messages spoken in a short period of time.

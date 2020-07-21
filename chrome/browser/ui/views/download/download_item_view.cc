@@ -806,23 +806,18 @@ void DownloadItemView::UpdateMode(Mode mode) {
   if (is_download_warning(mode_)) {
     download::DownloadDangerType danger_type = model_->GetDangerType();
     RecordDangerousDownloadWarningShown(danger_type);
-
+    announce_accessible_alert_soon_ = true;
     if (danger_type == download::DOWNLOAD_DANGER_TYPE_PROMPT_FOR_SCANNING) {
-      announce_accessible_alert_soon_ = true;
-      UpdateAccessibleAlert(
-          l10n_util::GetStringFUTF16(
-              IDS_PROMPT_APP_DEEP_SCANNING_ACCESSIBLE_ALERT, unelided_filename),
-          false);
+      UpdateAccessibleAlert(l10n_util::GetStringFUTF16(
+          IDS_PROMPT_APP_DEEP_SCANNING_ACCESSIBLE_ALERT, unelided_filename));
     } else {
       size_t ignore;
-      UpdateAccessibleAlert(model_->GetWarningText(unelided_filename, &ignore),
-                            true);
+      UpdateAccessibleAlert(model_->GetWarningText(unelided_filename, &ignore));
+      accessible_alert_timer_.Stop();
     }
   } else if (mode_ == Mode::kDeepScanning) {
-    UpdateAccessibleAlert(
-        l10n_util::GetStringFUTF16(IDS_DEEP_SCANNING_ACCESSIBLE_ALERT,
-                                   unelided_filename),
-        false);
+    UpdateAccessibleAlert(l10n_util::GetStringFUTF16(
+        IDS_DEEP_SCANNING_ACCESSIBLE_ALERT, unelided_filename));
   } else if (mode_ == Mode::kNormal) {
     UpdateAccessibleAlertAndTimersForNormalMode();
   }
@@ -925,7 +920,7 @@ void DownloadItemView::UpdateAccessibleAlertAndTimersForNormalMode() {
   using State = download::DownloadItem::DownloadState;
   const State state = model_->GetState();
   if ((state == State::IN_PROGRESS) && !model_->IsPaused()) {
-    UpdateAccessibleAlert(GetInProgressAccessibleAlertText(), false);
+    UpdateAccessibleAlert(GetInProgressAccessibleAlertText());
 
     if (!indeterminate_progress_timer_.IsRunning()) {
       indeterminate_progress_start_time_ = base::TimeTicks::Now();
@@ -953,10 +948,11 @@ void DownloadItemView::UpdateAccessibleAlertAndTimersForNormalMode() {
     });
     const base::string16 alert_text = l10n_util::GetStringFUTF16(
         kMap->at(state), model_->GetFileNameToReportUser().LossyDisplayName());
-    UpdateAccessibleAlert(alert_text, true);
+    announce_accessible_alert_soon_ = true;
+    UpdateAccessibleAlert(alert_text);
   }
 
-  accessible_alert_timer_.AbandonAndStop();
+  accessible_alert_timer_.Stop();
   if (indeterminate_progress_timer_.IsRunning()) {
     indeterminate_progress_time_elapsed_ +=
         base::TimeTicks::Now() - indeterminate_progress_start_time_;
@@ -965,24 +961,17 @@ void DownloadItemView::UpdateAccessibleAlertAndTimersForNormalMode() {
 }
 
 void DownloadItemView::UpdateAccessibleAlert(
-    const base::string16& accessible_alert_text,
-    bool is_last_update) {
+    const base::string16& accessible_alert_text) {
   views::ViewAccessibility& ax = accessible_alert_->GetViewAccessibility();
   ax.OverrideRole(ax::mojom::Role::kAlert);
   ax.OverrideName(accessible_alert_text);
-  if (is_last_update) {
-    // Last update: stop the announcement interval timer and make the last
-    // announcement immediately.
-    accessible_alert_timer_.AbandonAndStop();
+  if (announce_accessible_alert_soon_ || !accessible_alert_timer_.IsRunning()) {
     AnnounceAccessibleAlert();
-  } else if (announce_accessible_alert_soon_ ||
-             !accessible_alert_timer_.IsRunning()) {
     accessible_alert_timer_.Reset();
-    AnnounceAccessibleAlert();
   }
 }
 
-base::string16 DownloadItemView::GetInProgressAccessibleAlertText() {
+base::string16 DownloadItemView::GetInProgressAccessibleAlertText() const {
   // If opening when complete or there is a warning, use the full status text.
   if (model_->GetOpenWhenComplete() || has_warning_label(mode_))
     return accessible_name_;
