@@ -243,10 +243,17 @@ class ExtensionPrefs : public KeyedService {
   void SetIntegerPref(const PrefMap& pref, int value);
   void SetBooleanPref(const PrefMap& pref, bool value);
   void SetStringPref(const PrefMap& pref, const std::string& value);
+  void SetTimePref(const PrefMap& pref, base::Time value);
+  void SetGURLPref(const PrefMap& pref, const GURL& value);
+  void SetDictionaryPref(const PrefMap& pref,
+                         std::unique_ptr<base::DictionaryValue> value);
 
   int GetPrefAsInteger(const PrefMap& pref) const;
   bool GetPrefAsBoolean(const PrefMap& pref) const;
   std::string GetPrefAsString(const PrefMap& pref) const;
+  base::Time GetPrefAsTime(const PrefMap& pref) const;
+  GURL GetPrefAsGURL(const PrefMap& pref) const;
+  const base::DictionaryValue* GetPrefAsDictionary(const PrefMap& pref) const;
 
   // Increments/decrements an ExtensionPref with a PrefType::kInteger.
   void IncrementPref(const PrefMap& pref);

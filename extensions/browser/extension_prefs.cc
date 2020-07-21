@@ -242,10 +242,14 @@ bool CheckPrefType(PrefType pref_type, const base::Value* value) {
   switch (pref_type) {
     case kBool:
       return value->is_bool();
+    case kGURL:
+    case kTime:
     case kString:
       return value->is_string();
     case kInteger:
       return value->is_int();
+    case kDictionary:
+      return value->is_dict();
   }
 }
 
@@ -1795,6 +1799,28 @@ void ExtensionPrefs::SetStringPref(const PrefMap& pref,
   prefs_->SetString(pref.name, value);
 }
 
+void ExtensionPrefs::SetTimePref(const PrefMap& pref, base::Time value) {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kTime, pref.type);
+  prefs_->SetTime(pref.name, value);
+}
+
+void ExtensionPrefs::SetGURLPref(const PrefMap& pref, const GURL& value) {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kGURL, pref.type);
+  DCHECK(value.is_valid())
+      << "Invalid GURL was passed in. The pref will not be updated.";
+  prefs_->SetString(pref.name, value.spec());
+}
+
+void ExtensionPrefs::SetDictionaryPref(
+    const PrefMap& pref,
+    std::unique_ptr<base::DictionaryValue> value) {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kDictionary, pref.type);
+  SetPref(pref, std::move(value));
+}
+
 int ExtensionPrefs::GetPrefAsInteger(const PrefMap& pref) const {
   DCHECK_EQ(PrefScope::kProfile, pref.scope);
   DCHECK_EQ(PrefType::kInteger, pref.type);
@@ -1810,7 +1836,26 @@ bool ExtensionPrefs::GetPrefAsBoolean(const PrefMap& pref) const {
 std::string ExtensionPrefs::GetPrefAsString(const PrefMap& pref) const {
   DCHECK_EQ(PrefScope::kProfile, pref.scope);
   DCHECK_EQ(PrefType::kString, pref.type);
-  return (prefs_->GetString(pref.name));
+  return prefs_->GetString(pref.name);
+}
+
+base::Time ExtensionPrefs::GetPrefAsTime(const PrefMap& pref) const {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kTime, pref.type);
+  return prefs_->GetTime(pref.name);
+}
+
+GURL ExtensionPrefs::GetPrefAsGURL(const PrefMap& pref) const {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kGURL, pref.type);
+  return GURL(prefs_->GetString(pref.name));
+}
+
+const base::DictionaryValue* ExtensionPrefs::GetPrefAsDictionary(
+    const PrefMap& pref) const {
+  DCHECK_EQ(PrefScope::kProfile, pref.scope);
+  DCHECK_EQ(PrefType::kDictionary, pref.type);
+  return prefs_->GetDictionary(pref.name);
 }
 
 void ExtensionPrefs::IncrementPref(const PrefMap& pref) {
