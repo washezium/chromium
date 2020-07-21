@@ -55,6 +55,7 @@
 #include "chrome/browser/data_reduction_proxy/data_reduction_proxy_chrome_settings_factory.h"
 #include "chrome/browser/data_use_measurement/chrome_data_use_measurement.h"
 #include "chrome/browser/defaults.h"
+#include "chrome/browser/download/chrome_download_manager_delegate.h"
 #include "chrome/browser/download/download_prefs.h"
 #include "chrome/browser/engagement/site_engagement_service.h"
 #include "chrome/browser/extensions/chrome_extension_cookies.h"
@@ -2429,6 +2430,12 @@ void ChromeContentBrowserClient::AppendExtraCommandLineSwitches(
 std::string
 ChromeContentBrowserClient::GetApplicationClientGUIDForQuarantineCheck() {
   return std::string(chrome::kApplicationClientIDStringForAVScanning);
+}
+
+download::QuarantineConnectionCallback
+ChromeContentBrowserClient::GetQuarantineConnectionCallback() {
+  return base::BindRepeating(
+      &ChromeDownloadManagerDelegate::ConnectToQuarantineService);
 }
 
 std::string ChromeContentBrowserClient::GetApplicationLocale() {
