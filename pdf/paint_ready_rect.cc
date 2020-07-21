@@ -4,6 +4,7 @@
 
 #include "pdf/paint_ready_rect.h"
 
+#include "pdf/ppapi_migration/geometry_conversions.h"
 #include "ppapi/cpp/image_data.h"
 #include "ppapi/cpp/rect.h"
 
@@ -12,7 +13,9 @@ namespace chrome_pdf {
 PaintReadyRect::PaintReadyRect(const pp::Rect& rect,
                                const pp::ImageData& image_data,
                                bool flush_now)
-    : rect(rect), image_data(image_data), flush_now(flush_now) {}
+    : rect(RectFromPPRect(rect)),
+      image_data(image_data),
+      flush_now(flush_now) {}
 
 PaintReadyRect::PaintReadyRect(const PaintReadyRect& other) = default;
 

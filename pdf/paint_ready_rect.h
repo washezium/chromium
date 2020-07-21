@@ -6,7 +6,11 @@
 #define PDF_PAINT_READY_RECT_H_
 
 #include "ppapi/cpp/image_data.h"
-#include "ppapi/cpp/rect.h"
+#include "ui/gfx/geometry/rect.h"
+
+namespace pp {
+class Rect;
+}  // namespace pp
 
 namespace chrome_pdf {
 
@@ -20,7 +24,7 @@ struct PaintReadyRect {
   PaintReadyRect(const PaintReadyRect& other);
   PaintReadyRect& operator=(const PaintReadyRect& other);
 
-  pp::Rect rect;
+  gfx::Rect rect;
   pp::ImageData image_data;
 
   // Whether to flush to screen immediately; otherwise, when the rest of the
