@@ -21,6 +21,7 @@
 #include "chrome/browser/nearby_sharing/nearby_notification_manager.h"
 #include "chrome/browser/nearby_sharing/nearby_process_manager.h"
 #include "chrome/browser/nearby_sharing/nearby_sharing_service.h"
+#include "chrome/browser/nearby_sharing/outgoing_share_target_info.h"
 #include "components/keyed_service/core/keyed_service.h"
 #include "components/prefs/pref_change_registrar.h"
 
@@ -110,6 +111,8 @@ class NearbySharingServiceImpl
   IncomingShareTargetInfo& GetIncomingShareTargetInfo(
       const ShareTarget& share_target);
   NearbyConnection* GetIncomingConnection(const ShareTarget& share_target);
+  OutgoingShareTargetInfo& GetOutgoingShareTargetInfo(ShareTarget share_target);
+  void ClearOutgoingShareTargetInfoMap();
 
   PrefService* prefs_;
   Profile* profile_;
@@ -134,6 +137,14 @@ class NearbySharingServiceImpl
   // The most recent outgoing TransferMetadata and ShareTarget.
   base::Optional<std::pair<ShareTarget, TransferMetadata>>
       last_outgoing_metadata_;
+  // A map of ShareTarget id to IncomingShareTargetInfo. This lets us know which
+  // Nearby Connections endpoint and public certificate are related to the
+  // incoming share target.
+  std::map<int, IncomingShareTargetInfo> incoming_share_target_info_map_;
+  // A map of ShareTarget id to OutgoingShareTargetInfo. This lets us know which
+  // endpoint and public certificate are related to the outgoing share target.
+  // TODO(crbug/1085068) update this map when handling payloads
+  std::map<int, OutgoingShareTargetInfo> outgoing_share_target_info_map_;
 
   // The current advertising power level. PowerLevel::kUnknown while not
   // advertising.
@@ -149,11 +160,6 @@ class NearbySharingServiceImpl
   bool is_scanning_ = false;
   // True if we're currently sending or receiving a file.
   bool is_transferring_files_ = false;
-
-  // A map of ShareTarget id to IncomingShareTargetInfo. This lets us know which
-  // Nearby Connections endpoint and public certificate are related to the
-  // incoming share target.
-  std::map<int, IncomingShareTargetInfo> incoming_share_target_info_map_;
 
   SEQUENCE_CHECKER(sequence_checker_);
   base::WeakPtrFactory<NearbySharingServiceImpl> weak_ptr_factory_{this};

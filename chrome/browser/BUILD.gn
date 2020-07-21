@@ -3324,6 +3324,8 @@ static_library("browser") {
       "nearby_sharing/nearby_sharing_service_factory.h",
       "nearby_sharing/nearby_sharing_service_impl.cc",
       "nearby_sharing/nearby_sharing_service_impl.h",
+      "nearby_sharing/outgoing_share_target_info.cc",
+      "nearby_sharing/outgoing_share_target_info.h",
       "nearby_sharing/share_target.cc",
       "nearby_sharing/share_target.h",
       "nearby_sharing/share_target_discovered_callback.h",
