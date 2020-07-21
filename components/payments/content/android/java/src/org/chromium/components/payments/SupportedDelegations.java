@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.payments;
+package org.chromium.components.payments;
 
 import androidx.annotation.Nullable;
 
@@ -18,14 +18,14 @@ public class SupportedDelegations {
     private final boolean mPayerPhone;
     private final boolean mPayerEmail;
 
-    SupportedDelegations(
+    public SupportedDelegations(
             boolean shippingAddress, boolean payerName, boolean payerPhone, boolean payerEmail) {
         mShippingAddress = shippingAddress;
         mPayerName = payerName;
         mPayerPhone = payerPhone;
         mPayerEmail = payerEmail;
     }
-    SupportedDelegations() {
+    public SupportedDelegations() {
         mShippingAddress = false;
         mPayerName = false;
         mPayerPhone = false;
