@@ -22,12 +22,10 @@ if (enable_pdf) {
     include_dirs = [ "//third_party/pdfium" ]
   }
 
-  component("pdf") {
+  static_library("pdf") {
     sources = [ "pdf.cc" ]
 
     configs += [ ":pdf_common_config" ]
-
-    defines = [ "IS_PDF_IMPL" ]
 
     public = [ "pdf.h" ]
 
