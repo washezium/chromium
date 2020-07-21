@@ -2302,6 +2302,8 @@ static_library("test_support") {
     "drag_drop/drag_drop_controller_test_api.h",
     "fast_ink/laser/laser_pointer_controller_test_api.cc",
     "fast_ink/laser/laser_pointer_controller_test_api.h",
+    "frame_throttler/mock_frame_throttling_observer.cc",
+    "frame_throttler/mock_frame_throttling_observer.h",
     "highlighter/highlighter_controller_test_api.cc",
     "highlighter/highlighter_controller_test_api.h",
     "ime/test_ime_controller_client.cc",
