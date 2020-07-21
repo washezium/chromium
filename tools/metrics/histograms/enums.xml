@@ -62661,6 +62661,19 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="2" label="Blocked"/>
 </enum>
 
+<enum name="SerialChooserOutcome">
+  <int value="0" label="Chooser cancelled"/>
+  <int value="1" label="Chooser cancelled, no options available"/>
+  <int value="2" label="Permission granted"/>
+  <int value="3" label="Ephemeral permission granted"/>
+</enum>
+
+<enum name="SerialPermissionRevoked">
+  <int value="0" label="Persistent permission revoked by user"/>
+  <int value="1" label="Ephemeral permission revoked by user"/>
+  <int value="2" label="Ephemeral permission revoked on disconnect"/>
+</enum>
+
 <enum name="ServiceProcessEventType">
   <int value="0" label="SERVICE_EVENT_INITIALIZE"/>
   <int value="1" label="SERVICE_EVENT_ENABLED_ON_LAUNCH"/>
