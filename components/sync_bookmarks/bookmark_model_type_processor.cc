@@ -245,6 +245,9 @@ void BookmarkModelTypeProcessor::OnUpdateReceived(
       model_type_state.encryption_key_name();
   bookmark_tracker_->set_model_type_state(model_type_state);
   updates_handler.Process(updates, got_new_encryption_requirements);
+  if (bookmark_tracker_->ReuploadBookmarksOnLoadIfNeeded()) {
+    NudgeForCommitIfNeeded();
+  }
   // There are cases when we receive non-empty updates that don't result in
   // model changes (e.g. reflections). In that case, issue a write to persit the
   // progress marker in order to avoid downloading those updates again.
