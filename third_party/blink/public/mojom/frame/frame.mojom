@@ -881,6 +881,7 @@ interface LocalMainFrame {
   // Check accesses made from this window to |accessed_window|. If this happens,
   // a report will be sent to |reporter|.
   InstallCoopAccessMonitor(
+      network.mojom.CoopAccessReportType report_type,
       mojo_base.mojom.UnguessableToken accessed_window,
       pending_remote<network.mojom.CrossOriginOpenerPolicyReporter> reporter);
 };
