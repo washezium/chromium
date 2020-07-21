@@ -8,6 +8,7 @@
 #include "base/memory/ptr_util.h"
 #include "chromeos/components/print_management/mojom/printing_manager.mojom.h"
 #include "chromeos/components/print_management/url_constants.h"
+#include "chromeos/components/web_applications/manifest_request_filter.h"
 #include "chromeos/constants/chromeos_features.h"
 #include "chromeos/grit/chromeos_print_management_resources.h"
 #include "chromeos/strings/grit/chromeos_strings.h"
@@ -119,6 +120,9 @@ PrintManagementUI::PrintManagementUI(
   html_source->SetDefaultResource(IDR_PRINT_MANAGEMENT_INDEX_HTML);
 
   AddPrintManagementStrings(html_source.get());
+  web_app::SetManifestRequestFilter(html_source.get(),
+                                    IDR_PRINT_MANAGEMENT_MANIFEST,
+                                    IDS_PRINT_MANAGEMENT_APP_NAME);
 
   if (base::FeatureList::IsEnabled(chromeos::features::kScanningUI)) {
     html_source->AddResourcePath("scanning.html", IDR_SCANNING_HTML);
