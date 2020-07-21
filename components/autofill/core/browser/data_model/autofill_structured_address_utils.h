@@ -19,36 +19,36 @@ namespace autofill {
 namespace structured_address {
 
 // A cache for compiled RE2 regular expressions.
-class Re2ExpressionCache {
+class Re2RegExCache {
  public:
-  Re2ExpressionCache& operator=(const Re2ExpressionCache&) = delete;
-  Re2ExpressionCache(const Re2ExpressionCache&) = delete;
-  ~Re2ExpressionCache() = delete;
+  Re2RegExCache& operator=(const Re2RegExCache&) = delete;
+  Re2RegExCache(const Re2RegExCache&) = delete;
+  ~Re2RegExCache() = delete;
 
   // Returns a singleton instance.
-  static Re2ExpressionCache* Instance();
+  static Re2RegExCache* Instance();
 
   // Returns a pointer to a constant compiled expression that matches |pattern|
   // case-insensitively.
-  const RE2* GetExpression(const std::string& pattern);
+  const RE2* GetRegEx(const std::string& pattern);
 
 #ifdef UNIT_TEST
   // Returns true if the compiled regular expression corresponding to |pattern|
   // is cached.
-  bool IsExpressionCachedForTesting(const std::string& pattern) {
-    return expression_map_.count(pattern) > 0;
+  bool IsRegExCachedForTesting(const std::string& pattern) {
+    return regex_map_.count(pattern) > 0;
   }
 #endif
 
  private:
-  Re2ExpressionCache();
+  Re2RegExCache();
 
   // Since the constructor is private, |base::NoDestructor| must be friend to be
   // allowed to construct the cache.
-  friend class base::NoDestructor<Re2ExpressionCache>;
+  friend class base::NoDestructor<Re2RegExCache>;
 
   // Stores a compiled regular expression keyed by its corresponding |pattern|.
-  std::map<std::string, std::unique_ptr<const RE2>> expression_map_;
+  std::map<std::string, std::unique_ptr<const RE2>> regex_map_;
 
   // A lock to prevent concurrent access to the map.
   base::Lock lock_;
@@ -67,11 +67,11 @@ bool ParseValueByRegularExpression(
 // pattern.
 bool ParseValueByRegularExpression(
     const std::string& value,
-    const RE2* expression,
+    const RE2* regex,
     std::map<std::string, std::string>* result_map);
 
 // Returns a compiled case insensitive regular expression for |pattern|.
-std::unique_ptr<const RE2> BuildExpressionFromPattern(std::string pattern);
+std::unique_ptr<const RE2> BuildRegExFromPattern(std::string pattern);
 
 // Returns true if |value| can be matched with |pattern|.
 bool IsPartialMatch(const std::string& value, const std::string& pattern);
