@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_FACTORY_GL_TEXTURE_INTERNAL_H_
-#define GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_FACTORY_GL_TEXTURE_INTERNAL_H_
+#ifndef GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_GL_IMAGE_H_
+#define GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_GL_IMAGE_H_
 
 #include "gpu/command_buffer/service/shared_image_backing.h"
-#include "gpu/command_buffer/service/shared_image_backing_factory_gl_texture.h"
-#include "gpu/command_buffer/service/shared_image_representation.h"
+#include "gpu/command_buffer/service/shared_image_backing_gl_common.h"
 
 namespace gpu {
 
@@ -69,36 +68,6 @@ class SharedImageRepresentationGLTexturePassthroughImpl
 
   SharedImageRepresentationGLTextureClient* const client_ = nullptr;
   scoped_refptr<gles2::TexturePassthrough> texture_passthrough_;
-};
-
-// Common helper functions for SharedImageBackingGLTexture and
-// SharedImageBackingPassthroughGLImage.
-class SharedImageBackingGLCommon : public SharedImageBacking {
- public:
-  // These parameters are used to explicitly initialize a GL texture.
-  // TODO(https://crbug.com/1092155): The goal here is to cache these parameters
-  // (which are specified at initialization), so that the GL texture can be
-  // allocated and bound lazily. In that world, |service_id| will not be a
-  // parameter, but will be allocated lazily, and |image| will be handled by the
-  // relevant sub-class.
-  struct InitializeGLTextureParams {
-    GLenum target = 0;
-    GLenum internal_format = 0;
-    GLenum format = 0;
-    GLenum type = 0;
-    bool is_cleared = false;
-    bool is_rgb_emulation = false;
-    bool framebuffer_attachment_angle = false;
-    bool has_immutable_storage = false;
-  };
-
-  // Helper function to create a GL texture.
-  static void MakeTextureAndSetParameters(
-      GLenum target,
-      GLuint service_id,
-      bool framebuffer_attachment_angle,
-      scoped_refptr<gles2::TexturePassthrough>* passthrough_texture,
-      gles2::Texture** texture);
 };
 
 // Skia representation for both SharedImageBackingGLCommon.
@@ -165,66 +134,6 @@ class SharedImageRepresentationOverlayImpl
   scoped_refptr<gl::GLImage> gl_image_;
 };
 
-// Implementation of SharedImageBacking that creates a GL Texture that is not
-// backed by a GLImage.
-class SharedImageBackingGLTexture : public SharedImageBacking {
- public:
-  SharedImageBackingGLTexture(const Mailbox& mailbox,
-                              viz::ResourceFormat format,
-                              const gfx::Size& size,
-                              const gfx::ColorSpace& color_space,
-                              GrSurfaceOrigin surface_origin,
-                              SkAlphaType alpha_type,
-                              uint32_t usage,
-                              bool is_passthrough);
-  SharedImageBackingGLTexture(const SharedImageBackingGLTexture&) = delete;
-  SharedImageBackingGLTexture& operator=(const SharedImageBackingGLTexture&) =
-      delete;
-  ~SharedImageBackingGLTexture() override;
-
-  void InitializeGLTexture(
-      GLuint service_id,
-      const SharedImageBackingGLCommon::InitializeGLTextureParams& params);
-  void SetCompatibilitySwizzle(
-      const gles2::Texture::CompatibilitySwizzle* swizzle);
-
-  GLenum GetGLTarget() const;
-  GLuint GetGLServiceId() const;
-
- private:
-  // SharedImageBacking:
-  void OnMemoryDump(const std::string& dump_name,
-                    base::trace_event::MemoryAllocatorDump* dump,
-                    base::trace_event::ProcessMemoryDump* pmd,
-                    uint64_t client_tracing_id) override;
-  gfx::Rect ClearedRect() const final;
-  void SetClearedRect(const gfx::Rect& cleared_rect) final;
-  bool ProduceLegacyMailbox(MailboxManager* mailbox_manager) final;
-  std::unique_ptr<SharedImageRepresentationGLTexture> ProduceGLTexture(
-      SharedImageManager* manager,
-      MemoryTypeTracker* tracker) final;
-  std::unique_ptr<SharedImageRepresentationGLTexturePassthrough>
-  ProduceGLTexturePassthrough(SharedImageManager* manager,
-                              MemoryTypeTracker* tracker) final;
-  std::unique_ptr<SharedImageRepresentationDawn> ProduceDawn(
-      SharedImageManager* manager,
-      MemoryTypeTracker* tracker,
-      WGPUDevice device) final;
-  std::unique_ptr<SharedImageRepresentationSkia> ProduceSkia(
-      SharedImageManager* manager,
-      MemoryTypeTracker* tracker,
-      scoped_refptr<SharedContextState> context_state) override;
-  void Update(std::unique_ptr<gfx::GpuFence> in_fence) override;
-
-  bool IsPassthrough() const { return is_passthrough_; }
-
-  const bool is_passthrough_;
-  gles2::Texture* texture_ = nullptr;
-  scoped_refptr<gles2::TexturePassthrough> passthrough_texture_;
-
-  sk_sp<SkPromiseImageTexture> cached_promise_texture_;
-};
-
 // Implementation of SharedImageBacking that creates a GL Texture that is backed
 // by a GLImage and stores it as a gles2::Texture. Can be used with the legacy
 // mailbox implementation.
@@ -242,7 +151,7 @@ class SharedImageBackingGLImage
       SkAlphaType alpha_type,
       uint32_t usage,
       const SharedImageBackingGLCommon::InitializeGLTextureParams& params,
-      const SharedImageBackingFactoryGLTexture::UnpackStateAttribs& attribs,
+      const SharedImageBackingGLCommon::UnpackStateAttribs& attribs,
       bool is_passthrough);
   SharedImageBackingGLImage(const SharedImageBackingGLImage& other) = delete;
   SharedImageBackingGLImage& operator=(const SharedImageBackingGLImage& other) =
@@ -306,8 +215,7 @@ class SharedImageBackingGLImage
   bool gl_texture_retained_for_legacy_mailbox_ = false;
 
   const SharedImageBackingGLCommon::InitializeGLTextureParams gl_params_;
-  const SharedImageBackingFactoryGLTexture::UnpackStateAttribs
-      gl_unpack_attribs_;
+  const SharedImageBackingGLCommon::UnpackStateAttribs gl_unpack_attribs_;
   const bool is_passthrough_;
 
   // This is the cleared rect used by ClearedRect and SetClearedRect when
@@ -325,4 +233,4 @@ class SharedImageBackingGLImage
 
 }  // namespace gpu
 
-#endif  // GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_FACTORY_GL_TEXTURE_INTERNAL_H_
+#endif  // GPU_COMMAND_BUFFER_SERVICE_SHARED_IMAGE_BACKING_GL_IMAGE_H_
