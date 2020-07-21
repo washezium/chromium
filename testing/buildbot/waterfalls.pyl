@@ -4389,6 +4389,11 @@
         ],
         'test_suites': {},
       },
+      'mac-arm64': {
+        'additional_compile_targets': [
+          'all',
+        ],
+      },
     },
   },
   {
