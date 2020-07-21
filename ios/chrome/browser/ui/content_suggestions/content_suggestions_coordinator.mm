@@ -249,6 +249,7 @@
 - (void)stop {
   [self.NTPMediator shutdown];
   self.NTPMediator = nil;
+  [self.contentSuggestionsMediator disconnect];
   self.contentSuggestionsMediator = nil;
   self.headerController = nil;
   _visible = NO;
