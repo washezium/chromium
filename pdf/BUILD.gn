@@ -35,12 +35,10 @@ if (enable_pdf) {
     ]
   }
 
-  component("pdf_ppapi") {
+  static_library("pdf_ppapi") {
     sources = [ "pdf_ppapi.cc" ]
 
     configs += [ ":pdf_common_config" ]
-
-    defines = [ "IS_PDF_PPAPI_IMPL" ]
 
     public = [ "pdf_ppapi.h" ]
 
