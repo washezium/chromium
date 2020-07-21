@@ -1709,6 +1709,11 @@
     "expiry_milestone": 90
   },
   {
+    "name": "enable-media-feeds-background-fetch",
+    "owners": [ "beccahughes", "media-dev" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "enable-media-foundation-video-capture",
     "owners": [ "armax", "guidou" ],
     "expiry_milestone": 90
