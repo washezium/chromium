@@ -697,6 +697,7 @@
       'android-marshmallow-x86-rel': {
         'mixins': [
           'marshmallow-x86-emulator',
+          'emulator-4-cores',
           'linux-xenial',
           'x86-64',
         ],
@@ -736,6 +737,7 @@
       'android-pie-x86-rel': {
         'mixins': [
           'pie-x86-emulator',
+          'emulator-8-cores',
           'linux-xenial',
           'x86-64',
         ],
@@ -803,6 +805,7 @@
       'android-marshmallow-x86-fyi-rel': {
         'mixins': [
           'marshmallow-x86-emulator',
+          'emulator-8-cores',
           'linux-xenial',
           'x86-64',
         ],
@@ -814,6 +817,7 @@
       'android-weblayer-pie-x86-fyi-rel': {
         'mixins': [
           'pie-x86-emulator',
+          'emulator-8-cores',
           'linux-xenial',
           'x86-64',
         ],
