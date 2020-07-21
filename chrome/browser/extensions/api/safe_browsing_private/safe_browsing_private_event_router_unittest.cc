@@ -742,10 +742,6 @@ TEST_F(SafeBrowsingPrivateEventRouterTest, TestOnSensitiveDataEvent_Allowed) {
   ASSERT_NE(nullptr, triggered_rule_info);
   ASSERT_EQ(1u, triggered_rule_info->GetList().size());
   base::Value triggered_rule = std::move(triggered_rule_info->GetList()[0]);
-  EXPECT_EQ(12345, triggered_rule.FindIntKey(
-                       SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId));
-  EXPECT_EQ(3, triggered_rule.FindIntKey(
-                   SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleAction));
   EXPECT_EQ(
       safe_browsing::EventResultToString(safe_browsing::EventResult::ALLOWED),
       *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyEventResult));
@@ -796,10 +792,6 @@ TEST_F(SafeBrowsingPrivateEventRouterTest, TestOnSensitiveDataEvent_Blocked) {
   ASSERT_NE(nullptr, triggered_rule_info);
   ASSERT_EQ(1u, triggered_rule_info->GetList().size());
   base::Value triggered_rule = std::move(triggered_rule_info->GetList()[0]);
-  EXPECT_EQ(12345, triggered_rule.FindIntKey(
-                       SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId));
-  EXPECT_EQ(3, triggered_rule.FindIntKey(
-                   SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleAction));
   EXPECT_EQ(
       safe_browsing::EventResultToString(safe_browsing::EventResult::BLOCKED),
       *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyEventResult));

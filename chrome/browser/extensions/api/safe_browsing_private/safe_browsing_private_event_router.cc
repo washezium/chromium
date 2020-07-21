@@ -77,22 +77,9 @@ void AddAnalysisConnectorVerdictToEvent(
   base::ListValue triggered_rule_info;
   for (const auto& trigger : result.triggers) {
     base::Value triggered_rule(base::Value::Type::DICTIONARY);
-    int64_t rule_id;
-    if (base::StringToInt64(trigger.id, &rule_id)) {
-      triggered_rule.SetIntKey(
-          extensions::SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId,
-          rule_id);
-    } else {
-      triggered_rule.SetIntKey(
-          extensions::SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId, 0);
-    }
-
     triggered_rule.SetStringKey(
         extensions::SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleName,
         trigger.name);
-    triggered_rule.SetIntKey(
-        extensions::SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleAction,
-        trigger.action);
 
     triggered_rule_info.Append(std::move(triggered_rule));
   }
@@ -133,16 +120,14 @@ const char SafeBrowsingPrivateEventRouter::kKeyReason[] = "reason";
 const char SafeBrowsingPrivateEventRouter::kKeyNetErrorCode[] = "netErrorCode";
 const char SafeBrowsingPrivateEventRouter::kKeyClickedThrough[] =
     "clickedThrough";
-const char SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId[] = "ruleId";
 const char SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleName[] = "ruleName";
-const char SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleAction[] = "action";
 const char SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleInfo[] =
     "triggeredRuleInfo";
 const char SafeBrowsingPrivateEventRouter::kKeyThreatType[] = "threatType";
 const char SafeBrowsingPrivateEventRouter::kKeyContentType[] = "contentType";
 const char SafeBrowsingPrivateEventRouter::kKeyContentSize[] = "contentSize";
 const char SafeBrowsingPrivateEventRouter::kKeyTrigger[] = "trigger";
-const char SafeBrowsingPrivateEventRouter::kKeyEventResult[] = "result";
+const char SafeBrowsingPrivateEventRouter::kKeyEventResult[] = "eventResult";
 
 const char SafeBrowsingPrivateEventRouter::kKeyPasswordReuseEvent[] =
     "passwordReuseEvent";

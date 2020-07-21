@@ -316,14 +316,8 @@ void EventReportValidator::ValidateDlpVerdict(base::Value* value) {
 void EventReportValidator::ValidateDlpRule(
     base::Value* value,
     const ContentAnalysisTrigger& expected_rule) {
-  ValidateField(value, SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleAction,
-                base::Optional<int>(expected_rule.action));
   ValidateField(value, SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleName,
                 expected_rule.name);
-  int64_t rule_id;
-  ASSERT_TRUE(base::StringToInt64(expected_rule.id, &rule_id));
-  ValidateField(value, SafeBrowsingPrivateEventRouter::kKeyTriggeredRuleId,
-                base::Optional<int>(rule_id));
 }
 
 void EventReportValidator::ValidateField(
