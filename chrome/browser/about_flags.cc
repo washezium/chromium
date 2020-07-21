@@ -4935,6 +4935,10 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kPrintJobManagementAppDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kPrintJobManagementApp)},
 
+    {"enable-phone-hub", flag_descriptions::kPhoneHubName,
+     flag_descriptions::kPhoneHubDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::features::kPhoneHub)},
+
     {"display-identification", flag_descriptions::kDisplayIdentificationName,
      flag_descriptions::kDisplayIdentificationDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(ash::features::kDisplayIdentification)},
