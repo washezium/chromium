@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/nearby_sharing/nearby_sharing_prefs.h"
+#include "chrome/browser/nearby_sharing/common/nearby_share_prefs.h"
 
 #include <string>
 
 #include "base/files/file_path.h"
+#include "chrome/browser/nearby_sharing/common/nearby_share_enums.h"
 #include "components/pref_registry/pref_registry_syncable.h"
 #include "components/prefs/pref_registry.h"
 #include "components/prefs/pref_registry_simple.h"

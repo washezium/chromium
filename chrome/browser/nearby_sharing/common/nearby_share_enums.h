@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_NEARBY_SHARING_NEARBY_CONSTANTS_H_
-#define CHROME_BROWSER_NEARBY_SHARING_NEARBY_CONSTANTS_H_
+#ifndef CHROME_BROWSER_NEARBY_SHARING_COMMON_NEARBY_SHARE_ENUMS_H_
+#define CHROME_BROWSER_NEARBY_SHARING_COMMON_NEARBY_SHARE_ENUMS_H_
 
 // Represents the advertising bluetooth power for Nearby Connections.
 enum class PowerLevel {
@@ -38,4 +38,4 @@ enum class Visibility {
   kMaxValue = kSelectedContacts,
 };
 
-#endif  // CHROME_BROWSER_NEARBY_SHARING_NEARBY_CONSTANTS_H_
+#endif  // CHROME_BROWSER_NEARBY_SHARING_COMMON_NEARBY_SHARE_ENUMS_H_
