@@ -5042,6 +5042,12 @@ bool ChromeContentBrowserClient::HandleWebUI(
     return true;  // Return true to update the displayed URL.
   }
 
+  // Replace deprecated cookie settings URL with the current version.
+  if (*url == GURL(chrome::kChromeUICookieSettingsDeprecatedURL)) {
+    *url = GURL(chrome::kChromeUICookieSettingsURL);
+    return true;
+  }
+
 #if defined(OS_WIN)
   // TODO(crbug.com/1003960): Remove when issue is resolved.
   if (url->SchemeIs(content::kChromeUIScheme) &&
