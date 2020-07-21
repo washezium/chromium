@@ -299,6 +299,9 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDownloadOpened(
             if (content_size >= 0)
               event.SetIntKey(kKeyContentSize, content_size);
             event.SetStringKey(kKeyTrigger, kTriggerFileDownload);
+            event.SetStringKey(kKeyEventResult,
+                               safe_browsing::EventResultToString(
+                                   safe_browsing::EventResult::BYPASSED));
             return event;
           },
           params.url, params.file_name, params.download_digest_sha256,
@@ -413,7 +416,7 @@ void SafeBrowsingPrivateEventRouter::OnAnalysisConnectorResult(
     OnDangerousDeepScanningResult(
         url, file_name, download_digest_sha256,
         MalwareRuleToThreatType(result.triggers[0].name), mime_type, trigger,
-        content_size);
+        content_size, event_result);
   } else if (result.tag == "dlp") {
     OnSensitiveDataEvent(url, file_name, download_digest_sha256, mime_type,
                          trigger, result, content_size, event_result);
@@ -427,7 +430,8 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDeepScanningResult(
     const std::string& threat_type,
     const std::string& mime_type,
     const std::string& trigger,
-    const int64_t content_size) {
+    const int64_t content_size,
+    safe_browsing::EventResult event_result) {
   if (!IsRealtimeReportingEnabled())
     return;
 
@@ -438,7 +442,8 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDeepScanningResult(
              const std::string& download_digest_sha256,
              const std::string& profile_user_name,
              const std::string& threat_type, const std::string& mime_type,
-             const std::string& trigger, const int64_t content_size) {
+             const std::string& trigger, const int64_t content_size,
+             safe_browsing::EventResult event_result) {
             // Create a real-time event dictionary from the arguments and
             // report it.
             base::Value event(base::Value::Type::DICTIONARY);
@@ -454,10 +459,13 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDeepScanningResult(
             if (content_size >= 0)
               event.SetIntKey(kKeyContentSize, content_size);
             event.SetStringKey(kKeyTrigger, trigger);
+            event.SetStringKey(
+                kKeyEventResult,
+                safe_browsing::EventResultToString(event_result));
             return event;
           },
           url.spec(), file_name, download_digest_sha256, GetProfileUserName(),
-          threat_type, mime_type, trigger, content_size));
+          threat_type, mime_type, trigger, content_size, event_result));
 }
 
 void SafeBrowsingPrivateEventRouter::OnSensitiveDataEvent(
@@ -640,6 +648,9 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDownloadWarning(
             if (content_size >= 0)
               event.SetIntKey(kKeyContentSize, content_size);
             event.SetStringKey(kKeyTrigger, kTriggerFileDownload);
+            event.SetStringKey(kKeyEventResult,
+                               safe_browsing::EventResultToString(
+                                   safe_browsing::EventResult::WARNED));
             return event;
           },
           url.spec(), file_name, download_digest_sha256, GetProfileUserName(),
@@ -679,6 +690,9 @@ void SafeBrowsingPrivateEventRouter::OnDangerousDownloadWarningBypassed(
             if (content_size >= 0)
               event.SetIntKey(kKeyContentSize, content_size);
             event.SetStringKey(kKeyTrigger, kTriggerFileDownload);
+            event.SetStringKey(kKeyEventResult,
+                               safe_browsing::EventResultToString(
+                                   safe_browsing::EventResult::BYPASSED));
             return event;
           },
           url.spec(), file_name, download_digest_sha256, GetProfileUserName(),

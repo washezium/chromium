@@ -185,7 +185,7 @@ class SafeBrowsingPrivateEventRouterTest : public testing::Test {
 
   void TriggerOnDangerousDownloadWarningEventBypass() {
     SafeBrowsingPrivateEventRouterFactory::GetForProfile(profile_)
-        ->OnDangerousDownloadWarning(
+        ->OnDangerousDownloadWarningBypassed(
             GURL("https://bypassevil.com/bypass.exe"), "/path/to/bypass.exe",
             "sha256_of_bypass_exe", "BYPASSED_WARNING", "exe", 890);
   }
@@ -373,6 +373,9 @@ TEST_F(SafeBrowsingPrivateEventRouterTest, TestOnDangerousDownloadOpened) {
                       SafeBrowsingPrivateEventRouter::kKeyContentSize));
   EXPECT_EQ(SafeBrowsingPrivateEventRouter::kTriggerFileDownload,
             *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyTrigger));
+  EXPECT_EQ(
+      safe_browsing::EventResultToString(safe_browsing::EventResult::BYPASSED),
+      *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyEventResult));
 }
 
 TEST_F(SafeBrowsingPrivateEventRouterTest,
@@ -492,6 +495,9 @@ TEST_F(SafeBrowsingPrivateEventRouterTest, TestOnDangerousDownloadWarning) {
   EXPECT_EQ(
       "POTENTIALLY_UNWANTED",
       *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyThreatType));
+  EXPECT_EQ(
+      safe_browsing::EventResultToString(safe_browsing::EventResult::WARNED),
+      *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyEventResult));
 }
 
 TEST_F(SafeBrowsingPrivateEventRouterTest,
@@ -531,6 +537,9 @@ TEST_F(SafeBrowsingPrivateEventRouterTest,
   EXPECT_EQ(
       "BYPASSED_WARNING",
       *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyThreatType));
+  EXPECT_EQ(
+      safe_browsing::EventResultToString(safe_browsing::EventResult::BYPASSED),
+      *event->FindStringKey(SafeBrowsingPrivateEventRouter::kKeyEventResult));
 }
 
 TEST_F(SafeBrowsingPrivateEventRouterTest, PolicyControlOnToOffIsDynamic) {
