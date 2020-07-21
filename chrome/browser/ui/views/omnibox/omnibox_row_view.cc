@@ -195,8 +195,16 @@ class OmniboxRowView::HeaderView : public views::View,
     suggestion_group_hidden_ = omnibox::IsSuggestionGroupIdHidden(
         row_view_->pref_service_, suggestion_group_id_);
 
-    if (was_hidden != suggestion_group_hidden_)
+    if (was_hidden != suggestion_group_hidden_) {
       NotifyAccessibilityEvent(ax::mojom::Event::kExpandedChanged, true);
+
+      // Because this view doesn't have true focus (it stays on the textfield),
+      // we also need to manually announce state changes.
+      GetViewAccessibility().AnnounceText(l10n_util::GetStringFUTF16(
+          suggestion_group_hidden_ ? IDS_ACC_HEADER_SECTION_HIDDEN
+                                   : IDS_ACC_HEADER_SECTION_SHOWN,
+          header_text_));
+    }
 
     header_toggle_button_->SetToggled(suggestion_group_hidden_);
   }
