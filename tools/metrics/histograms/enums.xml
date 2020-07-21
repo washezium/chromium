@@ -46335,6 +46335,19 @@ Called by update_use_counter_css.py.-->
   <int value="6" label="XHTML-MP document type"/>
 </enum>
 
+<enum name="MetricKitExitData">
+  <int value="0" label="App exited normally"/>
+  <int value="1" label="App exited abnormally"/>
+  <int value="2" label="Watchdog terminated the app"/>
+  <int value="3" label="App used too much CPU time"/>
+  <int value="4" label="App used too much memory"/>
+  <int value="5" label="Terminated to free up memory"/>
+  <int value="6" label="Suspended while having file locks"/>
+  <int value="7" label="Invalid memory access"/>
+  <int value="8" label="Illegal or undefined instruction"/>
+  <int value="9" label="Exceeded allocated time for background task"/>
+</enum>
+
 <enum name="MetricsReportingChange">
   <int value="0" label="Error">
     Error occurred while updating MetricsReporting
