@@ -298,4 +298,13 @@ TEST_F(AmbientControllerTest, UpdateUiAndWakeLockWhenSystemSuspendOrResume) {
                    device::mojom::WakeLockType::kPreventDisplaySleep));
 }
 
+TEST_F(AmbientControllerTest, ShouldShowAmbientScreenWhenScreenIsDimmed) {
+  EXPECT_FALSE(ambient_controller()->IsShown());
+
+  // Should lock the device and enter ambient mode when the screen is dimmed.
+  SetScreenDimmedAndWait(true);
+
+  EXPECT_TRUE(ambient_controller()->IsShown());
+}
+
 }  // namespace ash

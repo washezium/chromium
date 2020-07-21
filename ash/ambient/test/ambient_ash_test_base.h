@@ -56,6 +56,10 @@ class AmbientAshTestBase : public AshTestBase {
   // Wait until the event has been processed.
   void SimulateSystemResumeAndWait();
 
+  // Simulates a screen dimmed event.
+  // Wait until the event has been processed.
+  void SetScreenDimmedAndWait(bool is_screen_dimmed);
+
   const gfx::ImageSkia& GetImageInPhotoView();
 
   // Returns the number of active wake locks of type |type|.
