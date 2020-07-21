@@ -41478,6 +41478,7 @@ from previous Chrome versions.
   <int value="-204355195" label="secondary-ui-md"/>
   <int value="-203968600" label="SyncSupportSecondaryAccount:disabled"/>
   <int value="-202007318" label="AndroidAIAFetching:enabled"/>
+  <int value="-201633741" label="DisplayAlignAssist:enabled"/>
   <int value="-200805659" label="ContextualSuggestionsButton:enabled"/>
   <int value="-199690952" label="PageInfoV2:enabled"/>
   <int value="-196110497" label="force-text-direction"/>
@@ -42276,6 +42277,7 @@ from previous Chrome versions.
   <int value="679931272" label="DcheckIsFatal:enabled"/>
   <int value="680070635"
       label="enable-fullscreen-handwriting-virtual-keyboard:disabled"/>
+  <int value="680300401" label="DisplayAlignAssist:disabled"/>
   <int value="681622885" label="FullscreenExitUI:enabled"/>
   <int value="682549212" label="ash-enable-cursor-motion-blur"/>
   <int value="683013217" label="AllowPopupsDuringPageUnload:disabled"/>
