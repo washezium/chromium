@@ -3002,6 +3002,12 @@ void WebViewImpl::UpdateBaseBackgroundColor() {
 
 void WebViewImpl::SetInsidePortal(bool inside_portal) {
   GetPage()->SetInsidePortal(inside_portal);
+
+  // We may not have created the frame widget yet but that's ok because it'll
+  // be created with this value correctly initialized. This can also be null if
+  // the main frame is remote.
+  if (web_widget_)
+    web_widget_->SetIsNestedMainFrameWidget(inside_portal);
 }
 
 void WebViewImpl::SetIsActive(bool active) {

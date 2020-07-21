@@ -342,7 +342,7 @@ void RenderWidget::InitForPopup(ShowCallback show_callback,
                                 RenderWidget* opener_widget,
                                 blink::WebPagePopup* web_page_popup,
                                 const blink::ScreenInfo& screen_info) {
-  popup_ = true;
+  for_popup_ = true;
   Initialize(std::move(show_callback), web_page_popup, screen_info);
 
   if (opener_widget->device_emulator_) {
@@ -358,13 +358,17 @@ void RenderWidget::InitForPepperFullscreen(
     ShowCallback show_callback,
     blink::WebWidget* web_widget,
     const blink::ScreenInfo& screen_info) {
-  pepper_fullscreen_ = true;
+  for_pepper_fullscreen_ = true;
   Initialize(std::move(show_callback), web_widget, screen_info);
 }
 
 void RenderWidget::InitForMainFrame(ShowCallback show_callback,
                                     blink::WebFrameWidget* web_frame_widget,
-                                    const blink::ScreenInfo& screen_info) {
+                                    const blink::ScreenInfo& screen_info,
+                                    mojom::ViewWidgetType view_widget_type,
+                                    RenderWidgetDelegate& delegate) {
+  delegate_ = &delegate;
+  for_nested_main_frame_ = view_widget_type != mojom::ViewWidgetType::kTopLevel;
   Initialize(std::move(show_callback), web_frame_widget, screen_info);
 }
 
@@ -467,7 +471,7 @@ bool RenderWidget::Send(IPC::Message* message) {
 }
 
 void RenderWidget::OnClose() {
-  DCHECK(popup_ || pepper_fullscreen_);
+  DCHECK(for_popup_ || for_pepper_fullscreen_);
 
   Close(base::WrapUnique(this));
 }
@@ -1389,7 +1393,7 @@ WebRect RenderWidget::WindowRect() {
   // Popup widgets aren't emulated, but the WindowRect (aka WindowScreenRect)
   // given to them should be.
   if (opener_emulator_scale_) {
-    DCHECK(popup_);
+    DCHECK(for_popup_);
     ScreenRectToEmulated(&rect);
   }
   return rect;
@@ -1401,7 +1405,7 @@ WebRect RenderWidget::ViewRect() {
   // Popup widgets aren't emulated, but the ViewRect (aka WidgetScreenRect)
   // given to them should be.
   if (opener_emulator_scale_) {
-    DCHECK(popup_);
+    DCHECK(for_popup_);
     ScreenRectToEmulated(&rect);
   }
   return rect;
@@ -1422,7 +1426,7 @@ void RenderWidget::SetWindowRect(const WebRect& rect_in_screen) {
   // given to them are. When they set the WindowScreenRect it is based on those
   // emulated values, so we reverse the emulation.
   if (opener_emulator_scale_) {
-    DCHECK(popup_);
+    DCHECK(for_popup_);
     EmulatedToScreenRect(&window_rect);
   }
 
@@ -1489,6 +1493,12 @@ void RenderWidget::ImeFinishComposingTextForPepper(bool keep_selection) {
   DCHECK(plugin);
   plugin->render_frame()->OnImeFinishComposingText(keep_selection);
 #endif
+}
+
+void RenderWidget::SetIsNestedMainFrameWidget(bool is_nested) {
+  DCHECK(delegate_)
+      << "Must be in a main frame widget when setting for_nested_main_frame_";
+  for_nested_main_frame_ = is_nested;
 }
 
 void RenderWidget::UpdateSurfaceAndScreenInfo(

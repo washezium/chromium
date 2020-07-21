@@ -701,7 +701,7 @@ class CORE_EXPORT WebViewImpl final : public WebView,
   WeakPersistent<WebLocalFrameImpl> local_root_with_empty_mouse_wheel_listener_;
 
   // The WebWidget for the main frame. This is expected to be unset when the
-  // WebWidget destroys itself.
+  // WebWidget destroys itself. This will be null if the main frame is remote.
   WeakPersistent<WebFrameWidgetBase> web_widget_;
 
   // We defer commits when transitioning to a new page. ChromeClientImpl calls
