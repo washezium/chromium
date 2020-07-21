@@ -176,6 +176,12 @@ public class StatusIndicatorTest {
 
         // The status indicator will be immediately visible.
         onView(withId(R.id.status_indicator)).check(matches(withEffectiveVisibility(VISIBLE)));
+
+        CriteriaHelper.pollUiThread(() -> {
+            Criteria.equals(mStatusIndicatorContainer.getHeight(),
+                    mBrowserControlsStateProvider::getTopControlsMinHeightOffset);
+        });
+
         onView(withId(R.id.control_container))
                 .check(matches(withTopMargin(mStatusIndicatorContainer.getHeight())));
         onView(withId(org.chromium.chrome.start_surface.R.id.secondary_tasks_surface_view))
@@ -195,6 +201,10 @@ public class StatusIndicatorTest {
                         withTopMargin(mBrowserControlsStateProvider.getTopControlsHeight())));
 
         TestThreadUtils.runOnUiThreadBlocking(() -> mStatusIndicatorCoordinator.hide());
+
+        CriteriaHelper.pollUiThread(() -> {
+            Criteria.equals(0, mBrowserControlsStateProvider::getTopControlsMinHeightOffset);
+        });
 
         onView(withId(R.id.status_indicator)).check(matches(withEffectiveVisibility(GONE)));
         onView(withId(R.id.control_container)).check(matches(withTopMargin(0)));
