@@ -171,6 +171,8 @@ class CertProvisioningSchedulerImpl
   void OnPlatformKeysServiceShutDown() override;
 
   CertScope cert_scope_ = CertScope::kUser;
+  // |profile_| can be nullptr for the device-wide instance of
+  // CertProvisioningScheduler.
   Profile* profile_ = nullptr;
   PrefService* pref_service_ = nullptr;
   const char* pref_name_ = nullptr;

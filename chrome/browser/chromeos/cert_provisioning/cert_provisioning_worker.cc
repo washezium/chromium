@@ -186,7 +186,7 @@ CertProvisioningWorkerImpl::CertProvisioningWorkerImpl(
       request_backoff_(&kBackoffPolicy),
       cloud_policy_client_(cloud_policy_client),
       invalidator_(std::move(invalidator)) {
-  CHECK(profile);
+  CHECK(profile || cert_scope == CertScope::kDevice);
   platform_keys_service_ = GetPlatformKeysService(cert_scope, profile);
   CHECK(platform_keys_service_);
 

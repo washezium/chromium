@@ -26,7 +26,6 @@
 #include "chrome/browser/chromeos/platform_keys/platform_keys_service_factory.h"
 #include "chrome/browser/chromeos/policy/browser_policy_connector_chromeos.h"
 #include "chrome/browser/chromeos/policy/user_cloud_policy_manager_chromeos.h"
-#include "chrome/browser/chromeos/profiles/profile_helper.h"
 #include "chrome/common/pref_names.h"
 #include "chromeos/network/network_handler.h"
 #include "chromeos/network/network_state_handler.h"
@@ -125,23 +124,22 @@ std::unique_ptr<CertProvisioningScheduler>
 CertProvisioningSchedulerImpl::CreateDeviceCertProvisioningScheduler(
     policy::AffiliatedInvalidationServiceProvider*
         invalidation_service_provider) {
-  Profile* profile = ProfileHelper::GetSigninProfile();
   PrefService* pref_service = g_browser_process->local_state();
   policy::CloudPolicyClient* cloud_policy_client =
       GetCloudPolicyClientForDevice();
   platform_keys::PlatformKeysService* platform_keys_service =
-      GetPlatformKeysService(CertScope::kDevice, profile);
+      GetPlatformKeysService(CertScope::kDevice, /*profile=*/nullptr);
   NetworkStateHandler* network_state_handler = GetNetworkStateHandler();
 
-  if (!profile || !pref_service || !cloud_policy_client ||
-      !network_state_handler || !platform_keys_service) {
+  if (!pref_service || !cloud_policy_client || !network_state_handler ||
+      !platform_keys_service) {
     LOG(ERROR) << "Failed to create device certificate provisioning scheduler";
     return nullptr;
   }
 
   return std::make_unique<CertProvisioningSchedulerImpl>(
-      CertScope::kDevice, profile, pref_service, cloud_policy_client,
-      platform_keys_service, network_state_handler,
+      CertScope::kDevice, /*profile=*/nullptr, pref_service,
+      cloud_policy_client, platform_keys_service, network_state_handler,
       std::make_unique<CertProvisioningDeviceInvalidatorFactory>(
           invalidation_service_provider));
 }
@@ -163,7 +161,7 @@ CertProvisioningSchedulerImpl::CertProvisioningSchedulerImpl(
       certs_with_ids_getter_(cert_scope, platform_keys_service),
       cert_deleter_(cert_scope, platform_keys_service),
       invalidator_factory_(std::move(invalidator_factory)) {
-  CHECK(profile);
+  CHECK(profile_ || cert_scope_ == CertScope::kDevice);
   CHECK(pref_service_);
   CHECK(cloud_policy_client_);
   CHECK(platform_keys_service_);
