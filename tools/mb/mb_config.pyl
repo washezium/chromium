@@ -1196,7 +1196,7 @@
     ],
 
     'android_debug_trybot_compile_only': [
-      'android', 'debug_bot', 'compile_only',
+      'android', 'debug_bot', 'compile_only', 'java_warnings_as_errors',
     ],
 
     'android_debug_trybot_compile_only_arm64_fastbuild': [
@@ -2619,6 +2619,10 @@
 
     'eve-arc-r': {
       'args_file': '//build/args/chromeos/eve-arc-r.gni',
+    },
+
+    'java_warnings_as_errors': {
+      'gn_args': ('java_warnings_as_errors=true'),
     },
 
     'enable_vulkan': {
