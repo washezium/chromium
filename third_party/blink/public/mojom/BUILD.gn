@@ -158,6 +158,7 @@ mojom("mojom_platform") {
     "speech/speech_recognition_result.mojom",
     "speech/speech_recognizer.mojom",
     "speech/speech_synthesis.mojom",
+    "storage_access/storage_access_automation.mojom",
     "timing/performance_mark_or_measure.mojom",
     "timing/resource_timing.mojom",
     "timing/worker_timing_container.mojom",
