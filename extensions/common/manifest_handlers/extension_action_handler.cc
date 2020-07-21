@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/extensions/manifest_handlers/extension_action_handler.h"
+#include "extensions/common/manifest_handlers/extension_action_handler.h"
 
 #include <memory>
 
 #include "base/strings/utf_string_conversions.h"
 #include "base/values.h"
-#include "chrome/common/extensions/extension_constants.h"
 #include "extensions/common/api/extension_action/action_info.h"
 #include "extensions/common/extension.h"
 #include "extensions/common/file_util.h"
@@ -17,11 +16,9 @@
 
 namespace extensions {
 
-ExtensionActionHandler::ExtensionActionHandler() {
-}
+ExtensionActionHandler::ExtensionActionHandler() {}
 
-ExtensionActionHandler::~ExtensionActionHandler() {
-}
+ExtensionActionHandler::~ExtensionActionHandler() {}
 
 bool ExtensionActionHandler::Parse(Extension* extension,
                                    base::string16* error) {

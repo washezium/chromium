@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/extensions/manifest_handlers/extension_action_handler.h"
+#include "extensions/common/manifest_handlers/extension_action_handler.h"
 
 #include "base/files/file_path.h"
 #include "base/path_service.h"
@@ -10,13 +10,13 @@
 #include "base/strings/stringprintf.h"
 #include "base/test/values_test_util.h"
 #include "base/values.h"
-#include "chrome/common/chrome_paths.h"
 #include "components/version_info/channel.h"
 #include "extensions/common/api/extension_action/action_info.h"
 #include "extensions/common/api/extension_action/action_info_test_util.h"
 #include "extensions/common/constants.h"
 #include "extensions/common/extension.h"
 #include "extensions/common/extension_icon_set.h"
+#include "extensions/common/extension_paths.h"
 #include "extensions/common/features/feature_channel.h"
 #include "extensions/common/file_util.h"
 #include "extensions/common/manifest.h"
@@ -30,8 +30,8 @@ namespace {
 
 base::FilePath GetTestDataDir() {
   base::FilePath path;
-  base::PathService::Get(chrome::DIR_TEST_DATA, &path);
-  return path.AppendASCII("extensions").AppendASCII("manifest_handlers");
+  base::PathService::Get(DIR_TEST_DATA, &path);
+  return path.AppendASCII("manifest_handlers");
 }
 
 }  // namespace
