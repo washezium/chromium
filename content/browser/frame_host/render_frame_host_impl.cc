@@ -7055,7 +7055,8 @@ void RenderFrameHostImpl::CreateAudioInputStreamFactory(
 }
 
 void RenderFrameHostImpl::CreateAudioOutputStreamFactory(
-    mojo::PendingReceiver<mojom::RendererAudioOutputStreamFactory> receiver) {
+    mojo::PendingReceiver<blink::mojom::RendererAudioOutputStreamFactory>
+        receiver) {
   media::AudioSystem* audio_system =
       BrowserMainLoop::GetInstance()->audio_system();
   MediaStreamManager* media_stream_manager =

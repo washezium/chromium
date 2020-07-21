@@ -1384,7 +1384,8 @@ class CONTENT_EXPORT RenderFrameHostImpl
           receiver);
 
   void CreateAudioOutputStreamFactory(
-      mojo::PendingReceiver<mojom::RendererAudioOutputStreamFactory> receiver);
+      mojo::PendingReceiver<blink::mojom::RendererAudioOutputStreamFactory>
+          receiver);
 
   void GetFeatureObserver(
       mojo::PendingReceiver<blink::mojom::FeatureObserver> receiver);
