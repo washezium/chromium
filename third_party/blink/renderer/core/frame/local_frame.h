@@ -620,7 +620,6 @@ class CORE_EXPORT LocalFrame final
                          GetStringForRangeCallback callback) final;
 #endif
   void InstallCoopAccessMonitor(
-      network::mojom::blink::CoopAccessReportType report_type,
       const base::UnguessableToken& accessed_window,
       mojo::PendingRemote<
           network::mojom::blink::CrossOriginOpenerPolicyReporter> reporter)

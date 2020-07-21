@@ -2380,7 +2380,6 @@ void LocalFrame::GetStringForRange(const gfx::Range& range,
 #endif
 
 void LocalFrame::InstallCoopAccessMonitor(
-    network::mojom::blink::CoopAccessReportType report_type,
     const base::UnguessableToken& accessed_window,
     mojo::PendingRemote<network::mojom::blink::CrossOriginOpenerPolicyReporter>
         reporter) {
@@ -2389,7 +2388,7 @@ void LocalFrame::InstallCoopAccessMonitor(
   if (!accessed_frame)
     return;
 
-  accessed_frame->DomWindow()->InstallCoopAccessMonitor(report_type, this,
+  accessed_frame->DomWindow()->InstallCoopAccessMonitor(this,
                                                         std::move(reporter));
 }
 
