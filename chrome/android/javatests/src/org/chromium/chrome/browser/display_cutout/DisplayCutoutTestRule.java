@@ -59,8 +59,8 @@ public class DisplayCutoutTestRule<T extends ChromeActivity> extends ChromeActiv
         private boolean mDeviceHasCutout = true;
         private float mDipScale = 1;
 
-        TestDisplayCutoutController(DisplayCutoutController.Delegate delegate) {
-            super(delegate);
+        TestDisplayCutoutController(Tab tab) {
+            super(tab);
         }
 
         @Override
@@ -159,11 +159,10 @@ public class DisplayCutoutTestRule<T extends ChromeActivity> extends ChromeActiv
 
     protected void setUp() {
         mTab = getActivity().getActivityTab();
-        mTestController = new TestDisplayCutoutController(
-                new DisplayCutoutTabHelper.ChromeDisplayCutoutDelegate(mTab));
-
+        mTestController = new TestDisplayCutoutController(mTab);
         TestThreadUtils.runOnUiThreadBlocking(
-                () -> DisplayCutoutTabHelper.initForTesting(mTab, mTestController));
+                () -> DisplayCutoutController.initForTesting(
+                                mTab.getUserDataHost(), mTestController));
 
         mListener = new FullscreenToggleObserver();
         getActivity().getFullscreenManager().addObserver(mListener);

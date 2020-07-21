@@ -14,21 +14,29 @@ import android.view.WindowManager.LayoutParams;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import org.chromium.base.UserData;
+import org.chromium.base.UserDataHost;
 import org.chromium.blink.mojom.ViewportFit;
+import org.chromium.chrome.browser.ChromeActivity;
+import org.chromium.chrome.browser.tab.EmptyTabObserver;
+import org.chromium.chrome.browser.tab.Tab;
+import org.chromium.chrome.browser.tab.TabObserver;
+import org.chromium.chrome.browser.tab.TabSelectionType;
 import org.chromium.components.browser_ui.widget.InsetObserverView;
 import org.chromium.content_public.browser.WebContents;
 import org.chromium.content_public.browser.WebContentsObserver;
 import org.chromium.ui.base.WindowAndroid;
 
 /**
- * Controls the display safe area for a {@link WebContents} and the cutout mode for an {@link
- * Activity} window.
- *
- * The WebContents is updated with the safe area continuously, as long as {@link
- * Delegate#getAttachedActivity()} returns a non-null value. The cutout mode is set on the
- * Activity's window only in P+, and only when the associated WebContents is fullscreen.
+ * Controls the display cutout state for the tab.
  */
-public class DisplayCutoutController implements InsetObserverView.WindowInsetObserver {
+public class DisplayCutoutController implements InsetObserverView.WindowInsetObserver, UserData {
+    private static final Class<DisplayCutoutController> USER_DATA_KEY =
+            DisplayCutoutController.class;
+
+    /** The tab that this controller belongs to. */
+    private Tab mTab;
+
     /** {@link Window} of the current {@link Activity}. */
     private Window mWindow;
 
@@ -41,47 +49,73 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
      */
     private @Nullable InsetObserverView mInsetObserverView;
 
-    /** An interface for providing embedder-specific behavior to the controller. */
-    interface Delegate {
-        /** Returns the activity this controller is associated with, if there is one. */
-        @Nullable
-        Activity getAttachedActivity();
+    /** Listens to various Tab events. */
+    private final TabObserver mTabObserver = new EmptyTabObserver() {
+        @Override
+        public void onShown(Tab tab, @TabSelectionType int type) {
+            assert tab == mTab;
 
-        /**
-         * Returns the {@link WebContents} this controller should update the safe area for, if
-         * there is one.
-         */
-        @Nullable
-        WebContents getWebContents();
+            // Force a layout update if we are now being shown.
+            maybeUpdateLayout();
+        }
 
-        /** Returns the view this controller uses for safe area updates, if there is one. */
-        @Nullable
-        InsetObserverView getInsetObserverView();
+        @Override
+        public void onInteractabilityChanged(Tab tab, boolean interactable) {
+            // Force a layout update if the tab is now in the foreground.
+            maybeUpdateLayout();
+        }
 
-        /** Returns whether the user can interact with the associated WebContents/UI element. */
-        boolean isInteractable();
+        @Override
+        public void onActivityAttachmentChanged(Tab tab, @Nullable WindowAndroid window) {
+            assert tab == mTab;
+
+            if (window != null) {
+                maybeAddInsetObserver(tab.getWindowAndroid().getActivity().get());
+            } else {
+                maybeRemoveInsetObserver();
+            }
+        }
+    };
+
+    public static DisplayCutoutController from(Tab tab) {
+        UserDataHost host = tab.getUserDataHost();
+        DisplayCutoutController controller = host.getUserData(USER_DATA_KEY);
+        return controller == null
+                ? host.setUserData(USER_DATA_KEY, new DisplayCutoutController(tab))
+                : controller;
     }
-    private final Delegate mDelegate;
 
-    public DisplayCutoutController(Delegate delegate) {
-        mDelegate = delegate;
-        maybeAddInsetObserver();
+    /**
+     * Constructs a new DisplayCutoutController for a specific tab.
+     * @param tab The tab that this controller belongs to.
+     */
+    @VisibleForTesting
+    DisplayCutoutController(Tab tab) {
+        mTab = tab;
+
+        tab.addObserver(mTabObserver);
+        maybeAddInsetObserver(tab.getWindowAndroid().getActivity().get());
     }
 
-    /** Add an observer to {@link InsetObserverView} if we have not already added one. */
-    void maybeAddInsetObserver() {
-        Activity activity = mDelegate.getAttachedActivity();
+    /**
+     * Add an observer to {@link InsetObserverView} if we have not already added
+     * one.
+     */
+    private void maybeAddInsetObserver(Activity activity) {
         if (mInsetObserverView != null || activity == null) return;
 
-        mInsetObserverView = mDelegate.getInsetObserverView();
+        mInsetObserverView = ((ChromeActivity) activity).getInsetObserverView();
 
         if (mInsetObserverView == null) return;
         mInsetObserverView.addObserver(this);
         mWindow = activity.getWindow();
     }
 
-    /** Remove the observer added to {@link InsetObserverView} if we have added one. */
-    void maybeRemoveInsetObserver() {
+    /**
+     * Remove the observer added to {@link InsetObserverView} if we have added
+     * one.
+     */
+    private void maybeRemoveInsetObserver() {
         if (mInsetObserverView == null) return;
 
         mInsetObserverView.removeObserver(this);
@@ -89,7 +123,9 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
         mWindow = null;
     }
 
+    @Override
     public void destroy() {
+        mTab.removeObserver(mTabObserver);
         maybeRemoveInsetObserver();
     }
 
@@ -98,10 +134,6 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
      * @param value The new viewport fit value.
      */
     public void setViewportFit(@WebContentsObserver.ViewportFitType int value) {
-        if (value != ViewportFit.AUTO) {
-            assert mDelegate.getWebContents().isFullscreenForCurrentTab();
-        }
-
         if (value == mViewportFit) return;
 
         mViewportFit = value;
@@ -111,7 +143,7 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
     /** Implements {@link WindowInsetsObserver}. */
     @Override
     public void onSafeAreaChanged(Rect area) {
-        WebContents webContents = mDelegate.getWebContents();
+        WebContents webContents = mTab.getWebContents();
         if (webContents == null) return;
 
         float dipScale = getDipScale();
@@ -131,13 +163,18 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
      * @param dipScale The devices dip scale as an integer.
      * @return The CSS pixel value adjusted for scale.
      */
-    private static int adjustInsetForScale(int inset, float dipScale) {
+    private int adjustInsetForScale(int inset, float dipScale) {
         return (int) Math.ceil(inset / dipScale);
     }
 
     @VisibleForTesting
+    static void initForTesting(UserDataHost host, DisplayCutoutController controller) {
+        host.setUserData(USER_DATA_KEY, controller);
+    }
+
+    @VisibleForTesting
     protected float getDipScale() {
-        return mDelegate.getWebContents().getTopLevelNativeWindow().getDisplay().getDipScale();
+        return mTab.getWindowAndroid().getDisplay().getDipScale();
     }
 
     /**
@@ -149,7 +186,7 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
     @TargetApi(Build.VERSION_CODES.P)
     protected int getDisplayCutoutMode() {
         // If we are not interactable then force the default mode.
-        if (!mDelegate.isInteractable()) {
+        if (!mTab.isUserInteractable()) {
             return LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
         }
 
@@ -185,13 +222,5 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
 
         attributes.layoutInDisplayCutoutMode = getDisplayCutoutMode();
         setWindowAttributes(attributes);
-    }
-
-    void onActivityAttachmentChanged(@Nullable WindowAndroid window) {
-        if (window == null) {
-            maybeRemoveInsetObserver();
-        } else {
-            maybeAddInsetObserver();
-        }
     }
 }
