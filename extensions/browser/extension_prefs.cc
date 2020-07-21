@@ -469,6 +469,36 @@ const base::DictionaryValue* ExtensionPrefs::GetExtensionPref(
   return extension_dict;
 }
 
+void ExtensionPrefs::SetIntegerPref(const std::string& id,
+                                    const PrefMap& pref,
+                                    int value) {
+  UpdateExtensionPref(id, pref, std::make_unique<base::Value>(value));
+}
+
+void ExtensionPrefs::SetBooleanPref(const std::string& id,
+                                    const PrefMap& pref,
+                                    bool value) {
+  UpdateExtensionPref(id, pref, std::make_unique<base::Value>(value));
+}
+
+void ExtensionPrefs::SetStringPref(const std::string& id,
+                                   const PrefMap& pref,
+                                   const std::string value) {
+  UpdateExtensionPref(id, pref,
+                      std::make_unique<base::Value>(std::move(value)));
+}
+
+void ExtensionPrefs::UpdateExtensionPref(
+    const std::string& extension_id,
+    const PrefMap& pref,
+    std::unique_ptr<base::Value> data_value) {
+  DCHECK_EQ(PrefScope::kExtensionSpecific, pref.scope);
+  DCHECK(CheckPrefType(pref.type, data_value.get()));
+  DCHECK(crx_file::id_util::IdIsValid(extension_id));
+  ScopedExtensionPrefUpdate update(prefs_, extension_id);
+  update->Set(pref.name, std::move(data_value));
+}
+
 void ExtensionPrefs::UpdateExtensionPref(
     const std::string& extension_id,
     base::StringPiece key,
@@ -490,6 +520,42 @@ void ExtensionPrefs::DeleteExtensionPrefs(const std::string& extension_id) {
     observer.OnExtensionPrefsDeleted(extension_id);
   prefs::ScopedDictionaryPrefUpdate update(prefs_, pref_names::kExtensions);
   update->Remove(extension_id, NULL);
+}
+
+bool ExtensionPrefs::ReadPrefAsBoolean(const std::string& extension_id,
+                                       const PrefMap& pref,
+                                       bool* out_value) const {
+  DCHECK_EQ(pref.scope, PrefScope::kExtensionSpecific);
+  DCHECK_EQ(pref.type, PrefType::kBool);
+  const base::DictionaryValue* ext = GetExtensionPref(extension_id);
+  if (!ext || !ext->GetBoolean(pref.name, out_value))
+    return false;
+
+  return true;
+}
+
+bool ExtensionPrefs::ReadPrefAsInteger(const std::string& extension_id,
+                                       const PrefMap& pref,
+                                       int* out_value) const {
+  DCHECK_EQ(pref.scope, PrefScope::kExtensionSpecific);
+  DCHECK_EQ(pref.type, PrefType::kInteger);
+  const base::DictionaryValue* ext = GetExtensionPref(extension_id);
+  if (!ext || !ext->GetInteger(pref.name, out_value))
+    return false;
+
+  return true;
+}
+
+bool ExtensionPrefs::ReadPrefAsString(const std::string& extension_id,
+                                      const PrefMap& pref,
+                                      std::string* out_value) const {
+  DCHECK_EQ(pref.scope, PrefScope::kExtensionSpecific);
+  DCHECK_EQ(pref.type, PrefType::kString);
+  const base::DictionaryValue* ext = GetExtensionPref(extension_id);
+  if (!ext || !ext->GetString(pref.name, out_value))
+    return false;
+
+  return true;
 }
 
 bool ExtensionPrefs::ReadPrefAsBoolean(const std::string& extension_id,

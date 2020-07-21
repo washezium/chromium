@@ -1359,4 +1359,34 @@ TEST_F(ExtensionPrefsSimpleTest, ProfileExtensionPrefsMapTest) {
   EXPECT_EQ(prefs.prefs()->GetPrefAsString(kTestStringPref), "foo");
 }
 
+TEST_F(ExtensionPrefsSimpleTest, ExtensionSpecificPrefsMapTest) {
+  constexpr PrefMap kTestBooleanPref = {"test.boolean", PrefType::kBool,
+                                        PrefScope::kExtensionSpecific};
+  constexpr PrefMap kTestIntegerPref = {"test.integer", PrefType::kInteger,
+                                        PrefScope::kExtensionSpecific};
+  constexpr PrefMap kTestStringPref = {"test.string", PrefType::kString,
+                                       PrefScope::kExtensionSpecific};
+
+  content::BrowserTaskEnvironment task_environment_;
+  TestExtensionPrefs prefs(base::ThreadTaskRunnerHandle::Get());
+
+  std::string extension_id = prefs.AddExtensionAndReturnId("1");
+  prefs.prefs()->SetBooleanPref(extension_id, kTestBooleanPref, true);
+  prefs.prefs()->SetIntegerPref(extension_id, kTestIntegerPref, 1);
+  prefs.prefs()->SetStringPref(extension_id, kTestStringPref, "foo");
+
+  bool bool_value = false;
+  EXPECT_TRUE(prefs.prefs()->ReadPrefAsBoolean(extension_id, kTestBooleanPref,
+                                               &bool_value));
+  EXPECT_TRUE(bool_value);
+  int int_value = 0;
+  EXPECT_TRUE(prefs.prefs()->ReadPrefAsInteger(extension_id, kTestIntegerPref,
+                                               &int_value));
+  EXPECT_EQ(int_value, 1);
+  std::string string_value;
+  EXPECT_TRUE(prefs.prefs()->ReadPrefAsString(extension_id, kTestStringPref,
+                                              &string_value));
+  EXPECT_EQ(string_value, "foo");
+}
+
 }  // namespace extensions

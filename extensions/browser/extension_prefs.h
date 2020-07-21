@@ -255,11 +255,29 @@ class ExtensionPrefs : public KeyedService {
   // Populates |out| with the ids of all installed extensions.
   void GetExtensions(ExtensionIdList* out) const;
 
+  void SetIntegerPref(const std::string& id, const PrefMap& pref, int value);
+  void SetBooleanPref(const std::string& id, const PrefMap& pref, bool value);
+  void SetStringPref(const std::string& id,
+                     const PrefMap& pref,
+                     const std::string value);
+
   void UpdateExtensionPref(const std::string& id,
                            base::StringPiece key,
                            std::unique_ptr<base::Value> value);
 
   void DeleteExtensionPrefs(const std::string& id);
+
+  bool ReadPrefAsBoolean(const std::string& extension_id,
+                         const PrefMap& pref,
+                         bool* out_value) const;
+
+  bool ReadPrefAsInteger(const std::string& extension_id,
+                         const PrefMap& pref,
+                         int* out_value) const;
+
+  bool ReadPrefAsString(const std::string& extension_id,
+                        const PrefMap& pref,
+                        std::string* out_value) const;
 
   bool ReadPrefAsBoolean(const std::string& extension_id,
                          base::StringPiece pref_key,
@@ -698,6 +716,11 @@ class ExtensionPrefs : public KeyedService {
   // Gets or sets profile wide ExtensionPrefs.
   const base::Value* GetPref(const PrefMap& pref) const;
   void SetPref(const PrefMap& pref, std::unique_ptr<base::Value> value);
+
+  // Updates ExtensionPrefs for a specific extension.
+  void UpdateExtensionPref(const std::string& id,
+                           const PrefMap& pref,
+                           std::unique_ptr<base::Value> value);
 
   // Converts absolute paths in the pref to paths relative to the
   // install_directory_.
