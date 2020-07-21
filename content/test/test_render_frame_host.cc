@@ -695,7 +695,7 @@ void TestRenderFrameHost::SimulateLoadingCompleted(
     DidFinishLoad(GetLastCommittedURL());
   }
 
-  OnDidStopLoading();
+  DidStopLoading();
 }
 
 }  // namespace content

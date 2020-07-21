@@ -3291,7 +3291,7 @@ void RenderFrameImpl::CommitNavigationWithParams(
     // The browser expects the frame to be loading this navigation. Inform it
     // that the load stopped if needed.
     if (frame_ && !frame_->IsLoading())
-      Send(new FrameHostMsg_DidStopLoading(routing_id_));
+      GetFrameHost()->DidStopLoading();
     return;
   }
 
@@ -3379,7 +3379,7 @@ void RenderFrameImpl::CommitFailedNavigation(
     // The browser expects this frame to be loading an error page. Inform it
     // that the load stopped.
     AbortCommitNavigation();
-    Send(new FrameHostMsg_DidStopLoading(routing_id_));
+    GetFrameHost()->DidStopLoading();
     browser_side_navigation_pending_ = false;
     browser_side_navigation_pending_url_ = GURL();
     return;
@@ -3412,7 +3412,7 @@ void RenderFrameImpl::CommitFailedNavigation(
       // either, as the frame has already been populated with something
       // unrelated to this navigation failure. In that case, just send a stop
       // IPC to the browser to unwind its state, and leave the frame as-is.
-      Send(new FrameHostMsg_DidStopLoading(routing_id_));
+      GetFrameHost()->DidStopLoading();
     }
     browser_side_navigation_pending_ = false;
     browser_side_navigation_pending_url_ = GURL();
@@ -3572,7 +3572,7 @@ void RenderFrameImpl::CommitSameDocumentNavigation(
   // that the load stopped if needed.
   if (frame_ && !frame_->IsLoading() &&
       commit_status != blink::mojom::CommitResult::Ok) {
-    Send(new FrameHostMsg_DidStopLoading(routing_id_));
+    GetFrameHost()->DidStopLoading();
   }
 }
 
@@ -3591,7 +3591,7 @@ void RenderFrameImpl::HandleRendererDebugURL(const GURL& url) {
   // that the load stopped if needed, while leaving the debug URL visible in the
   // address bar.
   if (weak_this && frame_ && !frame_->IsLoading())
-    Send(new FrameHostMsg_DidStopLoading(routing_id_));
+    GetFrameHost()->DidStopLoading();
 }
 
 void RenderFrameImpl::UpdateSubresourceLoaderFactories(
@@ -5400,7 +5400,7 @@ void RenderFrameImpl::DidStopLoading() {
   // this state anymore.
   history_subframe_unique_names_.clear();
 
-  Send(new FrameHostMsg_DidStopLoading(routing_id_));
+  GetFrameHost()->DidStopLoading();
 }
 
 void RenderFrameImpl::NotifyAccessibilityModeChange(ui::AXMode new_mode) {

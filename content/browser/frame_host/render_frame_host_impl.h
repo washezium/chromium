@@ -1684,6 +1684,7 @@ class CONTENT_EXPORT RenderFrameHostImpl
 
   // mojom::FrameHost:
   void OpenURL(mojom::OpenURLParamsPtr params) override;
+  void DidStopLoading() override;
 
   void GetSavableResourceLinksFromRenderer();
 
@@ -1869,7 +1870,6 @@ class CONTENT_EXPORT RenderFrameHostImpl
 
   void OnForwardResourceTimingToParent(
       const ResourceTimingInfo& resource_timing);
-  void OnDidStopLoading();
   void OnSelectionChanged(const base::string16& text,
                           uint32_t offset,
                           const gfx::Range& range);

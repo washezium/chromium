@@ -545,4 +545,7 @@ interface FrameHost {
 
   // Requests that the given URL be opened in the specified manner.
   OpenURL(OpenURLParams params);
+
+  // Called when the renderer is done loading a frame.
+  DidStopLoading();
 };
