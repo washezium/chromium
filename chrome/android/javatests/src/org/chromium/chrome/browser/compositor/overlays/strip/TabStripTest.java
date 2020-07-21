@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 
 import org.chromium.base.test.util.CallbackHelper;
 import org.chromium.base.test.util.CommandLineFlags;
-import org.chromium.base.test.util.DisabledTest;
 import org.chromium.base.test.util.Feature;
 import org.chromium.base.test.util.Restriction;
 import org.chromium.chrome.browser.compositor.layouts.components.CompositorButton;
@@ -202,7 +201,6 @@ public class TabStripTest {
     @LargeTest
     @Restriction(UiRestriction.RESTRICTION_TYPE_TABLET)
     @Feature({"TabStrip"})
-    @DisabledTest(message = "crbug.com/1107395")
     public void testSelectWithManyTabs() throws Exception {
         ChromeTabUtils.newTabsFromMenu(
                 InstrumentationRegistry.getInstrumentation(), mActivityTestRule.getActivity(), 4);
