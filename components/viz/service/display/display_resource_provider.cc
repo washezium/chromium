@@ -980,7 +980,7 @@ DisplayResourceProvider::LockSetForExternalUse::~LockSetForExternalUse() {
 ExternalUseClient::ImageContext*
 DisplayResourceProvider::LockSetForExternalUse::LockResource(
     ResourceId id,
-    bool is_video_plane) {
+    bool use_skia_color_conversion) {
   auto it = resource_provider_->resources_.find(id);
   DCHECK(it != resource_provider_->resources_.end());
 
@@ -993,9 +993,10 @@ DisplayResourceProvider::LockSetForExternalUse::LockResource(
 
     if (!resource.image_context) {
       sk_sp<SkColorSpace> image_color_space;
-      // Video color conversion is handled externally in SkiaRenderer using a
-      // special color filter.
-      if (!is_video_plane)
+      // Video (YUV with PQ or half float RGBA with linear HDR) color conversion
+      // is handled externally in SkiaRenderer using a special color filter, and
+      // |use_skia_color_conversion| is false in that case.
+      if (use_skia_color_conversion)
         image_color_space = resource.transferable.color_space.ToSkColorSpace();
       resource.image_context =
           resource_provider_->external_use_client_->CreateImageContext(
