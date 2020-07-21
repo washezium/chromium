@@ -282,8 +282,8 @@ Response EmulationHandler::SetDeviceMetricsOverride(
   }
 
   blink::DeviceEmulationParams params;
-  params.screen_position = mobile ? blink::DeviceEmulationParams::kMobile
-                                  : blink::DeviceEmulationParams::kDesktop;
+  params.screen_type = mobile ? blink::mojom::EmulatedScreenType::kMobile
+                              : blink::mojom::EmulatedScreenType::kDesktop;
   params.screen_size =
       blink::WebSize(screen_width.fromMaybe(0), screen_height.fromMaybe(0));
   if (position_x.isJust() && position_y.isJust()) {

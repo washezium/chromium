@@ -70,8 +70,8 @@ class CONTENT_EXPORT RenderWidgetScreenMetricsEmulator {
 
  private:
   bool emulating_desktop() const {
-    return emulation_params_.screen_position ==
-           blink::DeviceEmulationParams::kDesktop;
+    return emulation_params_.screen_type ==
+           blink::mojom::EmulatedScreenType::kDesktop;
   }
 
   // Applies emulated values to the RenderWidget.

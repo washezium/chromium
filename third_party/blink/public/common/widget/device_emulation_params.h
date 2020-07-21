@@ -6,6 +6,7 @@
 #define THIRD_PARTY_BLINK_PUBLIC_COMMON_WIDGET_DEVICE_EMULATION_PARAMS_H_
 
 #include "base/optional.h"
+#include "third_party/blink/public/mojom/widget/device_emulation_params.mojom-shared.h"
 #include "third_party/blink/public/mojom/widget/screen_orientation.mojom-shared.h"
 #include "ui/gfx/geometry/point.h"
 #include "ui/gfx/geometry/point_f.h"
@@ -16,9 +17,7 @@ namespace blink {
 
 // All sizes are measured in device independent pixels.
 struct DeviceEmulationParams {
-  enum ScreenPosition { kDesktop, kMobile, kScreenPositionLast = kMobile };
-
-  ScreenPosition screen_position = kDesktop;
+  mojom::EmulatedScreenType screen_type = mojom::EmulatedScreenType::kDesktop;
 
   // Emulated screen size. Typically full / physical size of the device screen
   // in DIP. Empty size means using default value: original one for kDesktop
@@ -64,8 +63,8 @@ struct DeviceEmulationParams {
 
 inline bool operator==(const DeviceEmulationParams& a,
                        const DeviceEmulationParams& b) {
-  return a.screen_position == b.screen_position &&
-         a.screen_size == b.screen_size && a.view_position == b.view_position &&
+  return a.screen_type == b.screen_type && a.screen_size == b.screen_size &&
+         a.view_position == b.view_position &&
          a.device_scale_factor == b.device_scale_factor &&
          a.view_size == b.view_size && a.scale == b.scale &&
          a.screen_orientation_type == b.screen_orientation_type &&

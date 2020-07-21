@@ -19,8 +19,8 @@
 #define IPC_MESSAGE_EXPORT CONTENT_EXPORT
 
 // Traits for VisualProperties.
-IPC_ENUM_TRAITS_MAX_VALUE(blink::DeviceEmulationParams::ScreenPosition,
-                          blink::DeviceEmulationParams::kScreenPositionLast)
+IPC_ENUM_TRAITS_MAX_VALUE(blink::mojom::EmulatedScreenType,
+                          blink::mojom::EmulatedScreenType::kMaxValue)
 
 IPC_ENUM_TRAITS_MAX_VALUE(device::mojom::ScreenOrientationLockType,
                           device::mojom::ScreenOrientationLockType::kMaxValue)

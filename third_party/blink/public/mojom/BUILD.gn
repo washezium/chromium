@@ -172,6 +172,7 @@ mojom("mojom_platform") {
     "webdatabase/web_database.mojom",
     "websockets/websocket_connector.mojom",
     "webtransport/quic_transport_connector.mojom",
+    "widget/device_emulation_params.mojom",
     "widget/screen_info.mojom",
     "widget/screen_orientation.mojom",
     "widget/visual_properties.mojom",
@@ -305,6 +306,15 @@ mojom("mojom_platform") {
         },
       ]
       traits_headers = [ "//third_party/blink/public/common/widget/visual_properties_mojom_traits.h" ]
+    },
+    {
+      types = [
+        {
+          mojom = "blink.mojom.DeviceEmulationParams"
+          cpp = "::blink::DeviceEmulationParams"
+        },
+      ]
+      traits_headers = [ "//third_party/blink/public/common/widget/device_emulation_params_mojom_traits.h" ]
     },
   ]
   cpp_typemaps = [

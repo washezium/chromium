@@ -712,7 +712,7 @@ TEST_F(RenderViewImplEmulatingPopupTest, EmulatingPopupRect) {
   gfx::Rect emulated_widget_rect(150, 160, 980, 1200);
   // In mobile emulation the WindowScreenRect and ScreenRect are both set to
   // match the WidgetScreenRect, which we set here.
-  emulation_params.screen_position = blink::DeviceEmulationParams::kMobile;
+  emulation_params.screen_type = blink::mojom::EmulatedScreenType::kMobile;
   emulation_params.view_size = emulated_widget_rect.size();
   emulation_params.view_position = emulated_widget_rect.origin();
   {

@@ -691,7 +691,7 @@ TEST_F(WebViewTest, PlatformColorsChangedOnDeviceEmulation) {
   UpdateAllLifecyclePhases();
 
   DeviceEmulationParams params;
-  params.screen_position = DeviceEmulationParams::kMobile;
+  params.screen_type = mojom::EmulatedScreenType::kMobile;
 
   Document& document =
       *web_view_impl->MainFrameImpl()->GetFrame()->GetDocument();
@@ -2406,7 +2406,7 @@ TEST_F(WebViewTest, ExitingDeviceEmulationResetsPageScale) {
   float page_scale_expected = web_view_impl->PageScaleFactor();
 
   DeviceEmulationParams params;
-  params.screen_position = DeviceEmulationParams::kDesktop;
+  params.screen_type = mojom::EmulatedScreenType::kDesktop;
   params.device_scale_factor = 0;
   params.scale = 1;
 
@@ -5268,7 +5268,7 @@ TEST_F(WebViewTest, DeviceEmulationResetScrollbars) {
   EXPECT_NE(nullptr, frame_view->LayoutViewport()->VerticalScrollbar());
 
   DeviceEmulationParams params;
-  params.screen_position = DeviceEmulationParams::kMobile;
+  params.screen_type = mojom::EmulatedScreenType::kMobile;
   params.device_scale_factor = 0;
   params.scale = 1;
 

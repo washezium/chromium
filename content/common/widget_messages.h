@@ -43,7 +43,7 @@ IPC_STRUCT_TRAITS_BEGIN(blink::WebSize)
 IPC_STRUCT_TRAITS_END()
 
 IPC_STRUCT_TRAITS_BEGIN(blink::DeviceEmulationParams)
-  IPC_STRUCT_TRAITS_MEMBER(screen_position)
+  IPC_STRUCT_TRAITS_MEMBER(screen_type)
   IPC_STRUCT_TRAITS_MEMBER(screen_size)
   IPC_STRUCT_TRAITS_MEMBER(view_position)
   IPC_STRUCT_TRAITS_MEMBER(device_scale_factor)

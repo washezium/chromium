@@ -9850,7 +9850,7 @@ class DeviceEmulationTest : public WebFrameTest {
 
 TEST_F(DeviceEmulationTest, DeviceSizeInvalidatedOnResize) {
   DeviceEmulationParams params;
-  params.screen_position = DeviceEmulationParams::kMobile;
+  params.screen_type = mojom::EmulatedScreenType::kMobile;
   web_view_helper_.GetWebView()->EnableDeviceEmulation(params);
 
   TestResize(WebSize(700, 500), "300x300");
