@@ -3298,6 +3298,8 @@ static_library("browser") {
       "nearby_sharing/fast_initiation_manager.h",
       "nearby_sharing/file_attachment.cc",
       "nearby_sharing/file_attachment.h",
+      "nearby_sharing/incoming_share_target_info.cc",
+      "nearby_sharing/incoming_share_target_info.h",
       "nearby_sharing/instantmessaging/constants.h",
       "nearby_sharing/instantmessaging/receive_messages_express.cc",
       "nearby_sharing/instantmessaging/receive_messages_express.h",

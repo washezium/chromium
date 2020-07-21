@@ -646,3 +646,23 @@ void NearbySharingServiceImpl::StopAdvertising() {
   advertising_power_level_ = PowerLevel::kUnknown;
   NS_LOG(VERBOSE) << __func__ << ": Advertising has stopped";
 }
+
+void NearbySharingServiceImpl::OnIncomingTransferUpdate(
+    const ShareTarget& share_target,
+    TransferMetadata metadata) {
+  // TODO(himanshujaju) - Implement.
+}
+
+IncomingShareTargetInfo& NearbySharingServiceImpl::GetIncomingShareTargetInfo(
+    const ShareTarget& share_target) {
+  auto ret = incoming_share_target_info_map_.insert(
+      {share_target.id(), IncomingShareTargetInfo()});
+  DCHECK(ret.first != incoming_share_target_info_map_.end());
+
+  return ret.first->second;
+}
+
+NearbyConnection* NearbySharingServiceImpl::GetIncomingConnection(
+    const ShareTarget& share_target) {
+  return GetIncomingShareTargetInfo(share_target).nearby_connection();
+}
