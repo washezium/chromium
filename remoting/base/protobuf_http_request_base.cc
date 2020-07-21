@@ -26,16 +26,20 @@ ProtobufHttpRequestBase::~ProtobufHttpRequestBase() {
 
 ProtobufHttpStatus ProtobufHttpRequestBase::GetUrlLoaderStatus() const {
   net::Error net_error = static_cast<net::Error>(url_loader_->NetError());
-  if (net_error == net::Error::ERR_HTTP_RESPONSE_CODE_FAILURE &&
-      (!url_loader_->ResponseInfo() || !url_loader_->ResponseInfo()->headers)) {
-    LOG(ERROR) << "Can't find response header.";
-    net_error = net::Error::ERR_INVALID_RESPONSE;
+  if (net_error != net::Error::OK &&
+      net_error != net::Error::ERR_HTTP_RESPONSE_CODE_FAILURE) {
+    return ProtobufHttpStatus(net_error);
   }
-  return (net_error == net::Error::ERR_HTTP_RESPONSE_CODE_FAILURE ||
-          net_error == net::Error::OK)
-             ? ProtobufHttpStatus(static_cast<net::HttpStatusCode>(
-                   url_loader_->ResponseInfo()->headers->response_code()))
-             : ProtobufHttpStatus(net_error);
+  // Depending on the configuration, url_loader_->NetError() can be OK even if
+  // the error code is 4xx or 5xx.
+  if (!url_loader_->ResponseInfo() || !url_loader_->ResponseInfo()->headers ||
+      url_loader_->ResponseInfo()->headers->response_code() <= 0) {
+    return ProtobufHttpStatus(
+        ProtobufHttpStatus::Code::INTERNAL,
+        "Failed to get HTTP status from the response header.");
+  }
+  return ProtobufHttpStatus(static_cast<net::HttpStatusCode>(
+      url_loader_->ResponseInfo()->headers->response_code()));
 }
 
 void ProtobufHttpRequestBase::StartRequest(

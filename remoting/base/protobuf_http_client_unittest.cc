@@ -29,6 +29,7 @@ namespace remoting {
 
 namespace {
 
+using protobufhttpclient::Status;
 using protobufhttpclient::StreamBody;
 using protobufhttpclienttest::EchoRequest;
 using protobufhttpclienttest::EchoResponse;
@@ -56,6 +57,11 @@ constexpr char kFakeAccessTokenHeaderValue[] = "Bearer fake_access_token";
 
 MATCHER_P(HasErrorCode, error_code, "") {
   return arg.error_code() == error_code;
+}
+
+MATCHER_P(EqualsToStatus, expected_status, "") {
+  return arg.error_code() == expected_status.error_code() &&
+         arg.error_message() == expected_status.error_message();
 }
 
 MATCHER(IsDefaultResponseText, "") {
@@ -254,7 +260,36 @@ TEST_F(ProtobufHttpClientTest, FailedToParseResponse_GetsInvalidResponseError) {
   ASSERT_FALSE(client_.HasPendingRequests());
 }
 
-TEST_F(ProtobufHttpClientTest, ServerRespondsWithError) {
+TEST_F(ProtobufHttpClientTest, ServerRespondsWithErrorStatusMessage) {
+  base::RunLoop run_loop;
+
+  ExpectCallWithToken(/* success= */ true);
+
+  MockEchoResponseCallback response_callback;
+  EXPECT_CALL(response_callback,
+              Run(EqualsToStatus(ProtobufHttpStatus(
+                      ProtobufHttpStatus::Code::FAILED_PRECONDITION,
+                      "Unauthenticated error message")),
+                  IsNullResponse()))
+      .WillOnce([&]() { run_loop.Quit(); });
+
+  auto request = CreateDefaultTestRequest();
+  request->SetResponseCallback(response_callback.Get());
+  client_.ExecuteRequest(std::move(request));
+
+  Status status_message;
+  status_message.set_code(
+      static_cast<int>(ProtobufHttpStatus::Code::FAILED_PRECONDITION));
+  status_message.set_message("Unauthenticated error message");
+
+  test_url_loader_factory_.AddResponse(
+      kTestFullUrl, status_message.SerializeAsString(),
+      net::HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+  run_loop.Run();
+  ASSERT_FALSE(client_.HasPendingRequests());
+}
+
+TEST_F(ProtobufHttpClientTest, ServerRespondsWithHttpErrorCode) {
   base::RunLoop run_loop;
 
   ExpectCallWithToken(/* success= */ true);

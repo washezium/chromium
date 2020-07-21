@@ -77,6 +77,10 @@ base::TimeDelta ProtobufHttpStreamRequest::GetRequestTimeoutDuration() const {
 
 void ProtobufHttpStreamRequest::OnDataReceived(base::StringPiece string_piece,
                                                base::OnceClosure resume) {
+  // TODO(yuweih): It's not well documented what would happen if the server
+  // rejects the request immediately, i.e. due to authentication error. It's
+  // possibly still wrapped within a StreamBody, but it could potentially be a
+  // bare Status message. We'll need to check the server's behavior.
   if (stream_ready_callback_) {
     std::move(stream_ready_callback_).Run();
   }
@@ -87,7 +91,8 @@ void ProtobufHttpStreamRequest::OnDataReceived(base::StringPiece string_piece,
 }
 
 void ProtobufHttpStreamRequest::OnComplete(bool success) {
-  OnStreamClosed(success ? ProtobufHttpStatus::OK : GetUrlLoaderStatus());
+  // |success| can be true even if the server returns 4xx or 5xx error.
+  OnStreamClosed(GetUrlLoaderStatus());
 }
 
 void ProtobufHttpStreamRequest::OnRetry(base::OnceClosure start_retry) {

@@ -107,6 +107,7 @@ void ProtobufHttpClient::DoExecuteRequest(
   send_url_loader->AttachStringForUpload(
       request->config().request_message->SerializeAsString(),
       "application/x-protobuf");
+  send_url_loader->SetAllowHttpErrorResults(true);
   auto* unowned_request = request.get();
   base::OnceClosure invalidator = base::BindOnce(
       &ProtobufHttpClient::CancelRequest, weak_factory_.GetWeakPtr(),

@@ -4,6 +4,7 @@
 
 #include "remoting/base/protobuf_http_request.h"
 
+#include "remoting/base/protobuf_http_client_messages.pb.h"
 #include "remoting/base/protobuf_http_request_config.h"
 #include "services/network/public/cpp/simple_url_loader.h"
 #include "third_party/protobuf/src/google/protobuf/message_lite.h"
@@ -46,9 +47,21 @@ base::TimeDelta ProtobufHttpRequest::GetRequestTimeoutDuration() const {
 
 void ProtobufHttpRequest::OnResponse(
     std::unique_ptr<std::string> response_body) {
-  ProtobufHttpStatus status = GetUrlLoaderStatus();
-  std::move(response_callback_)
-      .Run(status.ok() ? ParseResponse(std::move(response_body)) : status);
+  ProtobufHttpStatus url_loader_status = GetUrlLoaderStatus();
+  if (url_loader_status.ok()) {
+    std::move(response_callback_).Run(ParseResponse(std::move(response_body)));
+  } else {
+    // Parse the status from the response.
+    protobufhttpclient::Status api_status;
+    if (response_body && api_status.ParseFromString(*response_body) &&
+        api_status.code() > 0) {
+      std::move(response_callback_).Run(ProtobufHttpStatus(api_status));
+    } else {
+      // Fallback to just return the status from URL loader.
+      std::move(response_callback_).Run(url_loader_status);
+    }
+  }
+  DCHECK(!response_callback_);
   std::move(invalidator_).Run();
 }
 
