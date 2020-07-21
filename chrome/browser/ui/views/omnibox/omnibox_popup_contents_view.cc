@@ -157,9 +157,10 @@ OmniboxPopupContentsView::OmniboxPopupContentsView(
     pref_change_registrar_.Init(pref_service);
     // Unretained is appropriate here. 'this' will outlive the registrar.
     pref_change_registrar_.Add(
-        omnibox::kOmniboxHiddenGroupIds,
-        base::BindRepeating(&OmniboxPopupContentsView::OnHiddenGroupIdsUpdate,
-                            base::Unretained(this)));
+        omnibox::kSuggestionGroupVisibility,
+        base::BindRepeating(
+            &OmniboxPopupContentsView::OnSuggestionGroupVisibilityUpdate,
+            base::Unretained(this)));
   }
 }
 
@@ -532,7 +533,7 @@ size_t OmniboxPopupContentsView::GetIndexForPoint(const gfx::Point& point) {
   return OmniboxPopupModel::kNoMatch;
 }
 
-void OmniboxPopupContentsView::OnHiddenGroupIdsUpdate() {
+void OmniboxPopupContentsView::OnSuggestionGroupVisibilityUpdate() {
   for (size_t i = 0; i < model_->result().size(); ++i) {
     const AutocompleteMatch& match = model_->result().match_at(i);
     bool match_hidden =

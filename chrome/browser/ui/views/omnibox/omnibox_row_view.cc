@@ -66,7 +66,7 @@ class OmniboxRowView::HeaderView : public views::View,
     if (row_view_->pref_service_) {
       pref_change_registrar_.Init(row_view_->pref_service_);
       // Unretained is appropriate here. 'this' will outlive the registrar.
-      pref_change_registrar_.Add(omnibox::kOmniboxHiddenGroupIds,
+      pref_change_registrar_.Add(omnibox::kSuggestionGroupVisibility,
                                  base::BindRepeating(&HeaderView::OnPrefChanged,
                                                      base::Unretained(this)));
     }
