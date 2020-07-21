@@ -1,7 +1,6 @@
 // Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-//
 
 #include "components/autofill/core/browser/data_model/autofill_structured_address_utils.h"
 
@@ -137,6 +136,49 @@ std::vector<std::string> ExtractAllPlaceholders(const std::string& value) {
 
 std::string GetPlaceholderToken(const std::string& value) {
   return base::StrCat({"${", value, "}"});
+}
+
+std::string CaptureTypeWithPattern(
+    const ServerFieldType& type,
+    std::initializer_list<base::StringPiece> pattern_span_initializer_list) {
+  return CaptureTypeWithPattern(type, pattern_span_initializer_list,
+                                CaptureOptions());
+}
+
+std::string CaptureTypeWithPattern(
+    const ServerFieldType& type,
+    std::initializer_list<base::StringPiece> pattern_span_initializer_list,
+    const CaptureOptions& options) {
+  return CaptureTypeWithPattern(
+      type, base::StrCat(base::make_span(pattern_span_initializer_list)),
+      options);
+}
+
+std::string CaptureTypeWithPattern(const ServerFieldType& type,
+                                   const std::string& pattern,
+                                   const CaptureOptions& options) {
+  std::string quantifier;
+  switch (options.quantifier) {
+    // Makes the match optional.
+    case MATCH_OPTIONAL:
+      quantifier = "?";
+      break;
+    // Makes the match lazy meaning that it is avoided if possible.
+    case MATCH_LAZY_OPTIONAL:
+      quantifier = "??";
+      break;
+    // Makes the match required.
+    case MATCH_REQUIRED:
+      quantifier = "";
+  }
+
+  return base::StrCat({"(?:(?P<", AutofillType(type).ToString(), ">", pattern,
+                       ")(?:", options.separator, "))", quantifier});
+}
+
+std::string CaptureTypeWithPattern(const ServerFieldType& type,
+                                   const std::string& pattern) {
+  return CaptureTypeWithPattern(type, pattern, CaptureOptions());
 }
 
 }  // namespace structured_address
