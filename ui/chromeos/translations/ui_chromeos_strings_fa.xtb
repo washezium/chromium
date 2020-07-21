@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">ورودی ژاپنی (برای صفحه‌کلید ایالات متحده)</translation>
 <translation id="1047956942837015229">در حال حذف <ph name="COUNT" /> مورد...</translation>
 <translation id="1049926623896334335">‏سند Word </translation>
+<translation id="1060368002126861100">‏برای باز کردن فایل‌ها با <ph name="APP_NAME" />، ابتدا آن‌ها را به پوشه فایل‌های Windows منتقل کنید.</translation>
 <translation id="1062407476771304334">جایگزینی</translation>
 <translation id="1065449928621190041">صفحه‌کلید کانادایی فرانسوی</translation>
 <translation id="1119069657431255176">‏بایگانی نوار فشرده Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">‏نویسه‌گردانی (namaskaram ← ‏ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">صفحات</translation>
 <translation id="2938685643439809023">مغولی</translation>
-<translation id="2939410873710774399">برای باز کردن فایل‌ها با <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />)، ابتدا آن‌ها را به پوشه <ph name="FOLDER_NAME" /> منتقل کنید.</translation>
 <translation id="2942290791863759244">‏صفحه‌کلید آلمانی NEO 2</translation>
 <translation id="2943400156390503548">اسلایدها</translation>
 <translation id="2943503720238418293">از نام کوتاه‌تری استفاده کنید</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">احتیاط: این فایل‌ها موقتی هستند و ممکن است برای آزادسازی فضای دیسک به‌طور خودکار حذف شوند.  <ph name="BEGIN_LINK" />بیشتر بدانید<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">پوشه</translation>
 <translation id="3549797760399244642">‏رفتن به drive.google.com…</translation>
+<translation id="3553048479571901246">‏برای باز کردن فایل‌ها با <ph name="APP_NAME" />، ابتدا آن‌ها را در پوشه فایل‌های Windows کپی کنید.</translation>
 <translation id="357479282490346887">لیتوانیایی</translation>
 <translation id="3583509704582854624">ورودی حرفی عددی (برای صفحه‌کلید ژاپنی)</translation>
 <translation id="3603385196401704894">فرانسوی کانادا</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> مورد انتخاب شد</translation>
 <translation id="4850886885716139402">نما</translation>
 <translation id="485316830061041779">آلمانی</translation>
-<translation id="4859297381873413734">برای باز کردن فایل‌ها با <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />)، ابتدا آن‌ها را در پوشه <ph name="FOLDER_NAME" /> کپی کنید.</translation>
 <translation id="4867079195717347957">کلیک کنید تا ستون به‌صورت نزولی مرتب شود.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> بایت</translation>
 <translation id="4880214202172289027">اسلایدر میزان صدا</translation>
 <translation id="4880520557730313061">تصحیح خودکار</translation>
 <translation id="4881695831933465202">باز کردن</translation>
 <translation id="4886021172213954916">صفحه‌کلید تامیل (ماشین تحریر)</translation>
-<translation id="4892969127351273348">با <ph name="APP_NAME" /> باز نشد</translation>
 <translation id="4900532980794411603">‏هم‌رسانی با Parallels Desktop</translation>
 <translation id="4905417359854579806">آماده پشتیبان گرفتن از <ph name="FILE_COUNT" /> مورد</translation>
 <translation id="4924638091161556692">تصحیح شد</translation>

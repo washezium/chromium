@@ -174,10 +174,10 @@
 <translation id="2387895666653383613">اندازه قلم نوشتار</translation>
 <translation id="2394602618534698961">فایل‌هایی که بارگیری می‌کنید، اینجا نشان داده می‌شود</translation>
 <translation id="2407481962792080328">‏وقتی به «حساب Google» خود وارد می‌شوید، این ویژگی روشن می‌شود</translation>
-<translation id="2407674018644220013"><ph name="APP_NAME" /> به‌عنوان پیش‌فرض تنظیم شود؟</translation>
+<translation id="2407674018644220013">‫<ph name="APP_NAME" /> به‌عنوان پیش‌فرض تنظیم شود؟</translation>
 <translation id="2410754283952462441">انتخاب حساب</translation>
 <translation id="2414886740292270097">تاریک</translation>
-<translation id="2426805022920575512">انتخاب حسابی دیگر</translation>
+<translation id="2426805022920575512">انتخاب یک حساب دیگر</translation>
 <translation id="2433507940547922241">شکل ظاهری</translation>
 <translation id="2450083983707403292">می‌خواهید بارگیری <ph name="FILE_NAME" /> را دوباره شروع کنید؟</translation>
 <translation id="2450907520913474542">‏بدون اینکه صفحه را ترک کنید، درباره موضوعات در وب‌سایت‌ها اطلاعاتی کسب کنید. «لمس برای جستجو»، کلمه و زمینه اطراف آن را برای «جستجوی Google» ارسال می‌کند و معانی، تصاویر، نتایج جستجو و سایر جزئیات را بازمی‌گرداند.
@@ -243,7 +243,7 @@
 <translation id="2905036901251765993">‏برای هم‌رسانی کردن با افراد اطراف، اجازه دهید این کد QR را اسکن کنند</translation>
 <translation id="2909615210195135082">‏پلتفورم اعلان‌های Google</translation>
 <translation id="2923908459366352541">نام نامعتبر است</translation>
-<translation id="2927707377793151377">انتخاب ارائه‌دهنده‌ای دیگر:</translation>
+<translation id="2927707377793151377">انتخاب یک ارائه‌دهنده دیگر:</translation>
 <translation id="2932150158123903946">‏فضای ذخیره‌سازی Google <ph name="APP_NAME" /></translation>
 <translation id="2942036813789421260">برگه پیش‌نمایش بسته است</translation>
 <translation id="2956410042958133412"><ph name="PARENT_NAME_1" /> و <ph name="PARENT_NAME_2" /> این حساب را مدیریت می‌کنند.</translation>
@@ -669,7 +669,7 @@
 <translation id="6342069812937806050">فقط اکنون</translation>
 <translation id="6343495912647200061">{SHIPPING_ADDRESS,plural, =1{‏<ph name="SHIPPING_ADDRESS_PREVIEW" />\u2026 و <ph name="NUMBER_OF_ADDITIONAL_ADDRESSES" /> نشانی دیگر}one{‏<ph name="SHIPPING_ADDRESS_PREVIEW" />\u2026 و <ph name="NUMBER_OF_ADDITIONAL_ADDRESSES" /> نشانی دیگر}other{‏<ph name="SHIPPING_ADDRESS_PREVIEW" />\u2026 و <ph name="NUMBER_OF_ADDITIONAL_ADDRESSES" /> نشانی دیگر}}</translation>
 <translation id="6364438453358674297">پیشنهاد از سابقه حذف شود؟</translation>
-<translation id="6366047038980456022"><ph name="APP_NAME" /> هوشمندی‌ها و سرعتی دارد که برای انجام، ایجاد و کاوش ایمن در اینترنت نیاز دارید.</translation>
+<translation id="6366047038980456022">‫<ph name="APP_NAME" /> هوشمندی‌ها و سرعتی دارد که برای انجام، ایجاد، و کاوش ایمن در اینترنت نیاز دارید.</translation>
 <translation id="6369229450655021117">از اینجا می‌توانید وب را جستجو کنید، با دوستان هم‌رسانی کنید و صفحات باز را ببینید</translation>
 <translation id="6378173571450987352">جزئیات: مرتب‌شده براساس مقدار داده استفاده‌شده</translation>
 <translation id="6379829913050047669">‏<ph name="APP_NAME" /> در Chrome باز می‌شود. با ادامه دادن، با <ph name="BEGIN_LINK1" />شرایط خدمات Google<ph name="END_LINK1" /> و <ph name="BEGIN_LINK2" />شرایط خدمات تکمیلی Google Chrome و سیستم‌عامل Chrome<ph name="END_LINK2" /> موافقت می‌کنید.</translation>
@@ -722,7 +722,7 @@
 <translation id="6671495933530132209">کپی تصویر</translation>
 <translation id="6676840375528380067">‏داده‌های Chrome شما از این دستگاه پاک شود؟</translation>
 <translation id="6689172468748959065">عکس‌های نمایه</translation>
-<translation id="6691888250440401212">‏۱. <ph name="APP_NAME" /> را انتخاب کنید\n2. روی «تنظیم به‌عنوان پیش‌فرض» ضربه بزنید</translation>
+<translation id="6691888250440401212">‏۱. ‫<ph name="APP_NAME" /> را انتخاب کنید\n۲. روی «تنظیم به‌عنوان پیش‌فرض» ضربه بزنید</translation>
 <translation id="6697492270171225480">نمایش پیشنهادهای صفحه‌های مشابه وقتی صفحه‌ای پیدا نمی‌شود</translation>
 <translation id="6698801883190606802">مدیریت داده‌های همگام‌سازی شده</translation>
 <translation id="6699370405921460408">‏سرورهای Google صفحه‌هایی را که بازدید می‌کنید بهینه می‌کنند.</translation>
@@ -928,7 +928,7 @@
 <translation id="8364299278605033898">مشاهده وب‌سایت‌های پرطرفدار</translation>
 <translation id="8368027906805972958">دستگاه ناشناس یا پشتیبانی‌نشده (<ph name="DEVICE_ID" />)</translation>
 <translation id="8393700583063109961">ارسال پیام</translation>
-<translation id="8407396331882458341">‏۱. <ph name="APP_NAME" /> را انتخاب کنید\n2. روی «همیشه» ضربه بزنید</translation>
+<translation id="8407396331882458341">‏۱. ‫<ph name="APP_NAME" /> را انتخاب کنید\n۲. روی «همیشه» ضربه بزنید</translation>
 <translation id="8413126021676339697">نمایش کل سابقه</translation>
 <translation id="8425213833346101688">تغییر</translation>
 <translation id="8427875596167638501">برگه پیش‌نمایش نیمه‌باز است</translation>
@@ -955,7 +955,7 @@
 <translation id="8555836665334561807">‏ازطریق Wi-Fi</translation>
 <translation id="8558485628462305855">‏برای مشاهده محتوای واقعیت افزوده، ARCore را به‌روزرسانی کنید</translation>
 <translation id="8559990750235505898">پیشنهاد ترجمه صفحات نوشته‌شده به زبان‌های دیگر</translation>
-<translation id="8561196567344536112">‏۱. به «تنظیمات» بروید\n2. روی «برنامه مرورگر» ضربه بزنید\n3. انتخاب <ph name="APP_NAME" /></translation>
+<translation id="8561196567344536112">‏۱. به «تنظیمات» بروید\n۲. روی «برنامه مرورگر» ضربه بزنید\n۳.‫<ph name="APP_NAME" /> را انتخاب کنید</translation>
 <translation id="8562452229998620586">گذرواژه‌های ذخیره شده در اینجا ظاهر می‌شود.</translation>
 <translation id="8569404424186215731">از <ph name="DATE" /></translation>
 <translation id="8571213806525832805">۴ هفته گذشته</translation>

@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">જાપાનીઝ ઇનપુટ (યુએસ કીબોર્ડ માટે)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> આઇટમ્સ કાઢી નાખી રહ્યું છે...</translation>
 <translation id="1049926623896334335">Word દસ્તાવેજ</translation>
+<translation id="1060368002126861100"><ph name="APP_NAME" /> વડે ફાઇલો ખોલવા માટે, પહેલા તેમને Windowsના ફાઇલ ફોલ્ડરમાં ખસેડો.</translation>
 <translation id="1062407476771304334">બદલો</translation>
 <translation id="1065449928621190041">કેનેડિયન ફ્રેંચ કીબોર્ડ</translation>
 <translation id="1119069657431255176">Bzip2 સંકુચિત તાર આર્કાઇવ</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">લિવ્યંતરણ (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Sheets</translation>
 <translation id="2938685643439809023">મોંગોલિયન</translation>
-<translation id="2939410873710774399"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />)માં ફાઇલો ખોલવા માટે, પહેલાં તેમને <ph name="FOLDER_NAME" /> ફોલ્ડરમાં ખસેડો.</translation>
 <translation id="2942290791863759244">જર્મન નીઓ 2 કીબોર્ડ</translation>
 <translation id="2943400156390503548">સ્લાઇડ્સ</translation>
 <translation id="2943503720238418293">વધુ ટૂંકા નામનો ઉપયોગ કરો</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">ચેતવણી: આ ફાઇલો અસ્થાયી છે અને બની શકે કે ડિસ્ક પર સ્પેસ ખાલી કરવા માટે તેમને ઑટોમૅટિક રીતે ડિલીટ કરવામાં આવે  <ph name="BEGIN_LINK" />વધુ જાણો<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">ફોલ્ડર</translation>
 <translation id="3549797760399244642">drive.google.com પર જાઓ...</translation>
+<translation id="3553048479571901246"><ph name="APP_NAME" /> વડે ફાઇલો ખોલવા માટે, પહેલા તેમને Windowsના ફાઇલ ફોલ્ડરમાં કૉપિ કરો.</translation>
 <translation id="357479282490346887">લિથુનિયન</translation>
 <translation id="3583509704582854624">આલ્ફાન્યુમેરિક ઇનપુટ (જાપાનીઝ કીબોર્ડ માટે)</translation>
 <translation id="3603385196401704894">કેનેડિયન ફ્રેંચ</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> આઇટમ્સ પસંદ કરી</translation>
 <translation id="4850886885716139402">જુઓ</translation>
 <translation id="485316830061041779">જર્મન</translation>
-<translation id="4859297381873413734"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />)માં ફાઇલો ખોલવા માટે, પહેલાં તેમને <ph name="FOLDER_NAME" /> ફોલ્ડરમાં કૉપિ કરો.</translation>
 <translation id="4867079195717347957">કૉલમને: ઉતરતા ક્રમમાં સૉર્ટ કરવા માટે ક્લિક કરો.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> બાઇટ</translation>
 <translation id="4880214202172289027">વોલ્યુમ સ્લાઇડર</translation>
 <translation id="4880520557730313061">સ્વતઃ-સુધારો</translation>
 <translation id="4881695831933465202">ખોલો</translation>
 <translation id="4886021172213954916">તમિલ કીબોર્ડ (Typewriter)</translation>
-<translation id="4892969127351273348"><ph name="APP_NAME" /> વડે ખોલવામાં અસમર્થ</translation>
 <translation id="4900532980794411603">Parallels ડેસ્કટૉપ સાથે શેર કરો</translation>
 <translation id="4905417359854579806"><ph name="FILE_COUNT" />નો બૅકઅપ લેવા માટે તૈયાર</translation>
 <translation id="4924638091161556692">નિશ્ચિત</translation>
@@ -546,7 +545,7 @@
 <translation id="6970230597523682626">બલ્ગેરિયન</translation>
 <translation id="6973630695168034713">ફોલ્ડર્સ</translation>
 <translation id="6978611942794658017">આ ફાઇલ Windows સોફ્ટવેરનો ઉપયોગ કરતા PC માટે ડિઝાઇન કરવામાં આવી છે. આ તમારું ડિવાઇસ જે Chrome OS પર ચાલે છે તેની સાથે સુસંગત નથી. કૃપા કરીને યોગ્ય અવેજી ઍપ્લિકેશન માટે Chrome વેબ સ્ટોરમાં શોધો.</translation>
-<translation id="6979158407327259162">Google ડ્રાઇવ</translation>
+<translation id="6979158407327259162">Google Drive</translation>
 <translation id="6990081529015358884">તમારી પાસે સ્થાન નથી</translation>
 <translation id="6998711733709403587"><ph name="SELCTED_FOLDERS_COUNT" /> ફોલ્ડર્સ પસંદ કર્યા</translation>
 <translation id="7012943028104619157"><ph name="ROOT_TITLE" /> (<ph name="ROOT_SUMMARY" />)</translation>

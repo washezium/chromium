@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">ଜାପାନୀଜ୍ ଇନ୍‌ପୁଟ୍ (US କୀ'ବୋର୍ଡ ପାଇଁ)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" />ଟି ଆଇଟମ୍‍କୁ ଡିଲିଟ୍ କରାଯାଉଛି...</translation>
 <translation id="1049926623896334335">Word ଡକ୍ୟୁମେଣ୍ଟ</translation>
+<translation id="1060368002126861100"><ph name="APP_NAME" /> ମାଧ୍ୟମରେ ଫାଇଲଗୁଡ଼ିକ ଖୋଲିବାକୁ, ପ୍ରଥମେ ସେଗୁଡ଼ିକୁ Windows ଫାଇଲ୍ ଫୋଲ୍ଡରକୁ ମୁଭ୍ କରନ୍ତୁ।</translation>
 <translation id="1062407476771304334">ପ୍ରତିସ୍ଥାପନ କରନ୍ତୁ</translation>
 <translation id="1065449928621190041">କାନାଡିଆନ୍ ଫ୍ରେଞ୍ଚ କୀ'ବୋର୍ଡ</translation>
 <translation id="1119069657431255176">Bzip2 ସଙ୍କୁଚିତ ଟାର୍ ଆରକାଇଭ୍</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">ଆକ୍ଷରିକ ଅନୁବାଦକରଣ (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Sheets</translation>
 <translation id="2938685643439809023">ମଙ୍ଗୋଲିଆ</translation>
-<translation id="2939410873710774399"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ମାଧ୍ୟମରେ ଫାଇଲଗୁଡ଼ିକ ଖୋଲିବାକୁ, ପ୍ରଥମେ ସେଗୁଡ଼ିକ <ph name="FOLDER_NAME" /> ଫୋଲ୍ଡରକୁ ମୁଭ୍ କରନ୍ତୁ।</translation>
 <translation id="2942290791863759244">ଜର୍ମାନ୍‌ NEO 2 କୀବୋର୍ଡ</translation>
 <translation id="2943400156390503548">ସ୍ଲାଇଡ୍‌</translation>
 <translation id="2943503720238418293">ଟିକେ ଛୋଟ ନାମର ବ୍ୟବହାର କରନ୍ତୁ</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">ସାବଧାନ: ଏହି ଫାଇଲଗୁଡ଼ିକ ଅସ୍ଥାୟୀ ଅଟେ ଏବଂ ଡିସ୍କରେ ଜାଗା ଖାଲି କରିବା ପାଇଁ ଏଗୁଡ଼ିକ ସ୍ୱଚାଳିତ ଭାବେ ଡିଲିଟ୍ ହୋଇଯାଇପାରେ।  <ph name="BEGIN_LINK" />ଅଧିକ ଜାଣନ୍ତୁ<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">ଫୋଲ୍ଡର୍</translation>
 <translation id="3549797760399244642">drive.google.comକୁ ଯାଆନ୍ତୁ …</translation>
+<translation id="3553048479571901246"><ph name="APP_NAME" /> ମାଧ୍ୟମରେ ଫାଇଲଗୁଡ଼ିକ ଖୋଲିବାକୁ, ପ୍ରଥମେ ସେଗୁଡ଼ିକୁ Windows ଫାଇଲ୍ ଫୋଲ୍ଡରରେ କପି କରନ୍ତୁ।</translation>
 <translation id="357479282490346887">ଲିଥୁଆନିଆନ୍</translation>
 <translation id="3583509704582854624">ଆଲ୍ଫାନ୍ୟୁମେରିକ୍ ଇନ୍‌ପୁଟ୍ (ଜାପାନୀଜ୍ କୀ'ବୋର୍ଡ ପାଇଁ)</translation>
 <translation id="3603385196401704894">କାନାଡିଆନ୍ ଫ୍ରେଞ୍ଚ୍</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" />ଟି ଆଇଟମ୍ ଚୟନ କରାଯାଇଛି</translation>
 <translation id="4850886885716139402">ଦେଖନ୍ତୁ</translation>
 <translation id="485316830061041779">ଜର୍ମାନ୍</translation>
-<translation id="4859297381873413734"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ମାଧ୍ୟମରେ ଫାଇଲଗୁଡ଼ିକ ଖୋଲିବାକୁ, ପ୍ରଥମେ ସେଗୁଡ଼ିକ <ph name="FOLDER_NAME" /> ଫୋଲ୍ଡରକୁ କପି କରନ୍ତୁ।</translation>
 <translation id="4867079195717347957">କଲମ୍‍କୁ ବଡ଼ରୁ ସାନ କ୍ରମରେ ସଜାଇବା ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ।</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> ବାଇଟ୍</translation>
 <translation id="4880214202172289027">ଭଲ୍ୟୁମ୍‍ ସ୍ଲାଇଡର୍‍</translation>
 <translation id="4880520557730313061">ଅଟୋ-ଫିକ୍ସ</translation>
 <translation id="4881695831933465202">ଖୋଲନ୍ତୁ</translation>
 <translation id="4886021172213954916">ତାମିଲ୍‌ କୀବୋର୍ଡ (ଟାଇପ୍‌ରାଇଟର୍‌)</translation>
-<translation id="4892969127351273348"><ph name="APP_NAME" /> ମାଧ୍ୟମରେ ଖୋଲିବାକୁ ଅସମର୍ଥ</translation>
 <translation id="4900532980794411603">Parallels Desktop ସହ ସେୟାର୍ କରନ୍ତୁ</translation>
 <translation id="4905417359854579806"><ph name="FILE_COUNT" />ର ବ୍ୟାକ୍‌ଅପ୍ ନେବାକୁ ପ୍ରସ୍ତୁତ ଅଛି</translation>
 <translation id="4924638091161556692">ନିର୍ଦ୍ଦିଷ୍ଟ</translation>

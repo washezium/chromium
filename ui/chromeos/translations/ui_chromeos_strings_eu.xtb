@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Idazketa japoniarra (teklatu estatubatuarrerako)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> elementu ezabatzen…</translation>
 <translation id="1049926623896334335">Word dokumentua</translation>
+<translation id="1060368002126861100">Fitxategiak <ph name="APP_NAME" /> aplikazioarekin irekitzeko, lehenik eraman itzazu Windows-eko fitxategien karpetara.</translation>
 <translation id="1062407476771304334">Ordeztu</translation>
 <translation id="1065449928621190041">Teklatu frantses kanadarra</translation>
 <translation id="1119069657431255176">Bzip2 bidez konprimatutako .tar artxiboa</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Transliterazioa (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Kalkulu-orriak</translation>
 <translation id="2938685643439809023">Mongoliarra</translation>
-<translation id="2939410873710774399">Fitxategiak <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) aplikazioarekin irekitzeko, eraman itzazu <ph name="FOLDER_NAME" /> karpetara.</translation>
 <translation id="2942290791863759244">Teklatu alemana (NEO 2)</translation>
 <translation id="2943400156390503548">Diapositibak</translation>
 <translation id="2943503720238418293">Erabili izen laburrago bat</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Kontuz: fitxategi hauek aldi baterakoak dira eta agian automatikoki ezabatuko dira diskoan tokia egiteko.  <ph name="BEGIN_LINK" />Lortu informazio gehiago<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Karpeta</translation>
 <translation id="3549797760399244642">Joan drive.google.com webgunera…</translation>
+<translation id="3553048479571901246">Fitxategiak <ph name="APP_NAME" /> aplikazioarekin irekitzeko, lehenik kopia itzazu Windows-eko fitxategien karpetan.</translation>
 <translation id="357479282490346887">Lituaniarra</translation>
 <translation id="3583509704582854624">Idazketa alfanumerikoa (teklatu japoniarrerako)</translation>
 <translation id="3603385196401704894">Frantsesa (Kanada)</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> elementu hautatu dira</translation>
 <translation id="4850886885716139402">Ikusi</translation>
 <translation id="485316830061041779">Alemana</translation>
-<translation id="4859297381873413734">Fitxategiak <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) aplikazioarekin irekitzeko, kopia itzazu <ph name="FOLDER_NAME" /> karpetan.</translation>
 <translation id="4867079195717347957">Egin klik zutabea beheranzko ordenan ezartzeko.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> byte</translation>
 <translation id="4880214202172289027">Bolumen-graduatzailea</translation>
 <translation id="4880520557730313061">Konpondu automatikoki</translation>
 <translation id="4881695831933465202">Ireki</translation>
 <translation id="4886021172213954916">Teklatu tamildarra (idazmakina)</translation>
-<translation id="4892969127351273348">Ezin da ireki <ph name="APP_NAME" /> aplikazioarekin</translation>
 <translation id="4900532980794411603">Partekatu Parallels Desktop aplikazioarekin</translation>
 <translation id="4905417359854579806">Hauen babeskopia egiteko prest: <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Finkatu egin da</translation>

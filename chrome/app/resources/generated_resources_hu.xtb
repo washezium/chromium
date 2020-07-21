@@ -1843,7 +1843,7 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="3288047731229977326">A fejlesztői módban futó bővítmények kárt okozhatnak számítógépén. Ha Ön nem fejlesztő, akkor a biztonság kedvéért kapcsolja ki a fejlesztői módban futó bővítményeket.</translation>
 <translation id="3289668031376215426">Automatikus nagy kezdőbetű</translation>
 <translation id="3289856944988573801">Kérjük, frissítések kereséséhez Ethernetet vagy Wi-Fit használjon.</translation>
-<translation id="3290356915286466215">Nem biztonságos</translation>
+<translation id="3290356915286466215">Nem bizt.</translation>
 <translation id="3292264722181603749">A(z) <ph name="DOMAIN" /> letiltja az ADB-hibakeresést, ami alaphelyzetbe állítja az eszközt. Az újraindítás előtt készítsen biztonsági másolatot a fájljairól.</translation>
 <translation id="3293644607209440645">Az oldal elküldése</translation>
 <translation id="32939749466444286">A Linux-tároló elindítása nem sikerült. Próbálja újra.</translation>
@@ -2711,7 +2711,7 @@ Elindítja a következőt: <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation
 <translation id="4375035964737468845">Letöltött fájlok megnyitása</translation>
 <translation id="4377363674125277448">Probléma merült fel a szerver tanúsítványával kapcsolatban.</translation>
 <translation id="4378154925671717803">Telefon</translation>
-<translation id="4378551569595875038">Kapcsolódás folyamatban…</translation>
+<translation id="4378551569595875038">Kapcsolódás…</translation>
 <translation id="4378556263712303865">Eszközigénylés</translation>
 <translation id="4379281552162875326">Eltávolítja a következőt: <ph name="APP_NAME" />?</translation>
 <translation id="4380648069038809855">Teljes képernyős módba lépett</translation>
@@ -4735,7 +4735,7 @@ Győződjön meg arról, hogy nem ad ki bizalmas adatokat.</translation>
 <translation id="6979044105893951891">Felügyelt vendég-munkafolyamatok indítása és befejezése</translation>
 <translation id="6979440798594660689">Némítás (alapértelmezett)</translation>
 <translation id="6979737339423435258">Mindenkori</translation>
-<translation id="6981982820502123353">Kisegítő lehetőségek</translation>
+<translation id="6981982820502123353">Kisegítő opciók</translation>
 <translation id="6983507711977005608">Lecsatlakozás az Azonnali internetmegosztás hálózatáról</translation>
 <translation id="6983783921975806247">Regisztrált OID</translation>
 <translation id="6984299437918708277">Válassza ki a bejelentkezési képernyőn a fiókja mellett megjeleníteni kívánt képet</translation>
@@ -5972,7 +5972,7 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="8509646642152301857">A helyesírás-ellenőrző szótár letöltése sikertelen volt.</translation>
 <translation id="8512476990829870887">Folyamat leállítása</translation>
 <translation id="851263357009351303"><ph name="HOST" /> mindig mutathasson képeket</translation>
-<translation id="8513108775083588393">Automatikus forgatás</translation>
+<translation id="8513108775083588393">Autom.forgatás</translation>
 <translation id="8514746246728959655">Próbálkozzon másik biztonsági hardverkulccsal</translation>
 <translation id="8521475323816527629">Gyorsan eljuthat alkalmazásaihoz</translation>
 <translation id="8523493869875972733">Módosítások megtartása</translation>
@@ -6281,7 +6281,7 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="8871974300055371298">Tartalombeállítások</translation>
 <translation id="8872155268274985541">A rendszer által talált, külső frissítésre szolgáló kioszkjegyzékfájl érvénytelen. A kioszkalkalmazás frissítése nem sikerült. Kérjük, távolítsa el az USB-meghatjtót.</translation>
 <translation id="8872777911145321141">Kérdezzen rá, ha valamelyik webhely használni szeretné az Ön virtuálisvalóság-eszközeit vagy -adatait (ajánlott)</translation>
-<translation id="8874184842967597500">Nincs csatlakozva</translation>
+<translation id="8874184842967597500">Nincs csatl.</translation>
 <translation id="8875520811099717934">A Linux frissítése</translation>
 <translation id="8876307312329369159">Ezt a beállítást nem lehet módosítani demó munkamenetben.</translation>
 <translation id="8877448029301136595">[szülőkönyvtár]</translation>

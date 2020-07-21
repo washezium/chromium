@@ -534,7 +534,7 @@
 <translation id="164936512206786300">Bluetooth მოწყობილობის დაწყვილების გაუქმება</translation>
 <translation id="1650371550981945235">შეყვანის ვარიანტების ჩვენება</translation>
 <translation id="1651008383952180276">შეყვანილი საიდუმლო ფრაზები უნდა ემთხვეოდეს</translation>
-<translation id="1652326691684645429">ახლომახლო გაზიარების გააქტიურება</translation>
+<translation id="1652326691684645429">მახლობლად გაზიარების გააქტიურება</translation>
 <translation id="1653526288038954982">{NUM_PRINTER,plural, =1{დაამატეთ პრინტერი Google Cloud Print-ს ნებისმიერი ადგილიდან ბეჭდვისთვის.}other{დაამატეთ # პრინტერი Google Cloud Print-ს ნებისმიერი ადგილიდან ბეჭდვისთვის.}}</translation>
 <translation id="1656528038316521561">ფონის გაუმჭვირობა</translation>
 <translation id="1657406563541664238">დახმარება აუმჯობესებს <ph name="PRODUCT_NAME" /> ს Google-ისათვის მეხსიერების სტატისტიკის და ავარიული ანგარიშების ავტომატურ მიწოდებას</translation>
@@ -1660,7 +1660,7 @@
 <translation id="3022978424994383087">წარმოთქმულის აღქმა ვერ მოხერხდა.</translation>
 <translation id="3023464535986383522">მონიშვნა წარმოსათქმელად</translation>
 <translation id="3024374909719388945">24-საათიანი ფორმატის გამოყენება</translation>
-<translation id="3027296729579831126">ახლომახლო გაზიარების ჩართვა</translation>
+<translation id="3027296729579831126">მახლობლად გაზიარების ჩართვა</translation>
 <translation id="3029466929721441205">სტილუსის ხელსაწყოების ჩვენება თაროზე</translation>
 <translation id="3031417829280473749">აგენტი X</translation>
 <translation id="3031557471081358569">აირჩიეთ ელემენტები იმპორტისთვის:</translation>
@@ -2951,7 +2951,7 @@
 <translation id="4673442866648850031">სტილუსის ამოღებისას სტილუსის ხელსაწყოების გახსნა</translation>
 <translation id="4677772697204437347">GPU მეხსიერება</translation>
 <translation id="4680105648806843642">ხმა დადუმდა ამ გვერდზე</translation>
-<translation id="4681453295291708042">ახლომახლო გაზიარების გათიშვა</translation>
+<translation id="4681453295291708042">მახლობლად გაზიარების გათიშვა</translation>
 <translation id="4681930562518940301">ორიგინალი &amp;გამოსახულების გახსნა ახალ ჩანართში</translation>
 <translation id="4682551433947286597">შესასვლელ ეკრანზე გამოჩნდება ფონის სურათი.</translation>
 <translation id="4683947955326903992"><ph name="PERCENTAGE" />% (ნაგულისხმევი)</translation>
@@ -3767,7 +3767,7 @@
 <translation id="5739017626473506901">შედით სისტემაში, რომ დაეხმაროთ <ph name="USER_NAME" />-ს სასწავლებლის ანგარიშის დამატებაში</translation>
 <translation id="5739235828260127894">დადასტურების მოლოდინში. <ph name="LINK_BEGIN" />შეიტყვეთ მეტი<ph name="LINK_END" /></translation>
 <translation id="5739458112391494395">ძალიან დიდი</translation>
-<translation id="5740328398383587084">ახლომახლო გაზიარება</translation>
+<translation id="5740328398383587084">მახლობლად გაზიარება</translation>
 <translation id="574104302965107104">ეკრანის გამოსახულების ასლი</translation>
 <translation id="574209121243317957">სიმაღლე</translation>
 <translation id="5746169159649715125">შენახვა PDF-ის სახით</translation>
@@ -4719,7 +4719,7 @@
 <translation id="6965978654500191972">მოწყობილობა</translation>
 <translation id="696780070563539690">საიტები ვერ გამოიყენებს ქუქი-ჩანაწერებს სხვადასხვა საიტის თქვენ მიერ დათვალიერების აქტივობის სანახავად, მაგალითად, რეკლამის პერსონალიზების მიზნით</translation>
 <translation id="6968288415730398122">ეკრანის დაბლოკვის მეთოდის კონფიგურაციისთვის შეიყვანეთ თქვენი პაროლი</translation>
-<translation id="6969047215179982698">ახლომახლო გაზიარების გამორთვა</translation>
+<translation id="6969047215179982698">მახლობლად გაზიარების გამორთვა</translation>
 <translation id="6970480684834282392">გაშვების ტიპი</translation>
 <translation id="6970856801391541997">კონკრეტული გვერდების ბეჭდვა</translation>
 <translation id="6972180789171089114">აუდიო/ვიდეო</translation>

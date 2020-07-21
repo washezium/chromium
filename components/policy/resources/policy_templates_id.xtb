@@ -3984,7 +3984,7 @@ Kebijakan ini hanya berlaku jika dukungan aplikasi Linux diaktifkan.</translatio
 
       Setelah penyiapan awal, pengguna dapat menonaktifkan atau mengaktifkan pencadangan dan pemulihan.</translation>
 <translation id="6993687707842131236">Mengonfigurasi pesan akhir siklus proses untuk kebijakan MinimumChromeVersionEnforced</translation>
-<translation id="6994082778848658360">Menentukan bagaimana hardware elemen pengaman on-board digunakan untuk memberikan autentikasi faktor kedua jika kompatibel dengan fitur ini. Tombol power mesin digunakan untuk mendeteksi keberadaan pengguna.
+<translation id="6994082778848658360">Menentukan bagaimana hardware elemen pengaman on-board digunakan untuk memberikan autentikasi faktor kedua jika kompatibel dengan fitur ini. Tombol daya mesin digunakan untuk mendeteksi keberadaan pengguna.
 
       Jika 'Dinonaktifkan' dipilih, tidak ada faktor kedua yang diberikan.
 

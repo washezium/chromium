@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">जपानी इनपुट (यूएस कीबोर्डसाठी)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> आयटम हटवत आहे...</translation>
 <translation id="1049926623896334335">Word दस्तऐवज</translation>
+<translation id="1060368002126861100"><ph name="APP_NAME" /> सोबत फाइल उघडण्यासाठी, प्रथम त्या Windows फाइल फोल्डरमध्ये हलवा.</translation>
 <translation id="1062407476771304334">पुनर्स्थित करा</translation>
 <translation id="1065449928621190041">कॅनेडियन फ्रेंच कीबोर्ड</translation>
 <translation id="1119069657431255176">Bzip2 संकीर्ण tar संग्रहण</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">लिप्यंतरण (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Sheets</translation>
 <translation id="2938685643439809023">मंगोलियन</translation>
-<translation id="2939410873710774399"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) सोबत फाइल उघडण्यासाठी, प्रथम त्या <ph name="FOLDER_NAME" /> फोल्डरमध्ये हलवा.</translation>
 <translation id="2942290791863759244">जर्मन NEO 2 कीबोर्ड</translation>
 <translation id="2943400156390503548">स्लाइड</translation>
 <translation id="2943503720238418293">लहान नाव वापरा</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">सावधान: या फाइल तात्पुरत्या आहेत आणि डिस्कवरील जागा मोकळी करण्यासाठी त्या आपोआप हटवल्या जाऊ शकतात.  <ph name="BEGIN_LINK" />अधिक जाणून घ्या<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">फोल्डर</translation>
 <translation id="3549797760399244642">drive.google.com वर जा...</translation>
+<translation id="3553048479571901246"><ph name="APP_NAME" /> सोबत फाइल उघडण्यासाठी, प्रथम त्या Windows फाइल फोल्डरमध्ये कॉपी करा.</translation>
 <translation id="357479282490346887">लिथुआनियन</translation>
 <translation id="3583509704582854624">वर्णांक इनपुट (जपानी कीबोर्डसाठी)</translation>
 <translation id="3603385196401704894">कॅनेडियन फ्रेंच</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> आयटम निवडले</translation>
 <translation id="4850886885716139402">पहा</translation>
 <translation id="485316830061041779">जर्मन</translation>
-<translation id="4859297381873413734"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) सोबत फाइल उघडण्यासाठी, प्रथम त्या <ph name="FOLDER_NAME" /> फोल्डरमध्ये कॉपी करा.</translation>
 <translation id="4867079195717347957">स्तंभाची उतरत्या क्रमाने क्रमवारी लावण्यासाठी क्लिक करा.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> बाइट</translation>
 <translation id="4880214202172289027">व्हॉल्यूम स्लायडर</translation>
 <translation id="4880520557730313061">स्वयं-निश्चित</translation>
 <translation id="4881695831933465202">उघडा</translation>
 <translation id="4886021172213954916">तामिळ कीबोर्ड (Typewriter)</translation>
-<translation id="4892969127351273348"><ph name="APP_NAME" /> ने उघडता आले नाही</translation>
 <translation id="4900532980794411603">Parallels Desktop सोबत शेअर करा</translation>
 <translation id="4905417359854579806"><ph name="FILE_COUNT" /> चा बॅकअप घेण्यास तयार</translation>
 <translation id="4924638091161556692">निश्चित</translation>

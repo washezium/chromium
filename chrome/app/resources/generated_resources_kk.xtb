@@ -523,7 +523,7 @@
 <translation id="1641113438599504367">Қауіпсіз шолу</translation>
 <translation id="1642494467033190216">Басқа түзету мүмкіндтерін қосудан бұрын түпкі қорғанысты алып тастау және қайта іске қосу қажет.</translation>
 <translation id="1643072738649235303">X9.62 ECDSA, SHA-1 алгоритмімен қол қою</translation>
-<translation id="1644574205037202324">Журнал</translation>
+<translation id="1644574205037202324">Тарих</translation>
 <translation id="1645516838734033527"><ph name="DEVICE_TYPE" /> құрылғысын қауіпсіз сақтау үшін Smart Lock функциясы телефонда экран құлпын қажет етеді.</translation>
 <translation id="1646982517418478057">Бұл сертификатты шифрлау үшін құпия сөзді енгізіңіз</translation>
 <translation id="1648528859488547844">Орынды анықтау үшін Wi‑Fi немесе мобильдік желілерді пайдалану</translation>
@@ -762,7 +762,7 @@
 <translation id="1921584744613111023"><ph name="DPI" /> dpi</translation>
 <translation id="192494336144674234">Ашу әдісі</translation>
 <translation id="1925017091976104802">Қою үшін <ph name="MODIFIER_KEY_DESCRIPTION" /> пернелерін басыңыз.</translation>
-<translation id="1925021887439448749">Арнаулы вебмекенжайды енгізу</translation>
+<translation id="1925021887439448749">Арнаулы веб-мекенжайды енгізу</translation>
 <translation id="1925124445985510535">Қауіпсіздік шарасы сағат <ph name="TIME" /> қолданылды.</translation>
 <translation id="1926339101652878330">Бұл параметрлер кәсіпорын саясаты бойынша бақыланады. Қосымша ақпарат алу үшін әкімшіңізге хабарласыңыз.</translation>
 <translation id="1927632033341042996"><ph name="NEW_FINGER_NUMBER" />-саусақ</translation>
@@ -2998,7 +2998,7 @@
 <translation id="475088594373173692">Алғашқы пайдаланушы</translation>
 <translation id="4751476147751820511">Қозғалыс не жарық датчиктері</translation>
 <translation id="4756378406049221019">Тоқтату/Қайта жүктеу</translation>
-<translation id="4756388243121344051">&amp;Журнал</translation>
+<translation id="4756388243121344051">&amp;Тарих</translation>
 <translation id="4759238208242260848">Жүктеп алынғандар</translation>
 <translation id="4761104368405085019">Микрофоныңызды пайдалану</translation>
 <translation id="4762055672525936226">Жүктеп алынған мазмұнды жою</translation>
@@ -3090,7 +3090,7 @@
 <translation id="4878718769565915065">Осы қауіпсіздік кілтіне саусақ ізі енгізілмеді.</translation>
 <translation id="4879491255372875719">Автоматты (әдепкі)</translation>
 <translation id="4880328057631981605">Кіру нүктесінің атауы</translation>
-<translation id="4880827082731008257">Іздеу тарихы</translation>
+<translation id="4880827082731008257">Тарихтан іздеу</translation>
 <translation id="4881695831933465202">Ашу</translation>
 <translation id="4882312758060467256">Осы сайтқа кіре алады</translation>
 <translation id="4882831918239250449">Іздеу, жарнама қызметтерін, т.б. жекелендіру үшін шолу тарихын қалай пайдалану керектігін көрсетіңіз</translation>
@@ -3867,7 +3867,7 @@
 <translation id="5865733239029070421">Қолданыс статистикасын және жаңылыс туралы есептерді Google жүйесіне автоматты түрде жібереді</translation>
 <translation id="5866557323934807206">Болашақта кіру үшін осы параметрлерді өшіру</translation>
 <translation id="5866840822086176774">Аса күшті</translation>
-<translation id="5867841422488265304">Вебмекенжайды іздеңіз не енгізіңіз</translation>
+<translation id="5867841422488265304">Веб-мекенжайды енгізіңіз не іздеңіз</translation>
 <translation id="5869029295770560994">Жарайды, түсінікті</translation>
 <translation id="5869522115854928033">Сақталған құпия сөздер</translation>
 <translation id="5870086504539785141">Арнайы мүмкіндіктер мәзірін жабу</translation>

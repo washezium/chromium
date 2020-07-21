@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">ജാപ്പനീസ് ഇൻപുട്ട് (യുഎസ് കീബോർഡിന്)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> ഇനങ്ങൾ ഇല്ലാതാക്കുന്നു...</translation>
 <translation id="1049926623896334335">Word പ്രമാണം</translation>
+<translation id="1060368002126861100"><ph name="APP_NAME" /> ഉപയോഗിച്ച് ഫയലുകൾ തുറക്കാൻ, ആദ്യം അവയെ Windows ഫയലുകൾ എന്ന ഫോൾഡറിലേക്ക് മാറ്റുക.</translation>
 <translation id="1062407476771304334">മാറ്റിസ്ഥാപിക്കുക</translation>
 <translation id="1065449928621190041">കനേഡിയന്‍ ഫ്രഞ്ച് കീബോര്‍ഡ്</translation>
 <translation id="1119069657431255176">Bzip2 ഉൾക്കൊള്ളിച്ച tar ആർക്കൈവ്</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">ലിപ്യന്തരണം (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Sheets</translation>
 <translation id="2938685643439809023">മംഗോളിയന്‍</translation>
-<translation id="2939410873710774399"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ഉപയോഗിച്ച് ഫയലുകൾ തുറക്കാൻ, ആദ്യം അവയെ <ph name="FOLDER_NAME" /> എന്ന ഫോൾഡറിലേക്ക് മാറ്റുക.</translation>
 <translation id="2942290791863759244">ജര്‍മ്മന്‍ നിയോ 2 കീബോർഡ്</translation>
 <translation id="2943400156390503548">സ്ലൈഡുകള്‍</translation>
 <translation id="2943503720238418293">ഇതിലും ചെറിയൊരു പേര് നൽകുക</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">മുന്നറിയിപ്പ്: ഇവ താൽക്കാലിക ഫയലുകളാണ് ഡിസ്ക്കിൽ ഇടമുണ്ടാക്കാൻ സ്വയമേവ ഇല്ലാതാക്കിയേക്കാം.  <ph name="BEGIN_LINK" />കൂടുതലറിയുക<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">ഫോൾഡർ</translation>
 <translation id="3549797760399244642">drive.google.com-ലേക്ക് പോകുക...</translation>
+<translation id="3553048479571901246"><ph name="APP_NAME" /> ഉപയോഗിച്ച് ഫയലുകൾ തുറക്കാൻ, ആദ്യം അവയെ Windows ഫയലുകൾ എന്ന ഫോൾഡറിലേക്ക് പകർത്തുക.</translation>
 <translation id="357479282490346887">ലിത്വാനിയന്‍</translation>
 <translation id="3583509704582854624">അക്ക - അക്ഷര പ്രതീകങ്ങളുടെ ഇൻപുട്ട് (ജാപ്പനീസ് കീബോർഡിന്)</translation>
 <translation id="3603385196401704894">കനേഡിയന്‍ ഫ്രഞ്ച്</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> ഇനങ്ങൾ തിരഞ്ഞെടുത്തു</translation>
 <translation id="4850886885716139402">കാണുക</translation>
 <translation id="485316830061041779">ജര്‍മ്മന്‍</translation>
-<translation id="4859297381873413734"><ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ഉപയോഗിച്ച് ഫയലുകൾ തുറക്കാൻ, ആദ്യം അവയെ <ph name="FOLDER_NAME" /> എന്ന ഫോൾഡറിലേക്ക് പകർത്തുക.</translation>
 <translation id="4867079195717347957">കോളം അവരോഹണക്രമത്തിൽ അടുക്കാൻ ക്ലിക്ക് ചെയ്യുക</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> ബൈറ്റ്സ്</translation>
 <translation id="4880214202172289027">വോളിയം സ്ലൈഡർ</translation>
 <translation id="4880520557730313061">സ്വയമേവ ശരിയാക്കുക</translation>
 <translation id="4881695831933465202">തുറക്കുക</translation>
 <translation id="4886021172213954916">തമിഴ് കീബോർഡ് (ടൈപ്പ്റൈറ്റർ)</translation>
-<translation id="4892969127351273348"><ph name="APP_NAME" /> ഉപയോഗിച്ച് തുറക്കാനാവില്ല</translation>
 <translation id="4900532980794411603">Parallels Desktop ഉപയോഗിച്ച് പങ്കിടുക</translation>
 <translation id="4905417359854579806"><ph name="FILE_COUNT" /> ബാക്കപ്പ് ചെയ്യാൻ തയ്യാറാണ്</translation>
 <translation id="4924638091161556692">പരിഹരിച്ചു</translation>

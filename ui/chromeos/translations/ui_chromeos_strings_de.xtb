@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Japanische Eingabe (für US-Tastatur)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> Elemente werden gelöscht...</translation>
 <translation id="1049926623896334335">Word-Dokument</translation>
+<translation id="1060368002126861100">Wenn Sie Dateien mit der App "<ph name="APP_NAME" />" öffnen möchten, verschieben Sie sie zuerst in den Ordner mit Windows-Dateien.</translation>
 <translation id="1062407476771304334">Ersetzen</translation>
 <translation id="1065449928621190041">Kanadisch-französische Tastatur</translation>
 <translation id="1119069657431255176">Bzip2-komprimiertes Tar-Archiv</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Transliteration (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Tabellen</translation>
 <translation id="2938685643439809023">Mongolisch</translation>
-<translation id="2939410873710774399">Zum Öffnen von Dateien mit der App "<ph name="APP_NAME" />" (<ph name="VM_SOFTWARE_NAME" />) müssen Sie sie zuerst in den Ordner "<ph name="FOLDER_NAME" />" verschieben.</translation>
 <translation id="2942290791863759244">Deutsche Neo2-Tastatur</translation>
 <translation id="2943400156390503548">Präsentationen</translation>
 <translation id="2943503720238418293">Verwenden Sie einen kürzeren Namen</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Vorsicht: Dies sind temporäre Dateien, die möglicherweise automatisch gelöscht werden, um Speicherplatz freizugeben.  <ph name="BEGIN_LINK" />Weitere Informationen<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Ordner</translation>
 <translation id="3549797760399244642">Zu drive.google.com wechseln...</translation>
+<translation id="3553048479571901246">Wenn Sie Dateien mit der App "<ph name="APP_NAME" />" öffnen möchten, kopieren Sie sie zuerst in den Ordner mit Windows-Dateien.</translation>
 <translation id="357479282490346887">Litauisch</translation>
 <translation id="3583509704582854624">Alphanumerische Eingabe (für japanische Tastatur)</translation>
 <translation id="3603385196401704894">Kanadisches Französisch</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> Elemente ausgewählt</translation>
 <translation id="4850886885716139402">Anzeigen</translation>
 <translation id="485316830061041779">Deutsch</translation>
-<translation id="4859297381873413734">Zum Öffnen von Dateien mit der App "<ph name="APP_NAME" />" (<ph name="VM_SOFTWARE_NAME" />) müssen Sie sie zuerst in den Ordner "<ph name="FOLDER_NAME" />" kopieren.</translation>
 <translation id="4867079195717347957">Klicken, um die Spalte in absteigender Reihenfolge zu sortieren.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> Byte</translation>
 <translation id="4880214202172289027">Schieberegler für die Lautstärke</translation>
 <translation id="4880520557730313061">Autom. Korrektur</translation>
 <translation id="4881695831933465202">Öffnen</translation>
 <translation id="4886021172213954916">Tamil-Tastatur (Schreibmaschine)</translation>
-<translation id="4892969127351273348">Öffnen mit <ph name="APP_NAME" /> nicht möglich</translation>
 <translation id="4900532980794411603">Für Parallels Desktop freigeben</translation>
 <translation id="4905417359854579806">Bereit zum Sichern von <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Korrigiert</translation>

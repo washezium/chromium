@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Hyrje japonisht (për tastierë amerikane)</translation>
 <translation id="1047956942837015229">Po fshin <ph name="COUNT" /> artikuj...</translation>
 <translation id="1049926623896334335">Dokument Word</translation>
+<translation id="1060368002126861100">Për të hapur skedarët me <ph name="APP_NAME" />, në fillim zhvendosi në dosjen e skedarëve të Windows.</translation>
 <translation id="1062407476771304334">Zëvendëso</translation>
 <translation id="1065449928621190041">Tastiera për frëngjishte kanadeze</translation>
 <translation id="1119069657431255176">Arkivi i ngjeshur i mbledhjes së Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Transliterim (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Fletët</translation>
 <translation id="2938685643439809023">Mongolisht</translation>
-<translation id="2939410873710774399">Për të hapur skedarët me <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), në fillim zhvendosi në dosjen <ph name="FOLDER_NAME" />.</translation>
 <translation id="2942290791863759244">Tastiera në gjermanisht NEO 2</translation>
 <translation id="2943400156390503548">Diapozitivat</translation>
 <translation id="2943503720238418293">Përdor një emër më të shkurtër</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Kujdes! Këta skedarë janë të përkohshëm dhe mund të fshihen automatikisht për të liruar hapësirën në disk.  <ph name="BEGIN_LINK" />Mëso më shumë<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Dosje</translation>
 <translation id="3549797760399244642">Shko te drive.google.com...</translation>
+<translation id="3553048479571901246">Për të hapur skedarët me <ph name="APP_NAME" />, në fillim kopjoji në dosjen e skedarëve të Windows.</translation>
 <translation id="357479282490346887">Lituanisht</translation>
 <translation id="3583509704582854624">Hyrje alfanumerike (për tastierë japoneze)</translation>
 <translation id="3603385196401704894">Frëngjishte kanadeze</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">U zgjodhën <ph name="SELCTED_FILES_COUNT" /> artikuj</translation>
 <translation id="4850886885716139402">Pamja</translation>
 <translation id="485316830061041779">Gjermanisht</translation>
-<translation id="4859297381873413734">Për të hapur skedarët me <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), në fillim kopjoji në dosjen <ph name="FOLDER_NAME" />.</translation>
 <translation id="4867079195717347957">Kliko për të renditur kolonën në rend zbritës.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> bajtë</translation>
 <translation id="4880214202172289027">Rrëshqitësi i volumit</translation>
 <translation id="4880520557730313061">Rregullo automatikisht</translation>
 <translation id="4881695831933465202">Hap</translation>
 <translation id="4886021172213954916">Tastierë në tamilisht (Makinë shkrimi)</translation>
-<translation id="4892969127351273348">Nuk mund të hapet me <ph name="APP_NAME" /></translation>
 <translation id="4900532980794411603">Ndaj me Parallels Desktop</translation>
 <translation id="4905417359854579806">Gati për të rezervuar <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Rregulluar</translation>

@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Жапон тілінде енгізу (америкалық пернетақта үшін)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> элемент жойылуда…</translation>
 <translation id="1049926623896334335">Word құжаты</translation>
+<translation id="1060368002126861100">Файлдарды <ph name="APP_NAME" /> қолданбасымен ашу үшін оларды алдымен Windows файлдар қалтасына жылжытыңыз.</translation>
 <translation id="1062407476771304334">Ауыстыру</translation>
 <translation id="1065449928621190041">Канадалық француз пернетақтасы</translation>
 <translation id="1119069657431255176">Қысылған Bzip2 TAR мұрағаты</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Транслитерация (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Парақтар</translation>
 <translation id="2938685643439809023">монғол</translation>
-<translation id="2939410873710774399">Файлдарды <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) қолданбасымен ашу үшін алдымен оларды <ph name="FOLDER_NAME" /> қалтасына көшіріңіз.</translation>
 <translation id="2942290791863759244">Неміс NEO 2 пернетақтасы</translation>
 <translation id="2943400156390503548">Slides</translation>
 <translation id="2943503720238418293">Қысқарақ атау енгізіңіз</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Абайлаңыз: бұл файлдар уақытша және дискідегі орынды босату үшін автоматты түрде жойылуы мүмкін.  <ph name="BEGIN_LINK" />Толығырақ<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Қалта</translation>
 <translation id="3549797760399244642">drive.google.com бетіне өту…</translation>
+<translation id="3553048479571901246">Файлдарды <ph name="APP_NAME" /> қолданбасымен ашу үшін оларды алдымен Windows файлдар қалтасына көшіріңіз.</translation>
 <translation id="357479282490346887">литва</translation>
 <translation id="3583509704582854624">Әріптік-сандық енгізу (жапондық пернетақта үшін)</translation>
 <translation id="3603385196401704894">Француз (Канадалық)</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> элемент таңдалды</translation>
 <translation id="4850886885716139402">Көрініс</translation>
 <translation id="485316830061041779">неміс</translation>
-<translation id="4859297381873413734">Файлдарды <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) қолданбасымен ашу үшін алдымен оларды <ph name="FOLDER_NAME" /> қалтасына көшіріңіз.</translation>
 <translation id="4867079195717347957">Бағанды кему ретімен сұрыптау үшін басыңыз.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> байт</translation>
 <translation id="4880214202172289027">Дыбыс деңгейі ысырмасы</translation>
 <translation id="4880520557730313061">Автотүзету</translation>
 <translation id="4881695831933465202">Ашу</translation>
 <translation id="4886021172213954916">Тамил пернетақтасы (Typewriter)</translation>
-<translation id="4892969127351273348"><ph name="APP_NAME" /> қолданбасымен ашу мүмкін емес</translation>
 <translation id="4900532980794411603">Parallels Desktop арқылы бөлісу</translation>
 <translation id="4905417359854579806"><ph name="FILE_COUNT" /> файлдың сақтық көшірмесін жасауға болады</translation>
 <translation id="4924638091161556692">Түзетілді</translation>

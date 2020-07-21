@@ -2015,7 +2015,7 @@
 <translation id="3507421388498836150">اجازه‌های فعلی برای «<ph name="EXTENSION_NAME" />»</translation>
 <translation id="3507888235492474624">اسکن مجدد دستگاه‌های بلوتوث</translation>
 <translation id="3508492320654304609">داده‌های ورود به سیستم شما حذف نشد</translation>
-<translation id="3508920295779105875">انتخاب یک پوشه دیگر...</translation>
+<translation id="3508920295779105875">انتخاب یک پوشه دیگر…</translation>
 <translation id="3509680540198371098">شبکه <ph name="NETWORK_INDEX" /> از <ph name="NETWORK_COUNT" />، <ph name="NETWORK_NAME" />، <ph name="SECURITY_STATUS" />، <ph name="CONNECTION_STATUS" />، قدرت سیگنال <ph name="SIGNAL_STRENGTH" />٪، جزئیات</translation>
 <translation id="3511200754045804813">جستجوی دوباره</translation>
 <translation id="3511307672085573050">کپی آدر&amp;س پیوند</translation>
@@ -2425,7 +2425,7 @@
 <translation id="3964480518399667971">خاموش کردن شبکه تلفن همراه</translation>
 <translation id="3965811923470826124">با</translation>
 <translation id="3965965397408324205">خارج شدن از <ph name="PROFILE_NAME" /></translation>
-<translation id="3966072572894326936">انتخاب یک پوشه دیگر...</translation>
+<translation id="3966072572894326936">انتخاب یک پوشه دیگر…</translation>
 <translation id="3967822245660637423">بارگیری کامل شد</translation>
 <translation id="3967919079500697218">سرپرست شما قابلیت عکس گرفتن از صفحه‌نمایش را غیرفعال کرده است.</translation>
 <translation id="3969092967100188979">روشن، فراگردی</translation>
@@ -4442,7 +4442,7 @@
 <translation id="6607831829715835317">ا&amp;بزارهای بیشتر</translation>
 <translation id="6611972847767394631">برگه‌هایتان را در اینجا پیدا کنید</translation>
 <translation id="6612358246767739896">محتوای محافظت‌شده</translation>
-<translation id="6615455863669487791">به من نشان بده</translation>
+<translation id="6615455863669487791">نشانم داده شود</translation>
 <translation id="6617034477946102682">دسترسی به <ph name="PRINTER_NAME" /> امکان‌پذیر نیست</translation>
 <translation id="6618097958368085618">درهرصورت حفظ شود</translation>
 <translation id="6618744767048954150">درحال اجرا</translation>
@@ -4553,7 +4553,7 @@
 <translation id="6758056191028427665">عملکردمان را به ما نشان دهید.</translation>
 <translation id="6759193508432371551">بازنشانی به تنظیمات کارخانه</translation>
 <translation id="6762833852331690540">روشن</translation>
-<translation id="6767566652486411142">انتخاب زبانی دیگر…</translation>
+<translation id="6767566652486411142">انتخاب یک زبان دیگر…</translation>
 <translation id="6767639283522617719">نمی‌توان دستگاه را به دامنه وصل کرد. مطمئن شوید تنظیمات مربوط به واحد سازمانی صحیح است.</translation>
 <translation id="6769557323306147204"><ph name="ORGANIZATION_NAME" /> توصیه می‌کند این دستگاه را به‌روزرسانی کنید.</translation>
 <translation id="6769712124046837540">در حال افزودن چاپگر...</translation>

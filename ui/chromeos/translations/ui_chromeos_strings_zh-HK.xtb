@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">日文輸入法 (適用於美式鍵盤)</translation>
 <translation id="1047956942837015229">正在刪除 <ph name="COUNT" /> 個項目…</translation>
 <translation id="1049926623896334335">Word 文件</translation>
+<translation id="1060368002126861100">如要透過「<ph name="APP_NAME" />」開啟檔案，請先將檔案移至 Windows 資料夾。</translation>
 <translation id="1062407476771304334">取代</translation>
 <translation id="1065449928621190041">加拿大法文鍵盤</translation>
 <translation id="1119069657431255176">使用 Bzip2 壓縮的 tar 封存檔案</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">音譯 (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">試算表</translation>
 <translation id="2938685643439809023">蒙古文</translation>
-<translation id="2939410873710774399">如要透過「<ph name="APP_NAME" />」(<ph name="VM_SOFTWARE_NAME" />) 開啟檔案，請先將檔案移至「<ph name="FOLDER_NAME" />」資料夾。</translation>
 <translation id="2942290791863759244">德文 NEO 2 鍵盤</translation>
 <translation id="2943400156390503548">投影片</translation>
 <translation id="2943503720238418293">請使用較短的名稱</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">注意：系統可能會自動刪除這些暫存檔案，以釋放磁碟空間。<ph name="BEGIN_LINK" />瞭解詳情<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">資料夾</translation>
 <translation id="3549797760399244642">前往 drive.google.com…</translation>
+<translation id="3553048479571901246">如要透過「<ph name="APP_NAME" />」開啟檔案，請先將檔案複製至 Windows 資料夾。</translation>
 <translation id="357479282490346887">立陶宛文</translation>
 <translation id="3583509704582854624">英數字元輸入法 (適用於日文鍵盤)</translation>
 <translation id="3603385196401704894">加拿大法語</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">已選取 <ph name="SELCTED_FILES_COUNT" /> 個項目</translation>
 <translation id="4850886885716139402">檢視</translation>
 <translation id="485316830061041779">德文</translation>
-<translation id="4859297381873413734">如要透過「<ph name="APP_NAME" />」(<ph name="VM_SOFTWARE_NAME" />) 開啟檔案，請先將檔案複製至「<ph name="FOLDER_NAME" />」資料夾。</translation>
 <translation id="4867079195717347957">按一下即可遞減排序欄位。</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> 個字節</translation>
 <translation id="4880214202172289027">音量滑桿</translation>
 <translation id="4880520557730313061">自動修正</translation>
 <translation id="4881695831933465202">開啟</translation>
 <translation id="4886021172213954916">坦米爾文鍵盤 (打字機)</translation>
-<translation id="4892969127351273348">無法使用「<ph name="APP_NAME" />」開啟</translation>
 <translation id="4900532980794411603">與 Parallels Desktop 共用</translation>
 <translation id="4905417359854579806">現在可以備份 <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">已修正</translation>

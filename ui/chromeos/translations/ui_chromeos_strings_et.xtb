@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Jaapanikeelne sisend (USA klaviatuuri jaoks)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> üksuse kustutamine ...</translation>
 <translation id="1049926623896334335">Wordi dokument</translation>
+<translation id="1060368002126861100">Failide avamiseks rakendusega <ph name="APP_NAME" /> teisaldage need esmalt Windowsi failide kausta.</translation>
 <translation id="1062407476771304334">Asenda</translation>
 <translation id="1065449928621190041">Kanada prantsuse klaviatuur</translation>
 <translation id="1119069657431255176">Bzip2 tihendatud TAR-arhiiv</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Transliteratsioon (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Arvutustabelid</translation>
 <translation id="2938685643439809023">mongoolia keel</translation>
-<translation id="2939410873710774399">Failide avamiseks rakendusega <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) teisaldage need esmalt kausta <ph name="FOLDER_NAME" />.</translation>
 <translation id="2942290791863759244">Saksa NEO 2 klaviatuur</translation>
 <translation id="2943400156390503548">Esitlused</translation>
 <translation id="2943503720238418293">Kasutage lühemat nime</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Hoiatus. Need on ajutised failid ja võidakse kettaruumi vabastamiseks automaatselt kustutada.  <ph name="BEGIN_LINK" />Lisateave<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Kaust</translation>
 <translation id="3549797760399244642">Ava sait drive.google.com ...</translation>
+<translation id="3553048479571901246">Failide avamiseks rakendusega <ph name="APP_NAME" /> kopeerige need esmalt Windowsi failide kausta.</translation>
 <translation id="357479282490346887">leedu keel</translation>
 <translation id="3583509704582854624">Tähtnumbriline sisend (Jaapani klaviatuuri jaoks)</translation>
 <translation id="3603385196401704894">Kanada prantsuse</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">Valitud on <ph name="SELCTED_FILES_COUNT" /> üksust</translation>
 <translation id="4850886885716139402">Kuva</translation>
 <translation id="485316830061041779">saksa keel</translation>
-<translation id="4859297381873413734">Failide avamiseks rakendusega <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) kopeerige need esmalt kausta <ph name="FOLDER_NAME" />.</translation>
 <translation id="4867079195717347957">Klõpsake, et veerg kahanevas järjestuses sortida.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> baiti</translation>
 <translation id="4880214202172289027">Helitugevuse liugur</translation>
 <translation id="4880520557730313061">Automaatparandus</translation>
 <translation id="4881695831933465202">Ava</translation>
 <translation id="4886021172213954916">Tamili klaviatuur (kirjutusmasin)</translation>
-<translation id="4892969127351273348">Ei saa rakendusega <ph name="APP_NAME" /> avada</translation>
 <translation id="4900532980794411603">Jagamine üksusega Parallels Desktop</translation>
 <translation id="4905417359854579806">Valmis, et varundada <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Fikseeritud</translation>

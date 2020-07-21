@@ -930,7 +930,7 @@
 <translation id="2144536955299248197">ಪ್ರಮಾಣಪತ್ರ ವೀಕ್ಷಕ: <ph name="CERTIFICATE_NAME" /></translation>
 <translation id="2144557304298909478">Linux Android ಆ್ಯಪ್‌ ಸುಧಾರಣೆ</translation>
 <translation id="2148219725039824548">ಹಂಚಿಕೆಯನ್ನು ಅಳವಡಿಸುವುದರಲ್ಲಿ ದೋಷವಿದೆ. ನಿರ್ದಿಷ್ಟಪಡಿಸಿದ ಹಂಚಿಕೆಯು ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ.</translation>
-<translation id="2148756636027685713">ಸ್ವರೂಪಣೆಯು ಮುಗಿದಿದೆ</translation>
+<translation id="2148756636027685713">ಫಾರ್ಮ್ಯಾಟ್‌ ಮಾಡುವಿಕೆ ಮುಗಿದಿದೆ</translation>
 <translation id="2148892889047469596">ಟ್ಯಾಬ್ ಬಿತ್ತರಿಸಿ</translation>
 <translation id="2150139952286079145">ಗಮ್ಯಸ್ಥಾನಗಳನ್ನು ಹುಡುಕಿ</translation>
 <translation id="2150661552845026580">"<ph name="EXTENSION_NAME" />" ಅನ್ನು ಸೇರಿಸುವುದೇ?</translation>
@@ -2237,7 +2237,7 @@
 <translation id="3758842566811519622">ಕುಕೀಗಳನ್ನು ಹೊಂದಿಸಲಾಗಿದೆ</translation>
 <translation id="3759933321830434300">ವೆಬ್ ಪುಟಗಳ ಭಾಗಗಳನ್ನು ನಿರ್ಬಂಧಿಸಿ</translation>
 <translation id="3760460896538743390">&amp;ಹಿನ್ನಲೆ ಪುಟ ಪರಿಶೀಲಿಸಿ</translation>
-<translation id="37613671848467444">&amp;ಅಜ್ಞಾತ ವಿಂಡೋದಲ್ಲಿ ತೆರೆಯಿರಿ</translation>
+<translation id="37613671848467444">&amp;ಅದೃಶ್ಯ ವಿಂಡೋದಲ್ಲಿ ತೆರೆಯಿರಿ</translation>
 <translation id="3761556954875533505">ಸೈಟ್ ಫೈಲ್‌ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಲು ಅನುಮತಿಸುವುದೇ?</translation>
 <translation id="3764314093345384080">ವಿವರವಾದ ಬಿಲ್ಡ್ ಮಾಹಿತಿ</translation>
 <translation id="3764583730281406327">{NUM_DEVICES,plural, =1{USB ಸಾಧನದೊಂದಿಗೆ ಸಂವಹನ ಮಾಡಿ}one{# USB ಸಾಧನಗಳೊಂದಿಗೆ ಸಂವಹನ ಮಾಡಿ}other{# USB ಸಾಧನಗಳೊಂದಿಗೆ ಸಂವಹನ ಮಾಡಿ}}</translation>

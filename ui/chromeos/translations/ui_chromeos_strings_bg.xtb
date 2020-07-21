@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Въвеждане на японски (за американска клавиатура)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> елемента се изтриват...</translation>
 <translation id="1049926623896334335">Документ в Word</translation>
+<translation id="1060368002126861100">За да отваряте файлове с(ъс) <ph name="APP_NAME" />, първо ги преместете в папката с файлове на Windows.</translation>
 <translation id="1062407476771304334">Замяна</translation>
 <translation id="1065449928621190041">Канадска (френски) клавиатура</translation>
 <translation id="1119069657431255176">Tar архив, компресиран във формат Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Транслитерация (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Електронни таблици</translation>
 <translation id="2938685643439809023">монголски</translation>
-<translation id="2939410873710774399">За да отваряте файлове с <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), първо ги преместете в папката <ph name="FOLDER_NAME" />.</translation>
 <translation id="2942290791863759244">Немска клавиатура (NEO 2)</translation>
 <translation id="2943400156390503548">Презентации</translation>
 <translation id="2943503720238418293">Използвайте по-кратко име</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Внимание: Тези файлове са временни и може да бъдат изтрити автоматично, за да се освободи място на диска.  <ph name="BEGIN_LINK" />Научете повече<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Папка</translation>
 <translation id="3549797760399244642">Към drive.google.com...</translation>
+<translation id="3553048479571901246">За да отваряте файлове с(ъс) <ph name="APP_NAME" />, първо ги копирайте в папката с файлове на Windows.</translation>
 <translation id="357479282490346887">литовски</translation>
 <translation id="3583509704582854624">Въвеждане на буквено-цифрени знаци (за японска клавиатура)</translation>
 <translation id="3603385196401704894">Канадска (френски) клавиатура</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">Избрани са <ph name="SELCTED_FILES_COUNT" /> елемента</translation>
 <translation id="4850886885716139402">Изглед</translation>
 <translation id="485316830061041779">немски</translation>
-<translation id="4859297381873413734">За да отваряте файлове с <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), първо ги копирайте в папката <ph name="FOLDER_NAME" />.</translation>
 <translation id="4867079195717347957">Кликнете, за да сортирате колоната в низходящ ред.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> байта</translation>
 <translation id="4880214202172289027">Плъзгач за силата на звука</translation>
 <translation id="4880520557730313061">Автокоригиране</translation>
 <translation id="4881695831933465202">Отваряне</translation>
 <translation id="4886021172213954916">Тамилска клавиатура (пишеща машина)</translation>
-<translation id="4892969127351273348">Отварянето чрез <ph name="APP_NAME" /> не е възможно</translation>
 <translation id="4900532980794411603">Споделяне с Parallels Desktop</translation>
 <translation id="4905417359854579806">Готови сме да създадем резервно копие на <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Коригирано</translation>

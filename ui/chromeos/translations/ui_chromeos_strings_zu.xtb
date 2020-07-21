@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Okokufaka kwesi-Japanese (okwekhibhodi yase-US)</translation>
 <translation id="1047956942837015229">Isusa izinto ezingu-<ph name="COUNT" />...</translation>
 <translation id="1049926623896334335">Idokhumenti ye-Word</translation>
+<translation id="1060368002126861100">Ukuze uvule amafayela nge-<ph name="APP_NAME" />, wahambise kuqala kufolda lamafayela we-Windows.</translation>
 <translation id="1062407476771304334">Faka esikhundleni</translation>
 <translation id="1065449928621190041">Ikhibhodi ye-Canadian French</translation>
 <translation id="1119069657431255176">Ingobo yomlando yotiyela wokuminyanisa i-Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Ukuguqula amagama (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Amashidi</translation>
 <translation id="2938685643439809023">Isi-Mongolian</translation>
-<translation id="2939410873710774399">Ukuze uvule amafayela nge-<ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), qala ngokuwahambisa kufolda ye-<ph name="FOLDER_NAME" />.</translation>
 <translation id="2942290791863759244">Ikhibhodi ye-German NEO 2</translation>
 <translation id="2943400156390503548">Amaslayidi</translation>
 <translation id="2943503720238418293">Sebenzisa igama elifushane</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Isexwayiso: Lamafayela awesikhashana futhi angase asuswe ngokuzenzekelayo ukukhulula isikhala sediski.  <ph name="BEGIN_LINK" />Funda kabanzi<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Ifolda</translation>
 <translation id="3549797760399244642">Hamba ku-drive.google.com...</translation>
+<translation id="3553048479571901246">Ukuze uvule amafayela nge-<ph name="APP_NAME" />, kukopishe kuqala kufolda lamafayela we-Windows.</translation>
 <translation id="357479282490346887">Isi-Lithuanian</translation>
 <translation id="3583509704582854624">Okokufaka kwe-alphanumeric (okwekhibhodi yesi-Japanese)</translation>
 <translation id="3603385196401704894">Isi-Canadian French</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> izinto ezikhethiwe</translation>
 <translation id="4850886885716139402">Buka</translation>
 <translation id="485316830061041779">Isi-German</translation>
-<translation id="4859297381873413734">Ukuze uvule amafayela nge-<ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), qala ngokuwakopishela kufolda ye-<ph name="FOLDER_NAME" />.</translation>
 <translation id="4867079195717347957">Chofoza ukuze uhlunge ikholomu ngendlela eyehlayo.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> bytes</translation>
 <translation id="4880214202172289027">Isilayida sevolumu</translation>
 <translation id="4880520557730313061">Gxilisa ngokuzenzakalela</translation>
 <translation id="4881695831933465202">Vula</translation>
 <translation id="4886021172213954916">Ikhibhodi ye-Tamil (Typewriter)</translation>
-<translation id="4892969127351273348">Ayikwazi ukuvula nge-<ph name="APP_NAME" /></translation>
 <translation id="4900532980794411603">Yabelana ne-Parallels Desktop</translation>
 <translation id="4905417359854579806">Ilungele ukwenza isipele se-<ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Ilungisiwe</translation>

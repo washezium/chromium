@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">የጃፓንኛ ግቤት (ለአሜሪካ ቁልፍ ሰሌዳ)</translation>
 <translation id="1047956942837015229"><ph name="COUNT" /> ንጥሎችን በመሰረዝ ላይ...</translation>
 <translation id="1049926623896334335">የWord ሰነድ</translation>
+<translation id="1060368002126861100">ፋይሎችን በ<ph name="APP_NAME" /> ለመክፈት፣ መጀመሪያ ወደ የመስኮቶች ፋይሎች አቃፊዉ ይውሰዷቸው።</translation>
 <translation id="1062407476771304334">ተካ</translation>
 <translation id="1065449928621190041">የካናዳ ፈረንሳይኛ ቁልፍ ሰሌዳ</translation>
 <translation id="1119069657431255176">Bzip2 የተጨመቀ የtar ማህደር</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">በቋንቋ ፊደል መጻፍ (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">ሉሆች</translation>
 <translation id="2938685643439809023">ሞንጎልኛ</translation>
-<translation id="2939410873710774399">ፋይሎችን በ<ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ለመክፈት መጀመሪያ ወደ የ<ph name="FOLDER_NAME" /> አቃፊው ይውሰዷቸው።</translation>
 <translation id="2942290791863759244">የጀርመንኛ NEO 2 ቁልፍ ሰሌዳ</translation>
 <translation id="2943400156390503548">ስላይድ</translation>
 <translation id="2943503720238418293">ያጠረ ስም ይጠቀሙ</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">ማስጠንቀቂያ፦ እነዚህ ፋይሎች ጊዜያዊ የሆኑና የአንጻፊ ቦታ ነጻ ለማስለቀቅ በራስ-ሰር ሊሰረዙ የሚችሉ ናቸው።  <ph name="BEGIN_LINK" />የበለጠ ለመረዳት<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">አቃፊ</translation>
 <translation id="3549797760399244642">ወደ drive.google.com ይሂዱ...</translation>
+<translation id="3553048479571901246">ፋይሎችን በ<ph name="APP_NAME" /> ለመክፈት፣መጀመሪያ ወደ የመስኮቶች ፋይሎች አቃፊዉ ይቅዱዋቸው።</translation>
 <translation id="357479282490346887">ሊቱአኒያን</translation>
 <translation id="3583509704582854624">ፊደልቁጥራዊ ግቤት (ለጃፓንኛ ግቤት)</translation>
 <translation id="3603385196401704894">የካናዳ ፈረንሳይኛ</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> ንጥሎች ተመርጠዋል</translation>
 <translation id="4850886885716139402">አሳይ</translation>
 <translation id="485316830061041779">ጀርመን</translation>
-<translation id="4859297381873413734">ፋይሎችን በ<ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) ለመክፈት መጀመሪያ ወደ የ<ph name="FOLDER_NAME" /> አቃፊው ይቅዷቸው።</translation>
 <translation id="4867079195717347957">በወራጅ ቅደም ተከተል ዓምዱን ለመደርደር ጠቅ ያድርጉ።</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> ባይት</translation>
 <translation id="4880214202172289027">የድምጽ ተንሸራታች</translation>
 <translation id="4880520557730313061">በራስ-ጠግን</translation>
 <translation id="4881695831933465202">ክፈት</translation>
 <translation id="4886021172213954916">የታሚል ቁልፍ ሰሌዳ (መተየቢያ)</translation>
-<translation id="4892969127351273348">በ<ph name="APP_NAME" /> መክፈት አልተቻለም</translation>
 <translation id="4900532980794411603">በParallels ዴስክቶፕ አጋራ</translation>
 <translation id="4905417359854579806">የ<ph name="FILE_COUNT" />ን ምትኬ ለማስቀመጥ ዝግጁ</translation>
 <translation id="4924638091161556692">ተጠግኗል</translation>

@@ -146,7 +146,7 @@
 <translation id="1177863135347784049">自定义</translation>
 <translation id="1178581264944972037">暂停</translation>
 <translation id="117916940443676133">您尚未设置 PIN 码来保护您的安全密钥。要管理登录数据，请先创建一个 PIN 码。</translation>
-<translation id="1181037720776840403">删除</translation>
+<translation id="1181037720776840403">移除</translation>
 <translation id="1183237619868651138">无法将 <ph name="EXTERNAL_CRX_FILE" /> 安装在本地缓存中。</translation>
 <translation id="1185924365081634987">您也可以尝试<ph name="GUEST_SIGNIN_LINK_START" />以访客身份浏览<ph name="GUEST_SIGNIN_LINK_END" />，以便修复该网络错误。</translation>
 <translation id="1186771945450942097">移除有害软件</translation>
@@ -4190,7 +4190,7 @@
 <translation id="6270770586500173387">发送<ph name="BEGIN_LINK1" />系统和应用信息<ph name="END_LINK1" />以及<ph name="BEGIN_LINK2" />指标<ph name="END_LINK2" /></translation>
 <translation id="6272643420381259437">下载该插件时出现错误 (<ph name="ERROR" />)</translation>
 <translation id="6273677812470008672">打印质量</translation>
-<translation id="6273979226236203550">您的密码已存储到此设备上和您的 Google 帐号中。您想删除哪个版本的密码？</translation>
+<translation id="6273979226236203550">您的密码已存储到此设备上和您的 Google 帐号中。您想删除存储在哪个位置的密码？</translation>
 <translation id="6277105963844135994">网络超时</translation>
 <translation id="6277518330158259200">屏幕截图(&amp;A)</translation>
 <translation id="6278057325678116358">使用 GTK+</translation>
@@ -4440,7 +4440,7 @@
 <translation id="6607831829715835317">更多工具(&amp;L)</translation>
 <translation id="6611972847767394631">您可在此处找到自己的标签页</translation>
 <translation id="6612358246767739896">受保护的内容</translation>
-<translation id="6615455863669487791">显示图标</translation>
+<translation id="6615455863669487791">演示一下</translation>
 <translation id="6617034477946102682">无法连接到<ph name="PRINTER_NAME" /></translation>
 <translation id="6618097958368085618">仍然保留</translation>
 <translation id="6618744767048954150">正在运行</translation>

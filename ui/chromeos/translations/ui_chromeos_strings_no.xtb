@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Japansk inndata (for amerikansk tastatur)</translation>
 <translation id="1047956942837015229">Sletter <ph name="COUNT" /> elementer ...</translation>
 <translation id="1049926623896334335">Word-dokument</translation>
+<translation id="1060368002126861100">For å åpne filer med <ph name="APP_NAME" />, flytt dem til mappen for Windows-filer først.</translation>
 <translation id="1062407476771304334">Erstatt</translation>
 <translation id="1065449928621190041">Fransk tastatur (Canada)</translation>
 <translation id="1119069657431255176">Komprimert tar-arkiv for Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Translitterasjon (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Regneark</translation>
 <translation id="2938685643439809023">Mongolsk</translation>
-<translation id="2939410873710774399">For å åpne filer med <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), flytt dem til <ph name="FOLDER_NAME" />-mappen først.</translation>
 <translation id="2942290791863759244">Tysk NEO 2-tastatur</translation>
 <translation id="2943400156390503548">Lysbilder</translation>
 <translation id="2943503720238418293">Bruk et kortere navn</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Advarsel: Disse filene er midlertidige og kan bli slettet automatisk for å frigjøre diskplass.  <ph name="BEGIN_LINK" />Finn ut mer<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Mappe</translation>
 <translation id="3549797760399244642">Gå til drive.google.com</translation>
+<translation id="3553048479571901246">For å åpne filer med <ph name="APP_NAME" />, kopiér dem til mappen for Windows-filer først.</translation>
 <translation id="357479282490346887">Litauisk</translation>
 <translation id="3583509704582854624">Alfanumerisk inndata (for japansk tastatur)</translation>
 <translation id="3603385196401704894">Canadisk fransk</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242"><ph name="SELCTED_FILES_COUNT" /> elementer valgt</translation>
 <translation id="4850886885716139402">Visning</translation>
 <translation id="485316830061041779">Tysk</translation>
-<translation id="4859297381873413734">For å åpne filer med <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />), kopiér dem til <ph name="FOLDER_NAME" />-mappen først.</translation>
 <translation id="4867079195717347957">Klikk for å sortere kolonnen i synkende rekkefølge.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> byte</translation>
 <translation id="4880214202172289027">Volumbryter</translation>
 <translation id="4880520557730313061">Autokorrigering</translation>
 <translation id="4881695831933465202">Åpne</translation>
 <translation id="4886021172213954916">Tamilsk tastatur (skrivemaskin)</translation>
-<translation id="4892969127351273348">Kan ikke åpnes med <ph name="APP_NAME" /></translation>
 <translation id="4900532980794411603">Del med Parallels Desktop</translation>
 <translation id="4905417359854579806">Klar til å sikkerhetskopiere <ph name="FILE_COUNT" /></translation>
 <translation id="4924638091161556692">Fikset</translation>

@@ -4443,7 +4443,7 @@
 <translation id="6607831829715835317">도구 더보기</translation>
 <translation id="6611972847767394631">여기에서 탭 찾아보기</translation>
 <translation id="6612358246767739896">보호된 콘텐츠</translation>
-<translation id="6615455863669487791">표시</translation>
+<translation id="6615455863669487791">보기</translation>
 <translation id="6617034477946102682"><ph name="PRINTER_NAME" />에 연결할 수 없음</translation>
 <translation id="6618097958368085618">보관</translation>
 <translation id="6618744767048954150">실행 중</translation>
@@ -5387,7 +5387,7 @@
 <translation id="7798844538707273832"><ph name="PERMISSION" /> 권한이 자동으로 차단됨</translation>
 <translation id="7799299114731150374">배경화면 설정이 완료되었습니다.</translation>
 <translation id="7800518121066352902">반시계 방향으로 회전(&amp;O)</translation>
-<translation id="780301667611848630">아니요, 괜찮습니다.</translation>
+<translation id="780301667611848630">취소</translation>
 <translation id="7805768142964895445">상태</translation>
 <translation id="7807067443225230855">검색 및 어시스턴트</translation>
 <translation id="7807711621188256451"><ph name="HOST" />에서 카메라에 액세스하도록 항상 허용</translation>

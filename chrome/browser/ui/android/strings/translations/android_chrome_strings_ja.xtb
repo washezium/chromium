@@ -643,7 +643,7 @@
 <translation id="6140912465461743537">国 / 地域</translation>
 <translation id="614940544461990577">次をお試しください</translation>
 <translation id="6154478581116148741">このデバイスからパスワードをエクスポートするには、[設定] で画面ロックをオンにしてください。</translation>
-<translation id="6157392216611456285"><ph name="APP_NAME" /> を選択します</translation>
+<translation id="6157392216611456285"><ph name="APP_NAME" /> を選択する</translation>
 <translation id="6159335304067198720"><ph name="PERCENT" /> のデータを削減</translation>
 <translation id="6201345951596836663">リンクをコピーしました</translation>
 <translation id="6206830853671714236">ダウンロード日時の選択</translation>
@@ -669,7 +669,7 @@
 <translation id="6342069812937806050">たった今</translation>
 <translation id="6343495912647200061">{SHIPPING_ADDRESS,plural, =1{<ph name="SHIPPING_ADDRESS_PREVIEW" />\u2026 他 <ph name="NUMBER_OF_ADDITIONAL_ADDRESSES" /> 件}other{<ph name="SHIPPING_ADDRESS_PREVIEW" />\u2026 他 <ph name="NUMBER_OF_ADDITIONAL_ADDRESSES" /> 件}}</translation>
 <translation id="6364438453358674297">履歴から候補を削除しますか？</translation>
-<translation id="6366047038980456022"><ph name="APP_NAME" /> の最先端技術で作業をすばやく安全にします。オンラインでの日課、クリエイティブな作業、探索もお任せください。</translation>
+<translation id="6366047038980456022"><ph name="APP_NAME" /> の最先端技術で作業をすばやく安全に行えます。オンラインでのクリエイティブな作業や検索もスムーズです。</translation>
 <translation id="6369229450655021117">ここからウェブを検索したり、友だちと共有したり、開いたページを表示したりできます</translation>
 <translation id="6378173571450987352">詳細: データ使用量の順</translation>
 <translation id="6379829913050047669">Chrome で <ph name="APP_NAME" /> を開きます。続行すると、<ph name="BEGIN_LINK1" />Google 利用規約<ph name="END_LINK1" />と <ph name="BEGIN_LINK2" />Google Chrome および Chrome OS 追加利用規約<ph name="END_LINK2" />に同意したことになります。</translation>
@@ -722,7 +722,7 @@
 <translation id="6671495933530132209">画像をコピー</translation>
 <translation id="6676840375528380067">Chrome データをこのデバイスから削除しますか？</translation>
 <translation id="6689172468748959065">プロフィール写真</translation>
-<translation id="6691888250440401212">1. <ph name="APP_NAME" /> を選択します\n2. [デフォルトに設定] をタップします</translation>
+<translation id="6691888250440401212">1. <ph name="APP_NAME" /> を選択します\n2. [デフォルトとして設定] をタップします</translation>
 <translation id="6697492270171225480">ページが見つからない場合に類似のページを候補として表示する</translation>
 <translation id="6698801883190606802">同期データを管理</translation>
 <translation id="6699370405921460408">アクセスするページを Google のサーバーで最適化します。</translation>

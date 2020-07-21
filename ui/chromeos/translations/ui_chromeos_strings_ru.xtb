@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">Ввод на японском языке (для американской раскладки)</translation>
 <translation id="1047956942837015229">Удаление элементов (<ph name="COUNT" />)…</translation>
 <translation id="1049926623896334335">Документ Word</translation>
+<translation id="1060368002126861100">Чтобы открыть файлы с помощью приложения "<ph name="APP_NAME" />", переместите их в папку "Файлы Windows".</translation>
 <translation id="1062407476771304334">Заменить</translation>
 <translation id="1065449928621190041">Канадская раскладка (французский)</translation>
 <translation id="1119069657431255176">Сжатый TAR-архив Bzip2</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">Транслитерация (namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">Таблицы</translation>
 <translation id="2938685643439809023">Монгольский</translation>
-<translation id="2939410873710774399">Чтобы открывать файлы с помощью приложения "<ph name="APP_NAME" />" (<ph name="VM_SOFTWARE_NAME" />), сначала переместите их в папку "<ph name="FOLDER_NAME" />".</translation>
 <translation id="2942290791863759244">Немецкая раскладка (NEO 2)</translation>
 <translation id="2943400156390503548">Слайды</translation>
 <translation id="2943503720238418293">Слишком длинное название.</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">Внимание! Эти файлы – временные. Они могут быть автоматически удалены, чтобы освободить место на диске.  <ph name="BEGIN_LINK" />Подробнее…<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">Папка</translation>
 <translation id="3549797760399244642">Перейти на drive.google.com…</translation>
+<translation id="3553048479571901246">Чтобы открыть файлы с помощью приложения "<ph name="APP_NAME" />", скопируйте их в папку "Файлы Windows".</translation>
 <translation id="357479282490346887">Литовский</translation>
 <translation id="3583509704582854624">Ввод букв и цифр (для японской раскладки)</translation>
 <translation id="3603385196401704894">Канадская (французская)</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">Выбрано элементов: <ph name="SELCTED_FILES_COUNT" />.</translation>
 <translation id="4850886885716139402">Посмотреть</translation>
 <translation id="485316830061041779">Немецкий</translation>
-<translation id="4859297381873413734">Чтобы открывать файлы с помощью приложения "<ph name="APP_NAME" />" (<ph name="VM_SOFTWARE_NAME" />), сначала скопируйте их в папку "<ph name="FOLDER_NAME" />".</translation>
 <translation id="4867079195717347957">Нажмите, чтобы отсортировать значения в столбце по убыванию.</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> Б</translation>
 <translation id="4880214202172289027">Ползунок громкости</translation>
 <translation id="4880520557730313061">Автокоррекция</translation>
 <translation id="4881695831933465202">Открыть</translation>
 <translation id="4886021172213954916">Тамильская раскладка ("Печатная машинка")</translation>
-<translation id="4892969127351273348">Не удалось открыть файл с помощью приложения "<ph name="APP_NAME" />"</translation>
 <translation id="4900532980794411603">Предоставить доступ Parallels Desktop</translation>
 <translation id="4905417359854579806">Файлы (<ph name="FILE_COUNT" />) готовы к сохранению</translation>
 <translation id="4924638091161556692">Исправлено</translation>

@@ -8,6 +8,7 @@
 <translation id="1046068652463704410">日语输入法（适用于美式键盘）</translation>
 <translation id="1047956942837015229">正在删除<ph name="COUNT" />项内容…</translation>
 <translation id="1049926623896334335">Word 文档</translation>
+<translation id="1060368002126861100">如需使用 <ph name="APP_NAME" /> 打开文件，请先将文件移至“Windows 文件”文件夹。</translation>
 <translation id="1062407476771304334">替换</translation>
 <translation id="1065449928621190041">法语（加拿大）键盘</translation>
 <translation id="1119069657431255176">bzip2 压缩的 tar 归档</translation>
@@ -168,7 +169,6 @@
 <translation id="2924296707677495905">音译(namaskaram → ನಮಸ್ಕಾರ)</translation>
 <translation id="2925966894897775835">表格</translation>
 <translation id="2938685643439809023">蒙古语</translation>
-<translation id="2939410873710774399">如需使用 <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) 打开文件，请先将文件移到“<ph name="FOLDER_NAME" />”文件夹。</translation>
 <translation id="2942290791863759244">德语Neo 2键盘</translation>
 <translation id="2943400156390503548">幻灯片</translation>
 <translation id="2943503720238418293">请使用一个较短的名称</translation>
@@ -222,6 +222,7 @@
 <translation id="3524311639100184459">警告：这些都是临时文件，可能会被系统自动删除以释放磁盘空间。<ph name="BEGIN_LINK" />了解详情<ph name="END_LINK" /></translation>
 <translation id="3527085408025491307">文件夹</translation>
 <translation id="3549797760399244642">转到 drive.google.com...</translation>
+<translation id="3553048479571901246">如需使用 <ph name="APP_NAME" /> 打开文件，请先将文件复制到“Windows 文件”文件夹。</translation>
 <translation id="357479282490346887">立陶宛语</translation>
 <translation id="3583509704582854624">字母数字输入法（适用于日语键盘）</translation>
 <translation id="3603385196401704894">加拿大法语</translation>
@@ -333,14 +334,12 @@
 <translation id="4839847978919684242">已经选择 <ph name="SELCTED_FILES_COUNT" /> 个文件或目录</translation>
 <translation id="4850886885716139402">视图</translation>
 <translation id="485316830061041779">德语</translation>
-<translation id="4859297381873413734">如需使用 <ph name="APP_NAME" /> (<ph name="VM_SOFTWARE_NAME" />) 打开文件，请先将文件复制到“<ph name="FOLDER_NAME" />”文件夹。</translation>
 <translation id="4867079195717347957">点击即可按降序对此列排序。</translation>
 <translation id="4873265419374180291"><ph name="NUMBER_OF_BYTES" /> 字节</translation>
 <translation id="4880214202172289027">音量滑块</translation>
 <translation id="4880520557730313061">自动修正</translation>
 <translation id="4881695831933465202">打开</translation>
 <translation id="4886021172213954916">泰米尔语键盘（打字机）</translation>
-<translation id="4892969127351273348">无法使用“<ph name="APP_NAME" />”打开</translation>
 <translation id="4900532980794411603">与 Parallels Desktop 共享</translation>
 <translation id="4905417359854579806">可以开始备份 <ph name="FILE_COUNT" />了</translation>
 <translation id="4924638091161556692">已修正</translation>

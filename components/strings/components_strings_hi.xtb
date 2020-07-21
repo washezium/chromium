@@ -273,7 +273,7 @@
 <translation id="2053111141626950936"><ph name="LANGUAGE" /> भाषा के पेजों का अनुवाद नहीं किया जाएगा.</translation>
 <translation id="2053553514270667976">ज़िप कोड</translation>
 <translation id="2064691555167957331">{COUNT,plural, =1{1 सुझाव}one{# सुझाव}other{# सुझाव}}</translation>
-<translation id="2079545284768500474">वापस लाएं</translation>
+<translation id="2079545284768500474">पहले जैसा करें</translation>
 <translation id="20817612488360358">सिस्‍टम प्रॉक्‍सी सेटिंग उपयोग किए जाने के लिए सेट हैं लेकिन कोई स्पष्‍ट प्रॉक्‍सी कॉन्फ़िगरेशन भी मौजूद है.</translation>
 <translation id="2082238445998314030"><ph name="TOTAL_RESULTS" /> में से <ph name="RESULT_NUMBER" /> परिणाम</translation>
 <translation id="2091887806945687916">आवाज़</translation>
@@ -391,7 +391,7 @@
 <translation id="2552295903035773204">अब से, कार्ड की पुष्टि करने के लिए स्क्रीन लॉक इस्तेमाल करें</translation>
 <translation id="2553853292994445426">अपने सुरक्षित डीएनएस की सेटिंग की जांच करें. शायद आपने सुरक्षित डीएनएस सर्वर को कॉन्फ़िगर किया होगा, जिससे आप कनेक्ट नहीं हो पा रहे.</translation>
 <translation id="2556876185419854533">&amp;बदलाव को पहले जैसा करें</translation>
-<translation id="257674075312929031">समूह</translation>
+<translation id="257674075312929031">ग्रुप</translation>
 <translation id="2586657967955657006">क्लिपबोर्ड</translation>
 <translation id="2587730715158995865"><ph name="ARTICLE_PUBLISHER" /> की ओर से. यह और <ph name="OTHER_ARTICLE_COUNT" /> दूसरे समाचार पढ़ें.</translation>
 <translation id="2587841377698384444">निर्देशिका API (एपीआई) आईडी:</translation>
