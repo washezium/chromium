@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_VARIATIONS_VARIATIONS_HTTP_HEADER_PROVIDER_H_
-#define COMPONENTS_VARIATIONS_VARIATIONS_HTTP_HEADER_PROVIDER_H_
+#ifndef COMPONENTS_VARIATIONS_VARIATIONS_IDS_PROVIDER_H_
+#define COMPONENTS_VARIATIONS_VARIATIONS_IDS_PROVIDER_H_
 
 #include <set>
 #include <string>
@@ -29,8 +29,8 @@ class VariationsClient;
 // A helper class for maintaining client experiments and metrics state
 // transmitted in custom HTTP request headers.
 // This class is a thread-safe singleton.
-class VariationsHttpHeaderProvider : public base::FieldTrialList::Observer,
-                                     public SyntheticTrialObserver {
+class VariationsIdsProvider : public base::FieldTrialList::Observer,
+                              public SyntheticTrialObserver {
  public:
   class Observer {
    public:
@@ -41,7 +41,7 @@ class VariationsHttpHeaderProvider : public base::FieldTrialList::Observer,
     virtual ~Observer() {}
   };
 
-  static VariationsHttpHeaderProvider* GetInstance();
+  static VariationsIdsProvider* GetInstance();
 
   // Returns the value of the client data header, computing and caching it if
   // necessary. If |is_signed_in| is false, variation ids that should only be
@@ -103,35 +103,31 @@ class VariationsHttpHeaderProvider : public base::FieldTrialList::Observer,
   void ResetForTesting();
 
  private:
-  friend struct base::DefaultSingletonTraits<VariationsHttpHeaderProvider>;
+  friend struct base::DefaultSingletonTraits<VariationsIdsProvider>;
 
   typedef std::pair<VariationID, IDCollectionKey> VariationIDEntry;
 
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
-                           ForceVariationIds_Valid);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest, ForceVariationIds_Valid);
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            ForceVariationIds_ValidCommandLine);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            ForceVariationIds_Invalid);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            ForceDisableVariationIds_ValidCommandLine);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            ForceDisableVariationIds_Invalid);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            OnFieldTrialGroupFinalized);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            GetGoogleAppVariationsString);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
-                           GetVariationsString);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
-                           GetVariationsVector);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest, GetVariationsString);
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest, GetVariationsVector);
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest,
                            GetVariationsVectorForWebPropertiesKeys);
-  FRIEND_TEST_ALL_PREFIXES(VariationsHttpHeaderProviderTest,
-                           GetVariationsVectorImpl);
+  FRIEND_TEST_ALL_PREFIXES(VariationsIdsProviderTest, GetVariationsVectorImpl);
 
-  VariationsHttpHeaderProvider();
-  ~VariationsHttpHeaderProvider() override;
+  VariationsIdsProvider();
+  ~VariationsIdsProvider() override;
 
   // Returns a space-separated string containing the list of current active
   // variations (as would be reported in the |variation_id| repeated field of
@@ -217,9 +213,9 @@ class VariationsHttpHeaderProvider : public base::FieldTrialList::Observer,
 
   const VariationsClient* variations_client_ = nullptr;
 
-  DISALLOW_COPY_AND_ASSIGN(VariationsHttpHeaderProvider);
+  DISALLOW_COPY_AND_ASSIGN(VariationsIdsProvider);
 };
 
 }  // namespace variations
 
-#endif  // COMPONENTS_VARIATIONS_VARIATIONS_HTTP_HEADER_PROVIDER_H_
+#endif  // COMPONENTS_VARIATIONS_VARIATIONS_IDS_PROVIDER_H_

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/variations/variations_http_header_provider.h"
+#include "components/variations/variations_ids_provider.h"
 
 #include <stddef.h>
 
@@ -36,12 +36,11 @@ namespace variations {
 // function variations::CreateSimpleURLLoaderWithVariationsHeader().
 
 // static
-VariationsHttpHeaderProvider* VariationsHttpHeaderProvider::GetInstance() {
-  return base::Singleton<VariationsHttpHeaderProvider>::get();
+VariationsIdsProvider* VariationsIdsProvider::GetInstance() {
+  return base::Singleton<VariationsIdsProvider>::get();
 }
 
-std::string VariationsHttpHeaderProvider::GetClientDataHeader(
-    bool is_signed_in) {
+std::string VariationsIdsProvider::GetClientDataHeader(bool is_signed_in) {
   // Lazily initialize the header, if not already done, before attempting to
   // transmit it.
   InitVariationIDsCacheIfNeeded();
@@ -56,8 +55,7 @@ std::string VariationsHttpHeaderProvider::GetClientDataHeader(
   return variation_ids_header_copy;
 }
 
-std::string VariationsHttpHeaderProvider::GetVariationsString(
-    IDCollectionKey key) {
+std::string VariationsIdsProvider::GetVariationsString(IDCollectionKey key) {
   InitVariationIDsCacheIfNeeded();
 
   // Construct a space-separated string with leading and trailing spaces from
@@ -76,21 +74,21 @@ std::string VariationsHttpHeaderProvider::GetVariationsString(
   return ids_string;
 }
 
-std::string VariationsHttpHeaderProvider::GetGoogleAppVariationsString() {
+std::string VariationsIdsProvider::GetGoogleAppVariationsString() {
   return GetVariationsString(GOOGLE_APP);
 }
 
-std::string VariationsHttpHeaderProvider::GetVariationsString() {
+std::string VariationsIdsProvider::GetVariationsString() {
   return GetVariationsString(GOOGLE_WEB_PROPERTIES);
 }
 
-std::vector<VariationID> VariationsHttpHeaderProvider::GetVariationsVector(
+std::vector<VariationID> VariationsIdsProvider::GetVariationsVector(
     IDCollectionKey key) {
   return GetVariationsVectorImpl(std::set<IDCollectionKey>{key});
 }
 
 std::vector<VariationID>
-VariationsHttpHeaderProvider::GetVariationsVectorForWebPropertiesKeys() {
+VariationsIdsProvider::GetVariationsVectorForWebPropertiesKeys() {
   const std::set<IDCollectionKey> web_properties_keys{
       variations::GOOGLE_WEB_PROPERTIES,
       variations::GOOGLE_WEB_PROPERTIES_SIGNED_IN,
@@ -98,8 +96,7 @@ VariationsHttpHeaderProvider::GetVariationsVectorForWebPropertiesKeys() {
   return GetVariationsVectorImpl(web_properties_keys);
 }
 
-VariationsHttpHeaderProvider::ForceIdsResult
-VariationsHttpHeaderProvider::ForceVariationIds(
+VariationsIdsProvider::ForceIdsResult VariationsIdsProvider::ForceVariationIds(
     const std::vector<std::string>& variation_ids,
     const std::string& command_line_variation_ids) {
   default_variation_ids_set_.clear();
@@ -114,22 +111,22 @@ VariationsHttpHeaderProvider::ForceVariationIds(
   return ForceIdsResult::SUCCESS;
 }
 
-bool VariationsHttpHeaderProvider::ForceDisableVariationIds(
+bool VariationsIdsProvider::ForceDisableVariationIds(
     const std::string& command_line_variation_ids) {
   force_disabled_ids_set_.clear();
   return ParseVariationIdsParameter(command_line_variation_ids,
                                     &force_disabled_ids_set_);
 }
 
-void VariationsHttpHeaderProvider::AddObserver(Observer* observer) {
+void VariationsIdsProvider::AddObserver(Observer* observer) {
   observer_list_.AddObserver(observer);
 }
 
-void VariationsHttpHeaderProvider::RemoveObserver(Observer* observer) {
+void VariationsIdsProvider::RemoveObserver(Observer* observer) {
   observer_list_.RemoveObserver(observer);
 }
 
-void VariationsHttpHeaderProvider::ResetForTesting() {
+void VariationsIdsProvider::ResetForTesting() {
   base::AutoLock scoped_lock(lock_);
 
   // Stop observing field trials so that it can be restarted when this is
@@ -144,14 +141,14 @@ void VariationsHttpHeaderProvider::ResetForTesting() {
   cached_variation_ids_header_signed_in_.clear();
 }
 
-VariationsHttpHeaderProvider::VariationsHttpHeaderProvider()
+VariationsIdsProvider::VariationsIdsProvider()
     : variation_ids_cache_initialized_(false) {}
 
-VariationsHttpHeaderProvider::~VariationsHttpHeaderProvider() {
+VariationsIdsProvider::~VariationsIdsProvider() {
   base::FieldTrialList::RemoveObserver(this);
 }
 
-void VariationsHttpHeaderProvider::OnFieldTrialGroupFinalized(
+void VariationsIdsProvider::OnFieldTrialGroupFinalized(
     const std::string& trial_name,
     const std::string& group_name) {
   base::AutoLock scoped_lock(lock_);
@@ -164,7 +161,7 @@ void VariationsHttpHeaderProvider::OnFieldTrialGroupFinalized(
     UpdateVariationIDsHeaderValue();
 }
 
-void VariationsHttpHeaderProvider::OnSyntheticTrialsChanged(
+void VariationsIdsProvider::OnSyntheticTrialsChanged(
     const std::vector<SyntheticTrialGroup>& groups) {
   base::AutoLock scoped_lock(lock_);
 
@@ -188,7 +185,7 @@ void VariationsHttpHeaderProvider::OnSyntheticTrialsChanged(
   UpdateVariationIDsHeaderValue();
 }
 
-void VariationsHttpHeaderProvider::InitVariationIDsCacheIfNeeded() {
+void VariationsIdsProvider::InitVariationIDsCacheIfNeeded() {
   base::AutoLock scoped_lock(lock_);
   if (variation_ids_cache_initialized_)
     return;
@@ -215,16 +212,15 @@ void VariationsHttpHeaderProvider::InitVariationIDsCacheIfNeeded() {
   variation_ids_cache_initialized_ = true;
 }
 
-void VariationsHttpHeaderProvider::CacheVariationsId(
-    const std::string& trial_name,
-    const std::string& group_name,
-    IDCollectionKey key) {
+void VariationsIdsProvider::CacheVariationsId(const std::string& trial_name,
+                                              const std::string& group_name,
+                                              IDCollectionKey key) {
   const VariationID id = GetGoogleVariationID(key, trial_name, group_name);
   if (id != EMPTY_ID)
     variation_ids_set_.insert(VariationIDEntry(id, key));
 }
 
-void VariationsHttpHeaderProvider::UpdateVariationIDsHeaderValue() {
+void VariationsIdsProvider::UpdateVariationIDsHeaderValue() {
   lock_.AssertAcquired();
 
   // The header value is a serialized protobuffer of Variation IDs which is
@@ -244,7 +240,7 @@ void VariationsHttpHeaderProvider::UpdateVariationIDsHeaderValue() {
   }
 }
 
-std::string VariationsHttpHeaderProvider::GenerateBase64EncodedProto(
+std::string VariationsIdsProvider::GenerateBase64EncodedProto(
     bool is_signed_in) {
   std::set<VariationIDEntry> all_variation_ids_set = GetAllVariationIds();
 
@@ -295,7 +291,7 @@ std::string VariationsHttpHeaderProvider::GenerateBase64EncodedProto(
 }
 
 // static
-bool VariationsHttpHeaderProvider::AddVariationIdsToSet(
+bool VariationsIdsProvider::AddVariationIdsToSet(
     const std::vector<std::string>& variation_ids,
     std::set<VariationIDEntry>* target_set) {
   for (const std::string& entry : variation_ids) {
@@ -321,7 +317,7 @@ bool VariationsHttpHeaderProvider::AddVariationIdsToSet(
 }
 
 // static
-bool VariationsHttpHeaderProvider::ParseVariationIdsParameter(
+bool VariationsIdsProvider::ParseVariationIdsParameter(
     const std::string& command_line_variation_ids,
     std::set<VariationIDEntry>* target_set) {
   if (command_line_variation_ids.empty())
@@ -333,8 +329,8 @@ bool VariationsHttpHeaderProvider::ParseVariationIdsParameter(
   return AddVariationIdsToSet(variation_ids_from_command_line, target_set);
 }
 
-std::set<VariationsHttpHeaderProvider::VariationIDEntry>
-VariationsHttpHeaderProvider::GetAllVariationIds() {
+std::set<VariationsIdsProvider::VariationIDEntry>
+VariationsIdsProvider::GetAllVariationIds() {
   lock_.AssertAcquired();
 
   std::set<VariationIDEntry> all_variation_ids_set = default_variation_ids_set_;
@@ -350,7 +346,7 @@ VariationsHttpHeaderProvider::GetAllVariationIds() {
   return all_variation_ids_set;
 }
 
-std::vector<VariationID> VariationsHttpHeaderProvider::GetVariationsVectorImpl(
+std::vector<VariationID> VariationsIdsProvider::GetVariationsVectorImpl(
     const std::set<IDCollectionKey>& keys) {
   InitVariationIDsCacheIfNeeded();
 

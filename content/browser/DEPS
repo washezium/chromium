@@ -35,7 +35,7 @@ include_rules = [
   "+components/ukm",
   "+components/url_formatter",
   "+components/variations/variations_client.h",
-  "+components/variations/variations_http_header_provider.h",
+  "+components/variations/variations_ids_provider.h",
   "+components/variations/net",
   "+components/viz",
   "+components/web_package",

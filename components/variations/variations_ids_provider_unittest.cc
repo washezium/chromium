@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/variations/variations_http_header_provider.h"
+#include "components/variations/variations_ids_provider.h"
 
 #include <string>
 
@@ -57,22 +57,22 @@ scoped_refptr<base::FieldTrial> CreateTrialAndAssociateId(
 
 }  // namespace
 
-class VariationsHttpHeaderProviderTest : public ::testing::Test {
+class VariationsIdsProviderTest : public ::testing::Test {
  public:
-  VariationsHttpHeaderProviderTest() {}
+  VariationsIdsProviderTest() {}
 
-  ~VariationsHttpHeaderProviderTest() override {}
+  ~VariationsIdsProviderTest() override {}
 
   void TearDown() override { testing::ClearAllVariationIDs(); }
 
   base::test::SingleThreadTaskEnvironment task_environment_;
 };
 
-TEST_F(VariationsHttpHeaderProviderTest, ForceVariationIds_Valid) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, ForceVariationIds_Valid) {
+  VariationsIdsProvider provider;
 
   // Valid experiment ids.
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::SUCCESS,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::SUCCESS,
             provider.ForceVariationIds({"12", "456", "t789"}, ""));
   provider.InitVariationIDsCacheIfNeeded();
   std::string variations = provider.GetClientDataHeader(false);
@@ -86,11 +86,11 @@ TEST_F(VariationsHttpHeaderProviderTest, ForceVariationIds_Valid) {
   EXPECT_FALSE(variation_ids.find(789) != variation_ids.end());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, ForceVariationIds_ValidCommandLine) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, ForceVariationIds_ValidCommandLine) {
+  VariationsIdsProvider provider;
 
   // Valid experiment ids.
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::SUCCESS,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::SUCCESS,
             provider.ForceVariationIds({"12"}, "456,t789"));
   provider.InitVariationIDsCacheIfNeeded();
   std::string variations = provider.GetClientDataHeader(false);
@@ -104,34 +104,33 @@ TEST_F(VariationsHttpHeaderProviderTest, ForceVariationIds_ValidCommandLine) {
   EXPECT_FALSE(variation_ids.find(789) != variation_ids.end());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, ForceVariationIds_Invalid) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, ForceVariationIds_Invalid) {
+  VariationsIdsProvider provider;
 
   // Invalid experiment ids.
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::INVALID_VECTOR_ENTRY,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::INVALID_VECTOR_ENTRY,
             provider.ForceVariationIds({"abcd12", "456"}, ""));
   provider.InitVariationIDsCacheIfNeeded();
   EXPECT_TRUE(provider.GetClientDataHeader(false).empty());
 
   // Invalid trigger experiment id
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::INVALID_VECTOR_ENTRY,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::INVALID_VECTOR_ENTRY,
             provider.ForceVariationIds({"12", "tabc456"}, ""));
   provider.InitVariationIDsCacheIfNeeded();
   EXPECT_TRUE(provider.GetClientDataHeader(false).empty());
 
   // Invalid command-line ids.
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::INVALID_SWITCH_ENTRY,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::INVALID_SWITCH_ENTRY,
             provider.ForceVariationIds({"12", "50"}, "tabc456"));
   provider.InitVariationIDsCacheIfNeeded();
   EXPECT_TRUE(provider.GetClientDataHeader(false).empty());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest,
-       ForceDisableVariationIds_ValidCommandLine) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, ForceDisableVariationIds_ValidCommandLine) {
+  VariationsIdsProvider provider;
 
   // Valid experiment ids.
-  EXPECT_EQ(VariationsHttpHeaderProvider::ForceIdsResult::SUCCESS,
+  EXPECT_EQ(VariationsIdsProvider::ForceIdsResult::SUCCESS,
             provider.ForceVariationIds({"1", "2", "t3", "t4"}, "5,6,t7,t8"));
   EXPECT_TRUE(provider.ForceDisableVariationIds("2,t4,6,t8"));
   provider.InitVariationIDsCacheIfNeeded();
@@ -150,8 +149,8 @@ TEST_F(VariationsHttpHeaderProviderTest,
   EXPECT_FALSE(trigger_ids.find(8) != trigger_ids.end());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, ForceDisableVariationIds_Invalid) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, ForceDisableVariationIds_Invalid) {
+  VariationsIdsProvider provider;
 
   // Invalid command-line ids.
   EXPECT_FALSE(provider.ForceDisableVariationIds("abc"));
@@ -160,8 +159,8 @@ TEST_F(VariationsHttpHeaderProviderTest, ForceDisableVariationIds_Invalid) {
   EXPECT_TRUE(provider.GetClientDataHeader(false).empty());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, OnFieldTrialGroupFinalized) {
-  VariationsHttpHeaderProvider provider;
+TEST_F(VariationsIdsProviderTest, OnFieldTrialGroupFinalized) {
+  VariationsIdsProvider provider;
   provider.InitVariationIDsCacheIfNeeded();
 
   const std::string default_name = "default";
@@ -207,7 +206,7 @@ TEST_F(VariationsHttpHeaderProviderTest, OnFieldTrialGroupFinalized) {
   }
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, GetGoogleAppVariationsString) {
+TEST_F(VariationsIdsProviderTest, GetGoogleAppVariationsString) {
   // All GOOGLE_WEB_PROPERTIES(_X) ids shouldn't be included.
   CreateTrialAndAssociateId("t1", "g1", GOOGLE_WEB_PROPERTIES, 123);
   CreateTrialAndAssociateId("t2", "g2", GOOGLE_WEB_PROPERTIES, 124);
@@ -216,12 +215,12 @@ TEST_F(VariationsHttpHeaderProviderTest, GetGoogleAppVariationsString) {
   // GOOGLE_APP ids should be included.
   CreateTrialAndAssociateId("t4", "g4", GOOGLE_APP, 126);
 
-  VariationsHttpHeaderProvider provider;
+  VariationsIdsProvider provider;
   provider.ForceVariationIds({"100", "200"}, "");
   EXPECT_EQ(" 126 ", provider.GetGoogleAppVariationsString());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, GetVariationsString) {
+TEST_F(VariationsIdsProviderTest, GetVariationsString) {
   CreateTrialAndAssociateId("t1", "g1", GOOGLE_WEB_PROPERTIES, 123);
   CreateTrialAndAssociateId("t2", "g2", GOOGLE_WEB_PROPERTIES, 124);
   // SIGNED_IN ids shouldn't be included.
@@ -229,12 +228,12 @@ TEST_F(VariationsHttpHeaderProviderTest, GetVariationsString) {
   // GOOGLE_APP ids shouldn't be included.
   CreateTrialAndAssociateId("t4", "g4", GOOGLE_APP, 126);
 
-  VariationsHttpHeaderProvider provider;
+  VariationsIdsProvider provider;
   provider.ForceVariationIds({"100", "200"}, "");
   EXPECT_EQ(" 100 123 124 200 ", provider.GetVariationsString());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, GetVariationsVector) {
+TEST_F(VariationsIdsProviderTest, GetVariationsVector) {
   CreateTrialAndAssociateId("t1", "g1", GOOGLE_WEB_PROPERTIES, 121);
   CreateTrialAndAssociateId("t2", "g2", GOOGLE_WEB_PROPERTIES, 122);
   CreateTrialAndAssociateId("t3", "g3", GOOGLE_WEB_PROPERTIES_TRIGGER, 123);
@@ -242,7 +241,7 @@ TEST_F(VariationsHttpHeaderProviderTest, GetVariationsVector) {
   CreateTrialAndAssociateId("t5", "g5", GOOGLE_WEB_PROPERTIES_SIGNED_IN, 125);
   CreateTrialAndAssociateId("t6", "g6", GOOGLE_APP, 126);
 
-  VariationsHttpHeaderProvider provider;
+  VariationsIdsProvider provider;
   provider.ForceVariationIds({"100", "200", "t101"}, "");
 
   EXPECT_EQ((std::vector<VariationID>{100, 121, 122, 200}),
@@ -255,19 +254,18 @@ TEST_F(VariationsHttpHeaderProviderTest, GetVariationsVector) {
             provider.GetVariationsVector(GOOGLE_APP));
 }
 
-TEST_F(VariationsHttpHeaderProviderTest,
-       GetVariationsVectorForWebPropertiesKeys) {
+TEST_F(VariationsIdsProviderTest, GetVariationsVectorForWebPropertiesKeys) {
   CreateTrialAndAssociateId("t1", "g1", GOOGLE_WEB_PROPERTIES, 121);
   CreateTrialAndAssociateId("t2", "g2", GOOGLE_WEB_PROPERTIES_TRIGGER, 122);
   CreateTrialAndAssociateId("t3", "g3", GOOGLE_WEB_PROPERTIES_SIGNED_IN, 123);
   CreateTrialAndAssociateId("t4", "g4", GOOGLE_APP, 124);  // Will be excluded.
-  VariationsHttpHeaderProvider provider;
+  VariationsIdsProvider provider;
   provider.ForceVariationIds({"100", "t101"}, "");
   EXPECT_EQ((std::vector<VariationID>{100, 101, 121, 122, 123}),
             provider.GetVariationsVectorForWebPropertiesKeys());
 }
 
-TEST_F(VariationsHttpHeaderProviderTest, GetVariationsVectorImpl) {
+TEST_F(VariationsIdsProviderTest, GetVariationsVectorImpl) {
   CreateTrialAndAssociateId("t1", "g1", GOOGLE_WEB_PROPERTIES, 121);
   CreateTrialAndAssociateId("t2", "g2", GOOGLE_WEB_PROPERTIES, 122);
   CreateTrialAndAssociateId("t3", "g3", GOOGLE_WEB_PROPERTIES_TRIGGER, 123);
@@ -277,7 +275,7 @@ TEST_F(VariationsHttpHeaderProviderTest, GetVariationsVectorImpl) {
                             124);  // Note: Duplicate.
   CreateTrialAndAssociateId("t7", "g7", GOOGLE_APP, 126);
 
-  VariationsHttpHeaderProvider provider;
+  VariationsIdsProvider provider;
   provider.ForceVariationIds({"100", "200", "t101"}, "");
 
   EXPECT_EQ((std::vector<VariationID>{100, 101, 121, 122, 123, 124, 200}),
