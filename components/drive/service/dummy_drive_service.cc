@@ -53,9 +53,9 @@ std::string DummyDriveService::GetRootResourceId() const {
   return "dummy_root";
 }
 
-CancelCallback DummyDriveService::GetAllTeamDriveList(
+CancelCallbackOnce DummyDriveService::GetAllTeamDriveList(
     TeamDriveListCallback callback) {
-  return CancelCallback();
+  return CancelCallbackOnce();
 }
 
 CancelCallback DummyDriveService::GetAllFileList(

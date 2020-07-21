@@ -204,7 +204,7 @@ class DriveServiceInterface : public DriveServiceBatchOperationsInterface {
   // GetRemainingDriveList.
   //
   // |callback| must not be null.
-  virtual google_apis::CancelCallback GetAllTeamDriveList(
+  virtual google_apis::CancelCallbackOnce GetAllTeamDriveList(
       google_apis::TeamDriveListCallback callback) = 0;
 
   // Fetches a file list of the account. |callback| will be called upon

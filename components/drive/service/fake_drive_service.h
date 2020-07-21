@@ -133,7 +133,7 @@ class FakeDriveService : public DriveServiceInterface {
   bool HasRefreshToken() const override;
   void ClearAccessToken() override;
   void ClearRefreshToken() override;
-  google_apis::CancelCallback GetAllTeamDriveList(
+  google_apis::CancelCallbackOnce GetAllTeamDriveList(
       google_apis::TeamDriveListCallback callback) override;
   google_apis::CancelCallback GetAllFileList(
       const std::string& team_drive_id,
