@@ -6240,6 +6240,8 @@ static_library("test_support") {
 
   if (enable_service_discovery) {
     sources += [
+      "local_discovery/fake_service_discovery_device_lister.cc",
+      "local_discovery/fake_service_discovery_device_lister.h",
       "local_discovery/test_service_discovery_client.cc",
       "local_discovery/test_service_discovery_client.h",
     ]
