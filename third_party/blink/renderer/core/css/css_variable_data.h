@@ -38,7 +38,7 @@ class CORE_EXPORT CSSVariableData : public RefCounted<CSSVariableData> {
   }
 
   static scoped_refptr<CSSVariableData> CreateResolved(
-      const Vector<CSSParserToken>& resolved_tokens,
+      Vector<CSSParserToken> resolved_tokens,
       Vector<String> backing_strings,
       bool is_animation_tainted,
       bool has_font_units,
@@ -46,8 +46,9 @@ class CORE_EXPORT CSSVariableData : public RefCounted<CSSVariableData> {
       const String& base_url,
       const WTF::TextEncoding& charset) {
     return base::AdoptRef(new CSSVariableData(
-        resolved_tokens, std::move(backing_strings), is_animation_tainted,
-        has_font_units, has_root_font_units, base_url, charset));
+        std::move(resolved_tokens), std::move(backing_strings),
+        is_animation_tainted, has_font_units, has_root_font_units, base_url,
+        charset));
   }
 
   CSSParserTokenRange TokenRange() const { return tokens_; }
@@ -89,7 +90,7 @@ class CORE_EXPORT CSSVariableData : public RefCounted<CSSVariableData> {
                   const KURL& base_url,
                   const WTF::TextEncoding& charset);
 
-  CSSVariableData(const Vector<CSSParserToken>& resolved_tokens,
+  CSSVariableData(Vector<CSSParserToken> resolved_tokens,
                   Vector<String> backing_strings,
                   bool is_animation_tainted,
                   bool has_font_units,
@@ -97,7 +98,7 @@ class CORE_EXPORT CSSVariableData : public RefCounted<CSSVariableData> {
                   const String& base_url,
                   const WTF::TextEncoding& charset)
       : backing_strings_(std::move(backing_strings)),
-        tokens_(resolved_tokens),
+        tokens_(std::move(resolved_tokens)),
         is_animation_tainted_(is_animation_tainted),
         needs_variable_resolution_(false),
         has_font_units_(has_font_units),

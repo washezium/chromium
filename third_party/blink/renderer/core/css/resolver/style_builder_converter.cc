@@ -1976,8 +1976,8 @@ StyleBuilderConverter::ConvertRegisteredPropertyVariableData(
   const bool has_root_font_units = false;
 
   return CSSVariableData::CreateResolved(
-      tokens, std::move(backing_strings), is_animation_tainted, has_font_units,
-      has_root_font_units, g_null_atom, WTF::TextEncoding());
+      std::move(tokens), std::move(backing_strings), is_animation_tainted,
+      has_font_units, has_root_font_units, g_null_atom, WTF::TextEncoding());
 }
 
 LengthSize StyleBuilderConverter::ConvertIntrinsicSize(
