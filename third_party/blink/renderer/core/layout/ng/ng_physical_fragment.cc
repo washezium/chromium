@@ -319,14 +319,15 @@ const FragmentData* NGPhysicalFragment::GetFragmentData() const {
 }
 
 const NGPhysicalFragment* NGPhysicalFragment::PostLayout() const {
-  if (IsBox() && !IsInlineBox()) {
-    if (const auto* block = DynamicTo<LayoutBlockFlow>(GetLayoutObject())) {
-      if (block->IsRelayoutBoundary()) {
-        const NGPhysicalFragment* new_fragment = block->CurrentFragment();
-        if (new_fragment && new_fragment != this)
-          return new_fragment;
-      }
-    }
+  const auto* layout_box = ToLayoutBoxOrNull(GetLayoutObject());
+  if (UNLIKELY(!layout_box))
+    return nullptr;
+
+  if (layout_box->PhysicalFragmentCount() == 1) {
+    const NGPhysicalFragment* post_layout = layout_box->GetPhysicalFragment(0);
+    DCHECK(post_layout);
+    if (UNLIKELY(post_layout && post_layout != this))
+      return post_layout;
   }
   return nullptr;
 }
