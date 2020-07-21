@@ -164,6 +164,7 @@
 #include "services/media_session/public/cpp/features.h"
 #include "services/network/public/cpp/features.h"
 #include "services/network/public/cpp/network_switches.h"
+#include "storage/browser/quota/quota_features.h"
 #include "third_party/blink/public/common/experiments/memory_ablation_experiment.h"
 #include "third_party/blink/public/common/features.h"
 #include "third_party/blink/public/common/forcedark/forcedark_switches.h"
@@ -3995,7 +3996,7 @@ const FeatureEntry kFeatureEntries[] = {
     {"enable-storage-pressure-event",
      flag_descriptions::kStoragePressureEventName,
      flag_descriptions::kStoragePressureEventDescription, kOsAll,
-     FEATURE_VALUE_TYPE(features::kStoragePressureEvent)},
+     FEATURE_VALUE_TYPE(storage::features::kStoragePressureEvent)},
 
     {"enable-storage-pressure-ui", flag_descriptions::kStoragePressureUIName,
      flag_descriptions::kStoragePressureUIDescription, kOsAll,
