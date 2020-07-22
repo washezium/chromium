@@ -291,7 +291,7 @@ views::Separator* TrayPopupUtils::CreateVerticalSeparator() {
   separator->SetPreferredHeight(24);
   separator->SetColor(AshColorProvider::Get()->GetContentLayerColor(
       AshColorProvider::ContentLayerType::kSeparatorColor,
-      AshColorProvider::AshColorMode::kLight));
+      AshColorProvider::AshColorMode::kDark));
   return separator;
 }
 
