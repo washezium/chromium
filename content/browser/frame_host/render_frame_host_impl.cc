@@ -8052,14 +8052,24 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
 
   // If this navigation had a COOP BrowsingInstance swap that severed an opener,
   // and we have a reporter on the page we're going to, report it here.
-  if (navigation_request->coop_status()
-          .had_opener_before_browsing_instance_swap &&
-      coop_reporter) {
-    coop_reporter->QueueOpenerBreakageReport(
-        coop_reporter->GetPreviousDocumentUrlForReporting(
-            navigation_request->GetRedirectChain(),
-            navigation_request->common_params().referrer->url),
-        false /* is_reported_from_document */, false /* is_report_only */);
+  const CrossOriginOpenerPolicyStatus& coop_status =
+      navigation_request->coop_status();
+  if (coop_status.had_opener_before_browsing_instance_swap && coop_reporter) {
+    if (coop_status.require_browsing_instance_swap) {
+      coop_reporter->QueueOpenerBreakageReport(
+          coop_reporter->GetPreviousDocumentUrlForReporting(
+              navigation_request->GetRedirectChain(),
+              navigation_request->common_params().referrer->url),
+          false /* is_reported_from_document */, false /* is_report_only */);
+    }
+
+    if (coop_status.virtual_browsing_instance_swap) {
+      coop_reporter->QueueOpenerBreakageReport(
+          coop_reporter->GetPreviousDocumentUrlForReporting(
+              navigation_request->GetRedirectChain(),
+              navigation_request->common_params().referrer->url),
+          false /* is_reported_from_document */, true /* is_report_only */);
+    }
   }
 
   frame_tree_node()->navigator().DidNavigate(this, *params,

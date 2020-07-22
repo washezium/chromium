@@ -142,7 +142,8 @@ void CrossOriginOpenerPolicyReporter::QueueOpenerBreakageReport(
   const base::Optional<std::string>& endpoint =
       is_report_only ? coop_.report_only_reporting_endpoint
                      : coop_.reporting_endpoint;
-  DCHECK(endpoint);
+  if (!endpoint)
+    return;
 
   url::Replacements<char> replacements;
   replacements.ClearUsername();
