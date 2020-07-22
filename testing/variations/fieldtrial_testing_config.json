@@ -393,6 +393,21 @@
             ]
         }
     ],
+    "AndroidPartnerCustomizationPhenotype": [
+        {
+            "platforms": [
+                "android"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "AndroidPartnerCustomizationPhenotype"
+                    ]
+                }
+            ]
+        }
+    ],
     "AndroidPictureInPictureAPI": [
         {
             "platforms": [
