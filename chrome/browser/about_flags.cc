@@ -2111,6 +2111,23 @@ const FeatureEntry::Choice kEnableExperimentalCookieFeaturesChoices[] = {
      switches::kEnableExperimentalCookieFeatures, ""},
 };
 
+#if defined(OS_CHROMEOS)
+const FeatureEntry::Choice kFrameThrottleFpsChoices[] = {
+    {flag_descriptions::kFrameThrottleFpsDefault, "", ""},
+    {flag_descriptions::kFrameThrottleFps5, ash::switches::kFrameThrottleFps,
+     "5"},
+    {flag_descriptions::kFrameThrottleFps10, ash::switches::kFrameThrottleFps,
+     "10"},
+    {flag_descriptions::kFrameThrottleFps15, ash::switches::kFrameThrottleFps,
+     "15"},
+    {flag_descriptions::kFrameThrottleFps20, ash::switches::kFrameThrottleFps,
+     "20"},
+    {flag_descriptions::kFrameThrottleFps25, ash::switches::kFrameThrottleFps,
+     "25"},
+    {flag_descriptions::kFrameThrottleFps30, ash::switches::kFrameThrottleFps,
+     "30"}};
+#endif  // defined(OS_CHROMEOS)
+
 #if defined(OS_ANDROID)
 // The variations of --password-change-support.
 const FeatureEntry::FeatureParam
@@ -6063,7 +6080,13 @@ const FeatureEntry kFeatureEntries[] = {
     {"mixed-forms-interstitial", flag_descriptions::kMixedFormsInterstitialName,
      flag_descriptions::kMixedFormsInterstitialDescription, kOsAll,
      FEATURE_VALUE_TYPE(
-         security_interstitials::kInsecureFormSubmissionInterstitial)}
+         security_interstitials::kInsecureFormSubmissionInterstitial)},
+
+#if defined(OS_CHROMEOS)
+    {"frame-throttle-fps", flag_descriptions::kFrameThrottleFpsName,
+     flag_descriptions::kFrameThrottleFpsDescription, kOsCrOS,
+     MULTI_VALUE_TYPE(kFrameThrottleFpsChoices)}
+#endif  // defined(OS_CHROMEOS)
 
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
