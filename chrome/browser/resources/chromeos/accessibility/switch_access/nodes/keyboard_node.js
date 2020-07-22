@@ -127,9 +127,10 @@ class KeyboardRootNode extends RootNodeWrapper {
     KeyboardRootNode.isVisible_ =
         SwitchAccessPredicate.isVisible(keyboardObject);
 
-    keyboardObject.addEventListener(
-        chrome.automation.EventType.ARIA_ATTRIBUTE_CHANGED,
-        KeyboardRootNode.checkVisibilityChanged_, false /* capture */);
+    new EventHandler(
+        keyboardObject, chrome.automation.EventType.ARIA_ATTRIBUTE_CHANGED,
+        KeyboardRootNode.checkVisibilityChanged_, {exactMatch: true})
+        .start();
   }
 
   // ================= Private static methods =================
