@@ -104,7 +104,7 @@ public class TabbedPaintPreviewPlayer implements TabViewProvider, UserData {
         RecordUserAction.record("PaintPreview.TabbedPlayer.Removed");
     }
 
-    public boolean isShowing() {
+    public boolean isShowingAndNeedsBadge() {
         return mTab.getTabViewManager().isShowing(this);
     }
 
