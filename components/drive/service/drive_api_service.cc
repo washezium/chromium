@@ -315,7 +315,7 @@ CancelCallbackOnce DriveAPIService::GetAllFileList(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::GetFileListInDirectory(
+CancelCallbackOnce DriveAPIService::GetFileListInDirectory(
     const std::string& directory_resource_id,
     const FileListCallback& callback) {
   DCHECK(thread_checker_.CalledOnValidThread());
@@ -361,7 +361,7 @@ CancelCallback DriveAPIService::Search(
       kFileListFields, callback);
 }
 
-CancelCallback DriveAPIService::SearchByTitle(
+CancelCallbackOnce DriveAPIService::SearchByTitle(
     const std::string& title,
     const std::string& directory_resource_id,
     const FileListCallback& callback) {
@@ -419,7 +419,7 @@ CancelCallback DriveAPIService::GetChangeListByToken(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::GetRemainingChangeList(
+CancelCallbackOnce DriveAPIService::GetRemainingChangeList(
     const GURL& next_link,
     ChangeListCallback callback) {
   DCHECK(thread_checker_.CalledOnValidThread());
@@ -450,7 +450,7 @@ CancelCallback DriveAPIService::GetRemainingTeamDriveList(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::GetRemainingFileList(
+CancelCallbackOnce DriveAPIService::GetRemainingFileList(
     const GURL& next_link,
     const FileListCallback& callback) {
   DCHECK(thread_checker_.CalledOnValidThread());
@@ -546,7 +546,7 @@ CancelCallback DriveAPIService::TrashResource(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::AddNewDirectory(
+CancelCallbackOnce DriveAPIService::AddNewDirectory(
     const std::string& parent_resource_id,
     const std::string& directory_title,
     const AddNewDirectoryOptions& options,
@@ -637,7 +637,7 @@ CancelCallback DriveAPIService::AddResourceToDirectory(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::RemoveResourceFromDirectory(
+CancelCallbackOnce DriveAPIService::RemoveResourceFromDirectory(
     const std::string& parent_resource_id,
     const std::string& resource_id,
     const EntryActionCallback& callback) {
