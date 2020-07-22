@@ -118,7 +118,7 @@ class DriveServiceBatchOperationsInterface {
   // for small files than using |InitiateUploadNewFile| and |ResumeUpload|.
   // |content_type| and |content_length| should be the ones of the file to be
   // uploaded.  |callback| must not be null. |progress_callback| may be null.
-  virtual google_apis::CancelCallback MultipartUploadNewFile(
+  virtual google_apis::CancelCallbackRepeating MultipartUploadNewFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& parent_resource_id,
@@ -132,7 +132,7 @@ class DriveServiceBatchOperationsInterface {
   // for small files than using |InitiateUploadExistingFile| and |ResumeUpload|.
   // |content_type| and |content_length| should be the ones of the file to be
   // uploaded.  |callback| must not be null. |progress_callback| may be null.
-  virtual google_apis::CancelCallback MultipartUploadExistingFile(
+  virtual google_apis::CancelCallbackRepeating MultipartUploadExistingFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& resource_id,

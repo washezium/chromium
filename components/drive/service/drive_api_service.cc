@@ -26,6 +26,7 @@ using google_apis::AboutResourceCallback;
 using google_apis::AuthStatusCallback;
 using google_apis::CancelCallback;
 using google_apis::CancelCallbackOnce;
+using google_apis::CancelCallbackRepeating;
 using google_apis::ChangeList;
 using google_apis::ChangeListCallback;
 using google_apis::DownloadActionCallback;
@@ -160,7 +161,8 @@ BatchRequestConfigurator::~BatchRequestConfigurator() {
     cancel_callback_.Run();
 }
 
-google_apis::CancelCallback BatchRequestConfigurator::MultipartUploadNewFile(
+google_apis::CancelCallbackRepeating
+BatchRequestConfigurator::MultipartUploadNewFile(
     const std::string& content_type,
     int64_t content_length,
     const std::string& parent_resource_id,
@@ -723,7 +725,7 @@ CancelCallback DriveAPIService::GetUploadStatus(const GURL& upload_url,
           sender_.get(), upload_url, content_length, std::move(callback)));
 }
 
-CancelCallback DriveAPIService::MultipartUploadNewFile(
+CancelCallbackRepeating DriveAPIService::MultipartUploadNewFile(
     const std::string& content_type,
     int64_t content_length,
     const std::string& parent_resource_id,
@@ -746,7 +748,7 @@ CancelCallback DriveAPIService::MultipartUploadNewFile(
               progress_callback)));
 }
 
-CancelCallback DriveAPIService::MultipartUploadExistingFile(
+CancelCallbackRepeating DriveAPIService::MultipartUploadExistingFile(
     const std::string& content_type,
     int64_t content_length,
     const std::string& resource_id,

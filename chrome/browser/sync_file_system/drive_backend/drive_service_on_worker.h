@@ -170,7 +170,7 @@ class DriveServiceOnWorker : public drive::DriveServiceInterface {
       const GURL& upload_url,
       int64_t content_length,
       google_apis::drive::UploadRangeCallback callback) override;
-  google_apis::CancelCallback MultipartUploadNewFile(
+  google_apis::CancelCallbackRepeating MultipartUploadNewFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& parent_resource_id,
@@ -179,7 +179,7 @@ class DriveServiceOnWorker : public drive::DriveServiceInterface {
       const drive::UploadNewFileOptions& options,
       google_apis::FileResourceCallback callback,
       google_apis::ProgressCallback progress_callback) override;
-  google_apis::CancelCallback MultipartUploadExistingFile(
+  google_apis::CancelCallbackRepeating MultipartUploadExistingFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& resource_id,

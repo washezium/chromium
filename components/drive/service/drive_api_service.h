@@ -59,7 +59,7 @@ class BatchRequestConfigurator : public BatchRequestConfiguratorInterface {
   ~BatchRequestConfigurator() override;
 
   // BatchRequestConfiguratorInterface overrides.
-  google_apis::CancelCallback MultipartUploadNewFile(
+  google_apis::CancelCallbackRepeating MultipartUploadNewFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& parent_resource_id,
@@ -68,7 +68,7 @@ class BatchRequestConfigurator : public BatchRequestConfiguratorInterface {
       const UploadNewFileOptions& options,
       google_apis::FileResourceCallback callback,
       google_apis::ProgressCallback progress_callback) override;
-  google_apis::CancelCallback MultipartUploadExistingFile(
+  google_apis::CancelCallbackRepeating MultipartUploadExistingFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& resource_id,
@@ -83,7 +83,7 @@ class BatchRequestConfigurator : public BatchRequestConfiguratorInterface {
   base::WeakPtr<google_apis::drive::BatchUploadRequest> batch_request_;
   scoped_refptr<base::SequencedTaskRunner> task_runner_;
   google_apis::DriveApiUrlGenerator url_generator_;
-  google_apis::CancelCallback cancel_callback_;
+  google_apis::CancelCallbackRepeating cancel_callback_;
 
   SEQUENCE_CHECKER(sequence_checker_);
 
@@ -234,7 +234,7 @@ class DriveAPIService : public DriveServiceInterface,
       const GURL& upload_url,
       int64_t content_length,
       google_apis::drive::UploadRangeCallback callback) override;
-  google_apis::CancelCallback MultipartUploadNewFile(
+  google_apis::CancelCallbackRepeating MultipartUploadNewFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& parent_resource_id,
@@ -243,7 +243,7 @@ class DriveAPIService : public DriveServiceInterface,
       const drive::UploadNewFileOptions& options,
       google_apis::FileResourceCallback callback,
       google_apis::ProgressCallback progress_callback) override;
-  google_apis::CancelCallback MultipartUploadExistingFile(
+  google_apis::CancelCallbackRepeating MultipartUploadExistingFile(
       const std::string& content_type,
       int64_t content_length,
       const std::string& resource_id,

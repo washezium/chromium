@@ -400,7 +400,8 @@ google_apis::CancelCallback DriveServiceOnWorker::GetUploadStatus(
   return google_apis::CancelCallback();
 }
 
-google_apis::CancelCallback DriveServiceOnWorker::MultipartUploadNewFile(
+google_apis::CancelCallbackRepeating
+DriveServiceOnWorker::MultipartUploadNewFile(
     const std::string& content_type,
     int64_t content_length,
     const std::string& parent_resource_id,
@@ -410,7 +411,7 @@ google_apis::CancelCallback DriveServiceOnWorker::MultipartUploadNewFile(
     google_apis::FileResourceCallback callback,
     google_apis::ProgressCallback progress_callback) {
   NOTREACHED();
-  return google_apis::CancelCallback();
+  return google_apis::CancelCallbackRepeating();
 }
 
 google_apis::CancelCallback DriveServiceOnWorker::MultipartUploadExistingFile(
