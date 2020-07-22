@@ -36,6 +36,8 @@
 
 namespace {
 
+constexpr char kExtensionId[] = "ecmhnokcdiianioonpgakiooenfnonid";
+
 // List of algorithms that the extension claims to support for the returned
 // certificates.
 constexpr extensions::api::certificate_provider::Hash kSupportedHashes[] = {
@@ -117,6 +119,11 @@ bssl::UniquePtr<EVP_PKEY> LoadPrivateKeyFromPem(const base::FilePath& path) {
 }  // namespace
 
 // static
+extensions::ExtensionId TestCertificateProviderExtension::extension_id() {
+  return kExtensionId;
+}
+
+// static
 scoped_refptr<net::X509Certificate>
 TestCertificateProviderExtension::GetCertificate() {
   return net::ImportCertFromFile(net::GetTestCertsDirectory(), "client_1.pem");
@@ -135,15 +142,12 @@ std::string TestCertificateProviderExtension::GetCertificateSpki() {
 }
 
 TestCertificateProviderExtension::TestCertificateProviderExtension(
-    content::BrowserContext* browser_context,
-    const std::string& extension_id)
+    content::BrowserContext* browser_context)
     : browser_context_(browser_context),
-      extension_id_(extension_id),
       certificate_(GetCertificate()),
       private_key_(LoadPrivateKeyFromPem(net::GetTestCertsDirectory().Append(
           FILE_PATH_LITERAL("client_1.key")))) {
   DCHECK(browser_context_);
-  DCHECK(!extension_id_.empty());
   CHECK(certificate_);
   CHECK(private_key_);
   notification_registrar_.Add(this,
@@ -161,7 +165,7 @@ void TestCertificateProviderExtension::Observe(
 
   extensions::TestSendMessageFunction* function =
       content::Source<extensions::TestSendMessageFunction>(source).ptr();
-  if (!function->extension() || function->extension_id() != extension_id_ ||
+  if (!function->extension() || function->extension_id() != kExtensionId ||
       function->browser_context() != browser_context_) {
     // Ignore messages targeted to other extensions.
     return;

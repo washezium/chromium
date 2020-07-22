@@ -225,7 +225,7 @@ class SecurityTokenLoginTest : public MixinBasedInProcessBrowserTest,
     challenge_response_key.set_public_key_spki_der(
         TestCertificateProviderExtension::GetCertificateSpki());
     challenge_response_key.set_extension_id(
-        TestCertificateProviderExtensionLoginScreenMixin::GetExtensionId());
+        TestCertificateProviderExtension::extension_id());
 
     base::Value challenge_response_keys_value =
         SerializeChallengeResponseKeysForKnownUser({challenge_response_key});

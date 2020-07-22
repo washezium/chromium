@@ -26,6 +26,7 @@
 #include "extensions/browser/pref_names.h"
 #include "extensions/browser/process_manager.h"
 #include "extensions/browser/process_manager_observer.h"
+#include "extensions/common/extension_id.h"
 
 namespace chromeos {
 
@@ -76,10 +77,8 @@ class ChallengeResponseAuthKeysLoaderBrowserTest : public OobeBaseTest {
     std::vector<ChallengeResponseKey> challenge_response_keys;
     ChallengeResponseKey challenge_response_key;
     challenge_response_key.set_public_key_spki_der(GetSpki());
-    if (with_extension_id) {
-      challenge_response_key.set_extension_id(
-          cert_provider_extension_mixin_.GetExtensionId());
-    }
+    if (with_extension_id)
+      challenge_response_key.set_extension_id(extension_id());
 
     challenge_response_keys.push_back(challenge_response_key);
     base::Value challenge_response_keys_value =
@@ -139,7 +138,7 @@ class ChallengeResponseAuthKeysLoaderBrowserTest : public OobeBaseTest {
     EXPECT_EQ(pref->GetValue()->DictSize(), static_cast<size_t>(1));
 
     for (const auto& item : pref->GetValue()->DictItems()) {
-      EXPECT_EQ(item.first, GetExtensionId());
+      EXPECT_EQ(item.first, extension_id());
     }
   }
 
@@ -158,8 +157,8 @@ class ChallengeResponseAuthKeysLoaderBrowserTest : public OobeBaseTest {
         ->GetCertificateSpki();
   }
 
-  std::string GetExtensionId() const {
-    return cert_provider_extension_mixin_.GetExtensionId();
+  static extensions::ExtensionId extension_id() {
+    return TestCertificateProviderExtension::extension_id();
   }
 
   AccountId account_id() const { return account_id_; }
@@ -256,7 +255,7 @@ IN_PROC_BROWSER_TEST_F(ChallengeResponseAuthKeysLoaderBrowserTest,
   std::vector<ChallengeResponseKey> challenge_response_keys =
       LoadChallengeResponseKeys();
   ASSERT_EQ(challenge_response_keys.size(), static_cast<size_t>(1));
-  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), GetExtensionId());
+  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), extension_id());
   EXPECT_EQ(challenge_response_keys.at(0).public_key_spki_der(), GetSpki());
 }
 
@@ -278,7 +277,7 @@ IN_PROC_BROWSER_TEST_F(ChallengeResponseAuthKeysLoaderBrowserTest,
   std::vector<ChallengeResponseKey> challenge_response_keys =
       LoadChallengeResponseKeys();
   ASSERT_EQ(challenge_response_keys.size(), static_cast<size_t>(1));
-  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), GetExtensionId());
+  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), extension_id());
   EXPECT_EQ(challenge_response_keys.at(0).public_key_spki_der(), GetSpki());
 }
 
@@ -315,7 +314,7 @@ IN_PROC_BROWSER_TEST_F(ChallengeResponseAuthKeysLoaderBrowserTest,
   std::vector<ChallengeResponseKey> challenge_response_keys =
       LoadChallengeResponseKeys();
   ASSERT_EQ(challenge_response_keys.size(), static_cast<size_t>(1));
-  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), GetExtensionId());
+  EXPECT_EQ(challenge_response_keys.at(0).extension_id(), extension_id());
   EXPECT_EQ(challenge_response_keys.at(0).public_key_spki_der(), GetSpki());
 }
 
@@ -411,7 +410,7 @@ class ChallengeResponseExtensionLoadObserverTest
 
   void OnBackgroundHostCreated(
       extensions::ExtensionHost* extension_host) override {
-    if (extension_host->extension_id() == GetExtensionId()) {
+    if (extension_host->extension_id() == extension_id()) {
       extension_host_ = extension_host;
       extension_host_created_loop_->Quit();
     }
