@@ -2,14 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.tabmodel.document;
+package org.chromium.chrome.browser.tabmodel;
 
 import android.content.ComponentName;
 
-import org.chromium.chrome.browser.ServiceTabLauncher;
-import org.chromium.chrome.browser.offlinepages.downloads.OfflinePageDownloadBridge;
 import org.chromium.chrome.browser.tab.Tab;
-import org.chromium.chrome.browser.tabmodel.AsyncTabParams;
 import org.chromium.content_public.browser.LoadUrlParams;
 import org.chromium.content_public.browser.WebContents;
 
@@ -21,10 +18,10 @@ public class AsyncTabCreationParams implements AsyncTabParams {
     /** Parameters used for opening a URL in the new Tab. */
     private final LoadUrlParams mLoadUrlParams;
 
-    /** WebContents object to initialize the Tab with. Set only by the {@link TabDelegate}. */
+    /** WebContents object to initialize the Tab with. Set only by the TabDelegate. */
     private final WebContents mWebContents;
 
-    /** The tab launch request ID from the {@link ServiceTabLauncher}. **/
+    /** The tab launch request ID from the ServiceTabLauncher. **/
     private final Integer mRequestId;
 
     /** Specifies which component to fire the Intent at. */
@@ -35,19 +32,19 @@ public class AsyncTabCreationParams implements AsyncTabParams {
         this(loadUrlParams, null, null, null);
     }
 
-    /** Called by {@link TabDelegate} for creating new a Tab with a pre-existing WebContents. */
+    /** Called by TabDelegate for creating new a Tab with a pre-existing WebContents. */
     public AsyncTabCreationParams(LoadUrlParams loadUrlParams, WebContents webContents) {
         this(loadUrlParams, webContents, null, null);
         assert webContents != null;
     }
 
-    /** Called by {@link ServiceTabLauncher} to create tabs via service workers. */
+    /** Called by ServiceTabLauncher to create tabs via service workers. */
     public AsyncTabCreationParams(LoadUrlParams loadUrlParams, Integer requestId) {
         this(loadUrlParams, null, requestId, null);
         assert requestId != null;
     }
 
-    /** Called by {@link OfflinePageDownloadBridge} to create tabs for Offline Pages. */
+    /** Called by OfflinePageDownloadBridge to create tabs for Offline Pages. */
     public AsyncTabCreationParams(LoadUrlParams loadUrlParams, ComponentName name) {
         this(loadUrlParams, null, null, name);
         assert name != null;
