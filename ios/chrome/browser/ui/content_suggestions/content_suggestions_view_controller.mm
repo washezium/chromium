@@ -369,6 +369,7 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
     case ContentSuggestionTypeLearnMore:
       [self.suggestionCommandHandler handleLearnMoreTapped];
       break;
+    case ContentSuggestionTypeDiscover:
     case ContentSuggestionTypeEmpty:
       break;
   }
