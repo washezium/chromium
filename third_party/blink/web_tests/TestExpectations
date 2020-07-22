@@ -6850,9 +6850,7 @@ crbug.com/1107634 [ Mac10.10 ] virtual/text-antialias/selection/select-ligature-
 crbug.com/1107634 [ Mac10.10 ] virtual/text-antialias/selection/select-ligature-vertical-2.html [ Pass Failure ]
 crbug.com/1107634 [ Mac10.10 ] virtual/text-antialias/selection/select-ligature-vertical-3.html [ Pass Failure ]
 
-# Sheriff 2020-07-21
-crbug.com/1107923 [ Mac10.15 ] inspector-protocol/debugger/wasm-streaming-url.js [ Pass Failure ]
-
 # Sheriff 2020-07-22
 crbug.com/1107722 [ Mac ] http/tests/devtools/tracing/timeline-js/timeline-script-id.js [ Pass Failure ]
 crbug.com/1107722 [ Mac ] virtual/threaded/http/tests/devtools/tracing/timeline-misc/timeline-event-causes.js [ Pass Failure ]
+crbug.com/1107923 [ Mac10.15 ] inspector-protocol/debugger/wasm-streaming-url.js [ Pass Timeout Failure ]
