@@ -405,6 +405,8 @@ public abstract class StackLayoutBase extends Layout {
             @Override
             public void onControlsOffsetChanged(int topOffset, int topControlsMinHeightOffset,
                     int bottomOffset, int bottomControlsMinHeightOffset, boolean needsAnimate) {
+                if (!isActive()) return;
+
                 notifySizeChanged(mWidth, mHeight, mOrientation);
             }
         };
@@ -954,6 +956,16 @@ public abstract class StackLayoutBase extends Layout {
     }
 
     @Override
+    public void doneShowing() {
+        super.doneShowing();
+
+        if (mBrowserControlsSupplier.get() != null) {
+            mBrowserControlsSupplier.get().addObserver(mBrowserControlsObserver);
+            notifySizeChanged(mWidth, mHeight, mOrientation);
+        }
+    }
+
+    @Override
     public void notifySizeChanged(float width, float height, @Orientation int orientation) {
         mWidth = width;
         mHeight = height;
@@ -1449,6 +1461,10 @@ public abstract class StackLayoutBase extends Layout {
 
     @Override
     public void startHiding(int nextTabId, boolean hintAtTabSelection) {
+        if (mBrowserControlsSupplier.get() != null) {
+            mBrowserControlsSupplier.get().removeObserver(mBrowserControlsObserver);
+        }
+
         super.startHiding(nextTabId, hintAtTabSelection);
 
         // Reset mIsActiveLayout here instead of in doneHiding() so if a user hits the tab switcher
