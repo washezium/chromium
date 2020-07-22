@@ -83,6 +83,8 @@ std::vector<FrameTreeNode*> CollectOtherWindowForCoopAccess(
     FrameTreeNode* frame) {
   DCHECK(frame->IsMainFrame());
   SiteInstance* site_instance = frame->current_frame_host()->GetSiteInstance();
+  int virtual_browsing_context_group =
+      frame->current_frame_host()->virtual_browsing_context_group();
 
   std::vector<FrameTreeNode*> out;
   for (WebContentsImpl* wc : WebContentsImpl::GetAllWebContents()) {
@@ -92,13 +94,11 @@ std::vector<FrameTreeNode*> CollectOtherWindowForCoopAccess(
     if (!rfh->GetSiteInstance()->IsRelatedSiteInstance(site_instance))
       continue;
 
-    // TODO(arthursonzogni): Filter out window from the same virtual browsing
-    // context group.
-    FrameTreeNode* ftn = rfh->frame_tree_node();
-    if (ftn == frame)
+    // Filter out windows from the same virtual browsing context group.
+    if (rfh->virtual_browsing_context_group() == virtual_browsing_context_group)
       continue;
 
-    out.push_back(ftn);
+    out.push_back(rfh->frame_tree_node());
   }
   return out;
 }
