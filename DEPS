@@ -154,6 +154,9 @@ vars = {
   # qemu on linux-arm64 machines.
   'checkout_fuchsia_for_arm64_host': False,
 
+  # Download prebuilt ash-chrome to test lacros build.
+  'checkout_prebuilt_ash_chrome': False,
+
   # Default to the empty board. Desktop Chrome OS builds don't need cros SDK
   # dependencies. Other Chrome OS builds should always define this explicitly.
   'cros_boards': Str(''),
@@ -4935,6 +4938,16 @@ hooks = [
                 '--target=mac',
                 'update',
                 '--gs-url-base=chromium-optimization-profiles/pgo_profiles',
+    ],
+  },
+
+  {
+    'name': 'Download prebuilt ash-chrome',
+    'pattern': '.',
+    'condition': 'checkout_prebuilt_ash_chrome',
+    'action': [ 'vpython',
+                'src/build/lacros/test_runner.py',
+                'download_for_bots',
     ],
   },
 
