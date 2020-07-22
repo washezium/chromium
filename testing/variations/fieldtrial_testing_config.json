@@ -4597,17 +4597,27 @@
             ]
         }
     ],
-    "OmniboxAssistantVoiceSearch": [
+    "OmniboxAssistantVoiceSearchAndroid": [
         {
             "platforms": [
                 "android"
             ],
             "experiments": [
                 {
-                    "name": "Enabled",
+                    "name": "EnabledDefault",
                     "params": {
                         "colorful_mic": "false",
-                        "min_agsa_version": "10.98"
+                        "min_agsa_version": "11.7"
+                    },
+                    "enable_features": [
+                        "OmniboxAssistantVoiceSearch"
+                    ]
+                },
+                {
+                    "name": "EnabledColorfulMic",
+                    "params": {
+                        "colorful_mic": "true",
+                        "min_agsa_version": "11.7"
                     },
                     "enable_features": [
                         "OmniboxAssistantVoiceSearch"
