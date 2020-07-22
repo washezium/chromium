@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/performance_manager/policies/high_pmf_memory_pressure_policy.h"
+#include "chrome/browser/performance_manager/policies/high_pmf_discard_policy.h"
 
 #include "base/bind.h"
-#include "base/memory/memory_pressure_listener.h"
 #include "base/metrics/field_trial_params.h"
 #include "base/process/process_metrics.h"
-#include "chrome/browser/performance_manager/mechanisms/high_pmf_memory_pressure_signals.h"
+#include "chrome/browser/performance_manager/policies/page_discarding_helper.h"
 #include "chrome/browser/performance_manager/policies/policy_features.h"
 #include "components/performance_manager/public/graph/process_node.h"
 
@@ -20,15 +19,20 @@ namespace {
 // The factor that will be applied to the total amount of RAM to establish the
 // PMF limit.
 static constexpr base::FeatureParam<double> kRAMRatioPMFLimitFactor{
-    &performance_manager::features::kHighPMFMemoryPressureSignals,
+    &performance_manager::features::kHighPMFDiscardPolicy,
     "RAMRatioPMFLimitFactor", 1.5};
+
+// The discard strategy to use.
+static constexpr base::FeatureParam<int> kDiscardStrategy{
+    &performance_manager::features::kHighPMFDiscardPolicy, "DiscardStrategy",
+    static_cast<int>(features::DiscardStrategy::LRU)};
 
 }  // namespace
 
-HighPMFMemoryPressurePolicy::HighPMFMemoryPressurePolicy() = default;
-HighPMFMemoryPressurePolicy::~HighPMFMemoryPressurePolicy() = default;
+HighPMFDiscardPolicy::HighPMFDiscardPolicy() = default;
+HighPMFDiscardPolicy::~HighPMFDiscardPolicy() = default;
 
-void HighPMFMemoryPressurePolicy::OnPassedToGraph(Graph* graph) {
+void HighPMFDiscardPolicy::OnPassedToGraph(Graph* graph) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   graph->AddSystemNodeObserver(this);
   graph_ = graph;
@@ -37,37 +41,51 @@ void HighPMFMemoryPressurePolicy::OnPassedToGraph(Graph* graph) {
   if (base::GetSystemMemoryInfo(&mem_info))
     pmf_limit_kb_ = mem_info.total * kRAMRatioPMFLimitFactor.Get();
 
-  mechanism_ = std::make_unique<mechanism::HighPMFMemoryPressureSignals>();
+  DCHECK(PageDiscardingHelper::GetFromGraph(graph_))
+      << "A PageDiscardingHelper instance should be registered against the "
+         "graph in order to use this policy.";
 }
 
-void HighPMFMemoryPressurePolicy::OnTakenFromGraph(Graph* graph) {
+void HighPMFDiscardPolicy::OnTakenFromGraph(Graph* graph) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   graph->RemoveSystemNodeObserver(this);
   graph_ = nullptr;
   pmf_limit_kb_ = kInvalidPMFLimitValue;
-  mechanism_.reset();
 }
 
-void HighPMFMemoryPressurePolicy::OnProcessMemoryMetricsAvailable(
+void HighPMFDiscardPolicy::OnProcessMemoryMetricsAvailable(
     const SystemNode* unused) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 
   if (pmf_limit_kb_ == kInvalidPMFLimitValue)
     return;
 
+  if (discard_attempt_in_progress_)
+    return;
+
   int total_pmf_kb = 0;
-  MemoryPressureLevel pressure_level =
-      MemoryPressureLevel::MEMORY_PRESSURE_LEVEL_NONE;
+  bool should_discard = false;
   auto process_nodes = graph_->GetAllProcessNodes();
   for (const auto* node : process_nodes) {
     total_pmf_kb += node->GetPrivateFootprintKb();
     if (total_pmf_kb >= pmf_limit_kb_) {
-      pressure_level = MemoryPressureLevel::MEMORY_PRESSURE_LEVEL_CRITICAL;
+      should_discard = true;
       break;
     }
   }
 
-  mechanism_->SetPressureLevel(pressure_level);
+  if (should_discard) {
+    discard_attempt_in_progress_ = true;
+    PageDiscardingHelper::GetFromGraph(graph_)->UrgentlyDiscardAPage(
+        static_cast<features::DiscardStrategy>(kDiscardStrategy.Get()),
+        base::BindOnce(&HighPMFDiscardPolicy::PostDiscardAttemptCallback,
+                       base::Unretained(this)));
+  }
+}
+
+void HighPMFDiscardPolicy::PostDiscardAttemptCallback(bool success) {
+  DCHECK(discard_attempt_in_progress_);
+  discard_attempt_in_progress_ = false;
 }
 
 }  // namespace policies
