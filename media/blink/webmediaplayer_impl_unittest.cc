@@ -320,6 +320,7 @@ class WebMediaPlayerImplTest
       : media_thread_("MediaThreadForTest"),
         web_view_(blink::WebView::Create(/*client=*/nullptr,
                                          /*is_hidden=*/false,
+                                         /*is_inside_portal=*/false,
                                          /*compositing_enabled=*/false,
                                          nullptr,
                                          mojo::NullAssociatedReceiver())),

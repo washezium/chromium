@@ -2091,7 +2091,12 @@ void WebContentsImpl::DidActivatePortal(
 }
 
 void WebContentsImpl::NotifyInsidePortal(bool inside_portal) {
-  SendPageMessage(new PageMsg_SetInsidePortal(MSG_ROUTING_NONE, inside_portal));
+  ExecutePageBroadcastMethod(base::BindRepeating(
+      [](bool inside_portal, RenderViewHostImpl* rvh) {
+        if (auto& broadcast = rvh->GetAssociatedPageBroadcast())
+          broadcast->SetInsidePortal(inside_portal);
+      },
+      inside_portal));
 }
 
 void WebContentsImpl::DidChangeVisibleSecurityState() {
