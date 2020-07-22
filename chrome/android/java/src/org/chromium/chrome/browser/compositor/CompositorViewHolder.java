@@ -37,6 +37,8 @@ import org.chromium.base.SysUtils;
 import org.chromium.base.TraceEvent;
 import org.chromium.base.compat.ApiHelperForN;
 import org.chromium.base.compat.ApiHelperForO;
+import org.chromium.base.supplier.ObservableSupplier;
+import org.chromium.base.supplier.ObservableSupplierImpl;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.browser_controls.BrowserControlsStateProvider;
 import org.chromium.chrome.browser.browser_controls.BrowserControlsUtils;
@@ -137,6 +139,8 @@ public class CompositorViewHolder extends FrameLayout
 
     private TabModelSelector mTabModelSelector;
     private @Nullable ChromeFullscreenManager mFullscreenManager;
+    private ObservableSupplierImpl<ChromeFullscreenManager> mFullscreenManagerSupplier =
+            new ObservableSupplierImpl<>();
     private View mAccessibilityView;
     private CompositorAccessibilityProvider mNodeProvider;
 
@@ -995,6 +999,11 @@ public class CompositorViewHolder extends FrameLayout
         return mFullscreenManager;
     }
 
+    @Override
+    public ObservableSupplier<ChromeFullscreenManager> getFullscreenManagerSupplier() {
+        return mFullscreenManagerSupplier;
+    }
+
     /**
      * Sets a fullscreen handler.
      * @param fullscreen A fullscreen handler.
@@ -1003,6 +1012,7 @@ public class CompositorViewHolder extends FrameLayout
         mFullscreenManager = fullscreen;
         mFullscreenManager.addObserver(this);
         mFullscreenManager.setViewportSizeDelegate(this::onUpdateViewportSize);
+        mFullscreenManagerSupplier.set(mFullscreenManager);
         onViewportChanged();
     }
 
