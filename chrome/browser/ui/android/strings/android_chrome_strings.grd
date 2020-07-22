@@ -3854,6 +3854,14 @@ To change this setting, <ph name="BEGIN_LINK">&lt;resetlink&gt;</ph>reset sync<p
         Paint Preview playback failed.
       </message>
 
+      <!-- Paint Preview Startup Experiment -->
+      <message name="IDS_PAINT_PREVIEW_STARTUP_UPGRADE_SNACKBAR_MESSAGE" desc="Message displayed on a snackbar when a paint preview is shown on startup, telling the user that this is a preview of the page" translateable="false">
+        This is a preview
+      </message>
+      <message name="IDS_PAINT_PREVIEW_STARTUP_UPGRADE_SNACKBAR_ACTION" desc="Text displayed on the action button of snackbar, promting user to switch to the live page and exist paint preivew." translateable="false">
+        View live page
+      </message>
+
       <!-- Default Browser Promo Strings-->
       <message name="IDS_DEFAULT_BROWSER_PROMO_DIALOG_TITLE" desc="Title of the default browser promo dialog">
         Set <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> as your default?

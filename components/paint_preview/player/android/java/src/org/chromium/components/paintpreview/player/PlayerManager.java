@@ -79,6 +79,12 @@ public class PlayerManager {
         mIgnoreInitialScrollOffset = ignoreInitialScrollOffset;
     }
 
+    public void setUserFrustrationCallback(Runnable userFrustrationCallback) {
+        PlayerUserFrustrationDetector userFrustrationDetector =
+                new PlayerUserFrustrationDetector(userFrustrationCallback);
+        mPlayerGestureListener.setUserFrustrationDetector(userFrustrationDetector);
+    }
+
     /**
      * Called by {@link PlayerCompositorDelegateImpl} when the compositor is initialized. This
      * method initializes a sub-component for each frame and adds the view for the root frame to
