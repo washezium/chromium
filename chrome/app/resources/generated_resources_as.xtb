@@ -697,7 +697,6 @@
 <translation id="184273675144259287">আপোনাৰ Linux এপ্‌ আৰু ফাইলসমূহ পূৰ্বৱৰ্তী বেক আপৰ সৈতে সলনি কৰক</translation>
 <translation id="1842766183094193446">ডেম’ ম’ড সক্ষম কৰিবলৈ আপুনি নিশ্চিতনে?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />ক চলাবলৈ Control টিপি থাকি ক্লিক কৰক</translation>
-<translation id="1846880379134204029">গোট <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">স্তিমিত ম’ড সক্ষম কৰক</translation>
 <translation id="1849186935225320012">এই পৃষ্ঠাটোৰ MIDI ডিভাইচসমূহৰ সম্পূৰ্ণ নিয়ন্ত্ৰণ আছে।</translation>
 <translation id="1850508293116537636">ঘড়ীৰ কাঁটাৰ দিশ&amp;ত ঘূৰাওক</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">Chrome স্বয়ংক্ৰিয় পৰীক্ষণ ছফ্টৱেৰৰ দ্বাৰা নিয়ন্ত্ৰণ কৰি থকা হৈছে।</translation>
 <translation id="2071393345806050157">কোনো স্থানীয় লগ ফাইল নাই।</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{এক্সটেনশ্বনটো ইনষ্টল কৰিবলৈ ক্লিক কৰক}one{এই এক্সটেনশ্বনসমূহ ইনষ্টল কৰিবলৈ ক্লিক কৰক}other{এই এক্সটেনশ্বনসমূহ ইনষ্টল কৰিবলৈ ক্লিক কৰক}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> অথবা তাতকৈ কম বর্ণ ব্যৱহাৰ কৰক</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% বেটাৰি</translation>
 <translation id="2075959085554270910">আপোনাক ক্লিক কৰিবলৈ টিপা সুবিধাটো আৰু সমল টানি আনি এৰিবলৈ টিপা সুবিধাটো সক্ষম/অক্ষম কৰিবলৈ দিয়ে</translation>
 <translation id="2076269580855484719">এই প্লাগইনটো লুকুৱাওক</translation>
@@ -1712,6 +1712,7 @@
 <translation id="3103941660000130485">Linux আপগ্ৰে’ড কৰোঁতে আসোঁৱাহ হৈছে</translation>
 <translation id="3105796011181310544">পুনৰ Googleলৈ সলনি কৰিবনে?</translation>
 <translation id="310671807099593501">ছাইটটোৱে ব্লুটুথ ব্যৱহাৰ কৰি আছে</translation>
+<translation id="3109724472072898302">সংকুচিত কৰা আছে</translation>
 <translation id="3115147772012638511">কেশ্বৰ কাৰণে অপেক্ষা কৰি থকা হৈছে...</translation>
 <translation id="3115580024857770654">সকলো সংকুচিত কৰক</translation>
 <translation id="3116968597797150452">প্ৰমাণপত্ৰৰ প্ৰ’ফাইল</translation>
@@ -2706,7 +2707,7 @@
 <translation id="4375035964737468845">ডাউনল'ড হোৱা ফাইলসমূহ খোলক</translation>
 <translation id="4377363674125277448">ছাৰ্ভাৰৰ প্ৰমাণপত্ৰৰ ক্ষেত্ৰত কিবা সমস্যা হৈছে।</translation>
 <translation id="4378154925671717803">ফ'ন</translation>
-<translation id="4378551569595875038">সংযোগ কৰি থকা হৈছে...</translation>
+<translation id="4378551569595875038">সংযোগ হৈছে...</translation>
 <translation id="4378556263712303865">ডিভাইচৰ আৱশ্যকতা</translation>
 <translation id="4379281552162875326">"<ph name="APP_NAME" />"ক আনইনষ্টল কৰিবনে?</translation>
 <translation id="4380648069038809855">স্ক্রীণখন সম্পূৰ্ণৰূপে ডাঙৰ কৰা হ'ল</translation>
@@ -3469,6 +3470,7 @@
 <translation id="5379140238605961210">মাইক্ৰ’ফ’নৰ এক্সেছ অৱৰোধ কৰাটো অব্যাহত ৰাখক</translation>
 <translation id="5382591305415226340">সমৰ্থন কৰা লিংকবোৰ পৰিচালনা কৰক</translation>
 <translation id="5383377866517186886">Mac ছিষ্টেম অগ্ৰাধিকাৰসমূহত কেমেৰা অফ কৰা আছে</translation>
+<translation id="5383740867328871413">নামবিহীন গোট - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">যোৰা লগোৱা হ’ল</translation>
 <translation id="5389237414310520250">নতুন ব্যৱহাৰকাৰী সৃষ্টি কৰিব পৰা নগ'ল। অনুগ্ৰহ কৰি আপোনাৰ হাৰ্ড ড্ৰাইভত থকা ঠাই আৰু অনুমতি পৰীক্ষা কৰি পুনৰ চেষ্টা কৰক।</translation>
 <translation id="5390100381392048184">ছাইটবোৰক ধ্বনি প্লে’ কৰিবলৈ দিয়ক</translation>
@@ -3702,7 +3704,7 @@
 <translation id="5659833766619490117">এই পৃষ্ঠাটো অনুবাদ কৰিব পৰা নগ’ল</translation>
 <translation id="5662513737565158057">Linux এপ্‌সমূহে কেনেদৰে কাম কৰিব সেয়া সলনি কৰক।</translation>
 <translation id="5667546120811588575">Google Play ছেট আপ কৰি থকা হৈছে...</translation>
-<translation id="5669267381087807207">সক্ৰিয় কৰি থকা হৈছে</translation>
+<translation id="5669267381087807207">সক্ৰিয় কৰা হৈছে</translation>
 <translation id="5669691691057771421">নতুন পিন দিয়ক</translation>
 <translation id="5671641761787789573">প্ৰতিচ্ছবি অৱৰোধ কৰা হ’ল</translation>
 <translation id="5671658447180261823"><ph name="SUGGESTION_NAME" /> চুপাৰিছটো আঁতৰাওক</translation>
@@ -4826,7 +4828,6 @@
 <translation id="7099337801055912064">ডাঙৰ PPD ল‘ড কৰিব পৰা নগ‘ল। সৰ্বোচ্চ আকাৰ ২৫০ কেবি</translation>
 <translation id="7102687220333134671">স্বয়ংক্ৰিয়ভাৱে হোৱা আপডে’টৰ সুবিধাটো অন কৰা হ’ল</translation>
 <translation id="7102832101143475489">অনুৰোধটোৰ সময় উকলিল</translation>
-<translation id="7102928824073746774">নামবিহীন গোট - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">ইউএছবিৰ অগ্ৰাধিকাৰসমূহ</translation>
 <translation id="710640343305609397">নেটৱৰ্ক ছেটিংসমূহ খোলক</translation>
 <translation id="7108668606237948702">দিয়ক</translation>
@@ -4861,7 +4862,7 @@
 <translation id="713888829801648570">দুঃখিত, আপুনি অফলাইন হৈ থকাৰ কাৰণে আপোনাৰ পাছৱর্ড সত্যাপন কৰিব পৰা নগ’ল।</translation>
 <translation id="7140928199327930795">উপলব্ধ অন্য ডিভাইচ নহয়।</translation>
 <translation id="7141105143012495934">আপোনাৰ একাউণ্টৰ সবিশেষ পুনৰুদ্ধাৰ কৰিব নোৱাৰাৰ বাবে ছাইন ইন কৰিব পৰা নগ’ল। অনুগ্ৰহ কৰি আপোনাৰ প্ৰশাসকৰ সৈতে যোগাযোগ কৰক বা আকৌ চেষ্টা কৰক।</translation>
-<translation id="7143207342074048698">সংযোগ কৰি থকা হৈছে</translation>
+<translation id="7143207342074048698">সংযোগ হৈছে</translation>
 <translation id="7144878232160441200">পুনৰ চেষ্টা কৰক</translation>
 <translation id="7149893636342594995">যোৱা ২৪ ঘণ্টাত</translation>
 <translation id="715118844758971915">ক্লাছিক প্ৰিণ্টাৰ</translation>
@@ -4903,6 +4904,7 @@
 <translation id="720110658997053098">আপুনি এই ডিভাইচটো স্থায়ীভাৱে কিঅ’স্ক ম’ডত ৰাখক</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' মচা হ’ল</translation>
 <translation id="7201420661433230412">ফাইলবোৰ চাওক</translation>
+<translation id="7203150201908454328">বিস্তাৰিত</translation>
 <translation id="7203826966018112936">এটা প্ৰ’ফাইলত এটা বিদ্যালয়ৰ একাউণ্ট যোগ দিলে এগৰাকী শিক্ষাৰ্থী হিচাপে অভিভাৱকীয় নিয়ন্ত্ৰণসমূহৰ অধীনত কার্য সম্পাদন কৰিও ৱেবছাইট আৰু এক্সটেনশ্বনসমূহত ছাইন ইন কৰাটো সহজ হৈ পৰে। এইটোৱে এটি শিশুক বিদ্যালয়ৰ একাউণ্টটোৰ সৈতে ছিংক হৈ থকা বুকমাৰ্ক, পাছৱৰ্ড আৰু অন্য ব্ৰাউজাৰ ডেটাৰ এক্সেছ প্ৰদান নকৰে।&lt;br&gt;&lt;br&gt;
     যদি আপোনাৰ শিশুটিয়ে বিদ্যালয়ত এটা Chromebook ব্যৱহাৰ কৰে আৰু আপুনি নিজৰ শিশুৱে সকলো আৱশ্যকীয় বিদ্যালয়ৰ কামৰ এক্সেছ পোৱাটো নিশ্চিত কৰিবলৈ বিদ্যালয়ৰ অভিজ্ঞতা ঘৰতে প্ৰদান কৰিব বিচাৰে, তেন্তে অনুগ্ৰহ কৰি এই Family Link একাউণ্টটোৰ পৰা ছাইন আউট কৰক আৰু Chrome OS একাউণ্ট পৃষ্ঠাৰ পৰা বিদ্যালয়ৰ একাউণ্টটোত ছাইন ইন কৰক (টোকা: Family Linkৰ অভিভাৱকীয় নিয়ন্ত্ৰণসমূহ প্ৰযোজ্য নহ’ব)।&lt;br&gt;&lt;br&gt;
     যদি আপোনাৰ শিশুটিয়ে বিদ্যালয়ত এটা Chromebook ব্যৱহাৰ নকৰে অথবা যদি আপুনি Family Link ব্যৱহাৰ কৰি ঘৰত আপোনাৰ শিশুটিৰ অভিজ্ঞতা পৰিচালনা কৰাত অগ্ৰাধিকাৰ দিয়ে, তেন্তে অনুগ্ৰহ কৰি এই প্ৰ’ফাইলটোত এটা বিদ্যালয়ৰ একাউণ্ট যোগ দিবলৈ তলত থকা পৰৱৰ্তী বুটামটোত ক্লিক কৰক।</translation>
@@ -5607,6 +5609,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{১ খন কাগজ}one{{COUNT} খন কাগজ}other{{COUNT} খন কাগজ}}</translation>
 <translation id="8063235345342641131">ডিফ'ল্ট সেউজীয়া অৱতাৰ</translation>
 <translation id="8063535366119089408">ফাইল চাওক</translation>
+<translation id="8064279191081105977">গোট <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">ছাইন ইন কৰিবলৈ স্পর্শ কৰক</translation>
 <translation id="8069615408251337349">Google ক্লাউড প্ৰিণ্ট</translation>
 <translation id="8071432093239591881">প্ৰতিচ্ছবি হিচাপে প্ৰিণ্ট কৰক</translation>
@@ -6352,6 +6355,7 @@
 <translation id="8986362086234534611">পাহৰক</translation>
 <translation id="8986494364107987395">স্বয়ংক্ৰিয়ভাৱে Googleলৈ ব্যৱহাৰৰ পৰিসংখ্যা আৰু ক্ৰেশ্ব ৰিপ’ৰ্ট পঠিয়াওক</translation>
 <translation id="8987927404178983737">মাহ</translation>
+<translation id="8990209962746788689">কিউআৰ ক’ড সৃষ্টি কৰিব নোৱাৰি</translation>
 <translation id="8991520179165052608">ছাইটে আপোনাৰ ডিভাইচৰ মাইক্ৰ’ফ’ন ব্যৱহাৰ কৰিব পাৰে</translation>
 <translation id="899384117894244799">প্ৰতিবন্ধিত ব্যৱহাৰকাৰীক আঁতৰাওক</translation>
 <translation id="899403249577094719">Netscape প্ৰমাণপত্ৰ ভিত্তিক URL</translation>

@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Hap imazhin &amp;origjinal në skedë të re</translation>
 <translation id="1055806300943943258">Po kërkon pajisjet me Bluetooth dhe USB...</translation>
 <translation id="1056466516655540509">Përditësuar <ph name="MINUTES" /> min. më parë</translation>
-<translation id="1056775291175587022">Nuk ka asnjë rrjet</translation>
+<translation id="1056775291175587022">Nuk ka rrjete</translation>
 <translation id="1056898198331236512">Paralajmërim</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">Përcakton shpeshtësinë e përditësimit të ekranit</translation>
@@ -697,7 +697,6 @@
 <translation id="184273675144259287">Zëvendëso aplikacionet dhe skedarët Linux me një rezervim të mëparshëm</translation>
 <translation id="1842766183094193446">Je i sigurt për aktivizimin e modalitetit të demonstrimit?</translation>
 <translation id="1846308012215045257">Kliko "kontroll" për të ekzekutuar <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupi <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Aktivizo "Modalitetin e ambientit"</translation>
 <translation id="1849186935225320012">Kjo faqe ka kontroll të plotë të pajisjeve MIDI.</translation>
 <translation id="1850508293116537636">Rrotullo në drejtim &amp;të akrepave të orës</translation>
@@ -864,6 +863,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="2065405795449409761">Chrome po kontrollohet nga një softuer testues i automatizuar.</translation>
 <translation id="2071393345806050157">Nuk ka skedar lokal të regjistrit.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kliko për të instaluar shtesën}other{Kliko për të instaluar këto shtesa}}</translation>
+<translation id="2073505299004274893">Përdor <ph name="CHARACTER_LIMIT" /> karaktere ose më pak</translation>
 <translation id="2075474481720804517">Bateria <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Të lejon të aktivizosh/çaktivizosh klikimin me trokitje dhe zvarritjen me trokitje</translation>
 <translation id="2076269580855484719">Fshihe këtë përbërës shtesë</translation>
@@ -1712,6 +1712,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="3103941660000130485">Gabim në përmirësimin e Linux</translation>
 <translation id="3105796011181310544">Të ndryshohet përsëri në Google?</translation>
 <translation id="310671807099593501">Sajti po përdor Bluetooth-in</translation>
+<translation id="3109724472072898302">Palosur</translation>
 <translation id="3115147772012638511">Po pret për kujtesën specifike...</translation>
 <translation id="3115580024857770654">Palos të gjitha</translation>
 <translation id="3116968597797150452">Profili i certifikatës</translation>
@@ -3473,6 +3474,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="5379140238605961210">Vazhdo bllokimin e qasjes te mikrofoni</translation>
 <translation id="5382591305415226340">Menaxho lidhjet e mbështetura</translation>
 <translation id="5383377866517186886">Kamera është çaktivizuar te Mac System Preferences</translation>
+<translation id="5383740867328871413">Grup pa emër - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">I çiftuar</translation>
 <translation id="5389237414310520250">Përdoruesi i ri nuk mund të krijohej. Kontrollo hapësirën e diskut të ngurtë dhe lejet dhe provo përsëri.</translation>
 <translation id="5390100381392048184">Lejo që sajtet të luajnë tinguj</translation>
@@ -4835,7 +4837,6 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="7099337801055912064">PPD-ja nuk mund të ngarkohet. Madhësia maksimale është 250 kB.</translation>
 <translation id="7102687220333134671">Përditësimet automatike janë të aktivizuara</translation>
 <translation id="7102832101143475489">Kërkesa skadoi</translation>
-<translation id="7102928824073746774">Grup pa emër - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferencat e USB-së</translation>
 <translation id="710640343305609397">Hap cilësimet e rrjetit</translation>
 <translation id="7108338896283013870">Fshih</translation>
@@ -4913,6 +4914,7 @@ Cilësimet e kësaj llogarie mund t'i menaxhosh duke instaluar aplikacionin Fami
 <translation id="720110658997053098">Mbaje pajisjen gjithmonë në modalitetin "kioskë"</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" u fshi</translation>
 <translation id="7201420661433230412">Shiko skedarët</translation>
+<translation id="7203150201908454328">I zgjeruar</translation>
 <translation id="7203826966018112936">Shtimi i një llogarie të shkollës te një profil bën të mundur identifikimin me lehtësi si student në sajte uebi dhe shtesa ndërkohë që vepron në kuadër të kontrolleve prindërore. Kjo nuk i jep një fëmije qasje te faqeshënuesit, fjalëkalimet ose të dhëna të tjera të shfletuesit të sinkronizuara me llogarinë e shkollës.&lt;br&gt;&lt;br&gt;
     Nëse fëmija yt përdor një Chromebook në shkollë dhe dëshiron ta pasqyrosh përvojën e shkollës në shtëpi për të siguruar që fëmija të ketë qasje te të gjitha detyrat e nevojshme të shkollës, dil nga kjo llogari e Family Link dhe identifikohu në llogarinë e shkollës nga faqja e llogarive të Chrome OS. (Shënim. Nuk do të zbatohen kontrollet prindërore të Family Link.)&lt;br&gt;&lt;br&gt;
     Nëse fëmija yt nuk përdor një Chromebook në shkollë ose nëse preferon ta menaxhosh përvojën e fëmijës tënd në shtëpi duke përdorur Family Link, kliko te butoni "Para" më poshtë për të shtuar një llogari të shkollës te ky profil.</translation>
@@ -5618,6 +5620,7 @@ Mbaje skedarin e çelësit tënd në një vend të sigurt. Do të të duhet për
 <translation id="8062844841289846053">{COUNT,plural, =1{1 fletë letre}other{{COUNT} fletë letre}}</translation>
 <translation id="8063235345342641131">Avatari i parazgjedhur i gjelbër</translation>
 <translation id="8063535366119089408">Shiko skedarin</translation>
+<translation id="8064279191081105977">Grupi <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Prek për t'u identifikuar</translation>
 <translation id="8069615408251337349">Printimi në renë kompjuterike i Google</translation>
 <translation id="8071432093239591881">Printo si imazh</translation>
@@ -5966,7 +5969,7 @@ Mbaje skedarin e çelësit tënd në një vend të sigurt. Do të të duhet për
 <translation id="8509646642152301857">Dështoi shkarkimi i fjalorit të kontrollit të drejtshkrimit.</translation>
 <translation id="8512476990829870887">Përfundo procesin</translation>
 <translation id="851263357009351303">Lejo gjithmonë që <ph name="HOST" /> të shfaqë imazhet</translation>
-<translation id="8513108775083588393">Rrotullim automatik</translation>
+<translation id="8513108775083588393">Autorrotullim</translation>
 <translation id="8514746246728959655">Provo një çelës tjetër sigurie</translation>
 <translation id="8521475323816527629">Merr aplikacionet e tua me shpejtësi</translation>
 <translation id="8523493869875972733">Mbaji ndryshimet</translation>
@@ -6364,6 +6367,7 @@ Mbaje skedarin e çelësit tënd në një vend të sigurt. Do të të duhet për
 <translation id="8986362086234534611">Harro</translation>
 <translation id="8986494364107987395">Dërgo automatikisht te Google statistikat e përdorimit dhe raportet e ndërprerjeve aksidentale</translation>
 <translation id="8987927404178983737">Muaji</translation>
+<translation id="8990209962746788689">Kodi QR nuk mund të krijohet</translation>
 <translation id="8991520179165052608">Sajti mund të përdorë mikrofonin tënd</translation>
 <translation id="899384117894244799">Hiq përdoruesin e kufizuar</translation>
 <translation id="899403249577094719">URL-ja e bazës së certifikatës së Netscape</translation>

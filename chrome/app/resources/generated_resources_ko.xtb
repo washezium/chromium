@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Linux 앱 및 파일을 이전 백업으로 대체</translation>
 <translation id="1842766183094193446">데모 모드를 사용하도록 설정하시겠습니까?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />을(를) 실행하려면 Control 키를 누르고 클릭합니다.</translation>
-<translation id="1846880379134204029">그룹 <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">대기 모드 사용</translation>
 <translation id="1849186935225320012">이 페이지는 MIDI 기기를 완전히 제어할 수 있습니다.</translation>
 <translation id="1850508293116537636">시계 방향으로 회전(&amp;C)</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome이 자동화된 테스트 소프트웨어에 의해 제어되고 있습니다.</translation>
 <translation id="2071393345806050157">로컬 로그 파일이 없습니다.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{확장 프로그램을 설치하려면 클릭하세요.}other{확장 프로그램을 설치하려면 클릭하세요.}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" />자(영문 기준) 이하여야 합니다.</translation>
 <translation id="2075474481720804517">배터리 <ph name="BATTERY_PERCENTAGE" />% 남음</translation>
 <translation id="2075959085554270910">탭하여 클릭 및 탭 드래그를 사용/사용 중지하도록 허용합니다.</translation>
 <translation id="2076269580855484719">이 플러그인 숨기기</translation>
@@ -1314,7 +1314,7 @@
 <translation id="2619761439309613843">매일 새로고침</translation>
 <translation id="2620436844016719705">시스템</translation>
 <translation id="262154978979441594">Google 어시스턴트 음성 모델 학습시키기</translation>
-<translation id="2621713457727696555">잠김</translation>
+<translation id="2621713457727696555">보안</translation>
 <translation id="26224892172169984">모든 사이트에서 프로토콜 처리 허용 안함</translation>
 <translation id="262373406453641243">콜맥</translation>
 <translation id="2624142942574147739">카메라와 마이크에 액세스하는 페이지입니다.</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Linux 업그레이드 중 오류 발생</translation>
 <translation id="3105796011181310544">Google로 되돌리시겠습니까?</translation>
 <translation id="310671807099593501">사이트에서 블루투스를 사용하고 있습니다.</translation>
+<translation id="3109724472072898302">접힘</translation>
 <translation id="3115147772012638511">캐시를 기다리는 중...</translation>
 <translation id="3115580024857770654">모두 접기</translation>
 <translation id="3116968597797150452">인증서 프로필</translation>
@@ -1843,7 +1844,7 @@
 <translation id="3288047731229977326">개발자 모드로 실행 중인 확장 프로그램은 컴퓨터에 해를 줄 수 있습니다. 개발자가 아닌 경우 컴퓨터를 안전하게 사용하려면 개발자 모드로 실행 중인 확장 프로그램을 사용 중지해야 합니다.</translation>
 <translation id="3289668031376215426">자동 대문자화</translation>
 <translation id="3289856944988573801">업데이트를 확인하려면 이더넷 또는 Wi-Fi를 사용하세요.</translation>
-<translation id="3290356915286466215">잠기지 않음</translation>
+<translation id="3290356915286466215">비보안</translation>
 <translation id="3292264722181603749"><ph name="DOMAIN" />에서 ADB 디버깅이 사용 중지되었으며, 기기가 초기화됩니다. 다시 시작하기 전에 파일을 백업하세요.</translation>
 <translation id="3293644607209440645">이 페이지 전송</translation>
 <translation id="32939749466444286">Linux 컨테이너가 시작되지 않았습니다. 다시 시도해 주세요.</translation>
@@ -3124,7 +3125,7 @@
 <translation id="4912643508233590958">유휴 상태 해제</translation>
 <translation id="4916542008280060967">사이트에서 <ph name="FILE_NAME" /> 파일을 수정하도록 허용하시겠습니까?</translation>
 <translation id="491691592645955587">안전한 브라우저로 전환</translation>
-<translation id="4917385247580444890">강력</translation>
+<translation id="4917385247580444890">강함</translation>
 <translation id="4918021164741308375"><ph name="ORIGIN" />에서 '<ph name="EXTENSION_NAME" />' 확장 프로그램과 통신하려고 합니다.</translation>
 <translation id="4918086044614829423">수락</translation>
 <translation id="4918221908152712722"><ph name="APP_NAME" /> 설치(다운로드 필요 없음)</translation>
@@ -3474,6 +3475,7 @@
 <translation id="5379140238605961210">마이크 액세스 계속 차단</translation>
 <translation id="5382591305415226340">지원되는 링크 관리</translation>
 <translation id="5383377866517186886">Mac 시스템 환경설정에서 카메라가 사용 중지되었습니다</translation>
+<translation id="5383740867328871413">이름이 지정되지 않은 그룹 - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">페어링됨</translation>
 <translation id="5389237414310520250">새로운 사용자를 만들지 못했습니다. 하드 드라이브 공간 및 권한을 확인한 다음 다시 시도해 주세요.</translation>
 <translation id="5390100381392048184">사이트에서 소리를 재생하도록 허용</translation>
@@ -4836,7 +4838,6 @@
 <translation id="7099337801055912064">큰 PPD를 로드할 수 없습니다. 최대 크기는 250KB입니다.</translation>
 <translation id="7102687220333134671">자동 업데이트가 사용 설정되어 있습니다.</translation>
 <translation id="7102832101143475489">요청 제한 시간 초과</translation>
-<translation id="7102928824073746774">이름이 지정되지 않은 그룹 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB 환경설정</translation>
 <translation id="710640343305609397">네트워크 설정 열기</translation>
 <translation id="7108338896283013870">숨기기</translation>
@@ -4914,6 +4915,7 @@
 <translation id="720110658997053098">이 기기를 키오스크 모드로 영구 고정</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' 삭제됨</translation>
 <translation id="7201420661433230412">파일 보기</translation>
+<translation id="7203150201908454328">펼쳐짐</translation>
 <translation id="7203826966018112936">프로필에 학교 계정을 추가하면 계속 자녀 보호 기능으로 사용하면서 학생으로서 웹사이트 및 확장 프로그램에 편리하게 로그인할 수 있습니다. 이렇게 해도 자녀는 학교 계정과 동기화된 북마크, 비밀번호 및 기타 브라우저 데이터에 액세스할 수 없습니다.&lt;br&gt;&lt;br&gt;
     자녀가 학교에서 Chromebook을 사용하며 집에서 학교 환경을 미러링하여 필요한 학교 작업에 모두 액세스할 수 있기를 원한다면 이 Family Link 계정에서 로그아웃한 후 Chrome OS 계정 페이지에서 학교 계정으로 로그인하세요(참고: Family Link 자녀 보호 기능이 적용되지 않음).&lt;br&gt;&lt;br&gt;
     자녀가 학교에서 Chromebook을 사용하지 않거나 Family Link를 사용하여 집에서 자녀의 환경을 관리하고 싶다면 아래에서 다음 버튼을 클릭하여 이 프로필에 학교 계정을 추가하세요.</translation>
@@ -5621,6 +5623,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{용지 1장}other{용지 {COUNT}장}}</translation>
 <translation id="8063235345342641131">기본 녹색 아바타</translation>
 <translation id="8063535366119089408">파일 보기</translation>
+<translation id="8064279191081105977">그룹 <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">로그인하려면 터치하세요.</translation>
 <translation id="8069615408251337349">Google 클라우드 프린트</translation>
 <translation id="8071432093239591881">이미지로 인쇄</translation>
@@ -6367,6 +6370,7 @@
 <translation id="8986362086234534611">저장 안함</translation>
 <translation id="8986494364107987395">사용 통계 및 비정상 종료 보고서를 Google에 자동으로 전송합니다.</translation>
 <translation id="8987927404178983737">월</translation>
+<translation id="8990209962746788689">QR 코드를 만들 수 없음</translation>
 <translation id="8991520179165052608">사이트에서 마이크를 사용할 수 있습니다.</translation>
 <translation id="899384117894244799">제한된 사용자 삭제</translation>
 <translation id="899403249577094719">Netscape Certificate Base URL</translation>

@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Åbn originalbillede på ny fane</translation>
 <translation id="1055806300943943258">Søger efter Bluetooth- og USB-enheder…</translation>
 <translation id="1056466516655540509">Opdateret for <ph name="MINUTES" /> min. siden</translation>
-<translation id="1056775291175587022">Der er ingen netværk</translation>
+<translation id="1056775291175587022">Ingen netværk</translation>
 <translation id="1056898198331236512">Advarsel</translation>
 <translation id="1058262162121953039">PUK-kode</translation>
 <translation id="1060292118287751956">Fastlægger frekvensen for skærmopdateringer</translation>
@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Erstat dine Linux-apps og -filer med en tidligere backup</translation>
 <translation id="1842766183094193446">Er du sikker på, at du vil aktivere demotilstand?</translation>
 <translation id="1846308012215045257">Hold ctrl-tasten nede, og klik for at køre <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Gruppe <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Aktivér pauseskærm</translation>
 <translation id="1849186935225320012">Denne side har fuld kontrol over MIDI-enheder.</translation>
 <translation id="1850508293116537636">Roter med &amp;uret</translation>
@@ -867,6 +866,7 @@ Du kan administrere indstillingerne for denne konto ved at installere Family Lin
 <translation id="2065405795449409761">Chrome kontrolleres af automatiseret testsoftware.</translation>
 <translation id="2071393345806050157">Ingen lokal logfil.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klik for at installere udvidelsen}one{Klik for at installere udvidelsen}other{Klik for at installere disse udvidelser}}</translation>
+<translation id="2073505299004274893">Brug højst <ph name="CHARACTER_LIMIT" /> tegn</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % batteri</translation>
 <translation id="2075959085554270910">Giver dig mulighed for at aktivere/deaktivere tryk-hurtigt-for-at-klikke og Tryk og træk-funktionen</translation>
 <translation id="2076269580855484719">Skjul dette plugin</translation>
@@ -1715,6 +1715,7 @@ Du kan administrere indstillingerne for denne konto ved at installere Family Lin
 <translation id="3103941660000130485">Linux kunne ikke opgraderes</translation>
 <translation id="3105796011181310544">Vil du skifte tilbage til Google?</translation>
 <translation id="310671807099593501">Websitet anvender Bluetooth</translation>
+<translation id="3109724472072898302">Skjult</translation>
 <translation id="3115147772012638511">Venter på cache...</translation>
 <translation id="3115580024857770654">Skjul alle</translation>
 <translation id="3116968597797150452">Certifikatprofil</translation>
@@ -2712,7 +2713,7 @@ Vil du starte <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="4375035964737468845">Åbne downloadede filer</translation>
 <translation id="4377363674125277448">Der opstod et problem med serverens certifikat.</translation>
 <translation id="4378154925671717803">Telefon</translation>
-<translation id="4378551569595875038">Opretter forbindelse...</translation>
+<translation id="4378551569595875038">Tilslutter...</translation>
 <translation id="4378556263712303865">Enhedsrekvisition</translation>
 <translation id="4379281552162875326">Vil du afinstallere "<ph name="APP_NAME" />"?</translation>
 <translation id="4380648069038809855">Fuld skærm er aktiveret</translation>
@@ -3476,6 +3477,7 @@ Vil du starte <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="5379140238605961210">Fortsæt blokeringen af mikrofonadgang</translation>
 <translation id="5382591305415226340">Administrer understøttede links</translation>
 <translation id="5383377866517186886">Kameraet er deaktiveret i Systemindstillinger for Mac</translation>
+<translation id="5383740867328871413">Unavngiven gruppe – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Parret</translation>
 <translation id="5389237414310520250">Den nye bruger kunne ikke oprettes. Kontrollér, om der er ledig plads på din harddisk, og at du har de rette tilladelser, og prøv igen.</translation>
 <translation id="5390100381392048184">Tillad, at websites afspiller lyd</translation>
@@ -4839,7 +4841,6 @@ slettes permanent, når den administrerede bruger fjernes. Besøgte websites og 
 <translation id="7099337801055912064">Den store PPD-fil kan ikke indlæses. Filen må ikke fylde mere end 250 kB.</translation>
 <translation id="7102687220333134671">Automatiske opdateringer er slået til</translation>
 <translation id="7102832101143475489">Der opstod timeout for anmodningen</translation>
-<translation id="7102928824073746774">Unavngiven gruppe – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Præferencer for USB</translation>
 <translation id="710640343305609397">Åbn netværksindstillingerne</translation>
 <translation id="7108338896283013870">Skjul</translation>
@@ -4875,7 +4876,7 @@ slettes permanent, når den administrerede bruger fjernes. Besøgte websites og 
 <translation id="713888829801648570">Din adgangskode blev ikke bekræftet, fordi du er offline.</translation>
 <translation id="7140928199327930795">Der er ingen andre tilgængelige enheder.</translation>
 <translation id="7141105143012495934">Login mislykkedes, da dine kontooplysninger ikke kunne hentes. Kontakt din administrator, eller prøv igen.</translation>
-<translation id="7143207342074048698">Opretter forbindelse</translation>
+<translation id="7143207342074048698">Tilslutter</translation>
 <translation id="7144878232160441200">Prøv igen</translation>
 <translation id="7149893636342594995">De seneste 24 timer</translation>
 <translation id="715118844758971915">Klassiske printere</translation>
@@ -4917,6 +4918,7 @@ slettes permanent, når den administrerede bruger fjernes. Besøgte websites og 
 <translation id="720110658997053098">Lad kiosktilstand forblive aktiveret på denne enhed</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" er slettet</translation>
 <translation id="7201420661433230412">Få vist filer</translation>
+<translation id="7203150201908454328">Udvidet</translation>
 <translation id="7203826966018112936">Ved at føje en skolekonto til en profil kan en elev nemt logge ind på websites og udvidelser, når børnesikring er aktiveret. Dette giver ikke et barn adgang til bogmærker, adgangskoder eller andre browserdata, der synkroniseres med skolekontoen.&lt;br&gt;&lt;br&gt;
     Hvis dit barn bruger en Chromebook i skolen, og du vil genskabe skoleoplevelsen derhjemme for at sikre, at dit barn har adgang til alle nødvendige skoleressourcer, skal du logge ud af denne Family Link-konto og logge ind på skolekontoen via kontosiden for Chrome OS. Vær opmærksom på, at forældreindstillinger fra Family Link ikke anvendes.&lt;br&gt;&lt;br&gt;
     Hvis dit barn ikke bruger en Chromebook i skolen, eller hvis du foretrækker at administrere dit barns oplevelse derhjemme ved hjælp af Family Link, skal du klikke på knappen Næste nedenfor og føje en skolekonto til denne profil.</translation>
@@ -5623,6 +5625,7 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="8062844841289846053">{COUNT,plural, =1{1 ark papir}one{{COUNT} ark papir}other{{COUNT} ark papir}}</translation>
 <translation id="8063235345342641131">Grøn standardavatar</translation>
 <translation id="8063535366119089408">Se fil</translation>
+<translation id="8064279191081105977">Gruppe <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Tryk for at logge ind</translation>
 <translation id="8069615408251337349">Google Cloudprinter</translation>
 <translation id="8071432093239591881">Udskriv i billedformat</translation>
@@ -5971,7 +5974,7 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="8509646642152301857">Download af ordbog til stavekontrol mislykkedes.</translation>
 <translation id="8512476990829870887">Afslut proces</translation>
 <translation id="851263357009351303">Tillad altid, at <ph name="HOST" /> viser billeder</translation>
-<translation id="8513108775083588393">Roter automatisk</translation>
+<translation id="8513108775083588393">Autoroter</translation>
 <translation id="8514746246728959655">Prøv med en anden sikkerhedsnøgle</translation>
 <translation id="8521475323816527629">Gå hurtigt til dine apps</translation>
 <translation id="8523493869875972733">Behold ændringerne</translation>
@@ -6281,7 +6284,7 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="8871974300055371298">Indstillinger for indhold</translation>
 <translation id="8872155268274985541">Den eksterne opdateringsmanifestfil for terminalen er ugyldig. Terminalappen kunne ikke opdateres. Fjern USB-stikket.</translation>
 <translation id="8872777911145321141">Spørg, når et website gerne vil anvende dine virtual reality-enheder og dine VR-data (anbefales)</translation>
-<translation id="8874184842967597500">Ikke tilsluttet</translation>
+<translation id="8874184842967597500">Ikke forbundet</translation>
 <translation id="8875520811099717934">Linux-opgradering</translation>
 <translation id="8876307312329369159">Denne indstilling kan ikke ændres i en demosession.</translation>
 <translation id="8877448029301136595">[parent directory]</translation>
@@ -6370,6 +6373,7 @@ Opbevar din nøglefil på et sikkert sted. Du skal bruge den til at oprette nye 
 <translation id="8986362086234534611">Glem</translation>
 <translation id="8986494364107987395">Send automatisk brugsstatistikker og nedbrudsrapporter til Google</translation>
 <translation id="8987927404178983737">Måned</translation>
+<translation id="8990209962746788689">QR-koden kan ikke oprettes</translation>
 <translation id="8991520179165052608">Websitet kan anvende din mikrofon</translation>
 <translation id="899384117894244799">Fjern begrænset bruger</translation>
 <translation id="899403249577094719">Webadresse for Netscape-certifikatbase</translation>

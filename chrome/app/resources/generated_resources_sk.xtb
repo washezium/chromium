@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Nahraďte svoje aplikácie a súbory pre Linux predchádzajúcou zálohou</translation>
 <translation id="1842766183094193446">Naozaj chcete povoliť režim ukážky?</translation>
 <translation id="1846308012215045257">Doplnok <ph name="PLUGIN_NAME" /> spustíte súčasným stlačením tlačidla Ctrl a kliknutím</translation>
-<translation id="1846880379134204029">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Povoliť ambientný režim</translation>
 <translation id="1849186935225320012">Táto stránka má úplnú kontrolu nad zariadeniami MIDI.</translation>
 <translation id="1850508293116537636">Otočiť &amp;v smere hodinových ručičiek</translation>
@@ -867,6 +866,7 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="2065405795449409761">Chrome je ovládaný automatizovaným testovacím softvérom.</translation>
 <translation id="2071393345806050157">Žiadny miestny súbor denníka nie je k dispozícii.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kliknutím nainštalujete rozšírenie}few{Kliknutím nainštalujete rozšírenia}many{Kliknutím nainštalujete rozšírenia}other{Kliknutím nainštalujete rozšírenia}}</translation>
+<translation id="2073505299004274893">Použite <ph name="CHARACTER_LIMIT" /> alebo menej znakov</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % batérie</translation>
 <translation id="2075959085554270910">Umožňuje povoliť alebo zakázať kliknutie klepnutím a presunutie klepnutím</translation>
 <translation id="2076269580855484719">Skryť tento doplnok</translation>
@@ -1714,6 +1714,7 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="3103941660000130485">Chyba pri inovovaní systému Linux</translation>
 <translation id="3105796011181310544">Chcete prepnúť späť na Google?</translation>
 <translation id="310671807099593501">Web používa Bluetooth</translation>
+<translation id="3109724472072898302">Zbalené</translation>
 <translation id="3115147772012638511">Čakanie na vyrovnávaciu pamäť...</translation>
 <translation id="3115580024857770654">Zbaliť všetko</translation>
 <translation id="3116968597797150452">Profil certifikátu</translation>
@@ -3475,6 +3476,7 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="5379140238605961210">Aj naďalej blokovať prístup k mikrofónu</translation>
 <translation id="5382591305415226340">Spravovať podporované odkazy</translation>
 <translation id="5383377866517186886">Kamera je vypnutá v predvoľbách systému Mac</translation>
+<translation id="5383740867328871413">Skupina bez názvu – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Spárované</translation>
 <translation id="5389237414310520250">Nového používateľa sa nepodarilo vytvoriť. Skontrolujte priestor na pevnom disku a povolenia a skúste to znova.</translation>
 <translation id="5390100381392048184">Povoliť webom prehrávať zvuk</translation>
@@ -3709,7 +3711,7 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="5659833766619490117">Túto stránku sa nepodarilo preložiť</translation>
 <translation id="5662513737565158057">Zmeňte, ako budú aplikácie pre Linux fungovať.</translation>
 <translation id="5667546120811588575">Nastavuje sa služba Google Play...</translation>
-<translation id="5669267381087807207">Prebieha aktivácia</translation>
+<translation id="5669267381087807207">Aktivuje sa</translation>
 <translation id="5669691691057771421">Zadanie nového kódu PIN</translation>
 <translation id="5671641761787789573">Boli zablokované obrázky</translation>
 <translation id="5671658447180261823">Odstrániť návrh <ph name="SUGGESTION_NAME" /></translation>
@@ -4837,7 +4839,6 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="7099337801055912064">Súbor PPD sa nedá načítať, pretože je príliš veľký. Maximálna veľkosť je 250 kB.</translation>
 <translation id="7102687220333134671">Automatické aktualizácie sú zapnuté</translation>
 <translation id="7102832101143475489">Platnosť žiadosti vypršala</translation>
-<translation id="7102928824073746774">Skupina bez názvu – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Predvoľby USB</translation>
 <translation id="710640343305609397">Otvoriť nastavenia sietí</translation>
 <translation id="7108338896283013870">Skryť</translation>
@@ -4915,6 +4916,7 @@ Ak chcete spravovať nastavenia tohto účtu, nainštalujte si do zariadenia apl
 <translation id="720110658997053098">Udržiavať toto zariadenie trvale v režime kiosku</translation>
 <translation id="7201118060536064622">Položka <ph name="DELETED_ITEM_NAME" /> bola odstránená</translation>
 <translation id="7201420661433230412">Zobraziť súbory</translation>
+<translation id="7203150201908454328">Rozbalené</translation>
 <translation id="7203826966018112936">Pridanie školského účtu do profilu uľahčuje prihlásenie v rámci webov a rozšírení študentom, ktorí majú v zariadení aktívnu rodičovskú kontrolu. Dieťaťu tým neposkytnete prístup k záložkám, heslám ani dátam prehliadača synchronizovaným so školským účtom.&lt;br&gt;&lt;br&gt;
     Ak vaše dieťa používa Chromebook v škole a chcete doma vytvoriť školské prostredie, aby malo prístup k všetkým potrebným domácim úlohám, odhláste sa z účtu Family Link a prihláste sa do účtu zo stránky účtov Chrome OS. (Poznámka: Rodičovská kontrola Family Link nebude platiť.)&lt;br&gt;&lt;br&gt;
     Ak vaše dieťa nepoužíva Chromebook v škole alebo radšej spravujete prostredie dieťaťa doma pomocou aplikácie Family Link, kliknutím na tlačidlo Ďalej uvedené nižšie pridajte školský účet pre tento profil.</translation>
@@ -5622,6 +5624,7 @@ Súbor kľúča uložte na bezpečné miesto. Budete ho potrebovať na vytvoreni
 <translation id="8062844841289846053">{COUNT,plural, =1{1 hárok papiera}few{{COUNT} hárky papiera}many{{COUNT} hárka papiera}other{{COUNT} hárkov papiera}}</translation>
 <translation id="8063235345342641131">Predvolený zelený avatar</translation>
 <translation id="8063535366119089408">Zobraziť súbor</translation>
+<translation id="8064279191081105977">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Dotykom sa prihlásite</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Vytlačiť ako obrázok</translation>
@@ -5969,7 +5972,7 @@ Súbor kľúča uložte na bezpečné miesto. Budete ho potrebovať na vytvoreni
 <translation id="8509646642152301857">Sťahovanie slovníka na kontrolu pravopisu zlyhalo.</translation>
 <translation id="8512476990829870887">Ukončiť proces</translation>
 <translation id="851263357009351303">Vždy povoliť stránkam <ph name="HOST" /> zobrazovať obrázky</translation>
-<translation id="8513108775083588393">Automatické otáčanie</translation>
+<translation id="8513108775083588393">Aut. otáčanie</translation>
 <translation id="8514746246728959655">Vyskúšajte iný bezpečnostný kľúč</translation>
 <translation id="8521475323816527629">Rýchlo získajte svoje aplikácie</translation>
 <translation id="8523493869875972733">Zachovať zmeny</translation>
@@ -6367,6 +6370,7 @@ Súbor kľúča uložte na bezpečné miesto. Budete ho potrebovať na vytvoreni
 <translation id="8986362086234534611">Odstrániť</translation>
 <translation id="8986494364107987395">Automaticky odosielať Googlu štatistiky používania a správy o zlyhaní</translation>
 <translation id="8987927404178983737">Mesiac</translation>
+<translation id="8990209962746788689">Nie je možné vytvoriť QR kód</translation>
 <translation id="8991520179165052608">Web môže používať váš mikrofón</translation>
 <translation id="899384117894244799">Odobrať obmedzeného používateľa</translation>
 <translation id="899403249577094719">Netscape – základná webová adresa certifikátu</translation>

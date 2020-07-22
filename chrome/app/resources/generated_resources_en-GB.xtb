@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Replace your Linux apps and files with a previous backup</translation>
 <translation id="1842766183094193446">Are you sure that you want to enable demo mode?</translation>
 <translation id="1846308012215045257">Control-click to run <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Group <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Enable Ambient Mode</translation>
 <translation id="1849186935225320012">This page has full control of MIDI devices.</translation>
 <translation id="1850508293116537636">Rotate &amp;clockwise</translation>
@@ -867,6 +866,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="2065405795449409761">Chrome is being controlled by automated test software.</translation>
 <translation id="2071393345806050157">No local log file.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Click to install the extension}other{Click to install these extensions}}</translation>
+<translation id="2073505299004274893">Use <ph name="CHARACTER_LIMIT" /> characters or fewer</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% Battery</translation>
 <translation id="2075959085554270910">Allows you to enable/disable tap-to-click and tap dragging</translation>
 <translation id="2076269580855484719">Hide this plug-in</translation>
@@ -1715,6 +1715,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="3103941660000130485">Error upgrading Linux</translation>
 <translation id="3105796011181310544">Change back to Google?</translation>
 <translation id="310671807099593501">Site is using Bluetooth</translation>
+<translation id="3109724472072898302">Collapsed</translation>
 <translation id="3115147772012638511">Waiting for cache...</translation>
 <translation id="3115580024857770654">Collapse all</translation>
 <translation id="3116968597797150452">Certificate profile</translation>
@@ -3476,6 +3477,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="5379140238605961210">Continue blocking microphone access</translation>
 <translation id="5382591305415226340">Manage supported links</translation>
 <translation id="5383377866517186886">Camera is turned off in Mac System Preferences</translation>
+<translation id="5383740867328871413">Unnamed group – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Paired</translation>
 <translation id="5389237414310520250">The new user couldn't be created. Please check your hard drive space and permissions and try again.</translation>
 <translation id="5390100381392048184">Allow sites to play sound</translation>
@@ -4838,7 +4840,6 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="7099337801055912064">Can’t load large PPD. Maximum size is 250 KB.</translation>
 <translation id="7102687220333134671">Automatic updates are turned on</translation>
 <translation id="7102832101143475489">The request timed out</translation>
-<translation id="7102928824073746774">Unnamed group – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB preferences</translation>
 <translation id="710640343305609397">Open network settings</translation>
 <translation id="7108338896283013870">Hide</translation>
@@ -4874,7 +4875,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="713888829801648570">Sorry, your password could not be verified because you are offline.</translation>
 <translation id="7140928199327930795">No other available devices.</translation>
 <translation id="7141105143012495934">Sign-in failed because your account details could not be retrieved. Please contact your administrator or try again.</translation>
-<translation id="7143207342074048698">Connecting ...</translation>
+<translation id="7143207342074048698">Connecting</translation>
 <translation id="7144878232160441200">Retry</translation>
 <translation id="7149893636342594995">Last 24 Hours</translation>
 <translation id="715118844758971915">Classic printers</translation>
@@ -4916,6 +4917,7 @@ You can manage this account’s settings by installing the Family Link app on yo
 <translation id="720110658997053098">Permanently keep this device in kiosk mode</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' deleted</translation>
 <translation id="7201420661433230412">View files</translation>
+<translation id="7203150201908454328">Expanded</translation>
 <translation id="7203826966018112936">Adding a school account to a profile enables easy sign-in to websites and extensions as a student while operating under parental controls. It does not give a child access to bookmarks, passwords or other browser data synced with the school account.&lt;br&gt;&lt;br&gt;
     If your child uses a Chromebook in school and you wish to mirror the school experience at home to ensure that your child has access to all necessary schoolwork, please sign out of this Family Link account and sign in to the school account from the Chrome OS accounts page (note: Family Link parental controls will not apply).&lt;br&gt;&lt;br&gt;
     If your child does not use a Chromebook in school or if you prefer to manage your child’s experience at home using Family Link, please click the Next button below to add a school account to this profile.</translation>
@@ -5623,6 +5625,7 @@ Keep your key file in a safe place. You will need it to create new versions of y
 <translation id="8062844841289846053">{COUNT,plural, =1{1 sheet of paper}other{{COUNT} sheets of paper}}</translation>
 <translation id="8063235345342641131">Default green avatar</translation>
 <translation id="8063535366119089408">View file</translation>
+<translation id="8064279191081105977">Group <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Touch to sign in</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Print as image</translation>
@@ -6369,6 +6372,7 @@ Keep your key file in a safe place. You will need it to create new versions of y
 <translation id="8986362086234534611">Forget</translation>
 <translation id="8986494364107987395">Automatically send usage statistics and crash reports to Google</translation>
 <translation id="8987927404178983737">Month</translation>
+<translation id="8990209962746788689">Can't create QR code</translation>
 <translation id="8991520179165052608">Site can use your microphone</translation>
 <translation id="899384117894244799">Remove restricted user</translation>
 <translation id="899403249577094719">Netscape Certificate Base URL</translation>

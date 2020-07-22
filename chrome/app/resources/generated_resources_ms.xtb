@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Buka &amp;Imej Asal dalam Tab Baharu</translation>
 <translation id="1055806300943943258">Mencari Bluetooth dan peranti USB...</translation>
 <translation id="1056466516655540509">Dikemas kini <ph name="MINUTES" /> minit yang lalu</translation>
-<translation id="1056775291175587022">Tiada rangkaian</translation>
+<translation id="1056775291175587022">0 rangkaian</translation>
 <translation id="1056898198331236512">Amaran</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">Menentukan kekerapan skrin dikemas kini</translation>
@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Gantikan apl dan fail Linux anda dengan sandaran sebelumnya</translation>
 <translation id="1842766183094193446">Adakah anda pasti mahu mendayakan mod tunjuk cara?</translation>
 <translation id="1846308012215045257">Tekan Ctrl dan klik untuk menjalankan <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Kumpulan <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Dayakan Mod ambien</translation>
 <translation id="1849186935225320012">Halaman ini mengawal sepenuhnya peranti MIDI.</translation>
 <translation id="1850508293116537636">Putar &amp;ikut arah jam</translation>
@@ -867,6 +866,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="2065405795449409761">Chrome sedang dikawal oleh perisian ujian automatik.</translation>
 <translation id="2071393345806050157">Tiada fail log setempat.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klik untuk memasang sambungan}other{Klik untuk memasang sambungan ini}}</translation>
+<translation id="2073505299004274893">Gunakan <ph name="CHARACTER_LIMIT" /> atau kurang aksara</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% Bateri</translation>
 <translation id="2075959085554270910">Membolehkan anda mendayakan/melumpuhkan ketik-untuk-klik dan seretan ketik</translation>
 <translation id="2076269580855484719">Sembunyikan pemalam ini</translation>
@@ -1715,6 +1715,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="3103941660000130485">Ralat semasa meningkatkan Linux</translation>
 <translation id="3105796011181310544">Tukar kembali kepada Google?</translation>
 <translation id="310671807099593501">Tapak sedang menggunakan bluetooth</translation>
+<translation id="3109724472072898302">Diruntuhkan</translation>
 <translation id="3115147772012638511">Menunggu cache...</translation>
 <translation id="3115580024857770654">Runtuhkan semua</translation>
 <translation id="3116968597797150452">Profil Sijil</translation>
@@ -3476,6 +3477,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="5379140238605961210">Teruskan menyekat akses mikrofon</translation>
 <translation id="5382591305415226340">Urus pautan yang disokong</translation>
 <translation id="5383377866517186886">Kamera dimatikan dalam Pilihan Sistem Mac</translation>
+<translation id="5383740867328871413">Kumpulan tidak bernama - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Dipasangkan</translation>
 <translation id="5389237414310520250">Pengguna baharu tidak dapat dibuat. Sila semak ruang cakera keras serta kebenaran anda dan cuba lagi.</translation>
 <translation id="5390100381392048184">Benarkan tapak untuk memainkan bunyi</translation>
@@ -4838,7 +4840,6 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="7099337801055912064">Tidak dapat memuatkan PPD bersaiz besar. Saiz maksimum ialah 250 KB.</translation>
 <translation id="7102687220333134671">Kemas kini automatik dihidupkan</translation>
 <translation id="7102832101143475489">Permintaan telah tamat masa</translation>
-<translation id="7102928824073746774">Kumpulan tidak bernama - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Pilihan USB</translation>
 <translation id="710640343305609397">Buka tetapan rangkaian</translation>
 <translation id="7108338896283013870">Sembunyikan</translation>
@@ -4916,6 +4917,7 @@ Anda boleh mengurus tetapan akaun ini dengan memasang apl Family Link pada peran
 <translation id="720110658997053098">Pastikan peranti ini kekal dalam mod kios</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' dipadamkan</translation>
 <translation id="7201420661433230412">Lihat fail</translation>
+<translation id="7203150201908454328">Diperluas</translation>
 <translation id="7203826966018112936">Tindakan menambahkan akaun sekolah pada profil membolehkan anda log masuk dengan mudah ke tapak web dan sambungan sebagai pelajar dan dalam masa yang sama beroperasi di bawah kawalan ibu bapa. Tindakan ini tidak memberi kanak-kanak akses kepada penanda halaman, kata laluan atau data penyemak imbas lain yang disegerakkan dengan akaun sekolah.&lt;br&gt;&lt;br&gt;
 Jika anak anda menggunakan Chromebook di sekolah dan anda ingin mencerminkan pengalaman sekolah di rumah untuk memastikan anak anda mempunyai akses kepada semua kerja sekolah yang diperlukan, sila log keluar daripada akaun Family Link ini dan log masuk ke akaun sekolah daripada halaman akaun OS Chrome (nota: kawalan ibu bapa Family Link tidak akan digunakan).&lt;br&gt;&lt;br&gt;
 Jika anak anda tidak menggunakan Chromebook di sekolah atau jika anda lebih suka mengurus pengalaman anak anda di rumah menggunakan Family Link, sila klik butang Seterusnya di bawah untuk menambahkan akaun sekolah pada profil ini.</translation>
@@ -5623,6 +5625,7 @@ Simpan fail kunci anda di tempat selamat. Anda akan memerlukannya untuk mencipta
 <translation id="8062844841289846053">{COUNT,plural, =1{1 helai kertas}other{{COUNT} helai kertas}}</translation>
 <translation id="8063235345342641131">Avatar hijau lalai</translation>
 <translation id="8063535366119089408">Lihat fail</translation>
+<translation id="8064279191081105977">Kumpulan <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Sentuh untuk mengelog masuk</translation>
 <translation id="8069615408251337349">Cetakan Awan Google</translation>
 <translation id="8071432093239591881">Cetak sebagai imej</translation>
@@ -6370,6 +6373,7 @@ perubahan ini berlaku, anda mungkin tidak mahukannya.</translation>
 <translation id="8986362086234534611">Lupa</translation>
 <translation id="8986494364107987395">Hantar statistik penggunaan dan laporan nahas kepada Google secara automatik</translation>
 <translation id="8987927404178983737">Bulan</translation>
+<translation id="8990209962746788689">Tidak dapat mencipta kod QR</translation>
 <translation id="8991520179165052608">Tapak boleh menggunakan mikrofon anda</translation>
 <translation id="899384117894244799">Alih keluar pengguna yang disekat</translation>
 <translation id="899403249577094719">URL Tapak Sijil Netscape</translation>

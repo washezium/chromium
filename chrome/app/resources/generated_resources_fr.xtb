@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Remplacer vos applications et fichiers Linux avec une sauvegarde existante</translation>
 <translation id="1842766183094193446">Voulez-vous vraiment activer le mode de démonstration ?</translation>
 <translation id="1846308012215045257">Cliquez ici en maintenant la touche Ctrl enfoncée pour exécuter <ph name="PLUGIN_NAME" />.</translation>
-<translation id="1846880379134204029">Groupe <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Activer le mode Veille</translation>
 <translation id="1849186935225320012">Le contrôle total des appareils MIDI est activé pour cette page</translation>
 <translation id="1850508293116537636">Rotation &amp;dans le sens des aiguilles d'une montre</translation>
@@ -1398,7 +1397,7 @@ Vous pouvez gérer les paramètres de ce compte en installant l'application Fami
 <translation id="2714997332747470971">Les suggestions d'informations personnelles permettent d'accélérer la saisie de texte en vous proposant votre nom, votre adresse ou votre numéro de téléphone, par exemple. Ces suggestions privées, spécifiques à votre compte, ne sont visibles que par vous.</translation>
 <translation id="2715751256863167692">Cette mise à niveau entraîne la réinitialisation de votre Chromebook et la suppression des informations sur l'utilisateur actuelles.</translation>
 <translation id="2716986496990888774">Ce paramètre est géré par un parent.</translation>
-<translation id="2718395828230677721">Éclairage nocturne</translation>
+<translation id="2718395828230677721">Écl. nocturne</translation>
 <translation id="2718998670920917754">Le logiciel antivirus a détecté un virus.</translation>
 <translation id="2719020180254996569">Réseau <ph name="NETWORK_INDEX" /> sur <ph name="NETWORK_COUNT" />, <ph name="NETWORK_NAME" />, <ph name="CONNECTION_STATUS" />, détails</translation>
 <translation id="2719936478972253983">Les cookies suivants ont été bloqués</translation>
@@ -1715,6 +1714,7 @@ Vous pouvez gérer les paramètres de ce compte en installant l'application Fami
 <translation id="3103941660000130485">Erreur lors de la mise à niveau de Linux</translation>
 <translation id="3105796011181310544">Revenir à Google ?</translation>
 <translation id="310671807099593501">Le site utilise le Bluetooth</translation>
+<translation id="3109724472072898302">Réduit</translation>
 <translation id="3115147772012638511">En attente de l'affichage du cache</translation>
 <translation id="3115580024857770654">Tout réduire</translation>
 <translation id="3116968597797150452">Profil du certificat</translation>
@@ -4839,7 +4839,6 @@ Assurez-vous de ne pas dévoiler d'informations sensibles.</translation>
 <translation id="7099337801055912064">Impossible de charger un fichier PPD volumineux. Le fichier ne doit pas dépasser 250 Ko.</translation>
 <translation id="7102687220333134671">Les mises à jour automatiques sont activées</translation>
 <translation id="7102832101143475489">Le délai imparti à la demande est dépassé</translation>
-<translation id="7102928824073746774">Groupe sans nom – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Préférences USB</translation>
 <translation id="710640343305609397">Ouvrir les paramètres réseau</translation>
 <translation id="7108338896283013870">Masquer</translation>
@@ -4875,7 +4874,7 @@ Assurez-vous de ne pas dévoiler d'informations sensibles.</translation>
 <translation id="713888829801648570">Votre mot de passe n'a pas pu être vérifié, car votre appareil est hors connexion.</translation>
 <translation id="7140928199327930795">Aucun autre périphérique disponible</translation>
 <translation id="7141105143012495934">Échec de la connexion, car il est impossible de récupérer les informations relatives à votre compte. Veuillez contacter votre administrateur ou réessayer.</translation>
-<translation id="7143207342074048698">Connexion en cours</translation>
+<translation id="7143207342074048698">Connexion</translation>
 <translation id="7144878232160441200">Réessayer</translation>
 <translation id="7149893636342594995">Dernières 24 heures</translation>
 <translation id="715118844758971915">Imprimantes standards</translation>
@@ -4917,6 +4916,7 @@ Assurez-vous de ne pas dévoiler d'informations sensibles.</translation>
 <translation id="720110658997053098">Conserver cet appareil en mode Kiosque de manière permanente</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" supprimé</translation>
 <translation id="7201420661433230412">Afficher les fichiers</translation>
+<translation id="7203150201908454328">Développé</translation>
 <translation id="7203826966018112936">L'ajout d'un compte scolaire à un profil permet de se connecter facilement aux sites Web et aux extensions en tant qu'élève. Le contrôle parental n'est pas désactivé. Cependant, l'enfant ne pourra pas accéder aux favoris, mots de passe et autres données du navigateur qui sont synchronisés avec le compte scolaire.&lt;br&gt;&lt;br&gt;
     Si votre enfant utilise un Chromebook à l'école et que vous souhaitez qu'il ait accès aux mêmes ressources à la maison pour faire ses devoirs, veuillez vous déconnecter du compte Family Link, puis vous connecter au compte scolaire depuis la page des comptes de Chrome OS. Remarque : le contrôle parental Family Link ne s'applique pas dans ce cas.&lt;br&gt;&lt;br&gt;
     Si votre enfant n'utilise pas un Chromebook à l'école ou si vous préférez gérer son activité à la maison avec Family Link, veuillez cliquer sur le bouton "Suivant" pour ajouter un compte scolaire à ce profil.</translation>
@@ -5972,7 +5972,7 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="8509646642152301857">Échec du téléchargement du dictionnaire du correcteur orthographique.</translation>
 <translation id="8512476990829870887">Arrêter le processus</translation>
 <translation id="851263357009351303">Toujours autoriser <ph name="HOST" /> à afficher les images</translation>
-<translation id="8513108775083588393">Rotation automatique</translation>
+<translation id="8513108775083588393">Rotation auto</translation>
 <translation id="8514746246728959655">Essayer une autre clé de sécurité</translation>
 <translation id="8521475323816527629">Accédez rapidement à vos applications</translation>
 <translation id="8523493869875972733">Conserver les modifications</translation>

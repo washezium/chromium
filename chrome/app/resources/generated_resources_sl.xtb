@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Nadomestite aplikacije in datoteke za Linux s prejšnjo varnostno kopijo</translation>
 <translation id="1842766183094193446">Ali ste prepričani, da želite omogočiti predstavitveni način?</translation>
 <translation id="1846308012215045257">Pridržite tipko »control« in kliknite za zagon vtičnika <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Omogočanje ambientalnega načina</translation>
 <translation id="1849186935225320012">To spletno mesto ima popolni nadzor nad napravami MIDI.</translation>
 <translation id="1850508293116537636">&amp;Zasukaj v smeri urinega kazalca</translation>
@@ -867,6 +866,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="2065405795449409761">Chrome upravlja avtomatizirana preskusna programska oprema.</translation>
 <translation id="2071393345806050157">Ni lokalne dnevniške datoteke.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kliknite, če želite namestiti razširitev}one{Kliknite, če želite namestiti te razširitve}two{Kliknite, če želite namestiti te razširitve}few{Kliknite, če želite namestiti te razširitve}other{Kliknite, če želite namestiti te razširitve}}</translation>
+<translation id="2073505299004274893">Uporabite največ toliko znakov: <ph name="CHARACTER_LIMIT" /></translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % energije akumulatorja</translation>
 <translation id="2075959085554270910">Omogoča, da omogočite/onemogočite funkciji »dotaknite se za klik« in »vlečenje z dotikom«</translation>
 <translation id="2076269580855484719">Skrij vtičnik</translation>
@@ -1715,6 +1715,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="3103941660000130485">Napaka pri nadgradnji Linuxa</translation>
 <translation id="3105796011181310544">Želite preklopiti nazaj na Google?</translation>
 <translation id="310671807099593501">Spletno mesto uporablja Bluetooth</translation>
+<translation id="3109724472072898302">Strnjeno</translation>
 <translation id="3115147772012638511">Čakam predpomnilnik ...</translation>
 <translation id="3115580024857770654">Strni vse</translation>
 <translation id="3116968597797150452">Profil potrdila</translation>
@@ -2712,7 +2713,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="4375035964737468845">Odpiranje prenesenih slik</translation>
 <translation id="4377363674125277448">Težava s potrdilom strežnika.</translation>
 <translation id="4378154925671717803">Telefon</translation>
-<translation id="4378551569595875038">Povezovanje ...</translation>
+<translation id="4378551569595875038">Povezovanje …</translation>
 <translation id="4378556263712303865">Zahteva za napravo</translation>
 <translation id="4379281552162875326">Ali želite odmestiti »<ph name="APP_NAME" />«?</translation>
 <translation id="4380648069038809855">Odprt celozaslonski način</translation>
@@ -3476,6 +3477,7 @@ Nastavitve tega računa je mogoče upravljati z namestitvijo aplikacije Family L
 <translation id="5379140238605961210">Še naprej preprečuj dostop do mikrofona</translation>
 <translation id="5382591305415226340">Upravljanje podprtih povezav</translation>
 <translation id="5383377866517186886">Fotoaparat je izklopljen v nastavitvah sistema macOS</translation>
+<translation id="5383740867328871413">Neimenovana skupina – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Povezano</translation>
 <translation id="5389237414310520250">Novega uporabnika ni bilo mogoče ustvariti. Preverite, koliko je prostora na trdem disku in dovoljenja, ter poskusite znova.</translation>
 <translation id="5390100381392048184">Dovoli spletnim mestom predvajanje zvoka</translation>
@@ -4840,7 +4842,6 @@ Poskrbite, da ne boste razkrili morebitnih občutljivih podatkov.</translation>
 <translation id="7099337801055912064">Velikih datotek PPD ni mogoče naložiti. Največja dovoljena velikost je 250 KB.</translation>
 <translation id="7102687220333134671">Samodejne posodobitve so vklopljene</translation>
 <translation id="7102832101143475489">Časovna omejitev zahteve je potekla</translation>
-<translation id="7102928824073746774">Neimenovana skupina – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Nastavitve naprav USB</translation>
 <translation id="710640343305609397">Odpri nastavitve omrežja</translation>
 <translation id="7108338896283013870">Skrij</translation>
@@ -4876,7 +4877,7 @@ Poskrbite, da ne boste razkrili morebitnih občutljivih podatkov.</translation>
 <translation id="713888829801648570">Oprostite, gesla ni bilo mogoče preveriti, ker nimate internetne povezave.</translation>
 <translation id="7140928199327930795">Ni drugih razpoložljivih naprav.</translation>
 <translation id="7141105143012495934">Prijava ni uspela, ker ni bilo mogoče pridobiti podrobnosti o računu. Obrnite se na skrbnika in poskusite znova.</translation>
-<translation id="7143207342074048698">Vzpostavljanje povezave</translation>
+<translation id="7143207342074048698">Povezovanje</translation>
 <translation id="7144878232160441200">Poskusi znova</translation>
 <translation id="7149893636342594995">Zadnjih 24 ur</translation>
 <translation id="715118844758971915">Navadni tiskalniki</translation>
@@ -4918,6 +4919,7 @@ Poskrbite, da ne boste razkrili morebitnih občutljivih podatkov.</translation>
 <translation id="720110658997053098">Ta naprava naj bo trajno v načinu kioska</translation>
 <translation id="7201118060536064622">Element »<ph name="DELETED_ITEM_NAME" />« je izbrisan</translation>
 <translation id="7201420661433230412">Prikaz datotek</translation>
+<translation id="7203150201908454328">Razširjeno</translation>
 <translation id="7203826966018112936">Če profilu dodate šolski račun, omogočite preprosto prijavo kot učenca na spletnih mestih in v razširitvah, medtem ko račun še vedno deluje pod starševskim nadzorom. Otroku ne omogoča dostopa do zaznamkov, gesel ali drugih podatkov brskalnika, sinhroniziranih s šolskim računom.&lt;br&gt;&lt;br&gt;
     Če otrok uporablja Chromebook v šoli in želite poustvariti šolsko izkušnjo doma ter s tem zagotoviti, da bo imel otrok dostop do vseh potrebnih šolskih gradiv, se odjavite iz tega računa za Family Link in se na strani z računi za Chrome OS prijavite v šolski račun (opomba: starševski nadzor Family Linka se ne bo uporabil).&lt;br&gt;&lt;br&gt;
     Če otrok ne uporablja Chromebooka v šoli ali če želite otrokovo izkušnjo doma upravljati s Family Linkom, spodaj kliknite gumb »Naprej«, če želite temu profilu dodati šolski račun.</translation>
@@ -5625,6 +5627,7 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="8062844841289846053">{COUNT,plural, =1{1 list papirja}one{{COUNT} list papirja}two{{COUNT} lista papirja}few{{COUNT} listi papirja}other{{COUNT} listov papirja}}</translation>
 <translation id="8063235345342641131">Privzeti zeleni avatar</translation>
 <translation id="8063535366119089408">Ogled datoteke</translation>
+<translation id="8064279191081105977">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Za prijavo se dotaknite</translation>
 <translation id="8069615408251337349">Google Tiskanje v oblaku</translation>
 <translation id="8071432093239591881">Natisni kot sliko</translation>
@@ -5973,7 +5976,7 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="8509646642152301857">Prenos slovarja za preverjanje črkovanja ni uspel.</translation>
 <translation id="8512476990829870887">Končaj proces</translation>
 <translation id="851263357009351303">Vedno dovoli mestu <ph name="HOST" />, da pokaže slike</translation>
-<translation id="8513108775083588393">Samodejni zasuk</translation>
+<translation id="8513108775083588393">Samodej. zasuk</translation>
 <translation id="8514746246728959655">Poskusite z drugim varnostnim ključem</translation>
 <translation id="8521475323816527629">Hiter dostop do aplikacij</translation>
 <translation id="8523493869875972733">Ohranitev sprememb</translation>
@@ -6282,7 +6285,7 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="8871974300055371298">Nastavitve vsebine</translation>
 <translation id="8872155268274985541">Najdena je bila neveljavna zunanja datoteka manifesta za posodobitev za kiosk. Posodobitev aplikacije za kiosk ni uspela. Odstranite ključek USB.</translation>
 <translation id="8872777911145321141">Vprašaj, ko želi spletno mesto uporabljati naprave/podatke za navidezno resničnost (priporočeno)</translation>
-<translation id="8874184842967597500">Povezava ni vzpostavljena</translation>
+<translation id="8874184842967597500">Ni povezano</translation>
 <translation id="8875520811099717934">Nadgradnja Linuxa</translation>
 <translation id="8876307312329369159">Te možnosti ni mogoče spremeniti v predstavitveni seji.</translation>
 <translation id="8877448029301136595">[nadrejeni imenik]</translation>
@@ -6371,6 +6374,7 @@ Datoteko s ključem shranite na varnem. Potrebovali jo boste za izdelavo novih r
 <translation id="8986362086234534611">Pozabi</translation>
 <translation id="8986494364107987395">Samodejno pošlji statistične podatke o uporabi in poročila o zrušitvah Googlu</translation>
 <translation id="8987927404178983737">Mesec</translation>
+<translation id="8990209962746788689">Kode QR ni mogoče ustvariti</translation>
 <translation id="8991520179165052608">Spletno mesto lahko uporablja vaš mikrofon</translation>
 <translation id="899384117894244799">Odstranitev omejenega uporabnika</translation>
 <translation id="899403249577094719">Osnovni spletni naslov Netscapeovega potrdila</translation>

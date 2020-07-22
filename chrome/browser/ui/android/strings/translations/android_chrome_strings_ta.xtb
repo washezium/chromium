@@ -437,7 +437,7 @@
 <translation id="4565377596337484307">கடவுச்சொல்லை மறைக்கும்</translation>
 <translation id="4572422548854449519">நிர்வகிக்கப்படும் கணக்கில் உள்நுழையவும்</translation>
 <translation id="4583164079174244168">{MINUTES,plural, =1{# நிமிடத்திற்கு முன்பு}other{# நிமிடங்களுக்கு முன்பு}}</translation>
-<translation id="4587589328781138893">தளங்கள்</translation>
+<translation id="4587589328781138893">Sites</translation>
 <translation id="4594952190837476234"><ph name="CREATION_TIME" /> அன்று இந்த ஆஃப்லைன் பக்கம் உருவாக்கப்பட்டது. இது ஆன்லைன் பதிப்பிலிருந்து வேறுபடலாம்.</translation>
 <translation id="4605958867780575332">உருப்படி அகற்றப்பட்டது: <ph name="ITEM_TITLE" /></translation>
 <translation id="4616150815774728855"><ph name="WEBAPK_NAME" />ஐத் திற</translation>
@@ -852,7 +852,7 @@
 <translation id="7772375229873196092"><ph name="APP_NAME" />ஐ மூடு</translation>
 <translation id="7774809984919390718">{PAYMENT_METHOD,plural, =1{<ph name="PAYMENT_METHOD_PREVIEW" />\u2026 மற்றும் <ph name="NUMBER_OF_ADDITIONAL_PAYMENT_METHODS" /> கட்டண முறை}other{<ph name="PAYMENT_METHOD_PREVIEW" />\u2026 மற்றும் <ph name="NUMBER_OF_ADDITIONAL_PAYMENT_METHODS" /> கட்டண முறைகள்}}</translation>
 <translation id="7791543448312431591">சேர்</translation>
-<translation id="780301667611848630">தேவையில்லை</translation>
+<translation id="780301667611848630">வேண்டாம்</translation>
 <translation id="7810647596859435254">இதன் மூலம் திற…</translation>
 <translation id="7821588508402923572">உங்கள் டேட்டா சேமிப்புகள் இங்கே தோன்றும்</translation>
 <translation id="783819812427904514">வீடியோவின் ஒலியை இயக்கு</translation>
@@ -998,6 +998,7 @@
 <translation id="8970887620466824814">ஏதோ தவறாகிவிட்டது.</translation>
 <translation id="8972098258593396643">இயல்புக் கோப்புறைக்குப் பதிவிறக்கவா?</translation>
 <translation id="8988028529677883095">பாதுகாப்பு விசையாக மொபைலைப் பயன்படுத்து</translation>
+<translation id="8990209962746788689">QR குறியீட்டை உருவாக்க முடியவில்லை</translation>
 <translation id="8993760627012879038">புதிய தாவலை மறைநிலையில் திறக்கும்</translation>
 <translation id="8998729206196772491"><ph name="MANAGED_DOMAIN" /> நிர்வகிக்கும் கணக்கில் உள்நுழைந்து, உங்கள் Chrome தரவு மீதான கட்டுப்பாட்டை அதன் நிர்வாகிக்கு வழங்குகிறீர்கள். இந்தக் கணக்குடன் தரவு நிரந்தரமாக இணைக்கப்படும். Chromeமிலிருந்து வெளியேறினால், இந்தச் சாதனத்திலிருந்து தரவு நீக்கப்படும், எனினும் உங்கள் Google கணக்கில் தரவு தொடர்ந்து இருக்கும்.</translation>
 <translation id="9028914725102941583">பல சாதனங்களுக்கிடையில் பகிர ஒத்திசைவை ஆன் செய்யவும்</translation>

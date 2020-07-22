@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Pakeisti „Linux“ programas ir failus ankstesne atsargine kopija</translation>
 <translation id="1842766183094193446">Ar tikrai norite įgalinti demonstracinį režimą?</translation>
 <translation id="1846308012215045257">Spustelėkite „Ctrl“, kad paleistumėte „<ph name="PLUGIN_NAME" />“</translation>
-<translation id="1846880379134204029">Grupė „<ph name="GROUP_NAME" />“ – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Įgalinti adaptyvųjį režimą</translation>
 <translation id="1849186935225320012">Šiame puslapyje visiškai valdomi MIDI įrenginiai.</translation>
 <translation id="1850508293116537636">Sukti pagal &amp;laikrodžio rodyklę</translation>
@@ -867,6 +866,7 @@ Jei nenorite, dabar atsijunkite, kad šios paskyros pakeitimai būtų matomi ši
 <translation id="2065405795449409761">„Chrome“ valdoma naudojant automatinę bandomąją programinę įrangą.</translation>
 <translation id="2071393345806050157">Nėra vietinio žurnalo failo.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Spustelėkite ir įdiekite plėtinį}one{Spustelėkite ir įdiekite plėtinius}few{Spustelėkite ir įdiekite plėtinius}many{Spustelėkite ir įdiekite plėtinius}other{Spustelėkite ir įdiekite plėtinius}}</translation>
+<translation id="2073505299004274893">Naudokite <ph name="CHARACTER_LIMIT" /> ar mažiau simbolių</translation>
 <translation id="2075474481720804517">Akumuliatorius: <ph name="BATTERY_PERCENTAGE" /> %</translation>
 <translation id="2075959085554270910">Suteikia galimybę įgalinti / išjungti funkciją „Paliesti ir spustelėti“ bei vilkimo palietus veiksmus</translation>
 <translation id="2076269580855484719">Slėpti šį papildinį</translation>
@@ -1715,6 +1715,7 @@ Jei nenorite, dabar atsijunkite, kad šios paskyros pakeitimai būtų matomi ši
 <translation id="3103941660000130485">Naujovinant „Linux“ įvyko klaida</translation>
 <translation id="3105796011181310544">Pakeisti atgal į „Google“?</translation>
 <translation id="310671807099593501">Svetainė naudoja „Bluetooth“</translation>
+<translation id="3109724472072898302">Suskleista</translation>
 <translation id="3115147772012638511">Laukiama talpyklos...</translation>
 <translation id="3115580024857770654">Sutraukti viską</translation>
 <translation id="3116968597797150452">Sertifikuojamas profilis</translation>
@@ -3476,6 +3477,7 @@ Ar norite paleisti „<ph name="CONTROL_PANEL_APPLET_NAME" />“?</translation>
 <translation id="5379140238605961210">Toliau blokuoti prieigą prie mikrofono</translation>
 <translation id="5382591305415226340">Tvarkyti palaikomas nuorodas</translation>
 <translation id="5383377866517186886">Fotoaparatas išjungtas „Mac“ sistemos nuostatose</translation>
+<translation id="5383740867328871413">Grupė be pavadinimo – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Susieta</translation>
 <translation id="5389237414310520250">Nepavyko sukurti naujo naudotojo. Patikrinkite, ar standžiajame diske yra vietos, ir leidimus ir bandykite dar kartą.</translation>
 <translation id="5390100381392048184">Leisti svetainėms leisti garsą</translation>
@@ -4839,7 +4841,6 @@ Ar norite paleisti „<ph name="CONTROL_PANEL_APPLET_NAME" />“?</translation>
 <translation id="7099337801055912064">Nepavyko įkelti didelio PPD. Didžiausias galimas dydis yra 250 KB.</translation>
 <translation id="7102687220333134671">Automatiniai naujiniai įjungti</translation>
 <translation id="7102832101143475489">Baigėsi skirtasis užklausos laikas</translation>
-<translation id="7102928824073746774">Grupė be pavadinimo – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB nuostatos</translation>
 <translation id="710640343305609397">Atidaryti tinklo nustatymus</translation>
 <translation id="7108338896283013870">Slėpti</translation>
@@ -4917,6 +4918,7 @@ Ar norite paleisti „<ph name="CONTROL_PANEL_APPLET_NAME" />“?</translation>
 <translation id="720110658997053098">Įgalinti nuolatinį šio įrenginio veikimą viešojo terminalo režimu</translation>
 <translation id="7201118060536064622">„<ph name="DELETED_ITEM_NAME" />“ ištrintas (-a)</translation>
 <translation id="7201420661433230412">Peržiūrėti failus</translation>
+<translation id="7203150201908454328">Išskleista</translation>
 <translation id="7203826966018112936">Pridėję mokyklos paskyrą prie profilio galėsite lengvai prisijungti prie svetainių ir plėtinių kaip mokinys, bet vis tiek bus galima taikyti tėvų kontrolę. Nesuteikiama vaiko prieiga prie žymių, slaptažodžių ar kitų naršyklės duomenų, sinchronizuojamų su mokyklos paskyra.&lt;br&gt;&lt;br&gt;
     Jei vaikas naudoja „Chromebook“ mokykloje ir norite namuose naudoti mokykloje teikiamas funkcijas, kad vaikas galėtų pasiekti visus reikiamus mokyklos darbus, atsijunkite nuo šios „Family Link“ paskyros ir prisijunkite prie mokyklos paskyros apsilankę „Chrome“ OS paskyrų puslapyje (pastaba: „Family Link“ tėvų kontrolė netaikoma).&lt;br&gt;&lt;br&gt;
     Jei vaikas nenaudoja „Chromebook“ mokykloje arba norite valdyti vaiko funkcijas namuose naudodami „Family Link“, spustelėkite toliau pateiktą mygtuką „Kitas“, kad pridėtumėte mokyklos paskyrą prie šio profilio.</translation>
@@ -5624,6 +5626,7 @@ Rakto failą laikykite saugioje vietoje. Jo reikės, kai norėsite sukurti nauja
 <translation id="8062844841289846053">{COUNT,plural, =1{1 popieriaus lapas}one{{COUNT} popieriaus lapas}few{{COUNT} popieriaus lapai}many{{COUNT} popieriaus lapo}other{{COUNT} popieriaus lapų}}</translation>
 <translation id="8063235345342641131">Numatytasis žalias pseudoportretas</translation>
 <translation id="8063535366119089408">Peržiūrėti failą</translation>
+<translation id="8064279191081105977">Grupė <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Palieskite, kad prisijungtumėte</translation>
 <translation id="8069615408251337349">„Google“ spausdinimas iš debesies</translation>
 <translation id="8071432093239591881">Spausdinti kaip vaizdą</translation>
@@ -6370,6 +6373,7 @@ Rakto failą laikykite saugioje vietoje. Jo reikės, kai norėsite sukurti nauja
 <translation id="8986362086234534611">Pamiršti</translation>
 <translation id="8986494364107987395">Automatiškai siųsti naudojimo statistiką ir strigčių ataskaitas „Google“</translation>
 <translation id="8987927404178983737">Mėnuo</translation>
+<translation id="8990209962746788689">Nepavyko sukurti QR kodo</translation>
 <translation id="8991520179165052608">Svetainė gali naudoti jūsų mikrofoną</translation>
 <translation id="899384117894244799">Riboto naudotojo profilio pašalinimas</translation>
 <translation id="899403249577094719">„Netscape“ sertifikatų bazės URL</translation>

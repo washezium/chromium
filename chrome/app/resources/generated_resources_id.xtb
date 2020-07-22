@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Buka &amp;Gambar Asli di Tab Baru</translation>
 <translation id="1055806300943943258">Menelusuri perangkat USB dan Bluetooth...</translation>
 <translation id="1056466516655540509">Diupdate <ph name="MINUTES" /> menit yang lalu</translation>
-<translation id="1056775291175587022">Tidak ada jaringan</translation>
+<translation id="1056775291175587022">Jaringan nihil</translation>
 <translation id="1056898198331236512">Peringatan</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">Menentukan frekuensi pembaruan layar</translation>
@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Ganti file dan aplikasi Linux Anda dengan cadangan sebelumnya</translation>
 <translation id="1842766183094193446">Yakin ingin mengaktifkan mode demo?</translation>
 <translation id="1846308012215045257">Kontrol-klik untuk menjalankan <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grup <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Aktifkan Mode Standby</translation>
 <translation id="1849186935225320012">Halaman ini memiliki kontrol penuh perangkat MIDI.</translation>
 <translation id="1850508293116537636">Putar &amp;searah jarum jam</translation>
@@ -867,6 +866,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="2065405795449409761">Chrome sedang dikontrol oleh software uji otomatis.</translation>
 <translation id="2071393345806050157">Tidak ada file log lokal.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klik untuk menginstal ekstensi}other{Klik untuk menginstal ekstensi}}</translation>
+<translation id="2073505299004274893">Gunakan maksimal <ph name="CHARACTER_LIMIT" /> karakter</translation>
 <translation id="2075474481720804517">Baterai <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Memungkinkan Anda untuk mengaktifkan/menonaktifkan fitur ketuk untuk mengklik dan ketuk untuk menarik</translation>
 <translation id="2076269580855484719">Sembunyikan plugin ini</translation>
@@ -1715,6 +1715,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="3103941660000130485">Terjadi error saat mengupgrade Linux</translation>
 <translation id="3105796011181310544">Ubah kembali ke Google?</translation>
 <translation id="310671807099593501">Situs sedang menggunakan bluetooth</translation>
+<translation id="3109724472072898302">Diciutkan</translation>
 <translation id="3115147772012638511">Menunggu cache...</translation>
 <translation id="3115580024857770654">Ciutkan semua</translation>
 <translation id="3116968597797150452">Profil Sertifikat</translation>
@@ -1896,7 +1897,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="3364986687961713424">Dari administrator Anda: <ph name="ADMIN_MESSAGE" /></translation>
 <translation id="3365598184818502391">Gunakan Ctrl atau Alt</translation>
 <translation id="3367047597842238025">Siapkan <ph name="DEVICE_TYPE" /> sesuai keinginan Anda dan temukan semua kemampuan yang canggih di genggaman Anda.</translation>
-<translation id="3368922792935385530">Tersambung</translation>
+<translation id="3368922792935385530">Terhubung</translation>
 <translation id="3369067987974711168">Tampilkan tindakan lain untuk port ini</translation>
 <translation id="3369624026883419694">Mengontak host...</translation>
 <translation id="3370260763947406229">Koreksi otomatis</translation>
@@ -2712,7 +2713,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="4375035964737468845">Membuka file yang didownload</translation>
 <translation id="4377363674125277448">Ada masalah dengan sertifikat server.</translation>
 <translation id="4378154925671717803">Ponsel</translation>
-<translation id="4378551569595875038">Menyambung...</translation>
+<translation id="4378551569595875038">Menghubungkan...</translation>
 <translation id="4378556263712303865">Permintaan perangkat</translation>
 <translation id="4379281552162875326">Uninstal "<ph name="APP_NAME" />"?</translation>
 <translation id="4380648069038809855">Layar penuh dibuka</translation>
@@ -3476,6 +3477,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="5379140238605961210">Terus blokir akses mikrofon</translation>
 <translation id="5382591305415226340">Kelola link yang didukung</translation>
 <translation id="5383377866517186886">Kamera dinonaktifkan dalam Preferensi Sistem Mac</translation>
+<translation id="5383740867328871413">Grup tanpa nama - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Disandingkan</translation>
 <translation id="5389237414310520250">Tidak dapat membuat pengguna baru. Periksa ruang dan izin hard drive Anda, lalu coba lagi.</translation>
 <translation id="5390100381392048184">Izinkan situs untuk memutar suara</translation>
@@ -4838,7 +4840,6 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="7099337801055912064">Tidak dapat memuat PPD yang besar. Ukuran maksimumnya adalah 250 kB.</translation>
 <translation id="7102687220333134671">Update otomatis diaktifkan</translation>
 <translation id="7102832101143475489">Waktu permintaan habis</translation>
-<translation id="7102928824073746774">Grup tanpa nama - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferensi USB</translation>
 <translation id="710640343305609397">Buka setelan jaringan</translation>
 <translation id="7108338896283013870">Sembunyikan</translation>
@@ -4874,7 +4875,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="713888829801648570">Maaf, sandi Anda tidak dapat diverifikasi karena Anda tidak tersambung ke internet.</translation>
 <translation id="7140928199327930795">Tidak ada perangkat lain.</translation>
 <translation id="7141105143012495934">Proses masuk gagal karena detail akun Anda tidak dapat diambil. Hubungi administrator Anda atau coba lagi.</translation>
-<translation id="7143207342074048698">Menyambungkan</translation>
+<translation id="7143207342074048698">Menghubungkan</translation>
 <translation id="7144878232160441200">Coba lagi</translation>
 <translation id="7149893636342594995">24 jam terakhir</translation>
 <translation id="715118844758971915">Printer klasik</translation>
@@ -4916,6 +4917,7 @@ Anda dapat mengelola setelan akun ini dengan menginstal aplikasi Family Link di 
 <translation id="720110658997053098">Simpan perangkat ini dalam mode kios secara permanen</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' dihapus</translation>
 <translation id="7201420661433230412">Lihat file</translation>
+<translation id="7203150201908454328">Diperluas</translation>
 <translation id="7203826966018112936">Jika akun sekolah ditambahkan ke profil, pengguna dapat login dengan mudah ke situs dan ekstensi sebagai siswa, dan tetap dalam kontrol orang tua. Akses ke bookmark, sandi, atau data penjelajahan lain yang disinkronkan dengan akun sekolah tidak akan diberikan kepada anak.&lt;br&gt;&lt;br&gt;
     Jika anak Anda menggunakan Chromebook di sekolah dan Anda ingin menduplikasi pengalaman sekolah di rumah untuk memastikan anak Anda memiliki akses ke semua tugas sekolah yang diperlukan, logout dari akun Family Link ini dan login ke akun sekolah dari halaman akun Chrome OS (catatan: Kontrol orang tua Family Link tidak akan berlaku).&lt;br&gt;&lt;br&gt;
     Jika anak Anda tidak menggunakan Chromebook di sekolah atau jika Anda ingin mengelola pengalaman anak di rumah menggunakan Family Link, klik tombol Berikutnya di bawah untuk menambahkan akun sekolah ke profil ini.</translation>
@@ -5623,6 +5625,7 @@ Simpan file kunci Anda di tempat yang aman. Anda akan membutuhkannya untuk membu
 <translation id="8062844841289846053">{COUNT,plural, =1{1 lembar kertas}other{{COUNT} lembar kertas}}</translation>
 <translation id="8063235345342641131">Avatar hijau default</translation>
 <translation id="8063535366119089408">Lihat file</translation>
+<translation id="8064279191081105977">Grup <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Sentuh untuk login</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Cetak sebagai gambar</translation>
@@ -6280,7 +6283,7 @@ Simpan file kunci Anda di tempat yang aman. Anda akan membutuhkannya untuk membu
 <translation id="8871974300055371298">Setelan konten</translation>
 <translation id="8872155268274985541">File manifes pembaruan eksternal Kios yang tidak valid ditemukan. Gagal memperbarui aplikasi Kios. Lepaskan stik USB.</translation>
 <translation id="8872777911145321141">Tanyakan saat situs ingin menggunakan perangkat dan data virtual reality Anda (direkomendasikan)</translation>
-<translation id="8874184842967597500">Tidak tersambung</translation>
+<translation id="8874184842967597500">Tak terhubung</translation>
 <translation id="8875520811099717934">Upgrade Linux</translation>
 <translation id="8876307312329369159">Setelan ini tidak dapat diubah dalam sesi demo.</translation>
 <translation id="8877448029301136595">[direktori induk]</translation>
@@ -6369,6 +6372,7 @@ Simpan file kunci Anda di tempat yang aman. Anda akan membutuhkannya untuk membu
 <translation id="8986362086234534611">Lupakan</translation>
 <translation id="8986494364107987395">Kirim statistik penggunaan dan laporan error ke Google secara otomatis</translation>
 <translation id="8987927404178983737">Bulan</translation>
+<translation id="8990209962746788689">Tidak dapat membuat kode QR</translation>
 <translation id="8991520179165052608">Situs dapat menggunakan mikrofon</translation>
 <translation id="899384117894244799">Hapus pengguna yang dibatasi</translation>
 <translation id="899403249577094719">Netscape Certificate Base URL</translation>

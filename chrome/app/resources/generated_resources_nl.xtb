@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Je Linux-apps en -bestanden vervangen door een eerdere back-up</translation>
 <translation id="1842766183094193446">Weet je zeker dat je de demomodus wilt inschakelen?</translation>
 <translation id="1846308012215045257">Ctrl-klik om <ph name="PLUGIN_NAME" /> uit te voeren</translation>
-<translation id="1846880379134204029">Groep <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Sfeerstand inschakelen</translation>
 <translation id="1849186935225320012">Deze pagina heeft volledig beheer van MIDI-apparaten.</translation>
 <translation id="1850508293116537636">Rechtsom &amp;draaien</translation>
@@ -867,6 +866,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="2065405795449409761">Chrome wordt beheerd door geautomatiseerde testsoftware.</translation>
 <translation id="2071393345806050157">Geen lokaal logbestand.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klik om de extensie te installeren}other{Klik om deze extensies te installeren}}</translation>
+<translation id="2073505299004274893">Gebruik maximaal <ph name="CHARACTER_LIMIT" /> tekens</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% batterijlading</translation>
 <translation id="2075959085554270910">Hiermee kun je tikken-om-te-klikken en tikken-en-slepen in- en uitschakelen</translation>
 <translation id="2076269580855484719">Deze plugin verbergen</translation>
@@ -1398,7 +1398,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="2714997332747470971">Met suggesties voor persoonlijke informatie kun je sneller typen, doordat je naam, adres of telefoonnummer wordt voorgesteld. Alleen jij kunt je eigen, persoonlijke suggesties voor jouw account zien.</translation>
 <translation id="2715751256863167692">Met deze upgrade wordt je Chromebook gereset en worden huidige gebruikersgegevens verwijderd.</translation>
 <translation id="2716986496990888774">Deze instelling wordt beheerd door een ouder.</translation>
-<translation id="2718395828230677721">Nachtverlichting</translation>
+<translation id="2718395828230677721">Nachtlicht</translation>
 <translation id="2718998670920917754">De antivirussoftware heeft een virus gedetecteerd.</translation>
 <translation id="2719020180254996569">Netwerk <ph name="NETWORK_INDEX" /> van <ph name="NETWORK_COUNT" />, <ph name="NETWORK_NAME" />, <ph name="CONNECTION_STATUS" />, details</translation>
 <translation id="2719936478972253983">De volgende cookies zijn geblokkeerd</translation>
@@ -1715,6 +1715,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="3103941660000130485">Fout bij upgraden van Linux</translation>
 <translation id="3105796011181310544">Teruggaan naar Google?</translation>
 <translation id="310671807099593501">Site gebruikt Bluetooth</translation>
+<translation id="3109724472072898302">Samengevouwen</translation>
 <translation id="3115147772012638511">Wachten op cache...</translation>
 <translation id="3115580024857770654">Alles samenvouwen</translation>
 <translation id="3116968597797150452">Certificaatprofiel</translation>
@@ -3476,6 +3477,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="5379140238605961210">Microfoontoegang blijven blokkeren</translation>
 <translation id="5382591305415226340">Ondersteunde links beheren</translation>
 <translation id="5383377866517186886">Camera is uitgeschakeld in Mac-systeemvoorkeuren</translation>
+<translation id="5383740867328871413">Naamloze groep - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Gekoppeld</translation>
 <translation id="5389237414310520250">De nieuwe gebruiker kan niet worden gemaakt. Controleer de ruimte op je harde schijf en je rechten, en probeer het opnieuw.</translation>
 <translation id="5390100381392048184">Toestaan dat sites geluid afspelen</translation>
@@ -3710,7 +3712,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="5659833766619490117">Deze pagina kan niet worden vertaald</translation>
 <translation id="5662513737565158057">Wijzigen hoe Linux-apps werken.</translation>
 <translation id="5667546120811588575">Google Play instellen...</translation>
-<translation id="5669267381087807207">Wordt geactiveerd</translation>
+<translation id="5669267381087807207">Activeren</translation>
 <translation id="5669691691057771421">Nieuwe pincode opgeven</translation>
 <translation id="5671641761787789573">Afbeeldingen geblokkeerd</translation>
 <translation id="5671658447180261823">De suggestie <ph name="SUGGESTION_NAME" /> verwijderen</translation>
@@ -4838,7 +4840,6 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="7099337801055912064">Grote PPD kan niet worden geladen. Maximum grootte is 250 KB.</translation>
 <translation id="7102687220333134671">Automatische updates zijn ingeschakeld</translation>
 <translation id="7102832101143475489">Er is een time-out voor het verzoek opgetreden</translation>
-<translation id="7102928824073746774">Naamloze groep - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-voorkeuren</translation>
 <translation id="710640343305609397">Netwerkinstellingen openen</translation>
 <translation id="7108338896283013870">Verbergen</translation>
@@ -4874,7 +4875,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="713888829801648570">Sorry, je wachtwoord kan niet worden geverifieerd omdat je offline bent.</translation>
 <translation id="7140928199327930795">Geen andere beschikbare apparaten.</translation>
 <translation id="7141105143012495934">Inloggen is mislukt omdat je accountgegevens niet kunnen worden opgevraagd. Neem contact op met je beheerder of probeer het opnieuw.</translation>
-<translation id="7143207342074048698">Verbinding maken</translation>
+<translation id="7143207342074048698">Verbinden</translation>
 <translation id="7144878232160441200">Opnieuw proberen</translation>
 <translation id="7149893636342594995">Afgelopen 24 uur</translation>
 <translation id="715118844758971915">Klassieke printers</translation>
@@ -4916,6 +4917,7 @@ Je kunt de instellingen van dit account beheren door de Family Link-app op je ap
 <translation id="720110658997053098">Dit apparaat permanent in kioskmodus houden</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' verwijderd</translation>
 <translation id="7201420661433230412">Bestanden weergeven</translation>
+<translation id="7203150201908454328">Uitgevouwen</translation>
 <translation id="7203826966018112936">Door een schoolaccount toe te voegen aan een profiel, kunnen kinderen gemakkelijk als leerling inloggen bij websites en extensies terwijl ze nog steeds onder ouderlijk toezicht staan. Dit geeft een kind geen toegang tot bookmarks, wachtwoorden en andere browsergegevens die zijn gesynchroniseerd met het schoolaccount.&lt;br&gt;&lt;br&gt;
     Als je kind een Chromebook gebruikt op school en je de schoolomgeving thuis wilt mirroren zodat je kind toegang heeft tot al het benodigde schoolwerk, log je uit van dit Family Link-account en log je in op het schoolaccount vanaf de Chrome OS-accountpagina. (Opmerking: Ouderlijk toezicht van Family Link is niet van toepassing.)&lt;br&gt;&lt;br&gt;
     Als je kind geen Chromebook gebruikt op school of als je liever de online omgeving van je kind thuis beheert met Family Link, klik je hieronder op de knop Volgende om een schoolaccount toe te voegen aan dit profiel.</translation>
@@ -5622,6 +5624,7 @@ Bewaar je sleutelbestand op een veilige plaats. Je hebt het bestand nodig om nie
 <translation id="8062844841289846053">{COUNT,plural, =1{1 vel papier}other{{COUNT} vellen papier}}</translation>
 <translation id="8063235345342641131">Standaard groene avatar</translation>
 <translation id="8063535366119089408">Bestand bekijken</translation>
+<translation id="8064279191081105977">Groep <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Tik om in te loggen</translation>
 <translation id="8069615408251337349">Google Cloudprinter</translation>
 <translation id="8071432093239591881">Afdrukken als afbeelding</translation>
@@ -5970,7 +5973,7 @@ Bewaar je sleutelbestand op een veilige plaats. Je hebt het bestand nodig om nie
 <translation id="8509646642152301857">Downloaden van woordenboek voor spellingcontrole is mislukt.</translation>
 <translation id="8512476990829870887">Proces beëindigen</translation>
 <translation id="851263357009351303"><ph name="HOST" /> altijd toestaan afbeeldingen weer te geven</translation>
-<translation id="8513108775083588393">Automatisch draaien</translation>
+<translation id="8513108775083588393">Autom. draaien</translation>
 <translation id="8514746246728959655">Probeer een andere beveiligingssleutel</translation>
 <translation id="8521475323816527629">Snel naar je apps gaan</translation>
 <translation id="8523493869875972733">Wijzigingen behouden</translation>
@@ -6369,6 +6372,7 @@ Bewaar je sleutelbestand op een veilige plaats. Je hebt het bestand nodig om nie
 <translation id="8986362086234534611">Vergeten</translation>
 <translation id="8986494364107987395">Automatisch gebruiksstatistieken en crashrapporten naar Google verzenden</translation>
 <translation id="8987927404178983737">Maand</translation>
+<translation id="8990209962746788689">Kan geen QR-code maken</translation>
 <translation id="8991520179165052608">Site kan je microfoon gebruiken</translation>
 <translation id="899384117894244799">Gebruiker met beperkte rechten verwijderen</translation>
 <translation id="899403249577094719">Basis-URL voor Netscape-certificaat</translation>

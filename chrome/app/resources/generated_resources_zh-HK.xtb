@@ -700,7 +700,6 @@
 <translation id="184273675144259287">以先前的備份取代您的 Linux 應用程式和檔案</translation>
 <translation id="1842766183094193446">您確定要啟用示範模式嗎？</translation>
 <translation id="1846308012215045257">按住 Ctrl 鍵並按一下即可執行 <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">「<ph name="GROUP_NAME" />」群組 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">啟用「氛圍模式」</translation>
 <translation id="1849186935225320012">這個網頁可全權控制 MIDI 裝置。</translation>
 <translation id="1850508293116537636">順時針旋轉(&amp;C)</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome 目前由自動化測試軟件控制。</translation>
 <translation id="2071393345806050157">沒有本機記錄檔案。</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{按一下即可安裝擴充程式}other{按一下即可安裝這些擴充程式}}</translation>
+<translation id="2073505299004274893">最多只可輸入 <ph name="CHARACTER_LIMIT" /> 個字元</translation>
 <translation id="2075474481720804517">電量：<ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">讓您啟用/停用輕按點擊和輕按拖曳功能</translation>
 <translation id="2076269580855484719">隱藏這個外掛程式</translation>
@@ -1714,6 +1714,7 @@
 <translation id="3103941660000130485">升級 Linux 時發生錯誤</translation>
 <translation id="3105796011181310544">要改回使用 Google 嗎？</translation>
 <translation id="310671807099593501">網站正在使用藍牙</translation>
+<translation id="3109724472072898302">已收合</translation>
 <translation id="3115147772012638511">等候快取…</translation>
 <translation id="3115580024857770654">收合全部</translation>
 <translation id="3116968597797150452">憑證設定檔</translation>
@@ -3475,6 +3476,7 @@
 <translation id="5379140238605961210">繼續封鎖存取麥克風</translation>
 <translation id="5382591305415226340">管理支援的連結</translation>
 <translation id="5383377866517186886">已關閉 Mac 系統偏好設定中的相機</translation>
+<translation id="5383740867328871413">未命名嘅群組 - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">已配對</translation>
 <translation id="5389237414310520250">無法建立新的使用者。請檢查您的硬碟空間和權限，然後再試一次。</translation>
 <translation id="5390100381392048184">允許網站播放音效</translation>
@@ -4837,7 +4839,6 @@
 <translation id="7099337801055912064">無法載入大型 PPD。檔案上限為 250KB。</translation>
 <translation id="7102687220333134671">已開啟自動更新功能</translation>
 <translation id="7102832101143475489">要求逾時</translation>
-<translation id="7102928824073746774">未命名嘅群組 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB 偏好設定</translation>
 <translation id="710640343305609397">開啟網絡設定</translation>
 <translation id="7108338896283013870">隱藏</translation>
@@ -4873,7 +4874,7 @@
 <translation id="713888829801648570">很抱歉，您目前處於離線狀態，因此無法驗證密碼。</translation>
 <translation id="7140928199327930795">沒有其他可用裝置。</translation>
 <translation id="7141105143012495934">系統無法擷取您帳戶的詳細資料，導致登入失敗。請與您的管理員聯絡或再試一次。</translation>
-<translation id="7143207342074048698">連線中</translation>
+<translation id="7143207342074048698">正在連接</translation>
 <translation id="7144878232160441200">重試</translation>
 <translation id="7149893636342594995">最近 24 小時</translation>
 <translation id="715118844758971915">經典打印機</translation>
@@ -4915,6 +4916,7 @@
 <translation id="720110658997053098">讓此裝置永久使用 Kiosk 模式</translation>
 <translation id="7201118060536064622">已刪除「<ph name="DELETED_ITEM_NAME" />」</translation>
 <translation id="7201420661433230412">查看檔案</translation>
+<translation id="7203150201908454328">已展開</translation>
 <translation id="7203826966018112936">只需新增學校帳戶到設定檔，即可讓您在家長監控設定下，以學生身份輕鬆登入網站和擴充程式。此操作不會向子女授予與學校帳戶同步的書籤、密碼或其他瀏覽資料的存取權。&lt;br&gt;&lt;br&gt;
     如果您的子女在學校使用 Chromebook，而您想將學校體驗完整複製至家中，以確保子女女可存取所有與學校作業相關的必要內容，請登出此 Family Link 帳戶，並從 Chrome 作業系統帳戶頁面登入學校帳戶 (注意：系統不會套用 Family Link 家長監控設定)。&lt;br&gt;&lt;br&gt;
     如果您的子女在學校不使用 Chromebook，或您想透過 Family Link 管理子女的在家體驗，請按下方的 [下一步] 按鈕，將學校帳戶新增至此設定檔。</translation>
@@ -5622,6 +5624,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 張紙}other{{COUNT} 張紙}}</translation>
 <translation id="8063235345342641131">預設綠色圖片</translation>
 <translation id="8063535366119089408">查看檔案</translation>
+<translation id="8064279191081105977">群組 <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">輕觸即可登入</translation>
 <translation id="8069615408251337349">Google 雲端列印</translation>
 <translation id="8071432093239591881">以圖片形式列印</translation>
@@ -6367,6 +6370,7 @@
 <translation id="8986362086234534611">清除</translation>
 <translation id="8986494364107987395">自動將使用統計資料和當機報告傳送給 Google</translation>
 <translation id="8987927404178983737">月</translation>
+<translation id="8990209962746788689">無法建立二維條碼</translation>
 <translation id="8991520179165052608">網站可以使用您的麥克風</translation>
 <translation id="899384117894244799">移除受限制的使用者</translation>
 <translation id="899403249577094719">Netscape 憑證基底網址</translation>

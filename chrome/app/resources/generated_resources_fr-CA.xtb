@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Remplacer vos applications et vos fichiers Linux par une sauvegarde précédente</translation>
 <translation id="1842766183094193446">Voulez-vous vraiment activer le mode Démonstration?</translation>
 <translation id="1846308012215045257">Cliquez en appuyant sur Ctrl pour exécuter le plugiciel <ph name="PLUGIN_NAME" />.</translation>
-<translation id="1846880379134204029">Groupe <ph name="GROUP_NAME" /> : <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Activer le mode Veille</translation>
 <translation id="1849186935225320012">Cette page commande entièrement les appareils MIDI.</translation>
 <translation id="1850508293116537636">Tourner dans le sens &amp;horaire</translation>
@@ -867,6 +866,7 @@ Vous pouvez gérer les paramètres de ce compte en installant l'application Fami
 <translation id="2065405795449409761">Google Chrome est contrôlé par un logiciel de test automatisé.</translation>
 <translation id="2071393345806050157">Pas de journal local.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Cliquer pour installer l'extension}one{Cliquer pour installer cette extension}other{Cliquer pour installer ces extensions}}</translation>
+<translation id="2073505299004274893">Utilisez un maximum de <ph name="CHARACTER_LIMIT" /> caractères</translation>
 <translation id="2075474481720804517">Pile à <ph name="BATTERY_PERCENTAGE" /> %</translation>
 <translation id="2075959085554270910">Permet d'activer/de désactiver la fonction Toucher pour cliquer et le déplacement tactile</translation>
 <translation id="2076269580855484719">Masquer ce plugiciel</translation>
@@ -1716,6 +1716,7 @@ https://support.google.com/chrome/?p=applescript</translation>
 <translation id="3103941660000130485">Une erreur s'est produite lors de la mise à niveau de Linux</translation>
 <translation id="3105796011181310544">Rétablir Google?</translation>
 <translation id="310671807099593501">Le site utilise le Bluetooth</translation>
+<translation id="3109724472072898302">Réduit</translation>
 <translation id="3115147772012638511">En attente de l'affichage du cache…</translation>
 <translation id="3115580024857770654">Tout réduire</translation>
 <translation id="3116968597797150452">Profil du certificat</translation>
@@ -3477,6 +3478,7 @@ Souhaitez-vous lancer <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="5379140238605961210">Continuer de bloquer l'accès au microphone</translation>
 <translation id="5382591305415226340">Gérer des liens pris en charge</translation>
 <translation id="5383377866517186886">L'appareil photo est désactivé dans les Préférences Système du Mac</translation>
+<translation id="5383740867328871413">Groupe sans nom : <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Associé</translation>
 <translation id="5389237414310520250">Le nouvel utilisateur n'a pas pu être créé. Veuillez vérifier l'espace libre de votre disque dur et les autorisations, puis réessayer.</translation>
 <translation id="5390100381392048184">Autoriser les sites à faire jouer du son</translation>
@@ -4839,7 +4841,6 @@ Souhaitez-vous lancer <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="7099337801055912064">Impossible de charger un PPD volumineux. La taille maximale est de 250 k.</translation>
 <translation id="7102687220333134671">Les mises à jour automatiques sont activées</translation>
 <translation id="7102832101143475489">Le délai de traitement de la demande a expiré</translation>
-<translation id="7102928824073746774">Groupe sans nom : <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Préférences USB</translation>
 <translation id="710640343305609397">Ouvrir les paramètres réseau</translation>
 <translation id="7108338896283013870">Masquer</translation>
@@ -4917,6 +4918,7 @@ Souhaitez-vous lancer <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="720110658997053098">Conserver cet appareil en mode kiosque de manière permanente</translation>
 <translation id="7201118060536064622">« <ph name="DELETED_ITEM_NAME" /> » supprimé</translation>
 <translation id="7201420661433230412">Afficher les fichiers</translation>
+<translation id="7203150201908454328">Agrandi</translation>
 <translation id="7203826966018112936">L'ajout d'un compte scolaire à un profil permet aux élèves de se connecter aisément aux sites Web et d'utiliser les extensions, tout en étant régis par les contrôles parentaux. Cela ne donne pas à un enfant l'accès aux favoris, aux mots de passe ni aux autres données du navigateur qui sont synchronisés avec le compte scolaire.&lt;br&gt;&lt;br&gt;
     Si votre enfant utilise un Chromebook à l'école et que vous souhaitez reproduire cette expérience à la maison pour vous assurer qu'il a accès à tous ses travaux scolaires, veuillez vous déconnecter de ce compte Family Link et vous connecter avec le compte scolaire sur la page des comptes Chrome OS (remarque : les paramètres des contrôles parentaux de Family Link ne s'appliqueront pas).&lt;br&gt;&lt;br&gt;
     Si votre enfant n'utilise pas de Chromebook à l'école ou si vous préférez gérer son expérience à la maison avec Family Link, veuillez cliquer sur le bouton Suivant ci-dessous pour ajouter un compte scolaire à ce profil.</translation>
@@ -5623,6 +5625,7 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="8062844841289846053">{COUNT,plural, =1{1 feuille de papier}one{{COUNT} feuille de papier}other{{COUNT} feuilles de papier}}</translation>
 <translation id="8063235345342641131">Avatar vert par défaut</translation>
 <translation id="8063535366119089408">Afficher le fichier</translation>
+<translation id="8064279191081105977">Groupe <ph name="GROUP_NAME" /> : <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Touchez pour vous connecter</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Imprimer en tant qu'image</translation>
@@ -6369,6 +6372,7 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="8986362086234534611">Supprimer</translation>
 <translation id="8986494364107987395">Envoyer automatiquement les statistiques d'utilisation et les rapports d'erreur à Google</translation>
 <translation id="8987927404178983737">Mois</translation>
+<translation id="8990209962746788689">Impossible de créer un code QR</translation>
 <translation id="8991520179165052608">Le site peut utiliser votre microphone</translation>
 <translation id="899384117894244799">Supprimer le profil d'utilisateur restreint</translation>
 <translation id="899403249577094719">URL de base du certificat Netscape</translation>

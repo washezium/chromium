@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">在新标签页中打开原始图片(&amp;I)</translation>
 <translation id="1055806300943943258">正在搜索蓝牙设备和USB设备…</translation>
 <translation id="1056466516655540509">上次更新时间：<ph name="MINUTES" /> 分钟前</translation>
-<translation id="1056775291175587022">找不到任何网络</translation>
+<translation id="1056775291175587022">没有网络</translation>
 <translation id="1056898198331236512">警告</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">确定屏幕更新的频率</translation>
@@ -697,7 +697,6 @@
 <translation id="184273675144259287">以先前的备份替换您的 Linux 应用和文件</translation>
 <translation id="1842766183094193446">确定要启用演示模式吗？</translation>
 <translation id="1846308012215045257">按住 Ctrl 键的同时点击即可运行 <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">群组“<ph name="GROUP_NAME" />”- <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">启用氛围模式</translation>
 <translation id="1849186935225320012">此页面可以完全控制 MIDI 设备。</translation>
 <translation id="1850508293116537636">顺时针旋转(&amp;C)</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">Chrome 正受到自动测试软件的控制。</translation>
 <translation id="2071393345806050157">没有本地日志文件。</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{点击即可安装该扩展程序}other{点击即可安装这些扩展程序}}</translation>
+<translation id="2073505299004274893">字符数不得超过 <ph name="CHARACTER_LIMIT" /> 个</translation>
 <translation id="2075474481720804517">电池电量：<ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">可让您启用/停用“点按即点击”功能和“点按拖动”功能</translation>
 <translation id="2076269580855484719">隐藏此插件</translation>
@@ -1310,7 +1310,7 @@
 <translation id="2619761439309613843">每日刷新</translation>
 <translation id="2620436844016719705">系统</translation>
 <translation id="262154978979441594">训练 Google 助理语音模型</translation>
-<translation id="2621713457727696555">已受到安全保护</translation>
+<translation id="2621713457727696555">受保护</translation>
 <translation id="26224892172169984">不允许任何网站处理协议</translation>
 <translation id="262373406453641243">Colemak</translation>
 <translation id="2624142942574147739">此网页正在使用您的摄像头和麦克风。</translation>
@@ -1711,6 +1711,7 @@
 <translation id="3103941660000130485">升级 Linux 时出错</translation>
 <translation id="3105796011181310544">改回 Google？</translation>
 <translation id="310671807099593501">该网站正在使用蓝牙</translation>
+<translation id="3109724472072898302">已收起</translation>
 <translation id="3115147772012638511">正在等待存入缓存...</translation>
 <translation id="3115580024857770654">全部收起</translation>
 <translation id="3116968597797150452">证书资料</translation>
@@ -1839,7 +1840,7 @@
 <translation id="3288047731229977326">以开发者模式运行的扩展程序可能会损害您的计算机。如果您不是开发者，那么，为安全起见，应停用以开发者模式运行的扩展程序。</translation>
 <translation id="3289668031376215426">自动大写</translation>
 <translation id="3289856944988573801">要检查是否有更新，请使用以太网或 WLAN。</translation>
-<translation id="3290356915286466215">未受到安全保护</translation>
+<translation id="3290356915286466215">无保护</translation>
 <translation id="3292264722181603749"><ph name="DOMAIN" /> 将停用 ADB 调试，这会重置您的设备。在重启之前，请先备份您的文件。</translation>
 <translation id="3293644607209440645">发送此页面</translation>
 <translation id="32939749466444286">无法启动 Linux 容器。请重试。</translation>
@@ -3471,6 +3472,7 @@
 <translation id="5379140238605961210">继续禁止使用麦克风</translation>
 <translation id="5382591305415226340">管理支持的链接</translation>
 <translation id="5383377866517186886">已在 Mac 系统偏好设置中关闭摄像头</translation>
+<translation id="5383740867328871413">未命名群组 - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">已配对</translation>
 <translation id="5389237414310520250">无法创建新用户。请检查您的硬盘空间和权限，然后重试。</translation>
 <translation id="5390100381392048184">允许网站播放声音</translation>
@@ -4833,7 +4835,6 @@
 <translation id="7099337801055912064">无法加载过大的 PPD。大小上限为 250 KB。</translation>
 <translation id="7102687220333134671">已开启自动更新功能</translation>
 <translation id="7102832101143475489">此请求已超时</translation>
-<translation id="7102928824073746774">未命名群组 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB 偏好设置</translation>
 <translation id="710640343305609397">打开网络设置</translation>
 <translation id="7108338896283013870">隐藏</translation>
@@ -4911,6 +4912,7 @@
 <translation id="720110658997053098">让此设备永久处于自助服务终端模式</translation>
 <translation id="7201118060536064622">已删除“<ph name="DELETED_ITEM_NAME" />”</translation>
 <translation id="7201420661433230412">查看文件</translation>
+<translation id="7203150201908454328">已展开</translation>
 <translation id="7203826966018112936">在个人资料中添加学校帐号可让孩子以学生身份轻松登录网站和扩展程序，同时仍在家长控制下执行操作。此操作不会授权孩子访问与学校帐号同步的书签、密码或其他浏览器数据。&lt;br&gt;&lt;br&gt;
     如果您的孩子在校时使用 Chromebook，并且您希望在家中复制同样的在校使用体验，确保孩子能够获取所有必要的学校作业，请退出此 Family Link 帐号，然后从 Chrome 操作系统帐号页面登录学校帐号（注意：Family Link 家长控制将不适用）。&lt;br&gt;&lt;br&gt;
     如果您的孩子在校时不使用 Chromebook，或者您更愿意借助 Family Link 管理孩子的在家使用体验，请点击下面的“下一步”按钮向此个人资料添加学校帐号。</translation>
@@ -5618,6 +5620,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 张纸}other{{COUNT} 张纸}}</translation>
 <translation id="8063235345342641131">默认的绿色头像</translation>
 <translation id="8063535366119089408">查看文件</translation>
+<translation id="8064279191081105977">群组“<ph name="GROUP_NAME" />”- <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">触摸以登录</translation>
 <translation id="8069615408251337349">Google 云打印</translation>
 <translation id="8071432093239591881">以图片形式打印</translation>
@@ -6363,6 +6366,7 @@
 <translation id="8986362086234534611">不保存</translation>
 <translation id="8986494364107987395">将使用情况统计信息和崩溃报告自动发送给 Google</translation>
 <translation id="8987927404178983737">月</translation>
+<translation id="8990209962746788689">无法创建二维码</translation>
 <translation id="8991520179165052608">该网站可能会使用您的麦克风</translation>
 <translation id="899384117894244799">移除受限用户</translation>
 <translation id="899403249577094719">Netscape 证书基本网址</translation>

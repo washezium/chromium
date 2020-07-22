@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Zamijenite Linux aplikacije i datoteke prethodnom sigurnosnom kopijom</translation>
 <translation id="1842766183094193446">Jeste li sigurni da želite omogućiti demo-način?</translation>
 <translation id="1846308012215045257">Kliknite uz tipku Control za pokretanje dodatka <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupa <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Omogućivanje Ambijentalnog načina</translation>
 <translation id="1849186935225320012">Ta stranica ima potpuni nadzor nad MIDI uređajima.</translation>
 <translation id="1850508293116537636">Zakreni u &amp;smjeru kretanja kazaljke na satu</translation>
@@ -867,6 +866,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="2065405795449409761">Chromeom upravlja automatizirani testni softver.</translation>
 <translation id="2071393345806050157">Nema lokalne datoteke zapisnika.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kliknite da biste instalirali proširenje}one{Kliknite da biste instalirali ova proširenja}few{Kliknite da biste instalirali ova proširenja}other{Kliknite da biste instalirali ova proširenja}}</translation>
+<translation id="2073505299004274893">Broj znakova ne smije biti veći od <ph name="CHARACTER_LIMIT" /></translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% baterije</translation>
 <translation id="2075959085554270910">Omogućuje uključivanje i isključivanje klikanja dodirom i povlačenja dodirom</translation>
 <translation id="2076269580855484719">Sakrij ovaj dodatak</translation>
@@ -1715,6 +1715,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="3103941660000130485">Došlo je do pogreške prilikom nadogradnje Linuxa</translation>
 <translation id="3105796011181310544">Želite li se vratiti na Google?</translation>
 <translation id="310671807099593501">Web-lokacija upotrebljava Bluetooth</translation>
+<translation id="3109724472072898302">Sažeto</translation>
 <translation id="3115147772012638511">Čekanje predmemorije...</translation>
 <translation id="3115580024857770654">Sažmi sve</translation>
 <translation id="3116968597797150452">Profil certifikata</translation>
@@ -3476,6 +3477,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="5379140238605961210">Nastavi blokirati pristup mikrofonu</translation>
 <translation id="5382591305415226340">Upravljanje podržanim vezama</translation>
 <translation id="5383377866517186886">Kamera je isključena u Postavkama sustava na Macu</translation>
+<translation id="5383740867328871413">Neimenovana grupa – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Upareno</translation>
 <translation id="5389237414310520250">Izrada novog korisnika nije uspjela. Provjerite imate li dovoljno prostora na tvrdom disku i potrebna dopuštenja, pa pokušajte ponovo.</translation>
 <translation id="5390100381392048184">Dopusti web-lokacijama reprodukciju zvuka</translation>
@@ -4838,7 +4840,6 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="7099337801055912064">Nije moguće učitati veliki PPD. Maksimalna veličina iznosi 250 KB.</translation>
 <translation id="7102687220333134671">Automatska su ažuriranja uključena</translation>
 <translation id="7102832101143475489">Zahtjev je istekao</translation>
-<translation id="7102928824073746774">Neimenovana grupa – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Postavke USB-a</translation>
 <translation id="710640343305609397">Otvorite postavke mreže</translation>
 <translation id="7108338896283013870">Sakrij preglednik</translation>
@@ -4916,6 +4917,7 @@ Postavkama računa možete upravljati tako da instalirate aplikaciju Family Link
 <translation id="720110658997053098">Trajno zadrži uređaj u načinu kioska</translation>
 <translation id="7201118060536064622">Izbrisana je stavka "<ph name="DELETED_ITEM_NAME" />"</translation>
 <translation id="7201420661433230412">Pregled datoteka</translation>
+<translation id="7203150201908454328">Proširen</translation>
 <translation id="7203826966018112936">Dodavanje školskog računa profilu omogućuje jednostavnu prijavu na web-lokacije i proširenja za učenike uz istodobni roditeljski nadzor. Time dijete ne dobiva pristup oznakama, zaporkama ili drugim podacima preglednika koji se sinkroniziraju sa školskim računom.&lt;br&gt;&lt;br&gt;
     Ako vaše dijete koristi Chromebook u školi i želite da kod kuće ima pristup svim obaveznim školskim zadacima kao da je u školi, odjavite se s ovog Family Link računa i prijavite se na školski račun putem stranice računa u OS-u Chrome (napominjemo da se roditeljski nadzor Family Linka neće primjenjivati).&lt;br&gt;&lt;br&gt;
     Ako vaše dijete ne upotrebljava Chromebook u školi ili ako želite upravljati njegovim doživljajem kod kuće putem Family Linka, kliknite gumb Dalje u nastavku da biste ovom profilu dodali školski račun.</translation>
@@ -5623,6 +5625,7 @@ Ključnu datoteku čuvajte na sigurnom mjestu. Trebat će vam za stvaranje novih
 <translation id="8062844841289846053">{COUNT,plural, =1{Jedan list papira}one{{COUNT} list papira}few{{COUNT} lista papira}other{{COUNT} listova papira}}</translation>
 <translation id="8063235345342641131">Zadani zeleni avatar</translation>
 <translation id="8063535366119089408">Pregledaj datoteku</translation>
+<translation id="8064279191081105977">Grupa <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Dodirnite za prijavu</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Ispiši kao sliku</translation>
@@ -5971,7 +5974,7 @@ Mislim da ta web-lokacija ne bi trebala biti blokirana!</translation>
 <translation id="8509646642152301857">Preuzimanje rječnika za provjeru pravopisa nije uspjelo.</translation>
 <translation id="8512476990829870887">Završi proces</translation>
 <translation id="851263357009351303">Uvijek dopusti da web-lokacija <ph name="HOST" /> prikazuje slike</translation>
-<translation id="8513108775083588393">Automatsko zakretanje</translation>
+<translation id="8513108775083588393">Aut. zakret.</translation>
 <translation id="8514746246728959655">Pokušajte s nekim drugim sigurnosnim ključem</translation>
 <translation id="8521475323816527629">Brzo pristupite svojim aplikacijama</translation>
 <translation id="8523493869875972733">Zadrži promjene</translation>
@@ -6369,6 +6372,7 @@ Mislim da ta web-lokacija ne bi trebala biti blokirana!</translation>
 <translation id="8986362086234534611">Zaboravi</translation>
 <translation id="8986494364107987395">Automatski šalji Googleu statistiku o upotrebi i izvješća o padu programa</translation>
 <translation id="8987927404178983737">Mjesec</translation>
+<translation id="8990209962746788689">Izrada QR koda nije uspjela</translation>
 <translation id="8991520179165052608">Web-lokacija može upotrebljavati vaš mikrofon</translation>
 <translation id="899384117894244799">Uklanjanje ograničenog korisnika</translation>
 <translation id="899403249577094719">Osnovni URL Netscape certifikata</translation>

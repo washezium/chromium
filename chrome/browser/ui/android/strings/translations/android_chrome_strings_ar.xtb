@@ -46,7 +46,7 @@
 <translation id="129553762522093515">المغلقة حديثًا</translation>
 <translation id="1303339473099049190">يتعذّر العثور على كلمة المرور هذه. يجب إجراء تدقيق إملائي وإعادة المحاولة.</translation>
 <translation id="1303507811548703290"><ph name="DOMAIN" /> - تم الإرسال من <ph name="DEVICE_NAME" /></translation>
-<translation id="1310482092992808703">دمج علامات التبويب</translation>
+<translation id="1310482092992808703">جمع علامات التبويب</translation>
 <translation id="1311657260431405215">‏رمز الاستجابة السريعة هذا ليس عنوان URL: <ph name="QRCODEVALUE" />.</translation>
 <translation id="1327257854815634930">يتم فتح سجلّ التنقُّل.</translation>
 <translation id="1331212799747679585">‏يتعذَّر تحديث Chrome. يُرجى الاطِّلاع على مزيد من الخيارات</translation>
@@ -184,7 +184,7 @@
 
 ما عليك سوى النقر مع الاستمرار على أي كلمة للبحث عنها. ولتحسين البحث، اختَر كلمات أكثر أو أقل. لتعديل البحث، افتح اللوحة، وانقر على الرمز لفتح علامة تبويب جديدة، وأدخِل تغييراتك في مربّع البحث.</translation>
 <translation id="246532703174860178">مشاركة</translation>
-<translation id="2479148705183875116">الانتقال إلى "الإعدادات"</translation>
+<translation id="2479148705183875116">الانتقال إلى الإعدادات</translation>
 <translation id="2482878487686419369">الإشعارات</translation>
 <translation id="2494974097748878569">‏"مساعد Google" على Chrome</translation>
 <translation id="2496180316473517155">سجلّ التصفّح</translation>
@@ -737,7 +737,7 @@
 <translation id="6845325883481699275">‏المساعدة في تحسين أمان Chrome</translation>
 <translation id="6846298663435243399">جارٍ التحميل…</translation>
 <translation id="6850409657436465440">لا يزال التنزيل قيد التقدُّم</translation>
-<translation id="6850830437481525139"><ph name="TAB_COUNT" /> من علامات التبويب المغلقة</translation>
+<translation id="6850830437481525139">تم إغلاق <ph name="TAB_COUNT" /> علامة تبويب</translation>
 <translation id="685850645784703949">‏ميزة "اقتراحات من Google" متوقفة</translation>
 <translation id="6864459304226931083">تنزيل الصورة</translation>
 <translation id="6865313869410766144">الملء التلقائي للبيانات</translation>
@@ -998,6 +998,7 @@
 <translation id="8970887620466824814">حدث خطأ.</translation>
 <translation id="8972098258593396643">هل تريد التنزيل إلى المجلد التلقائي؟</translation>
 <translation id="8988028529677883095">استخدام الهاتف كمفتاح أمان</translation>
+<translation id="8990209962746788689">يتعذّر إنشاء رمز الاستجابة السريعة.</translation>
 <translation id="8993760627012879038">فتح علامة تبويب جديدة في وضع التصفّح المتخفّي</translation>
 <translation id="8998729206196772491">‏يتم تسجيل دخولك باستخدام حساب تتم إدارته من خلال <ph name="MANAGED_DOMAIN" /> ومنح مشرفه الحق في التحكم في بياناتك على Chrome. سيؤدي ذلك إلى جعل بياناتك مرتبطة دائمًا بهذا الحساب. كما سيؤدي الخروج من Chrome إلى حذف بياناتك من هذا الجهاز، ولكن ستظل هذه البيانات مخزَّنة على حسابك في Google.</translation>
 <translation id="9028914725102941583">تفعيل المزامنة لمشاركة المحتوى مع جهاز آخر</translation>

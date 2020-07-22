@@ -697,7 +697,6 @@
 <translation id="184273675144259287">Reemplaza tus archivos y apps de Linux con una copia de seguridad anterior</translation>
 <translation id="1842766183094193446">¿Realmente quieres habilitar el modo de demostración?</translation>
 <translation id="1846308012215045257">Presionar Ctrl+clic para ejecutar <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupo <ph name="GROUP_NAME" />: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Habilitar el Modo ambiente</translation>
 <translation id="1849186935225320012">Esta página tiene el control total de los dispositivos MIDI.</translation>
 <translation id="1850508293116537636">Girar &amp;a la derecha</translation>
@@ -1712,6 +1711,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="3103941660000130485">Se produjo un error al actualizar Linux</translation>
 <translation id="3105796011181310544">¿Deseas volver a Google?</translation>
 <translation id="310671807099593501">El sitio está usando la conexión Bluetooth</translation>
+<translation id="3109724472072898302">Contraído</translation>
 <translation id="3115147772012638511">Esperando caché...</translation>
 <translation id="3115580024857770654">Contraer todo</translation>
 <translation id="3116968597797150452">Perfil del certificado</translation>
@@ -4835,7 +4835,6 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="7099337801055912064">No se pueden cargar archivos PPD grandes. El tamaño máximo es 250 kB.</translation>
 <translation id="7102687220333134671">Las actualizaciones automáticas están activadas</translation>
 <translation id="7102832101143475489">Se agotó el tiempo de espera de la solicitud</translation>
-<translation id="7102928824073746774">Grupo sin nombre: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferencias de USB</translation>
 <translation id="710640343305609397">Abrir la configuración de red</translation>
 <translation id="7108338896283013870">Ocultar</translation>
@@ -4913,6 +4912,7 @@ Para administrar la configuración de esta cuenta, instala la app de Family Lin
 <translation id="720110658997053098">Mantener este dispositivo en modo kiosco de forma permanente</translation>
 <translation id="7201118060536064622">Se borró "<ph name="DELETED_ITEM_NAME" />"</translation>
 <translation id="7201420661433230412">Ver archivos</translation>
+<translation id="7203150201908454328">Expandido</translation>
 <translation id="7203826966018112936">Si agregas la cuenta de una institución educativa, el estudiante podrá acceder fácilmente a sitios web y extensiones, mientras se siguen aplicando los controles parentales. No podrá acceder a los favoritos, las contraseñas y otros datos del navegador que se sincronizan con la cuenta de la institución educativa.&lt;br&gt;&lt;br&gt;
     Si tu hijo usa una Chromebook en la institución educativa y deseas replicar la misma experiencia en el hogar para asegurarte de que tiene acceso a todos los materiales necesarios, sal de esta cuenta de Family Link y accede a la cuenta de la institución educativa desde la página de cuentas del Sistema operativo Chrome (nota: No se aplicarán los controles parentales de Family Link).&lt;br&gt;&lt;br&gt;
     Si tu hijo no usa una Chromebook en la institución educativa o prefieres administrar su experiencia en el hogar con Family Link, haz clic en el botón Siguiente que se encuentra a continuación para agregar una cuenta de una institución educativa a este perfil.</translation>

@@ -700,7 +700,6 @@
 <translation id="184273675144259287">ਆਪਣੀਆਂ Linux ਐਪਾਂ ਅਤੇ ਫ਼ਾਈਲਾਂ ਨੂੰ ਕਿਸੇ ਪਿਛਲੇ ਬੈਕਅੱਪ ਨਾਲ ਬਦਲੋ</translation>
 <translation id="1842766183094193446">ਕੀ ਤੁਸੀਂ ਪੱਕਾ ਡੈਮੋ ਮੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> ਚਲਾਉਣ ਲਈ Control ਦੱਬ ਕੇ ਕਲਿੱਕ ਕਰੋ</translation>
-<translation id="1846880379134204029"><ph name="GROUP_NAME" /> ਗਰੁੱਪ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">ਸਰਗਰਮ ਮੋਡ ਚਾਲੂ ਕਰੋ</translation>
 <translation id="1849186935225320012">ਇਸ ਸਫ਼ੇ ਦਾ MIDI ਡਿਵਾਈਸਾਂ ਤੇ ਪੂਰਾ ਨਿਯੰਤਰਣ ਹੈ।</translation>
 <translation id="1850508293116537636">&amp;ਕਲੌਕਵਾਈਜ ਰੋਟੇਟ ਕਰੋ</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome ਨੂੰ ਸਵੈਚਲਿਤ ਟੈਸਟ ਸਾਫ਼ਟਵੇਅਰ ਰਾਹੀਂ ਕੰਟਰੋਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ।</translation>
 <translation id="2071393345806050157">ਕੋਈ ਸਥਾਨਕ ਲੌਗ ਫ਼ਾਈਲ ਨਹੀਂ।</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{ਇਸ ਐਕਸਟੈਂਸ਼ਨ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ}one{ਇਸ ਐਕਸਟੈਂਸ਼ਨ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ}other{ਇਹਨਾਂ ਐਕਸਟੈਂਸ਼ਨਾਂ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> ਜਾਂ ਘੱਟ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਵਰਤੋ</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% ਬੈਟਰੀ</translation>
 <translation id="2075959085554270910">ਤੁਹਾਨੂੰ 'ਕਲਿੱਕ ਕਰਨ ਲਈ ਟੈਪ ਕਰੋ' ਅਤੇ 'ਘਸੀਟੋ 'ਤੇ ਟੈਪ ਕਰੋ' ਨੂੰ ਚਾਲੂ/ਬੰਦ ਕਰਨ ਦਿੰਦੀਆਂ ਹਨ</translation>
 <translation id="2076269580855484719">ਇਹ ਪਲੱਗਇਨ ਲੁਕਾਓ</translation>
@@ -1713,6 +1713,7 @@
 <translation id="3103941660000130485">Linux ਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰਨ ਵੇਲੇ ਗੜਬੜ ਹੋਈ</translation>
 <translation id="3105796011181310544">ਕੀ Google 'ਤੇ ਵਾਪਸ ਜਾਣਾ ਹੈ?</translation>
 <translation id="310671807099593501">ਸਾਈਟ ਬਲੂਟੁੱਥ ਵਰਤ ਰਹੀ ਹੈ</translation>
+<translation id="3109724472072898302">ਨਸ਼ਟ ਹੋਇਆ</translation>
 <translation id="3115147772012638511">ਕੈਸ਼ੇ ਦੀ ਉਡੀਕ ਕਰ ਰਿਹਾ ਹੈ...</translation>
 <translation id="3115580024857770654">ਸਭ ਸਮੇਟੋ</translation>
 <translation id="3116968597797150452">ਪ੍ਰਮਾਣ-ਪੱਤਰ ਪ੍ਰੋਫਾਈਲ</translation>
@@ -3474,6 +3475,7 @@
 <translation id="5379140238605961210">ਮਾਈਕ੍ਰੋਫੋਨ ਪਹੁੰਚ ਬਲੌਕ ਕਰਨਾ ਜਾਰੀ ਰੱਖੋ</translation>
 <translation id="5382591305415226340">ਸਮਰਥਿਤ ਲਿੰਕਾਂ ਨੂੰ ਪ੍ਰਬੰਧਿਤ ਕਰੋ</translation>
 <translation id="5383377866517186886">Mac ਸਿਸਟਮ ਤਰਜੀਹਾਂ ਵਿੱਚ ਕੈਮਰਾ ਬੰਦ ਕੀਤਾ ਹੋਇਆ ਹੈ</translation>
+<translation id="5383740867328871413">ਬੇਨਾਮ ਗਰੁੱਪ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">ਜੋੜਾਬੱਧ ਕੀਤੀ ਗਈ</translation>
 <translation id="5389237414310520250">ਨਵਾਂ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਹਾਰਡ ਡ੍ਰਾਈਵ ਸਪੇਸ ਅਤੇ ਇਜਾਜ਼ਤਾਂ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</translation>
 <translation id="5390100381392048184">ਸਾਈਟਾਂ ਨੂੰ ਧੁਨੀ ਵਜਾਉਣ ਦਿਓ</translation>
@@ -4836,7 +4838,6 @@
 <translation id="7099337801055912064">ਵੱਡੇ ਆਕਾਰ ਦਾ PPD ਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ। ਅਧਿਕਤਮ ਆਕਾਰ 250 KB ਹੈ।</translation>
 <translation id="7102687220333134671">ਸਵੈਚਲਿਤ ਅੱਪਡੇਟ ਚਾਲੂ ਹਨ</translation>
 <translation id="7102832101143475489">ਬੇਨਤੀ ਦੀ ਸਮਾਂ-ਸਮਾਪਤੀ</translation>
-<translation id="7102928824073746774">ਬੇਨਾਮ ਗਰੁੱਪ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB ਤਰਜੀਹਾਂ</translation>
 <translation id="710640343305609397">ਨੈੱਟਵਰਕ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</translation>
 <translation id="7108338896283013870">ਲੁਕਾਓ</translation>
@@ -4914,6 +4915,7 @@
 <translation id="720110658997053098">ਇਸ ਡੀਵਾਈਸ ਨੂੰ ਸਥਾਈ ਤੌਰ 'ਤੇ ਕਿਓਸਕ ਮੋਡ ਵਿੱਚ ਰੱਖੋ</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' ਮਿਟਾਇਆ ਗਿਆ</translation>
 <translation id="7201420661433230412">ਫ਼ਾਈਲਾਂ ਦੇਖੋ</translation>
+<translation id="7203150201908454328">ਵਿਸਤ੍ਰਿਤ</translation>
 <translation id="7203826966018112936">ਕਿਸੇ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਸਕੂਲੀ ਖਾਤਾ ਸ਼ਾਮਲ ਕਰਨ ਨਾਲ ਮਾਪਿਆਂ ਦੇ ਕੰਟਰੋਲ ਅਧੀਨ ਕੰਮ ਕਰਦਿਆਂ ਇੱਕ ਵਿਦਿਆਰਥੀ ਵਜੋਂ ਵੈੱਬਸਾਈਟਾਂ ਅਤੇ ਐਕਸਟੈਂਸ਼ਨਾਂ ਵਿੱਚ ਸਾਈਨ-ਇਨ ਕਰਨਾ ਆਸਾਨ ਹੋ ਜਾਂਦਾ ਹੈ। ਇਹ ਕਿਸੇ ਬੱਚੇ ਨੂੰ ਸਕੂਲੀ ਖਾਤੇ ਨਾਲ ਸਮਕਾਲੀਕਿਰਤ ਕੀਤੇ ਬੁੱਕਮਾਰਕ, ਪਾਸਵਰਡ ਅਤੇ ਹੋਰ ਬ੍ਰਾਊਜ਼ਰ ਡਾਟੇ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਦਿੰਦਾ ਹੈ।&lt;br&gt;&lt;br&gt;
     ਜੇ ਤੁਹਾਡਾ ਬੱਚਾ ਸਕੂਲ ਵਿੱਚ Chromebook ਵਰਤਦਾ ਹੈ ਅਤੇ ਤੁਸੀਂ ਘਰ ਬੈਠੇ ਸਕੂਲੀ ਅਨੁਭਵ ਨੂੰ ਪ੍ਰਤਿਬਿੰਬਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਕਿ ਇਹ ਪੱਕਾ ਕੀਤਾ ਜਾ ਸਕੇ ਕਿ ਤੁਹਾਡੇ ਬੱਚੇ ਕੋਲ ਸਕੂਲ ਦੇ ਸਾਰੇ ਜ਼ਰੂਰੀ ਕੰਮਾਂ ਤੱਕ ਪਹੁੰਚ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇਸ Family Link ਖਾਤੇ ਵਿੱਚੋਂ ਸਾਈਨ-ਆਊਟ ਕਰਕੇ 'Chrome OS ਖਾਤੇ' ਪੰਨੇ ਤੋਂ ਸਕੂਲੀ ਖਾਤੇ ਵਿੱਚ ਸਾਈਨ-ਇਨ ਕਰੋ (ਨੋਟ-ਕਰੋ: Family Link ਸੰਬੰਧੀ ਮਾਪਿਆਂ ਦੇ ਕੰਟਰੋਲ ਲਾਗੂ ਨਹੀਂ ਹੋਣਗੇ)।&lt;br&gt;&lt;br&gt;
     ਜੇ ਤੁਹਾਡਾ ਬੱਚਾ ਸਕੂਲ ਵਿੱਚ Chromebook ਨਹੀਂ ਵਰਤਦਾ ਜਾਂ ਜੇ ਤੁਸੀਂ ਘਰ ਬੈਠੇ Family Link ਵਰਤ ਕੇ ਆਪਣੇ ਬੱਚੇ ਦੇ ਅਨੁਭਵ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਸਕੂਲੀ ਖਾਤਾ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ 'ਅੱਗੇ ਜਾਓ' ਬਟਨ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।</translation>
@@ -5619,6 +5621,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 ਕਾਗਜ਼ ਦੀ ਸ਼ੀਟ}one{{COUNT} ਕਾਗਜ਼ ਦੀ ਸ਼ੀਟ}other{{COUNT} ਕਾਗਜ਼ ਦੀਆਂ ਸ਼ੀਟਾਂ}}</translation>
 <translation id="8063235345342641131">ਪੂਰਵ-ਨਿਰਧਾਰਤ ਹਰਾ ਅਵਤਾਰ</translation>
 <translation id="8063535366119089408">ਫ਼ਾਈਲ ਦੇਖੋ</translation>
+<translation id="8064279191081105977"><ph name="GROUP_NAME" /> ਗਰੁੱਪ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">ਸਾਈਨ-ਇਨ ਕਰਨ ਲਈ ਸਪਰਸ਼ ਕਰੋ</translation>
 <translation id="8069615408251337349">Google ਕਲਾਊਡ ਪ੍ਰਿੰਟ</translation>
 <translation id="8071432093239591881">ਚਿੱਤਰ ਵਜੋਂ ਪ੍ਰਿੰਟ ਕਰੋ</translation>
@@ -6364,6 +6367,7 @@
 <translation id="8986362086234534611">ਭੁੱਲਣਾ</translation>
 <translation id="8986494364107987395">ਵਰਤੋਂ ਅੰਕੜੇ ਅਤੇ ਕਰੈਸ਼ ਰਿਪੋਰਟਾਂ ਸਵੈਚਲਿਤ ਤੌਰ 'ਤੇ Google ਨੂੰ ਭੇਜੋ</translation>
 <translation id="8987927404178983737">ਮਹੀਨਾ</translation>
+<translation id="8990209962746788689">QR ਕੋਡ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</translation>
 <translation id="8991520179165052608">ਸਾਈਟ ਤੁਹਾਡੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੀ ਹੈ</translation>
 <translation id="899384117894244799">ਪ੍ਰਤਿਬੰਧਿਤ ਵਰਤੋਂਕਾਰ ਨੂੰ ਹਟਾਓ</translation>
 <translation id="899403249577094719">Netscape ਪ੍ਰਮਾਣ-ਪੱਤਰ ਬੇਸ URL</translation>

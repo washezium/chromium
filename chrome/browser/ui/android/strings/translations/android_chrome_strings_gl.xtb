@@ -103,7 +103,7 @@
 <translation id="1821253160463689938">Utiliza cookies para lembrar as túas preferencias, mesmo se non visitas esas páxinas</translation>
 <translation id="1826516787628120939">Comprobando</translation>
 <translation id="1829244130665387512">Buscar na páxina</translation>
-<translation id="1853692000353488670">Pestana nova de incógnito</translation>
+<translation id="1853692000353488670">Nova pestana de incógnito</translation>
 <translation id="1856325424225101786">Queres restablecer o modo básico?</translation>
 <translation id="1868024384445905608">Chrome agora descarga os ficheiros máis rápido</translation>
 <translation id="1883903952484604915">Os meus ficheiros</translation>
@@ -310,7 +310,7 @@ Mantén premida calquera palabra para buscala. Se queres refinar a busca, selecc
 <translation id="3414952576877147120">Tamaño:</translation>
 <translation id="3443221991560634068">Volver cargar a páxina actual</translation>
 <translation id="3478363558367712427">Podes escoller o motor de busca</translation>
-<translation id="3492207499832628349">Pestana nova de incógnito</translation>
+<translation id="3492207499832628349">Nova pestana de incógnito</translation>
 <translation id="3493531032208478708"><ph name="BEGIN_LINK" />Máis información<ph name="END_LINK" /> acerca do contido suxerido</translation>
 <translation id="3499246418971111862">chrome_qrcode_<ph name="CURRENT_TIMESTAMP_MS" /></translation>
 <translation id="3507132249039706973">A protección estándar está activada</translation>
@@ -998,6 +998,7 @@ Por exemplo, algúns sitios web poden responder a esta solicitude mostrándoche 
 <translation id="8970887620466824814">Produciuse un erro.</translation>
 <translation id="8972098258593396643">Queres gardar a descarga no cartafol predeterminado?</translation>
 <translation id="8988028529677883095">Usar o teléfono como chave de seguranza</translation>
+<translation id="8990209962746788689">Non se puido crear o código QR</translation>
 <translation id="8993760627012879038">Abrir unha nova pestana no modo de incógnito</translation>
 <translation id="8998729206196772491">Estás iniciando sesión cunha conta xestionada por <ph name="MANAGED_DOMAIN" /> e proporcionándolle ao seu administrador o control dos teus datos de Chrome, que quedarán ligados permanentemente a esta conta. Se pechas sesión en Chrome, eliminaranse os teus datos deste dispositivo, pero seguirán almacenados na túa conta de Google.</translation>
 <translation id="9028914725102941583">Activa a sincronización para compartir contido entre varios dispositivos</translation>

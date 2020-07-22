@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Linux ஆப்ஸ் &amp; கோப்புகளை முந்தைய காப்புப் பிரதிகள் மூலம் மாற்றியமைக்கவும்</translation>
 <translation id="1842766183094193446">டெமோ பயன்முறையை இயக்க விரும்புகிறீர்களா?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />ஐ இயக்க, கண்ட்ரோலைப் பிடித்து, கிளிக் செய்யவும்</translation>
-<translation id="1846880379134204029">குழு <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">சூழல் பயன்முறையை இயக்கு</translation>
 <translation id="1849186935225320012">இந்தப் பக்கத்திற்கு MIDI சாதனங்களுக்கான முழுக் கட்டுப்பாடு உள்ளது.</translation>
 <translation id="1850508293116537636">&amp;வலஞ்சுழியாகச் சுற்று</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chromeஐத் தானியங்கிச் சோதனை மென்பொருள் கட்டுப்படுத்துகிறது.</translation>
 <translation id="2071393345806050157">அக லாக் ஃபைல் எதுவுமில்லை.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{இந்த நீட்டிப்பை நிறுவுவதற்குக் கிளிக் செய்யவும்}other{இந்த நீட்டிப்புகளை நிறுவுவதற்குக் கிளிக் செய்யவும்}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> அல்லது அதற்குக் குறைவான எழுத்துகளைப் பயன்படுத்தவும்</translation>
 <translation id="2075474481720804517">பேட்டரி: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">"கிளிக் செய்ய தட்டு" மற்றும் தட்டி நகர்த்துதலை இயக்க/முடக்க உங்களை அனுமதிக்கிறது</translation>
 <translation id="2076269580855484719">செருகுநிரலை மறை</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Linuxஸை மேம்படுத்துவதில் பிழை</translation>
 <translation id="3105796011181310544">மீண்டும் Google என அமைக்கவா?</translation>
 <translation id="310671807099593501">தளமானது புளூடூத்தைப் பயன்படுத்துகிறது</translation>
+<translation id="3109724472072898302">சுருக்கப்பட்டது</translation>
 <translation id="3115147772012638511">தேக்ககத்திற்காக காத்திருக்கிறது...</translation>
 <translation id="3115580024857770654">அனைத்தையும் சுருக்கு</translation>
 <translation id="3116968597797150452">சான்றிதழ் புரொஃபைல்</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">மைக்ரோஃபோன் அணுகலைத் தொடர்ந்து தடு</translation>
 <translation id="5382591305415226340">ஆதரிக்கப்படும் இணைப்புகளை நிர்வகி</translation>
 <translation id="5383377866517186886">Mac சிஸ்டம் விருப்பத்தேர்வுகளில் கேமரா முடக்கப்பட்டுள்ளது</translation>
+<translation id="5383740867328871413">பெயரிடப்படாத குழு - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">சேர்க்கப்பட்டவை</translation>
 <translation id="5389237414310520250">புதிய பயனரை உருவாக்க முடியவில்லை. உங்கள் ஹார்ட் டிரைவில் உள்ள இடத்தையும் அனுமதிகளையும் சரிபார்த்து மீண்டும் முயலவும்.</translation>
 <translation id="5390100381392048184">ஒலியை இயக்க, தளங்களை அனுமதி</translation>
@@ -3994,7 +3996,7 @@
 <translation id="6029587122245504742">குறைந்தபட்ச வேகம்</translation>
 <translation id="6029594605736587274"><ph name="PERMISSION" /> தடுக்கப்பட்டது</translation>
 <translation id="6031600495088157824">கருவிப்பட்டியில் உள்ள உள்ளீட்டு விருப்பங்கள்</translation>
-<translation id="6032715498678347852">நீட்டிப்பிற்கான அணுகலை இந்தத் தளத்திற்கு வழங்க அதைக் கிளிக் செய்யவும்.</translation>
+<translation id="6032715498678347852">இந்தத் தளத்திற்கான அணுகலை நீட்டிப்பிற்கு வழங்க அதைக் கிளிக் செய்யவும்.</translation>
 <translation id="6032912588568283682">கோப்பு முறைமை</translation>
 <translation id="6038929619733116134">குறுக்கிடும் அல்லது தவறாக வழிநடத்தும் விளம்பரங்களை தளம் காட்டினால், அவற்றைத் தடுக்கும்</translation>
 <translation id="6039651071822577588">நெட்வொர்க் பண்பு அகராதி தவறான வடிவமைப்பில் உள்ளது</translation>
@@ -4839,7 +4841,6 @@
 <translation id="7099337801055912064">அதிகபட்ச அளவு 250 கி.பை. என்பதால், பெரிய PPDஐ ஏற்ற முடியாது.</translation>
 <translation id="7102687220333134671">தானியங்கு புதுப்பிப்புகள் இயக்கப்பட்டுள்ளன</translation>
 <translation id="7102832101143475489">கோரிக்கை காலாவதியானது</translation>
-<translation id="7102928824073746774">பெயரிடப்படாத குழு - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB விருப்பத்தேர்வுகள்</translation>
 <translation id="710640343305609397">நெட்வொர்க் அமைப்புகளைத் திற</translation>
 <translation id="7108338896283013870">மறை</translation>
@@ -4917,6 +4918,7 @@
 <translation id="720110658997053098">இந்தச் சாதனத்தை, கியோஸ்க் பயன்முறையில் நிரந்தரமாக வைத்திரு</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' நீக்கப்பட்டது</translation>
 <translation id="7201420661433230412">கோப்புகளைப் பார்</translation>
+<translation id="7203150201908454328">விரிவாக்கப்பட்டது</translation>
 <translation id="7203826966018112936">பள்ளிக் கணக்கை சுயவிவரத்தில் சேர்ப்பதன் மூலம் மாணவர் என்ற முறையில் இணையதளங்களிலும் நீட்டிப்புகளிலும் எளிதாக உள்நுழைய முடியும், ஆனாலும் இவை பெற்றோர் கட்டுப்பாடுகளின் கீழ் இருக்கும். இது பள்ளிக் கணக்குடன் ஒத்திசைக்கப்பட்ட புக்மார்க்குகள், கடவுச்சொற்கள், பிற உலாவித் தரவு போன்றவற்றுக்கான அணுகலை பிள்ளைக்கு வழங்குவதில்லை.&lt;br&gt;&lt;br&gt;
     பள்ளியில் உங்கள் பிள்ளை Chromebookகைப் பயன்படுத்தும்பட்சத்தில், தேவையான அனைத்துப் பள்ளிப் பாடங்களையும் பிள்ளை அணுகுவதை உறுதிசெய்யும் வகையில் நீங்கள் வீட்டிலேயே பள்ளி அனுபவத்தை வழங்க விரும்பலாம். அதற்கு இந்த Family Link கணக்கிலிருந்து வெளியேறி, Chrome OS கணக்குகள் பக்கத்திற்குச் சென்று பள்ளிக் கணக்கில் உள்நுழையவும் (கவனத்திற்கு: Family Linkகின் பெற்றோர் கட்டுப்பாடுகள் பொருந்தாது).&lt;br&gt;&lt;br&gt;
     பள்ளியில் உங்கள் பிள்ளை Chromebookகைப் பயன்படுத்தவில்லை என்றாலோ Family Linkகைப் பயன்படுத்தி வீட்டிலேயே பிள்ளையின் பள்ளி அனுபவத்தை நிர்வகிக்க விரும்பினாலோ இந்தச் சுயவிவரத்தில் பள்ளிக் கணக்கைச் சேர்க்க கீழேயுள்ள அடுத்து என்ற பட்டனைக் கிளிக் செய்யவும்.</translation>
@@ -5125,7 +5127,7 @@
 <translation id="7465778193084373987">Netscape சான்றிதழ் தளர்த்தல் URL</translation>
 <translation id="7469894403370665791">இந்த நெட்வொர்க்குடன் தானாகவே இணைக்கவும்</translation>
 <translation id="747114903913869239">பிழை: நீட்டிப்பை குறி இறக்கம் செய்ய முடியவில்லை</translation>
-<translation id="7473891865547856676">வேண்டாம் நன்றி</translation>
+<translation id="7473891865547856676">வேண்டாம்</translation>
 <translation id="747459581954555080">எல்லாம் மீட்டெடு</translation>
 <translation id="7475671414023905704">Netscape தொலைந்த கடவுச்சொல் URL</translation>
 <translation id="7476454130948140105">பேட்டரி மிகவும் குறைவாக இருப்பதால், புதுப்பிக்க முடியவில்லை (<ph name="BATTERY_PERCENT" />%)</translation>
@@ -5390,7 +5392,7 @@
 <translation id="7798844538707273832"><ph name="PERMISSION" /> தானாகத் தடுக்கப்பட்டது</translation>
 <translation id="7799299114731150374">வால்பேப்பர் அமைக்கப்பட்டது</translation>
 <translation id="7800518121066352902">இ&amp;டஞ்சுழியாகச் சுற்று</translation>
-<translation id="780301667611848630">தேவையில்லை</translation>
+<translation id="780301667611848630">வேண்டாம்</translation>
 <translation id="7805768142964895445">நிலை</translation>
 <translation id="7807067443225230855">தேடல் மற்றும் அசிஸ்டண்ட்</translation>
 <translation id="7807711621188256451">உங்கள் கேமராவை எப்போதும் அணுக <ph name="HOST" /> ஐ அனுமதிக்கவும்</translation>
@@ -5624,6 +5626,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{தாளின் ஒரு பக்கம்}other{தாளின் {COUNT} பக்கங்கள்}}</translation>
 <translation id="8063235345342641131">இயல்பு பச்சைநிற அவதார்</translation>
 <translation id="8063535366119089408">கோப்பைக் காட்டு</translation>
+<translation id="8064279191081105977">குழு <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">உள்நுழைய, தொடவும்</translation>
 <translation id="8069615408251337349">Google கிளவுடு அச்சு</translation>
 <translation id="8071432093239591881">படமாக அச்சிடு</translation>
@@ -6370,6 +6373,7 @@
 <translation id="8986362086234534611">மற</translation>
 <translation id="8986494364107987395">பயன்பாட்டுப் புள்ளிவிவரங்களையும் சிதைவு அறிக்கைகளையும் தானாகவே Google க்கு அனுப்பு</translation>
 <translation id="8987927404178983737">மாதம்</translation>
+<translation id="8990209962746788689">QR குறியீட்டை உருவாக்க முடியவில்லை</translation>
 <translation id="8991520179165052608">தளத்தால் உங்கள் மைக்ரோஃபோனைப் பயன்படுத்த முடியும்</translation>
 <translation id="899384117894244799">வரம்பிடப்பட்ட பயனரை அகற்றுதல்</translation>
 <translation id="899403249577094719">Netscape சான்றிதழ் அடிப்படை URL</translation>

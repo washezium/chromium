@@ -700,7 +700,6 @@
 <translation id="184273675144259287">የእርስዎን የ Linux መተግበሪያዎች እና ፋይሎች ከዚህ ቀደም በነበረ ምትኬ ይተኳቸው</translation>
 <translation id="1842766183094193446">እርግጠኛ ነዎት የቅንጭብ ማሳያ ሁነታን ማንቃት ይፈልጋሉ?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />ን ለማሄድ Control-ጠቅ ያድርጉ</translation>
-<translation id="1846880379134204029">ቡድን <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">አካባቢያዊ ሁነታን ያንቁ</translation>
 <translation id="1849186935225320012">ይህ ገጽ የMIDI መሳሪያዎች ሙሉ ቁጥጥር አለው።</translation>
 <translation id="1850508293116537636">በ&amp;ሰዓት መዞሪያ አቅጣጫ አሽከርክር</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome በራስ-ሰር የሙከራ ሶፍትዌር ቁጥጥር ሥር ነው።</translation>
 <translation id="2071393345806050157">ምንም አካባቢያዊ የምዝግብ ማስታወሻ ፋይል የለም።</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{ቅጥያውን ለመጫን ጠቅ ያድርጉ}one{እነዚህን ቅጥያዎች ለመጫን ጠቅ ያድርጉ}other{እነዚህን ቅጥያዎች ለመጫን ጠቅ ያድርጉ}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> ወይም ከዚያ ያነሱ ቁምፊዎችን ይጠቀሙ</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% ባትሪ</translation>
 <translation id="2075959085554270910">ለጠቅታ-መታ ማድረግን እንዲያነቁ/እንዲያሰናክሉ እና ለመጎተት መታ ማድረግ ያስችልዎታል</translation>
 <translation id="2076269580855484719">ይህን ተሰኪ ደብቅ</translation>
@@ -1714,6 +1714,7 @@
 <translation id="3103941660000130485">Linuxን ደረጃ በማሻሻል ላይ ስህተት</translation>
 <translation id="3105796011181310544">ወደ Google መልሰዉ ይቀይሩ?</translation>
 <translation id="310671807099593501">ጣቢያ ብሉቱዝን እየተጠቀመ ነው</translation>
+<translation id="3109724472072898302">ተሰብስቧል</translation>
 <translation id="3115147772012638511">መሸጎጫ በመጠበቅ ላይ…</translation>
 <translation id="3115580024857770654">ሁሉንም ሰብስብ</translation>
 <translation id="3116968597797150452">የዕውቅና ማረጋገጫ መገለጫ</translation>
@@ -3473,6 +3474,7 @@
 <translation id="5379140238605961210">የማይክሮፎን መዳረሻ ማገዱን ቀጥል</translation>
 <translation id="5382591305415226340">የሚደገፉ አገናኞችን ያስተዳድሩ</translation>
 <translation id="5383377866517186886">ካሜራ በMac System Preferences ውስጥ ጠፍቷል</translation>
+<translation id="5383740867328871413">ያልተሰየመ ቡድን - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">ተጣምሯል</translation>
 <translation id="5389237414310520250">አዲሱ ተጠቃሚ ሊፈጠር አልቻለም። እባክዎ የደረቅ አንጻፊዎ ቦታ እና ፍቃዶችን ያረጋግጡና እንደገና ይሞክሩ።</translation>
 <translation id="5390100381392048184">ጣቢያዎች ድምጽ እንዲያጫውቱ ፍቀድ</translation>
@@ -4835,7 +4837,6 @@
 <translation id="7099337801055912064">ትልቅ PPDን መጫን አልተቻለም። ከፍተኛው መጠን 250 ኪባ ነው።</translation>
 <translation id="7102687220333134671">ራስ-ሰር ዝማኔዎች በርተዋል</translation>
 <translation id="7102832101143475489">ጥያቄው ጊዜውን ጨርሷል</translation>
-<translation id="7102928824073746774">ያልተሰየመ ቡድን - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">የዩኤስቢ ምርጫዎች</translation>
 <translation id="710640343305609397">የአውታረ መረብ ቅንብሮችን ይክፈቱ</translation>
 <translation id="7108338896283013870">ደብቅ</translation>
@@ -4913,6 +4914,7 @@
 <translation id="720110658997053098">ይህን መሣሪያ እስከመጨረሻው በኪዮስክ ሁነታ አቆየው</translation>
 <translation id="7201118060536064622">«<ph name="DELETED_ITEM_NAME" />» ተሰርዟል</translation>
 <translation id="7201420661433230412">ፋይሎችን ይመልከቱ</translation>
+<translation id="7203150201908454328">ተዘርግቷል</translation>
 <translation id="7203826966018112936">የትምህርት ቤት መለያን ወደ መገለጫ ማከል በወላጅ ቁጥጥሮች ሥር ሆኖ እየተንቀሳቀሱ እንደ ተማሪ ወደ ድር ጣቢያዎች እና ቅጥያዎች በቀላሉ በመለያ መግባትን ያነቃል። የእልባቶች፣ የይለፍ ቃል ወይም ከትምህር ቤት መለያ ጋር የሰመረ ሌላ የአሳሽ ውሂብን መዳረሻ ለልጅ አይሰጥም።&lt;br&gt;&lt;br&gt;
     የእርስዎ ልጅ በትምህርት ቤት ላይ Chromebook የሚጠቀሙ ከሆነ እና የሁሉም አስፈላጊ የትምህርት ቤት ሥራ መዳረሻ እንዳላቸው ለማረጋገጥ የትምህርት ቤት ተሞክሮ በቤት ውስጥ ለማንጸባረቅ ከፈለጉ እባክዎ ከዚህ Family Link መለያ ዘግተው ይውጡ እና ከChrome OS መለያዎች ገጽ ሆነው ወደ የትምህርት ቤት መለያው ይግቡ (ማስታወሻ፦ Family Link የወላጅ ቁጥጥሮች ተፈጻሚ አይሆኑም)።&lt;br&gt;&lt;br&gt;
     የእርስዎ ልጅ Chromebook በትምህርት ቤት የማይጠቀም ከሆኑ ወይም የልጅዎን ተሞክሮ Family Linkን በመጠቀም በቤት ውስጥ ለማቀናበር ከመረጡ የትምህርት ቤት መለያን ወደዚህ መገለጫ ለማከል እባክዎ ከታች ያለውን የ«ቀጣይ» አዝራር ጠቅ ያድርጉ።</translation>
@@ -5625,6 +5627,7 @@ nil</translation>
 <translation id="8062844841289846053">{COUNT,plural, =1{1 የወረቀት ሉህ}one{{COUNT} የወረቀት ሉሆች}other{{COUNT} የወረቀት ሉሆች}}</translation>
 <translation id="8063235345342641131">ነባሪ አረንጓዴ አምሳያ</translation>
 <translation id="8063535366119089408">ፋይል ይመልከቱ</translation>
+<translation id="8064279191081105977">ቡድን <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">በመለያ ለመግባት ይንኩ</translation>
 <translation id="8069615408251337349">Google ዳመና ህትመት</translation>
 <translation id="8071432093239591881">እንደ ምስል አስቀምጥ</translation>
@@ -6370,6 +6373,7 @@ nil</translation>
 <translation id="8986362086234534611">እርሳ</translation>
 <translation id="8986494364107987395">የአጠቃቀም ስታስቲክስ እና የብልሽት ሪፖርቶች በራስ ሰር ወደ Google ይላኩ።</translation>
 <translation id="8987927404178983737">ወር</translation>
+<translation id="8990209962746788689">የQR ኮድ መፍጠር አልተቻለም</translation>
 <translation id="8991520179165052608">ጣቢያ የእርስዎን ማይክሮፎን መጠቀም ይችላል</translation>
 <translation id="899384117894244799">የተገደበ ተጠቃሚን አስወግድ</translation>
 <translation id="899403249577094719">የNetscape ሰርቲፊኬት መሰረት</translation>

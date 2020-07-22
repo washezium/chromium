@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Жаңа қойындыда түпнұсқалық &amp;кескінді ашу</translation>
 <translation id="1055806300943943258">Bluetooth және USB құрылғылары ізделуде…</translation>
 <translation id="1056466516655540509"><ph name="MINUTES" /> минут бұрын жаңартылды</translation>
-<translation id="1056775291175587022">Бірде-бір желі табылмады</translation>
+<translation id="1056775291175587022">Желі табылмады</translation>
 <translation id="1056898198331236512">Ескерту</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">Экранның жаңару жиілігін анықтайды.</translation>
@@ -697,7 +697,6 @@
 <translation id="184273675144259287">Linux қолданбалары мен файлдарын алдыңғы сақтық көшірмемен ауыстыру</translation>
 <translation id="1842766183094193446">Демо режимін шынымен қосқыңыз келе ме?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> плагинін іске қосу үшін Control түймесін басыңыз</translation>
-<translation id="1846880379134204029"><ph name="GROUP_NAME" /> тобы: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Ұйқы режимін қосу</translation>
 <translation id="1849186935225320012">Бұл бет MIDI құрылғыларының толық бақылауына ие.</translation>
 <translation id="1850508293116537636">&amp;Сағат бағытымен бұру</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">Chrome браузері автоматты сынақ бағдарламалық құралымен басқарылады.</translation>
 <translation id="2071393345806050157">Жергілікті журнал файлы жоқ.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Кеңейтімді орнату үшін басыңыз.}other{Бұл кеңейтімдерді орнату үшін басыңыз.}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> таңбадан асырмаңыз.</translation>
 <translation id="2075474481720804517">Батарея заряды: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Басу үшін түрту және түртіп сүйреу функцияларын қосуға/өшіруге мүмкіндік береді</translation>
 <translation id="2076269580855484719">Бұл плагинді жасыру</translation>
@@ -1198,7 +1198,7 @@
 <translation id="247949520305900375">Аудиомен бөлісу</translation>
 <translation id="248003956660572823">Құпия сөздер сақталмаған</translation>
 <translation id="2480868415629598489">Көшіріліп қойылатын деректерді жаңарту</translation>
-<translation id="2482878487686419369">Хабарламалар</translation>
+<translation id="2482878487686419369">Хабарландырулар</translation>
 <translation id="2484959914739448251">Барлық синхрондалған құрылғылардан және Google есептік жазбасынан браузерді пайдалану деректерін өшіру үшін, <ph name="BEGIN_LINK" />құпия фразаны енгізіңіз<ph name="END_LINK" />.</translation>
 <translation id="2485005079599453134">Құпия сөз осы құрылғыда сақталды</translation>
 <translation id="2485422356828889247">Жою</translation>
@@ -1712,6 +1712,7 @@
 <translation id="3103941660000130485">Linux жүйесінің жаңа нұсқасын орнату кезінде қате шықты</translation>
 <translation id="3105796011181310544">Google іздеу жүйесіне қайта ораласыз ба?</translation>
 <translation id="310671807099593501">Сайт Bluetooth функциясын пайдалануда</translation>
+<translation id="3109724472072898302">Жиылған</translation>
 <translation id="3115147772012638511">Кэш күтілуде…</translation>
 <translation id="3115580024857770654">Барлығын жию</translation>
 <translation id="3116968597797150452">Сертификат профилі</translation>
@@ -3473,6 +3474,7 @@
 <translation id="5379140238605961210">Микрофонды пайдалануға салынған тыйымды сақтау</translation>
 <translation id="5382591305415226340">Қолдауға ие сілтемелерді басқару</translation>
 <translation id="5383377866517186886">Камера Mac жүйесінің параметрлерінде өшірілген.</translation>
+<translation id="5383740867328871413">Атауы жоқ топ – <ph name="GROUP_CONTENTS" /> –<ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Жұпталды</translation>
 <translation id="5389237414310520250">Жаңа пайдаланушы жасалмады. Қатты дискідегі бос орын мен рұқсаттарды тексеріп, әрекетті қайталаңыз.</translation>
 <translation id="5390100381392048184">Барлық сайтта дыбыстың шығуына рұқсат ету</translation>
@@ -3707,7 +3709,7 @@
 <translation id="5659833766619490117">Бет аударылмады</translation>
 <translation id="5662513737565158057">Linux қолданбаларының жұмыс істеу жолын өзгертіңіз.</translation>
 <translation id="5667546120811588575">Google Play орнатылуда...</translation>
-<translation id="5669267381087807207">Белсендіру</translation>
+<translation id="5669267381087807207">Белсендірілуде</translation>
 <translation id="5669691691057771421">Жаңа PIN кодын енгізіңіз</translation>
 <translation id="5671641761787789573">Кескіндер бөгелді</translation>
 <translation id="5671658447180261823"><ph name="SUGGESTION_NAME" /> ұсынысын өшіру</translation>
@@ -3902,7 +3904,7 @@
   Ортақ көрсеткіш (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> бит):
   <ph name="EXPONENT_HEX_DUMP" /></translation>
 <translation id="5916084858004523819">Тыйым салынды</translation>
-<translation id="5916664084637901428">Қосу</translation>
+<translation id="5916664084637901428">Қосулы</translation>
 <translation id="59174027418879706">Қосылған</translation>
 <translation id="5920543303088087579">Әкімшіңіз бұл желіге қосылу мүмкіндігін өшіріп қойған</translation>
 <translation id="5920835625712313205">Chrome OС жүйесінің кескін жазу құралы</translation>
@@ -4835,7 +4837,6 @@
 <translation id="7099337801055912064">Үлкен PPD файлын жүктеу мүмкін емес. Көлемі 250 Кб-тан аспауы керек.</translation>
 <translation id="7102687220333134671">Автоматты жаңарту қосулы</translation>
 <translation id="7102832101143475489">Сұрау уақыты өтіп кетті</translation>
-<translation id="7102928824073746774">Атаусыз топ: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB параметрлері</translation>
 <translation id="710640343305609397">Желі параметрлерін ашу</translation>
 <translation id="7108338896283013870">Жасыру</translation>
@@ -4913,6 +4914,7 @@
 <translation id="720110658997053098">Бұл құрылғыны киоск режимінде тұрақты сақтау</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" жойылды</translation>
 <translation id="7201420661433230412">Файлдарды көру</translation>
+<translation id="7203150201908454328">Кеңейтілген</translation>
 <translation id="7203826966018112936">Профильге оқу есептік жазбасын енгізсеңіз, оқушы ретінде веб-сайттар мен кеңейтімдерге оңай кіресіз және ата-ана бақылауында боласыз. Балаңыз оқу есептік жазбасымен синхрондалған бетбелгілерді, құпия сөздерді немесе басқа да браузер деректерін пайдалана алмайды.&lt;br&gt;&lt;br&gt;
     Балаңыз мектепте Chromebook пайдаланса және ол барлық үй тапсырмаларына үйде кіре алатындай жағдай жасау үшін, Family Link есептік жазбасынан шығып, Chrome OS есептік жазбалары бетінен оқу есептік жазбасына кіріңіз (ескерту: Family Link ата-ана бақылауы қолданылмайды).&lt;br&gt;&lt;br&gt;
     Егер балаңыз мектепте Chromebook пайдаланбаса немесе оның оқуын Family Link арқылы бақылағыңыз келсе, профильге оқу есептік жазбасын енгізу үшін төмендегі "Келесі" түймесін түртіңіз.</translation>
@@ -5619,6 +5621,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 қағаз парақ}other{{COUNT} қағаз парақ}}</translation>
 <translation id="8063235345342641131">Әдепкі жасыл түсті аватар</translation>
 <translation id="8063535366119089408">Файлды қарау</translation>
+<translation id="8064279191081105977"><ph name="GROUP_NAME" /> тобы – <ph name="GROUP_CONTENTS" /> –<ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Жүйеге кіру үшін түртіңіз</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Кескін ретінде басып шығару</translation>
@@ -6365,6 +6368,7 @@
 <translation id="8986362086234534611">Ұмыту</translation>
 <translation id="8986494364107987395">Қолданыс статистикасы мен жаңылыс туралы есептерді Google компаниясына автоматты түрде жіберу</translation>
 <translation id="8987927404178983737">Ай</translation>
+<translation id="8990209962746788689">QR кодын жасау мүмкін емес</translation>
 <translation id="8991520179165052608">Сайт микрофонды пайдалана алады</translation>
 <translation id="899384117894244799">Шектелген пайдаланушыны өшіру</translation>
 <translation id="899403249577094719">Netscape сертификатының негізгі URL мекенжайы</translation>

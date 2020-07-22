@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Ersätt Linux-appar och Linux-filer med en säkerhetskopia</translation>
 <translation id="1842766183094193446">Vill du aktivera demoläget?</translation>
 <translation id="1846308012215045257">Kontroll-klicka för att köra <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupp <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Aktivera viloläget</translation>
 <translation id="1849186935225320012">Den här sidan har fullständig kontroll över MIDI-enheter.</translation>
 <translation id="1850508293116537636">Rotera &amp;medurs</translation>
@@ -867,6 +866,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="2065405795449409761">Chrome kontrolleras av automatisk testprogramvara.</translation>
 <translation id="2071393345806050157">Det finns ingen lokal loggfil.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klicka för att installera tillägget}other{Klicka för att installera dessa tillägg}}</translation>
+<translation id="2073505299004274893">Använd högst <ph name="CHARACTER_LIMIT" /> tecken</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % batteri</translation>
 <translation id="2075959085554270910">Gör det möjligt att aktivera/inaktivera lätt klick på styrplattan samt trycka och dra</translation>
 <translation id="2076269580855484719">Dölj det här plugin-programmet</translation>
@@ -1715,6 +1715,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="3103941660000130485">Det gick inte att uppdatera Linux</translation>
 <translation id="3105796011181310544">Vill du byta tillbaka till Google?</translation>
 <translation id="310671807099593501">Webbplatsen använder Bluetooth</translation>
+<translation id="3109724472072898302">Komprimerat</translation>
 <translation id="3115147772012638511">Väntar på cache-minnet...</translation>
 <translation id="3115580024857770654">Komprimera alla</translation>
 <translation id="3116968597797150452">Certifikatprofil</translation>
@@ -3476,6 +3477,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="5379140238605961210">Fortsätt att blockera mikrofonåtkomsten</translation>
 <translation id="5382591305415226340">Hantera länkar som stöds</translation>
 <translation id="5383377866517186886">Kamera har inaktiverats i systeminställningarna för Mac.</translation>
+<translation id="5383740867328871413">Namnlös grupp – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Kopplad</translation>
 <translation id="5389237414310520250">Det gick inte att skapa den nya användaren. Kontrollera hårddiskutrymmet och dina behörigheter och försök igen.</translation>
 <translation id="5390100381392048184">Tillåt att ljud spelas upp på webbplatser</translation>
@@ -4838,7 +4840,6 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="7099337801055912064">PPD-filen var för stor att läsa in. Storleksgränsen är 250 kB.</translation>
 <translation id="7102687220333134671">Automatiska uppdateringar har aktiverats</translation>
 <translation id="7102832101143475489">Begäran tog för lång tid</translation>
-<translation id="7102928824073746774">Namnlös grupp – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-inställningar</translation>
 <translation id="710640343305609397">Öppna nätverksinställningar</translation>
 <translation id="7108338896283013870">Dölj</translation>
@@ -4916,6 +4917,7 @@ Du kan hantera inställningarna för det här kontot genom att installera Family
 <translation id="720110658997053098">Behåll enheten permanent i kioskläge</translation>
 <translation id="7201118060536064622"><ph name="DELETED_ITEM_NAME" /> har raderats</translation>
 <translation id="7201420661433230412">Visa filer</translation>
+<translation id="7203150201908454328">Utökat</translation>
 <translation id="7203826966018112936">Om du lägger till ett skolkonto i en profil är det enkelt att logga in på webbplatser och tillägg som elev medan föräldrakontroller fortfarande används. Det ger inte barnet tillgång till bokmärken, lösenord eller annan webbläsardata som synkroniseras med skolkontot.&lt;br&gt;&lt;br&gt;
     Använder ditt barn en Chromebook i skolan och du vill att barnet ska få skolupplevelsen hemma och ha tillgång till allt nödvändigt skolarbete? Logga ut från detta Family Link-konto och logga in på barnets skolkonto från kontosidan i Chrome OS (obs! Family Link-föräldrakontrollerna tillämpas inte).&lt;br&gt;&lt;br&gt;
    Använder ditt barn inte en Chromebook i skolan eller föredrar du att hantera barnets upplevelse hemifrån med Family Link? Klicka på knappen Nästa nedan för att lägga till ett skolkonto i denna profil.</translation>
@@ -5623,6 +5625,7 @@ Spara nyckelfilen på ett säkert ställe. Den behövs om du ska skapa nya versi
 <translation id="8062844841289846053">{COUNT,plural, =1{1 pappersark}other{{COUNT} pappersark}}</translation>
 <translation id="8063235345342641131">Grön standardavatar</translation>
 <translation id="8063535366119089408">Visa fil</translation>
+<translation id="8064279191081105977">Grupp <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Tryck här om du vill logga in</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Skriv ut som bild</translation>
@@ -6369,6 +6372,7 @@ Spara nyckelfilen på ett säkert ställe. Den behövs om du ska skapa nya versi
 <translation id="8986362086234534611">Glöm</translation>
 <translation id="8986494364107987395">Skicka användningsstatistik och kraschrapporter till Google automatiskt</translation>
 <translation id="8987927404178983737">Månad</translation>
+<translation id="8990209962746788689">Det gick inte att skapa QR-koden</translation>
 <translation id="8991520179165052608">Webbplatsen har åtkomst till din mikrofon</translation>
 <translation id="899384117894244799">Ta bort begränsad användare</translation>
 <translation id="899403249577094719">Basadress för Netscape-certifikat</translation>

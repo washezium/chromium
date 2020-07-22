@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Замінити додатки й файли Linux даними попередньої резервної копії</translation>
 <translation id="1842766183094193446">Увімкнути демонстраційний режим?</translation>
 <translation id="1846308012215045257">Натисніть клавішу Control, щоб запустити плагін <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Група "<ph name="GROUP_NAME" />" – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Увімкнути заставку</translation>
 <translation id="1849186935225320012">Ця сторінка повністю контролює пристрої MIDI.</translation>
 <translation id="1850508293116537636">Повернути &amp;за годинниковою стрілкою</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Веб-переглядачем Chrome керує автоматична пробна програма.</translation>
 <translation id="2071393345806050157">Немає локального файлу журналу.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Натисніть, щоб установити розширення}one{Натисніть, щоб установити ці розширення}few{Натисніть, щоб установити ці розширення}many{Натисніть, щоб установити ці розширення}other{Натисніть, щоб установити ці розширення}}</translation>
+<translation id="2073505299004274893">Максимальна кількість символів – <ph name="CHARACTER_LIMIT" /></translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% заряду акумулятора</translation>
 <translation id="2075959085554270910">Можна ввімкнути або вимкнути функції натискання дотиком і перетягування дотиком</translation>
 <translation id="2076269580855484719">Сховати цей плагін</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Не вдається оновити Linux</translation>
 <translation id="3105796011181310544">Знову ввімкнути Google?</translation>
 <translation id="310671807099593501">Сайт використовує Bluetooth</translation>
+<translation id="3109724472072898302">Згорнуто</translation>
 <translation id="3115147772012638511">...</translation>
 <translation id="3115580024857770654">Згорнути всі</translation>
 <translation id="3116968597797150452">Сертифікований профіль</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">Продовжити блокувати доступ до мікрофона</translation>
 <translation id="5382591305415226340">Керувати підтримуваними посиланнями</translation>
 <translation id="5383377866517186886">Камеру вимкнено в параметрах системи Mac</translation>
+<translation id="5383740867328871413">Група без назви – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Парні</translation>
 <translation id="5389237414310520250">Не вдалося створити нового користувача. Перевірте наявність місця на жорсткому диску та дозволи, а потім повторіть спробу.</translation>
 <translation id="5390100381392048184">Дозволити сайтам відтворювати звук</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">Не вдається завантажити великий файл PPD. Розмір не може перевищувати 250 КБ.</translation>
 <translation id="7102687220333134671">Автоматичні оновлення ввімкнено</translation>
 <translation id="7102832101143475489">Час очікування запиту минув</translation>
-<translation id="7102928824073746774">Група без назви – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Параметри USB</translation>
 <translation id="710640343305609397">Відкрити мережеві налаштування</translation>
 <translation id="7108338896283013870">Сховати</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">Назавжди перевести цей пристрій у режим термінала</translation>
 <translation id="7201118060536064622">Елемент "<ph name="DELETED_ITEM_NAME" />" видалено</translation>
 <translation id="7201420661433230412">Переглянути файли</translation>
+<translation id="7203150201908454328">Розгорнуто</translation>
 <translation id="7203826966018112936">Якщо додати обліковий запис навчального закладу, дитина зможе легко входити на сайтах і в розширеннях як учень, але на її дії поширюватиметься батьківський контроль. Дитина не матиме доступу до закладок, паролів та інших даних веб-перегляду, які синхронізовано з обліковим записом навчального закладу.&lt;br&gt;&lt;br&gt;
     Якщо ваша дитина користується Chromebook у навчальному закладі, і ви хочете, щоб вона мала всі необхідні для навчання доступи вдома, вийдіть з облікового запису Family Link і ввійдіть в обліковий запис навчального закладу на сторінці облікових записів ОС Chrome (примітка: батьківський контроль, налаштований через Family Link, не працюватиме).&lt;br&gt;&lt;br&gt;
     Якщо ваша дитина не користується Chromebook у навчальному закладі або якщо ви не хочете вимикати батьківський контроль, налаштований через Family Link, нижче натисніть кнопку "Далі" та додайте обліковий запис навчального закладу в цей профіль.</translation>
@@ -5623,6 +5625,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 аркуш паперу}one{{COUNT} аркуш паперу}few{{COUNT} аркуші паперу}many{{COUNT} аркушів паперу}other{{COUNT} аркуша паперу}}</translation>
 <translation id="8063235345342641131">Стандартний зелений аватар</translation>
 <translation id="8063535366119089408">Переглянути файл</translation>
+<translation id="8064279191081105977">Група <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Торкніться, щоб увійти</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Друкувати як зображення</translation>
@@ -6369,6 +6372,7 @@
 <translation id="8986362086234534611">Видалити</translation>
 <translation id="8986494364107987395">Автоматично надсилати статистику використання та звіти про аварійне завершення роботи в Google</translation>
 <translation id="8987927404178983737">Місяць</translation>
+<translation id="8990209962746788689">Не вдається створити QR-код</translation>
 <translation id="8991520179165052608">Сайт може використовувати мікрофон</translation>
 <translation id="899384117894244799">Видалити користувача з обмеженими правами</translation>
 <translation id="899403249577094719">Основна URL-адреса сертифіката Netscape</translation>

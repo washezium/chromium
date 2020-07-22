@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Заменете ги апликациите и датотеките на Linux со претходен бекап</translation>
 <translation id="1842766183094193446">Дали сигурно сакате да овозможите демо-режим?</translation>
 <translation id="1846308012215045257">Контролен клик за да го извршите приклучокот <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Група <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Овозможување на „Амбиентален режим“</translation>
 <translation id="1849186935225320012">Страницата има целосна контрола над MIDI-уреди.</translation>
 <translation id="1850508293116537636">Ротирај &amp;надесно</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Автоматизиран софтвер за тестирање го контролира Chrome.</translation>
 <translation id="2071393345806050157">Нема локална датотека со евиденција.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Кликнете за инсталирање на екстензијата}one{Кликнете за инсталирање на екстензииве}other{Кликнете за инсталирање на екстензииве}}</translation>
+<translation id="2073505299004274893">Употребете <ph name="CHARACTER_LIMIT" /> знаци или помалку</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% батерија</translation>
 <translation id="2075959085554270910">Ви дозволува да ги овозможите/оневозможите функциите „Допри за да се кликне“ и „Влечење со допир“</translation>
 <translation id="2076269580855484719">Сокриј го приклучокот</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Грешка при надградувањето на Linux</translation>
 <translation id="3105796011181310544">Да се врати на Google?</translation>
 <translation id="310671807099593501">Сајтот користи Bluetooth</translation>
+<translation id="3109724472072898302">Собрано</translation>
 <translation id="3115147772012638511">Се чека кешот...</translation>
 <translation id="3115580024857770654">Собери ги сите</translation>
 <translation id="3116968597797150452">Профил со сертификат</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">Продолжи со блокирање пристап до микрофон</translation>
 <translation id="5382591305415226340">Управувајте со поддржаните линкови</translation>
 <translation id="5383377866517186886">Камерата е исклучена во поставките за системот Mac</translation>
+<translation id="5383740867328871413">Неименувана група - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Спарено</translation>
 <translation id="5389237414310520250">Не можеше да се создаде новиот корисник. Проверете ги просторот на хард дискот и дозволите и обидете се повторно.</translation>
 <translation id="5390100381392048184">Дозволи сајтовите да пуштаат звук</translation>
@@ -3870,7 +3872,7 @@
 <translation id="5865733239029070421">Автоматски испраќа статистика на користењето и извештаи за падовите до Google.</translation>
 <translation id="5866557323934807206">Исчисти ги овие поставки за идни посети</translation>
 <translation id="5866840822086176774">Многу силен</translation>
-<translation id="5867841422488265304">Пребарајте или внесете веб-адреса</translation>
+<translation id="5867841422488265304">Пребарувајте или внесете адреса</translation>
 <translation id="5869029295770560994">Добро, сфатив</translation>
 <translation id="5869522115854928033">Зачувани лозинки</translation>
 <translation id="5870086504539785141">Затвори мени за пристапност</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">Не може да се вчита голема PPD-датотека. Максималната големина е 250 KB.</translation>
 <translation id="7102687220333134671">Автоматските ажурирања се вклучени</translation>
 <translation id="7102832101143475489">Барањето истече</translation>
-<translation id="7102928824073746774">Неименувана група - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Поставки за USB</translation>
 <translation id="710640343305609397">Отвори ги мрежните поставки</translation>
 <translation id="7108338896283013870">Сокриј</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">Трајно задржи го уредов во режим на киоск</translation>
 <translation id="7201118060536064622">Ставката „<ph name="DELETED_ITEM_NAME" />“ е избришана</translation>
 <translation id="7201420661433230412">Прикажи ги датотеките</translation>
+<translation id="7203150201908454328">Проширено</translation>
 <translation id="7203826966018112936">Ако додадете училишна сметка на профилот, ќе се овозможи лесно најавување на веб-сајтовите и екстензиите како ученик додека се работи под родителски контроли. Така детето не добива пристап до обележувачите, лозинките и другите податоци од прелистувачот што се синхронизираат со училишната сметка.&lt;br&gt;&lt;br&gt;
     Ако вашето дете користи Chromebook во училиште и сакате на истиот начин да учи и дома за да бидете сигурни дека има пристап до сите потребни училишни задачи, одјавете се од сметкава на Family Link и најавете се на училишната сметка од страницата со сметки на Chrome OS (забелешка: родителските контроли на Family Link нема да важат).&lt;br&gt;&lt;br&gt;
     Ако детето не користи Chromebook во училиште или, пак, ако повеќе сакате да му помагате на детето дома со Family Link, кликнете го копчето „Следно“ подолу и додајте училишна сметка на профилов.</translation>
@@ -5622,6 +5624,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 лист хартија}one{{COUNT} лист хартија}other{{COUNT} листови хартија}}</translation>
 <translation id="8063235345342641131">Стандарден зелен аватар</translation>
 <translation id="8063535366119089408">Прикажи датотека</translation>
+<translation id="8064279191081105977">Група <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Допрете за да се најавите</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Отпечати како слика</translation>
@@ -6371,6 +6374,7 @@
 <translation id="8986362086234534611">Заборави</translation>
 <translation id="8986494364107987395">Автоматски испрати статистика за користење и извештаи за падови до Google</translation>
 <translation id="8987927404178983737">Месец</translation>
+<translation id="8990209962746788689">Не може да се создаде QR-код</translation>
 <translation id="8991520179165052608">Сајтот може да го користи микрофонот</translation>
 <translation id="899384117894244799">Отстрани ограничен корисник</translation>
 <translation id="899403249577094719">Основен URL за сертификат на Netscape</translation>

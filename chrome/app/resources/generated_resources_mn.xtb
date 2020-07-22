@@ -696,7 +696,6 @@
 <translation id="184273675144259287">Linux аппууд болон файлуудаа өмнөх нөөцлөлтөөр солих</translation>
 <translation id="1842766183094193446">Та туршилтын горимыг идэвхжүүлэх үү?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />-г ажиллуулахын тулд control товчлуурыг дарна уу</translation>
-<translation id="1846880379134204029">Бүлэг <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Орчиндоо зохицох горимыг идэвхжүүлэх</translation>
 <translation id="1849186935225320012">Энэ хуудас нь MIDI төхөөрөмжүүдийг бүрэн хянаж байна.</translation>
 <translation id="1850508293116537636">Цагийн зүүний дагуу эргүүлэх</translation>
@@ -863,6 +862,7 @@
 <translation id="2065405795449409761">Chrome-г туршилтын автомат программ хангамжаар удирдаж байна.</translation>
 <translation id="2071393345806050157">Суурин бүртгэлийн файл алга байна.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Өргөтгөлийг суулгахын тулд товшино уу}other{Эдгээр өргөтгөлийг суулгахын тулд товшино уу}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> эсвэл үүнээс цөөн тэмдэгт ашиглана уу</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% батерей</translation>
 <translation id="2075959085554270910">Танд tap-to-click болон чирэлтийг товшихыг идэвхжүүлэх/идэвхгүй болгохыг зөвшөөрдөг</translation>
 <translation id="2076269580855484719">Энэ нэмэлт өргөтгөлийг нуух</translation>
@@ -1710,6 +1710,7 @@
 <translation id="3103941660000130485">Linux-г дэвшүүлэхэд алдаа гарлаа</translation>
 <translation id="3105796011181310544">Google рүү буцааж өөрчлөх үү?</translation>
 <translation id="310671807099593501">Сайт bluetooth-г ашиглаж байна</translation>
+<translation id="3109724472072898302">Задарсан</translation>
 <translation id="3115147772012638511">Кэш хүлээж байна...</translation>
 <translation id="3115580024857770654">Бүгдийг буулгах</translation>
 <translation id="3116968597797150452">Гэрчилгээний профайл</translation>
@@ -3470,6 +3471,7 @@
 <translation id="5379140238605961210">Микрофон руу нэвтрэхийг үргэлжүүлэн хориглох</translation>
 <translation id="5382591305415226340">Дэмжсэн холбоосыг удирдах</translation>
 <translation id="5383377866517186886">Камерыг Mac-н системийн сонголтод унтраасан байна</translation>
+<translation id="5383740867328871413">Нэргүй бүлэг - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Холбосон</translation>
 <translation id="5389237414310520250">Шинэ хэрэглэгч үүсгэж чадсангүй. Хатуу дискнийхээ багтаамж болон зөвшөөрлийг шалгаад дахин оролдоно уу.</translation>
 <translation id="5390100381392048184">Сайтуудад дуу тоглуулахыг зөвшөөрөх</translation>
@@ -4832,7 +4834,6 @@
 <translation id="7099337801055912064">Том PPD-г ачааллах боломжгүй байна. Хамгийн дээд хэмжээ нь 250 kB болно.</translation>
 <translation id="7102687220333134671">Автомат шинэчлэлтийг асаасан</translation>
 <translation id="7102832101143475489">Хүсэлтийн хугацаа хэтэрлээ</translation>
-<translation id="7102928824073746774">Нэргүй бүлэг - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-н сонголт</translation>
 <translation id="710640343305609397">Сүлжээний тохиргоог нээх</translation>
 <translation id="7108338896283013870">Нуух</translation>
@@ -4910,6 +4911,7 @@
 <translation id="720110658997053098">Энэ төхөөрөмжийг kiosk горимоор бүрмөсөн тохируулах</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />'-г устгасан</translation>
 <translation id="7201420661433230412">Файл харах</translation>
+<translation id="7203150201908454328">Өргөтгөсөн</translation>
 <translation id="7203826966018112936">Профайлд сургуулийн бүртгэл нэмснээр сурагч вэб сайтууд болон өргөтгөлүүдэд хялбар нэвтрэх боломжтой болох бөгөөд тэдний үйлдэл эцэг эхийн хяналтад хэвээр байх болно. Энэ нь хүүхдэд хавчуурга, нууц үг эсвэл сургуулийн бүртгэлтэй синк хийсэн хөтчийн бусад өгөгдөлд хандах эрх өгдөггүй.&lt;br&gt;&lt;br&gt;
     Хэрэв танай хүүхэд сургуульдаа Chromebook-г ашигладаг бөгөөд та хүүхдээ шаардлагатай бүх хичээлдээ хандах эрхтэй эсэхийг баталгаажуулах зорилгоор сургуулийн туршлагыг гэртээ тусгахыг хүсэж байвал энэ Family Link-н бүртгэлээс гарч, Chrome үйлдлийн системийн бүртгэлийн хуудаснаас сургуулийн бүртгэлд нэвтэрнэ үү (санамж: Family Link-н эцэг эхийн хяналт хэрэгжихгүй).&lt;br&gt;&lt;br&gt;
     Хэрэв танай хүүхэд сургуульдаа Chromebook-г ашигладаггүй буюу эсхүл та хүүхдийнхээ туршлагыг гэрээсээ Family Link ашиглан удирдахыг илүүд үзвэл сургуулийн бүртгэлийг энэ профайлд нэмэхийн тулд доорх "Дараах" товчлуурыг товшино уу.</translation>
@@ -5614,6 +5616,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 хуудас цаас}other{{COUNT} хуудас цаас}}</translation>
 <translation id="8063235345342641131">Өгөгдмөл ногоон аватар</translation>
 <translation id="8063535366119089408">Файлыг харах</translation>
+<translation id="8064279191081105977"><ph name="GROUP_NAME" /> бүлэг - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Нэвтрэхийн тулд хүрнэ үү</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Зургаар хэвлэх</translation>
@@ -6357,6 +6360,7 @@
 <translation id="8986362086234534611">Мартах</translation>
 <translation id="8986494364107987395">Google рүү хэрэглээний статистик мэдээ болон алдаа ослын тайланг автоматаар илгээ</translation>
 <translation id="8987927404178983737">Сар</translation>
+<translation id="8990209962746788689">QR код үүсгэх боломжгүй байна</translation>
 <translation id="8991520179165052608">Сайт таны микрофоныг ашиглах боломжтой</translation>
 <translation id="899384117894244799">Хязгаарласан хэрэглэгчийг хасах</translation>
 <translation id="899403249577094719">Нетскейп гэрчилгээнд суурилсан холбоос</translation>

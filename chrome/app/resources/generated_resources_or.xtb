@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">ନୂଆ ଟାବ୍‍‍ରେ ମୂଳ &amp;ଛବି ଖୋଲନ୍ତୁ</translation>
 <translation id="1055806300943943258">ବ୍ଲୁଟୁଥ୍ ଓ USB ଡିଭାଇସ୍‍ଗୁଡ଼ିକ ପାଇଁ ସନ୍ଧାନ କରାଯାଉଛି...</translation>
 <translation id="1056466516655540509"><ph name="MINUTES" /> ମିନିଟ୍ ପୂର୍ବେ ଅପ୍‌ଡେଟ୍ କରାଯାଇଛି</translation>
-<translation id="1056775291175587022">କୌଣସି ନେଟ୍‌ୱର୍କ ନାହିଁ</translation>
+<translation id="1056775291175587022">ନେଟୱାର୍କ ନାହିଁ</translation>
 <translation id="1056898198331236512">ଚେତାବନୀ</translation>
 <translation id="1058262162121953039">ବ୍ୟକ୍ତିଗତ ଅନ୍‌ଲକ୍ କୀ'</translation>
 <translation id="1060292118287751956">ସ୍କ୍ରିନ୍ ଅପଡେଟ୍ କରୁଥିବା ଫ୍ରିକ୍ୟୁଏନ୍ସି ନିର୍ଦ୍ଧାରଣ କରେ</translation>
@@ -694,7 +694,6 @@
 <translation id="184273675144259287">ଆପଣଙ୍କର Linux ଆପ୍ସ ଏବଂ ଫାଇଲ୍‌ଗୁଡ଼ିକ ପୂର୍ବବର୍ତ୍ତୀ ବ୍ୟାକ୍‌ଅପ୍ ସହିତ ବଦଳାନ୍ତୁ</translation>
 <translation id="1842766183094193446">ଆପଣ କ’ଣ ସୁନିଶ୍ଚିତ ଯେ ଆପଣ ଡେମୋ ମୋଡ୍‌ ସକ୍ଷମ କରିବାକୁ ଚାହୁଁଛନ୍ତି?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" />କୁ ଚଲାଇବା ପାଇଁ Controlକୁ ଦବାଇ ଧରି କ୍ଲିକ୍ କରନ୍ତୁ</translation>
-<translation id="1846880379134204029">ଗୋଷ୍ଠୀ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">ଆମ୍ବିଏଣ୍ଟ ମୋଡ୍ ସକ୍ଷମ କରନ୍ତୁ</translation>
 <translation id="1849186935225320012">ଏହି ପୃଷ୍ଠା ପାଖରେ MIDI ଡିଭାଇସ୍‌ଗୁଡ଼ିକ ଉପରେ ପୂର୍ଣ୍ଣ ନିୟନ୍ତ୍ରଣ ଅଛି।</translation>
 <translation id="1850508293116537636">&amp;ଡାହାଣ ପଟକୁ ଘୂରାନ୍ତୁ</translation>
@@ -861,6 +860,7 @@
 <translation id="2065405795449409761">Chrome ସ୍ୱୟଂଚାଳିତ ପରୀକ୍ଷଣ ସଫ୍ଟୱେର୍ ଦ୍ୱାରା ନିୟନ୍ତ୍ରିତ ହେଉଛି।</translation>
 <translation id="2071393345806050157">କୌଣସି ସ୍ଥାନୀୟ ଲଗ୍‌ ଫାଇଲ୍‌ ନାହିଁ।</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{ଏକ୍ସଟେନସନ ଇନଷ୍ଟଲ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ}other{ଏହି ଏକ୍ସଟେନସନଗୁଡ଼ିକ ଇନଷ୍ଟଲ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" />ଟି ଅକ୍ଷର କିମ୍ବା ତା'ଠାରୁ କମ୍ ଅକ୍ଷର ବ୍ୟବହାର କରନ୍ତୁ</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% ବ୍ୟାଟେରୀ ଅଛି</translation>
 <translation id="2075959085554270910">ଆପଣଙ୍କୁ ଟାପ୍‌-ଟୁ-କ୍ଲିକ୍‍ ଏବଂ ଟାଣି ଟାପ୍‌ କରିବା ସୁବିଧା, ସକ୍ଷମ/ଅକ୍ଷମ କରିବାକୁ ଅନୁମତି ଦିଏ</translation>
 <translation id="2076269580855484719">ଏହି ପ୍ଲଗ୍‌ଇନ୍ ଲୁଚାନ୍ତୁ</translation>
@@ -1194,7 +1194,7 @@
 <translation id="247949520305900375">ଅଡିଓ ସେୟାର୍ କରନ୍ତୁ</translation>
 <translation id="248003956660572823">ପାସୱାର୍ଡଗୁଡ଼ିକ ସେଭ୍ କରାଯାଇନାହିଁ</translation>
 <translation id="2480868415629598489">ଆପଣ କପି ଏବଂ ପେଷ୍ଟ କରୁଥିବା ଡାଟା ସଂଶୋଧନ କରନ୍ତୁ</translation>
-<translation id="2482878487686419369">ବିଜ୍ଞପ୍ତିଗୁଡ଼ିକ</translation>
+<translation id="2482878487686419369">ବିଜ୍ଞପ୍ତି</translation>
 <translation id="2484959914739448251">ଆପଣଙ୍କର ସିଙ୍କ ହୋଇଥିବା ସମସ୍ତ ଡିଭାଇସ୍ ଏବଂ ଆପଣଙ୍କର Google ଆକାଉଣ୍ଟରୁ ବ୍ରାଉଜିଂ ଡାଟା ଖାଲି କରିବା ପାଇଁ, <ph name="BEGIN_LINK" />ଆପଣଙ୍କର ପାସଫ୍ରେଜ୍ ଲେଖନ୍ତୁ<ph name="END_LINK" />।</translation>
 <translation id="2485005079599453134">ଏହି ଡିଭାଇସ୍‌ରେ ପାସ୍‌ୱାର୍ଡ ସେଭ୍ କରାଯାଇଛି</translation>
 <translation id="2485422356828889247">ଅନ୍‍ଇନ୍‍ଷ୍ଟଲ୍‌ କରନ୍ତୁ</translation>
@@ -1708,6 +1708,7 @@
 <translation id="3103941660000130485">Linux ଅପଗ୍ରେଡ୍ କରିବା ସମୟରେ ତ୍ରୁଟି</translation>
 <translation id="3105796011181310544">ପୁଣି Googleକୁ ବଦଳାଇବାକୁ ଚାହାଁନ୍ତି?</translation>
 <translation id="310671807099593501">ସାଇଟ୍ ଆପଣଙ୍କର ବ୍ଲୁଟୁଥ୍ ବ୍ୟବହାର କରୁଛି।</translation>
+<translation id="3109724472072898302">ସଙ୍କୁଚିତ କରାଗଲା</translation>
 <translation id="3115147772012638511">କେଚ୍ ନିମନ୍ତେ ପ୍ରତୀକ୍ଷାରତ...</translation>
 <translation id="3115580024857770654">ସବୁ ସଙ୍କୁଚିତ କରନ୍ତୁ</translation>
 <translation id="3116968597797150452">ସାର୍ଟିଫିକେଟ୍ ପ୍ରୋଫାଇଲ୍</translation>
@@ -3468,6 +3469,7 @@
 <translation id="5379140238605961210">ମାଇକ୍ରୋଫୋନ୍‌ ଆକ୍ସେସ୍‌ ଅବରୋଧ କରିବା ଜାରି ରଖନ୍ତୁ</translation>
 <translation id="5382591305415226340">ସମର୍ଥିତ ଲିଙ୍କଗୁଡ଼ିକୁ ପରିଚାଳନ କରନ୍ତୁ</translation>
 <translation id="5383377866517186886">Mac ସିଷ୍ଟମ୍ ଅଗ୍ରାଧିକାରଗୁଡ଼ିକରେ କ୍ୟାମେରା ବନ୍ଦ କରାଯାଇଛି</translation>
+<translation id="5383740867328871413">ବେନାମୀ ଗୋଷ୍ଠୀ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">ପେୟାର୍‌ ହୋଇଛି</translation>
 <translation id="5389237414310520250">ନୂଆ ଉପଯୋଗକର୍ତ୍ତା ତିଆରି ହୋଇପାରିଲେ ନାହିଁ। ଦୟାକରି ଆପଣଙ୍କ ହାର୍ଡ ଡ୍ରାଇଭ୍‍‍ରେ ସ୍ଥାନ ଓ ଅନୁମତି ଯାଞ୍ଚ କରନ୍ତୁ ଓ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</translation>
 <translation id="5390100381392048184">ସାଉଣ୍ଡ୍ ଚଲାଇବା ପାଇଁ ସାଇଟ୍‌ଗୁଡ଼ିକୁ ଅନୁମତି ଦିଅନ୍ତୁ</translation>
@@ -3702,7 +3704,7 @@
 <translation id="5659833766619490117">ଏହି ପୃଷ୍ଠାଟିକୁ ଅନୁବାଦ କରାଯାଇପାରିବ ନାହିଁ</translation>
 <translation id="5662513737565158057">Linux ଆପ୍ସ କିପରି କାମ କରିବ ତାହା ବଦଳାନ୍ତୁ।</translation>
 <translation id="5667546120811588575">Google Play ସେଟ୍‍ଅପ୍ କରାଯାଉଛି...</translation>
-<translation id="5669267381087807207">ସକ୍ରିୟ କରାଯାଉଛି</translation>
+<translation id="5669267381087807207">ସକ୍ରିୟ ହେଉଛି</translation>
 <translation id="5669691691057771421">ନୂଆ ପିନ୍‍ ଲେଖନ୍ତୁ</translation>
 <translation id="5671641761787789573">ଛବିଗୁଡ଼ିକ ଅବରୋଧ କରାଯାଇଛି</translation>
 <translation id="5671658447180261823"><ph name="SUGGESTION_NAME" />ର ପରାମର୍ଶ କାଢ଼ି ଦିଅନ୍ତୁ</translation>
@@ -4832,7 +4834,6 @@ Google Chrome ଆପଣଙ୍କ ମୋବାଇଲ୍ ଡାଟା ବ୍ୟବ
 <translation id="7099337801055912064">ବିଶାଳ PPDକୁ ଲୋଡ୍ କରାଯାଇପାରିବ ନାହିଁ। ସର୍ବାଧିକ ଆକାର 250 kB ଅଟେ।</translation>
 <translation id="7102687220333134671">ସ୍ୱଚାଳିତ ଅପ୍‍‍ଡେଟ୍ ଚାଲୁ ଅଛି</translation>
 <translation id="7102832101143475489">ଅନୁରୋଧର ସମୟ ସମାପ୍ତ ହୋଇଯାଇଛି</translation>
-<translation id="7102928824073746774">ବେନାମୀ ଗୋଷ୍ଠୀ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB ପ୍ରାଥମିକତାଗୁଡ଼ିକ</translation>
 <translation id="710640343305609397">ନେଟୱାର୍କ ସେଟିଂସ୍ ଖୋଲନ୍ତୁ</translation>
 <translation id="7108338896283013870">ଲୁଚାନ୍ତୁ</translation>
@@ -4910,6 +4911,7 @@ Google Chrome ଆପଣଙ୍କ ମୋବାଇଲ୍ ଡାଟା ବ୍ୟବ
 <translation id="720110658997053098">ଏହି ଡିଭାଇସ୍‌କୁ ସ୍ଥାୟୀଭାବେ କିଓସ୍କ ମୋଡ୍‌ରେ ରଖନ୍ତୁ</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' ଡିଲିଟ୍ କରାଗଲା</translation>
 <translation id="7201420661433230412">ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଦେଖନ୍ତୁ</translation>
+<translation id="7203150201908454328">ପ୍ରସାରିତ ହୋଇଛି</translation>
 <translation id="7203826966018112936">ଜଣେ ବିଦ୍ୟାର୍ଥୀ ଭାବରେ ବାପାମାଙ୍କ ନିୟନ୍ତ୍ରଣରେ କାମ କରୁଥିବା ସମୟରେ ଏକ ସ୍କୁଲ ଆକାଉଣ୍ଟକୁ ପ୍ରୋଫାଇଲ୍ ସହ ଯୋଗ କରିବା ଦ୍ଵାରା ୱେବସାଇଟ୍ ଏବଂ ଏକ୍ସଟେନସନକୁ ସହଜରେ ସାଇନ୍-ଇନ୍ କରିବା ସକ୍ଷମ ହୁଏ। ଏହା ଜଣେ ପିଲାକୁ ସ୍କୁଲ ଆକାଉଣ୍ଟ ସହିତ ସିଙ୍କ୍ କରାଯାଇଥିବା ବୁକମାର୍କ, ପାସୱାର୍ଡ କିମ୍ବା ଅନ୍ୟ ବ୍ରାଉଜର୍ ଡାଟା ଆକ୍ସେସ୍ କରିବାକୁ ଦେଇନଥାଏ।&lt;br&gt;&lt;br&gt;
     ଯଦି ଆପଣଙ୍କ ପିଲା ସ୍କୁଲରେ କୌଣସି Chromebook ବ୍ୟବହାର କରେ ଏବଂ ଆପଣଙ୍କ ପିଲା ପାଖରେ ସମସ୍ତ ଆବଶ୍ୟକୀୟ ସ୍କୁଲ କାର୍ଯ୍ୟକୁ ଆକ୍ସେସ୍ ଅଛି ବୋଲି ସୁନିଶ୍ଚିତ କରିବାକୁ ଆପଣ ଘରେ ସ୍କୁଲର ଅନୁଭୂତି ଦେବାକୁ ଚାହୁଁଛନ୍ତି, ତେବେ ଦୟାକରି ଏହି Family Link ଆକାଉଣ୍ଟକୁ ସାଇନ୍ ଆଉଟ୍ କରି Chrome OS ଆକାଉଣ୍ଟ ପୃଷ୍ଠାରୁ ସ୍କୁଲ ଆକାଉଣ୍ଟରେ ସାଇନ୍ ଇନ୍ କରନ୍ତୁ (ଧ୍ୟାନ ଦିଅନ୍ତୁ: Family Link ବାପାମାଙ୍କ ନିୟନ୍ତ୍ରଣଗୁଡ଼ିକ ଲାଗୁ ହେବ ନାହିଁ)।&lt;br&gt;&lt;br&gt;
     ଯଦି ଆପଣଙ୍କ ପିଲା ସ୍କୁଲରେ କୌଣସି Chromebook ବ୍ୟବହାର କରେ ନାହିଁ କିମ୍ବା ଯଦି ଆପଣ ଆପଣଙ୍କ ଘରେ Family Link ବ୍ୟବହାର କରି ପିଲାର ଅନୁଭୂତି ପରିଚାଳନା କରିବାକୁ ପସନ୍ଦ କରନ୍ତି, ତେବେ ଦୟାକରି ଏହି ପ୍ରୋଫାଇଲରେ ଏକ ସ୍କୁଲ ଆକାଉଣ୍ଟ ଯୋଗ କରିବାକୁ ନିମ୍ନରେ ଥିବା ପରବର୍ତ୍ତୀ ବଟନରେ କ୍ଲିକ୍ କରନ୍ତୁ।</translation>
@@ -5615,6 +5617,7 @@ Google Chrome ଆପଣଙ୍କ ମୋବାଇଲ୍ ଡାଟା ବ୍ୟବ
 <translation id="8062844841289846053">{COUNT,plural, =1{କାଗଜର 1ଟି ସିଟ୍}other{କାଗଜର {COUNT}ଟି ସିଟ୍}}</translation>
 <translation id="8063235345342641131">ଡିଫଲ୍ଟ ସବୁଜ ଅବତାର</translation>
 <translation id="8063535366119089408">ଫାଇଲ୍ ଦେଖନ୍ତୁ</translation>
+<translation id="8064279191081105977">ଗୋଷ୍ଠୀ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">ସାଇନ୍‌ ଇନ୍ କରିବାକୁ ସ୍ପର୍ଶ କରନ୍ତୁ</translation>
 <translation id="8069615408251337349">Google Cloud ପ୍ରିଣ୍ଟ</translation>
 <translation id="8071432093239591881">ଛବି ଭାବରେ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</translation>
@@ -6271,7 +6274,7 @@ Google Chrome ଆପଣଙ୍କ ମୋବାଇଲ୍ ଡାଟା ବ୍ୟବ
 <translation id="8871974300055371298">ବିଷୟବସ୍ତୁ ସେଟିଂସ୍</translation>
 <translation id="8872155268274985541">ଅବୈଧ କିଓସ୍କ ଏକ୍ସଟର୍ନଲ ଅପ୍‍‍ଡେଟ୍ ମାନିଫେଷ୍ଟ ଫାଇଲ୍ ମିଳିଲା। କିଓସ୍କ ଆପ୍ ଅପ୍‍‍ଡେଟ୍ କରିବାରେ ବିଫଳ ହେଲା। ଦୟାକରି USB ଷ୍ଟିକ୍ କାଢ଼ିଦିଅନ୍ତୁ।</translation>
 <translation id="8872777911145321141">କୌଣସି ସାଇଟ୍ ଆପଣଙ୍କ ଭର୍ଚୁଆଲ୍ ରିଆଲିଟୀ ଡିଭାଇସଗୁଡ଼ିକ ଏବଂ ଡାଟା ବ୍ୟବହାର କରିବାକୁ ଚାହିଁଲେ ପଚାରନ୍ତୁ (ସୁପାରିଶ କରାଯାଇଛି)</translation>
-<translation id="8874184842967597500">ସଂଯୋଗ ହୋ‍ଇନାହିଁ</translation>
+<translation id="8874184842967597500">ସଂଯୁକ୍ତ ନାହିଁ</translation>
 <translation id="8875520811099717934">Linux ଅପଗ୍ରେଡ୍</translation>
 <translation id="8876307312329369159">ଏହି ସେଟିଂ, ଡେମୋ ଅବଧି ସମୟରେ ପରିବର୍ତ୍ତନ କରାଯାଇପାରିବ ନାହିଁ।</translation>
 <translation id="8877448029301136595">[ଆଦ୍ୟ ନିର୍ଦ୍ଦେଶିକା]</translation>
@@ -6360,6 +6363,7 @@ Google Chrome ଆପଣଙ୍କ ମୋବାଇଲ୍ ଡାଟା ବ୍ୟବ
 <translation id="8986362086234534611">ଭୁଲିଗଲେ</translation>
 <translation id="8986494364107987395">ସ୍ୱଚାଳିତରୂପେ Googleକୁ ବ୍ୟବହାରର ପରିସଂଖ୍ୟାନ ଏବଂ କ୍ରାସ୍ ରିପୋର୍ଟ ପଠାନ୍ତୁ</translation>
 <translation id="8987927404178983737">ମାସ</translation>
+<translation id="8990209962746788689">QR କୋଡ୍ ତିଆରି କରାଯାଇପାରିବ ନାହିଁ</translation>
 <translation id="8991520179165052608">ଆପଣଙ୍କର ମାଇକ୍ରୋଫୋନ୍‌କୁ ସାଇଟ୍ ବ୍ୟବହାର କରିପାରେ</translation>
 <translation id="899384117894244799">ପ୍ରତିବନ୍ଧିତ ଉପଯୋଗକର୍ତ୍ତାଙ୍କୁ କାଢ଼ି ଦିଅନ୍ତୁ</translation>
 <translation id="899403249577094719">Netscape ସାର୍ଟିଫିକେଟ୍ ଉପରେ ଆଧାରିତ URL</translation>

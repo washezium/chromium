@@ -696,7 +696,6 @@
 <translation id="184273675144259287">તમારી Linux ઍપ અને ફાઇલોને બદલે પહેલાંનો બૅકઅપ મૂકો</translation>
 <translation id="1842766183094193446">શું તમે ખરેખર ડેમો મોડ ચાલુ કરવા માગો છો?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> ચલાવવા માટે Control-ક્લિક કરો</translation>
-<translation id="1846880379134204029">ગ્રૂપ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">ઍમ્બિઅન્ટ મોડ ચાલુ કરો</translation>
 <translation id="1849186935225320012">આ પૃષ્ઠ પાસે MIDI ઉપકરણોનું સંપૂર્ણ નિયંત્રણ છે.</translation>
 <translation id="1850508293116537636">&amp;ઘડિયાળની દિશામાં ફેરવો</translation>
@@ -863,6 +862,7 @@
 <translation id="2065405795449409761">Chrome, સ્વચલિત પરીક્ષણ સોફ્ટવેર દ્વારા નિયંત્રિત કરવામાં આવી રહ્યું છે.</translation>
 <translation id="2071393345806050157">કોઇ સ્થાનિક લૉગ ફાઇલ નથી.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{એક્સ્ટેંશન ઇન્સ્ટૉલ કરવા માટે ક્લિક કરો}one{આ એક્સ્ટેંશન ઇન્સ્ટૉલ કરવા માટે ક્લિક કરો}other{આ એક્સ્ટેંશન ઇન્સ્ટૉલ કરવા માટે ક્લિક કરો}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> અથવા તેથી ઓછા અક્ષરોનો ઉપયોગ કરો</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% બૅટરી</translation>
 <translation id="2075959085554270910">તમને ક્લિક કરવા હલકું દબાવોને અને ટૅપ કરીને ખેંચોને ચાલુ/બંધ કરવાની મંજૂરી આપે છે</translation>
 <translation id="2076269580855484719">આ પ્લગિન છુપાવો </translation>
@@ -1197,7 +1197,7 @@
 <translation id="247949520305900375">ઑડિઓ શેર કરો</translation>
 <translation id="248003956660572823">પાસવર્ડ સાચવ્યા નથી</translation>
 <translation id="2480868415629598489">તમે કૉપિ અને પેસ્ટ કરો છો તે ડેટાને સંશોધિત કરો</translation>
-<translation id="2482878487686419369">સૂચનાઓ</translation>
+<translation id="2482878487686419369">નોટિફિકેશનો</translation>
 <translation id="2484959914739448251">તમારા બધા સિંક કરેલા ડિવાઇસ અને તમારા Google એકાઉન્ટમાંથી બ્રાઉઝિંગ ડેટા સાફ કરવા માટે, <ph name="BEGIN_LINK" />તમારો પાસફ્રેઝ દાખલ કરો<ph name="END_LINK" />.</translation>
 <translation id="2485005079599453134">આ ડિવાઇસ પર પાસવર્ડ સાચવવામાં આવ્યા</translation>
 <translation id="2485422356828889247">અનઇન્સ્ટૉલ કરો</translation>
@@ -1711,6 +1711,7 @@
 <translation id="3103941660000130485">Linux અપગ્રેડ કરવામાં ભૂલ આવી</translation>
 <translation id="3105796011181310544">બદલીને પાછા Google પર આવીએ?</translation>
 <translation id="310671807099593501">સાઇટ બ્લૂટૂથનો ઉપયોગ કરી રહી છે</translation>
+<translation id="3109724472072898302">સંકુચિત</translation>
 <translation id="3115147772012638511">કૅશ માટે રાહ જુએ છે...</translation>
 <translation id="3115580024857770654">બધા નાના કરો</translation>
 <translation id="3116968597797150452">પ્રમાણપત્ર પ્રોફાઇલ</translation>
@@ -2907,7 +2908,7 @@
 <translation id="4625078469366263107">ઍપ ચાલુ કરો</translation>
 <translation id="4627427111733173920">કુકી અવરોધિત</translation>
 <translation id="4627442949885028695">બીજા ઉપકરણમાંથી ચાલુ કરો</translation>
-<translation id="4628757576491864469">ઉપકરણો</translation>
+<translation id="4628757576491864469">ડિવાઇસ</translation>
 <translation id="4628762811416793313">Linux કન્ટેનર સેટઅપ પૂર્ણ થયું નથી. કૃપા કરીને ફરી પ્રયાસ કરો.</translation>
 <translation id="4633003931260532286">એક્સટેંશનને ન્યૂનતમ વર્ઝન "<ph name="IMPORT_VERSION" />" સાથે "<ph name="IMPORT_NAME" />"ની જરૂર પડે છે, પણ ફક્ત વર્ઝન "<ph name="INSTALLED_VERSION" />" જ ઇન્સ્ટૉલ કરેલું છે</translation>
 <translation id="4633757335284074492">Google ડ્રાઇવ પર બૅકઅપ લો. ડેટાને સરળતાથી પાછો મેળવો અથવા ડિવાઇસને કોઈપણ સમયે સ્વિચ કરો. આ બૅકઅપમાં ઍપનો ડેટા શામેલ છે. બૅકઅપને Google પર અપલોડ કરવામાં આવે છે અને તમારા બાળકના Google એકાઉન્ટ પાસવર્ડનો ઉપયોગ કરીને એન્ક્રિપ્ટ કરવામાં આવે છે.</translation>
@@ -3472,6 +3473,7 @@
 <translation id="5379140238605961210">માઇક્રોફોનની ઍક્સેસને અવરોધિત કરવાનું ચાલુ રાખો</translation>
 <translation id="5382591305415226340">સમર્થિત લિંક્સને સંચાલિત કરો</translation>
 <translation id="5383377866517186886">Mac સિસ્ટમ પસંદગીઓમાં કૅમેરો બંધ કરેલો છે</translation>
+<translation id="5383740867328871413">નામ વિનાનું ગ્રૂપ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">જોડી કરેલા</translation>
 <translation id="5389237414310520250">નવો વપરાશકર્તા બનાવી શકાયો નથી. કૃપા કરીને તમારું હાર્ડ ડ્રાઇવ સ્થાન અને પરવાનગીઓ તપાસો અને ફરી પ્રયાસ કરો.</translation>
 <translation id="5390100381392048184">સાઇટને અવાજ ચલાવવાની મંજૂરી આપો</translation>
@@ -3707,7 +3709,7 @@
 <translation id="5659833766619490117">આ પેજનો અનુવાદ કરી શકાયો નથી</translation>
 <translation id="5662513737565158057">Linux ઍપની કાર્ય કરવાની રીત બદલો.</translation>
 <translation id="5667546120811588575">Google Play સેટ કરી રહ્યાં છીએ...</translation>
-<translation id="5669267381087807207">સક્રિય કરી રહ્યું છે</translation>
+<translation id="5669267381087807207">ચાલુ થાય છે</translation>
 <translation id="5669691691057771421">નવો PIN દાખલ કરો</translation>
 <translation id="5671641761787789573">છબીઓ અવરોધિત</translation>
 <translation id="5671658447180261823">સૂચન <ph name="SUGGESTION_NAME" /> કાઢી નાખો</translation>
@@ -4836,7 +4838,6 @@ USB ડિવાઇસ</translation>
 <translation id="7099337801055912064">વિશાળ PPD લોડ કરી શકતાં નથી. મહત્તમ કદ 250 kB છે.</translation>
 <translation id="7102687220333134671">સ્વચલિત અપડેટ ચાલુ કરેલ છે</translation>
 <translation id="7102832101143475489">વિનંતીનો સમય સમાપ્ત થઈ ગયો</translation>
-<translation id="7102928824073746774">નામ વિનાનું ગ્રૂપ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USBની પસંદગીઓ</translation>
 <translation id="710640343305609397">નેટવર્ક સેટિંગ ખોલો</translation>
 <translation id="7108338896283013870">છુપાવો</translation>
@@ -4872,7 +4873,7 @@ USB ડિવાઇસ</translation>
 <translation id="713888829801648570">માફ કરશો, તમારો પાસવર્ડ ચકાસી શકાયો નથી કારણ કે તમે ઑફલાઇન છો.</translation>
 <translation id="7140928199327930795">કોઈ અન્ય ઉપલબ્ધ ઉપકરણો નથી.</translation>
 <translation id="7141105143012495934">સાઇન ઇન નિષ્ફળ થયું કારણ કે તમારી એકાઉન્ટ વિગતો પાછી મેળવી શકાઈ નથી. કૃપા કરીને તમારા એડમિનનો સંપર્ક કરો અથવા ફરી પ્રયાસ કરો.</translation>
-<translation id="7143207342074048698">કનેક્ટ કરી રહ્યું છે</translation>
+<translation id="7143207342074048698">કનેક્ટિંગ</translation>
 <translation id="7144878232160441200">ફરી પ્રયાસ કરો</translation>
 <translation id="7149893636342594995">છેલ્લા 24 કલાક</translation>
 <translation id="715118844758971915">ક્લાસિક પ્રિન્ટર્સ</translation>
@@ -4914,6 +4915,7 @@ USB ડિવાઇસ</translation>
 <translation id="720110658997053098">આ ઉપકરણને કાયમ માટે કિઓસ્ક મોડમાં રાખો</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' ડિલીટ કર્યું</translation>
 <translation id="7201420661433230412">ફાઇલો જુઓ</translation>
+<translation id="7203150201908454328">વિસ્તૃત કરેલ</translation>
 <translation id="7203826966018112936">પ્રોફાઇલમાં સ્કૂલનું એકાઉન્ટ ઉમેરવાથી માતાપિતા યોગ્ય નિયંત્રણો હેઠળ સંચાલન કરતી વખતે વેબસાઇટ અને એક્સ્ટેન્શન પર વિદ્યાર્થી તરીકે સાઇન-ઇન કરવાનું સરળ બને છે. આ બાળકોને સ્કૂલના એકાઉન્ટ સાથે સિંક કરેલા બુકમાર્ક, પાસવર્ડ અથવા અન્ય બ્રાઉઝર ડેટાનો ઍક્સેસ આપતું નથી.&lt;br&gt;&lt;br&gt;
     જો તમે સ્કૂલમાં Chromebookનો ઉપયોગ કરતાં હોય અને તમે તમારા બાળકને બધા જરૂરી સ્કૂલવર્કનો ઍક્સેસ છે તેની ખાતરી કરવા માટે તમે હોમ પર શાળાનો અનુભવ બતાવવા માગતા હોય, તો કૃપા કરીને આ Family Link એકાઉન્ટમાંથી સાઇન આઉટ કરીને Chrome OS એકાઉન્ટ પેજમાંથી સ્કૂલના એકાઉન્ટમાં સાઇન ઇન કરો (નોંધ: Family Linkના માતાપિતા યોગ્ય નિયંત્રણો લાગુ થશે નહીં).&lt;br&gt;&lt;br&gt;
     જો તમારું બાળક સ્કૂલમાં Chromebookનો ઉપયોગ કરતું ન હોય અથવા જો તમે Family Linkનો ઉપયોગ કરીને બાળકના એકાઉન્ટને હોમ પર મેનેજ કરવા માગતા હોય, તો કૃપા કરીને આ એકાઉન્ટને સ્કૂલની પ્રોફાઇલમાં ઉમેરવા માટે નીચે આપેલા આગળ બટન પર ક્લિક કરો.</translation>
@@ -5615,6 +5617,7 @@ USB ડિવાઇસ</translation>
 <translation id="8062844841289846053">{COUNT,plural, =1{કાગળની 1 શીટ}one{કાગળની {COUNT} શીટ}other{કાગળની {COUNT} શીટ}}</translation>
 <translation id="8063235345342641131">ડિફોલ્ટ લીલો અવતાર</translation>
 <translation id="8063535366119089408">ફાઇલ જુઓ</translation>
+<translation id="8064279191081105977">ગ્રૂપ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">સાઇન ઇન કરવા માટે ટચ કરો</translation>
 <translation id="8069615408251337349">Google ક્લાઉડ પ્રિન્ટ</translation>
 <translation id="8071432093239591881">ફોટો તરીકે પ્રિન્ટ</translation>
@@ -6272,7 +6275,7 @@ USB ડિવાઇસ</translation>
 <translation id="8871974300055371298">કન્ટેન્ટ સેટિંગ</translation>
 <translation id="8872155268274985541">અમાન્ય કિઓસ્ક બાહ્ય અપડેટ મેનિફેસ્ટ ફાઇલ મળી. કિઓસ્ક ઍપ્લિકેશન અપડેટ કરવામાં નિષ્ફળ થયાં. કૃપા કરીને USB સ્ટીક દૂર કરો.</translation>
 <translation id="8872777911145321141">જ્યારે કોઈ સાઇટ તમારા વર્ચ્યુઅલ રિયાલિટી ડિવાઇસ અને ડેટાને ઉપયોગ કરવા માગે, ત્યારે પૂછો (સુઝાવ આપેલો છે)</translation>
-<translation id="8874184842967597500">કનેક્ટેડ નથી</translation>
+<translation id="8874184842967597500">કનેક્ટ નથી</translation>
 <translation id="8875520811099717934">Linux અપગ્રેડ કરો</translation>
 <translation id="8876307312329369159">ડેમો સત્રમાં આ સેટિંગ બદલી શકાતી નથી.</translation>
 <translation id="8877448029301136595">[માતાપિતાની ડિરેક્ટરી]</translation>
@@ -6361,6 +6364,7 @@ USB ડિવાઇસ</translation>
 <translation id="8986362086234534611">ભૂલી ગયા</translation>
 <translation id="8986494364107987395">ઉપયોગિતા આંકડાઓ અને ક્રૅશ રિપોર્ટ Googleને ઑટોમૅટિક રીતે મોકલો</translation>
 <translation id="8987927404178983737">મહિનો</translation>
+<translation id="8990209962746788689">QR કોડ બનાવી શકતા નથી</translation>
 <translation id="8991520179165052608">સાઇટ તમારા માઇક્રોફોનનો ઉપયોગ કરી શકે છે</translation>
 <translation id="899384117894244799">પ્રતિબંધિત વપરાશકર્તાને કાઢી નાખો</translation>
 <translation id="899403249577094719">નેટસ્કેપ પ્રમાણપત્ર બેઝ URL</translation>
@@ -6430,7 +6434,7 @@ USB ડિવાઇસ</translation>
 <translation id="9066782832737749352">ટેક્સ્ટ-ટુ-સ્પીચ</translation>
 <translation id="9068849894565669697">રંગ પસંદ કરો</translation>
 <translation id="9073281213608662541">PAP</translation>
-<translation id="9074739597929991885">Bluetooth</translation>
+<translation id="9074739597929991885">બ્લૂટૂથ</translation>
 <translation id="9074836595010225693">USB માઉસ કનેક્ટ કર્યું</translation>
 <translation id="9076283476770535406">તેમાં વયસ્ક કન્ટેન્ટ હોઈ શકે છે</translation>
 <translation id="9076523132036239772">માફ કરશો, તમારો ઇમેઇલ અથવા પાસવર્ડ માન્ય કરી શકાયો નથી. સૌ પ્રથમ નેટવર્કથી કનેક્ટ કરવાનો પ્રયાસ કરો. </translation>

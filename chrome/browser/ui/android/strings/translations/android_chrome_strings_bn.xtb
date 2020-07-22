@@ -439,7 +439,7 @@
 <translation id="4565377596337484307">পাসওয়ার্ড লুকান</translation>
 <translation id="4572422548854449519">ম্যানেজ করা অ্যাকাউন্টে সাইন-ইন করুন</translation>
 <translation id="4583164079174244168">{MINUTES,plural, =1{# মিনিট আগে}one{# মিনিট আগে}other{# মিনিট আগে}}</translation>
-<translation id="4587589328781138893">সাইটগুলি</translation>
+<translation id="4587589328781138893">সাইট</translation>
 <translation id="4594952190837476234">এই অফলাইন পৃষ্ঠাটি <ph name="CREATION_TIME" />-এ তৈরি করা হয়েছিল এবং এটি অনলাইন ভার্সনের থেকে আলাদা হতে পারে।</translation>
 <translation id="4605958867780575332">আইটেম সরানো হয়েছে: <ph name="ITEM_TITLE" /></translation>
 <translation id="4616150815774728855"><ph name="WEBAPK_NAME" /> খুলুন</translation>

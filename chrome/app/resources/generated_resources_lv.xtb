@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Aizstāt jūsu Linux lietotnes un failus ar iepriekšējo dublējumu</translation>
 <translation id="1842766183094193446">Vai tiešām vēlaties iespējot demonstrācijas režīmu?</translation>
 <translation id="1846308012215045257">Lai palaistu spraudni <ph name="PLUGIN_NAME" />, nospiediet taustiņu Ctrl un noklikšķiniet</translation>
-<translation id="1846880379134204029">Grupa “<ph name="GROUP_NAME" />” — <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Gaidstāves režīma iespējošana</translation>
 <translation id="1849186935225320012">Šai lapai ir pieejama MIDI ierīču pilnīga pārvaldība.</translation>
 <translation id="1850508293116537636">Pagriezt &amp;pulksteņrādītāju kustības virzienā</translation>
@@ -867,6 +866,7 @@ Varat pārvaldīt šī konta iestatījumus, savā ierīcē instalējot lietotni 
 <translation id="2065405795449409761">Pārlūkprogramma Chrome tiek kontrolēta, izmantojot automatizētas pārbaudes programmatūru.</translation>
 <translation id="2071393345806050157">Nav lokālā žurnālfaila.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Noklikšķiniet, lai instalētu šo paplašinājumu}zero{Noklikšķiniet, lai instalētu šos paplašinājumus}one{Noklikšķiniet, lai instalētu šos paplašinājumus}other{Noklikšķiniet, lai instalētu šos paplašinājumus}}</translation>
+<translation id="2073505299004274893">Drīkst izmantot ne vairāk kā <ph name="CHARACTER_LIMIT" /> rakstzīmes</translation>
 <translation id="2075474481720804517">Akumulators: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Ļauj iespējot vai atspējot funkciju “Pieskarties, lai noklikšķinātu” un vilkšanu pieskaroties</translation>
 <translation id="2076269580855484719">Slēpt šo spraudni</translation>
@@ -1715,6 +1715,7 @@ Servera ziņojums: <ph name="SERVER_MSG" /></translation>
 <translation id="3103941660000130485">Jauninot Linux, radās kļūda</translation>
 <translation id="3105796011181310544">Vai mainīt atpakaļ uz Google?</translation>
 <translation id="310671807099593501">Vietne izmanto Bluetooth savienojumu.</translation>
+<translation id="3109724472072898302">Sakļauts</translation>
 <translation id="3115147772012638511">Gaida krtuvi...</translation>
 <translation id="3115580024857770654">Sakļaut visu</translation>
 <translation id="3116968597797150452">Sertifikāta profils</translation>
@@ -2712,7 +2713,7 @@ Vai vēlaties palaist rīku <ph name="CONTROL_PANEL_APPLET_NAME" />?</translatio
 <translation id="4375035964737468845">Atvērt lejupielādētos failus</translation>
 <translation id="4377363674125277448">Radās problēma ar servera sertifikātu.</translation>
 <translation id="4378154925671717803">Tālrunis</translation>
-<translation id="4378551569595875038">Notiek pievienošana...</translation>
+<translation id="4378551569595875038">Pievienojas...</translation>
 <translation id="4378556263712303865">Ierīces pieprasījums</translation>
 <translation id="4379281552162875326">Vai atinstalēt lietotni <ph name="APP_NAME" />?</translation>
 <translation id="4380648069038809855">Tika atvērts pilnekrāna režīms</translation>
@@ -3476,6 +3477,7 @@ Vai vēlaties palaist rīku <ph name="CONTROL_PANEL_APPLET_NAME" />?</translatio
 <translation id="5379140238605961210">Turpināt piekļuves bloķēšanu mikrofonam</translation>
 <translation id="5382591305415226340">Pārvaldīt atbalstītās saites</translation>
 <translation id="5383377866517186886">Kamera ir izslēgta Mac sistēmas preferencēs</translation>
+<translation id="5383740867328871413">Statuss grupai bez nosaukuma (<ph name="GROUP_CONTENTS" />): <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Sapārots</translation>
 <translation id="5389237414310520250">Nevarēja izveidot jaunu lietotāju. Lūdzu, pārbaudiet vietu cietajā diskā un atļaujas un mēģiniet vēlreiz.</translation>
 <translation id="5390100381392048184">Atļaut vietnēm atskaņot skaņu</translation>
@@ -4838,7 +4840,6 @@ Vai vēlaties palaist rīku <ph name="CONTROL_PANEL_APPLET_NAME" />?</translatio
 <translation id="7099337801055912064">Nevar ielādēt lielu PPD failu. Maksimālais lielums ir 250 kB.</translation>
 <translation id="7102687220333134671">Automātiskie atjauninājumi ir ieslēgti.</translation>
 <translation id="7102832101143475489">Iestājās pieprasījuma noildze.</translation>
-<translation id="7102928824073746774">Grupa bez nosaukuma — <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB preferences</translation>
 <translation id="710640343305609397">Atvērt tīkla iestatījumus</translation>
 <translation id="7108338896283013870">Slēpt</translation>
@@ -4916,6 +4917,7 @@ Vai vēlaties palaist rīku <ph name="CONTROL_PANEL_APPLET_NAME" />?</translatio
 <translation id="720110658997053098">Pastāvīgi turēt ierīcei ieslēgtu kioska režīmu</translation>
 <translation id="7201118060536064622">Vienums “<ph name="DELETED_ITEM_NAME" />” ir izdzēsts.</translation>
 <translation id="7201420661433230412">Skatīt failus</translation>
+<translation id="7203150201908454328">Izvērsts</translation>
 <translation id="7203826966018112936">Pievienojot profilam mācību iestādes kontu, skolēns var ērti pierakstīties vietnēs un paplašinājumos, bet vienlaikus tiek lietoti vecāku kontroles iestatījumi. Bērnam netiek piešķirta piekļuve grāmatzīmēm, parolēm vai citiem pārlūkošanas datiem, kas tiek sinhronizēti ar mācību iestādes kontu.&lt;br&gt;&lt;br&gt;
     Ja bērns lieto Chromebook datoru mācību iestādē un vēlaties mājās izmantot tādas pašas iespējas kā mācību iestādē, lai bērnam būtu piekļuve visiem nepieciešamajiem skolas darbiem, izrakstieties no šī Family Link konta un pierakstieties mācību iestādes kontā Chrome OS kontu lapā (piezīme: netiks lietoti Family Link vecāku kontroles iestatījumi).&lt;br&gt;&lt;br&gt;
     Ja bērns nelieto Chromebook datoru mācību iestādē vai ja vēlaties pārvaldīt bērna iespējas mājās, izmantojot Family Link, lūdzu, noklikšķiniet uz pogas Tālāk, lai pievienotu šim profilam mācību iestādes kontu.</translation>
@@ -5622,6 +5624,7 @@ Glabājiet atslēgas failu drošā vietā. Tas būs vajadzīgs, lai izveidotu ja
 <translation id="8062844841289846053">{COUNT,plural, =1{Viena papīra lapa}zero{{COUNT} papīra lapu}one{{COUNT} papīra lapa}other{{COUNT} papīra lapas}}</translation>
 <translation id="8063235345342641131">Noklusējuma iemiesojums zaļā krāsā</translation>
 <translation id="8063535366119089408">Skatīt failu</translation>
+<translation id="8064279191081105977">Grupas <ph name="GROUP_NAME" /> (<ph name="GROUP_CONTENTS" />) statuss: <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Pieskarieties, lai pierakstītos</translation>
 <translation id="8069615408251337349">Google mākoņdruka</translation>
 <translation id="8071432093239591881">Drukāt kā attēlu</translation>
@@ -5970,7 +5973,7 @@ Glabājiet atslēgas failu drošā vietā. Tas būs vajadzīgs, lai izveidotu ja
 <translation id="8509646642152301857">Pareizrakstības pārbaudes vārdnīcas lejupielāde neizdevās.</translation>
 <translation id="8512476990829870887">Pārtraukt procesu</translation>
 <translation id="851263357009351303">Vienmēr atļaut vietnei <ph name="HOST" /> rādīt attēlus</translation>
-<translation id="8513108775083588393">Automātiska pagriešana</translation>
+<translation id="8513108775083588393">Pagriezt aut.</translation>
 <translation id="8514746246728959655">Pamēģiniet citu drošības atslēgu</translation>
 <translation id="8521475323816527629">Ātri piekļūstiet savām lietotnēm</translation>
 <translation id="8523493869875972733">Saglabāt izmaiņas</translation>
@@ -6368,6 +6371,7 @@ Glabājiet atslēgas failu drošā vietā. Tas būs vajadzīgs, lai izveidotu ja
 <translation id="8986362086234534611">Aizmirst</translation>
 <translation id="8986494364107987395">Automātiski sūtīt lietošanas statistiku un avāriju pārskatus uzņēmumam Google</translation>
 <translation id="8987927404178983737">Mēnesis</translation>
+<translation id="8990209962746788689">Nevar izveidot QR kodu</translation>
 <translation id="8991520179165052608">Vietne var izmantot jūsu mikrofonu.</translation>
 <translation id="899384117894244799">Lietotāja ar ierobežotām iespējām noņemšana</translation>
 <translation id="899403249577094719">Netscape sertifikāta Base URL</translation>

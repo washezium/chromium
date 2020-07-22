@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Замяніць файлы і праграмы Linux папярэдняй рэзервовай копіяй</translation>
 <translation id="1842766183094193446">Сапраўды ўключыць дэманстрацыйны рэжым?</translation>
 <translation id="1846308012215045257">Каб запусціць <ph name="PLUGIN_NAME" />, націсніце камбінацыю Ctrl + Левая клавіша мышы</translation>
-<translation id="1846880379134204029">Група <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Уключыць Неактыўны рэжым</translation>
 <translation id="1849186935225320012">Гэта старонка мае поўны кантроль над прыладамі MIDI.</translation>
 <translation id="1850508293116537636">Павярнуць &amp;па гадзіннікавай стрэлцы</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome кантралюецца праграмным забеспячэннем для аўтаматызаванага тэсціравання.</translation>
 <translation id="2071393345806050157">Няма файла лакальнага журнала.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Каб усталяваць гэта пашырэнне, націсніце тут}one{Каб усталяваць гэтыя пашырэнні, націсніце тут}few{Каб усталяваць гэтыя пашырэнні, націсніце тут}many{Каб усталяваць гэтыя пашырэнні, націсніце тут}other{Каб усталяваць гэтыя пашырэнні, націсніце тут}}</translation>
+<translation id="2073505299004274893">Максімальная дапушчальная колькасць сімвалаў: <ph name="CHARACTER_LIMIT" /></translation>
 <translation id="2075474481720804517">Зарад акумулятара: <ph name="BATTERY_PERCENTAGE" /> %</translation>
 <translation id="2075959085554270910">Дазваляе ўключаць і выключаць функцыі націскання і перацягвання дотыкам</translation>
 <translation id="2076269580855484719">Схаваць гэту ўбудову</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Памылка абнаўлення Linux</translation>
 <translation id="3105796011181310544">Зноў зрабіць Google стандартнай пошукавай сістэмай?</translation>
 <translation id="310671807099593501">Сайт выкарыстоўвае Bluetooth</translation>
+<translation id="3109724472072898302">Згорнута</translation>
 <translation id="3115147772012638511">Чакаецца кэш...</translation>
 <translation id="3115580024857770654">Згарнуць усе</translation>
 <translation id="3116968597797150452">Профіль сертыфіката</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">Працягваць блакіраваць доступ да мікрафона</translation>
 <translation id="5382591305415226340">Кіраваць спасылкамі, якія падтрымліваюцца</translation>
 <translation id="5383377866517186886">Камера выключана ў наладах System Preferences сістэмы Mac</translation>
+<translation id="5383740867328871413">Група без назвы – <ph name="GROUP_CONTENTS" /> –<ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Спалучана</translation>
 <translation id="5389237414310520250">Не ўдалося стварыць новага карыстальніка. Праверце месца на цвёрдым дыску і дазволы, затым паўтарыце спробу.</translation>
 <translation id="5390100381392048184">Дазволіць сайтам прайграваць гук</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">Не ўдалося загрузіць вялікі файл PPD. Максімальны памер – 250 КБ.</translation>
 <translation id="7102687220333134671">Аўтаматычныя абнаўленні ўключаны</translation>
 <translation id="7102832101143475489">Запыт пратэрмінаваны</translation>
-<translation id="7102928824073746774">Група без назвы – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Параметры USB</translation>
 <translation id="710640343305609397">Адкрыць налады сеткі</translation>
 <translation id="7108338896283013870">Схаваць</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">Заўсёды ўжываць на гэтай прыладзе рэжым кіёска</translation>
 <translation id="7201118060536064622"><ph name="DELETED_ITEM_NAME" /> – выдалена</translation>
 <translation id="7201420661433230412">Праглядзець файлы</translation>
+<translation id="7203150201908454328">Разгорнута</translation>
 <translation id="7203826966018112936">Калі дадаць навучальны ўліковы запіс у профіль, карыстальнік зможа лёгка ўваходзіць на вэб-сайты і ў пашырэнні ў якасці вучня, застаючыся пры гэтым пад бацькоўскім кантролем. Пры гэтым дзіця не атрымае доступу да закладак, пароляў або іншых даных браўзера, сінхранізаваных з навучальным уліковым запісам.&lt;br&gt;&lt;br&gt;
     Калі дзіця ў працэсе навучання карыстаецца прыладай Chromebook, а вы хочаце працягваць гэты працэс дома і забяспечыць дзіцяці доступ да ўсіх неабходных матэрыялаў, выйдзіце з гэтага ўліковага запісу Family Link і ўвайдзіце ў навучальны ўліковы запіс на старонцы ўліковых запісаў Chrome OS (звярніце ўвагу: налады бацькоўскага кантролю сэрвісу Family Link дзейнічаць не будуць).&lt;br&gt;&lt;br&gt;
     Калі дзіця не карыстаецца прыладай Chromebook у працэсе навучання ці вы хочаце кантраляваць навучальны працэс дзіцяці з дому, выкарыстоўваючы Family Link, націсніце кнопку "Далей", каб дадаць навучальны ўліковы запіс у гэты профіль.</translation>
@@ -5622,6 +5624,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 аркуш паперы}one{{COUNT} аркуш паперы}few{{COUNT} аркушы паперы}many{{COUNT} аркушаў паперы}other{{COUNT} аркуша паперы}}</translation>
 <translation id="8063235345342641131">Стандартны зялёны аватар</translation>
 <translation id="8063535366119089408">Прагледзець файл</translation>
+<translation id="8064279191081105977">Група "<ph name="GROUP_NAME" />" – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Каб увайсці, націсніце тут</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Друкаваць як відарыс</translation>
@@ -6368,6 +6371,7 @@
 <translation id="8986362086234534611">Забыць</translation>
 <translation id="8986494364107987395">Аўтаматычна адпраўляць у Google статыстыку выкарыстання і справаздачы аб збоях</translation>
 <translation id="8987927404178983737">Месяц</translation>
+<translation id="8990209962746788689">Не ўдалося стварыць QR-код</translation>
 <translation id="8991520179165052608">Сайт можа выкарыстоўваць ваш мікрафон</translation>
 <translation id="899384117894244799">Выдаліць карыстальніка з абмежаваннямі</translation>
 <translation id="899403249577094719">Базавы URL-адрас сертыфіката Netscape</translation>

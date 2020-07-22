@@ -697,7 +697,6 @@
 <translation id="184273675144259287">‏برنامه‌ها و فایل‌های Linux خود را با نسخه پشتیبان قبلی جایگزین کنید</translation>
 <translation id="1842766183094193446">مطمئنید می‌خواهید حالت نمایشی را فعال کنید؟</translation>
 <translation id="1846308012215045257">برای اجرای <ph name="PLUGIN_NAME" /> کنترل-کلیک کنید</translation>
-<translation id="1846880379134204029">گروه <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">فعال کردن «حالت گزینشی»</translation>
 <translation id="1849186935225320012">‏این صفحه کنترل کامل دستگاه‌های MIDI را دارد.</translation>
 <translation id="1850508293116537636">چرخاندن در جهت &amp;عقربه‌های ساعت</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">‏Chrome توسط نرم‌افزار آزمایش خودکاری کنترل می‌شود.</translation>
 <translation id="2071393345806050157">فایل گزارش محلی وجود ندارد.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{برای نصب این افزونه، کلیک کنید}one{برای نصب این افزونه‌ها، کلیک کنید}other{برای نصب این افزونه‌ها، کلیک کنید}}</translation>
+<translation id="2073505299004274893">از <ph name="CHARACTER_LIMIT" /> نویسه یا کمتر استفاده کنید</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />٪ باتری</translation>
 <translation id="2075959085554270910">به شما امکان می‌دهد «کلیک با یک ضربه» و «کشیدن با ضربه زدن» را فعال/غیرفعال کنید</translation>
 <translation id="2076269580855484719">پنهان کردن این افزایه</translation>
@@ -1712,6 +1712,7 @@
 <translation id="3103941660000130485">‏خطا در ارتقای Linux</translation>
 <translation id="3105796011181310544">‏به Google تغییر می‌دهید؟</translation>
 <translation id="310671807099593501">سایت درحال استفاده از بلوتوث شما است</translation>
+<translation id="3109724472072898302">جمع شده</translation>
 <translation id="3115147772012638511">منتظر حافظهٔ پنهان...</translation>
 <translation id="3115580024857770654">کوچک کردن همه موارد</translation>
 <translation id="3116968597797150452">نمایه دارای مجوز</translation>
@@ -3473,6 +3474,7 @@
 <translation id="5379140238605961210">ادامه مسدود کردن دسترسی به میکروفون</translation>
 <translation id="5382591305415226340">مدیریت پیوندهای پشتیبانی‌شده</translation>
 <translation id="5383377866517186886">‏در «تنظیمات برگزیده سیستم Mac»، دوربین خاموش است</translation>
+<translation id="5383740867328871413">گروه بدون نام - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">مرتبط شده</translation>
 <translation id="5389237414310520250">کاربر جدید ایجاد نشد. لطفاً فضای دیسک سخت و مجوزهایتان را بررسی کرده و دوباره امتحان کنید.</translation>
 <translation id="5390100381392048184">پخش صدا در سایت‌ها مجاز شود</translation>
@@ -4835,7 +4837,6 @@
 <translation id="7099337801055912064">‏فایل PPD بزرگ است و بار نمی‌شود. حداکثر اندازه ۲۵۰ کیلوبایت است.</translation>
 <translation id="7102687220333134671">به‌روزرسانی‌های خودکار روشن هستند</translation>
 <translation id="7102832101143475489">درنگ درخواست تمام شد</translation>
-<translation id="7102928824073746774">گروه بدون نام - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">‏اولویت‌های USB</translation>
 <translation id="710640343305609397">بازکردن تنظیمات شبکه</translation>
 <translation id="7108338896283013870">عدم نمایش</translation>
@@ -4913,6 +4914,7 @@
 <translation id="720110658997053098">این دستگاه همیشه در حالت کیوسک نگه داشته شود</translation>
 <translation id="7201118060536064622">«<ph name="DELETED_ITEM_NAME" />» حذف شد</translation>
 <translation id="7201420661433230412">مشاهده فایل‌ها</translation>
+<translation id="7203150201908454328">باز شده</translation>
 <translation id="7203826966018112936">‏افزودن حساب محل تحصیل باعث می‌شود ورود به سیستم وب‌سایت‌ها و افزونه‌ها به‌عنوان دانش‌آموز آسان شود (البته همچنان با کنترل‌های والدین). این کار به کودک اجازه نمی‌دهد به نشانک‌ها، گذرواژه‌ها یا دیگر داده‌های مرورگر همگام‌سازی‌شده با حساب محل تحصیل دسترسی داشته باشد.&lt;br&gt;&lt;br&gt;
     اگر کودکتان از Chromebook در محل تحصیل استفاده کند و می‌خواهید همان تجربه مدرسه را در خانه داشته باشید تا مطمئن شوید کودکتان به همه تکالیف ضروری مدرسه دسترسی دارد، لطفاً از سیستم این حساب Family Link خارح شوید و از صفحه حساب‌های سیستم عامل Chrome به سیستم حساب محل تحصیل وارد شوید (توجه: کنترل‌های والدین Family Link اعمال نخواهد شد).&lt;br&gt;&lt;br&gt;
     اگر کودکتان از Chromebook در مدرسه استفاده نمی‌کند یا اگر ترجیح می‌دهید تجربه کودکتان را بااستفاده از Family Link در خانه مدیریت کنید، لطفاً برای افزودن حساب محل تحصیل به این نمایه، روی دکمه «بعدی» کلیک کنید.</translation>
@@ -5620,6 +5622,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{۱ برگ کاغذ}one{{COUNT} برگ کاغذ}other{{COUNT} برگ کاغذ}}</translation>
 <translation id="8063235345342641131">چهره‌نمای پیش‌فرض سبز</translation>
 <translation id="8063535366119089408">مشاهده فایل</translation>
+<translation id="8064279191081105977">گروه <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">برای ورود به سیستم لمس کنید</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">چاپ کردن به‌‌عنوان تصویر</translation>
@@ -6366,6 +6369,7 @@
 <translation id="8986362086234534611">فراموش شود</translation>
 <translation id="8986494364107987395">‏ارسال خودکار آمار کاربرد و گزارش‌های خرابی به Google</translation>
 <translation id="8987927404178983737">ماه</translation>
+<translation id="8990209962746788689">‏کد QR ایجاد نمی‌شود</translation>
 <translation id="8991520179165052608">سایت می‌تواند از میکروفن شما استفاده کند</translation>
 <translation id="899384117894244799">برداشتن کاربر محدودشده</translation>
 <translation id="899403249577094719">‏نشانی وب گواهی Netscape</translation>

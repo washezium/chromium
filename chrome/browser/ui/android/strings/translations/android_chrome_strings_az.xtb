@@ -996,6 +996,7 @@ Ayarı dəyişmək üçün <ph name="BEGIN_LINK" />sinxronizasiyanı sıfırlay�
 <translation id="8970887620466824814">Xəta baş verdi.</translation>
 <translation id="8972098258593396643">Defolt qovluğa endirilsin?</translation>
 <translation id="8988028529677883095">Təhlükəsizlik açarı kimi telefondan istifadə edin</translation>
+<translation id="8990209962746788689">QR kod yaratmaq olmur</translation>
 <translation id="8993760627012879038">Incognito rejimində yeni panel açın</translation>
 <translation id="8998729206196772491"><ph name="MANAGED_DOMAIN" /> tərəfindən idarə olunan hesab ilə daxil olursunuz və onun administratoruna Chrome datanız üzərində nəzarəti verirsiniz. Datanız həmişəlik bu hesab ilə əlaqələndiriləcək. Chrome'dan çıxmaq datanızı bu cihazdan siləcək, lakin data Google Hesabında qalacaq.</translation>
 <translation id="9028914725102941583">Cihazlar arasında paylaşım etmək üçün sinxronizasiyanı aktiv edin</translation>

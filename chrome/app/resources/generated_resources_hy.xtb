@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Փոխարինեք ձեր Լինուքսի հավելվածներն ու ֆայլերը նախորդ կրկնօրինակներով</translation>
 <translation id="1842766183094193446">Միացնե՞լ ցուցադրական ռեժիմը</translation>
 <translation id="1846308012215045257">Ctrl ստեղնը պահեք և մկնիկով սեղմեք՝ <ph name="PLUGIN_NAME" />-ն աշխատեցնելու համար</translation>
-<translation id="1846880379134204029">Խումբ <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Միացնել անգործուն ռեժիմը</translation>
 <translation id="1849186935225320012">Այս էջն ամբողջովին վերահսկում է MIDI սարքերը:</translation>
 <translation id="1850508293116537636">Պտտել &amp;ժամացույցի սլաքի ուղղությամբ</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome դիտարկիչը կառավարվում է ավտոմատացված փորձնական ծրագրակազմի կողմից:</translation>
 <translation id="2071393345806050157">Տեղային մատյան-ֆայլ չկա:</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Սեղմեք՝ ընդլայնումը տեղադրելու համար}one{Սեղմեք՝ այս ընդլայնումները տեղադրելու համար}other{Սեղմեք՝ այս ընդլայնումները տեղադրելու համար}}</translation>
+<translation id="2073505299004274893">Մուտքագրեք մինչև <ph name="CHARACTER_LIMIT" /> նիշ</translation>
 <translation id="2075474481720804517">Մարտկոցի լիցքը՝ <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Թույլ է տալիս միացնել/անջատել «հպումով սեղմում» և «հպումով քաշում» գործառույթները</translation>
 <translation id="2076269580855484719">Թաքցնել այս փլագինը</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Չհաջողվեց նորացնել Լինուքսը</translation>
 <translation id="3105796011181310544">Վերադառնա՞լ Google-ին</translation>
 <translation id="310671807099593501">Կայքն օգտագործում է Bluetooth-ը</translation>
+<translation id="3109724472072898302">Կոծկված</translation>
 <translation id="3115147772012638511">Սպասում է քեշին…</translation>
 <translation id="3115580024857770654">Ծալել բոլորը</translation>
 <translation id="3116968597797150452">Հավաստագրման պրոֆիլ</translation>
@@ -3479,6 +3480,7 @@
 <translation id="5379140238605961210">Շարունակել արգելափակել խոսափողի օգտագործումը</translation>
 <translation id="5382591305415226340">Կառավարել աջակցվող հղումները</translation>
 <translation id="5383377866517186886">Տեսախցիկն անջատած է Mac-ի համակարգի կարգավորումներում</translation>
+<translation id="5383740867328871413">Անանուն խումբ – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Զուգակցված է</translation>
 <translation id="5389237414310520250">Չհաջողվեց ստեղծել նոր պրոֆիլ: Ստուգեք ձեր կոշտ սկավառակի տարածքն ու թույլտվությունները և նորից փորձեք:</translation>
 <translation id="5390100381392048184">Թույլատրել կայքերին նվագարկել ձայն</translation>
@@ -4841,7 +4843,6 @@
 <translation id="7099337801055912064">Չհաջողվեց բեռնել PPD ֆայլը: Այն չպետք է գերազանցի 250 ԿԲ-ը:</translation>
 <translation id="7102687220333134671">Ինքնաթարմացումը միացված է</translation>
 <translation id="7102832101143475489">Հարցումը մշակելու ժամանակը սպառվել է</translation>
-<translation id="7102928824073746774">Անանուն խումբ – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-ի կարգավորումներ</translation>
 <translation id="710640343305609397">Բացել ցանցի կարգավորումները</translation>
 <translation id="7108338896283013870">Թաքցնել</translation>
@@ -4919,6 +4920,7 @@
 <translation id="720110658997053098">Մշտապես պահել այս սարքը կրպակի ռեժիմում</translation>
 <translation id="7201118060536064622">«<ph name="DELETED_ITEM_NAME" />» տարրը ջնջվեց</translation>
 <translation id="7201420661433230412">Դիտել ֆայլերը</translation>
+<translation id="7203150201908454328">Ընդլայնված</translation>
 <translation id="7203826966018112936">Պրոֆիլում ոսումնական հաշիվ ավելացնելը հնարավորություն է տալիս հեշտությամբ մուտք գործել կայքեր և ընդլայնումներ որպես աշակերտ՝ ծնողական վերահսկողության տակ լինելով հանդերձ։ Ուսումնական հաշվի հետ համաժամացված էջանիշները, գաղտնաբառերը և դիտարկիչի մյուս տվյալները երեխային հասանելի չեն դառնա։&lt;br&gt;&lt;br&gt;
     Եթե ձեր երեխան դպրոցում օգտագործում է Chromebook, և դուք ուզում եք, որ նրա դպրոցական հանձնարարությունները հասանելի լինեն նաև տնից, դուրս եկեք այս Family Link հաշվից և մտեք ուսումնական հաշիվ Chrome OS-ի հաշիվների էջից (նկատի առեք, որ Family Link-ի ծնողական վերահսկողության կառավարները չեն գործի)։&lt;br&gt;&lt;br&gt;
     Եթե ձեր երեխան դպրոցում չի օգտագործում Chromebook, կամ եթե նախընտրում եք ձեր երեխայի գործողությունները տնից կառավարել Family Link-ի միջոցով, սեղմեք ներքևի «Առաջ» կոճակը՝ այս պրոֆիլում ուսումնական հաշիվ ավելացնելու համար։</translation>
@@ -5624,6 +5626,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 թերթ}one{{COUNT} թերթ}other{{COUNT} թերթ}}</translation>
 <translation id="8063235345342641131">Կանխադրված կանաչ ավատար</translation>
 <translation id="8063535366119089408">Դիտել ֆայլը</translation>
+<translation id="8064279191081105977">Խումբ <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Հպեք` մուտք գործելու համար</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Տպել որպես պատկեր</translation>
@@ -6370,6 +6373,7 @@
 <translation id="8986362086234534611">Հեռացնել</translation>
 <translation id="8986494364107987395">Ավտոմատ Google-ին ուղարկել օգտագործման վիճակագրությունները և խափանումների մասին հաշվետվությունները</translation>
 <translation id="8987927404178983737">Ամիս</translation>
+<translation id="8990209962746788689">Չհաջողվեց ստեղծել QR կոդը</translation>
 <translation id="8991520179165052608">Կայքը կարող է օգտագործել ձեր խոսափողը</translation>
 <translation id="899384117894244799">Հեռացնել սահմանափակ հասանելիությամբ օգտատիրոջը</translation>
 <translation id="899403249577094719">Netscape-ի վկայագրերի բազայի URL</translation>

@@ -697,7 +697,6 @@
 <translation id="184273675144259287">Erstatt Linux-appene og -filene dine med en tidligere sikkerhetskopi</translation>
 <translation id="1842766183094193446">Er du sikker på at du vil slå på demomodus?</translation>
 <translation id="1846308012215045257">Control-klikk for å kjøre <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Gruppe <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Slå på passiv modus</translation>
 <translation id="1849186935225320012">Denne siden har full kontroll over MIDI-enheter.</translation>
 <translation id="1850508293116537636">Rotér &amp;med klokken</translation>
@@ -864,6 +863,7 @@ Du kan administrere innstillingene for denne kontoen ved å installere Family Li
 <translation id="2065405795449409761">Chrome kontrolleres av programvare for automatisk testing.</translation>
 <translation id="2071393345806050157">Ingen lokal loggfil.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klikk for å installere utvidelsen}other{Klikk for å installere disse utvidelsene}}</translation>
+<translation id="2073505299004274893">Bruk maksimalt <ph name="CHARACTER_LIMIT" /> tegn</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % batteri</translation>
 <translation id="2075959085554270910">Lar deg slå på og av berøringsklikk og trykk-og-dra</translation>
 <translation id="2076269580855484719">Skjul dette programtillegget</translation>
@@ -1712,6 +1712,7 @@ Du kan administrere innstillingene for denne kontoen ved å installere Family Li
 <translation id="3103941660000130485">Feil under oppgradering av Linux</translation>
 <translation id="3105796011181310544">Vil du bytte tilbake til Google?</translation>
 <translation id="310671807099593501">Nettstedet bruker Bluetooth</translation>
+<translation id="3109724472072898302">Skjult</translation>
 <translation id="3115147772012638511">Venter på buffer...</translation>
 <translation id="3115580024857770654">Skjul alle</translation>
 <translation id="3116968597797150452">Sertifikatprofil</translation>
@@ -3471,6 +3472,7 @@ Du kan administrere innstillingene for denne kontoen ved å installere Family Li
 <translation id="5379140238605961210">Fortsett blokkering av mikrofontilgang</translation>
 <translation id="5382591305415226340">Administrer støttede linker</translation>
 <translation id="5383377866517186886">Kameraet er slått av i Mac-systemvalgene</translation>
+<translation id="5383740867328871413">Gruppe uten navn – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Sammenkoblet</translation>
 <translation id="5389237414310520250">Den nye brukeren kunne ikke opprettes. Sjekk hvor mye plass du har på harddisken og hvilke tillatelser som er aktive, og prøv på nytt.</translation>
 <translation id="5390100381392048184">Tillat nettsteder å spille av lyd</translation>
@@ -4833,7 +4835,6 @@ Du kan administrere innstillingene for denne kontoen ved å installere Family Li
 <translation id="7099337801055912064">Kan ikke laste inn stor PPD. Maksimal størrelse er 250 kB.</translation>
 <translation id="7102687220333134671">Automatiske oppdateringer er slått på</translation>
 <translation id="7102832101143475489">Forespørselen ble tidsavbrutt</translation>
-<translation id="7102928824073746774">Gruppe uten navn – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-innstillinger</translation>
 <translation id="710640343305609397">Åpne nettverksinnstillingene</translation>
 <translation id="7108338896283013870">Skjul</translation>
@@ -4911,6 +4912,7 @@ Du kan administrere innstillingene for denne kontoen ved å installere Family Li
 <translation id="720110658997053098">Behold denne enheten permanent i kioskmodus</translation>
 <translation id="7201118060536064622">«<ph name="DELETED_ITEM_NAME" />» er slettet</translation>
 <translation id="7201420661433230412">Se filer</translation>
+<translation id="7203150201908454328">Utvidet</translation>
 <translation id="7203826966018112936">Du kan legge til en skolekonto på en profil for å gjøre det enkelt å logge på nettsteder og utvidelser som elev mens du er underlagt foreldrekontroll. Dette gir ikke barnet tilgang til bokmerker, passord eller andre nettleserdata som er synkronisert med skolekontoen.&lt;br&gt;&lt;br&gt;
     Hvis barnet bruker Chromebook på skolen og du vil gjenskape skoleopplevelsen hjemme for å sikre at barnet har tilgang til alt nødvendig skolearbeid, logger du av denne Family Link-kontoen og logger på skolekontoen på Chrome OS-kontosiden. (Merk: Family Link-foreldrekontroll kommer ikke til å være aktiv.)&lt;br&gt;&lt;br&gt;
     Hvis barnet ikke bruker Chromebook på skolen, eller hvis du foretrekker å administrere barnets opplevelse hjemme ved å bruke Family Link, klikker du på Neste-knappen under for å legge til en skolekonto på denne profilen.</translation>
@@ -5618,6 +5620,7 @@ Oppbevar nøkkelfilen på et trygt sted. Du får bruk for den når du skal oppre
 <translation id="8062844841289846053">{COUNT,plural, =1{1 ark}other{{COUNT} ark}}</translation>
 <translation id="8063235345342641131">Grønt standardbrukerbilde</translation>
 <translation id="8063535366119089408">Se filen</translation>
+<translation id="8064279191081105977">Gruppe <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Trykk for å logge på</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Skriv ut som bilde</translation>
@@ -6364,6 +6367,7 @@ Jeg tror ikke det er nødvendig å blokkere dette nettstedet.</translation>
 <translation id="8986362086234534611">Glem</translation>
 <translation id="8986494364107987395">Send bruksstatistikk og programstopprapporter automatisk til Google</translation>
 <translation id="8987927404178983737">Måned</translation>
+<translation id="8990209962746788689">Kan ikke opprette QR-kode</translation>
 <translation id="8991520179165052608">Nettstedet kan bruke mikrofonen din</translation>
 <translation id="899384117894244799">Fjern begrenset bruker</translation>
 <translation id="899403249577094719">Primære nettadresse for Netscape-sertifikat</translation>

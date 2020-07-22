@@ -700,7 +700,6 @@ Na aplikace a obsah v jiných zařízeních tato akce nemá vliv.</translation
 <translation id="184273675144259287">Nahradit aplikace a soubory systému Linux verzemi z předchozí zálohy</translation>
 <translation id="1842766183094193446">Opravdu chcete zapnout ukázkový režim?</translation>
 <translation id="1846308012215045257">Plugin <ph name="PLUGIN_NAME" /> spustíte kliknutím se stisknutou klávesou CTRL</translation>
-<translation id="1846880379134204029">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Povolit ambientní režim</translation>
 <translation id="1849186935225320012">Tato stránka má úplnou kontrolu nad zařízeními MIDI.</translation>
 <translation id="1850508293116537636">Otočit &amp;ve směru hodinových ručiček</translation>
@@ -867,6 +866,7 @@ Chcete-li spravovat nastavení tohoto účtu, nainstalujte si do zařízení apl
 <translation id="2065405795449409761">Chrome je právě kontrolován pomocí automatického testovacího softwaru.</translation>
 <translation id="2071393345806050157">Žádný místní soubor protokolu není k dispozici.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kliknutím toto rozšíření nainstalujete}few{Kliknutím tato rozšíření nainstalujete}many{Kliknutím tato rozšíření nainstalujete}other{Kliknutím tato rozšíření nainstalujete}}</translation>
+<translation id="2073505299004274893">Použijte maximálně <ph name="CHARACTER_LIMIT" /> znaků</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" /> % baterie</translation>
 <translation id="2075959085554270910">Umožňuje zapnout a vypnout funkci kliknutí klepnutím a přetahování klepnutím</translation>
 <translation id="2076269580855484719">Skrýt tento plugin</translation>
@@ -1714,6 +1714,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="3103941660000130485">Při upgradování Linuxu došlo k chybě</translation>
 <translation id="3105796011181310544">Změnit zpět na Google?</translation>
 <translation id="310671807099593501">Web používá Bluetooth</translation>
+<translation id="3109724472072898302">Sbaleno</translation>
 <translation id="3115147772012638511">Čekání na mezipaměť</translation>
 <translation id="3115580024857770654">Sbalit vše</translation>
 <translation id="3116968597797150452">Profil certifikátu</translation>
@@ -3474,6 +3475,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="5379140238605961210">Blokovat přístup k mikrofonu i nadále</translation>
 <translation id="5382591305415226340">Spravovat podporované odkazy</translation>
 <translation id="5383377866517186886">Fotoaparát je vypnutý v předvolbách systému Macu</translation>
+<translation id="5383740867328871413">Skupina bez názvu – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Párováno</translation>
 <translation id="5389237414310520250">Vytvoření nového uživatele se nezdařilo. Zkontrolujte místo na disku a oprávnění a zkuste to znovu.</translation>
 <translation id="5390100381392048184">Povolit webům přehrávat zvuky</translation>
@@ -3708,7 +3710,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="5659833766619490117">Tuto stránku se nepodařilo přeložit</translation>
 <translation id="5662513737565158057">Změna fungování linuxových aplikací.</translation>
 <translation id="5667546120811588575">Nastavování Google Play...</translation>
-<translation id="5669267381087807207">Probíhá aktivace</translation>
+<translation id="5669267381087807207">Aktivování</translation>
 <translation id="5669691691057771421">Zadejte nový PIN</translation>
 <translation id="5671641761787789573">Byly zablokovány obrázky</translation>
 <translation id="5671658447180261823">Odstranit návrh <ph name="SUGGESTION_NAME" /></translation>
@@ -4836,7 +4838,6 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="7099337801055912064">Soubor PPD nelze načíst, protože je příliš velký. Maximální povolená velikost je 250 kB.</translation>
 <translation id="7102687220333134671">Automatické aktualizace jsou zapnuté</translation>
 <translation id="7102832101143475489">Časový limit požadavku vypršel</translation>
-<translation id="7102928824073746774">Skupina bez názvu – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Předvolby USB</translation>
 <translation id="710640343305609397">Otevřít nastavení sítě</translation>
 <translation id="7108338896283013870">Skrýt</translation>
@@ -4914,6 +4915,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="720110658997053098">Trvale toto zařízení ponechat v režimu veřejného terminálu</translation>
 <translation id="7201118060536064622">Položka „<ph name="DELETED_ITEM_NAME" />“ byla smazána</translation>
 <translation id="7201420661433230412">Zobrazit soubory</translation>
+<translation id="7203150201908454328">Rozbaleno</translation>
 <translation id="7203826966018112936">Po přidání školního účtu se dítě bude moci přihlašovat na weby a do rozšíření jako student, přičemž zůstane aktivní rodičovská kontrola. Dítě nebude mít přístup k záložkám, heslům ani jiným datům prohlížeče, která se synchronizují se školním účtem.&lt;br&gt;&lt;br&gt;
     Pokud dítě používá Chromebook ve škole a chcete, aby doma mělo stejné prostředí a přístup ke všem školním úlohám, odhlaste se z účtu Family Link a na stránce systému Chrome OS s účty se přihlaste ke školnímu účtu. (Poznámka: Na účet se nebude vztahovat rodičovská kontrola Family Link.)&lt;br&gt;&lt;br&gt;
     Pokud dítě ve škole Chromebook nepoužívá, nebo mu doma prostředí chcete spravovat pomocí služby Family Link, klikněte níže na tlačítko Další a přidejte do tohoto profilu školní účet.</translation>
@@ -5307,7 +5309,7 @@ Zpráva serveru: <ph name="SERVER_MSG" /></translation>
 <translation id="7704317875155739195">Automaticky doplňovat vyhledávací dotazy a adresy URL</translation>
 <translation id="7704521324619958564">Otevřít Obchod Play</translation>
 <translation id="7705276765467986571">Model záložky nelze načíst.</translation>
-<translation id="7705524343798198388">Síť VPN</translation>
+<translation id="7705524343798198388">VPN</translation>
 <translation id="7706963867324547089">Přepnout režim čtečky</translation>
 <translation id="7707108266051544351">Tomuto webu bylo zablokováno používání senzorů pohybu.</translation>
 <translation id="7707922173985738739">Používat mobilní data</translation>
@@ -5621,6 +5623,7 @@ Svůj soubor klíče uchovávejte na bezpečném místě. Budete jej potřebovat
 <translation id="8062844841289846053">{COUNT,plural, =1{1 list papíru}few{{COUNT} listy papíru}many{{COUNT} listu papíru}other{{COUNT} listů papíru}}</translation>
 <translation id="8063235345342641131">Výchozí zelený avatar</translation>
 <translation id="8063535366119089408">Zobrazit soubor</translation>
+<translation id="8064279191081105977">Skupina <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Klepnutím se přihlásíte</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Vytisknout jako obrázek</translation>
@@ -5968,7 +5971,7 @@ Svůj soubor klíče uchovávejte na bezpečném místě. Budete jej potřebovat
 <translation id="8509646642152301857">Stažení slovníku pro kontrolu pravopisu se nezdařilo.</translation>
 <translation id="8512476990829870887">Ukončit proces</translation>
 <translation id="851263357009351303">Vždy povolovat zobrazování obrázků z webu <ph name="HOST" /></translation>
-<translation id="8513108775083588393">Automatické otáčení</translation>
+<translation id="8513108775083588393">Autom. otáčení</translation>
 <translation id="8514746246728959655">Zkuste jiný bezpečnostní klíč</translation>
 <translation id="8521475323816527629">Dostaňte se rychle k aplikacím</translation>
 <translation id="8523493869875972733">Uchovat změny</translation>
@@ -6366,6 +6369,7 @@ Svůj soubor klíče uchovávejte na bezpečném místě. Budete jej potřebovat
 <translation id="8986362086234534611">Odstranit</translation>
 <translation id="8986494364107987395">Automaticky posílat společnosti Google statistiky používání a zprávy o selhání</translation>
 <translation id="8987927404178983737">Měsíc</translation>
+<translation id="8990209962746788689">QR kód nelze vytvořit</translation>
 <translation id="8991520179165052608">Web může použít mikrofon</translation>
 <translation id="899384117894244799">Odstranit uživatele s omezenými oprávněními</translation>
 <translation id="899403249577094719">Základní adresa URL certifikátu Netscape</translation>

@@ -698,7 +698,6 @@
 <translation id="184273675144259287">ປ່ຽນແທນແອັບ ແລະ ໄຟລ໌ Linux ຂອງທ່ານດ້ວຍຂໍ້ມູນທີ່ສຳຮອງໄວ້ກ່ອນນີ້</translation>
 <translation id="1842766183094193446">ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການເປີດນຳໃຊ້ໂໝດສາທິດ?</translation>
 <translation id="1846308012215045257">ກົດ Control ແລ້ວຄລິກເພື່ອເປີດໃຊ້ <ph name="PLUGIN_NAME" />.</translation>
-<translation id="1846880379134204029">ກຸ່ມ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">ເປີດການນຳໃຊ້ໂໝດແວດລ້ອມອ້ອມຂ້າງ</translation>
 <translation id="1849186935225320012">ຫນ້າ​ນີ້​ມີ​ການ​ຄວບ​ຄຸມ​ອຸປະກອນ MIDI ເຕັມ​.</translation>
 <translation id="1850508293116537636">ໝຸນຕາມເຂັມໂມງ</translation>
@@ -865,6 +864,7 @@
 <translation id="2065405795449409761">Chrome ກຳລັງຖືກຄວບຄຸມໂດຍຊອບແວທົດສອບອັດຕະໂນມັດ.</translation>
 <translation id="2071393345806050157">ບໍ່ມີໄຟລ໌ບັນທຶກກັບທີ່.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{ຄລິກເພື່ອຕິດຕັ້ງສ່ວນຂະຫຍາຍ}other{ຄລິກເພື່ອຕິດຕັ້ງສ່ວນຂະຫຍາຍເຫຼົ່ານີ້}}</translation>
+<translation id="2073505299004274893">ໃຊ້ຕົວອັກສອນ <ph name="CHARACTER_LIMIT" /> ຕົວລົງມາ</translation>
 <translation id="2075474481720804517">ແບັດເຕີຣີ <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">ອະນຸຍາດໃຫ້ທ່ານເປີດ/ປິດນຳໃຊ້ ແຕະເພື່ອຄລິກ ແລະ ແຕະລາກ</translation>
 <translation id="2076269580855484719">ເຊື່ອງປລັກອິນນີ້</translation>
@@ -1713,6 +1713,7 @@
 <translation id="3103941660000130485">ເກີດຄວາມຜິດພາດໃນການອັບເກຣດ Linux</translation>
 <translation id="3105796011181310544">ປ່ຽນກັບຄືນເປັນ Google ບໍ?</translation>
 <translation id="310671807099593501">ເວັບໄຊກຳລັງໃຊ້ bluetooth</translation>
+<translation id="3109724472072898302">ຫຍໍ້ລົງ</translation>
 <translation id="3115147772012638511">ກໍາລັງລໍຖ້າແຄຊ໌...</translation>
 <translation id="3115580024857770654">ຫຍໍ້ທັງໝົດເຂົ້າ</translation>
 <translation id="3116968597797150452">ໂປຣໄຟລ໌ໃບຮັບຮອງ</translation>
@@ -3474,6 +3475,7 @@
 <translation id="5379140238605961210">ສືບ​ຕໍ່ບລັອກການເຂົ້າຫາໄມໂຄຣໂຟນ</translation>
 <translation id="5382591305415226340">ຈັດການລິ້ງທີ່ຮອງຮັບ</translation>
 <translation id="5383377866517186886">ກ້ອງຖ່າຍຮູບປິດຢູ່ໃນການຕັ້ງຄ່າລະບົບ Mac</translation>
+<translation id="5383740867328871413">ກຸ່ມທີ່ບໍ່ມີຊື່ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">ຈັບຄູ່ແລ້ວ</translation>
 <translation id="5389237414310520250">ບໍ່ສາມາດສ້າງຜູ້ໃຊ້ທີ່ມີ​ການ​ຄວບ​ຄຸມ​ດູ​ແລ​ໄດ້. ກະລຸນາກວດເບິ່ງບ່ອນຫ​ວ່າງຮາດ​ໄດຣ໌ ແລະ ການອະນຸຍາດຂອງ​ທ່ານ ແລະ ລອງໃໝ່ອີກ.</translation>
 <translation id="5390100381392048184">ອະນຸຍາດໃຫ້ເວັບໄຊຫຼິ້ນສຽງ</translation>
@@ -4836,7 +4838,6 @@
 <translation id="7099337801055912064">ບໍ່ສາມາດໂຫຼດ PPD ທີ່ມີຂະໜາດໃຫຍ່ໄດ້. ຂະໜາດສູງສຸດແມ່ນ 250 kB.</translation>
 <translation id="7102687220333134671">ການອັບເດດອັດຕະໂນມັດເປີດຢູ່</translation>
 <translation id="7102832101143475489">ຄຳຂໍໝົດເວລາແລ້ວ</translation>
-<translation id="7102928824073746774">ກຸ່ມທີ່ບໍ່ໄດ້ຕັ້ງຊື່ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">ການຕັ້ງຄ່າ USB</translation>
 <translation id="710640343305609397">ເປີດການຕັ້ງຄ່າເຄືອຂ່າຍ</translation>
 <translation id="7108338896283013870">ເຊື່ອງ</translation>
@@ -4914,6 +4915,7 @@
 <translation id="720110658997053098">ຮັກສາອຸປະກອນນີ້ຢູ່ໃນໂໝດ kiosk ຢ່າງຖາວອນ</translation>
 <translation id="7201118060536064622">ລຶບ '<ph name="DELETED_ITEM_NAME" />' ແລ້ວ</translation>
 <translation id="7201420661433230412">ເບິ່ງໄຟລ໌</translation>
+<translation id="7203150201908454328">ຂະ​ຫຍາຍ​ແລ້ວ</translation>
 <translation id="7203826966018112936">ການເພີ່ມບັນຊີໂຮງຮຽນເຮັດໃຫ້ສາມາດເຂົ້າສູ່ລະບົບເວັບໄຊ ແລະ ສ່ວນຂະຫຍາຍເປັນນັກຮຽນໄດ້ຢ່າງງ່າຍດາຍໃນຂະນະທີ່ນຳໃຊ້ພາຍໃຕ້ການຄວບຄຸມຂອງພໍ່ແມ່. ມັນບໍ່ໃຫ້ສິດເຂົ້າເຖິງບຸກມາກ, ລະຫັດຜ່ານ ຫຼື ຂໍ້ມູນໂປຣແກຣມທ່ອງເວັບອື່ນຂອງເດັກທີ່ຊິ້ງຂໍ້ມູນກັບບັນຊີໂຮງຮຽນ.&lt;br&gt;&lt;br&gt;
     ຖ້າລູກຂອງທ່ານໃຊ້ Chromebook ຢູ່ໂຮງຮຽນ ແລະ ທ່ານຕ້ອງການສະແດງປະສົບການຢູ່ໂຮງຮຽນຢູ່ເຮືອນເພື່ອໃຫ້ແນ່ໃຈວ່າລູກຂອງທ່ານມີສິດເຂົ້າເຖິງການຮຽນທີ່ຈຳເປັນທັງໝົດຢູ່ໂຮງຮຽນ, ກະລຸນາອອກຈາກລະບົບບັນຊີ Family Link ນີ້ ແລ້ວເຂົ້າສູ່ລະບົບບັນຊີໂຮງຮຽນຈາກໜ້າບັນຊີ Chrome OS (ໝາຍເຫດ: ການຄວບຄຸມຂອງພໍ່ແມໃນ Family Link ຈະບໍ່ນຳໃຊ້).&lt;br&gt;&lt;br&gt;
     ຖ້າລູກຂອງທ່ານບໍ່ໄດ້ໃຊ້ Chromebook ຢູ່ໂຮງຮຽນ ຫຼື ຖ້າທ່ານຕ້ອງການຈັດການປະສົບການຂອງລູກທ່ານຢູ່ເຮືອນໂດຍໃຊ້ Family Link, ກະລຸນາຄລິກປຸ່ມຕໍ່ໄປຢູ່ຂ້າງລຸ່ມເພື່ອເພີ່ມບັນຊີໂຮງຮຽນໃສ່ໂປຣໄຟລ໌ນີ້.</translation>
@@ -5178,7 +5180,7 @@
 <translation id="7543525346216957623">ຖາມພໍ່ແມ່ຂອງທ່ານ</translation>
 <translation id="7547317915858803630">ຄໍາເຕືອນ: ການຕັ້ງຄ່າ <ph name="PRODUCT_NAME" /> ຂອງທ່ານຖືກເກັບໄວ້ຢູ່ໃນດຣາຍເຄືອຂ່າຍ. ອັນນີ້ອາດຈະສົ່ງຜົນໃຫ້ມີການຊ້າລົງ, ເກີດການຂັດຂ້ອງ, ຫຼືແມ້ແຕ່ການສູນເສຍຂໍ້ມູນ.</translation>
 <translation id="7548856833046333824">ນໍ້າໝາກນາວ</translation>
-<translation id="7550830279652415241">ບຸກມາກສ໌_<ph name="DATESTAMP" />.html</translation>
+<translation id="7550830279652415241">ບຸກມາກ_<ph name="DATESTAMP" />.html</translation>
 <translation id="7551059576287086432"><ph name="FILE_NAME" /> ດາວ​ນ​໌​ໂຫລດ​ບໍ່​ສໍາ​ເລັດ</translation>
 <translation id="7551643184018910560">ປັກໝຸດໃສ່ຖ້ານ</translation>
 <translation id="7552846755917812628">ລອງຄຳແນະນຳຕໍ່ໄປນີ້:</translation>
@@ -5619,6 +5621,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{ເຈ້ຍ 1 ແຜ່ນ}other{ເຈ້ຍ {COUNT} ແຜ່ນ}}</translation>
 <translation id="8063235345342641131">ຮູບແທນຕົວສີຂຽວຕາມຄ່າເລີ່ມຕົ້ນ</translation>
 <translation id="8063535366119089408">ເບິ່ງໄຟລ໌</translation>
+<translation id="8064279191081105977">ກຸ່ມ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">ສຳຜັດເພື່ອເຂົ້າສູ່ລະບົບ</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">ພິມເປັນຮູບພາບ</translation>
@@ -6135,7 +6138,7 @@
 <translation id="8724409975248965964">ເພີ່ມລາຍນີ້ວມືແລ້ວ</translation>
 <translation id="8724859055372736596">ສະ​ແດງ​ຢູ່​ໃນ​ໂຟລ​ເດີ</translation>
 <translation id="8725066075913043281">ລອງໃໝ່ອີກ</translation>
-<translation id="8725178340343806893">ລາຍການທີ່ມັກ/ບຸກມາກສ໌</translation>
+<translation id="8725178340343806893">ລາຍການທີ່ມັກ/ບຸກມາກ</translation>
 <translation id="8726206820263995930">ຄວາມຜິດພາດເມື່ອໄປເອົາການຕັ້ງຄ່ານະໂຍບາຍຈາກເຊີບເວີ: <ph name="CLIENT_ERROR" />.</translation>
 <translation id="8727154974495727220">ໃນເວລາຕັ້ງຄ່າ <ph name="DEVICE_TYPE" /> ຂອງທ່ານ, ກະລຸນາກົດປຸ່ມຜູ້ຊ່ວຍ ຫຼື ເວົ້າ "OK Google" ເພື່ອຂໍຄວາມຊ່ວຍເຫຼືອໄດ້ທຸກເວລາ. ໄປຫາການຕັ້ງຄ່າຜູ້ຊ່ວຍເພື່ອເຮັດການປ່ຽນແປງ.</translation>
 <translation id="8730621377337864115">ສໍາເລັດ</translation>
@@ -6229,7 +6232,7 @@
 <translation id="881799181680267069">ເຊື່ອງອື່ນໆ</translation>
 <translation id="8818152010000655963">ພາບພື້ນຫຼັງ</translation>
 <translation id="8818958672113348984">ຢັ້ງຢືນຜ່ານໂທລະສັບຂອງທ່ານ</translation>
-<translation id="8820817407110198400">ບຸກມາກສ໌</translation>
+<translation id="8820817407110198400">ບຸກມາກ</translation>
 <translation id="8821045908425223359">ກຳນົດຄ່າທີ່ຢູ່ IP ໂດຍອັດຕະໂນມັດ</translation>
 <translation id="8821268776955756404"><ph name="APP_NAME" /> ພ້ອມໃຫ້ນຳໃຊ້ແລ້ວ.</translation>
 <translation id="882204272221080310">ອັບເດດເຟີມແວເພື່ອເພີ່ມຄວາມປອດໄພ.</translation>
@@ -6365,6 +6368,7 @@
 <translation id="8986362086234534611">ລືມ</translation>
 <translation id="8986494364107987395">ສົ່ງສະຖິຕິການໃຊ້ ແລະລາຍງານກາ​ນຂັດຂ້ອງໄປຫາ Google ໂດຍອັດຕະໂນມັດ</translation>
 <translation id="8987927404178983737">ເດືອນ</translation>
+<translation id="8990209962746788689">ບໍ່ສາມາດສ້າງລະຫັດ QR ໄດ້</translation>
 <translation id="8991520179165052608">ເວັບໄຊສາມາດໃຊ້ໄມໂຄຣໂຟນຂອງທ່ານໄດ້</translation>
 <translation id="899384117894244799">ລຶບຜູ້ໃຊ້ທີ່ຖືກຈຳກັດອອກ</translation>
 <translation id="899403249577094719">URL ຖານໃບຢັ້ງຢືນ Netscape</translation>
@@ -6464,7 +6468,7 @@
 <translation id="9112748030372401671">ປ່ຽນວອລເປເປີຂອງທ່ານ</translation>
 <translation id="9112987648460918699">ຊອກຫາ...</translation>
 <translation id="9114663181201435112">ເຂົ້າສູ່ລະບົບໄດ້ງ່າຍ</translation>
-<translation id="9115675100829699941">ບຸກມາກສ໌</translation>
+<translation id="9115675100829699941">ບຸກມາກ</translation>
 <translation id="9116465289595958864">ແກ້ໄຂຫຼ້າສຸດ</translation>
 <translation id="9116799625073598554">ແອັບຈົດບັນທຶກ</translation>
 <translation id="9117030152748022724">ຈັດການແອັບຂອງທ່ານ</translation>

@@ -698,7 +698,6 @@ xizmatlarini sizga moslashtirish maqsadlarida foydalanishi mumkin. Bu ruxsatni m
 <translation id="184273675144259287">Linux ilova va fayllarining oldingi nusxalarini tiklash</translation>
 <translation id="1842766183094193446">Demo rejim yoqilsinmi?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> plaginini ishga tushirish uchun CTRL tugmasini bosib turgan holda sichqoncha tugmasini bosing</translation>
-<translation id="1846880379134204029"><ph name="GROUP_NAME" /> guruhi – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Uyqu rejimini yoqish</translation>
 <translation id="1849186935225320012">Bu sahifa MIDI qurilmalarini to‘liq boshqaradi.</translation>
 <translation id="1850508293116537636">Soat mili yo‘nalishida burish</translation>
@@ -865,6 +864,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="2065405795449409761">Chrome avtomatlashtirilgan sinov dasturi tomonidan boshqariladi.</translation>
 <translation id="2071393345806050157">Mahalliy jurnal fayli yo‘q.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kengaytmani oʻrnatish uchun bosing}other{Kengaytmalarni oʻrnatish uchun bosing}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> ta belgidan oshmasin</translation>
 <translation id="2075474481720804517">Batareya: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Teginib bosish va teginib sudrash funksiyalarini yoqish / faolsizlantirish imkonini beradi</translation>
 <translation id="2076269580855484719">Bu plaginni yashirish</translation>
@@ -1713,6 +1713,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="3103941660000130485">Linux yangilanmadi</translation>
 <translation id="3105796011181310544">Googlega qaytarilsinmi?</translation>
 <translation id="310671807099593501">Sayt Bluetooth aloqasidan foydalanmoqda</translation>
+<translation id="3109724472072898302">Yig‘ilgan</translation>
 <translation id="3115147772012638511">Kesh kutilmoqda...</translation>
 <translation id="3115580024857770654">Hammasini yigʻish</translation>
 <translation id="3116968597797150452">Sertifikat profili</translation>
@@ -3474,6 +3475,7 @@ Oʻz qurilmangizda Family Link ilovasini oʻrnatib, bu hisob sozlamalarini boshq
 <translation id="5379140238605961210">Mikrofondan foydalanish har doim taqiqlansin</translation>
 <translation id="5382591305415226340">Qo‘llab-quvvatlanadigan havolalarni boshqarish</translation>
 <translation id="5383377866517186886">Kamera Mac tizim sozlamalaridan faolsizlantirilgan</translation>
+<translation id="5383740867328871413">Nomsiz guruh – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Ulandi</translation>
 <translation id="5389237414310520250">Yangi profil yaratib bo‘lmadi. Ruxsatlar va qattiq diskda yetarli bo‘sh joy mavjudligini tekshiring va qayta urinib ko‘ring.</translation>
 <translation id="5390100381392048184">Saytlarga ovoz ijro etish uchun ruxsat berish</translation>
@@ -4836,7 +4838,6 @@ Ochiq eksponenta (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bit):
 <translation id="7099337801055912064">Katta hajmli PPD yuklanmadi. Maksimal hajm: 250KB.</translation>
 <translation id="7102687220333134671">Avtomatik yangilash funksiyasi yoniq</translation>
 <translation id="7102832101143475489">So‘rov uchun ajratilgan vaqt tugadi</translation>
-<translation id="7102928824073746774">Nomsiz guruh – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB sozlamalari</translation>
 <translation id="710640343305609397">Tarmoq sozlamalarini ochish</translation>
 <translation id="7108338896283013870">Berkitish</translation>
@@ -4914,6 +4915,7 @@ Ochiq eksponenta (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bit):
 <translation id="720110658997053098">Qurilmani har doim kiosk rejimida ishga tushirish</translation>
 <translation id="7201118060536064622">“<ph name="DELETED_ITEM_NAME" />” o‘chirildi</translation>
 <translation id="7201420661433230412">Fayllarni ochish</translation>
+<translation id="7203150201908454328">Yoyilgan</translation>
 <translation id="7203826966018112936">Profilga maktab hisobi kiritilsa, ota-ona nazorati ostida sayt va kengaytmalarga oʻquvchi sifatida oson kirish mumkin. Bunda farzandingiz maktab hisobi bilan sinxronlangan bukmark, parol va boshqa brauzer maʼlumotlarini ishlata olmaydi.&lt;br&gt;&lt;br&gt;
     Agar farzandingiz Chromebookni maktabda ishlatsa va uyda ham shunday sharoit yaratmoqchi boʻlsangiz, Chrome OS hisoblar sahifasida joriy Family Link hisobidan chiqib, maktab hisobiga kiring (eslatma: Family Link ota-ona nazorati maktab hisobida ishlamaydi).&lt;br&gt;&lt;br&gt;
     Agar farzandingiz Chromebookni maktabda ishlatmasa yoki farzandingiz undan faqat uyda Family Link orqali foydalanishini istasangiz, quyidagi Keyingisi tugmasini bosing va bu profilga maktab hisobini kiriting.</translation>
@@ -5619,6 +5621,7 @@ Kalit faylini ishonchli joyda saqlang. U kengaytmaning yangi versiyalarini yarat
 <translation id="8062844841289846053">{COUNT,plural, =1{1 varaq qogʻoz}other{{COUNT} varaq qogʻoz}}</translation>
 <translation id="8063235345342641131">Standart yashil avatar</translation>
 <translation id="8063535366119089408">Faylni ochish</translation>
+<translation id="8064279191081105977"><ph name="GROUP_NAME" /> guruhi – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Kirish uchun bosing</translation>
 <translation id="8069615408251337349">Google virtual printeri</translation>
 <translation id="8071432093239591881">Rasm sifatida chop etish</translation>
@@ -6365,6 +6368,7 @@ Kalit faylini ishonchli joyda saqlang. U kengaytmaning yangi versiyalarini yarat
 <translation id="8986362086234534611">Olib tashlash</translation>
 <translation id="8986494364107987395">Foydalanish statistikasi va ishdan chiqishlar hisobotini avtomatik ravishda Google‘ga jo‘natish</translation>
 <translation id="8987927404178983737">Oy</translation>
+<translation id="8990209962746788689">QR-kod yaratilmadi</translation>
 <translation id="8991520179165052608">Sayt mikrofondan foydalanishi mumkin</translation>
 <translation id="899384117894244799">Cheklangan foydalanuvchini olib tashlash</translation>
 <translation id="899403249577094719">Netscape sertifikatlar omborining URL manzili</translation>

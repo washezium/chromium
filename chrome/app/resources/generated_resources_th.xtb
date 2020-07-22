@@ -700,7 +700,6 @@
 <translation id="184273675144259287">แทนที่แอปและไฟล์ Linux ด้วยข้อมูลสำรองก่อนหน้านี้</translation>
 <translation id="1842766183094193446">คุณแน่ใจไหมว่าต้องการเปิดใช้โหมดสาธิต</translation>
 <translation id="1846308012215045257">กด Control และคลิกเพื่อเรียกใช้ <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">กลุ่ม <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">เปิดใช้โหมดแอมเบียนท์</translation>
 <translation id="1849186935225320012">หน้านี้มีสิทธิ์ควบคุมอุปกรณ์ MIDI เต็มรูปแบบ</translation>
 <translation id="1850508293116537636">หมุน&amp;ตามเข็มนาฬิกา</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">ซอฟต์แวร์ทดสอบอัตโนมัติกำลังควบคุม Chrome อยู่</translation>
 <translation id="2071393345806050157">ไม่มีไฟล์บันทึกในเครื่อง</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{คลิกเพื่อติดตั้งส่วนขยาย}other{คลิกเพื่อติดตั้งส่วนขยายเหล่านี้}}</translation>
+<translation id="2073505299004274893">ใช้อักขระไม่เกิน <ph name="CHARACTER_LIMIT" /> ตัว</translation>
 <translation id="2075474481720804517">แบตเตอรี่ <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">ช่วยให้คุณเปิด/ปิดใช้การแตะเพื่อคลิกและการแตะแล้วลากได้</translation>
 <translation id="2076269580855484719">ซ่อนปลั๊กอินนี้</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">เกิดข้อผิดพลาดในการอัปเกรด Linux</translation>
 <translation id="3105796011181310544">ต้องการเปลี่ยนกลับไปใช้ Google ไหม</translation>
 <translation id="310671807099593501">เว็บไซต์กำลังใช้บลูทูธ</translation>
+<translation id="3109724472072898302">ยุบแล้ว</translation>
 <translation id="3115147772012638511">กำลังรอแคช...</translation>
 <translation id="3115580024857770654">ยุบทั้งหมด</translation>
 <translation id="3116968597797150452">โปรไฟล์ใบรับรอง</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">บล็อกการเข้าถึงไมโครโฟนต่อไป</translation>
 <translation id="5382591305415226340">จัดการลิงก์ที่สนับสนุน</translation>
 <translation id="5383377866517186886">กล้องปิดอยู่ในค่ากำหนดของระบบ Mac</translation>
+<translation id="5383740867328871413">กลุ่มที่ไม่มีชื่อ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">จับคู่</translation>
 <translation id="5389237414310520250">ไม่สามารถสร้างผู้ใช้ใหม่ได้ โปรดตรวจสอบพื้นที่ว่างในฮาร์ดไดรฟ์และสิทธิ์ของคุณ แล้วลองอีกครั้ง</translation>
 <translation id="5390100381392048184">อนุญาตให้เว็บไซต์เล่นเสียง</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">โหลด PPD ขนาดใหญ่ไม่ได้ ขนาดต้องไม่เกิน 250 KB</translation>
 <translation id="7102687220333134671">การอัปเดตอัตโนมัติเปิดอยู่</translation>
 <translation id="7102832101143475489">คำขอหมดเวลาแล้ว</translation>
-<translation id="7102928824073746774">กลุ่มที่ไม่มีชื่อ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">ค่ากำหนด USB</translation>
 <translation id="710640343305609397">เปิดการตั้งค่าเครือข่าย</translation>
 <translation id="7108338896283013870">ซ่อน</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">เก็บอุปกรณ์นี้ไว้ในโหมดคีออสก์อย่างถาวร</translation>
 <translation id="7201118060536064622">ลบ "<ph name="DELETED_ITEM_NAME" />" แล้ว</translation>
 <translation id="7201420661433230412">ดูไฟล์</translation>
+<translation id="7203150201908454328">ขยาย</translation>
 <translation id="7203826966018112936">การเพิ่มบัญชีโรงเรียนลงในโปรไฟล์ช่วยให้ผู้ใช้ซึ่งเป็นนักเรียนลงชื่อเข้าใช้เว็บไซต์และส่วนขยายต่างๆ ได้โดยง่ายในขณะที่ยังคงดำเนินการภายใต้การควบคุมโดยผู้ปกครอง การดำเนินการนี้ไม่ได้อนุญาตให้เด็กเข้าถึงบุ๊กมาร์ก รหัสผ่าน หรือข้อมูลอื่นๆ ของเบราว์เซอร์ที่ซิงค์กับบัญชีโรงเรียน&lt;br&gt;&lt;br&gt;
     หากบุตรหลานของคุณใช้ Chromebook ในโรงเรียนและคุณต้องการให้การเรียนการสอนที่บ้านเหมือนกับที่โรงเรียนเพื่อให้แน่ใจว่าเด็กจะเข้าถึงงานที่โรงเรียนตามที่จำเป็นทั้งหมดได้ โปรดออกจากระบบบัญชี Family Link นี้และลงชื่อเข้าใช้บัญชีโรงเรียนจากหน้าบัญชี Chrome OS (หมายเหตุ: ระบบจะไม่ใช้การควบคุมโดยผู้ปกครองของ Family Link)&lt;br&gt;&lt;br&gt;
     หากเด็กไม่ได้ใช้ Chromebook ในโรงเรียน หรือคุณต้องการจัดการเรียนการสอนที่บ้านโดยใช้ Family Link โปรดคลิกปุ่ม "ถัดไป" ด้านล่างเพื่อเพิ่มบัญชีโรงเรียนลงในโปรไฟล์นี้</translation>
@@ -5623,6 +5625,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 แผ่น}other{{COUNT} แผ่น}}</translation>
 <translation id="8063235345342641131">รูปโปรไฟล์เริ่มต้นสีเขียว</translation>
 <translation id="8063535366119089408">ดูไฟล์</translation>
+<translation id="8064279191081105977">กลุ่ม <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">แตะเพื่อลงชื่อเข้าใช้</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">พิมพ์เป็นรูปภาพ</translation>
@@ -6369,6 +6372,7 @@
 <translation id="8986362086234534611">ไม่จำ</translation>
 <translation id="8986494364107987395">ส่งสถิติการใช้งานและรายงานข้อขัดข้องไปยัง Google โดยอัตโนมัติ</translation>
 <translation id="8987927404178983737">เดือน</translation>
+<translation id="8990209962746788689">สร้างคิวอาร์โค้ดไม่ได้</translation>
 <translation id="8991520179165052608">เว็บไซต์ใช้ไมโครโฟนของคุณได้</translation>
 <translation id="899384117894244799">นำผู้ใช้ที่ถูกจำกัดออก</translation>
 <translation id="899403249577094719">URL ที่อ้างอิงใบรับรองของ Netscape</translation>

@@ -697,7 +697,6 @@
 <translation id="184273675144259287">ඔබේ ලිනක්ස් යෙදුම් සහ ගොනු පෙර උපස්ථයකින් ප්‍රතිස්ථාපන කරන්න</translation>
 <translation id="1842766183094193446">ඔබට ආදර්ශන ප්‍රකාරය සබල කිරීමට අවශ්‍ය බව සහතිකද?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> ධාවනය කිරීමට පාලන-ක්ලික් කරන්න</translation>
-<translation id="1846880379134204029">කණ්ඩායම <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">ස්ථානික ප්‍රකාරය සබල කරන්න</translation>
 <translation id="1849186935225320012">මෙම පිටුවට MIDI උපාංගවල සම්පූර්ණ පාලනය තිබේ.</translation>
 <translation id="1850508293116537636">දක්ෂිණාවර්ථව කරකවන්න (&amp;c)</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">Chrome ස්වයංකෘත පරීක්ෂණ මෘදුකාංගයකින් පාලනය කරමින් පවතී.</translation>
 <translation id="2071393345806050157">ප්‍රාදේශීය ලොග ගොනුව.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{දිගුව ස්ථාපන කිරීමට ක්ලික් කරන්න}one{දිගු ස්ථාපන කිරීමට ක්ලික් කරන්න}other{දිගු ස්ථාපන කිරීමට ක්ලික් කරන්න}}</translation>
+<translation id="2073505299004274893">අනුලකුණු <ph name="CHARACTER_LIMIT" />ක් හෝ අඩු ගණනක් භාවිත කරන්න</translation>
 <translation id="2075474481720804517">බැටරිය <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">ක්ලික් කිරීමට තට්ටු කිරීම සහ ඇදීම තට්ටු කිරිම සබල කිරීමට/අබල කිරීමට ඔබට ඉඩ දේ</translation>
 <translation id="2076269580855484719">මෙම ප්ලගිනය සඟවන්න</translation>
@@ -1712,6 +1712,7 @@
 <translation id="3103941660000130485">ලිනක්ස් උත්ශ්‍රේණි කිරීමේ දෝෂයයි</translation>
 <translation id="3105796011181310544">ආපසු Google වෙත හරවන්නේද?</translation>
 <translation id="310671807099593501">අඩවිය බ්ලූටූත් භාවිත කරයි</translation>
+<translation id="3109724472072898302">හැකිළූ</translation>
 <translation id="3115147772012638511">කෑෂය සඳහා රැඳෙමින්...</translation>
 <translation id="3115580024857770654">සියල්ල හකුළන්න</translation>
 <translation id="3116968597797150452">සහතික පැතිකඩ</translation>
@@ -3474,6 +3475,7 @@ Linux ස්ථාපනය කිරීම දත්තවලින් <ph name
 <translation id="5379140238605961210">මයික්‍රොෆෝන ප්‍රවේශය අවහිර කිරීම ඉදිරියටත් කරන්න</translation>
 <translation id="5382591305415226340">සහාය දක්වන සබැඳි කළමනාකරණය කරන්න</translation>
 <translation id="5383377866517186886">Mac පද්ධති මනාප තුළ කැමරාව අක්‍රිය කෙරේ</translation>
+<translation id="5383740867328871413">නම් නොකළ සමූහය - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">යුගලිතයි</translation>
 <translation id="5389237414310520250">අපොයි! නව පරීශීලක සෑදීමට නොහැකි විය. කරුණාකර ඔබේ දෘඪ තැටි ඉඩ සහ අවසර පරීක්ෂා කර නැවත උත්සාහ කරන්න.</translation>
 <translation id="5390100381392048184">අඩවිවලට ශබ්දය වාදනය කිරීමට ඉඩ දෙන්න</translation>
@@ -4835,7 +4837,6 @@ Linux ස්ථාපනය කිරීම දත්තවලින් <ph name
 <translation id="7099337801055912064">විශාල PPD පූරණය කළ නොහැක. උපරිම ප්‍රමාණය 250 kB වේ.</translation>
 <translation id="7102687220333134671">ස්වයංක්‍රීය යාවත්කාලීන ක්‍රියාත්මක කර ඇත</translation>
 <translation id="7102832101143475489">ඉල්ලීම් කාලය නිමා විය</translation>
-<translation id="7102928824073746774">නම් නොකළ කණ්ඩායම - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB මනාප</translation>
 <translation id="710640343305609397">ජාල සැකසීම් විවෘත කරන්න</translation>
 <translation id="7108338896283013870">සඟවන්න</translation>
@@ -4913,6 +4914,7 @@ Linux ස්ථාපනය කිරීම දත්තවලින් <ph name
 <translation id="720110658997053098">මෙම උපාංගය ස්ථිරවම kiosk ප්‍රකාරයෙහි තබා ගන්න</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' මැකිණි</translation>
 <translation id="7201420661433230412">ගොනු බලන්න</translation>
+<translation id="7203150201908454328">දිග හරින ලද</translation>
 <translation id="7203826966018112936">පැතිකඩකට පාසල් ගිණුමක් එක් කිරීම මාපිය පාලන යටතේ ක්‍රියා කරමින් සිටින අතරතුරු ශිෂ්‍යයෙක් වශයෙන් වෙබ් අඩවිවලට සහ දිගුවලට පහසු පුරනය සබල කරයි. එය දරුවෙකුට සමමුහූර්ත කළ පිටුසන්, මුරපද, හෝ වෙනත් බ්‍රවුසර දත්ත වෙත පාසල් ගිණුම මඟින් ප්‍රවේශ නොදෙයි.&lt;br&gt;&lt;br&gt;
     ඔබේ දරුවා Chromebook  එකක් භාවිත කරන අතර ඔබ ඔබේ දරුවාට අවශ්‍ය පාසල් වැඩ සියල්ල වෙත ප්‍රවේශය තිබීම තහවුරු කිරීමට නිවසේදී පාසල් අත්දැකීම දර්පණ කිරීමට කැමති නම්, මෙම Family Link ගිණුමෙන් වැරී Chrome OS ගිණුම් පිටුවෙන් පාසල් ගිණුමට පුරන්න (සටහන: Family Link මාපිය පාලන නොයෙදේ).&lt;br&gt;&lt;br&gt;
     ඔබේ දරුවා පාසලේදී Chromebook එකක් භාවිත නොකරන්නේ නම් හෝ ඔබ ඔබේ දරුවාගේ අත්දැකීම නිවසේදී Family Link භාවිත කර කළමනා කිරීමට කැමති නම්, මෙම පැතිකඩට පාසල් ගිණුමක් එක් කිරීමට පහත 'මීළඟ' බොත්ත ක්ලික් කරන්න.</translation>
@@ -5618,6 +5620,7 @@ Linux ස්ථාපනය කිරීම දත්තවලින් <ph name
 <translation id="8062844841289846053">{COUNT,plural, =1{1 කඩදාසි කොළයක්}one{කඩදාසි කොළ {COUNT} ක්}other{කඩදාසි කොළ {COUNT} ක්}}</translation>
 <translation id="8063235345342641131">පෙරනිමි කොළ නියුරුව</translation>
 <translation id="8063535366119089408">ගොනුව බලන්න</translation>
+<translation id="8064279191081105977">සමූහය <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">පිරීමට ස්පර්ශ කරන්න</translation>
 <translation id="8069615408251337349">Google Cloud මුද්‍රණය</translation>
 <translation id="8071432093239591881">රූපයක් ලෙස මුද්‍රණය කරන්න</translation>
@@ -6364,6 +6367,7 @@ Linux ස්ථාපනය කිරීම දත්තවලින් <ph name
 <translation id="8986362086234534611">අමතක</translation>
 <translation id="8986494364107987395">ස්වයංක්‍රීයව භාවිත සංඛ්‍යා ලේඛන සහ කඩිනම් වාර්තා Google වෙත යවන්න</translation>
 <translation id="8987927404178983737">මාසය</translation>
+<translation id="8990209962746788689">QR කේතය තැනිය නොහැකිය</translation>
 <translation id="8991520179165052608">අඩවියට ඔබේ මයික්‍රෆෝනය භාවිත කළ හැකිය</translation>
 <translation id="899384117894244799">සීමා කළ පරිශීලකයා ඉවත් කරන්න</translation>
 <translation id="899403249577094719">Netscape සහතික මත පදනම් වූ URL</translation>

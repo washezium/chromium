@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Sustituye tus aplicaciones y archivos de Linux por una copia de seguridad anterior</translation>
 <translation id="1842766183094193446">¿Seguro que quieres habilitar el modo de demostración?</translation>
 <translation id="1846308012215045257">Pulsa la tecla Ctrl y haz clic para ejecutar <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupo <ph name="GROUP_NAME" />: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Habilitar modo ambiente</translation>
 <translation id="1849186935225320012">Esta página tiene un control absoluto de los dispositivos MIDI.</translation>
 <translation id="1850508293116537636">Girar a la &amp;derecha</translation>
@@ -867,6 +866,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="2065405795449409761">Un software automatizado de pruebas está controlando Chrome.</translation>
 <translation id="2071393345806050157">No hay ningún archivo de registro local.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Haz clic para instalar la extensión}other{Haz clic para instalar las extensiones}}</translation>
+<translation id="2073505299004274893">Usa <ph name="CHARACTER_LIMIT" /> caracteres como máximo</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% de batería</translation>
 <translation id="2075959085554270910">Te permite habilitar o inhabilitar las funciones tocar para hacer clic y tocar y arrastrar</translation>
 <translation id="2076269580855484719">Ocultar este complemento</translation>
@@ -1715,6 +1715,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="3103941660000130485">No se ha podido actualizar Linux</translation>
 <translation id="3105796011181310544">¿Cambiar de nuevo a Google?</translation>
 <translation id="310671807099593501">El sitio web está usando el Bluetooth</translation>
+<translation id="3109724472072898302">Contraído</translation>
 <translation id="3115147772012638511">Esperando caché...</translation>
 <translation id="3115580024857770654">Ocultar todo</translation>
 <translation id="3116968597797150452">Perfil del certificado</translation>
@@ -3475,6 +3476,7 @@ Puedes gestionar la configuración de esta cuenta instalando la aplicación Fami
 <translation id="5379140238605961210">Seguir bloqueando el acceso al micrófono</translation>
 <translation id="5382591305415226340">Administrar enlaces compatibles</translation>
 <translation id="5383377866517186886">La cámara está desactivada en las Preferencias del Sistema de Mac</translation>
+<translation id="5383740867328871413">Grupo sin nombre - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Sincronizado</translation>
 <translation id="5389237414310520250">No se ha podido crear el nuevo usuario. Comprueba los permisos y el espacio de tu disco duro y vuelve a intentarlo.</translation>
 <translation id="5390100381392048184">Permitir que los sitios web reproduzcan sonidos</translation>
@@ -4837,7 +4839,6 @@ Exponente público (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bits):
 <translation id="7099337801055912064">No se pueden cargar archivos PPD grandes. El tamaño máximo es 250 kB.</translation>
 <translation id="7102687220333134671">Las actualizaciones automáticas están activadas</translation>
 <translation id="7102832101143475489">Se ha agotado el tiempo de espera de la solicitud</translation>
-<translation id="7102928824073746774">Grupo sin nombre: <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferencias de USB</translation>
 <translation id="710640343305609397">Abrir configuración de red</translation>
 <translation id="7108338896283013870">Ocultar</translation>
@@ -4915,6 +4916,7 @@ Exponente público (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bits):
 <translation id="720110658997053098">Mantener este dispositivo en modo kiosco de forma permanente</translation>
 <translation id="7201118060536064622">Se ha eliminado "<ph name="DELETED_ITEM_NAME" />"</translation>
 <translation id="7201420661433230412">Ver archivos</translation>
+<translation id="7203150201908454328">Ampliado</translation>
 <translation id="7203826966018112936">Añadir una cuenta de centro educativo a un perfil permite iniciar sesión fácilmente en sitios web y extensiones como alumno a la vez que sigue aplicándose el control parental. Esta acción no da acceso al menor a marcadores, contraseñas u otros datos del navegador sincronizados con la cuenta de centro educativo.&lt;br&gt;&lt;br&gt;
     Si tu hijo/a usa un Chromebook en su centro educativo y quieres replicar la experiencia escolar en casa para asegurarte de que tenga acceso a todo el material necesario, cierra la sesión de esta cuenta de Family Link e inicia sesión en la cuenta de centro educativo en la página de cuentas de Chrome OS (ten en cuenta que no se aplicará el control parental que hayas configurado en Family Link).&lt;br&gt;&lt;br&gt;
     Si tu hijo/a no usa un Chromebook en su centro educativo, o si prefieres gestionar su experiencia en casa a través de Family Link, haz clic en el botón Siguiente a continuación para añadir una cuenta de centro educativo a este perfil.</translation>
@@ -5622,6 +5624,7 @@ Guarda tu archivo de clave en un lugar seguro, ya que lo necesitarás para crear
 <translation id="8062844841289846053">{COUNT,plural, =1{1 hoja de papel}other{{COUNT} hojas de papel}}</translation>
 <translation id="8063235345342641131">Avatar verde predeterminado</translation>
 <translation id="8063535366119089408">Ver archivo</translation>
+<translation id="8064279191081105977">Grupo <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Toca para iniciar sesión</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Imprimir como imagen</translation>
@@ -6368,6 +6371,7 @@ Guarda tu archivo de clave en un lugar seguro, ya que lo necesitarás para crear
 <translation id="8986362086234534611">Dejar de recordar</translation>
 <translation id="8986494364107987395">Enviar automáticamente estadísticas de uso e informes sobre fallos a Google</translation>
 <translation id="8987927404178983737">Mes</translation>
+<translation id="8990209962746788689">No se puede crear el código QR</translation>
 <translation id="8991520179165052608">El sitio web puede usar tu micrófono</translation>
 <translation id="899384117894244799">Quitar usuario restringido</translation>
 <translation id="899403249577094719">URL base de certificado de Netscape</translation>

@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Korvaa Linux-sovellukset ja ‑tiedostot aiemmasta varmuuskopiosta</translation>
 <translation id="1842766183094193446">Haluatko varmasti ottaa esittelytilan käyttöön?</translation>
 <translation id="1846308012215045257">Suorita <ph name="PLUGIN_NAME" /> painamalla Control ja klikkaamalla tätä.</translation>
-<translation id="1846880379134204029">Ryhmä: <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Ota Lepotila käyttöön</translation>
 <translation id="1849186935225320012">Tällä sivulla on MIDI-laitteiden täysi käyttöoikeus.</translation>
 <translation id="1850508293116537636">Käännä &amp;myötäpäivään</translation>
@@ -867,6 +866,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="2065405795449409761">Automaattinen testausohjelmisto hallinnoi Chromea.</translation>
 <translation id="2071393345806050157">Paikallista lokitiedostoa ei ole.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Klikkaa asentaaksesi laajennus}other{Klikkaa asentaaksesi nämä laajennukset}}</translation>
+<translation id="2073505299004274893">Käytä korkeintaan <ph name="CHARACTER_LIMIT" /> merkkiä</translation>
 <translation id="2075474481720804517">Akku: <ph name="BATTERY_PERCENTAGE" /> %</translation>
 <translation id="2075959085554270910">Voit ottaa napauttamalla klikkaamisen ja vetämisen käyttöön tai poistaa sen käytöstä.</translation>
 <translation id="2076269580855484719">Piilota tämä laajennus</translation>
@@ -1715,6 +1715,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="3103941660000130485">Virhe päivitettäessä Linuxia</translation>
 <translation id="3105796011181310544">Vaihdetaanko takaisin Googleen?</translation>
 <translation id="310671807099593501">Sivusto käyttää Bluetoothia</translation>
+<translation id="3109724472072898302">Tiivistetty</translation>
 <translation id="3115147772012638511">Odotetaan välimuistia...</translation>
 <translation id="3115580024857770654">Tiivistä kaikki</translation>
 <translation id="3116968597797150452">Varmenneprofiili</translation>
@@ -3473,6 +3474,7 @@ Voit ylläpitää tilin asetuksia asentamalla laitteellesi Family Link ‑sovell
 <translation id="5379140238605961210">Estä edelleen mikrofonin käyttö</translation>
 <translation id="5382591305415226340">Hallinnoi tuettuja linkkejä</translation>
 <translation id="5383377866517186886">Kamera on poistettu käytöstä Macin järjestelmäasetuksista</translation>
+<translation id="5383740867328871413">Nimetön ryhmä – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Laitepari muodostettu</translation>
 <translation id="5389237414310520250">Uuden käyttäjän luominen epäonnistui. Tarkista kiintolevytila ja käyttöluvat ja yritä sitten uudelleen.</translation>
 <translation id="5390100381392048184">Salli sivustojen toistaa ääniä</translation>
@@ -4837,7 +4839,6 @@ Julkinen eksponentti (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bittiä):
 <translation id="7099337801055912064">PPD on liian suuri ladattavaksi. Enimmäiskoko on 250 kt.</translation>
 <translation id="7102687220333134671">Automaattiset päivitykset ovat käytössä.</translation>
 <translation id="7102832101143475489">Pyyntö aikakatkaistiin</translation>
-<translation id="7102928824073746774">Nimetön ryhmä – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-asetukset</translation>
 <translation id="710640343305609397">Avaa verkkoasetukset</translation>
 <translation id="7108338896283013870">Piilota</translation>
@@ -4915,6 +4916,7 @@ Julkinen eksponentti (<ph name="PUBLIC_EXPONENT_NUM_BITS" /> bittiä):
 <translation id="720110658997053098">Pidä tämä laite pysyvästi kioskitilassa</translation>
 <translation id="7201118060536064622"><ph name="DELETED_ITEM_NAME" /> poistettu</translation>
 <translation id="7201420661433230412">Näytä tiedostot</translation>
+<translation id="7203150201908454328">Laajennettu</translation>
 <translation id="7203826966018112936">Jos oppilaitostili lisätään, oppilaiden on helppo kirjautua sivustoille ja laajennuksiin lapsilukon asettamissa rajoissa. Lapsi ei pääse oppilaitostilille synkronoituun selausdataan, kuten kirjanmerkkeihin tai salasanoihin.&lt;br&gt;&lt;br&gt;
     Jos lapsesi käyttää koulussa Chromebookia ja haluat käyttökokemusten olevan samanlaiset koulussa ja kotona, jolloin lapsi saa kaikki tarvittavat oppimateriaalit, kirjaudu ulos tältä Family Link ‑tililtä ja kirjaudu oppilaitostilille Chrome-käyttöjärjestelmän tilisivulta (Family Linkin lapsilukko ei silloin toimi).&lt;br&gt;&lt;br&gt;
     Jos lapsi ei käytä koulussa Chromebookia tai päätät mieluummin lapsen käyttökokemuksesta kotona Family Linkin avulla, valitse alta Seuraava lisätäksesi tähän profiiliin oppilaitostilin.</translation>
@@ -5621,6 +5623,7 @@ Tallenna avaintiedosto suojattuun sijaintiin. Tarvitset sitä, jos haluat luoda 
 <translation id="8062844841289846053">{COUNT,plural, =1{1 paperiarkki}other{{COUNT} paperiarkkia}}</translation>
 <translation id="8063235345342641131">Vihreä oletusavatar</translation>
 <translation id="8063535366119089408">Näytä tiedosto</translation>
+<translation id="8064279191081105977">Ryhmä <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Kirjaudu sisään koskettamalla</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Tulosta kuvana</translation>
@@ -5969,7 +5972,7 @@ Tallenna avaintiedosto suojattuun sijaintiin. Tarvitset sitä, jos haluat luoda 
 <translation id="8509646642152301857">Oikeinkirjoituksen tarkistuksen sanakirjan lataus epäonnistui.</translation>
 <translation id="8512476990829870887">Lopeta prosessi</translation>
 <translation id="851263357009351303">Salli aina sivuston <ph name="HOST" /> näyttää kuvia</translation>
-<translation id="8513108775083588393">Automaattinen kääntö</translation>
+<translation id="8513108775083588393">Autom. kääntö</translation>
 <translation id="8514746246728959655">Kokeile toista suojausavainta</translation>
 <translation id="8521475323816527629">Avaa sovelluksia nopeasti</translation>
 <translation id="8523493869875972733">Säilytä muutokset</translation>
@@ -6367,6 +6370,7 @@ Tallenna avaintiedosto suojattuun sijaintiin. Tarvitset sitä, jos haluat luoda 
 <translation id="8986362086234534611">Unohda</translation>
 <translation id="8986494364107987395">Lähetä Googlelle käyttötilastoja ja virheraportteja automaattisesti</translation>
 <translation id="8987927404178983737">Kuukausi</translation>
+<translation id="8990209962746788689">QR-koodin luominen ei onnistu</translation>
 <translation id="8991520179165052608">Sivusto voi käyttää mikrofoniasi</translation>
 <translation id="899384117894244799">Poista rajoitettu käyttäjä</translation>
 <translation id="899403249577094719">Netscape-varmenteen URL-osoite</translation>

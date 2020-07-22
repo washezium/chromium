@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Deschide &amp;imaginea originală într-o filă nouă</translation>
 <translation id="1055806300943943258">Se caută dispozitive cu Bluetooth și USB...</translation>
 <translation id="1056466516655540509">Actualizată acum <ph name="MINUTES" /> minute</translation>
-<translation id="1056775291175587022">Nu s-au găsit rețele</translation>
+<translation id="1056775291175587022">Nicio rețea</translation>
 <translation id="1056898198331236512">Avertisment</translation>
 <translation id="1058262162121953039">Codul PUK</translation>
 <translation id="1060292118287751956">Stabilește frecvența actualizării ecranului</translation>
@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Înlocuiește aplicațiile și fișierele Linux cu cele dintr-un backup anterior</translation>
 <translation id="1842766183094193446">Sigur vrei să activezi modul demonstrativ?</translation>
 <translation id="1846308012215045257">Dă control-clic pentru a rula <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Grupul <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Activează modul ambiental</translation>
 <translation id="1849186935225320012">Această pagină are control complet asupra dispozitivelor MIDI.</translation>
 <translation id="1850508293116537636">Rotiți în sensul acelor de &amp;ceasornic</translation>
@@ -867,6 +866,7 @@ Poți gestiona setările contului dacă instalezi aplicația Family Link pe disp
 <translation id="2065405795449409761">Chrome este controlat de un software de testare automată.</translation>
 <translation id="2071393345806050157">Niciun fișier jurnal local.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Dă clic pentru a instala extensia}few{Dă clic pentru a instala extensiile}other{Dă clic pentru a instala extensiile}}</translation>
+<translation id="2073505299004274893">Folosește maximum <ph name="CHARACTER_LIMIT" /> de caractere</translation>
 <translation id="2075474481720804517">Nivelul bateriei: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Permite activarea/dezactivarea funcțiilor „Atinge pentru clic” și „Tragere prin atingere”</translation>
 <translation id="2076269580855484719">Ascunde acest plugin</translation>
@@ -1398,7 +1398,7 @@ Poți gestiona setările contului dacă instalezi aplicația Family Link pe disp
 <translation id="2714997332747470971">Scrii mai rapid cu ajutorul sugestiilor de informații cu caracter personal, cum ar fi numele, adresa sau numărul de telefon. Doar tu poți vedea sugestiile private, personalizate pentru contul tău.</translation>
 <translation id="2715751256863167692">Acest upgrade resetează Chromebookul și elimină datele actuale ale utilizatorului.</translation>
 <translation id="2716986496990888774">Această setare este gestionată de un părinte.</translation>
-<translation id="2718395828230677721">Lumină de noapte</translation>
+<translation id="2718395828230677721">Lum. de noapte</translation>
 <translation id="2718998670920917754">Software-ul antivirus a detectat un virus.</translation>
 <translation id="2719020180254996569">Rețeaua <ph name="NETWORK_INDEX" /> din <ph name="NETWORK_COUNT" />, <ph name="NETWORK_NAME" />, <ph name="CONNECTION_STATUS" />, detalii</translation>
 <translation id="2719936478972253983">Următoarele cookie-uri au fost blocate</translation>
@@ -1715,6 +1715,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="3103941660000130485">Eroare la upgrade-ul la Linux</translation>
 <translation id="3105796011181310544">Revii la Google?</translation>
 <translation id="310671807099593501">Site-ul folosește Bluetooth</translation>
+<translation id="3109724472072898302">Restrâns</translation>
 <translation id="3115147772012638511">Se așteaptă cache-ul...</translation>
 <translation id="3115580024857770654">Restrânge tot</translation>
 <translation id="3116968597797150452">Profil cu certificat</translation>
@@ -1896,7 +1897,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="3364986687961713424">De la administrator: <ph name="ADMIN_MESSAGE" /></translation>
 <translation id="3365598184818502391">Folosește Ctrl sau Alt</translation>
 <translation id="3367047597842238025">Configurează-ți dispozitivul <ph name="DEVICE_TYPE" /> așa cum dorești și descoperă toate funcțiile uimitoare pe care le ai la îndemână.</translation>
-<translation id="3368922792935385530">Conectată</translation>
+<translation id="3368922792935385530">Conectat</translation>
 <translation id="3369067987974711168">Afișează mai multe acțiuni pentru port</translation>
 <translation id="3369624026883419694">Se rezolvă gazda...</translation>
 <translation id="3370260763947406229">Corectare automată</translation>
@@ -2712,7 +2713,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="4375035964737468845">Deschide fișierele descărcate</translation>
 <translation id="4377363674125277448">A apărut o problemă cu privire la certificatul serverului.</translation>
 <translation id="4378154925671717803">Telefon</translation>
-<translation id="4378551569595875038">Se stabilește conexiunea...</translation>
+<translation id="4378551569595875038">Se conectează</translation>
 <translation id="4378556263712303865">Solicitarea dispozitivului</translation>
 <translation id="4379281552162875326">Dezinstalezi „<ph name="APP_NAME" />”?</translation>
 <translation id="4380648069038809855">Ai intrat în ecranul complet</translation>
@@ -3476,6 +3477,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="5379140238605961210">Blocați în continuare accesul la microfon</translation>
 <translation id="5382591305415226340">Gestionează linkurile acceptate</translation>
 <translation id="5383377866517186886">Camera foto este dezactivată în System Preferences (Preferințe de sistem) pentru Mac</translation>
+<translation id="5383740867328871413">Grup nedenumit – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Împerecheat</translation>
 <translation id="5389237414310520250">Noul utilizator nu a putut fi creat. Verifică spațiul de pe hard disk și permisiunile, apoi încearcă din nou.</translation>
 <translation id="5390100381392048184">Permite site-urilor să redea sunet</translation>
@@ -4838,7 +4840,6 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="7099337801055912064">Nu se poate încărca fișierul PPD mare. Dimensiunea maximă este 250 KB.</translation>
 <translation id="7102687220333134671">Actualizările automate sunt activate</translation>
 <translation id="7102832101143475489">Solicitarea a expirat</translation>
-<translation id="7102928824073746774">Grup nedenumit – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferințe USB</translation>
 <translation id="710640343305609397">Deschide setările pentru rețea</translation>
 <translation id="7108338896283013870">Ascunde</translation>
@@ -4916,6 +4917,7 @@ Mesaj de la server: <ph name="SERVER_MSG" /></translation>
 <translation id="720110658997053098">Menține permanent acest dispozitiv în modul chioșc</translation>
 <translation id="7201118060536064622">„<ph name="DELETED_ITEM_NAME" />” a fost șters</translation>
 <translation id="7201420661433230412">Afișați fișierele</translation>
+<translation id="7203150201908454328">Extins</translation>
 <translation id="7203826966018112936">Dacă adaugi un cont de la școală la un profil, te poți conecta ușor la site-uri și extensii ca elev, iar opțiunile de control parental vor rămâne active. Aceasta nu permite accesul unui copil la marcaje, parole sau alte date ale browserului sincronizate cu contul de la școală.&lt;br&gt;&lt;br&gt;
     În cazul în care copilul tău folosește un Chromebook la școală și vrei să redai acasă experiența de la școală, ca să te asiguri că acesta are acces la toate resursele necesare pentru activitatea școlară, deconectează-te de la acest cont Family Link și conectează-te la contul de la școală din pagina Conturi a sistemului de operare Chrome (notă: opțiunile de control parental Family Link nu se vor aplica).&lt;br&gt;&lt;br&gt;
     În cazul în care copilul tău nu folosește un Chromebook la școală sau preferi să gestionezi experiența copilului acasă folosind Family Link, dă clic pe butonul Înainte de mai jos pentru a adăuga un cont de la școală la acest profil.</translation>
@@ -5623,6 +5625,7 @@ Păstrează fișierul cu cheia într-un loc sigur. Acesta va fi necesar la crear
 <translation id="8062844841289846053">{COUNT,plural, =1{O coală de hârtie}few{{COUNT} coli de hârtie}other{{COUNT} de coli de hârtie}}</translation>
 <translation id="8063235345342641131">Avatar verde prestabilit</translation>
 <translation id="8063535366119089408">Vezi fișierul</translation>
+<translation id="8064279191081105977">Grupul <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Atinge pentru a te conecta</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Printează ca imagine</translation>
@@ -5971,7 +5974,7 @@ Păstrează fișierul cu cheia într-un loc sigur. Acesta va fi necesar la crear
 <translation id="8509646642152301857">Descărcarea dicționarului de verificare ortografică nu a reușit.</translation>
 <translation id="8512476990829870887">Opriți procesul</translation>
 <translation id="851263357009351303">Permite întotdeauna afișarea de imagini de la <ph name="HOST" /></translation>
-<translation id="8513108775083588393">Rotire automată</translation>
+<translation id="8513108775083588393">Rotire autom.</translation>
 <translation id="8514746246728959655">Încearcă altă cheie de securitate</translation>
 <translation id="8521475323816527629">Accesează rapid aplicațiile</translation>
 <translation id="8523493869875972733">Păstrează modificările</translation>
@@ -6369,6 +6372,7 @@ Păstrează fișierul cu cheia într-un loc sigur. Acesta va fi necesar la crear
 <translation id="8986362086234534611">Șterge</translation>
 <translation id="8986494364107987395">Trimite automat la Google statistici de utilizare și rapoarte de blocare</translation>
 <translation id="8987927404178983737">Lună</translation>
+<translation id="8990209962746788689">Nu s-a putut crea codul QR</translation>
 <translation id="8991520179165052608">Site-ul poate folosi microfonul</translation>
 <translation id="899384117894244799">Exclude un utilizator cu permisiuni limitate</translation>
 <translation id="899403249577094719">Adresă URL de bază pentru certificat Netscape</translation>

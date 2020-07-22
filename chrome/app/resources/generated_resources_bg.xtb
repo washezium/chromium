@@ -697,7 +697,6 @@
 <translation id="184273675144259287">Замяна на приложенията и файловете ви за Linux с предишно резервно копие</translation>
 <translation id="1842766183094193446">Наистина ли искате да активирате демонстрационния режим?</translation>
 <translation id="1846308012215045257">Задръжте „Ctrl“ и кликнете, за да стартирате <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Група <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Активиране на режима на фон</translation>
 <translation id="1849186935225320012">Тази страница има пълен контрол над MIDI устройствата.</translation>
 <translation id="1850508293116537636">Завъртане &amp;по часовниковата стрелка</translation>
@@ -864,6 +863,7 @@
 <translation id="2065405795449409761">Chrome се контролира от автоматизиран софтуер за тестване.</translation>
 <translation id="2071393345806050157">Няма локален регистрационен файл.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Кликнете, за да го инсталирате}other{Кликнете, за да ги инсталирате}}</translation>
+<translation id="2073505299004274893">Използвайте не повече от <ph name="CHARACTER_LIMIT" /> знака</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% батерия</translation>
 <translation id="2075959085554270910">Позволява ви да активирате/деактивирате кликването с докосване и преместването чрез докосване</translation>
 <translation id="2076269580855484719">Скриване на тази приставка</translation>
@@ -1712,6 +1712,7 @@
 <translation id="3103941660000130485">При надстройването на Linux възникна грешка</translation>
 <translation id="3105796011181310544">Искате ли да се върнете към Google?</translation>
 <translation id="310671807099593501">Сайтът използва Bluetooth</translation>
+<translation id="3109724472072898302">Свито</translation>
 <translation id="3115147772012638511">Кешът се изчаква...</translation>
 <translation id="3115580024857770654">Свиване на всички</translation>
 <translation id="3116968597797150452">Профил на сертификата</translation>
@@ -3475,6 +3476,7 @@
 <translation id="5379140238605961210">Достъпът до микрофона да продължи да се блокира</translation>
 <translation id="5382591305415226340">Управление на поддържаните връзки</translation>
 <translation id="5383377866517186886">Камерата е изключена в системните предпочитания за Mac</translation>
+<translation id="5383740867328871413">Група без име – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Сдвоено</translation>
 <translation id="5389237414310520250">Новият потребител не можа да се създаде. Моля, проверете мястото на твърдия си диск и разрешенията и опитайте отново.</translation>
 <translation id="5390100381392048184">Разрешаване на сайтовете да възпроизвеждат звук</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">PPD файлът е твърде голям, за да бъде зареден. Максималният размер е 250 КБ.</translation>
 <translation id="7102687220333134671">Автоматичните актуализации са включени</translation>
 <translation id="7102832101143475489">Времето за изчакване на заявката изтече</translation>
-<translation id="7102928824073746774">Група без име – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Предпочитания за USB</translation>
 <translation id="710640343305609397">Отваряне на настройките за мрежата</translation>
 <translation id="7108338896283013870">Скриване</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">Това устройство да е постоянно в павилионен режим</translation>
 <translation id="7201118060536064622">Изтрихте „<ph name="DELETED_ITEM_NAME" />“</translation>
 <translation id="7201420661433230412">Преглед на файловете</translation>
+<translation id="7203150201908454328">Разгънато</translation>
 <translation id="7203826966018112936">С добавянето на училищен профил към потребителския профил можете лесно да влизате като ученик в уебсайтове и разширения, докато функцията за родителски контроли е активна. Това не предоставя достъп на детето до отметките, паролите и други данни в браузъра, които се синхронизират с училищния профил.&lt;br&gt;&lt;br&gt;
     Ако детето ви използва Chromebook в училище и искате вкъщи да възпроизведете практическата работа там, така че детето да има достъп до всички необходими учебни материали, излезте от този профил във Family Link и влезте в училищния от страницата „Профили“ на Chrome OS (забележка: родителските контроли на Family Link няма да са в сила).&lt;br&gt;&lt;br&gt;
     В случай че детето ви не използва Chromebook в училище или ако предпочитате да управлявате практическата му работа посредством Family Link, по-долу кликнете върху бутона „Напред“, за да добавите училищен профил към този потребителски профил.</translation>
@@ -5623,6 +5625,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 лист хартия}other{{COUNT} листа хартия}}</translation>
 <translation id="8063235345342641131">Стандартен зелен аватар</translation>
 <translation id="8063535366119089408">Преглед на файла</translation>
+<translation id="8064279191081105977">Група <ph name="GROUP_NAME" /> – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Докоснете за вход в профила си</translation>
 <translation id="8069615408251337349">Google Отпечатване в облак</translation>
 <translation id="8071432093239591881">Отпечатване като изображение</translation>
@@ -6369,6 +6372,7 @@
 <translation id="8986362086234534611">Забравяне</translation>
 <translation id="8986494364107987395">Автоматично изпращане до Google на статистически данни за използването на Chrome и сигнали за сривове</translation>
 <translation id="8987927404178983737">Месец</translation>
+<translation id="8990209962746788689">Не може да се създаде QR код</translation>
 <translation id="8991520179165052608">Сайтът може да използва микрофона ви</translation>
 <translation id="899384117894244799">Премахване на потребител с ограничена функционалност</translation>
 <translation id="899403249577094719">Основен URL адрес на сертификат на Netscape</translation>

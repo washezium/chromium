@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Orijinal &amp;Resmi Yeni Sekmede Aç</translation>
 <translation id="1055806300943943258">Bluetooth ve USB cihazları aranıyor...</translation>
 <translation id="1056466516655540509"><ph name="MINUTES" /> dk. önce güncellendi</translation>
-<translation id="1056775291175587022">Hücresel ağ yok</translation>
+<translation id="1056775291175587022">Ağ yok</translation>
 <translation id="1056898198331236512">Uyarı</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">Ekranın güncellenme sıklığını belirler</translation>
@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Linux uygulamalarınızı ve dosyalarınızı önceki bir yedek ile değiştirme</translation>
 <translation id="1842766183094193446">Demo modunu etkinleştirmek istediğinizden emin misiniz?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> eklentisini çalıştırmak için Control tuşuyla birlikte tıklayın</translation>
-<translation id="1846880379134204029">Grup <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Ambiyans modunu etkinleştir</translation>
 <translation id="1849186935225320012">Bu sayfa MIDI cihazları üzerinde tam denetime sahip.</translation>
 <translation id="1850508293116537636">Saat &amp;yönünde döndür</translation>
@@ -867,6 +866,7 @@ Cihazınızda Family Link uygulamasını yükleyerek bu hesabın ayarlarını y�
 <translation id="2065405795449409761">Chrome otomatik test yazılımı tarafından kontrol ediliyor.</translation>
 <translation id="2071393345806050157">Yerel günlük dosyası yok.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Uzantıyı yüklemek için tıklayın}other{Bu uzantıları yüklemek için tıklayın}}</translation>
+<translation id="2073505299004274893">En fazla <ph name="CHARACTER_LIMIT" /> karakter kullanın</translation>
 <translation id="2075474481720804517">%<ph name="BATTERY_PERCENTAGE" /> Pil</translation>
 <translation id="2075959085554270910">Dokunarak tıklama ve dokunarak sürükleme işlevlerini etkinleştirmenize/devre dışı bırakmanıza izin verir</translation>
 <translation id="2076269580855484719">Bu eklentiyi gizle</translation>
@@ -1314,7 +1314,7 @@ Cihazınızda Family Link uygulamasını yükleyerek bu hesabın ayarlarını y�
 <translation id="2619761439309613843">Günlük Yenileme</translation>
 <translation id="2620436844016719705">Sistem</translation>
 <translation id="262154978979441594">Google Asistan ses modelini eğitin</translation>
-<translation id="2621713457727696555">Güvenliği sağlandı</translation>
+<translation id="2621713457727696555">Güvenlik sağlandı</translation>
 <translation id="26224892172169984">Protokolleri işlemek için hiçbir siteye izin verme</translation>
 <translation id="262373406453641243">Colemak</translation>
 <translation id="2624142942574147739">Bu sayfa kameranıza ve mikrofonunuza erişiyor.</translation>
@@ -1715,6 +1715,7 @@ Sunucunun mesajı: <ph name="SERVER_MSG" /></translation>
 <translation id="3103941660000130485">Linux yeni sürüme geçirilirken hata oluştu</translation>
 <translation id="3105796011181310544">Google’a geri dönmek ister misiniz?</translation>
 <translation id="310671807099593501">Site, Bluetooth bağlantısını kullanıyor</translation>
+<translation id="3109724472072898302">Daraltılmış</translation>
 <translation id="3115147772012638511">Önbellek bekleniyor...</translation>
 <translation id="3115580024857770654">Tümünü daralt</translation>
 <translation id="3116968597797150452">Sertifika Profili</translation>
@@ -3476,6 +3477,7 @@ Sunucunun mesajı: <ph name="SERVER_MSG" /></translation>
 <translation id="5379140238605961210">Mikrofon erişimini engellemeye devam et</translation>
 <translation id="5382591305415226340">Desteklenen bağlantıları yönet</translation>
 <translation id="5383377866517186886">Kamera, Mac Sistem Tercihleri'nde kapatıldı</translation>
+<translation id="5383740867328871413">Adsız grup - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Eşleştirilmiş</translation>
 <translation id="5389237414310520250">Yeni kullanıcı oluşturulamadı. Lütfen sabit disk alanınızı ve izinlerinizi kontrol edin ve tekrar deneyin.</translation>
 <translation id="5390100381392048184">Sitelerin ses çalmasına izin ver</translation>
@@ -4839,7 +4841,6 @@ Hassas bilgileri vermediğinizden emin olun.</translation>
 <translation id="7099337801055912064">Büyük PPD yüklenemiyor. Maksimum boyut 250 kB'tır.</translation>
 <translation id="7102687220333134671">Otomatik güncellemeler açık</translation>
 <translation id="7102832101143475489">İstek zaman aşımına uğradı</translation>
-<translation id="7102928824073746774">Adsız grup - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB tercihleri</translation>
 <translation id="710640343305609397">Ağ ayarlarını aç</translation>
 <translation id="7108338896283013870">Gizle</translation>
@@ -4917,6 +4918,7 @@ Hassas bilgileri vermediğinizden emin olun.</translation>
 <translation id="720110658997053098">Bu cihazı kalıcı olarak kiosk modunda tut</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" silindi</translation>
 <translation id="7201420661433230412">Dosyaları görüntüle</translation>
+<translation id="7203150201908454328">Genişletilmiş</translation>
 <translation id="7203826966018112936">Profile okul hesabı eklemek, ebeveyn denetimleri altında çalışmaya devam ederken web sitelerinde ve uzantılarda öğrenci olarak kolayca oturum açmayı sağlar. Bu, çocuğa okul hesabıyla senkronize edilen yer işaretlerine, şifrelere ve diğer tarayıcı verilerine erişim izni vermez.&lt;br&gt;&lt;br&gt;
     Çocuğunuz okulda Chromebook kullanıyorsa ve çocuğunuzun gerekli tüm okul çalışmalarına erişimini sağlamak için evde okul deneyimini yansıtmak istiyorsanız lütfen bu Family Link hesabında oturumunuzu kapatıp Chrome OS hesapları sayfasından okul hesabında oturum açın (Not: Family Link ebeveyn denetimleri geçerli olmayacak).&lt;br&gt;&lt;br&gt;
     Çocuğunuz okulda Chromebook kullanmıyorsa veya çocuğunuzun evdeki deneyimini Family Link'i kullanarak yönetmeyi tercih ediyorsanız bu profile okul hesabı eklemek için lütfen aşağıdaki Sonraki düğmesini tıklayın.</translation>
@@ -5623,6 +5625,7 @@ Anahtar dosyanızı güvenli bir yerde saklayın. Uzantınızın yeni sürümler
 <translation id="8062844841289846053">{COUNT,plural, =1{1 kağıt}other{{COUNT} kağıt}}</translation>
 <translation id="8063235345342641131">Varsayılan yeşil avatar</translation>
 <translation id="8063535366119089408">Dosyayı göster</translation>
+<translation id="8064279191081105977"><ph name="GROUP_NAME" /> grubu - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Oturum açmak için dokunun</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Resim olarak yazdır</translation>
@@ -5971,7 +5974,7 @@ Anahtar dosyanızı güvenli bir yerde saklayın. Uzantınızın yeni sürümler
 <translation id="8509646642152301857">Yazım denetimi sözlüğü indirilemedi.</translation>
 <translation id="8512476990829870887">İşlemi Bitir</translation>
 <translation id="851263357009351303"><ph name="HOST" /> sitesindeki resimlerin gösterilmesine her zaman izin ver</translation>
-<translation id="8513108775083588393">Otomatik döndür</translation>
+<translation id="8513108775083588393">Oto. döndür</translation>
 <translation id="8514746246728959655">Başka bir güvenlik anahtarı deneyin</translation>
 <translation id="8521475323816527629">Uygulamalarınıza hızlıca ulaşın</translation>
 <translation id="8523493869875972733">Değişiklikleri Koru</translation>
@@ -6369,6 +6372,7 @@ Anahtar dosyanızı güvenli bir yerde saklayın. Uzantınızın yeni sürümler
 <translation id="8986362086234534611">Unut</translation>
 <translation id="8986494364107987395">Kullanım istatistiklerini ve çökme raporlarını otomatik olarak Google'a gönder</translation>
 <translation id="8987927404178983737">Ay</translation>
+<translation id="8990209962746788689">QR kodu oluşturulamıyor</translation>
 <translation id="8991520179165052608">Site, mikrofonunuzu kullanabilir</translation>
 <translation id="899384117894244799">Kısıtlanmış kullanıcıyı kaldır</translation>
 <translation id="899403249577094719">Netscape Sertifikası Temel URL'si</translation>

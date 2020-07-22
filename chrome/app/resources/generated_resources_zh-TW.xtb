@@ -700,7 +700,6 @@
 <translation id="184273675144259287">以先前的備份取代你的 Linux 應用程式和檔案</translation>
 <translation id="1842766183094193446">確定要啟用示範模式嗎？</translation>
 <translation id="1846308012215045257">按下 Ctrl 鍵並點選即可執行「<ph name="PLUGIN_NAME" />」</translation>
-<translation id="1846880379134204029">「<ph name="GROUP_NAME" />」群組 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">啟用微光模式</translation>
 <translation id="1849186935225320012">這個網頁可完整控制 MIDI 裝置。</translation>
 <translation id="1850508293116537636">順時針旋轉(&amp;C)</translation>
@@ -1714,6 +1713,7 @@
 <translation id="3103941660000130485">升級 Linux 時發生錯誤</translation>
 <translation id="3105796011181310544">要改回 Google 嗎？</translation>
 <translation id="310671807099593501">網站正在使用藍牙</translation>
+<translation id="3109724472072898302">已收合</translation>
 <translation id="3115147772012638511">等候快取...</translation>
 <translation id="3115580024857770654">全部收合</translation>
 <translation id="3116968597797150452">憑證設定檔</translation>
@@ -4836,7 +4836,6 @@
 <translation id="7099337801055912064">無法載入大型 PPD。大小上限為 250 KB。</translation>
 <translation id="7102687220333134671">自動更新功能已開啟</translation>
 <translation id="7102832101143475489">要求逾時</translation>
-<translation id="7102928824073746774">未命名的群組 - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB 偏好設定</translation>
 <translation id="710640343305609397">開啟網路設定</translation>
 <translation id="7108338896283013870">隱藏</translation>
@@ -4914,6 +4913,7 @@
 <translation id="720110658997053098">讓裝置永久使用 Kiosk 模式</translation>
 <translation id="7201118060536064622">已刪除「<ph name="DELETED_ITEM_NAME" />」</translation>
 <translation id="7201420661433230412">查看檔案</translation>
+<translation id="7203150201908454328">已展開</translation>
 <translation id="7203826966018112936">將學校帳戶新增至設定檔可讓子女以學生的身分輕鬆登入網站和擴充功能，同時遵守家長監護功能的操作規範。這項操作不允許子女存取與學校帳戶同步的書籤、密碼或其他瀏覽器資料。&lt;br&gt;&lt;br&gt;
     如果子女在學校使用 Chromebook，而您想在家中複製相同的學校使用體驗，以確保子女可存取所有與學校作業相關的必要資訊，請登出這個 Family Link 帳戶，然後從 Chrome 作業系統帳戶頁面登入學校帳戶 (注意：系統不會套用 Family Link 家長監護功能)。&lt;br&gt;&lt;br&gt;
     如果子女在學校不是使用 Chromebook，或是您想要使用 Family Link 管理子女在家中的使用體驗，請按下方的 [下一步] 按鈕，將學校帳戶新增至這個設定檔。</translation>

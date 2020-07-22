@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">नवीन टॅबमध्‍ये मूळ &amp;प्रतिमा उघडा</translation>
 <translation id="1055806300943943258">ब्लूटूथ आणि USB डिव्हाइस शोधत आहे...</translation>
 <translation id="1056466516655540509"><ph name="MINUTES" /> मिनिटांपूर्वी अपडेट केले</translation>
-<translation id="1056775291175587022">कोणतीही नेटवर्क नाहीत</translation>
+<translation id="1056775291175587022">नेटवर्क नाहीत</translation>
 <translation id="1056898198331236512">चेतावणी</translation>
 <translation id="1058262162121953039">PUK</translation>
 <translation id="1060292118287751956">स्क्रीन अपडेट करत असलेली वारंवारता निर्धारित करतो</translation>
@@ -699,7 +699,6 @@
 <translation id="184273675144259287">तुमची Linux अ‍ॅप्स आणि फाइल मागील बॅकअपसह बदला</translation>
 <translation id="1842766183094193446">तुम्हाला खरंच डेमो मोड सुरू करायचा आहे का?</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> चालवण्‍यासाठी Control-क्लिक करा</translation>
-<translation id="1846880379134204029">गट <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">अ‍ॅंबियंट मोड सुरू करा</translation>
 <translation id="1849186935225320012">या पृष्ठास MIDI डिव्हाइसचे पूर्ण नियंत्रण आहे.</translation>
 <translation id="1850508293116537636">&amp;घड्याळाच्या दिशेने फिरवा</translation>
@@ -866,6 +865,7 @@
 <translation id="2065405795449409761">स्वयंचलित चाचणी सॉफ्टवेअरने Chrome नियंत्रित केले जात आहे.</translation>
 <translation id="2071393345806050157">स्थानिक लॉग फाइल नाही.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{एक्स्टेंशन इंस्टॉल करण्यासाठी क्लिक करा}other{ही एक्स्टेंशन इंस्टॉल करण्यासाठी क्लिक करा}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> वर्ण किंवा त्यापेक्षा कमी वापरा</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% बॅटरी</translation>
 <translation id="2075959085554270910">क्लिक करण्यासाठी टॅप करा सुरू/बंद करण्याची आणि ड्रॅग करणे टॅप करण्याची तुम्हाला अनुमती देते</translation>
 <translation id="2076269580855484719">हे प्लग-इन लपवा</translation>
@@ -1397,7 +1397,7 @@
 <translation id="2714997332747470971">तुमचे नाव, पत्ता किंवा फोन नंबर यांसारख्या सूचना वापरून वैयक्तिक माहिती सूचना तुम्हाला आणखी जलद लिहिण्यात मदत करतात. तुमच्या खात्यासाठीच्या तुमच्या स्वतःच्या खाजगी, पर्सनलाइझ केलेल्या सूचना फक्त तुम्हाला दिसतात.</translation>
 <translation id="2715751256863167692">हे अपडेट तुमचे Chromebook रीसेट करते आणि तुमचा सद्य वापरकर्ता डेटा काढून टाकते.</translation>
 <translation id="2716986496990888774">हे सेटिंग पालकांकडून व्यवस्थापित केले आहे.</translation>
-<translation id="2718395828230677721">रात्रीचा प्रकाश</translation>
+<translation id="2718395828230677721">रात्री प्रकाश</translation>
 <translation id="2718998670920917754">अँटी-व्हायरस सॉफ्टवेअरला एक व्हायरस आढळला.</translation>
 <translation id="2719020180254996569"><ph name="NETWORK_COUNT" /> पैकी <ph name="NETWORK_INDEX" /> नेटवर्क, <ph name="NETWORK_NAME" />, <ph name="CONNECTION_STATUS" />, तपशील</translation>
 <translation id="2719936478972253983">पुढील कुकी ब्लॉक केल्या होत्‍या</translation>
@@ -1714,6 +1714,7 @@
 <translation id="3103941660000130485">Linux अपग्रेड करताना एरर आली</translation>
 <translation id="3105796011181310544">Google वर परत बदलायचे आहे का?</translation>
 <translation id="310671807099593501">साइट ब्लूटूथ वापरत आहे</translation>
+<translation id="3109724472072898302">संकुचित केलेले</translation>
 <translation id="3115147772012638511">कॅशेसाठी प्रतीक्षा करत आहे...</translation>
 <translation id="3115580024857770654">सर्व कोलॅप्‍स करा</translation>
 <translation id="3116968597797150452">सर्टिफिकेट प्रोफाइल</translation>
@@ -2709,7 +2710,7 @@
 <translation id="4375035964737468845">डाउनलोड केलेल्या फाइल उघडा</translation>
 <translation id="4377363674125277448">सर्व्हरच्या सर्टिफिकेटस समस्या आली.</translation>
 <translation id="4378154925671717803">फोन</translation>
-<translation id="4378551569595875038">कनेक्ट करीत आहे...</translation>
+<translation id="4378551569595875038">कनेक्ट होतय...</translation>
 <translation id="4378556263712303865">डीव्हाइसची मागणी</translation>
 <translation id="4379281552162875326">"<ph name="APP_NAME" />" अनइंस्टॉल करायचे?</translation>
 <translation id="4380648069038809855">फुल स्क्रीनमध्ये प्रवेश केला आहे</translation>
@@ -2908,7 +2909,7 @@
 <translation id="4625078469366263107">अ‍ॅप सुरू करा</translation>
 <translation id="4627427111733173920">कुकीज ब्लॉक केल्या</translation>
 <translation id="4627442949885028695">दुसर्‍या डिव्हाइस वरून सुरू ठेवा</translation>
-<translation id="4628757576491864469">डिव्हाइसेस</translation>
+<translation id="4628757576491864469">डिव्हाइस</translation>
 <translation id="4628762811416793313">Linux कंटेनर सेटअप पूर्ण झाला नाही. कृपया पुन्हा प्रयत्न करा.</translation>
 <translation id="4633003931260532286">एक्स्टेंशनला किमान आवृत्ती "<ph name="IMPORT_VERSION" />" सह "<ph name="IMPORT_NAME" />" ची गरज आहे, परंतु केवळ आवृत्ती "<ph name="INSTALLED_VERSION" />" इंस्टॉल केली गेली आहे</translation>
 <translation id="4633757335284074492">Google Drive वर बॅकअप घ्या. डेटा कधीही सहजपणे रिस्टोअर करा किंवा डिव्हाइस स्विच करा. या बॅकअपमध्ये अ‍ॅप डेटा समाविष्ट आहे. बॅकअप Google वर अपलोड केले जातात आणि तुमच्या मुलाचा Google खाते पासवर्ड वापरून एंक्रिप्ट केले जातात.</translation>
@@ -3473,6 +3474,7 @@
 <translation id="5379140238605961210">मायक्रोफोन ॲक्सेस ब्लॉक करणे सुरू ठेवा</translation>
 <translation id="5382591305415226340">समर्थित लिंक व्यवस्थापित करा</translation>
 <translation id="5383377866517186886">Mac सिस्टम प्राधान्ये मधील कॅमेरा बंद केला आहे</translation>
+<translation id="5383740867328871413">अनामित गट - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">जोडलेले</translation>
 <translation id="5389237414310520250">नवीन वापरकर्ता तयार करणे शक्य झाले नाही. कृपया तुमची हार्ड ड्राइव्ह जागा आणि परवानग्या तपासा आणि पुन्हा प्रयत्न करा.</translation>
 <translation id="5390100381392048184">साइटना ध्वनी प्ले करण्याची परवानगी द्या</translation>
@@ -3707,7 +3709,7 @@
 <translation id="5659833766619490117">या पेजचे भाषांतर करता आले नाही</translation>
 <translation id="5662513737565158057">Linux ॲप्स कशी काम करतील ते बदला.</translation>
 <translation id="5667546120811588575">Google Play सेट अप करत आहे...</translation>
-<translation id="5669267381087807207">सक्रिय करीत आहे </translation>
+<translation id="5669267381087807207">सक्रिय करत आहे</translation>
 <translation id="5669691691057771421">नवीन पिन एंटर करा</translation>
 <translation id="5671641761787789573">इमेज ब्लॉक केल्या</translation>
 <translation id="5671658447180261823">सूचना <ph name="SUGGESTION_NAME" /> काढा</translation>
@@ -4836,7 +4838,6 @@
 <translation id="7099337801055912064">मोठ्या PPD लोड करू शकत नाही. कमाल आकार 250kB आहे.</translation>
 <translation id="7102687220333134671">स्वयंचलित अपडेट सुरू केली आहेत</translation>
 <translation id="7102832101143475489">विनंतीची वेळ संपली</translation>
-<translation id="7102928824073746774">नाव नसलेला गट - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB प्राधान्ये</translation>
 <translation id="710640343305609397">नेटवर्क सेटिंग्ज उघडा</translation>
 <translation id="7108338896283013870">लपवा</translation>
@@ -4872,7 +4873,7 @@
 <translation id="713888829801648570">क्षमस्‍व, तुम्ही ऑफलाइन असल्‍याने तुमचा पासवर्ड पडताळणी करणे शक्य झाले नाही.</translation>
 <translation id="7140928199327930795">कोणतीही अन्य उपलब्ध डिव्हाइसेस नाहीत.</translation>
 <translation id="7141105143012495934">तुमचे खाते तपशील प्राप्त करणे शक्य झाले नसल्याने साइन-इन अयशस्वी झाले. कृपया तुमच्या ॲडमिनिस्ट्रेटरशी संपर्क साधा किंवा पुन्हा प्रयत्न करा.</translation>
-<translation id="7143207342074048698">कनेक्ट करीत आहे</translation>
+<translation id="7143207342074048698">कनेक्ट करत आहे</translation>
 <translation id="7144878232160441200">पुन्हा प्रयत्न करा</translation>
 <translation id="7149893636342594995">शेवटच्या 72 तासांमधील</translation>
 <translation id="715118844758971915">क्लासिक प्रिंटर</translation>
@@ -4914,6 +4915,7 @@
 <translation id="720110658997053098">हे डिव्हाइस कायमचे कियोस्क मोडमध्ये ठेवा</translation>
 <translation id="7201118060536064622">'<ph name="DELETED_ITEM_NAME" />' हटवले</translation>
 <translation id="7201420661433230412">फाइल पहा</translation>
+<translation id="7203150201908454328">विस्‍तृत केलेले</translation>
 <translation id="7203826966018112936">प्रोफाइलवर शाळा खाते जोडल्याने पालक नियंत्रणाखाली ऑपरेट करत असताना विद्यार्थी म्हणून वेबसाइट आणि एक्स्टेंशनमध्ये सहजपणे साइन इन करता येते. ते तुमच्या मुलाला बुकमार्क, पासवर्ड किंवा शाळा खात्याशी सिंक केलेल्या इतर ब्राउझर डेटाचा अ‍ॅक्सेस देत नाही.&lt;br&gt;&lt;br&gt;
     तुमचे मूल शाळेत Chromebook वापरत असल्यास आणि तुमच्या मुलाला सर्व आवश्यक शालेय कामाचा अ‍ॅक्सेस असेल याची खात्री करण्यासाठी तुम्हाला शाळेतील अनुभव घरात प्रतिबिंबित करायचा असल्यास, कृपया या Family Link खात्यामधून साइन आउट करा आणि Chrome OS खाती पेजमधून शाळा खात्यामध्ये साइन इन करा (टीप: Family Link पालक नियंत्रणे लागू होणार नाहीत).&lt;br&gt;&lt;br&gt;
     तुमचे मूल शाळेत Chromebook वापरत नसल्यास किंवा तुम्हाला घरीच Family Link वापरून तुमच्या मुलाचा अनुभव व्यवस्थापित करण्यास प्राधान्य द्यायचे असल्यास, या प्रोफाइलवर शाळा खाते जोडण्यासाठी खाली दिलेल्या पुढील बटणावर क्लिक करा.</translation>
@@ -5619,6 +5621,7 @@ https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/debugging-featu
 <translation id="8062844841289846053">{COUNT,plural, =1{कागदाचे एक पत्रक}other{कागदाची {COUNT} पत्रके}}</translation>
 <translation id="8063235345342641131">डीफॉल्ट हिरवा अवतार</translation>
 <translation id="8063535366119089408">फाइल पहा</translation>
+<translation id="8064279191081105977">गट <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">साइन इन साठी स्पर्श करा</translation>
 <translation id="8069615408251337349">Google क्लाउड प्रिंट</translation>
 <translation id="8071432093239591881">इमेज म्हणून प्रिंट करा</translation>
@@ -6277,7 +6280,7 @@ https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/debugging-featu
 <translation id="8871974300055371298">आशय सेटिंग्ज</translation>
 <translation id="8872155268274985541">अवैध कियोस्क बाह्य अपडेट मॅनिफेस्ट फाइल आढळली. कियोस्क ॲप अपडेट करण्यात अयशस्वी. कृपया USB स्टिक काढून टाका.</translation>
 <translation id="8872777911145321141">साइटला तुमची आभासी वास्तविकता डिव्हाइस आणि डेटा वापरायचा असेल तेव्हा विचारा (शिफारस केलेले)</translation>
-<translation id="8874184842967597500">कनेक्ट केलेले नाही</translation>
+<translation id="8874184842967597500">कनेक्ट नाही</translation>
 <translation id="8875520811099717934">Linux अपग्रेड करा</translation>
 <translation id="8876307312329369159">हे सेटिंग डेमो सत्रामध्ये बदलले जाऊ शकत नाही.</translation>
 <translation id="8877448029301136595">[मूळ डिरेक्टरी]</translation>
@@ -6366,6 +6369,7 @@ https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/debugging-featu
 <translation id="8986362086234534611">विसरा</translation>
 <translation id="8986494364107987395">Google ला वापर आकडेवारी आणि क्रॅश अहवाल आपोआप पाठवा</translation>
 <translation id="8987927404178983737">महिना</translation>
+<translation id="8990209962746788689">QR कोड तयार करता आला नाही</translation>
 <translation id="8991520179165052608">साइट तुमचा मायक्रोफोन वापरू शकते</translation>
 <translation id="899384117894244799">प्रतिबंधित वापरकर्ता काढा</translation>
 <translation id="899403249577094719">Netscape सर्टिफिकेट मूळ URL</translation>

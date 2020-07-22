@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Sostituisci app e file Linux con un backup precedente</translation>
 <translation id="1842766183094193446">Vuoi attivare questa modalità demo?</translation>
 <translation id="1846308012215045257">Premi CTRL e fai clic per eseguire <ph name="PLUGIN_NAME" /></translation>
-<translation id="1846880379134204029">Gruppo <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Abilitare la modalità Ambient</translation>
 <translation id="1849186935225320012">Questa pagina ha il controllo totale dei dispositivi MIDI.</translation>
 <translation id="1850508293116537636">Ruota in senso o&amp;rario</translation>
@@ -1714,6 +1713,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="3103941660000130485">Errore durante l'upgrade di Linux</translation>
 <translation id="3105796011181310544">Tornare a Google?</translation>
 <translation id="310671807099593501">Il sito sta usando il Bluetooth</translation>
+<translation id="3109724472072898302">Compresso</translation>
 <translation id="3115147772012638511">In attesa di elaborazione cache...</translation>
 <translation id="3115580024857770654">Comprimi tutto</translation>
 <translation id="3116968597797150452">Profilo di certificato</translation>
@@ -4837,7 +4837,6 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="7099337801055912064">Impossibile caricare il file PPD. Dimensioni massime: 250 kB.</translation>
 <translation id="7102687220333134671">Gli aggiornamenti automatici sono attivi</translation>
 <translation id="7102832101143475489">La richiesta è scaduta</translation>
-<translation id="7102928824073746774">Gruppo senza nome - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">Preferenze USB</translation>
 <translation id="710640343305609397">Apri impostazioni di rete</translation>
 <translation id="7108338896283013870">Nascondi</translation>
@@ -4915,6 +4914,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="720110658997053098">Mantieni definitivamente questo dispositivo in modalità kiosk</translation>
 <translation id="7201118060536064622">"<ph name="DELETED_ITEM_NAME" />" eliminato</translation>
 <translation id="7201420661433230412">Visualizza i file</translation>
+<translation id="7203150201908454328">Espanso</translation>
 <translation id="7203826966018112936">L'aggiunta di un account della scuola a un profilo consente di accedere facilmente ai siti web e alle estensioni come studente, applicando al tempo stesso il Controllo genitori. Non consente a un minore di accedere a preferiti, password o altri dati di navigazione sincronizzati con l'account della scuola.&lt;br&gt;&lt;br&gt;
     Se tuo figlio usa un Chromebook a scuola e vuoi rispecchiare l'esperienza scolastica a casa per assicurarti che abbia accesso a tutti i compiti necessari, esci da questo account Family Link e accedi all'account della scuola dalla pagina degli account di Chrome OS (tieni però presente che non sarà applicato il Controllo genitori di Family Link).&lt;br&gt;&lt;br&gt;
     Se tuo figlio non usa un Chromebook a scuola o se preferisci gestire la sua esperienza domestica con Family Link, fai clic sul pulsante Avanti qui sotto per aggiungere un account della scuola a questo profilo.</translation>

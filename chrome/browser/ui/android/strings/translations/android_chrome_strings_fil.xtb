@@ -751,7 +751,7 @@ Halimbawa, puwedeng tumugon ang ilang website sa kahilingang ito sa pamamagitan 
 <translation id="6955535239952325894">Naka-disable ang setting na ito sa mga pinapamahalaang browser</translation>
 <translation id="6963766334940102469">Mag-delete ng mga bookmark</translation>
 <translation id="6979737339423435258">Lahat ng oras</translation>
-<translation id="6981982820502123353">Pagiging Accessible</translation>
+<translation id="6981982820502123353">Accessibility</translation>
 <translation id="6989267951144302301">Hindi ma-download</translation>
 <translation id="6990079615885386641">Kunin ang app mula sa Google Play Store: <ph name="APP_ACTION" /></translation>
 <translation id="6995899638241819463">Balaan ka kung ma-expose ang mga password sa isang paglabag sa data</translation>
@@ -998,6 +998,7 @@ Halimbawa, puwedeng tumugon ang ilang website sa kahilingang ito sa pamamagitan 
 <translation id="8970887620466824814">Nagkaproblema.</translation>
 <translation id="8972098258593396643">I-download sa default na folder?</translation>
 <translation id="8988028529677883095">Gamitin ang telepono bilang security key</translation>
+<translation id="8990209962746788689">Hindi magawa ang QR code</translation>
 <translation id="8993760627012879038">Magbukas ng bagong tab sa Incognito mode</translation>
 <translation id="8998729206196772491">Nagsa-sign in ka gamit ang isang account na pinamamahalaan ng <ph name="MANAGED_DOMAIN" /> at binibigyan mo ang administrator nito ng kontrol sa iyong data sa Chrome. Permanenteng mauugnay ang iyong data sa account na ito. Made-delete ang data mo sa device na ito kapag nag-sign out ka sa Chrome, ngunit mananatili itong naka-store sa iyong Google Account.</translation>
 <translation id="9028914725102941583">I-on ang pag-sync para makapagbahagi sa mga device</translation>

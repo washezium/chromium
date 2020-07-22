@@ -700,7 +700,6 @@
 <translation id="184273675144259287">A Linux-alkalmazások és -fájlok lecserélése a korábbi biztonsági másolat tartalmával</translation>
 <translation id="1842766183094193446">Biztosan engedélyezi a demó módot?</translation>
 <translation id="1846308012215045257">A Control billentyű lenyomása mellett kattintson ide a(z) <ph name="PLUGIN_NAME" /> futtatásához.</translation>
-<translation id="1846880379134204029"><ph name="GROUP_NAME" /> csoport – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">Ambient-mód engedélyezése</translation>
 <translation id="1849186935225320012">Ez az oldal teljes hozzáféréssel rendelkezik a MIDI-eszközökhöz.</translation>
 <translation id="1850508293116537636">Forgatás &amp;jobbra</translation>
@@ -867,6 +866,7 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="2065405795449409761">A Chrome-ot automatizált tesztszoftverek irányítják.</translation>
 <translation id="2071393345806050157">Nincs helyi naplófájl.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Kattintson ide a bővítmény telepítéséhez}other{Kattintson ide a bővítmények telepítéséhez}}</translation>
+<translation id="2073505299004274893">Legfeljebb <ph name="CHARACTER_LIMIT" /> karakter használható</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />%-os töltöttség</translation>
 <translation id="2075959085554270910">Lehetővé teszi a koppintással történő kattintás és a koppintással történő húzás engedélyezését/letiltását</translation>
 <translation id="2076269580855484719">Plug-in elrejtése</translation>
@@ -1715,6 +1715,7 @@ Ha kezelni szeretné a fiók beállításait, telepítse eszközére a Family Li
 <translation id="3103941660000130485">Hiba a Linux frissítése során</translation>
 <translation id="3105796011181310544">Visszaállítja a Google-t?</translation>
 <translation id="310671807099593501">A webhely Bluetooth-t használ</translation>
+<translation id="3109724472072898302">Összecsukott</translation>
 <translation id="3115147772012638511">Betöltés a gyorsítótárból folyamatban...</translation>
 <translation id="3115580024857770654">Az összes összecsukása</translation>
 <translation id="3116968597797150452">Tanúsítványprofil</translation>
@@ -3476,6 +3477,7 @@ Egyes webhelyek például válaszolhatnak rá úgy, hogy olyan hirdetéseket jel
 <translation id="5379140238605961210">Mikrofon-hozzáférés tiltásának fenntartása</translation>
 <translation id="5382591305415226340">Támogatott linkek kezelése</translation>
 <translation id="5383377866517186886">A kamera ki van kapcsolva a Mac Rendszerbeállításokban</translation>
+<translation id="5383740867328871413">Név nélküli csoport – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Párosítva</translation>
 <translation id="5389237414310520250">Nem sikerült létrehozni az új felhasználót. Kérjük, ellenőrizze a merevlemezen rendelkezésre álló helyet és az engedélyeket, majd próbálja újra.</translation>
 <translation id="5390100381392048184">A webhelyek lejátszhatnak hangokat</translation>
@@ -4839,7 +4841,6 @@ Győződjön meg arról, hogy nem ad ki bizalmas adatokat.</translation>
 <translation id="7099337801055912064">Nem használható túl nagy PPD. A maximális méret 250 kB.</translation>
 <translation id="7102687220333134671">Az automatikus frissítések be vannak kapcsolva</translation>
 <translation id="7102832101143475489">A kérelem lejárt</translation>
-<translation id="7102928824073746774">Név nélküli csoport – <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB-beállítások</translation>
 <translation id="710640343305609397">Hálózati beállítások megnyitása</translation>
 <translation id="7108338896283013870">Elrejtés</translation>
@@ -4917,6 +4918,7 @@ Győződjön meg arról, hogy nem ad ki bizalmas adatokat.</translation>
 <translation id="720110658997053098">Az eszköz állandó kioszk módban tartása</translation>
 <translation id="7201118060536064622">„<ph name="DELETED_ITEM_NAME" />” törölve</translation>
 <translation id="7201420661433230412">Fájlok megtekintése</translation>
+<translation id="7203150201908454328">Kibontott</translation>
 <translation id="7203826966018112936">A profilhoz adott iskolai fiók egyszerű bejelentkezést tesz lehetővé a webhelyeken és a bővítményekben tanulóként, és a szülői felügyeleti vezérlők szerint működik. Gyermeke nem fér hozzá a könyvjelzőkhöz, jelszavakhoz és más adatokhoz, amelyek az iskolai fiókkal szinkronizálódnak.&lt;br&gt;&lt;br&gt;
     Ha gyermeke Chromebook eszközt használ az iskolában, és az iskolaival megegyező környezetet teremtene otthon, hogy minden iskolai anyag biztosan hozzáférhető legyen, akkor jelentkezzen ki ebből a Family Link-fiókból, majd jelentkezzen be az iskolai fiókba a Chrome OS fiókkezelő képernyőjén (megjegyzés: így a Family Link szülői felügyeleti vezérlői nem működnek).&lt;br&gt;&lt;br&gt;
     Ha gyermeke nem használ Chromebook eszközt az iskolában, vagy ha Ön a Family Link segítségével felügyelni szeretné az eszköz használatát, az alábbi Tovább gombra kattintva adjon a profilhoz iskolai fiókot.</translation>
@@ -5624,6 +5626,7 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="8062844841289846053">{COUNT,plural, =1{1 papírlap}other{{COUNT} papírlap}}</translation>
 <translation id="8063235345342641131">Alapértelmezett zöld avatar</translation>
 <translation id="8063535366119089408">Fájl megtekintése</translation>
+<translation id="8064279191081105977">„<ph name="GROUP_NAME" />” csoport – <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Érintse meg a bejelentkezéshez</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Nyomtatás képként</translation>
@@ -6370,6 +6373,7 @@ A kulcsfájlt tartsa biztonságos helyen. Szüksége lesz rá ahhoz, hogy új ve
 <translation id="8986362086234534611">Elfelejt</translation>
 <translation id="8986494364107987395">Használati statisztikák és hibajelentések automatikus küldése a Google-nak</translation>
 <translation id="8987927404178983737">hónap</translation>
+<translation id="8990209962746788689">Nem lehet létrehozni QR-kódot</translation>
 <translation id="8991520179165052608">A webhely használhatja a mikrofonját</translation>
 <translation id="899384117894244799">Korlátozott felhasználó eltávolítása</translation>
 <translation id="899403249577094719">Netscape tanúsítvány - alap URL</translation>

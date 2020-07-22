@@ -700,7 +700,6 @@
 <translation id="184273675144259287">Linux のアプリとファイルを以前のバックアップで置き換えます</translation>
 <translation id="1842766183094193446">デモモードを有効にしてもよろしいですか？</translation>
 <translation id="1846308012215045257"><ph name="PLUGIN_NAME" /> を実行するには Control キーを押しながらクリックします</translation>
-<translation id="1846880379134204029">グループ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="184715642345428649">背景モードの有効化</translation>
 <translation id="1849186935225320012">このページは MIDI デバイスのフル コントロールが許可されています。</translation>
 <translation id="1850508293116537636">時計回りに回転(&amp;C)</translation>
@@ -867,6 +866,7 @@
 <translation id="2065405795449409761">Chrome は自動テスト ソフトウェアによって制御されています。</translation>
 <translation id="2071393345806050157">ローカルのログ ファイルがありません。</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{この拡張機能をインストールするには、クリックしてください}other{これらの拡張機能をインストールするには、クリックしてください}}</translation>
+<translation id="2073505299004274893">半角 <ph name="CHARACTER_LIMIT" /> 文字以内で入力してください</translation>
 <translation id="2075474481720804517">バッテリー残量: <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">タップによるクリックとタップによるドラッグを有効化または無効化します</translation>
 <translation id="2076269580855484719">このプラグインを表示しない</translation>
@@ -1715,6 +1715,7 @@
 <translation id="3103941660000130485">Linux のアップグレード中にエラーが発生しました</translation>
 <translation id="3105796011181310544">Google に戻しますか？</translation>
 <translation id="310671807099593501">サイトで Bluetooth が使用されています</translation>
+<translation id="3109724472072898302">折りたたみ表示中</translation>
 <translation id="3115147772012638511">キャッシュを待機しています...</translation>
 <translation id="3115580024857770654">すべて折りたたむ</translation>
 <translation id="3116968597797150452">証明書プロフィール</translation>
@@ -3476,6 +3477,7 @@
 <translation id="5379140238605961210">マイクへのアクセスを引き続きブロックする</translation>
 <translation id="5382591305415226340">サポートされているリンクを管理</translation>
 <translation id="5383377866517186886">Mac のシステム環境設定でカメラがオフになっています</translation>
+<translation id="5383740867328871413">名前のないグループ - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">ペア設定済み</translation>
 <translation id="5389237414310520250">新しいユーザーを作成できませんでした。ハードドライブの空き容量と権限を確認し、もう一度お試しください。</translation>
 <translation id="5390100381392048184">音声の再生をサイトに許可する</translation>
@@ -4838,7 +4840,6 @@
 <translation id="7099337801055912064">サイズの大きい PPD は読み込めません。最大サイズは 250 KB です。</translation>
 <translation id="7102687220333134671">自動更新が有効です</translation>
 <translation id="7102832101143475489">リクエストがタイムアウトになりました</translation>
-<translation id="7102928824073746774">名前のないグループ - <ph name="GROUP_CONTENTS" /></translation>
 <translation id="7105390788077117391">USB の設定</translation>
 <translation id="710640343305609397">ネットワーク設定を開く</translation>
 <translation id="7108338896283013870">非表示</translation>
@@ -4916,6 +4917,7 @@
 <translation id="720110658997053098">このデバイスをキオスクモードに固定する</translation>
 <translation id="7201118060536064622">「<ph name="DELETED_ITEM_NAME" />」が削除されました</translation>
 <translation id="7201420661433230412">ファイルを表示する</translation>
+<translation id="7203150201908454328">展開表示中</translation>
 <translation id="7203826966018112936">学校用アカウントをプロフィールに追加すると、保護者による使用制限の適用を受けながら、生徒としてウェブサイトや拡張機能に簡単にログインできるようになります。学校用アカウントと同期しているブックマークやパスワードなどのブラウザデータへのアクセス権がお子様に付与されることはありません。&lt;br&gt;&lt;br&gt;
     お子様が学校で Chromebook を使用している場合に、自宅で学校の使用環境を再現して、お子様が必要な学習用コンテンツすべてにアクセスできるようにするには、このファミリー リンク アカウントからログアウトしてください。その後、Chrome OS のアカウント ページから学校用アカウントにログインしてください（注: ファミリー リンクの保護者による使用制限は適用されなくなります）。&lt;br&gt;&lt;br&gt;
     お子様が学校で Chromebook を使用していない場合、またはファミリー リンクを使用してお子様の自宅での使用環境を管理したい場合は、下の [次へ] ボタンをクリックして、学校用アカウントをこのプロフィールに追加してください。</translation>
@@ -5623,6 +5625,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 枚}other{{COUNT} 枚}}</translation>
 <translation id="8063235345342641131">デフォルトの緑のアバター</translation>
 <translation id="8063535366119089408">ファイルを表示</translation>
+<translation id="8064279191081105977">グループ <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">タップしてログイン</translation>
 <translation id="8069615408251337349">Google クラウド プリント</translation>
 <translation id="8071432093239591881">画像として印刷する</translation>
@@ -6369,6 +6372,7 @@
 <translation id="8986362086234534611">削除</translation>
 <translation id="8986494364107987395">使用統計データと障害レポートを Google に自動送信します</translation>
 <translation id="8987927404178983737">月</translation>
+<translation id="8990209962746788689">QR コードを作成できません</translation>
 <translation id="8991520179165052608">サイトにマイクの使用が許可されています</translation>
 <translation id="899384117894244799">制限付きユーザーの削除</translation>
 <translation id="899403249577094719">Netscape 証明書基本 URL</translation>
