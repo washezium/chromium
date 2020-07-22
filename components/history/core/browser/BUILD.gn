@@ -22,6 +22,8 @@ static_library("browser") {
     "expire_history_backend.h",
     "favicon_database.cc",
     "favicon_database.h",
+    "favicon_types.cc",
+    "favicon_types.h",
     "history_backend.cc",
     "history_backend.h",
     "history_backend_client.h",
