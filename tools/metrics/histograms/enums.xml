@@ -2387,6 +2387,9 @@ Unknown properties are collapsed to zero. -->
   <int value="34" label="App install dialog shown"/>
   <int value="35" label="Cannot check service worker for null start URL"/>
   <int value="36" label="prefer_related_applications set to true"/>
+  <int value="37"
+      label="prefer_related_applications is only supported on Chrome Beta
+             &amp; Stable on Android"/>
 </enum>
 
 <enum name="AppBannersInstallEvent">
