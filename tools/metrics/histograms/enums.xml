@@ -42737,6 +42737,7 @@ from previous Chrome versions.
   <int value="1166897718" label="TextSuggestionsTouchBar:disabled"/>
   <int value="1167350114" label="AndroidNightMode:enabled"/>
   <int value="1167613030" label="enable-permission-action-reporting"/>
+  <int value="1168226627" label="OmniboxMaxZeroSuggestMatches:enabled"/>
   <int value="1169418814" label="ManualFallbacksFilling:enabled"/>
   <int value="1173244409" label="AutofillUseMobileLabelDisambiguation:enabled"/>
   <int value="1174088940" label="enable-wasm"/>
@@ -42902,6 +42903,7 @@ from previous Chrome versions.
   <int value="1334185492" label="TurnOffStreamingMediaCaching:disabled"/>
   <int value="1338356182" label="AutofillAssistantChromeEntry:disabled"/>
   <int value="1338864675" label="EnableTouchableAppContextMenu:disabled"/>
+  <int value="1339191800" label="OmniboxMaxZeroSuggestMatches:disabled"/>
   <int value="1339426771" label="TopSitesFromSiteEngagement:disabled"/>
   <int value="1340690624" label="WebPaymentsMethodSectionOrderV2:disabled"/>
   <int value="1343050930" label="ContextualSearchUnityIntegration:enabled"/>

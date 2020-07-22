@@ -1583,6 +1583,12 @@ const char kOmniboxUIElideToRegistrableDomainDescription[] =
     "#omnibox-ui-hide-steady-state-url-path-query-and-ref-on-interaction is "
     "enabled.";
 
+const char kOmniboxMaxZeroSuggestMatchesName[] =
+    "Omnibox Max Zero Suggest Matches";
+const char kOmniboxMaxZeroSuggestMatchesDescription[] =
+    "Changes the maximum number of autocomplete matches displayed when zero "
+    "suggest is active (i.e. displaying suggestions without input).";
+
 const char kOmniboxUIMaxAutocompleteMatchesName[] =
     "Omnibox UI Max Autocomplete Matches";
 const char kOmniboxUIMaxAutocompleteMatchesDescription[] =

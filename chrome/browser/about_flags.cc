@@ -1127,6 +1127,75 @@ const FeatureEntry::FeatureVariation kOmniboxOnFocusSuggestionsVariations[] = {
 #endif  // defined(OS_ANDROID)
 };
 
+const FeatureEntry::FeatureVariation kMaxZeroSuggestMatchesVariations[] = {
+    {
+        "5",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "5"}},
+        1,
+        nullptr,
+    },
+    {
+        "6",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "6"}},
+        1,
+        nullptr,
+    },
+    {
+        "7",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "7"}},
+        1,
+        nullptr,
+    },
+    {
+        "8",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "8"}},
+        1,
+        nullptr,
+    },
+    {
+        "9",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "9"}},
+        1,
+        nullptr,
+    },
+    {
+        "10",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "10"}},
+        1,
+        nullptr,
+    },
+    {
+        "11",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "11"}},
+        1,
+        nullptr,
+    },
+    {
+        "12",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "12"}},
+        1,
+        nullptr,
+    },
+    {
+        "13",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "13"}},
+        1,
+        nullptr,
+    },
+    {
+        "14",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "14"}},
+        1,
+        nullptr,
+    },
+    {
+        "15",
+        (FeatureEntry::FeatureParam[]){{"MaxZeroSuggestMatches", "15"}},
+        1,
+        nullptr,
+    },
+};
+
 const FeatureEntry::FeatureParam kOmniboxUIMaxAutocompleteMatches3[] = {
     {OmniboxFieldTrial::kUIMaxAutocompleteMatchesParam, "3"}};
 const FeatureEntry::FeatureParam kOmniboxUIMaxAutocompleteMatches4[] = {
@@ -3700,6 +3769,14 @@ const FeatureEntry kFeatureEntries[] = {
      kOsDesktop,
      FEATURE_VALUE_TYPE(
          omnibox::kHideSteadyStateUrlPathQueryAndRefOnInteraction)},
+
+    {"omnibox-max-zero-suggest-matches",
+     flag_descriptions::kOmniboxMaxZeroSuggestMatchesName,
+     flag_descriptions::kOmniboxMaxZeroSuggestMatchesDescription,
+     kOsDesktop | kOsAndroid,
+     FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kMaxZeroSuggestMatches,
+                                    kMaxZeroSuggestMatchesVariations,
+                                    "OmniboxBundledExperimentV1")},
 
     {"omnibox-ui-max-autocomplete-matches",
      flag_descriptions::kOmniboxUIMaxAutocompleteMatchesName,

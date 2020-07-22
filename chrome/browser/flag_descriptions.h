@@ -919,6 +919,9 @@ extern const char
 extern const char kOmniboxUIElideToRegistrableDomainName[];
 extern const char kOmniboxUIElideToRegistrableDomainDescription[];
 
+extern const char kOmniboxMaxZeroSuggestMatchesName[];
+extern const char kOmniboxMaxZeroSuggestMatchesDescription[];
+
 extern const char kOmniboxUIMaxAutocompleteMatchesName[];
 extern const char kOmniboxUIMaxAutocompleteMatchesDescription[];
 
