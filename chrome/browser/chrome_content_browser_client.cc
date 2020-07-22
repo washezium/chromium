@@ -625,7 +625,7 @@
 
 #if BUILDFLAG(IS_LACROS)
 #include "chrome/browser/chrome_browser_main_extra_parts_lacros.h"
-#include "chromeos/lacros/browser/lacros_chrome_service_impl.h"
+#include "chromeos/lacros/lacros_chrome_service_impl.h"
 #endif
 
 using base::FileDescriptor;

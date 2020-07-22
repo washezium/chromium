@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROMEOS_LACROS_BROWSER_LACROS_CHROME_SERVICE_IMPL_H_
-#define CHROMEOS_LACROS_BROWSER_LACROS_CHROME_SERVICE_IMPL_H_
+#ifndef CHROMEOS_LACROS_LACROS_CHROME_SERVICE_IMPL_H_
+#define CHROMEOS_LACROS_LACROS_CHROME_SERVICE_IMPL_H_
 
 #include <memory>
 
@@ -113,4 +113,4 @@ class COMPONENT_EXPORT(CHROMEOS_LACROS) LacrosChromeServiceImpl {
 
 }  // namespace chromeos
 
-#endif  // CHROMEOS_LACROS_BROWSER_LACROS_CHROME_SERVICE_IMPL_H_
+#endif  // CHROMEOS_LACROS_LACROS_CHROME_SERVICE_IMPL_H_

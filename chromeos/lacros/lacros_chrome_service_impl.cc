@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chromeos/lacros/browser/lacros_chrome_service_impl.h"
+#include "chromeos/lacros/lacros_chrome_service_impl.h"
 
 #include <atomic>
 #include <utility>
@@ -10,7 +10,7 @@
 #include "base/logging.h"
 #include "base/task/task_traits.h"
 #include "base/task/thread_pool.h"
-#include "chromeos/lacros/browser/lacros_chrome_service_delegate.h"
+#include "chromeos/lacros/lacros_chrome_service_delegate.h"
 
 namespace chromeos {
 namespace {

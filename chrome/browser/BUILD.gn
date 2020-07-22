@@ -4018,7 +4018,7 @@ static_library("browser") {
     ]
     deps += [
       "//chromeos/crosapi/mojom",
-      "//chromeos/lacros/browser",
+      "//chromeos/lacros",
     ]
   }
 
