@@ -5,16 +5,17 @@
 #ifndef CHROME_BROWSER_NEARBY_SHARING_NEARBY_SHARING_SERVICE_IMPL_H_
 #define CHROME_BROWSER_NEARBY_SHARING_NEARBY_SHARING_SERVICE_IMPL_H_
 
-#include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "base/containers/flat_map.h"
 #include "base/memory/ptr_util.h"
 #include "base/memory/weak_ptr.h"
 #include "base/scoped_observer.h"
 #include "base/sequence_checker.h"
+#include "base/unguessable_token.h"
 #include "chrome/browser/nearby_sharing/common/nearby_share_enums.h"
 #include "chrome/browser/nearby_sharing/incoming_share_target_info.h"
 #include "chrome/browser/nearby_sharing/nearby_connections_manager.h"
@@ -140,11 +141,13 @@ class NearbySharingServiceImpl
   // A map of ShareTarget id to IncomingShareTargetInfo. This lets us know which
   // Nearby Connections endpoint and public certificate are related to the
   // incoming share target.
-  std::map<int, IncomingShareTargetInfo> incoming_share_target_info_map_;
+  base::flat_map<base::UnguessableToken, IncomingShareTargetInfo>
+      incoming_share_target_info_map_;
   // A map of ShareTarget id to OutgoingShareTargetInfo. This lets us know which
   // endpoint and public certificate are related to the outgoing share target.
   // TODO(crbug/1085068) update this map when handling payloads
-  std::map<int, OutgoingShareTargetInfo> outgoing_share_target_info_map_;
+  base::flat_map<base::UnguessableToken, OutgoingShareTargetInfo>
+      outgoing_share_target_info_map_;
 
   // The current advertising power level. PowerLevel::kUnknown while not
   // advertising.
