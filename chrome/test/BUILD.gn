@@ -2128,6 +2128,14 @@ if (!is_android) {
           [ "//chrome/browser/internal/resources/signin/test_accounts.json" ]
     }
 
+    # Browser tests for functionality that is only intended to be present in
+    # ash-chrome, not lacros-chrome.
+    if (is_chromeos && !chromeos_is_browser_only) {
+      sources += [
+        "../browser/chromeos/crosapi/screen_manager_crosapi_browsertest.cc",
+      ]
+    }
+
     if (is_chromeos) {
       sources += [
         "../browser/apps/platform_apps/app_window_interactive_uitest_base.cc",
