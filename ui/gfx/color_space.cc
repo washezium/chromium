@@ -97,19 +97,13 @@ ColorSpace::ColorSpace(const SkColorSpace& sk_color_space)
                  TransferID::INVALID,
                  MatrixID::RGB,
                  RangeID::FULL) {
-  // Special case the HDR transfer functions since they're not numerical
-  auto transfer_eq = [](skcms_TransferFunction x, skcms_TransferFunction y) {
-    return x.g == y.g && x.a == y.a && x.b == y.b && x.c == y.c && x.d == y.d &&
-           x.e == y.e && x.f == y.f;
-  };
-
   skcms_TransferFunction fn;
   if (sk_color_space.isNumericalTransferFn(&fn)) {
     transfer_ = TransferID::CUSTOM;
     SetCustomTransferFunction(fn);
-  } else if (transfer_eq(fn, SkNamedTransferFn::kHLG)) {
+  } else if (skcms_TransferFunction_isHLGish(&fn)) {
     transfer_ = TransferID::ARIB_STD_B67;
-  } else if (fn.g == SkNamedTransferFn::kPQ.g) {
+  } else if (skcms_TransferFunction_isPQish(&fn)) {
     transfer_ = TransferID::SMPTEST2084;
     transfer_params_[0] = GetSDRWhiteLevelFromPQSkTransferFunction(fn);
   } else {
