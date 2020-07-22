@@ -37,10 +37,6 @@ class ContentFaviconDriver
     return favicon_urls_.value_or(std::vector<blink::mojom::FaviconURL>());
   }
 
-  // Saves the favicon for the last committed navigation entry to the thumbnail
-  // database.
-  void SaveFaviconEvenIfInIncognito();
-
   // FaviconDriver implementation.
   gfx::Image GetFavicon() const override;
   bool FaviconIsValid() const override;
