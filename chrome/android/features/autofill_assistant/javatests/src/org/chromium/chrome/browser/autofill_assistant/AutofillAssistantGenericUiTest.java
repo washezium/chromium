@@ -65,6 +65,7 @@ import org.junit.runner.RunWith;
 import org.chromium.base.test.util.CommandLineFlags;
 import org.chromium.base.test.util.DisableIf;
 import org.chromium.base.test.util.DisabledTest;
+import org.chromium.base.test.util.MinAndroidSdkLevel;
 import org.chromium.chrome.autofill_assistant.R;
 import org.chromium.chrome.browser.autofill_assistant.generic_ui.AssistantDimension;
 import org.chromium.chrome.browser.autofill_assistant.proto.ActionProto;
@@ -3311,5 +3312,66 @@ public class AutofillAssistantGenericUiTest {
                                 .setValue(ValueProto.newBuilder().setCreditCardResponse(
                                         CreditCardResponseProto.newBuilder().setNetwork("amex")))
                                 .build()));
+    }
+
+    @Test
+    @MediumTest
+    @MinAndroidSdkLevel(21)
+    public void testImageResourceIdentifier() {
+        ViewProto imageView =
+                (ViewProto) ViewProto.newBuilder()
+                        .setLayoutParams(
+                                ViewLayoutParamsProto.newBuilder()
+                                        .setLayoutWidth(24)
+                                        .setLayoutHeight(24)
+                                        .setLayoutGravity(
+                                                ViewLayoutParamsProto.Gravity.CENTER_VALUE))
+                        .setAttributes(ViewAttributesProto.newBuilder().setContentDescription(
+                                "test image"))
+                        .setImageView(ImageViewProto.newBuilder().setImage(
+                                DrawableProto.newBuilder().setResourceIdentifier(
+                                        "ic_visibility_black")))
+                        .build();
+
+        GenericUserInterfaceProto genericUserInterface =
+                (GenericUserInterfaceProto) GenericUserInterfaceProto.newBuilder()
+                        .setRootView(
+                                ViewProto.newBuilder()
+                                        .setLayoutParams(
+                                                ViewLayoutParamsProto.newBuilder()
+                                                        .setLayoutWidth(ViewLayoutParamsProto.Size
+                                                                                .MATCH_PARENT_VALUE)
+                                                        .setLayoutHeight(
+                                                                ViewLayoutParamsProto.Size
+                                                                        .WRAP_CONTENT_VALUE))
+                                        .setViewContainer(
+                                                ViewContainerProto.newBuilder()
+                                                        .setLinearLayout(
+                                                                LinearLayoutProto.newBuilder()
+                                                                        .setOrientation(
+                                                                                LinearLayoutProto
+                                                                                        .Orientation
+                                                                                        .VERTICAL))
+                                                        .addViews(imageView)))
+                        .build();
+
+        ArrayList<ActionProto> list = new ArrayList<>();
+        list.add((ActionProto) ActionProto.newBuilder()
+                         .setShowGenericUi(ShowGenericUiProto.newBuilder().setGenericUserInterface(
+                                 genericUserInterface))
+                         .build());
+        AutofillAssistantTestScript script = new AutofillAssistantTestScript(
+                (SupportedScriptProto) SupportedScriptProto.newBuilder()
+                        .setPath("autofill_assistant_target_website.html")
+                        .setPresentation(PresentationProto.newBuilder().setAutostart(true).setChip(
+                                ChipProto.newBuilder().setText("Autostart")))
+                        .build(),
+                list);
+
+        AutofillAssistantTestService testService =
+                new AutofillAssistantTestService(Collections.singletonList(script));
+        startAutofillAssistant(mTestRule.getActivity(), testService);
+
+        waitUntilViewMatchesCondition(withContentDescription("test image"), isDisplayed());
     }
 }
