@@ -4418,6 +4418,16 @@
     ]
   },
 
+  "NativeMessagingAllowlist": {
+    "os": ["win", "linux", "mac"],
+    "policy_pref_mapping_test": [
+      {
+        "policies": { "NativeMessagingAllowlist": ["native.messaging.host.name"]},
+        "prefs": { "native_messaging.whitelist": {} }
+      }
+    ]
+  },
+
   "NativeMessagingUserLevelHosts": {
     "os": ["win", "linux", "mac"],
     "policy_pref_mapping_test": [

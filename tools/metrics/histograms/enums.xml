@@ -21267,6 +21267,7 @@ Called by update_document_policy_enum.py.-->
   <int value="742" label="AutoplayAllowlist"/>
   <int value="743" label="DevicePrinters"/>
   <int value="744" label="NativeMessagingBlocklist"/>
+  <int value="745" label="NativeMessagingAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">

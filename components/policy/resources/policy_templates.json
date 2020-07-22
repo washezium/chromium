@@ -538,6 +538,7 @@
       'policies': [
         'NativeMessagingBlacklist',
         'NativeMessagingBlocklist',
+        'NativeMessagingAllowlist',
         'NativeMessagingWhitelist',
         'NativeMessagingUserLevelHosts',
       ],
@@ -6457,6 +6458,7 @@
         'items': { 'type': 'string' },
       },
       'supported_on': ['chrome.*:34-'],
+      'deprecated': True,
       'features': {
         'dynamic_refresh': True,
         'per_profile': True,
@@ -6468,12 +6470,41 @@
       'id': 252,
       'caption': '''Configure native messaging whitelist''',
       'tags': [],
-      'desc': '''Allows you to specify which native messaging hosts are not subject to the blacklist.
+      'desc': '''This policy is deprecated, please use the '<ph name="NATIVE_MESSAGING_ALLOWLIST_POLICY_NAME">NativeMessagingAllowlist</ph>' policy instead.
 
-          A blacklist value of * means all native messaging hosts are blacklisted and only native messaging hosts listed in the whitelist will be loaded.
+          Allows you to specify which native messaging hosts are not subject to the blocklist.
 
-          By default, all native messaging hosts are whitelisted, but if all native messaging hosts have been blacklisted by policy, the whitelist can be used to override that policy.''',
-      'label': '''Names of the native messaging hosts to exempt from the blacklist''',
+          A blocklist value of * means all native messaging hosts are blocked and only native messaging hosts listed in the allowlist will be loaded.
+
+          By default, all native messaging hosts are allowed, but if all native messaging hosts have been blocked by policy, the allowlist can be used to override that policy.''',
+      'label': '''Names of the native messaging hosts to exempt from the blocklist''',
+    },
+    {
+      'name': 'NativeMessagingAllowlist',
+      'owners': ['file://components/policy/resources/OWNERS'],
+      'type': 'list',
+      'schema': {
+        'type': 'array',
+        'items': { 'type': 'string' },
+      },
+      'supported_on': ['chrome.*:86-'],
+      'features': {
+        'dynamic_refresh': True,
+        'per_profile': True,
+      },
+      'example_value': [
+        'com.native.messaging.host.name1',
+        'com.native.messaging.host.name2',
+      ],
+      'id': 745,
+      'caption': '''Configure native messaging allowlist''',
+      'tags': [],
+      'desc': '''Allows you to specify which native messaging hosts are not subject to the blocklist.
+
+          A blocklist value of * means all native messaging hosts are blocked and only native messaging hosts listed in the allowlist will be loaded.
+
+          By default, all native messaging hosts are allowed, but if all native messaging hosts have been blocked by policy, the allowlist can be used to override that policy.''',
+      'label': '''Names of the native messaging hosts to exempt from the blocklist''',
     },
     {
       'name': 'NativeMessagingUserLevelHosts',
@@ -22764,6 +22795,7 @@ The recommended way to configure policy on Windows is via GPO, although provisio
       'policies': [
         'NativeMessagingBlacklist',
         'NativeMessagingBlocklist',
+        'NativeMessagingAllowlist',
         'NativeMessagingWhitelist',
         'NativeMessagingUserLevelHosts',
       ],
@@ -23034,6 +23066,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 744,
+  'highest_id_currently_used': 745,
   'highest_atomic_group_id_currently_used': 38
 }
