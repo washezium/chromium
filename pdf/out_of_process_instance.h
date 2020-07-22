@@ -43,7 +43,7 @@ class TextInput_Dev;
 
 namespace chrome_pdf {
 
-struct PaintReadyRect;
+class PaintReadyRect;
 
 class OutOfProcessInstance : public pp::Instance,
                              public pp::Find_Private,

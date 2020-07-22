@@ -221,8 +221,8 @@ void PaintAggregator::ScrollRect(const gfx::Rect& clip_rect,
     InvalidateRectInternal(leftover_rect, false);
 
   for (auto& update_rect : update_.ready_rects) {
-    if (update_.scroll_rect.Contains(update_rect.rect))
-      update_rect.rect = ScrollPaintRect(update_rect.rect, amount);
+    if (update_.scroll_rect.Contains(update_rect.rect()))
+      update_rect.set_rect(ScrollPaintRect(update_rect.rect(), amount));
   }
 
   if (update_.synthesized_scroll_damage_rect_) {
@@ -249,7 +249,7 @@ void PaintAggregator::InvalidateRectInternal(const gfx::Rect& rect_old,
   gfx::Rect rect = rect_old;
   // Check if any rects that are ready to be painted overlap.
   for (size_t i = 0; i < update_.ready_rects.size(); ++i) {
-    const gfx::Rect& existing_rect = update_.ready_rects[i].rect;
+    const gfx::Rect& existing_rect = update_.ready_rects[i].rect();
     if (rect.Intersects(existing_rect)) {
       // Re-invalidate in case the union intersects other paint rects.
       rect.Union(existing_rect);

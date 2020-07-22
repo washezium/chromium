@@ -249,7 +249,7 @@ void PaintManager::DoPaint() {
       // previous image, but if we flush, it'll revert to using the blank image.
       // We make an exception for the first paint since we want to show the
       // default background color instead of the pepper default of black.
-      if (ready_rect.flush_now &&
+      if (ready_rect.flush_now() &&
           (!view_size_changed_waiting_for_paint_ || first_paint_)) {
         ready_now.push_back(ready_rect);
       } else {
@@ -267,8 +267,8 @@ void PaintManager::DoPaint() {
   }
 
   for (const auto& ready_rect : ready_now) {
-    graphics_.PaintImageData(ready_rect.image_data, pp::Point(),
-                             PPRectFromRect(ready_rect.rect));
+    graphics_.PaintImageData(ready_rect.image_data(), pp::Point(),
+                             PPRectFromRect(ready_rect.rect()));
   }
 
   Flush();
