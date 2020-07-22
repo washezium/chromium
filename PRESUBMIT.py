@@ -342,7 +342,6 @@ _NOT_CONVERTED_TO_MODERN_BIND_AND_CALLBACK = '|'.join((
   '^chrome/browser/tracing/chrome_tracing_delegate_browsertest.cc',
   '^chrome/browser/translate/',
   '^chrome/browser/ui/',
-  '^chrome/browser/vr/databinding/vector_binding.h',
   '^chrome/browser/web_applications/',
   '^chrome/browser/win/',
   '^chrome/services/',
