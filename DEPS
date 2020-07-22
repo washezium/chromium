@@ -4763,20 +4763,6 @@ hooks = [
                 'src/third_party/arcore-android-sdk/test-apks/update.py',
     ],
   },
-  # Pull down Paint Preview test data.
-  {
-    'name': 'paint_preview_testdata',
-    'pattern': '\\.sha1',
-    'condition': 'checkout_android',
-    'action': [ 'python',
-                'src/third_party/depot_tools/download_from_google_storage.py',
-                '--no_auth',
-                '--num_threads=4',
-                '--bucket', 'chromium-android-tools/paint-preview-test-data',
-                '--recursive',
-                '-d', 'src/components/test/data/paint_preview',
-    ],
-  },
   # Download Oculus SDK if appropriate.
   {
     'name': 'libovr',
