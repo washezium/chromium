@@ -21197,7 +21197,7 @@ Called by update_document_policy_enum.py.-->
   <int value="667" label="AdvancedProtectionDeepScanningEnabled"/>
   <int value="668" label="BlockUnsupportedFiletypes"/>
   <int value="669" label="URLsToNotCheckForMalwareOfDownloadedContent"/>
-  <int value="670" label="MinimumChromeVersionEnforced"/>
+  <int value="670" label="DeviceMinimumVersion"/>
   <int value="671" label="ReportDeviceTimezoneInfo"/>
   <int value="672" label="SystemProxySettings"/>
   <int value="673" label="UserDataSnapshotRetentionLimit"/>
@@ -21241,7 +21241,7 @@ Called by update_document_policy_enum.py.-->
   <int value="711" label="EnableExperimentalPolicies"/>
   <int value="712" label="PluginVmDataCollectionAllowed"/>
   <int value="713" label="IntensiveWakeUpThrottlingEnabled"/>
-  <int value="714" label="MinimumChromeVersionEolMessage"/>
+  <int value="714" label="DeviceMinimumVersionAueMessage"/>
   <int value="715" label="DefaultSearchProviderContextMenuAccessAllowed"/>
   <int value="716" label="CrostiniPortForwardingAllowed"/>
   <int value="717" label="VirtualKeyboardFeatures"/>
