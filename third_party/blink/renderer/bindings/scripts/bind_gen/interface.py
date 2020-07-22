@@ -1206,6 +1206,26 @@ def make_overload_dispatcher(cg_context):
     ])
 
 
+def make_report_coop_access(cg_context):
+    assert isinstance(cg_context, CodeGenContext)
+
+    if cg_context.class_like.identifier != "Window":
+        return None
+
+    ext_attrs = cg_context.member_like.extended_attributes
+    if "CrossOrigin" not in ext_attrs:
+        return None
+
+    values = ext_attrs.values_of("CrossOrigin")
+    if (cg_context.attribute_get and not (not values or "Getter" in values)):
+        return None
+    elif (cg_context.attribute_set and not ("Setter" in values)):
+        return None
+
+    return TextNode("${blink_receiver}->ReportCoopAccess"
+                    "(${isolate}, ${property_name});")
+
+
 def make_report_deprecate_as(cg_context):
     assert isinstance(cg_context, CodeGenContext)
 
@@ -1664,6 +1684,7 @@ def make_attribute_get_callback_def(cg_context, function_name):
     body.extend([
         make_runtime_call_timer_scope(cg_context),
         make_bindings_trace_event(cg_context),
+        make_report_coop_access(cg_context),
         make_report_deprecate_as(cg_context),
         make_report_measure_as(cg_context),
         make_log_activity(cg_context),
@@ -2099,6 +2120,7 @@ def make_operation_function_def(cg_context, function_name):
         body.append(EmptyNode())
 
     body.extend([
+        make_report_coop_access(cg_context),
         make_report_deprecate_as(cg_context),
         make_report_measure_as(cg_context),
         make_log_activity(cg_context),
