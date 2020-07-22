@@ -35,7 +35,7 @@ class DummyDriveService : public DriveServiceInterface {
   std::string GetRootResourceId() const override;
   google_apis::CancelCallbackOnce GetAllTeamDriveList(
       google_apis::TeamDriveListCallback callback) override;
-  google_apis::CancelCallback GetAllFileList(
+  google_apis::CancelCallbackOnce GetAllFileList(
       const std::string& team_drive_id,
       const google_apis::FileListCallback& callback) override;
   google_apis::CancelCallback GetFileListInDirectory(

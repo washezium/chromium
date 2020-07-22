@@ -58,10 +58,10 @@ CancelCallbackOnce DummyDriveService::GetAllTeamDriveList(
   return CancelCallbackOnce();
 }
 
-CancelCallback DummyDriveService::GetAllFileList(
+CancelCallbackOnce DummyDriveService::GetAllFileList(
     const std::string& team_drive_id,
     const FileListCallback& callback) {
-  return CancelCallback();
+  return CancelCallbackOnce();
 }
 
 CancelCallback DummyDriveService::GetFileListInDirectory(

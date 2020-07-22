@@ -294,7 +294,7 @@ CancelCallbackOnce DriveAPIService::GetAllTeamDriveList(
   return sender_->StartRequestWithAuthRetry(std::move(request));
 }
 
-CancelCallback DriveAPIService::GetAllFileList(
+CancelCallbackOnce DriveAPIService::GetAllFileList(
     const std::string& team_drive_id,
     const FileListCallback& callback) {
   DCHECK(thread_checker_.CalledOnValidThread());

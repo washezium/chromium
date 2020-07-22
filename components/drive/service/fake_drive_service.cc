@@ -402,7 +402,7 @@ CancelCallbackOnce FakeDriveService::GetAllTeamDriveList(
   return CancelCallbackOnce();
 }
 
-CancelCallback FakeDriveService::GetAllFileList(
+CancelCallbackOnce FakeDriveService::GetAllFileList(
     const std::string& team_drive_id,
     const FileListCallback& callback) {
   DCHECK(thread_checker_.CalledOnValidThread());
@@ -420,7 +420,7 @@ CancelCallback FakeDriveService::GetAllFileList(
                         0,  // start offset
                         default_max_results_, &file_list_load_count_,
                         base::BindOnce(&FileListCallbackAdapter, callback));
-  return CancelCallback();
+  return CancelCallbackOnce();
 }
 
 CancelCallback FakeDriveService::GetFileListInDirectory(
