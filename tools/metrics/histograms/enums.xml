@@ -15957,6 +15957,8 @@ to ensure that the crash string is shown properly on the user-facing crash UI.
   <int value="16" label="showGridAreas.false"/>
   <int value="17" label="showGridAreas.true"/>
   <int value="18" label="showGridLineNumbers.names"/>
+  <int value="19" label="showGridTrackSizes.false"/>
+  <int value="20" label="showGridTrackSizes.true"/>
 </enum>
 
 <enum name="DevToolsIssuesPanelOpenedFrom">
