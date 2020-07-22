@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_
-#define COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_
+#ifndef COMPONENTS_FAVICON_CORE_FAVICON_DATABASE_H_
+#define COMPONENTS_FAVICON_CORE_FAVICON_DATABASE_H_
 
 #include <vector>
 
 #include "base/gtest_prod_util.h"
 #include "base/memory/ref_counted.h"
 #include "base/optional.h"
-#include "components/history/core/browser/favicon_types.h"
+#include "components/favicon/core/favicon_types.h"
 #include "sql/database.h"
 #include "sql/init_status.h"
 #include "sql/meta_table.h"
@@ -22,7 +22,7 @@ class RefCountedMemory;
 class Time;
 }  // namespace base
 
-namespace history {
+namespace favicon {
 
 // The minimum number of days after which last_requested field gets updated.
 // All earlier updates are ignored.
@@ -300,6 +300,6 @@ class FaviconDatabase {
   sql::MetaTable meta_table_;
 };
 
-}  // namespace history
+}  // namespace favicon
 
-#endif  // COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_DATABASE_H_
+#endif  // COMPONENTS_FAVICON_CORE_FAVICON_DATABASE_H_

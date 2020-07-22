@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/history/core/browser/favicon_types.h"
+#include "components/favicon/core/favicon_types.h"
 
-namespace history {
+namespace favicon {
 
 // IconMapping ----------------------------------------------------------------
 
@@ -40,4 +40,4 @@ FaviconBitmapIDSize::FaviconBitmapIDSize() = default;
 
 FaviconBitmapIDSize::~FaviconBitmapIDSize() = default;
 
-}  // namespace history
+}  // namespace favicon

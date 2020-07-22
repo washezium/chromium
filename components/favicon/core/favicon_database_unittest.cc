@@ -14,7 +14,7 @@
 #include "base/path_service.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
-#include "components/history/core/browser/favicon_database.h"
+#include "components/favicon/core/favicon_database.h"
 #include "components/history/core/test/database_test_utils.h"
 #include "sql/database.h"
 #include "sql/recovery.h"
@@ -31,7 +31,7 @@ using testing::Field;
 using testing::Pair;
 using testing::Return;
 
-namespace history {
+namespace favicon {
 
 namespace {
 
@@ -208,7 +208,7 @@ class FaviconDatabaseTest : public testing::Test {
   // Initialize a favicon database instance from the SQL file at
   // |golden_path| in the "History/" subdirectory of test data.
   std::unique_ptr<FaviconDatabase> LoadFromGolden(const char* golden_path) {
-    if (!CreateDatabaseFromSQL(file_name_, golden_path)) {
+    if (!history::CreateDatabaseFromSQL(file_name_, golden_path)) {
       ADD_FAILURE() << "Failed loading " << golden_path;
       return std::unique_ptr<FaviconDatabase>();
     }
@@ -1029,7 +1029,7 @@ TEST_F(FaviconDatabaseTest, Version8) {
 TEST_F(FaviconDatabaseTest, Recovery) {
   // Create an example database.
   {
-    EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v8.sql"));
+    EXPECT_TRUE(history::CreateDatabaseFromSQL(file_name_, "Favicons.v8.sql"));
 
     sql::Database raw_db;
     EXPECT_TRUE(raw_db.Open(file_name_));
@@ -1141,7 +1141,7 @@ TEST_F(FaviconDatabaseTest, Recovery) {
 TEST_F(FaviconDatabaseTest, Recovery7) {
   // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
-  EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v7.sql"));
+  EXPECT_TRUE(history::CreateDatabaseFromSQL(file_name_, "Favicons.v7.sql"));
 
   // Corrupt the |icon_mapping.page_url| index by deleting an element
   // from the backing table but not the index.
@@ -1236,7 +1236,7 @@ TEST_F(FaviconDatabaseTest, Recovery7) {
 TEST_F(FaviconDatabaseTest, Recovery6) {
   // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
-  EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v6.sql"));
+  EXPECT_TRUE(history::CreateDatabaseFromSQL(file_name_, "Favicons.v6.sql"));
 
   // Corrupt the database by adjusting the header.  This form of corruption will
   // cause immediate failures during Open(), before the migration code runs, so
@@ -1280,7 +1280,7 @@ TEST_F(FaviconDatabaseTest, Recovery6) {
 TEST_F(FaviconDatabaseTest, Recovery5) {
   // Create an example database without loading into FaviconDatabase
   // (which would upgrade it).
-  EXPECT_TRUE(CreateDatabaseFromSQL(file_name_, "Favicons.v5.sql"));
+  EXPECT_TRUE(history::CreateDatabaseFromSQL(file_name_, "Favicons.v5.sql"));
 
   // Corrupt the database by adjusting the header.  This form of corruption will
   // cause immediate failures during Open(), before the migration code runs, so
@@ -1325,7 +1325,7 @@ TEST_F(FaviconDatabaseTest, Recovery5) {
 // successfully, and result in the correct schema.
 TEST_F(FaviconDatabaseTest, WildSchema) {
   base::FilePath sql_path;
-  EXPECT_TRUE(GetTestDataHistoryDir(&sql_path));
+  EXPECT_TRUE(history::GetTestDataHistoryDir(&sql_path));
   sql_path = sql_path.AppendASCII("thumbnail_wild");
 
   base::FileEnumerator fe(sql_path, false, base::FileEnumerator::FILES,
@@ -1376,4 +1376,4 @@ TEST(FaviconDatabaseIconTypeTest, ShouldBeBackwardCompatible) {
             FaviconDatabase::FromPersistedIconType(16));
 }
 
-}  // namespace history
+}  // namespace favicon

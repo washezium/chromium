@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_TYPES_H_
-#define COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_TYPES_H_
+#ifndef COMPONENTS_FAVICON_CORE_FAVICON_TYPES_H_
+#define COMPONENTS_FAVICON_CORE_FAVICON_TYPES_H_
 
 #include <vector>
 
@@ -13,7 +13,7 @@
 #include "ui/gfx/geometry/size.h"
 #include "url/gurl.h"
 
-namespace history {
+namespace favicon {
 
 using FaviconBitmapID = int64_t;  // Identifier for a bitmap in a favicon.
 using IconMappingID = int64_t;    // For page url and icon mapping.
@@ -110,6 +110,6 @@ struct FaviconBitmap {
   gfx::Size pixel_size;
 };
 
-}  // namespace history
+}  // namespace favicon
 
-#endif  // COMPONENTS_HISTORY_CORE_BROWSER_FAVICON_TYPES_H_
+#endif  // COMPONENTS_FAVICON_CORE_FAVICON_TYPES_H_

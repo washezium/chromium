@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/history/core/browser/favicon_database.h"
+#include "components/favicon/core/favicon_database.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -32,7 +32,7 @@
 #include "base/mac/mac_util.h"
 #endif
 
-namespace history {
+namespace favicon {
 
 // Description of database tables:
 //
@@ -1178,4 +1178,4 @@ bool FaviconDatabase::IsFaviconDBStructureIncorrect() {
   return !db_.IsSQLValid("SELECT id, url, icon_type FROM favicons");
 }
 
-}  // namespace history
+}  // namespace favicon
