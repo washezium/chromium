@@ -2412,7 +2412,7 @@ void ServiceWorkerGlobalScope::NoteRespondedToFetchEvent(
 void ServiceWorkerGlobalScope::RecordQueuingTime(base::TimeTicks created_time) {
   base::UmaHistogramMediumTimes(
       "ServiceWorker.FetchEvent.QueuingTime",
-      created_time - base::TimeTicks::Now());
+      base::TimeTicks::Now() - created_time);
 }
 
 }  // namespace blink
