@@ -10,6 +10,9 @@ for more details about the presubmit API built into depot_tools.
 
 
 _EXCLUDED_PATHS = (
+    # Generated file.
+    (r"^components[\\/]variations[\\/]proto[\\/]devtools[\\/]"
+     r"client_variations_parser.js"),
     r"^native_client_sdk[\\/]src[\\/]build_tools[\\/]make_rules.py",
     r"^native_client_sdk[\\/]src[\\/]build_tools[\\/]make_simple.py",
     r"^native_client_sdk[\\/]src[\\/]tools[\\/].*.mk",

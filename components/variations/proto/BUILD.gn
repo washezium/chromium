@@ -23,4 +23,13 @@ proto_library("proto") {
     "study.proto",
     "variations_seed.proto",
   ]
+
+  # The generated JavaScript bindings are used to build a small, self-contained
+  # parser for ClientVariations in Dev Tools. This parser is used to decode the
+  # X-Client-Data header.
+  generate_javascript = true
+}
+
+group("devtools") {
+  deps = [ "devtools" ]
 }
