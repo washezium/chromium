@@ -1894,6 +1894,16 @@
           'isolated_scripts': 'chromium_win_rel_isolated_scripts',
         },
       },
+      'Win10 Tests x64 1909': {
+        'mixins': [
+          'x86-64',
+          'win10-1909',
+        ],
+        'test_suites': {
+          'gtest_tests': 'chromium_win_gtests',
+          'isolated_scripts': 'chromium_win_rel_isolated_scripts',
+        },
+      },
       'android-code-coverage': {
         'mixins': [
           'bullhead',
