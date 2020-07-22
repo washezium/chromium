@@ -1682,6 +1682,8 @@ def make_attribute_get_callback_def(cg_context, function_name):
     body = func_def.body
 
     body.extend([
+        make_check_receiver(cg_context),
+        EmptyNode(),
         make_runtime_call_timer_scope(cg_context),
         make_bindings_trace_event(cg_context),
         make_report_coop_access(cg_context),
@@ -1699,7 +1701,6 @@ def make_attribute_get_callback_def(cg_context, function_name):
         return func_def
 
     body.extend([
-        make_check_receiver(cg_context),
         make_return_value_cache_return_early(cg_context),
         EmptyNode(),
         make_check_security_of_return_value(cg_context),
@@ -1729,6 +1730,8 @@ def make_attribute_set_callback_def(cg_context, function_name):
         return func_def
 
     body.extend([
+        make_check_receiver(cg_context),
+        EmptyNode(),
         make_runtime_call_timer_scope(cg_context),
         make_bindings_trace_event(cg_context),
         make_report_deprecate_as(cg_context),
@@ -1754,8 +1757,6 @@ def make_attribute_set_callback_def(cg_context, function_name):
                 "EventHandler", "OnBeforeUnloadEventHandler",
                 "OnErrorEventHandler"))):
         body.extend([
-            make_check_receiver(cg_context),
-            EmptyNode(),
             TextNode("""\
 EventListener* event_handler = JSEventHandler::CreateOrNull(
     ${v8_property_value},
@@ -1833,7 +1834,6 @@ EventListener* event_handler = JSEventHandler::CreateOrNull(
         return func_def
 
     body.extend([
-        make_check_receiver(cg_context),
         make_check_argument_length(cg_context),
         EmptyNode(),
     ])
@@ -2120,6 +2120,8 @@ def make_operation_function_def(cg_context, function_name):
         body.append(EmptyNode())
 
     body.extend([
+        make_check_receiver(cg_context),
+        EmptyNode(),
         make_report_coop_access(cg_context),
         make_report_deprecate_as(cg_context),
         make_report_measure_as(cg_context),
@@ -2134,7 +2136,6 @@ def make_operation_function_def(cg_context, function_name):
         return func_def
 
     body.extend([
-        make_check_receiver(cg_context),
         make_check_argument_length(cg_context),
         EmptyNode(),
         make_steps_of_ce_reactions(cg_context),
