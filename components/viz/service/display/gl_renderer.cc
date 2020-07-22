@@ -510,6 +510,9 @@ void GLRenderer::BeginDrawingFrame() {
                         ->ClientBecameBusy();
   }
 
+  // Begin batching read of shared images.
+  gl_->BeginBatchReadAccessSharedImageCHROMIUM();
+
   scoped_refptr<ResourceFence> read_lock_fence;
   if (use_sync_query_) {
     read_lock_fence = sync_queries_.StartNewFrame();
@@ -2853,6 +2856,9 @@ void GLRenderer::FinishDrawingFrame() {
 
   TRACE_COUNTER1(TRACE_DISABLED_BY_DEFAULT("viz.triangles"), "Triangles Drawn",
                  num_triangles_drawn_);
+
+  // Mark the end of batched read of shared images.
+  gl_->EndBatchReadAccessSharedImageCHROMIUM();
 }
 
 bool GLRenderer::OverdrawTracingEnabled() {

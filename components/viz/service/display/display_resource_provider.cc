@@ -785,17 +785,11 @@ void DisplayResourceProvider::TryFlushBatchedResources() {
 void DisplayResourceProvider::SetBatchReturnResources(bool batch) {
   if (batch) {
     DCHECK_GE(batch_return_resources_lock_count_, 0);
-    if (!scoped_batch_read_access_) {
-      scoped_batch_read_access_ =
-          std::make_unique<ScopedBatchReadAccess>(ContextGL());
-    }
     batch_return_resources_lock_count_++;
   } else {
     DCHECK_GT(batch_return_resources_lock_count_, 0);
     batch_return_resources_lock_count_--;
     if (batch_return_resources_lock_count_ == 0) {
-      DCHECK(scoped_batch_read_access_);
-      scoped_batch_read_access_.reset();
       TryFlushBatchedResources();
     }
   }
@@ -1117,18 +1111,6 @@ void DisplayResourceProvider::ChildResource::UpdateSyncToken(
   // the gpu process or in case of context loss.
   sync_token_ = sync_token;
   synchronization_state_ = sync_token.HasData() ? NEEDS_WAIT : SYNCHRONIZED;
-}
-
-DisplayResourceProvider::ScopedBatchReadAccess::ScopedBatchReadAccess(
-    gpu::gles2::GLES2Interface* gl)
-    : gl_(gl) {
-  if (gl_)
-    gl_->BeginBatchReadAccessSharedImageCHROMIUM();
-}
-
-DisplayResourceProvider::ScopedBatchReadAccess::~ScopedBatchReadAccess() {
-  if (gl_)
-    gl_->EndBatchReadAccessSharedImageCHROMIUM();
 }
 
 }  // namespace viz
