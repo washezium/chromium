@@ -326,4 +326,10 @@ void CrossOriginOpenerPolicyReporter::MonitorAccesses(
       accessed_window_token, std::move(remote_reporter));
 }
 
+// static
+int CrossOriginOpenerPolicyReporter::NextVirtualBrowsingContextGroup() {
+  static int id = -1;
+  return ++id;
+}
+
 }  // namespace content

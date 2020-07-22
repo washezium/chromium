@@ -96,6 +96,9 @@ struct CrossOriginOpenerPolicyStatus {
   // involved documents would cause a browsing context group swap.
   bool virtual_browsing_instance_swap = false;
 
+  // The virtual browsing context group of the document to commit.
+  int virtual_browsing_context_group;
+
   // When a page has a reachable opener and COOP triggers a browsing instance
   // swap we potentially break the page. This is one of the case that can be
   // reported using the COOP reporting API.

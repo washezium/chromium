@@ -904,6 +904,13 @@ RenderFrameHostImpl::RenderFrameHostImpl(
                                  : frame_tree_node_->opener();
   if (frame_owner)
     CSPContext::SetSelf(frame_owner->current_origin());
+
+  // New RenderFrameHostImpl are put in their own virtual browsing context
+  // group. Then, they can inherit from:
+  // 1) Their opener in RenderFrameHostImpl::CreateNewWindow().
+  // 2) Their navigation in RenderFrameHostImpl::DidCommitNavigationInternal().
+  virtual_browsing_context_group_ =
+      CrossOriginOpenerPolicyReporter::NextVirtualBrowsingContextGroup();
 }
 
 RenderFrameHostImpl::~RenderFrameHostImpl() {
@@ -4743,6 +4750,11 @@ void RenderFrameHostImpl::CreateNewWindow(
   if (!params->opener_suppressed)
     popup_coep = cross_origin_embedder_policy();
 
+  int popup_virtual_browsing_context_group =
+      params->opener_suppressed
+          ? CrossOriginOpenerPolicyReporter::NextVirtualBrowsingContextGroup()
+          : top_level_opener->virtual_browsing_context_group();
+
   // If the opener is suppressed or script access is disallowed, we should
   // open the window in a new BrowsingInstance, and thus a new process. That
   // means the current renderer process will not be able to route messages to
@@ -4780,6 +4792,8 @@ void RenderFrameHostImpl::CreateNewWindow(
   main_frame->SetOriginAndIsolationInfoOfNewFrame(GetLastCommittedOrigin());
   main_frame->cross_origin_opener_policy_ = popup_coop;
   main_frame->cross_origin_embedder_policy_ = popup_coep;
+  main_frame->virtual_browsing_context_group_ =
+      popup_virtual_browsing_context_group;
 
   // If inheriting coop (checking this via |opener_suppressed|) and the original
   // coop page has a reporter we make sure the the newly created popup also has
@@ -8024,6 +8038,9 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
   // It will be compared with the value computed from the renderer. The latter
   // is expected to be received in DidSetFramePolicyHeaders(..).
   active_sandbox_flags_control_ = navigation_request->SandboxFlagsToCommit();
+
+  virtual_browsing_context_group_ =
+      navigation_request->coop_status().virtual_browsing_context_group;
 
   // If we still have a PeakGpuMemoryTracker, then the loading it was observing
   // never completed. Cancel it's callback so that we don't report partial

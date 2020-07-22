@@ -1263,6 +1263,11 @@ NavigationRequest::NavigationRequest(
   navigation_entry_offset_ = EstimateHistoryOffset();
 
   commit_params_->is_browser_initiated = browser_initiated_;
+
+  // In the absence of response, the new RenderFrameHost will inherit its
+  // virtual context group from the previous RenderFrameHost, a priori.
+  coop_status_.virtual_browsing_context_group =
+      frame_tree_node->current_frame_host()->virtual_browsing_context_group();
 }
 
 NavigationRequest::~NavigationRequest() {
@@ -5019,6 +5024,12 @@ void NavigationRequest::UpdateCoopStatus(
   }
   if (frame_tree_node_->opener()) {
     coop_status_.had_opener_before_browsing_instance_swap = true;
+  }
+
+  if (coop_status_.require_browsing_instance_swap ||
+      coop_status_.virtual_browsing_instance_swap) {
+    coop_status_.virtual_browsing_context_group =
+        CrossOriginOpenerPolicyReporter::NextVirtualBrowsingContextGroup();
   }
 }
 
