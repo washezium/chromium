@@ -4971,14 +4971,15 @@
           "--browser=debug_x64",
           "--passthrough",
           "-v",
-          "--extra-browser-args=--enable-logging=stderr --js-flags=--expose-gc --use-angle=d3d11 --use-cmd-decoder=passthrough --force_high_performance_gpu"
+          "--extra-browser-args=--enable-logging=stderr --js-flags=--expose-gc --force_high_performance_gpu",
+          "--read-abbreviated-json-results-from=../../content/test/data/gpu/webgl_conformance_tests_output.json"
         ],
         "isolate_name": "telemetry_gpu_integration_test",
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_isolated_script_merge.py"
         },
-        "name": "webgl_conformance_d3d11_passthrough_tests",
+        "name": "webgl_conformance_tests",
         "should_retry_with_patch": false,
         "swarming": {
           "can_use_on_swarming_builders": true,
@@ -5510,7 +5511,8 @@
           "--browser=release_x64",
           "--passthrough",
           "-v",
-          "--extra-browser-args=--enable-logging=stderr --js-flags=--expose-gc --use-angle=d3d11 --use-cmd-decoder=passthrough --force_high_performance_gpu"
+          "--extra-browser-args=--enable-logging=stderr --js-flags=--expose-gc --force_high_performance_gpu",
+          "--read-abbreviated-json-results-from=../../content/test/data/gpu/webgl_conformance_tests_output.json"
         ],
         "isolate_name": "telemetry_gpu_integration_test",
         "isolate_profile_data": true,
@@ -5518,7 +5520,7 @@
           "args": [],
           "script": "//testing/merge_scripts/standard_isolated_script_merge.py"
         },
-        "name": "webgl_conformance_d3d11_passthrough_tests",
+        "name": "webgl_conformance_tests",
         "should_retry_with_patch": false,
         "swarming": {
           "can_use_on_swarming_builders": true,
