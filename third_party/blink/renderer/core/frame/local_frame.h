@@ -245,8 +245,7 @@ class CORE_EXPORT LocalFrame final
   // The |notification_type| parameter is used for histograms only.
   static void NotifyUserActivation(
       LocalFrame*,
-      mojom::blink::UserActivationNotificationType notification_type =
-          mojom::blink::UserActivationNotificationType::kNone,
+      mojom::blink::UserActivationNotificationType notification_type,
       bool need_browser_verification = false);
 
   // Returns the transient user activation state of the |LocalFrame|, provided
