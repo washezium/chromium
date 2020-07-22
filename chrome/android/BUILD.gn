@@ -208,6 +208,7 @@ android_resources("chrome_app_java_resources") {
     "//components/javascript_dialogs/android:java_resources",
     "//components/omnibox/browser:java_resources",
     "//components/page_info/android:java_resources",
+    "//components/payments/content/android:java_resources",
     "//components/permissions/android:java_resources",
     "//components/policy:app_restrictions_resources",
     "//components/strings:components_locale_settings_grd",
