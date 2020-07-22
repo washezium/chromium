@@ -539,6 +539,17 @@ try_.chromium_win_builder(
     tryjob = try_.job(cancel_stale = False),
 )
 
+try_.chromium_win_builder(
+    name = 'win7-rel',
+    execution_timeout = 4 * time.hour + 30 * time.minute,
+    goma_jobs = goma.jobs.J300,
+    ssd = True,
+    tryjob = try_.job(
+        location_regexp = [
+            '.+/[+]/sandbox/win/.+',
+        ],
+    ),
+)
 
 try_.gpu_chromium_android_builder(
     name = 'android_optional_gpu_tests_rel',
