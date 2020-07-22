@@ -102,6 +102,26 @@ void AvatarToolbarButton::UpdateIcon() {
   SetInsets();
 }
 
+void AvatarToolbarButton::Layout() {
+  ToolbarButton::Layout();
+
+  // TODO(crbug.com/1094566): this is a hack to avoid mismatch between avatar
+  // bitmap scaling and DIP->canvas pixel scaling in fractional DIP scaling
+  // modes (125%, 133%, etc.) that can cause the right-hand or bottom pixel row
+  // of the avatar image to be sliced off at certain specific browser sizes and
+  // configurations.
+  //
+  // In order to solve this, we increase the width and height of the image by 1
+  // after layout, so the rest of the layout is before. Since the profile image
+  // uses transparency, visually this does not cause any change in cases where
+  // the bug doesn't manifest.
+  image()->SetHorizontalAlignment(views::ImageView::Alignment::kLeading);
+  image()->SetVerticalAlignment(views::ImageView::Alignment::kLeading);
+  gfx::Size image_size = image()->GetImage().size();
+  image_size.Enlarge(1, 1);
+  image()->SetSize(image_size);
+}
+
 void AvatarToolbarButton::UpdateText() {
   base::Optional<SkColor> color;
   base::string16 text;

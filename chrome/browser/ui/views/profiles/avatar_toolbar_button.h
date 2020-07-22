@@ -59,6 +59,7 @@ class AvatarToolbarButton : public ToolbarButton,
   void OnBlur() override;
   void OnThemeChanged() override;
   void UpdateIcon() override;
+  void Layout() override;
 
   // ToolbarIconContainerView::Observer:
   void OnHighlightChanged() override;
