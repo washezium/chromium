@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script src="../resources/runner.js"></script>
-<script src="resources/canvas_runner.js"></script>
 <script>
 
 var canvas2D = document.createElement("canvas");
 var ctx2D = canvas2D.getContext("2d");
 var canvas3D = document.createElement('canvas');
 var gl = canvas3D.getContext('webgl');
+document.body.appendChild(canvas2D);
+document.body.appendChild(canvas3D);
+
 if(!gl)
     CanvasRunner.logFatalError("WebGL is not supported or enabled on this platform!");
 var tex = null;
@@ -29,12 +30,8 @@ function fillCanvas(ctx2d, canvas2d) {
     ctx2d.fillRect(0, 0, canvas2d.width, canvas2d.height);
 }
 
-function preRun() {
-    tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-}
-
 function doRun() {
+    const pixel = new Uint8Array([0, 0, 255, 255]);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas2D);
 }
 
@@ -42,19 +39,18 @@ function ensureComplete() {
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
 }
 
-function postRun() {
-    gl.deleteTexture(tex);
+function startPerf() {
+    fillCanvas(ctx2D, canvas2D);
+    doRun();
+    ensureComplete();
+    requestAnimationFrame(startPerf);
 }
 
 window.onload = function () {
     setSize(1024, 1024);
-    fillCanvas(ctx2D, canvas2D);
-    CanvasRunner.start({
-        description: "This bench test checks the speed on uploading 2d Canvas(1024x1024) to Webgl Texture(1024x1024).",
-        preRun: preRun,
-        doRun: doRun,
-        ensureComplete: ensureComplete,
-        postRun: postRun});
+    tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    startPerf();
 }
 
 </script>

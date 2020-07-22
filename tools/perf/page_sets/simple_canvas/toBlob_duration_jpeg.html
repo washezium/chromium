@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script src = "../resources/runner.js"></script>
+<script src="resources/canvas_runner.js"></script>
 <script>
 var canvas_idle = null;
-var isDone = false;
 
 function createCanvas4k(canvas_id) {
     var myCanvas = document.createElement("canvas");
@@ -17,14 +16,11 @@ function createCanvas4k(canvas_id) {
 }
 
 function invokeToBlobJpg(myCanvas) {
-    var startTime = PerfTestRunner.now();
     myCanvas.toBlob(function(blob){
-        PerfTestRunner.measureValueAsync(PerfTestRunner.now() - startTime);
-        if (!isDone) {
-            PerfTestRunner.gc();
-            runTest(myCanvas);
-        }
+        CanvasRunner.gc();
+        runTest(myCanvas);
     }, "image/jpeg");
+    myCanvas.getContext("2d").drawImage(myCanvas, 0, 0, 1, 1, 0, 0, 1, 1);
 }
 
 function runTest(myCanvas) {
@@ -33,16 +29,8 @@ function runTest(myCanvas) {
 
 window.onload = function () {
     canvas_idle = createCanvas4k("canvas_idle");
-    PerfTestRunner.startMeasureValuesAsync({
-        unit: 'ms',
-        done: function () {
-            isDone = true;
-        },
-        run: function() {
-            runTest(canvas_idle);
-        },
-        description: "Measures performance of canvas."
-    });
+    document.body.appendChild(canvas_idle);
+    runTest(canvas_idle);
 };
 </script>
 </body>

@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script src = "../resources/runner.js"></script>
-<script src="resources/canvas_runner.js"></script>
 <script type="text/javascript">
 const canvas = document.createElement("canvas");
 canvas.width = 1240;
 canvas.height = 1625;
 document.body.appendChild(canvas);
 const context = canvas.getContext("2d", {'alpha':!1});
-CanvasRunner.start({
-  description: "Render an example from Sheets",
-  doRun: (() => drawSheet(context)),
-});
+function startPerf() {
+  drawSheet(context);
+  context.drawImage(canvas, 0, 0, 1, 1, 0, 0, 1, 1);
+  requestAnimationFrame(startPerf);
+}
 
 // Draw a frame of google sheets
 // Generated from a dump of draw commands from Google Sheets, Q1 2018
@@ -5168,6 +5167,11 @@ function drawSheet(ctx) {
   ctx.fillStyle = '#dadfe8';
   ctx.fillRect(0, 62, 1188, 4);
 }
+
+window.onload = function () {
+  startPerf();
+}
+
 </script>
 </body>
 </html>
