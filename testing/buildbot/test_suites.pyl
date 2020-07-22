@@ -3074,6 +3074,10 @@
           # TODO(crbug.com/953991): Solve this and remove the workaround.
           '--jobs=1',
           '--additional-driver-flag=--enable-dawn-backend-validation',
+          # We need this flag to initialize ANGLE so that we can explicitly tell
+          # Dawn which ANGLE adapter Chromium is using. This will help match the test
+          # usage to be the same as the browser.
+          '--additional-driver-flag=--use-gpu-in-tests',
         ],
         'win64_args': [ '--target=Release_x64' ],
         'mac_args': [
@@ -3103,6 +3107,10 @@
           # Disable parallel jobs to work around consistent test timeout flakes.
           # TODO(crbug.com/953991): Solve this and remove the workaround.
           '--jobs=1',
+          # We need this flag to initialize ANGLE so that we can explicitly tell
+          # Dawn which ANGLE adapter Chromium is using. This will help match the test
+          # usage to be the same as the browser.
+          '--additional-driver-flag=--use-gpu-in-tests',
         ],
         'win64_args': [ '--target=Release_x64' ],
         'mac_args': [
