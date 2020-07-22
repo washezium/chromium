@@ -388,6 +388,32 @@ bool ExternalVkImageBacking::BeginAccess(
       UpdateContent(kInGLTexture);
   }
 
+  if (gl_reads_in_progress_ && need_synchronization()) {
+    // To avoid concurrent read access from both GL and vulkan, if there is
+    // unfinished GL read access, we will release the GL texture temporarily.
+    // And when this vulkan access is over, we will acquire the GL texture to
+    // resume the GL access.
+    DCHECK(!is_gl);
+    DCHECK(readonly);
+    DCHECK(texture_passthrough_ || texture_);
+
+    GLuint texture_id = texture_passthrough_
+                            ? texture_passthrough_->service_id()
+                            : texture_->service_id();
+    context_state()->MakeCurrent(/*gl_surface=*/nullptr, /*needs_gl=*/true);
+
+    GrVkImageInfo info;
+    auto result = backend_texture_.getVkImageInfo(&info);
+    DCHECK(result);
+    DCHECK_EQ(info.fCurrentQueueFamily, VK_QUEUE_FAMILY_EXTERNAL);
+    DCHECK_NE(info.fImageLayout, VK_IMAGE_LAYOUT_UNDEFINED);
+    DCHECK_NE(info.fImageLayout, VK_IMAGE_LAYOUT_PREINITIALIZED);
+    auto release_semaphore =
+        ExternalVkImageGLRepresentationShared::ReleaseTexture(
+            external_semaphore_pool(), texture_id, info.fImageLayout);
+    EndAccessInternal(readonly, std::move(release_semaphore));
+  }
+
   if (!BeginAccessInternal(readonly, external_semaphores))
     return false;
 
@@ -450,6 +476,32 @@ void ExternalVkImageBacking::EndAccess(bool readonly,
       latest_content_ = is_gl ? kInGLTexture : kInVkImage;
     } else {
       latest_content_ = kInVkImage | kInGLTexture;
+    }
+  }
+
+  if (gl_reads_in_progress_ && need_synchronization()) {
+    // When vulkan read access is finished, if there is unfinished GL read
+    // access, we need to resume GL read access.
+    DCHECK(!is_gl);
+    DCHECK(readonly);
+    DCHECK(texture_passthrough_ || texture_);
+    GLuint texture_id = texture_passthrough_
+                            ? texture_passthrough_->service_id()
+                            : texture_->service_id();
+    context_state()->MakeCurrent(/*gl_surface=*/nullptr, /*needs_gl=*/true);
+    std::vector<ExternalSemaphore> external_semaphores;
+    BeginAccessInternal(true, &external_semaphores);
+    DCHECK_LE(external_semaphores.size(), 1u);
+
+    for (auto& semaphore : external_semaphores) {
+      GrVkImageInfo info;
+      auto result = backend_texture_.getVkImageInfo(&info);
+      DCHECK(result);
+      DCHECK_EQ(info.fCurrentQueueFamily, VK_QUEUE_FAMILY_EXTERNAL);
+      DCHECK_NE(info.fImageLayout, VK_IMAGE_LAYOUT_UNDEFINED);
+      DCHECK_NE(info.fImageLayout, VK_IMAGE_LAYOUT_PREINITIALIZED);
+      ExternalVkImageGLRepresentationShared::AcquireTexture(
+          &semaphore, texture_id, info.fImageLayout);
     }
   }
 }
