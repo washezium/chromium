@@ -4597,6 +4597,8 @@ crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/layout-algori
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/layout-algorithm/baseline-alignment-affects-intrinsic-size-004.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/layout-algorithm/baseline-alignment-affects-intrinsic-size-005.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/layout-algorithm/baseline-alignment-affects-intrinsic-size-006.html [ Failure ]
+crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/animation/grid-template-columns-001.html [ Pass ]
+crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/animation/grid-template-rows-001.html [ Pass ]
 
 # [css-logical]
 crbug.com/865579 external/wpt/css/css-logical/animation-001.html [ Failure Pass ]
