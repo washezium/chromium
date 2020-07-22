@@ -398,6 +398,11 @@ class CONTENT_EXPORT RenderFrameHostImpl
   void EvictFromBackForwardCacheWithReasons(
       const BackForwardCacheCanStoreDocumentResult& can_store);
 
+  // Returns the current WebPreferences for the WebContents associated with this
+  // RenderFrameHost. Will create one if it does not exist (and update all the
+  // renderers with the newly computed value).
+  WebPreferences GetOrCreateWebPreferences();
+
   // IPC::Sender
   bool Send(IPC::Message* msg) override;
 

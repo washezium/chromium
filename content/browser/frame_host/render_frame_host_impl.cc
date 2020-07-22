@@ -881,7 +881,7 @@ RenderFrameHostImpl::RenderFrameHostImpl(
       owned_render_widget_host_->set_owned_by_render_frame_host(true);
 #if defined(OS_ANDROID)
       owned_render_widget_host_->SetForceEnableZoom(
-          render_view_host_->GetWebkitPreferences().force_enable_zoom);
+          delegate_->GetOrCreateWebPreferences().force_enable_zoom);
 #endif  // defined(OS_ANDROID)
     }
 
@@ -1428,13 +1428,17 @@ bool RenderFrameHostImpl::IsSandboxed(network::mojom::WebSandboxFlags flags) {
   return static_cast<int>(active_sandbox_flags_) & static_cast<int>(flags);
 }
 
+WebPreferences RenderFrameHostImpl::GetOrCreateWebPreferences() {
+  return delegate()->GetOrCreateWebPreferences();
+}
+
 blink::PendingURLLoaderFactoryBundle::OriginMap
 RenderFrameHostImpl::CreateURLLoaderFactoriesForIsolatedWorlds(
     const url::Origin& main_world_origin,
     const base::flat_set<url::Origin>& isolated_world_origins,
     network::mojom::ClientSecurityStatePtr client_security_state,
     network::mojom::TrustTokenRedemptionPolicy trust_token_redemption_policy) {
-  WebPreferences preferences = GetRenderViewHost()->GetWebkitPreferences();
+  WebPreferences preferences = GetOrCreateWebPreferences();
 
   blink::PendingURLLoaderFactoryBundle::OriginMap result;
   for (const url::Origin& isolated_world_origin : isolated_world_origins) {
@@ -4678,7 +4682,7 @@ void RenderFrameHostImpl::CreateNewWindow(
   // even if the embedding app doesn't support multiple windows. In this case,
   // window.open() will return "window" and navigate it to whatever URL was
   // passed.
-  if (!render_view_host_->GetWebkitPreferences().supports_multiple_windows) {
+  if (!GetOrCreateWebPreferences().supports_multiple_windows) {
     // See crbug.com/1083819, we should ignore if the URL is javascript: scheme,
     // previously we already filtered out javascript: scheme and replace the
     // URL with |kBlockedURL|, so we check against |kBlockedURL| here.
@@ -7748,7 +7752,7 @@ bool RenderFrameHostImpl::ValidateDidCommitParams(
   // file: URLs can be allowed to access any other origin, based on settings.
   bool bypass_checks_for_file_scheme = false;
   if (params->origin.scheme() == url::kFileScheme) {
-    WebPreferences prefs = render_view_host_->GetWebkitPreferences();
+    WebPreferences prefs = GetOrCreateWebPreferences();
     if (prefs.allow_universal_access_from_file_urls)
       bypass_checks_for_file_scheme = true;
   }

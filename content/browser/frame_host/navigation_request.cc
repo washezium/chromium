@@ -2751,8 +2751,7 @@ void NavigationRequest::OnStartChecksComplete(
   }
 
   if (IsSchemeSupportedForAppCache(common_params_->url)) {
-    if (navigating_frame_host->GetRenderViewHost()
-            ->GetWebkitPreferences()
+    if (navigating_frame_host->GetOrCreateWebPreferences()
             .application_cache_enabled) {
       // The final process id won't be available until
       // NavigationRequest::ReadyToCommitNavigation.
