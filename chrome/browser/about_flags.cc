@@ -4048,10 +4048,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kPdfHonorJsContentSettingsDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(chrome_pdf::features::kPdfHonorJsContentSettings)},
 
-    {"pdf-two-up-view", flag_descriptions::kPdfTwoUpViewName,
-     flag_descriptions::kPdfTwoUpViewDescription, kOsDesktop,
-     FEATURE_VALUE_TYPE(chrome_pdf::features::kPDFTwoUpView)},
-
     {"pdf-viewer-update", flag_descriptions::kPdfViewerUpdateName,
      flag_descriptions::kPdfViewerUpdateDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(chrome_pdf::features::kPDFViewerUpdate)},

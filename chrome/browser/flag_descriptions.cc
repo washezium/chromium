@@ -4332,10 +4332,6 @@ const char kPdfHonorJsContentSettingsDescription[] =
     "Enable whether an origin's JavaScript content settings are honored in "
     "PDFs opened from that origin.";
 
-const char kPdfTwoUpViewName[] = "PDF Two-up View";
-const char kPdfTwoUpViewDescription[] =
-    "Enable a new option to display two pages side by side in the PDF viewer.";
-
 const char kPdfViewerUpdateName[] = "PDF Viewer Update";
 const char kPdfViewerUpdateDescription[] =
     "When enabled, the PDF viewer will display an updated UI with new "

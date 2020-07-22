@@ -1690,7 +1690,7 @@ void OutOfProcessInstance::HandleSaveMessage(const pp::VarDictionary& dict) {
 
 void OutOfProcessInstance::HandleSetTwoUpViewMessage(
     const pp::VarDictionary& dict) {
-  if (!base::FeatureList::IsEnabled(features::kPDFTwoUpView) ||
+  if (!base::FeatureList::IsEnabled(features::kPDFViewerUpdate) ||
       !dict.Get(pp::Var(kJSEnableTwoUpView)).is_bool()) {
     NOTREACHED();
     return;

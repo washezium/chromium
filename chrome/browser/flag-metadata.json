@@ -3483,11 +3483,6 @@
     "expiry_milestone": 90
   },
   {
-    "name": "pdf-two-up-view",
-    "owners": [ "nigi", "thestig" ],
-    "expiry_milestone": 86
-  },
-  {
     "name": "pdf-viewer-update",
     "owners": [ "rbpotter", "thestig" ],
     "expiry_milestone": 89
