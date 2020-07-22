@@ -452,6 +452,7 @@
       'codesearch-gen-chromium-android': 'codesearch_gen_chromium_android_bot',
       'codesearch-gen-chromium-chromiumos': 'codesearch_gen_chromium_chromiumos_bot',
       'codesearch-gen-chromium-fuchsia': 'codesearch_gen_chromium_fuchsia_bot',
+      'codesearch-gen-chromium-lacros': 'codesearch_gen_chromium_lacros_bot',
       'codesearch-gen-chromium-linux': 'codesearch_gen_chromium_bot',
       'codesearch-gen-chromium-win': 'codesearch_gen_chromium_bot',
     },
@@ -825,6 +826,7 @@
       'gen-android-try': 'codesearch_gen_chromium_android_bot',
       'gen-chromiumos-try': 'codesearch_gen_chromium_chromiumos_bot',
       'gen-fuchsia-try': 'codesearch_gen_chromium_fuchsia_bot',
+      'gen-lacros-try': 'codesearch_gen_chromium_lacros_bot',
       'gen-linux-try': 'codesearch_gen_chromium_bot',
       'gen-win-try': 'codesearch_gen_chromium_bot',
     },
@@ -1686,6 +1688,12 @@
 
     'codesearch_gen_chromium_fuchsia_bot': [
       'codesearch_release', 'fuchsia',
+    ],
+
+    # Lacros uses different gn args to build for chromeOS device vs. Linux. For
+    # simplicity, we only generate codesearch x-refs for lacros on Linux.
+    'codesearch_gen_chromium_lacros_bot': [
+      'codesearch', 'lacros_on_linux',
     ],
 
     'codesearch_gen_chromium_bot': [
