@@ -470,8 +470,8 @@ void OnIsPinnedToTaskbarResult(bool succeeded,
 // startup.
 void RecordIsPinnedToTaskbarHistogram() {
   shell_integration::win::GetIsPinnedToTaskbarState(
-      base::Bind(&OnShellHandlerConnectionError),
-      base::Bind(&OnIsPinnedToTaskbarResult));
+      base::BindOnce(&OnShellHandlerConnectionError),
+      base::BindOnce(&OnIsPinnedToTaskbarResult));
 }
 
 class ScHandleTraits {
