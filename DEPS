@@ -164,9 +164,6 @@ vars = {
   # Building for CrOS is only supported on linux currently.
   'checkout_simplechrome': '"{cros_boards}" != ""',
   'checkout_simplechrome_with_vms': '"{cros_boards_with_qemu_images}" != ""',
-  # Should we build and test for public (ie: full) CrOS images, or private
-  # (ie: release) images.
-  'use_public_cros_config': 'not checkout_src_internal',
 
   # ANGLE's deps are relative to the angle_root variable.
   'angle_root': 'src/third_party/angle',
@@ -4868,41 +4865,73 @@ hooks = [
   },
 
   # Download public CrOS simplechrome artifacts. The first hooks is for boards
-  # that support VM images, the second hook for all other boards. For internal
-  # boards, see src-internal's DEPS.
+  # that support VM images, the second hook for all other boards.
   {
     'name': 'cros_simplechrome_artifacts_with_vm',
     'pattern': '.',
-    'condition': 'checkout_simplechrome_with_vms and use_public_cros_config',
+    'condition': 'checkout_simplechrome_with_vms and not checkout_src_internal',
     'action': [
       'src/third_party/chromite/bin/cros',
       'chrome-sdk',
-      '--nogoma',
-      '--use-external-config',
       '--fallback-versions=10',
+      '--nogoma',
       '--nogn-gen',
-      '--download-vm',
-      '--boards={cros_boards_with_qemu_images}',
-      '--cache-dir=src/build/cros_cache/',
-      '--log-level=error',
       '--no-shell',
+      '--log-level=error',
+      '--cache-dir=src/build/cros_cache/',
+      '--use-external-config',
+      '--boards={cros_boards_with_qemu_images}',
+      '--download-vm',
     ],
   },
   {
     'name': 'cros_simplechrome_artifacts_with_no_vm',
     'pattern': '.',
-    'condition': 'checkout_simplechrome and use_public_cros_config',
+    'condition': 'checkout_simplechrome and not checkout_src_internal',
     'action': [
       'src/third_party/chromite/bin/cros',
       'chrome-sdk',
-      '--nogoma',
-      '--use-external-config',
       '--fallback-versions=10',
+      '--nogoma',
       '--nogn-gen',
-      '--boards={cros_boards}',
-      '--cache-dir=src/build/cros_cache/',
-      '--log-level=error',
       '--no-shell',
+      '--log-level=error',
+      '--cache-dir=src/build/cros_cache/',
+      '--use-external-config',
+      '--boards={cros_boards}',
+    ],
+  },
+  {
+    'name': 'cros_simplechrome_artifacts_with_vm_internal',
+    'pattern': '.',
+    'condition': 'checkout_simplechrome_with_vms and checkout_src_internal',
+    'action': [
+      'src/third_party/chromite/bin/cros',
+      'chrome-sdk',
+      '--fallback-versions=10',
+      '--nogoma',
+      '--nogn-gen',
+      '--no-shell',
+      '--log-level=error',
+      '--cache-dir=src/build/cros_cache/',
+      '--boards={cros_boards_with_qemu_images}',
+      '--download-vm',
+    ],
+  },
+  {
+    'name': 'cros_simplechrome_artifacts_with_no_vm_internal',
+    'pattern': '.',
+    'condition': 'checkout_simplechrome and checkout_src_internal',
+    'action': [
+      'src/third_party/chromite/bin/cros',
+      'chrome-sdk',
+      '--fallback-versions=10',
+      '--nogoma',
+      '--nogn-gen',
+      '--no-shell',
+      '--log-level=error',
+      '--cache-dir=src/build/cros_cache/',
+      '--boards={cros_boards}',
     ],
   },
 
