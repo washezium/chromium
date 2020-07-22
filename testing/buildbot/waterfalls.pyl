@@ -74,7 +74,7 @@
             {
               'os': 'ChromeOS',
               'device_type': 'eve',
-              'pool': 'luci.chrome.cros-dut',
+              'pool': 'chrome.tests',
             },
           ],
         },
@@ -92,7 +92,7 @@
             {
               'os': 'ChromeOS',
               'device_type': 'kevin',
-              'pool': 'luci.chrome.cros-dut',
+              'pool': 'chrome.tests',
             },
           ],
         },
