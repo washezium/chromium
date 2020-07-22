@@ -644,6 +644,9 @@ class CC_EXPORT LayerTreeImpl {
   float bottom_controls_min_height() const {
     return browser_controls_params_.bottom_controls_min_height;
   }
+  bool pin_top_controls_to_content_top() const {
+    return browser_controls_params_.pin_top_controls_to_content_top;
+  }
 
   void set_overscroll_behavior(const OverscrollBehavior& behavior);
   OverscrollBehavior overscroll_behavior() const {

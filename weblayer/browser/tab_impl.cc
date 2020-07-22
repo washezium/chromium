@@ -780,6 +780,12 @@ void TabImpl::ShowTranslateUi(JNIEnv* env) {
 void TabImpl::SetTopControlsMinHeight(JNIEnv* env, int min_height) {
   top_controls_min_height_ = min_height;
 }
+
+void TabImpl::SetPinTopControlsToContentTop(
+    JNIEnv* env,
+    jboolean pin_top_controls_to_content_top) {
+  pin_top_controls_to_content_top_ = pin_top_controls_to_content_top;
+}
 #endif  // OS_ANDROID
 
 content::WebContents* TabImpl::OpenURLFromTab(
@@ -915,6 +921,14 @@ bool TabImpl::DoBrowserControlsShrinkRendererSize(
   TRACE_EVENT0("weblayer", "Java_TabImpl_doBrowserControlsShrinkRendererSize");
   return Java_TabImpl_doBrowserControlsShrinkRendererSize(AttachCurrentThread(),
                                                           java_impl_);
+#else
+  return false;
+#endif
+}
+
+bool TabImpl::ShouldPinTopControlsToContentTop() {
+#if defined(OS_ANDROID)
+  return pin_top_controls_to_content_top_;
 #else
   return false;
 #endif
