@@ -2500,6 +2500,52 @@
             ]
         }
     ],
+    "EnableContextMenuPerformanceHints": [
+        {
+            "platforms": [
+                "android"
+            ],
+            "experiments": [
+                {
+                    "name": "ContextMenuPerformanceInfoUiEnabled",
+                    "enable_features": [
+                        "ContextMenuPerformanceInfo",
+                        "OptimizationHintsFetchingAnonymousDataConsent",
+                        "PerformanceHintsObserver"
+                    ]
+                },
+                {
+                    "name": "EnabledWithoutControl",
+                    "enable_features": [
+                        "ContextMenuPerformanceInfo",
+                        "OptimizationHintsFetchingAnonymousDataConsent",
+                        "PerformanceHintsObserver"
+                    ]
+                },
+                {
+                    "name": "ContextMenuPerformanceInfoUiDisabled",
+                    "enable_features": [
+                        "OptimizationHintsFetchingAnonymousDataConsent",
+                        "PerformanceHintsObserver"
+                    ],
+                    "disable_features": [
+                        "ContextMenuPerformanceInfo"
+                    ]
+                },
+                {
+                    "name": "ContextMenuPerformanceInfoControl",
+                    "disable_features": [
+                        "ContextMenuPerformanceInfo",
+                        "OptimizationHintsFetchingAnonymousDataConsent",
+                        "PerformanceHintsObserver"
+                    ]
+                },
+                {
+                    "name": "Default"
+                }
+            ]
+        }
+    ],
     "EnableCsrssLockdown": [
         {
             "platforms": [
