@@ -37,7 +37,6 @@ namespace blink {
 class DataTransfer;
 class EventDispatcher;
 class MouseEventInit;
-class WebPointerProperties;
 
 class CORE_EXPORT MouseEvent : public UIEventWithKeyState {
   DEFINE_WRAPPERTYPEINFO();

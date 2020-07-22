@@ -18,10 +18,6 @@
 
 namespace blink {
 
-FrameView::FrameView(const IntRect& frame_rect)
-    : EmbeddedContentView(frame_rect),
-      frame_visibility_(blink::mojom::FrameVisibility::kRenderedInViewport) {}
-
 Frame& FrameView::GetFrame() const {
   if (const LocalFrameView* lfv = DynamicTo<LocalFrameView>(this))
     return lfv->GetFrame();
