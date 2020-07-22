@@ -98,6 +98,7 @@ static_library("browser") {
   deps = [
     "//base",
     "//base:i18n",
+    "//components/database_utils",
     "//components/favicon_base",
     "//components/google/core/common",
     "//components/history/core/common",

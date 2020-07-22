@@ -22,7 +22,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/time/time.h"
 #include "build/build_config.h"
-#include "components/history/core/browser/url_database.h"
+#include "components/database_utils/url_converter.h"
 #include "sql/recovery.h"
 #include "sql/statement.h"
 #include "sql/transaction.h"
@@ -576,7 +576,7 @@ bool FaviconDatabase::TouchOnDemandFavicon(const GURL& icon_url,
   // Look up the icon ids for the url.
   sql::Statement id_statement(db_.GetCachedStatement(
       SQL_FROM_HERE, "SELECT id FROM favicons WHERE url=?"));
-  id_statement.BindString(0, URLDatabase::GURLToDatabaseURL(icon_url));
+  id_statement.BindString(0, database_utils::GurlToDatabaseUrl(icon_url));
 
   base::Time max_time =
       time - base::TimeDelta::FromDays(kFaviconUpdateLastRequestedAfterDays);
@@ -645,7 +645,7 @@ favicon_base::FaviconID FaviconDatabase::GetFaviconIDForFaviconURL(
     favicon_base::IconType icon_type) {
   sql::Statement statement(db_.GetCachedStatement(
       SQL_FROM_HERE, "SELECT id FROM favicons WHERE url=? AND icon_type=?"));
-  statement.BindString(0, URLDatabase::GURLToDatabaseURL(icon_url));
+  statement.BindString(0, database_utils::GurlToDatabaseUrl(icon_url));
   statement.BindInt(1, ToPersistedIconType(icon_type));
 
   if (!statement.Step())
@@ -679,7 +679,7 @@ favicon_base::FaviconID FaviconDatabase::AddFavicon(
     favicon_base::IconType icon_type) {
   sql::Statement statement(db_.GetCachedStatement(
       SQL_FROM_HERE, "INSERT INTO favicons (url, icon_type) VALUES (?, ?)"));
-  statement.BindString(0, URLDatabase::GURLToDatabaseURL(icon_url));
+  statement.BindString(0, database_utils::GurlToDatabaseUrl(icon_url));
   statement.BindInt(1, ToPersistedIconType(icon_type));
 
   if (!statement.Run())
@@ -748,7 +748,7 @@ bool FaviconDatabase::GetIconMappingsForPageURL(
       "ON icon_mapping.icon_id = favicons.id "
       "WHERE icon_mapping.page_url=? "
       "ORDER BY favicons.icon_type DESC"));
-  statement.BindString(0, URLDatabase::GURLToDatabaseURL(page_url));
+  statement.BindString(0, database_utils::GurlToDatabaseUrl(page_url));
 
   bool result = false;
   while (statement.Step()) {
@@ -797,7 +797,7 @@ IconMappingID FaviconDatabase::AddIconMapping(const GURL& page_url,
   static const char kSql[] =
       "INSERT INTO icon_mapping (page_url, icon_id) VALUES (?, ?)";
   sql::Statement statement(db_.GetCachedStatement(SQL_FROM_HERE, kSql));
-  statement.BindString(0, URLDatabase::GURLToDatabaseURL(page_url));
+  statement.BindString(0, database_utils::GurlToDatabaseUrl(page_url));
   statement.BindInt64(1, icon_id);
 
   if (!statement.Run())
@@ -809,7 +809,7 @@ IconMappingID FaviconDatabase::AddIconMapping(const GURL& page_url,
 bool FaviconDatabase::DeleteIconMappings(const GURL& page_url) {
   sql::Statement statement(db_.GetCachedStatement(
       SQL_FROM_HERE, "DELETE FROM icon_mapping WHERE page_url = ?"));
-  statement.BindString(0, URLDatabase::GURLToDatabaseURL(page_url));
+  statement.BindString(0, database_utils::GurlToDatabaseUrl(page_url));
 
   return statement.Run();
 }
@@ -873,7 +873,7 @@ bool FaviconDatabase::RetainDataForPageUrls(
         "INSERT OR IGNORE INTO temp.retained_urls (url) VALUES (?)";
     sql::Statement statement(db_.GetUniqueStatement(kRetainedUrlSql));
     for (const GURL& url : urls_to_keep) {
-      statement.BindString(0, URLDatabase::GURLToDatabaseURL(url));
+      statement.BindString(0, database_utils::GurlToDatabaseUrl(url));
       if (!statement.Run())
         return false;
       statement.Reset(true);
