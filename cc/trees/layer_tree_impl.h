@@ -407,14 +407,16 @@ class CC_EXPORT LayerTreeImpl {
   float external_page_scale_factor() const {
     return external_page_scale_factor_;
   }
-  // A function to provide page scale information for scaling scroll
-  // deltas. In top-level frames we store this value in page_scale_factor_, but
-  // for cross-process subframes it's stored in external_page_scale_factor_, so
-  // that it only affects raster scale. These cases are mutually exclusive, so
-  // only one of the values should ever vary from 1.f.
+  // A function to provide page scale information for scaling scroll deltas. In
+  // top-level frames we store this value in page_scale_factor_, but for
+  // cross-process subframes it's stored in external_page_scale_factor_, so
+  // that it only affects raster scale. These cases are mutually exclusive,
+  // except for a page hosted in a <portal>, so only one of the values should
+  // ever vary from 1.f.
   float page_scale_factor_for_scroll() const {
     DCHECK(external_page_scale_factor_ == 1.f ||
-           current_page_scale_factor() == 1.f);
+           current_page_scale_factor() == 1.f ||
+           !settings().is_layer_tree_for_subframe);
     return external_page_scale_factor_ * current_page_scale_factor();
   }
   const gfx::ColorSpace& raster_color_space() const {
