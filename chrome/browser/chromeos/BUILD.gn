@@ -3039,6 +3039,7 @@ source_set("unit_tests") {
     "customization/customization_document_unittest.cc",
     "dbus/proxy_resolution_service_provider_unittest.cc",
     "drive/drive_integration_service_unittest.cc",
+    "drive/drivefs_native_message_host_unittest.cc",
     "drive/file_system_util_unittest.cc",
     "eol_notification_unittest.cc",
     "events/event_rewriter_unittest.cc",
