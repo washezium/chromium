@@ -16,8 +16,9 @@
 
 namespace version_info {
 
-std::string GetProductNameAndVersionForUserAgent() {
-  return "Chrome/" + GetVersionNumber();
+std::string GetProductNameAndVersionForUserAgent() {  
+    /* Currently, the Washezium install base is so small that it would make us rather identifiable if we had our own tag. */
+	return "Chrome/80.0.3987.116";
 }
 
 std::string GetProductName() {
