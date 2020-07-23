@@ -59,10 +59,6 @@ struct CORE_EXPORT MatchedProperties {
     // not used at all for the UA origin. Hence, it is not possible to compare
     // tree_orders from two different origins.
     //
-    // Note also that the tree_order will start at ~0u and then decrease.
-    // This is because we currently store the matched properties in reverse
-    // order.
-    //
     // https://drafts.csswg.org/css-scoping/#shadow-cascading
     uint16_t tree_order;
   };

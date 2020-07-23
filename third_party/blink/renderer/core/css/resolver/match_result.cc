@@ -33,6 +33,7 @@
 #include <memory>
 #include <type_traits>
 
+#include "base/numerics/clamped_math.h"
 #include "third_party/blink/renderer/core/css/css_property_value_set.h"
 #include "third_party/blink/renderer/core/css/style_rule.h"
 #include "third_party/blink/renderer/platform/wtf/math_extras.h"
@@ -79,11 +80,11 @@ void MatchResult::FinishAddingUserRules() {
       user_range_ends_.back() == matched_properties_.size())
     return;
   user_range_ends_.push_back(matched_properties_.size());
-  current_tree_order_ = clampTo<uint16_t>(user_range_ends_.size());
 }
 
 void MatchResult::FinishAddingAuthorRulesForTreeScope() {
   DCHECK_EQ(current_origin_, CascadeOrigin::kAuthor);
+  current_tree_order_ = base::ClampAdd(current_tree_order_, 1);
   // Don't add empty ranges.
   if (author_range_ends_.IsEmpty() && user_range_ends_.IsEmpty() &&
       ua_range_end_ == matched_properties_.size())
@@ -95,7 +96,6 @@ void MatchResult::FinishAddingAuthorRulesForTreeScope() {
       author_range_ends_.back() == matched_properties_.size())
     return;
   author_range_ends_.push_back(matched_properties_.size());
-  current_tree_order_ = clampTo<uint16_t>(author_range_ends_.size());
 }
 
 MatchedExpansionsRange MatchResult::Expansions(const Document& document,
