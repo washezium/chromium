@@ -2935,6 +2935,20 @@ const char kReportFeedUserActionsDescription[] =
     "Enable the report of click actions on cards in Chrome's Feed on Android."
     " Also enable the feed header menu to manage the feed.";
 
+const char kSafeBrowsingEnhancedProtectionAndroidName[] =
+    "Safe Browsing Enhanced Protection on Android";
+const char kSafeBrowsingEnhancedProtectionAndroidDescription[] =
+    "A new Safe Browsing mode for faster, proactive protection against "
+    "dangerous websites, downloads, and extensions. To enable enhanced "
+    "protection from the settings page, please enable "
+    "safe-browsing-security-section-ui-android and this flag together.";
+
+const char kSafeBrowsingSecuritySectionUiAndroidName[] =
+    "Security Section on Android";
+const char kSafeBrowsingSecuritySectionUiAndroidDescription[] =
+    "Add a settings page for configuring security settings. The new security "
+    "page is under Settings > Privacy and security";
+
 const char kSafeBrowsingUseLocalBlacklistsV2Name[] =
     "Use local Safe Browsing blacklists";
 const char kSafeBrowsingUseLocalBlacklistsV2Description[] =

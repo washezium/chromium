@@ -3728,6 +3728,24 @@
     "expiry_milestone": 85
   },
   {
+    "name": "safe-browsing-enhanced-protection-android",
+    "owners": [
+      "vakh",
+      "xinghuilu",
+      "chrome-safebrowsing-core@google.com"
+    ],
+    "expiry_milestone": 88
+  },
+  {
+    "name": "safe-browsing-security-section-ui-android",
+    "owners": [
+      "vakh",
+      "xinghuilu",
+      "chrome-safebrowsing-core@google.com"
+    ],
+    "expiry_milestone": 88
+  },
+  {
     "name": "safety-check-android",
     "owners": [
       "andzaytsev",

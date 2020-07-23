@@ -5210,6 +5210,19 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(features::kSafetyCheckAndroid)},
 #endif
 
+#if defined(OS_ANDROID)
+    {"safe-browsing-enhanced-protection-android",
+     flag_descriptions::kSafeBrowsingEnhancedProtectionAndroidName,
+     flag_descriptions::kSafeBrowsingEnhancedProtectionAndroidDescription,
+     kOsAndroid, FEATURE_VALUE_TYPE(safe_browsing::kEnhancedProtection)},
+
+    {"safe-browsing-security-section-ui-android",
+     flag_descriptions::kSafeBrowsingSecuritySectionUiAndroidName,
+     flag_descriptions::kSafeBrowsingSecuritySectionUiAndroidDescription,
+     kOsAndroid,
+     FEATURE_VALUE_TYPE(safe_browsing::kSafeBrowsingSecuritySectionUIAndroid)},
+#endif
+
 #if defined(OS_CHROMEOS)
     {"gesture-properties-dbus-service",
      flag_descriptions::kEnableGesturePropertiesDBusServiceName,
