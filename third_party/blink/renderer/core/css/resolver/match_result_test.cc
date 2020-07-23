@@ -21,6 +21,15 @@ class MatchResultTest : public PageTestBase {
     return property_sets->at(index).Get();
   }
 
+  size_t LengthOf(const MatchResult& result) const {
+    return result.GetMatchedProperties().size();
+  }
+
+  CascadeOrigin OriginAt(const MatchResult& result, size_t index) const {
+    DCHECK_LT(index, LengthOf(result));
+    return result.GetMatchedProperties()[index].types_.origin;
+  }
+
  private:
   Persistent<HeapVector<Member<MutableCSSPropertyValueSet>, 8>> property_sets;
 };
@@ -41,14 +50,6 @@ void TestMatchedPropertiesRange(const MatchedPropertiesRange& range,
   EXPECT_EQ(expected_length, range.end() - range.begin());
   for (const auto& matched_properties : range)
     EXPECT_EQ(*expected_sets++, matched_properties.properties);
-}
-
-void TestOriginInRange(const MatchedPropertiesRange& range,
-                       int expected_length,
-                       CascadeOrigin expected_origin) {
-  EXPECT_EQ(expected_length, range.end() - range.begin());
-  for (const auto& matched_properties : range)
-    EXPECT_EQ(matched_properties.types_.origin, expected_origin);
 }
 
 TEST_F(MatchResultTest, UARules) {
@@ -193,8 +194,9 @@ TEST_F(MatchResultTest, CascadeOriginUserAgent) {
   result.FinishAddingUserRules();
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 2, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.AllRules(), 2, CascadeOrigin::kUserAgent);
+  ASSERT_EQ(LengthOf(result), 2u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUserAgent);
 }
 
 TEST_F(MatchResultTest, CascadeOriginUser) {
@@ -205,8 +207,9 @@ TEST_F(MatchResultTest, CascadeOriginUser) {
   result.FinishAddingUserRules();
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UserRules(), 2, CascadeOrigin::kUser);
-  TestOriginInRange(result.AllRules(), 2, CascadeOrigin::kUser);
+  ASSERT_EQ(LengthOf(result), 2u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
 }
 
 TEST_F(MatchResultTest, CascadeOriginAuthor) {
@@ -217,8 +220,9 @@ TEST_F(MatchResultTest, CascadeOriginAuthor) {
   result.AddMatchedProperties(PropertySet(1));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.AuthorRules(), 2, CascadeOrigin::kAuthor);
-  TestOriginInRange(result.AllRules(), 2, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 2u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kAuthor);
 }
 
 TEST_F(MatchResultTest, CascadeOriginAll) {
@@ -233,9 +237,13 @@ TEST_F(MatchResultTest, CascadeOriginAll) {
   result.AddMatchedProperties(PropertySet(5));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 2, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 3, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 6u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 4), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 5), CascadeOrigin::kAuthor);
 }
 
 TEST_F(MatchResultTest, CascadeOriginAllExceptUserAgent) {
@@ -249,9 +257,12 @@ TEST_F(MatchResultTest, CascadeOriginAllExceptUserAgent) {
   result.AddMatchedProperties(PropertySet(5));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 0, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 2, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 3, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 5u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 4), CascadeOrigin::kAuthor);
 }
 
 TEST_F(MatchResultTest, CascadeOriginAllExceptUser) {
@@ -264,9 +275,11 @@ TEST_F(MatchResultTest, CascadeOriginAllExceptUser) {
   result.AddMatchedProperties(PropertySet(5));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 0, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 3, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 4u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
 }
 
 TEST_F(MatchResultTest, CascadeOriginAllExceptAuthor) {
@@ -278,9 +291,10 @@ TEST_F(MatchResultTest, CascadeOriginAllExceptAuthor) {
   result.FinishAddingUserRules();
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 2, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 0, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 3u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kUser);
 }
 
 TEST_F(MatchResultTest, CascadeOriginTreeScopes) {
@@ -299,9 +313,15 @@ TEST_F(MatchResultTest, CascadeOriginTreeScopes) {
   result.AddMatchedProperties(PropertySet(7));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 1, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 6, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 8u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 4), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 5), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 6), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 7), CascadeOrigin::kAuthor);
 }
 
 TEST_F(MatchResultTest, ExpansionsRange) {
@@ -358,9 +378,12 @@ TEST_F(MatchResultTest, Reset) {
   result.AddMatchedProperties(PropertySet(4));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 1, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 3, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 5u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 4), CascadeOrigin::kAuthor);
 
   // Check tree_order of last entry.
   EXPECT_TRUE(result.HasMatchedProperties());
@@ -373,10 +396,6 @@ TEST_F(MatchResultTest, Reset) {
 
   result.Reset();
 
-  EXPECT_TRUE(result.UaRules().IsEmpty());
-  EXPECT_TRUE(result.UserRules().IsEmpty());
-  EXPECT_TRUE(result.AuthorRules().IsEmpty());
-  EXPECT_TRUE(result.AllRules().IsEmpty());
   EXPECT_TRUE(result.IsCacheable());
   EXPECT_FALSE(result.GetMatchedProperties().size());
   EXPECT_FALSE(result.HasMatchedProperties());
@@ -393,9 +412,12 @@ TEST_F(MatchResultTest, Reset) {
   result.AddMatchedProperties(PropertySet(4));
   result.FinishAddingAuthorRulesForTreeScope();
 
-  TestOriginInRange(result.UaRules(), 1, CascadeOrigin::kUserAgent);
-  TestOriginInRange(result.UserRules(), 1, CascadeOrigin::kUser);
-  TestOriginInRange(result.AuthorRules(), 3, CascadeOrigin::kAuthor);
+  ASSERT_EQ(LengthOf(result), 5u);
+  EXPECT_EQ(OriginAt(result, 0), CascadeOrigin::kUserAgent);
+  EXPECT_EQ(OriginAt(result, 1), CascadeOrigin::kUser);
+  EXPECT_EQ(OriginAt(result, 2), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 3), CascadeOrigin::kAuthor);
+  EXPECT_EQ(OriginAt(result, 4), CascadeOrigin::kAuthor);
 
   // Check tree_order of last entry.
   EXPECT_TRUE(result.HasMatchedProperties());
