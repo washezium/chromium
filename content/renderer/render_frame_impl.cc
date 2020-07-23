@@ -980,6 +980,9 @@ void FillMiscNavigationParams(
 
   navigation_params->is_browser_initiated = commit_params.is_browser_initiated;
 
+  navigation_params->is_cross_browsing_context_group_navigation =
+      commit_params.is_cross_browsing_instance;
+
 #if defined(OS_ANDROID)
   // Only android webview uses this.
   navigation_params->grant_load_local_resources =
