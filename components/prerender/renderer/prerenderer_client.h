@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_RENDERER_PRERENDER_PRERENDERER_CLIENT_H_
-#define CHROME_RENDERER_PRERENDER_PRERENDERER_CLIENT_H_
+#ifndef COMPONENTS_PRERENDER_RENDERER_PRERENDERER_CLIENT_H_
+#define COMPONENTS_PRERENDER_RENDERER_PRERENDERER_CLIENT_H_
 
 #include "base/compiler_specific.h"
 #include "content/public/renderer/render_view_observer.h"
@@ -28,5 +28,4 @@ class PrerendererClient : public content::RenderViewObserver,
 
 }  // namespace prerender
 
-#endif  // CHROME_RENDERER_PRERENDER_PRERENDERER_CLIENT_H_
-
+#endif  // COMPONENTS_PRERENDER_RENDERER_PRERENDERER_CLIENT_H_
