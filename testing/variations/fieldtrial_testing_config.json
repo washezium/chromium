@@ -3668,6 +3668,24 @@
             ]
         }
     ],
+    "IntensiveWakeUpThrottling": [
+        {
+            "platforms": [
+                "chromeos",
+                "linux",
+                "mac",
+                "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "IntensiveWakeUpThrottling"
+                    ]
+                }
+            ]
+        }
+    ],
     "IntentBlockExternalFormRedirectsNoGesture": [
         {
             "platforms": [
