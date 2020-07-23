@@ -75,7 +75,6 @@ import org.junit.runner.RunWith;
 import org.chromium.base.test.params.ParameterAnnotations;
 import org.chromium.base.test.params.ParameterizedRunner;
 import org.chromium.base.test.util.CommandLineFlags;
-import org.chromium.base.test.util.DisabledTest;
 import org.chromium.base.test.util.Feature;
 import org.chromium.base.test.util.Restriction;
 import org.chromium.chrome.browser.ChromeActivity;
@@ -103,7 +102,8 @@ import java.util.concurrent.ExecutionException;
 @RunWith(ParameterizedRunner.class)
 @ParameterAnnotations.UseRunnerDelegate(ChromeJUnit4RunnerDelegate.class)
 @CommandLineFlags.Add({ChromeSwitches.DISABLE_FIRST_RUN_EXPERIENCE})
-@Restriction(UiRestriction.RESTRICTION_TYPE_PHONE)
+@Restriction({UiRestriction.RESTRICTION_TYPE_PHONE,
+        Restriction.RESTRICTION_TYPE_NON_LOW_END_DEVICE})
 @Features.EnableFeatures({TAB_GRID_LAYOUT_ANDROID, TAB_GROUPS_ANDROID})
 public class TabGridDialogTest {
     // clang-format on
@@ -158,7 +158,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testBackPressCloseDialog() {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -193,7 +192,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testClickScrimCloseDialog() throws ExecutionException {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -236,7 +234,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testDisableTabGroupsContinuation() {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -276,7 +273,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testTabGridDialogAnimation() {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -327,7 +323,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testUndoClosureInDialog_GTS() throws ExecutionException {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -357,7 +352,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testUndoClosureInDialog_TabStrip() throws ExecutionException {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -393,7 +387,6 @@ public class TabGridDialogTest {
     @Test
     @MediumTest
     @Features.EnableFeatures(ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testDialogToolbarMenuShareGroup() {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -455,7 +448,6 @@ public class TabGridDialogTest {
     @Test
     @MediumTest
     @Features.EnableFeatures(ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testSelectionEditorUngroup() throws ExecutionException {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         assertTrue(cta.getTabModelSelector().getTabModelFilterProvider().getCurrentTabModelFilter()
@@ -592,7 +584,6 @@ public class TabGridDialogTest {
     @Test
     @MediumTest
     @Features.EnableFeatures(ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testTabGroupNaming() throws ExecutionException {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         createTabs(cta, false, 2);
@@ -628,7 +619,6 @@ public class TabGridDialogTest {
 
     @Test
     @MediumTest
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testDialogInitialShowFromStrip() throws Exception {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         prepareTabsWithThumbnail(mActivityTestRule, 2, 0, "about:blank");
@@ -653,7 +643,6 @@ public class TabGridDialogTest {
     @MediumTest
     @Feature({"RenderTest"})
     @ParameterAnnotations.UseMethodParameter(NightModeTestUtils.NightModeParams.class)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testRenderDialog_3Tabs_Portrait(boolean nightModeEnabled) throws Exception {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         prepareTabsWithThumbnail(mActivityTestRule, 3, 0, "about:blank");
@@ -674,7 +663,6 @@ public class TabGridDialogTest {
     @MediumTest
     @Feature({"RenderTest"})
     @ParameterAnnotations.UseMethodParameter(NightModeTestUtils.NightModeParams.class)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testRenderDialog_3Tabs_Landscape(boolean nightModeEnabled) throws Exception {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         prepareTabsWithThumbnail(mActivityTestRule, 3, 0, "about:blank");
@@ -696,7 +684,6 @@ public class TabGridDialogTest {
     @MediumTest
     @Feature({"RenderTest"})
     @ParameterAnnotations.UseMethodParameter(NightModeTestUtils.NightModeParams.class)
-    @DisabledTest(message = "https://crbug.com/1108547")
     public void testRenderDialog_5Tabs_InitialScroll(boolean nightModeEnabled) throws Exception {
         final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
         prepareTabsWithThumbnail(mActivityTestRule, 5, 0, "about:blank");
