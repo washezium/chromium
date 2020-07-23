@@ -21,6 +21,7 @@
 #include "third_party/boringssl/src/include/openssl/evp.h"
 
 namespace base {
+class FilePath;
 class Value;
 }
 
@@ -41,6 +42,8 @@ class TestCertificateProviderExtension final
     : public content::NotificationObserver {
  public:
   static extensions::ExtensionId extension_id();
+  static base::FilePath GetExtensionSourcePath();
+  static base::FilePath GetExtensionPemPath();
   // Returns the certificate provided by the extension.
   static scoped_refptr<net::X509Certificate> GetCertificate();
   static std::string GetCertificateSpki();
