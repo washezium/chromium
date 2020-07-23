@@ -38,7 +38,7 @@ void ExtractManifestIcons(
 // static
 void ContentFaviconDriver::CreateForWebContents(
     content::WebContents* web_contents,
-    FaviconService* favicon_service) {
+    CoreFaviconService* favicon_service) {
   if (FromWebContents(web_contents))
     return;
 
@@ -75,7 +75,7 @@ GURL ContentFaviconDriver::GetActiveURL() {
 }
 
 ContentFaviconDriver::ContentFaviconDriver(content::WebContents* web_contents,
-                                           FaviconService* favicon_service)
+                                           CoreFaviconService* favicon_service)
     : content::WebContentsObserver(web_contents),
       FaviconDriverImpl(favicon_service),
       document_on_load_completed_(false) {}
