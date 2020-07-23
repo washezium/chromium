@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/loader/frame_request_blocker.h"
+#include "third_party/blink/renderer/platform/loader/frame_request_blocker.h"
 
 #include "third_party/blink/public/common/loader/url_loader_throttle.h"
 
-namespace content {
+namespace blink {
 
-class RequestBlockerThrottle : public blink::URLLoaderThrottle,
+class RequestBlockerThrottle : public URLLoaderThrottle,
                                public FrameRequestBlocker::Client {
  public:
   explicit RequestBlockerThrottle(
@@ -20,7 +20,7 @@ class RequestBlockerThrottle : public blink::URLLoaderThrottle,
       frame_request_blocker_->RemoveObserver(this);
   }
 
-  // blink::URLLoaderThrottle implementation:
+  // URLLoaderThrottle implementation:
   void WillStartRequest(network::ResourceRequest* request,
                         bool* defer) override {
     // Wait until this method to add as a client for FrameRequestBlocker because
@@ -51,7 +51,7 @@ class RequestBlockerThrottle : public blink::URLLoaderThrottle,
 };
 
 FrameRequestBlocker::FrameRequestBlocker()
-    : clients_(new base::ObserverListThreadSafe<Client>()) {}
+    : clients_(base::MakeRefCounted<base::ObserverListThreadSafe<Client>>()) {}
 
 void FrameRequestBlocker::Block() {
   DCHECK(blocked_.IsZero());
@@ -73,7 +73,7 @@ void FrameRequestBlocker::Cancel() {
   clients_->Notify(FROM_HERE, &Client::Cancel);
 }
 
-std::unique_ptr<blink::URLLoaderThrottle>
+std::unique_ptr<URLLoaderThrottle>
 FrameRequestBlocker::GetThrottleIfRequestsBlocked() {
   if (blocked_.IsZero())
     return nullptr;
@@ -95,4 +95,9 @@ bool FrameRequestBlocker::RegisterClientIfRequestsBlocked(Client* client) {
   return true;
 }
 
-}  // namespace content
+// static
+scoped_refptr<WebFrameRequestBlocker> WebFrameRequestBlocker::Create() {
+  return base::MakeRefCounted<FrameRequestBlocker>();
+}
+
+}  // namespace blink
