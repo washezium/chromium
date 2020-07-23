@@ -6864,6 +6864,9 @@ crbug.com/1105172 http/tests/devtools/sources/debugger-breakpoints/use-possible-
 crbug.com/1107722 [ Mac ] http/tests/devtools/tracing/timeline-js/timeline-script-id.js [ Pass Failure ]
 crbug.com/1107722 [ Mac ] virtual/threaded/http/tests/devtools/tracing/timeline-misc/timeline-event-causes.js [ Pass Failure ]
 crbug.com/1107923 [ Mac10.15 ] inspector-protocol/debugger/wasm-streaming-url.js [ Pass Timeout Failure ]
+# Failing on Webkit Linux Leak
+crbug.com/1046784 [ Linux ] http/tests/devtools/tracing/timeline-paint/timeline-paint.js [ Pass Failure ]
+crbug.com/1046784 [ Linux ] http/tests/devtools/tracing/timeline-misc/timeline-event-causes.js [ Pass Failure ]
 
 # Sheriff 2020-07-23
 crbug.com/1108728 [ Mac ] external/wpt/html/cross-origin-opener-policy/reporting/access-reporting/opener-accessed_openee-coop-ro.https.html [ Failure ]
