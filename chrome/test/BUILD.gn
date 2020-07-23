@@ -2636,6 +2636,7 @@ if (!is_android) {
         "../browser/safe_browsing/safe_browsing_navigation_observer_browsertest.cc",
         "../browser/safe_browsing/safe_browsing_service_browsertest.cc",
         "../browser/safe_browsing/v4_embedded_test_server_browsertest.cc",
+        "../browser/ssl/sct_reporting_service_browsertest.cc",
         "../renderer/safe_browsing/phishing_classifier_browsertest.cc",
         "../renderer/safe_browsing/phishing_classifier_delegate_browsertest.cc",
         "../renderer/safe_browsing/phishing_dom_feature_extractor_browsertest.cc",
