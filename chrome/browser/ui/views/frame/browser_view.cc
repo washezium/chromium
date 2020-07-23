@@ -2599,16 +2599,16 @@ void BrowserView::GetAccessiblePanes(std::vector<views::View*>* panes) {
 ///////////////////////////////////////////////////////////////////////////////
 // BrowserView, views::ClientView overrides:
 
-bool BrowserView::CanClose() {
+views::CloseRequestResult BrowserView::OnWindowCloseRequested() {
   // You cannot close a frame for which there is an active originating drag
   // session.
   if (tabstrip_ && !tabstrip_->IsTabStripCloseable())
-    return false;
+    return views::CloseRequestResult::kCannotClose;
 
   // Give beforeunload handlers the chance to cancel the close before we hide
   // the window below.
   if (!browser_->ShouldCloseWindow())
-    return false;
+    return views::CloseRequestResult::kCannotClose;
 
   if (!browser_->tab_strip_model()->empty()) {
     // Tab strip isn't empty.  Hide the frame (so it appears to have closed
@@ -2616,10 +2616,10 @@ bool BrowserView::CanClose() {
     // down. When the tab strip is empty we'll be called back again.
     frame_->Hide();
     browser_->OnWindowClosing();
-    return false;
+    return views::CloseRequestResult::kCannotClose;
   }
 
-  return true;
+  return views::CloseRequestResult::kCanClose;
 }
 
 int BrowserView::NonClientHitTest(const gfx::Point& point) {
