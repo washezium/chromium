@@ -4110,9 +4110,6 @@ include_rules = [
 
   # Chromium cannot directly depend on Abseil.
   '-absl',
-
-  # Chromium cannot directly depend on SHELL.
-  '-shell-encryption',
 ]
 
 
