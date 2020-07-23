@@ -372,7 +372,7 @@ class DisplayPanel extends HTMLElement {
     this.items_.push(/** @type {!PanelItem} */ (panel));
     this.setAriaHidden_();
     if (util.isTransferDetailsEnabled()) {
-      this.setAttribute('detailed-panel', '');
+      this.setAttribute('detailed-panel', 'detailed-panel');
     }
     return /** @type {!PanelItem} */ (panel);
   }
