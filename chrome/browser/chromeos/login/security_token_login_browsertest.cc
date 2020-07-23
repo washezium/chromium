@@ -121,16 +121,15 @@ class ChallengeResponseFakeCryptohomeClient : public FakeCryptohomeClient {
 class AuthFailureWaiter final : public AuthStatusConsumer {
  public:
   AuthFailureWaiter() {
-    ExistingUserController::current_controller()->set_login_status_consumer(
-        this);
+    ExistingUserController::current_controller()->AddLoginStatusConsumer(this);
   }
 
   AuthFailureWaiter(const AuthFailureWaiter&) = delete;
   AuthFailureWaiter& operator=(const AuthFailureWaiter&) = delete;
 
   ~AuthFailureWaiter() override {
-    ExistingUserController::current_controller()->set_login_status_consumer(
-        nullptr);
+    ExistingUserController::current_controller()->RemoveLoginStatusConsumer(
+        this);
   }
 
   AuthFailure::FailureReason Wait() {
