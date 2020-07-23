@@ -21,6 +21,7 @@
 #include "base/bind_helpers.h"
 #include "base/bits.h"
 #include "base/callback_helpers.h"
+#include "base/cpu.h"
 #include "base/environment.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
@@ -142,6 +143,26 @@ media::VAImplementation VendorStringToImplementationType(
 namespace media {
 
 namespace {
+
+// Returns true if the SoC has a 9.5 GPU. CPU model IDs are referenced from the
+// following file in the kernel source:  arch/x86/include/asm/intel-family.h.
+bool IsGen95Gpu() {
+  constexpr int kPentiumAndLaterFamily = 0x06;
+  constexpr int kKabyLakeModelId = 0x9E;
+  // Amber Lake, Whiskey Lake and some Comet Lake CPU IDs are the same as KBL L.
+  constexpr int kKabyLake_LModelId = 0x8E;
+  constexpr int kGeminiLakeModelId = 0x7A;
+  constexpr int kCometLakeModelId = 0xA5;
+  constexpr int kCometLake_LModelId = 0xA6;
+  static base::NoDestructor<base::CPU> cpuid;
+  static const bool is_gen95_gpu = cpuid->family() == kPentiumAndLaterFamily &&
+                                   (cpuid->model() == kKabyLakeModelId ||
+                                    cpuid->model() == kKabyLake_LModelId ||
+                                    cpuid->model() == kGeminiLakeModelId ||
+                                    cpuid->model() == kCometLakeModelId ||
+                                    cpuid->model() == kCometLake_LModelId);
+  return is_gen95_gpu;
+}
 
 bool GetNV12VisibleWidthBytes(int visible_width,
                               uint32_t plane,
@@ -332,12 +353,16 @@ bool IsBlackListedDriver(const std::string& va_vendor_string,
     return true;
   }
 
-  // TODO(crbug.com/811912): Remove once VP9 encoding is to be enabled by
-  // default.
+  // TODO(crbug.com/811912): Remove once VP9 encoding is enabled by default.
   if (va_profile == VAProfileVP9Profile0 &&
       !base::FeatureList::IsEnabled(kVaapiVP9Encoder)) {
     return true;
   }
+
+  // TODO(b/158655609): Several Gen 9.5 GPU devices suffer from a GPU hang when
+  // VP8 encoding in some power saving states. Blacklist them temporarily.
+  if (IsGen95Gpu() && va_profile == VAProfileVP8Version0_3)
+    return true;
 
   return false;
 }
