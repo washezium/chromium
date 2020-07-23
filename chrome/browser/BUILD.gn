@@ -1800,6 +1800,7 @@ static_library("browser") {
   public_deps = [
     "//base",
     "//chrome/common",
+    "//chrome/common:buildflags",
     "//chrome/services/file_util/public/mojom",
     "//components/account_id",
     "//components/autofill/core/browser",
