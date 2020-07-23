@@ -37050,6 +37050,10 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="4" label="Authorized when Chrome is in use"/>
 </enum>
 
+<enum name="IOSMenuAction">
+  <int value="0" label="Copy"/>
+</enum>
+
 <enum name="IOSNTPImpression">
   <int value="0" label="Local suggestions"/>
   <int value="1" label="Remote suggestions"/>
