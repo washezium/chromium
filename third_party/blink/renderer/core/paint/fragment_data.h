@@ -44,6 +44,15 @@ class CORE_EXPORT FragmentData {
     offset_to_2d_translation_root_ = offset;
   }
 
+  // This is for LayoutShiftTracker.
+  // TODO(crbug.com/1104064): Store this visual rect directly when we remove
+  // VisualRect().
+  PhysicalRect VisualRectIn2DTranslationRoot() const {
+    PhysicalRect rect(visual_rect_);
+    rect.Move(offset_to_2d_translation_root_);
+    return rect;
+  }
+
   // The visual rect computed by the latest paint invalidation.
   // It's location may be different from PaintOffset when there is visual (ink)
   // overflow to the top and/or the left.

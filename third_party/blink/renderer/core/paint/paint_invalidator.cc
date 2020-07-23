@@ -230,7 +230,6 @@ void PaintInvalidator::UpdateVisualRect(const LayoutObject& object,
   DCHECK(context.tree_builder_context_);
   DCHECK(!pre_paint_info || &fragment_data == &pre_paint_info->fragment_data);
 
-  IntRect old_visual_rect = fragment_data.VisualRect();
   IntRect new_visual_rect = ComputeVisualRect(object, pre_paint_info, context);
   if (pre_paint_info && !object.IsBox()) {
     DCHECK(object.IsInline());
@@ -244,19 +243,23 @@ void PaintInvalidator::UpdateVisualRect(const LayoutObject& object,
     DCHECK_EQ(context.tree_builder_context_->current.paint_offset,
               fragment_data.PaintOffset());
   }
-  fragment_data.SetVisualRect(new_visual_rect);
-  fragment_data.SetOffsetTo2DTranslationRoot(
-      context.tree_builder_context_->current.offset_to_2d_translation_root);
 
+  // Adjust old_visual_rect so that LayoutShiftTracker can see the change of
+  // offset caused by change of transforms below the 2d translation root.
+  PhysicalRect old_visual_rect = fragment_data.VisualRectIn2DTranslationRoot();
+  old_visual_rect.Move(
+      -context.tree_builder_context_->current.offset_to_2d_translation_root);
   object.GetFrameView()->GetLayoutShiftTracker().NotifyObjectPrePaint(
       object,
       PropertyTreeStateOrAlias(
           *context.tree_builder_context_->current.transform,
           *context.tree_builder_context_->current.clip,
           *context.tree_builder_context_->current_effect),
-      old_visual_rect, new_visual_rect,
-      FloatSize(context.old_offset_to_2d_translation_root -
-                fragment_data.OffsetTo2DTranslationRoot()));
+      old_visual_rect, PhysicalRect(new_visual_rect));
+
+  fragment_data.SetVisualRect(new_visual_rect);
+  fragment_data.SetOffsetTo2DTranslationRoot(
+      context.tree_builder_context_->current.offset_to_2d_translation_root);
 
   // For performance, we ignore subpixel movement of composited layers for paint
   // invalidation. This will result in imperfect pixel-snapped painting.
@@ -326,12 +329,6 @@ bool PaintInvalidator::InvalidatePaint(
 
   if (pre_paint_info) {
     FragmentData& fragment_data = pre_paint_info->fragment_data;
-    if (!object.IsBox()) {
-      context.old_offset_to_2d_translation_root = PhysicalOffset();
-    } else {
-      context.old_offset_to_2d_translation_root =
-          fragment_data.OffsetTo2DTranslationRoot();
-    }
     context.fragment_data = &fragment_data;
 
 #if DCHECK_IS_ON()
@@ -356,8 +353,6 @@ bool PaintInvalidator::InvalidatePaint(
     for (auto* fragment_data = &object.GetMutableForPainting().FirstFragment();
          fragment_data;
          fragment_data = fragment_data->NextFragment(), tree_builder_index++) {
-      context.old_offset_to_2d_translation_root =
-          fragment_data->OffsetTo2DTranslationRoot();
       context.fragment_data = fragment_data;
 
       DCHECK(!tree_builder_context ||

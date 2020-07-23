@@ -124,12 +124,9 @@ void LayoutShiftTracker::ObjectShifted(
     const LayoutObject& source,
     const PropertyTreeStateOrAlias& property_tree_state,
     FloatRect old_rect,
-    FloatRect new_rect,
-    const FloatSize& paint_offset_delta) {
+    FloatRect new_rect) {
   if (old_rect.IsEmpty() || new_rect.IsEmpty())
     return;
-
-  old_rect.Move(paint_offset_delta);
 
   if (EqualWithinMovementThreshold(LogicalStart(old_rect, source),
                                    LogicalStart(new_rect, source), source))
@@ -279,14 +276,13 @@ void LayoutShiftTracker::MaybeRecordAttribution(
 void LayoutShiftTracker::NotifyObjectPrePaint(
     const LayoutObject& object,
     const PropertyTreeStateOrAlias& property_tree_state,
-    const IntRect& old_visual_rect,
-    const IntRect& new_visual_rect,
-    const FloatSize& paint_offset_delta) {
+    const PhysicalRect& old_visual_rect,
+    const PhysicalRect& new_visual_rect) {
   if (!IsActive())
     return;
 
   ObjectShifted(object, property_tree_state, FloatRect(old_visual_rect),
-                FloatRect(new_visual_rect), paint_offset_delta);
+                FloatRect(new_visual_rect));
 }
 
 double LayoutShiftTracker::SubframeWeightingFactor() const {
