@@ -96,7 +96,7 @@ void AvatarToolbarButton::UpdateIcon() {
 
   gfx::Image gaia_account_image = delegate_->GetGaiaAccountImage();
   for (auto state : kButtonStates)
-    SetImage(state, GetAvatarIcon(state, gaia_account_image));
+    SetImageModel(state, GetAvatarIcon(state, gaia_account_image));
   delegate_->ShowIdentityAnimation(gaia_account_image);
 
   SetInsets();
@@ -266,7 +266,7 @@ base::string16 AvatarToolbarButton::GetAvatarTooltipText() const {
   return base::string16();
 }
 
-gfx::ImageSkia AvatarToolbarButton::GetAvatarIcon(
+ui::ImageModel AvatarToolbarButton::GetAvatarIcon(
     ButtonState state,
     const gfx::Image& gaia_account_image) const {
   const int icon_size = ui::TouchUiController::Get()->touch_ui()
@@ -276,24 +276,24 @@ gfx::ImageSkia AvatarToolbarButton::GetAvatarIcon(
 
   switch (delegate_->GetState()) {
     case State::kIncognitoProfile:
-      return gfx::CreateVectorIcon(kIncognitoIcon, icon_size, icon_color);
+      return ui::ImageModel::FromVectorIcon(kIncognitoIcon, icon_color,
+                                            icon_size);
     case State::kGuestSession:
-      return profiles::GetGuestAvatar(icon_size);
+      return ui::ImageModel::FromImageSkia(profiles::GetGuestAvatar(icon_size));
     case State::kGenericProfile:
-      return gfx::CreateVectorIcon(kUserAccountAvatarIcon, icon_size,
-                                   icon_color);
+      return ui::ImageModel::FromVectorIcon(kUserAccountAvatarIcon, icon_color,
+                                            icon_size);
     case State::kAnimatedUserIdentity:
     case State::kPasswordsOnlySyncError:
     case State::kSyncError:
     case State::kSyncPaused:
     case State::kNormal:
-      return profiles::GetSizedAvatarIcon(
-                 delegate_->GetProfileAvatarImage(gaia_account_image), true,
-                 icon_size, icon_size, profiles::SHAPE_CIRCLE)
-          .AsImageSkia();
+      return ui::ImageModel::FromImage(profiles::GetSizedAvatarIcon(
+          delegate_->GetProfileAvatarImage(gaia_account_image), true, icon_size,
+          icon_size, profiles::SHAPE_CIRCLE));
   }
   NOTREACHED();
-  return gfx::ImageSkia();
+  return ui::ImageModel();
 }
 
 void AvatarToolbarButton::SetInsets() {
