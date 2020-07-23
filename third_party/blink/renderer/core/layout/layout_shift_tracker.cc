@@ -588,11 +588,12 @@ void ReattachHook::NotifyDetach(const Node& node) {
   auto* layout_object = node.GetLayoutObject();
   if (!layout_object)
     return;
+
   auto& map = hook.visual_rects_;
   auto& fragment = layout_object->GetMutableForPainting().FirstFragment();
 
   // Save the visual rect for restoration on future reattachment.
-  IntRect visual_rect = fragment.VisualRect();
+  PhysicalRect visual_rect = fragment.VisualRectIn2DTranslationRoot();
   if (visual_rect.IsEmpty())
     return;
   map.Set(&node, visual_rect);
@@ -608,13 +609,11 @@ void ReattachHook::NotifyAttach(const Node& node) {
   auto& map = hook.visual_rects_;
   auto& fragment = layout_object->GetMutableForPainting().FirstFragment();
 
-  // Restore the visual rect that was saved during detach. Note: this does not
-  // affect paint invalidation; we will fully invalidate the new layout object.
+  // Restore the visual rect that was saved during detach.
   auto iter = map.find(&node);
   if (iter == map.end())
     return;
-  IntRect visual_rect = iter->value;
-  fragment.SetVisualRect(visual_rect);
+  fragment.SetVisualRectIn2DTranslationRoot(iter->value);
 }
 
 void ReattachHook::Trace(Visitor* visitor) const {

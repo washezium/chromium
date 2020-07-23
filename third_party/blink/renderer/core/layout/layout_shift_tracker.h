@@ -85,7 +85,7 @@ class CORE_EXPORT LayoutShiftTracker final
 
    private:
     Scope* scope_ = nullptr;
-    HeapHashMap<Member<const Node>, IntRect> visual_rects_;
+    HeapHashMap<Member<const Node>, PhysicalRect> visual_rects_;
   };
 
  private:
