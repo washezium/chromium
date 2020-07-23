@@ -10,6 +10,9 @@ declare_args() {
   win_enable_cfg_guards = false
 }
 
+# Enable on branch 4210 for single Canary build.
+win_enable_cfg_guards = !is_debug && !is_asan
+
 if (win_enable_cfg_guards) {
   # Control Flow Guard (CFG)
   # https://msdn.microsoft.com/en-us/library/windows/desktop/mt637065.aspx
