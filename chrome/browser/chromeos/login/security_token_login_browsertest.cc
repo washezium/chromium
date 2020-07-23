@@ -58,6 +58,8 @@ constexpr char kCorrectPin[] = "17093";
 
 // UI golden strings in the en-US locale:
 constexpr char kChallengeResponseLoginLabel[] = "Sign in with smart card";
+constexpr char kChallengeResponseErrorLabel[] =
+    "Couldn’t recognize your smart card. Try again.";
 
 constexpr char kChallengeData[] = "challenge";
 
@@ -187,8 +189,7 @@ class SecurityTokenLoginTest : public MixinBasedInProcessBrowserTest,
 
   void SetUpOnMainThread() override {
     MixinBasedInProcessBrowserTest::SetUpOnMainThread();
-    cert_provider_extension_mixin_.test_certificate_provider_extension()
-        ->set_require_pin(kCorrectPin);
+    test_certificate_provider_extension()->set_require_pin(kCorrectPin);
     WaitForLoginScreenWidgetShown();
   }
 
@@ -198,6 +199,10 @@ class SecurityTokenLoginTest : public MixinBasedInProcessBrowserTest,
 
   AccountId GetChallengeResponseAccountId() const {
     return login_manager_mixin_.users()[0].account_id;
+  }
+
+  TestCertificateProviderExtension* test_certificate_provider_extension() {
+    return cert_provider_extension_mixin_.test_certificate_provider_extension();
   }
 
   void StartLoginAndWaitForPinDialog() {
@@ -293,6 +298,26 @@ IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, PinCancel) {
   EXPECT_EQ(LoginScreenTestApi::GetChallengeResponseLabel(
                 GetChallengeResponseAccountId()),
             base::UTF8ToUTF16(kChallengeResponseLoginLabel));
+}
+
+// Test the login failure scenario when the extension fails to sign the
+// challenge.
+IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, SigningFailure) {
+  test_certificate_provider_extension()->set_should_fail_sign_digest_requests(
+      true);
+
+  AuthFailureWaiter auth_failure_waiter;
+  LoginScreenTestApi::ClickChallengeResponseButton(
+      GetChallengeResponseAccountId());
+  EXPECT_EQ(auth_failure_waiter.Wait(),
+            AuthFailure::COULD_NOT_MOUNT_CRYPTOHOME);
+
+  // An error is shown.
+  EXPECT_TRUE(LoginScreenTestApi::IsChallengeResponseButtonClickable(
+      GetChallengeResponseAccountId()));
+  EXPECT_EQ(LoginScreenTestApi::GetChallengeResponseLabel(
+                GetChallengeResponseAccountId()),
+            base::UTF8ToUTF16(kChallengeResponseErrorLabel));
 }
 
 }  // namespace chromeos
