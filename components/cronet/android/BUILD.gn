@@ -346,7 +346,6 @@ android_library("cronet_impl_fake_base_java") {
     ":cronet_api_java",
     ":cronet_impl_common_base_java",
     ":cronet_impl_java_util_java",
-    "//third_party/android_deps:androidx_annotation_annotation_java",
   ]
 }
 
@@ -376,10 +375,7 @@ android_library("cronet_urlconnection_impl_java") {
     "java/src/org/chromium/net/urlconnection/CronetURLStreamHandlerFactory.java",
     "java/src/org/chromium/net/urlconnection/MessageLoop.java",
   ]
-  deps = [
-    ":cronet_api_java",
-    "//third_party/android_deps:androidx_annotation_annotation_java",
-  ]
+  deps = [ ":cronet_api_java" ]
 }
 
 # cronet_impl_native_base_java.jar - native implementation of the Cronet engine.
@@ -485,8 +481,8 @@ action("cronet_combine_proguard_flags") {
     "//base/android/proguard/chromium_code.flags",
 
     # Massage the proguard to avoid incompatibilities when building internally.
-    "//components/cronet/android/cronet_impl_native_proguard.cfg",
     "//components/cronet/android/cronet_workaround.patch",
+    "//components/cronet/android/cronet_impl_native_proguard.cfg",
   ]
   outputs = [ "$target_gen_dir/cronet_impl_native_proguard.cfg" ]
   args = [ "--output-file" ] + rebase_path(outputs, root_build_dir) +
@@ -939,7 +935,6 @@ if (!is_component_build) {
       ":cronet_impl_fake_base_java",
       ":cronet_impl_platform_base_java",
       "//base:base_java_test_support",
-      "//third_party/android_deps:androidx_test_runner_java",
       "//third_party/android_sdk:android_test_base_java",
       "//third_party/android_support_test_runner:runner_java",
       "//third_party/junit",
@@ -1008,7 +1003,6 @@ if (!is_component_build) {
       ":cronet_api_java",
       ":cronet_impl_all_java",
       ":cronet_urlconnection_impl_java",
-      "//third_party/android_deps:androidx_test_runner_java",
       "//third_party/android_sdk:android_test_base_java",
       "//third_party/android_support_test_runner:runner_java",
       "//third_party/hamcrest:hamcrest_core_java",
@@ -1044,7 +1038,6 @@ if (!is_component_build) {
       "//base:base_java_test_support",
       "//net/android:net_java",
       "//net/android:net_java_test_support",
-      "//third_party/android_deps:androidx_test_runner_java",
       "//third_party/android_sdk:android_test_base_java",
       "//third_party/android_sdk:android_test_mock_java",
       "//third_party/android_support_test_runner:runner_java",
@@ -1096,7 +1089,6 @@ if (!is_component_build) {
       ":cronet_impl_platform_base_java",
       ":cronet_smoketests_platform_only_apk_resources",
       "//base:base_java_test_support",
-      "//third_party/android_deps:androidx_test_runner_java",
       "//third_party/android_sdk:android_test_base_java",
       "//third_party/android_sdk:android_test_mock_java",
       "//third_party/android_support_test_runner:runner_java",
@@ -1131,7 +1123,6 @@ if (!is_component_build) {
       ":cronet_test_apk_resources",
       "//base:base_java",
       "//base:base_java_test_support",
-      "//third_party/android_deps:androidx_test_runner_java",
       "//third_party/android_sdk:android_test_base_java",
       "//third_party/android_sdk:android_test_mock_java",
       "//third_party/android_support_test_runner:runner_java",
