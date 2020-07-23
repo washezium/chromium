@@ -5,13 +5,17 @@
 
 [TOC]
 
+Changes that only modify files in //infra/config, which do not change any build
+outputs, only require the chromium_presubmit builder to pass before landing.
+
 Each builder name links to that builder on Milo. The "matching builders" links
 point to the file used to determine which configurations a builder should copy
 when running. These links might 404 or error; they are hard-coded right now,
 using common assumptions about how builders are configured.
 
 ## Required builders
-These builders must pass before a CL may land.
+These builders must pass before a CL may land that affects files outside of
+//infra/config.
 
 * [android-binary-size](https://ci.chromium.org/p/chromium/builders/try/android-binary-size) ([definition](https://cs.chromium.org/search?q=package:%5Echromium$+file:/cq.star$+-file:/beta/+-file:/stable/+android-binary-size)) ([matching builders](https://cs.chromium.org/search?q=+file:trybots.py+android-binary-size))
 
