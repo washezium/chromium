@@ -4248,6 +4248,7 @@ Unknown properties are collapsed to zero. -->
   <int value="21" label="User navigation to a different domain in BROWSE mode"/>
   <int value="22" label="User clicked back button"/>
   <int value="23" label="User clicked back button during onboarding"/>
+  <int value="24" label="User navigatioin in RUNNING state"/>
 </enum>
 
 <enum name="AutofillAssistantFeatureModuleInstallation">
