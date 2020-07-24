@@ -589,6 +589,7 @@ Ezarpena aldatzeko, <ph name="BEGIN_LINK" />berrezarri sinkronizazioa<ph name="E
 <translation id="5723735397759933332">Oinarrizko moduari esker, datu gehiago aurreztuko dituzu HTTPS orrietan irudiak optimizatuta.</translation>
 <translation id="5726692708398506830">Handitu orriko eduki guztia</translation>
 <translation id="5732819098735351888">Wifia erabiltzean hasiko da deskarga.</translation>
+<translation id="5733983706093266635">Ezin da sortu QR kodea. URLak <ph name="CHARACTER_LIMIT" /> karaktere baino gehiago ditu.</translation>
 <translation id="5748802427693696783">Fitxa arruntetara aldatu da</translation>
 <translation id="5749068826913805084">Chrome-k memorian sartzeko baimena behar du fitxategiak deskargatu ahal izateko.</translation>
 <translation id="5763382633136178763">Ezkutuko moduko fitxak</translation>

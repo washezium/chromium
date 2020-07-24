@@ -589,6 +589,7 @@ Til að breyta þessari stillingu skaltu <ph name="BEGIN_LINK" />endurstilla sam
 <translation id="5723735397759933332">Léttútgáfa sparar nú meiri gögn með því að fínstilla myndir á HTTPS-síðum.</translation>
 <translation id="5726692708398506830">Stækka allt á síðunni</translation>
 <translation id="5732819098735351888">Niðurhal hefst um Wi-Fi.</translation>
+<translation id="5733983706093266635">Ekki er hægt að búa til QR-kóða. Vefslóð er lengri en <ph name="CHARACTER_LIMIT" /> stafir.</translation>
 <translation id="5748802427693696783">Skipt yfir í staðlaða flipa</translation>
 <translation id="5749068826913805084">Chrome þarf aðgang að geymslu til að geta sótt skrár.</translation>
 <translation id="5763382633136178763">Huliðsflipar</translation>

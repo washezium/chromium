@@ -862,6 +862,7 @@
 <translation id="2065405795449409761">Chrome लाई स्वचालित परीक्षण सफ्टवेयरद्वारा नियन्त्रण गरिँदै छ।</translation>
 <translation id="2071393345806050157">कुनैपनि स्थानीय लग फाइल छैन।</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{एक्स्टेन्सन स्थापना गर्न क्लिक गर्नुहोस्}other{एक्स्टेन्सनहरू स्थापना गर्न क्लिक गर्नुहोस्}}</translation>
+<translation id="2073505299004274893"><ph name="CHARACTER_LIMIT" /> वा सोभन्दा कम वर्णहरू प्रयोग गर्नुहोस्</translation>
 <translation id="2075474481720804517"><ph name="BATTERY_PERCENTAGE" />% ब्याट्री</translation>
 <translation id="2075959085554270910">यसले तपाईंलाई क्लिक गर्न ट्याप गर्नुहोस् तथा ड्र्याग गर्ने सेवा ट्याप गर्नुहोस् नामक विकल्प सक्षम/असक्षम पार्न अनुमति दिन्छ</translation>
 <translation id="2076269580855484719">यो प्लगइनलाई लुकाउनुहोस्</translation>
@@ -1393,7 +1394,7 @@
 <translation id="2714997332747470971">व्यक्तिगत जानकारीसम्बन्धी सिफारिसहरूले तपाईंको नाम, ठेगाना वा फोन नम्बर स्वतः टाइप गरेर तपाईंलाई अझ छिटो लेख्न मद्दत गर्छन्। तपाईंको खाताका हकमा दिइने निजी तथा वैयक्तीकृत सिफारिसहरू तपाईं मात्र देख्नुहुन्छ।</translation>
 <translation id="2715751256863167692">यो स्तरवृद्धिले तपाईंको Chromebook लाई रिसेट गरी हालको प्रयोगकर्ताको डेटा हटाउँछ।</translation>
 <translation id="2716986496990888774">कुनै अभिभावक यो सेटिङको व्यवस्थापन गर्नुहुन्छ।</translation>
-<translation id="2718395828230677721">रात्रि प्रकाश</translation>
+<translation id="2718395828230677721">रात्रिकालीन प्रकाश</translation>
 <translation id="2718998670920917754">एन्टिभाइरस सफ्टवेयरले भाइरस पत्ता लगायो ।</translation>
 <translation id="2719020180254996569"><ph name="NETWORK_COUNT" />, <ph name="NETWORK_NAME" />, <ph name="CONNECTION_STATUS" /> मध्ये नेटवर्क <ph name="NETWORK_INDEX" />, विवरणहरू</translation>
 <translation id="2719936478972253983">निम्न कुकीहरूमाथि रोक लगाइएको थियो</translation>
@@ -3472,6 +3473,7 @@
 <translation id="5379140238605961210">माइक्रोफोन पहुँच रोक्न जारी राख्नुहोस्</translation>
 <translation id="5382591305415226340">समर्थन गरिने लिंकहरूलाई व्यवस्थापन गर्नुहोस्</translation>
 <translation id="5383377866517186886">Mac का सिस्टमसम्बन्धी प्राथमिकताहरूमा क्यामेरा निष्क्रिय पारिएको छ</translation>
+<translation id="5383740867328871413">नामविहीन समूह - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">जोडा बनाइएको छ</translation>
 <translation id="5389237414310520250">नयाँ प्रयोगकर्ता सिर्जना गर्न सकिएन। आफ्नो हार्ड ड्राइभको खाली ठाउँ र अनुमतिहरूलाई जाँच गरी फेरि प्रयास गर्नुहोस्।</translation>
 <translation id="5390100381392048184">आवाज प्ले गर्न साइटहरूलाई अनुमति दिनुहोस्</translation>
@@ -3899,7 +3901,7 @@
 सार्वजनिक प्रकाशक ( <ph name="PUBLIC_EXPONENT_NUM_BITS" /> बिट): 
 <ph name="EXPONENT_HEX_DUMP" /></translation>
 <translation id="5916084858004523819">प्रतिबन्धित</translation>
-<translation id="5916664084637901428">खुल्ला</translation>
+<translation id="5916664084637901428">अन</translation>
 <translation id="59174027418879706">सक्षम गरिएको</translation>
 <translation id="5920543303088087579">तपाईंका प्रशासकले यस नेवर्टकमा जडान गर्ने सुविधालाई असक्षम पार्नुभएको छ</translation>
 <translation id="5920835625712313205">Chrome OS प्रणाली छविको लेखक</translation>
@@ -5617,6 +5619,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{कागजको एउटा पाना}other{कागजका {COUNT} वटा पाना}}</translation>
 <translation id="8063235345342641131">पूर्वनिर्धारित हरियो अवतार</translation>
 <translation id="8063535366119089408">फाइल हेर्नुहोस्</translation>
+<translation id="8064279191081105977">समूह <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">साइन इन गर्न छुनुहोस्</translation>
 <translation id="8069615408251337349">Google क्लाउड प्रिन्टिङ</translation>
 <translation id="8071432093239591881">छविको रूपमा प्रिन्ट गर्नुहोस्</translation>
@@ -6363,6 +6366,7 @@
 <translation id="8986362086234534611">बिर्सनुहोस्</translation>
 <translation id="8986494364107987395">Google लाई स्वचालित रूपमा उपयोगको तथ्याङ्कहरू र क्र्यास रिपोर्ट पठाउनुहोस्</translation>
 <translation id="8987927404178983737">महिना</translation>
+<translation id="8990209962746788689">QR कोड सिर्जना गर्न सकिएन</translation>
 <translation id="8991520179165052608">साइटले तपाईंको माइक्रोफोन प्रयोग गर्न सक्छ</translation>
 <translation id="899384117894244799">प्रतिबन्धित प्रयोगकर्ता हटाउनुहोस्</translation>
 <translation id="899403249577094719">नेटस्केप प्रमाणपत्र आधार URL</translation>

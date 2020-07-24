@@ -1894,7 +1894,7 @@
 <translation id="3364986687961713424">От администратора ви: <ph name="ADMIN_MESSAGE" /></translation>
 <translation id="3365598184818502391">Използвайте или Ctrl, или Alt</translation>
 <translation id="3367047597842238025">Настройте устройството си <ph name="DEVICE_TYPE" /> по свой вкус и открийте всички невероятни функции, до които имате непосредствен достъп.</translation>
-<translation id="3368922792935385530">Установена е връзка</translation>
+<translation id="3368922792935385530">Има връзка</translation>
 <translation id="3369067987974711168">Показване на още действия за този порт</translation>
 <translation id="3369624026883419694">Получава се разрешение от хоста...</translation>
 <translation id="3370260763947406229">Автоматично коригиране</translation>
@@ -2712,7 +2712,7 @@
 <translation id="4375035964737468845">Отваряне на изтеглени файлове</translation>
 <translation id="4377363674125277448">Имаше проблем със сертификата на сървъра.</translation>
 <translation id="4378154925671717803">Телефон</translation>
-<translation id="4378551569595875038">Установява се връзка...</translation>
+<translation id="4378551569595875038">Свързване...</translation>
 <translation id="4378556263712303865">Заявка за устройството</translation>
 <translation id="4379281552162875326">Да се деинсталира ли <ph name="APP_NAME" />?</translation>
 <translation id="4380648069038809855">Влязохте в режима на цял екран</translation>
@@ -5974,7 +5974,7 @@
 <translation id="8509646642152301857">Изтеглянето на речника за проверка на правописа не бе успешно.</translation>
 <translation id="8512476990829870887">Прекратяване на процеса</translation>
 <translation id="851263357009351303">Да се разреши на <ph name="HOST" /> винаги да показва изображения</translation>
-<translation id="8513108775083588393">Автоматична ориентация</translation>
+<translation id="8513108775083588393">Автоматично</translation>
 <translation id="8514746246728959655">Опитайте с друг ключ за сигурност</translation>
 <translation id="8521475323816527629">Бърз достъп до приложенията ви</translation>
 <translation id="8523493869875972733">Запазване на промените</translation>

@@ -51,7 +51,7 @@
 <translation id="1054153489933238809">Άνοιγμα αρχικής εικόνας σε νέα καρτέλα</translation>
 <translation id="1055806300943943258">Αναζήτηση για συσκευές Bluetooth και USB…</translation>
 <translation id="1056466516655540509">Ενημερώθηκε πριν από <ph name="MINUTES" /> λεπτά</translation>
-<translation id="1056775291175587022">Δεν βρέθηκαν δίκτυα</translation>
+<translation id="1056775291175587022">Κανένα δίκτυο</translation>
 <translation id="1056898198331236512">Προειδοποίηση</translation>
 <translation id="1058262162121953039">Κωδικός PUK</translation>
 <translation id="1060292118287751956">Καθορίζει τη συχνότητα ενημέρωσης της οθόνης</translation>
@@ -1314,7 +1314,7 @@
 <translation id="2619761439309613843">Ημερήσια ανανέωση</translation>
 <translation id="2620436844016719705">Σύστημα</translation>
 <translation id="262154978979441594">Εκπαίδευση φωνητικού μοντέλου Βοηθού Google</translation>
-<translation id="2621713457727696555">Ασφαλές</translation>
+<translation id="2621713457727696555">Unsecured</translation>
 <translation id="26224892172169984">Να μην επιτρέπεται σε κανέναν ιστότοπο ο χειρισμός πρωτοκόλλων</translation>
 <translation id="262373406453641243">Colemak</translation>
 <translation id="2624142942574147739">Αυτή η σελίδα έχει πρόσβαση στην κάμερα και στο μικρόφωνό σας.</translation>
@@ -3713,7 +3713,7 @@
 <translation id="5659833766619490117">Δεν ήταν δυνατή η μετάφραση αυτής της σελίδας</translation>
 <translation id="5662513737565158057">Αλλαγή του τρόπου λειτουργίας των εφαρμογών Linux.</translation>
 <translation id="5667546120811588575">Ρύθμιση του Google Play…</translation>
-<translation id="5669267381087807207">Ενεργοποίηση</translation>
+<translation id="5669267381087807207">Ενεργοπ.</translation>
 <translation id="5669691691057771421">Εισαγωγή νέου κωδικού PIN</translation>
 <translation id="5671641761787789573">Οι εικόνες αποκλείστηκαν</translation>
 <translation id="5671658447180261823">Κατάργηση της πρότασης <ph name="SUGGESTION_NAME" /></translation>
@@ -5975,7 +5975,7 @@
 <translation id="8509646642152301857">Η λήψη λεξικού ορθογραφικού ελέγχου απέτυχε.</translation>
 <translation id="8512476990829870887">Τερματισμός διαδικασίας</translation>
 <translation id="851263357009351303">Να επιτρέπεται πάντα στο <ph name="HOST" /> η εμφάνιση εικόνων</translation>
-<translation id="8513108775083588393">Αυτόματη περιστροφή</translation>
+<translation id="8513108775083588393">Αυτ. περιστρ.</translation>
 <translation id="8514746246728959655">Δοκιμάστε ένα άλλο κλειδί ασφαλείας</translation>
 <translation id="8521475323816527629">Γρήγορη μετάβαση στις εφαρμογές</translation>
 <translation id="8523493869875972733">Διατήρηση αλλαγών</translation>
@@ -6282,7 +6282,7 @@
 <translation id="8871974300055371298">Ρυθμίσεις περιεχομένου</translation>
 <translation id="8872155268274985541">Βρέθηκε μη έγκυρο εξωτερικό αρχείο μανιφέστο ενημέρωσης kiosk. Αποτυχία ενημέρωσης εφαρμογής kiosk. Αφαιρέστε τη μονάδα αποθήκευσης USB.</translation>
 <translation id="8872777911145321141">Να γίνεται ερώτηση όταν ένας ιστότοπος θέλει να χρησιμοποιήσει τις συσκευές και τα δεδομένα εικονικής πραγματικότητας (συνιστάται)</translation>
-<translation id="8874184842967597500">Δεν υπάρχει σύνδεση</translation>
+<translation id="8874184842967597500">Καμία σύνδεση</translation>
 <translation id="8875520811099717934">Αναβάθμιση Linux</translation>
 <translation id="8876307312329369159">Δεν είναι δυνατή η αλλαγή αυτής της ρύθμισης σε μια περίοδο σύνδεσης επίδειξης.</translation>
 <translation id="8877448029301136595">[γονικός κατάλογος]</translation>

@@ -865,6 +865,7 @@
 <translation id="2065405795449409761">Браузером Chrome управляет автоматизированное тестовое ПО.</translation>
 <translation id="2071393345806050157">Нет локального файла журнала.</translation>
 <translation id="2073148037220830746">{NUM_EXTENSIONS,plural, =1{Нажмите, чтобы установить его.}one{Нажмите, чтобы установить их.}few{Нажмите, чтобы установить их.}many{Нажмите, чтобы установить их.}other{Нажмите, чтобы установить их.}}</translation>
+<translation id="2073505299004274893">Макс. количество символов: <ph name="CHARACTER_LIMIT" />.</translation>
 <translation id="2075474481720804517">Батарея заряжена на <ph name="BATTERY_PERCENTAGE" />%</translation>
 <translation id="2075959085554270910">Позволяет включить/отключить функцию "Нажатие от прикосновения"</translation>
 <translation id="2076269580855484719">Скрыть подключаемый модуль</translation>
@@ -3474,6 +3475,7 @@
 <translation id="5379140238605961210">Всегда блокировать доступ к микрофону</translation>
 <translation id="5382591305415226340">Управление поддерживаемыми ссылками</translation>
 <translation id="5383377866517186886">Камера отключена в системных настройках macOS</translation>
+<translation id="5383740867328871413">Группа без названия: <ph name="GROUP_CONTENTS" />, <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Пара создана</translation>
 <translation id="5389237414310520250">Не удалось создать контролируемый профиль. Убедитесь, что у вас есть необходимые разрешения и свободное место на жестком диске, а затем повторите попытку.</translation>
 <translation id="5390100381392048184">Разрешить сайтам воспроизводить звуки</translation>
@@ -5621,6 +5623,7 @@
 <translation id="8062844841289846053">{COUNT,plural, =1{1 лист бумаги}one{{COUNT} лист бумаги}few{{COUNT} листа бумаги}many{{COUNT} листов бумаги}other{{COUNT} листа бумаги}}</translation>
 <translation id="8063235345342641131">Аватар по умолчанию (зеленый)</translation>
 <translation id="8063535366119089408">Разрешить</translation>
+<translation id="8064279191081105977">Группа <ph name="GROUP_NAME" />: <ph name="GROUP_CONTENTS" />, <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Нажмите, чтобы войти</translation>
 <translation id="8069615408251337349">Виртуальный принтер Google</translation>
 <translation id="8071432093239591881">Печатать как изображение</translation>
@@ -6366,6 +6369,7 @@
 <translation id="8986362086234534611">Удалить</translation>
 <translation id="8986494364107987395">Автоматически отправлять в Google статистику использования и отчеты о сбоях</translation>
 <translation id="8987927404178983737">Месяц</translation>
+<translation id="8990209962746788689">Не удалось создать QR-код.</translation>
 <translation id="8991520179165052608">Сайт может использовать микрофон</translation>
 <translation id="899384117894244799">Удалить пользователя с ограниченным доступом</translation>
 <translation id="899403249577094719">URL базы сертификатов Netscape</translation>
@@ -6403,7 +6407,7 @@
 <translation id="9026731007018893674">Без названия</translation>
 <translation id="9026852570893462412">Подождите несколько минут. Скачивание виртуальной машины…</translation>
 <translation id="9027459031423301635">Открыть ссылку в новой вкладке</translation>
-<translation id="9030515284705930323">Приложение "Play Маркет" отключено для вашего аккаунта. За дополнительными сведениями обратитесь к администратору.</translation>
+<translation id="9030515284705930323">Приложение Google Play отключено для вашего аккаунта. За дополнительными сведениями обратитесь к администратору.</translation>
 <translation id="9030785788945687215">Gmail</translation>
 <translation id="9031549947500880805">Сохранение резервных копий на Google Диске. Позволяет в любой момент восстанавливать данные (в том числе из приложений) или переносить их с одного устройства на другое.</translation>
 <translation id="9033765790910064284">Продолжить</translation>

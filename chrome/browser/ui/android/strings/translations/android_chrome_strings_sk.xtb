@@ -589,6 +589,7 @@ Ak chcete toto nastavenie zmeniť, <ph name="BEGIN_LINK" />resetujte synchroniz�
 <translation id="5723735397759933332">Zjednodušený režim teraz šetrí viac dát optimalizovaním obrázkov na stránkach HTTPS.</translation>
 <translation id="5726692708398506830">Zväčšenie obsahu na stránke</translation>
 <translation id="5732819098735351888">Sťahovanie sa začne v sieti Wi-Fi.</translation>
+<translation id="5733983706093266635">QR kód nie je možné vytvoriť. Webová adresa obsahuje viac ako <ph name="CHARACTER_LIMIT" /> znakov.</translation>
 <translation id="5748802427693696783">Prepnuté na štandardné karty</translation>
 <translation id="5749068826913805084">Chrome potrebuje na sťahovanie súborov prístup k úložisku.</translation>
 <translation id="5763382633136178763">Karty inkognito</translation>

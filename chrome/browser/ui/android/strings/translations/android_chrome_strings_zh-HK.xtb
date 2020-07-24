@@ -589,6 +589,7 @@
 <translation id="5723735397759933332">精簡模式現在會優化 HTTPS 網頁上的圖片，為您節省更多數據用量。</translation>
 <translation id="5726692708398506830">放大網頁中的所有內容</translation>
 <translation id="5732819098735351888">使用 Wi-Fi 時將開始下載。</translation>
+<translation id="5733983706093266635">無法建立二維條碼。網址超過 <ph name="CHARACTER_LIMIT" /> 個字元。</translation>
 <translation id="5748802427693696783">已切換至標準分頁</translation>
 <translation id="5749068826913805084">Chrome 需要儲存空間的存取權才能下載檔案。</translation>
 <translation id="5763382633136178763">無痕式分頁</translation>

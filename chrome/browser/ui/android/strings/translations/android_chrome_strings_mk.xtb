@@ -589,6 +589,7 @@
 <translation id="5723735397759933332">Lite-режимот отсега ќе ви штеди повеќе интернет со оптимизирање слики на HTTPS-страниците.</translation>
 <translation id="5726692708398506830">Зголеми сѐ што се наоѓа на страницата</translation>
 <translation id="5732819098735351888">Преземањето ќе започне преку Wi-Fi.</translation>
+<translation id="5733983706093266635">Не може да се создаде QR-код. URL-адресата има повеќе од <ph name="CHARACTER_LIMIT" /> знаци.</translation>
 <translation id="5748802427693696783">Префрлено на стандардни картички</translation>
 <translation id="5749068826913805084">На Chrome му треба пристап до меморијата за да презема датотеки.</translation>
 <translation id="5763382633136178763">Инкогнито картички</translation>
