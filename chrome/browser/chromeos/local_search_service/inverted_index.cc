@@ -9,8 +9,17 @@
 
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
+#include "chrome/browser/chromeos/local_search_service/search_utils.h"
 
 namespace local_search_service {
+
+namespace {
+
+// (document-score, posting-of-all-matching-terms).
+using ScoreWithPosting = std::pair<double, Posting>;
+
+}  // namespace
+
 TokenPosition::TokenPosition(const std::string& id,
                              uint32_t start_value,
                              uint32_t length_value)
@@ -28,6 +37,63 @@ PostingList InvertedIndex::FindTerm(const base::string16& term) const {
     return dictionary_.at(term);
 
   return {};
+}
+
+std::vector<Result> InvertedIndex::FindMatchingDocumentsApproximately(
+    const std::unordered_set<base::string16>& terms,
+    double prefix_threshold,
+    double block_threshold) const {
+  // For each document, its score is the sum of TF-IDF scores of its terms
+  // that match one of more query term.
+  // The map is keyed by the document id.
+  std::unordered_map<std::string, ScoreWithPosting> matching_docs;
+  for (const auto& kv : tfidf_cache_) {
+    const base::string16& index_term = kv.first;
+    const std::vector<TfidfResult>& tfidf_results = kv.second;
+    for (const auto& term : terms) {
+      if (IsRelevantApproximately(term, index_term, prefix_threshold,
+                                  block_threshold)) {
+        // If the |index_term| is relevant, all of the enclosing documents will
+        // have their ranking scores updated.
+        for (const auto& docid_tfidf : tfidf_results) {
+          const std::string& docid = std::get<0>(docid_tfidf);
+          const Posting& posting = std::get<1>(docid_tfidf);
+          const float tfidf = std::get<2>(docid_tfidf);
+          auto it = matching_docs.find(docid);
+          if (it == matching_docs.end()) {
+            it = matching_docs.emplace(docid, ScoreWithPosting(0.0, {})).first;
+          }
+
+          auto& score_posting = it->second;
+          // TODO(jiameng): add position penalty.
+          score_posting.first += tfidf;
+          // Also update matching positions.
+          auto& existing_posting = score_posting.second;
+          existing_posting.insert(existing_posting.end(), posting.begin(),
+                                  posting.end());
+        }
+        // Break out from inner loop, i.e. no need to check other query terms.
+        break;
+      }
+    }
+  }
+
+  std::vector<Result> sorted_matching_docs;
+  for (const auto& kv : matching_docs) {
+    // TODO(jiameng): TokenPosition is essentially the same as Position. Merge
+    // them.
+    std::vector<Position> positions;
+    for (const auto& token_position : kv.second.second) {
+      positions.emplace_back(Position(token_position.content_id,
+                                      token_position.start,
+                                      token_position.length));
+    }
+    sorted_matching_docs.emplace_back(
+        Result(kv.first, kv.second.first, positions));
+  }
+  std::sort(sorted_matching_docs.begin(), sorted_matching_docs.end(),
+            CompareResults);
+  return sorted_matching_docs;
 }
 
 InvertedIndex::InvertedIndex() = default;
