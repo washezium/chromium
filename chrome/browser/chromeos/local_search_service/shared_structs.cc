@@ -35,6 +35,13 @@ Position::Position(const std::string& content_id,
     : content_id(content_id), start(start), length(length) {}
 Position::~Position() = default;
 
+Token::Token() = default;
+Token::Token(const base::string16& text, const std::vector<Position>& pos)
+    : content(text), positions(pos) {}
+Token::Token(const Token& token)
+    : content(token.content), positions(token.positions) {}
+Token::~Token() = default;
+
 Result::Result() = default;
 Result::Result(const Result& result) = default;
 Result::Result(const std::string& id,

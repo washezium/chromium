@@ -11,6 +11,7 @@
 
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
+#include "chrome/browser/chromeos/local_search_service/shared_structs.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
@@ -46,23 +47,20 @@ class InvertedIndexTest : public ::testing::Test {
         std::unordered_map<std::string, int>({{"doc1", 8}, {"doc2", 6}});
 
     index_.dictionary_[base::UTF8ToUTF16("A")] = PostingList(
+        {{"doc1", Posting({Position("header", 1, 1), Position("header", 3, 1),
+                           Position("body", 5, 1), Position("body", 7, 1)})},
+         {"doc2",
+          Posting({Position("header", 2, 1), Position("header", 4, 1)})}});
+
+    index_.dictionary_[base::UTF8ToUTF16("B")] = PostingList(
         {{"doc1",
-          Posting({TokenPosition("header", 1, 1), TokenPosition("header", 3, 1),
-                   TokenPosition("body", 5, 1), TokenPosition("body", 7, 1)})},
-         {"doc2", Posting({TokenPosition("header", 2, 1),
-                           TokenPosition("header", 4, 1)})}});
+          Posting({Position("header", 2, 1), Position("body", 4, 1),
+                   Position("header", 6, 1), Position("body", 8, 1)})}});
 
-    index_.dictionary_[base::UTF8ToUTF16("B")] =
-        PostingList({{"doc1", Posting({TokenPosition("header", 2, 1),
-                                       TokenPosition("body", 4, 1),
-                                       TokenPosition("header", 6, 1),
-                                       TokenPosition("body", 8, 1)})}});
-
-    index_.dictionary_[base::UTF8ToUTF16("C")] =
-        PostingList({{"doc2", Posting({TokenPosition("header", 1, 1),
-                                       TokenPosition("body", 3, 1),
-                                       TokenPosition("header", 5, 1),
-                                       TokenPosition("body", 7, 1)})}});
+    index_.dictionary_[base::UTF8ToUTF16("C")] = PostingList(
+        {{"doc2",
+          Posting({Position("header", 1, 1), Position("body", 3, 1),
+                   Position("header", 5, 1), Position("body", 7, 1)})}});
     index_.terms_to_be_updated_.insert(base::UTF8ToUTF16("A"));
     index_.terms_to_be_updated_.insert(base::UTF8ToUTF16("B"));
     index_.terms_to_be_updated_.insert(base::UTF8ToUTF16("C"));
