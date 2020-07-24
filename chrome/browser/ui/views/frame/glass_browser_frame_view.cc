@@ -552,7 +552,8 @@ bool GlassBrowserFrameView::ShowSystemIcon() const {
 }
 
 bool GlassBrowserFrameView::IsWebUITabStrip() const {
-  return WebUITabStripContainerView::UseTouchableTabStrip();
+  return WebUITabStripContainerView::UseTouchableTabStrip(
+      browser_view()->browser());
 }
 
 bool GlassBrowserFrameView::OwnsCaptionButtons() const {
