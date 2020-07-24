@@ -595,6 +595,7 @@
     },
     {
       name: "DeclarativeShadowDOM",
+      origin_trial_feature_name: "DeclarativeShadowDOM",
       status: "experimental",
     },
     {
