@@ -491,35 +491,32 @@ try_.chromium_mac_ios_builder(
     properties = {
         'xcode_build_version': '11e146',
     },
-    # TODO(https://crbug.com/1108842) Re-enable once network outage is over
-    # tryjob = try_.job(),
+    tryjob = try_.job(),
 )
 
 try_.chromium_mac_ios_builder(
     name = 'ios-simulator-cronet',
     executable = 'recipe:chromium_trybot',
-    # TODO(https://crbug.com/1108842) Re-enable once network outage is over
-    # tryjob = try_.job(
-    #    location_regexp = [
-    #        '.+/[+]/components/cronet/.+',
-    #        '.+/[+]/components/grpc_support/.+',
-    #        '.+/[+]/ios/.+',
-    #    ],
-    #    location_regexp_exclude = [
-    #        '.+/[+]/components/cronet/android/.+',
-    #    ],
-    #),
+    tryjob = try_.job(
+        location_regexp = [
+            '.+/[+]/components/cronet/.+',
+            '.+/[+]/components/grpc_support/.+',
+            '.+/[+]/ios/.+',
+        ],
+        location_regexp_exclude = [
+            '.+/[+]/components/cronet/android/.+',
+        ],
+    ),
 )
 
 try_.chromium_mac_ios_builder(
     name = 'ios-simulator-full-configs',
     executable = 'recipe:chromium_trybot',
-    # TODO(https://crbug.com/1108842) Re-enable once network outage is over
-    # tryjob = try_.job(
-    #    location_regexp = [
-    #        '.+/[+]/ios/.+',
-    #    ],
-    #),
+    tryjob = try_.job(
+        location_regexp = [
+            '.+/[+]/ios/.+',
+        ],
+    ),
 )
 
 
