@@ -107,10 +107,8 @@ base::TimeDelta AccessibilityControllerClient::PlayShutdownSound() {
 }
 
 void AccessibilityControllerClient::HandleAccessibilityGesture(
-    ax::mojom::Gesture gesture,
-    gfx::PointF location) {
-  chromeos::AccessibilityManager::Get()->HandleAccessibilityGesture(gesture,
-                                                                    location);
+    ax::mojom::Gesture gesture) {
+  chromeos::AccessibilityManager::Get()->HandleAccessibilityGesture(gesture);
 }
 
 bool AccessibilityControllerClient::ToggleDictation() {

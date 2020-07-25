@@ -37,17 +37,12 @@ GestureCommandHandler.getEnabled = function() {
  *     ax::mojom::Gesture enum defined in ui/accessibility/ax_enums.mojom
  * @private
  */
-GestureCommandHandler.onAccessibilityGesture_ = function(gesture, x, y) {
+GestureCommandHandler.onAccessibilityGesture_ = function(gesture) {
   if (!GestureCommandHandler.enabled_) {
     return;
   }
 
   EventSourceState.set(EventSourceType.TOUCH_GESTURE);
-
-  if (gesture == 'touchExplore') {
-    BackgroundMouseHandler.instance.onMove(x, y);
-    return;
-  }
 
   const commandData = GestureCommandData.GESTURE_COMMAND_MAP[gesture];
   if (!commandData) {

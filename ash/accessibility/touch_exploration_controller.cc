@@ -464,14 +464,18 @@ ui::EventDispatchDetails TouchExplorationController::InTouchExploration(
     return SendEvent(continuation, &event);
   }
 
-  delegate_->HandleAccessibilityGesture(ax::mojom::Gesture::kTouchExplore,
-                                        event.location_f());
-
+  // Rewrite as a mouse-move event.
+  // |event| locations are in DIP; see |RewriteEvent|. We need to dispatch
+  // |screen coords.
+  gfx::PointF location_f(ConvertDIPToPixels(event.location_f()));
+  std::unique_ptr<ui::Event> new_event = CreateMouseMoveEvent(
+      location_f, event.flags());
+  SetTouchAccessibilityFlag(new_event.get());
   last_touch_exploration_ = std::make_unique<ui::TouchEvent>(event);
   if (anchor_point_state_ != ANCHOR_POINT_EXPLICITLY_SET)
     SetAnchorPointInternal(last_touch_exploration_->location_f());
 
-  return DiscardEvent(continuation);
+  return SendEventFinally(continuation, new_event.get());
 }
 
 ui::EventDispatchDetails TouchExplorationController::InGestureInProgress(
@@ -794,8 +798,9 @@ void TouchExplorationController::OnTapTimerFired() {
       return;
   }
   EnterTouchToMouseMode();
-  delegate_->HandleAccessibilityGesture(ax::mojom::Gesture::kTouchExplore,
-                                        initial_press_->location_f());
+  std::unique_ptr<ui::Event> mouse_move = CreateMouseMoveEvent(
+      initial_press_->location_f(), initial_press_->flags());
+  DispatchEvent(mouse_move.get(), initial_press_continuation_);
   last_touch_exploration_ = std::make_unique<ui::TouchEvent>(*initial_press_);
   SetAnchorPointInternal(last_touch_exploration_->location_f());
   anchor_point_state_ = ANCHOR_POINT_FROM_TOUCH_EXPLORATION;

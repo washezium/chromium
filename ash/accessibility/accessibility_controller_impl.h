@@ -30,7 +30,6 @@ enum class Gesture;
 
 namespace gfx {
 class Point;
-class PointF;
 struct VectorIcon;
 }  // namespace gfx
 
@@ -327,8 +326,7 @@ class ASH_EXPORT AccessibilityControllerImpl : public AccessibilityController,
 
   // Forwards an accessibility gesture from the touch exploration controller to
   // ChromeVox.
-  void HandleAccessibilityGesture(ax::mojom::Gesture gesture,
-                                  gfx::PointF location);
+  void HandleAccessibilityGesture(ax::mojom::Gesture gesture);
 
   // Toggle dictation.
   void ToggleDictation();

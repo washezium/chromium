@@ -12,7 +12,6 @@
 #include "content/public/test/browser_task_environment.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "ui/accessibility/ax_enums.mojom.h"
-#include "ui/gfx/geometry/point_f.h"
 
 namespace {
 
@@ -32,10 +31,8 @@ class FakeAccessibilityControllerClient : public AccessibilityControllerClient {
   base::TimeDelta PlayShutdownSound() override {
     return kShutdownSoundDuration;
   }
-  void HandleAccessibilityGesture(ax::mojom::Gesture gesture,
-                                  gfx::PointF location) override {
+  void HandleAccessibilityGesture(ax::mojom::Gesture gesture) override {
     last_a11y_gesture_ = gesture;
-    last_a11y_gesture_point_ = location;
   }
   bool ToggleDictation() override {
     ++toggle_dictation_count_;
@@ -56,7 +53,6 @@ class FakeAccessibilityControllerClient : public AccessibilityControllerClient {
   ash::AccessibilityAlert last_a11y_alert_ = ash::AccessibilityAlert::NONE;
   int32_t last_sound_key_ = -1;
   ax::mojom::Gesture last_a11y_gesture_ = ax::mojom::Gesture::kNone;
-  gfx::PointF last_a11y_gesture_point_;
   int toggle_dictation_count_ = 0;
   int silence_spoken_feedback_count_ = 0;
   int on_two_finger_touch_start_count_ = 0;
@@ -104,10 +100,8 @@ TEST_F(AccessibilityControllerClientTest, MethodCalls) {
 
   // Tests HandleAccessibilityGesture method call.
   ax::mojom::Gesture gesture = ax::mojom::Gesture::kClick;
-  gfx::PointF gesture_point(1, 1);
-  client.HandleAccessibilityGesture(gesture, gesture_point);
+  client.HandleAccessibilityGesture(gesture);
   EXPECT_EQ(gesture, client.last_a11y_gesture_);
-  EXPECT_EQ(gesture_point, client.last_a11y_gesture_point_);
 
   // Tests ToggleDictation method call.
   EXPECT_EQ(0, client.toggle_dictation_count_);

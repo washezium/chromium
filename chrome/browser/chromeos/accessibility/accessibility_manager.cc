@@ -591,16 +591,13 @@ bool AccessibilityManager::PlaySpokenFeedbackToggleCountdown(int tick_count) {
 }
 
 void AccessibilityManager::HandleAccessibilityGesture(
-    ax::mojom::Gesture gesture,
-    gfx::PointF location) {
+    ax::mojom::Gesture gesture) {
   extensions::EventRouter* event_router =
       extensions::EventRouter::Get(profile());
 
   std::unique_ptr<base::ListValue> event_args =
       std::make_unique<base::ListValue>();
   event_args->AppendString(ui::ToString(gesture));
-  event_args->AppendInteger(location.x());
-  event_args->AppendInteger(location.y());
   std::unique_ptr<extensions::Event> event(new extensions::Event(
       extensions::events::ACCESSIBILITY_PRIVATE_ON_ACCESSIBILITY_GESTURE,
       extensions::api::accessibility_private::OnAccessibilityGesture::
