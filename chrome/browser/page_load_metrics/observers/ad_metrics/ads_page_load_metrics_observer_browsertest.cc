@@ -927,14 +927,15 @@ IN_PROC_BROWSER_TEST_F(AdsPageLoadMetricsObserverBrowserTest,
   ui_test_utils::NavigateToURL(browser(), GURL(url::kAboutBlankURL));
 
   histogram_tester.ExpectTotalCount(
-      "PageLoad.Clients.Ads.AdPaintTiming.NavigationToFirstContentfulPaint", 1);
+      "PageLoad.Clients.Ads.AdPaintTiming.NavigationToFirstContentfulPaint2",
+      1);
   histogram_tester.ExpectTotalCount(
       "PageLoad.Clients.Ads.Visible.AdPaintTiming."
-      "NavigationToFirstContentfulPaint",
+      "NavigationToFirstContentfulPaint2",
       1);
   histogram_tester.ExpectTotalCount(
       "PageLoad.Clients.Ads.NonVisible.AdPaintTiming."
-      "NavigationToFirstContentfulPaint",
+      "NavigationToFirstContentfulPaint2",
       0);
 }
 

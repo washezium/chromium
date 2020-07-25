@@ -270,11 +270,6 @@ void AdsPageLoadMetricsObserver::OnTimingUpdate(
   if (!ancestor_data)
     return;
 
-  // Only update the frame with the root frame's timing updates.
-  if (ancestor_data->root_frame_tree_node_id() ==
-      subframe_rfh->GetFrameTreeNodeId())
-    ancestor_data->set_timing(timing.Clone());
-
   // Set paint eligiblity status.
   ancestor_data->SetFirstEligibleToPaint(
       timing.paint_timing->first_eligible_to_paint);
@@ -1123,8 +1118,9 @@ void AdsPageLoadMetricsObserver::RecordPerFrameHistogramsForAdTagging(
                   UMA_HISTOGRAM_ENUMERATION, visibility,
                   ad_frame_data.user_activation_status());
 
-    if (auto first_contentful_paint = ad_frame_data.FirstContentfulPaint()) {
-      ADS_HISTOGRAM("AdPaintTiming.NavigationToFirstContentfulPaint",
+    if (auto first_contentful_paint =
+            ad_frame_data.earliest_first_contentful_paint()) {
+      ADS_HISTOGRAM("AdPaintTiming.NavigationToFirstContentfulPaint2",
                     PAGE_LOAD_HISTOGRAM, visibility,
                     first_contentful_paint.value());
     }

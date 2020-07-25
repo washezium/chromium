@@ -251,16 +251,6 @@ class FrameData {
     media_status_ = media_status;
   }
 
-  void set_timing(page_load_metrics::mojom::PageLoadTimingPtr timing) {
-    timing_ = std::move(timing);
-  }
-
-  base::Optional<base::TimeDelta> FirstContentfulPaint() const {
-    if (!timing_ || timing_->paint_timing.is_null())
-      return base::nullopt;
-    return timing_->paint_timing->first_contentful_paint;
-  }
-
   void set_creative_origin_status(OriginStatus creative_origin_status) {
     creative_origin_status_ = creative_origin_status;
   }
@@ -300,9 +290,6 @@ class FrameData {
   // The frame tree node id of root frame of the subtree that |this| is
   // tracking information for.
   const FrameTreeNodeId root_frame_tree_node_id_;
-
-  // The most recently updated timing received for this frame.
-  page_load_metrics::mojom::PageLoadTimingPtr timing_;
 
   // Number of resources loaded by the frame (both complete and incomplete).
   int num_resources_ = 0;
