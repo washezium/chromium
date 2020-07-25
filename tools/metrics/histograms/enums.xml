@@ -63243,6 +63243,14 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   </int>
 </enum>
 
+<enum name="SettingsLanguagesPageInteraction">
+  <int value="0" label="Switch system language"/>
+  <int value="1" label="Restart"/>
+  <int value="2" label="Restart now"/>
+  <int value="3" label="Restart later"/>
+  <int value="4" label="Open custom spell check"/>
+</enum>
+
 <enum name="SettingsNavigationSources">
   <int value="0" label="Other"/>
   <int value="1" label="From TWA clear data dialog"/>
