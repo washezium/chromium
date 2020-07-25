@@ -2199,15 +2199,12 @@ void OmniboxViewViews::UpdateContextMenu(ui::SimpleMenuModel* menu_contents) {
                                      IDS_EDIT_SEARCH_ENGINES);
 
   if (base::FeatureList::IsEnabled(omnibox::kOmniboxContextMenuShowFullUrls)) {
-    menu_contents->AddCheckItemWithStringId(IDC_SHOW_FULL_URLS,
-                                            IDS_CONTEXT_MENU_SHOW_FULL_URLS);
-
     const PrefService::Preference* show_full_urls_pref =
         location_bar_view_->profile()->GetPrefs()->FindPreference(
             omnibox::kPreventUrlElisionsInOmnibox);
-    if (show_full_urls_pref->IsManaged()) {
-      menu_contents->SetEnabledAt(
-          menu_contents->GetIndexOfCommandId(IDC_SHOW_FULL_URLS), false);
+    if (!show_full_urls_pref->IsManaged()) {
+      menu_contents->AddCheckItemWithStringId(IDC_SHOW_FULL_URLS,
+                                              IDS_CONTEXT_MENU_SHOW_FULL_URLS);
     }
   }
 }
