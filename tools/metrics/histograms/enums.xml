@@ -21261,8 +21261,8 @@ Called by update_document_policy_enum.py.-->
   <int value="731" label="DeviceExternalPrintServersAllowlist"/>
   <int value="732" label="SafeBrowsingAllowlistDomains"/>
   <int value="733" label="DevicePrintersAccessMode"/>
-  <int value="734" label="DeviceNativePrintersBlocklist"/>
-  <int value="735" label="DeviceNativePrintersAllowlist"/>
+  <int value="734" label="DevicePrintersBlocklist"/>
+  <int value="735" label="DevicePrintersAllowlist"/>
   <int value="736" label="URLBlocklist"/>
   <int value="737" label="URLAllowlist"/>
   <int value="738" label="ExtensionInstallAllowlist"/>
@@ -21273,6 +21273,7 @@ Called by update_document_policy_enum.py.-->
   <int value="743" label="DevicePrinters"/>
   <int value="744" label="NativeMessagingBlocklist"/>
   <int value="745" label="NativeMessagingAllowlist"/>
+  <int value="746" label="AuthNegotiateDelegateAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
