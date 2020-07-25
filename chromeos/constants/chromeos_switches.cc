@@ -413,6 +413,14 @@ const char kIgnoreUserProfileMappingForTests[] =
 // chrome://flags
 const char kKernelnextRestrictVMs[] = "kernelnext-restrict-vms";
 
+// If this switch is set, then ash-chrome will pass additional arguments when
+// launching lacros-chrome. The string '####' is used as a delimiter. Example:
+// --lacros-chrome-additional-args="--foo=5####--bar=/tmp/dir name". Will
+// result in two arguments passed to lacros-chrome:
+//   --foo=5
+//   --bar=/tmp/dir name
+const char kLacrosChromeAdditionalArgs[] = "lacros-chrome-additional-args";
+
 // If this switch is set, then ash-chrome will exec the lacros-chrome binary
 // from the indicated path rather than from component updater. Note that the
 // path should be to a directory that contains a binary named 'chrome'.
