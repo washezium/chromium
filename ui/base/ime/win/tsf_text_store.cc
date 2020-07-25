@@ -244,8 +244,7 @@ HRESULT TSFTextStore::GetStatus(TS_STATUS* status) {
   //   status->dwDynamicFlags &= ~TS_SD_INPUTPANEMANUALDISPLAYENABLE;
   status->dwDynamicFlags |= TS_SD_INPUTPANEMANUALDISPLAYENABLE;
   // We don't support hidden text.
-  // TODO(IME): Remove TS_SS_TRANSITORY to support Korean reconversion
-  status->dwStaticFlags = TS_SS_TRANSITORY | TS_SS_NOHIDDENTEXT;
+  status->dwStaticFlags = TS_SS_NOHIDDENTEXT;
 
   return S_OK;
 }
