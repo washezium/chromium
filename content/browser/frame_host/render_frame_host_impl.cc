@@ -4632,16 +4632,6 @@ base::WeakPtr<RenderFrameHostImpl> RenderFrameHostImpl::GetWeakPtr() {
   return weak_ptr_factory_.GetWeakPtr();
 }
 
-void RenderFrameHostImpl::TransferUserActivationFrom(
-    int32_t source_routing_id) {
-  RenderFrameHostImpl* source_rfh = RenderFrameHostImpl::FromID(
-      GlobalFrameRoutingId(GetProcess()->GetID(), source_routing_id));
-  if (source_rfh &&
-      source_rfh->frame_tree_node()->HasTransientUserActivation()) {
-    frame_tree_node()->TransferUserActivationFrom(source_rfh);
-  }
-}
-
 void RenderFrameHostImpl::CreateNewWindow(
     mojom::CreateNewWindowParamsPtr params,
     CreateNewWindowCallback callback) {
