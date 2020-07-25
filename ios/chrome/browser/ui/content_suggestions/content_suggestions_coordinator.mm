@@ -169,6 +169,16 @@
           ->NewFeedViewController(static_cast<id<ApplicationCommands>>(
               self.browser->GetCommandDispatcher()));
 
+  // TODO(crbug.com/1085419): Once the CollectionView is cleanly exposed, remove
+  // this loop.
+  for (UIView* view in self.discoverFeedViewController.view.subviews) {
+    if ([view isKindOfClass:[UICollectionView class]]) {
+      UICollectionView* feedView = static_cast<UICollectionView*>(view);
+      feedView.bounces = false;
+      feedView.alwaysBounceVertical = false;
+    }
+  }
+
   self.contentSuggestionsMediator = [[ContentSuggestionsMediator alloc]
       initWithContentService:contentSuggestionsService
             largeIconService:largeIconService
