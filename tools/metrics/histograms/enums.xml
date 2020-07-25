@@ -28541,6 +28541,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3352" label="V8PointerEvent_AltitudeAngle_AttributeGetter"/>
   <int value="3353"
       label="CrossBrowsingContextGroupMainFrameNulledNonEmptyNameAccessed"/>
+  <int value="3354" label="PositionSticky"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
