@@ -1288,6 +1288,7 @@ _VALID_OS_MACROS = (
     # Please keep sorted.
     'OS_AIX',
     'OS_ANDROID',
+    'OS_APPLE',
     'OS_ASMJS',
     'OS_BSD',
     'OS_CAT',       # For testing.
@@ -1297,6 +1298,7 @@ _VALID_OS_MACROS = (
     'OS_FUCHSIA',
     'OS_IOS',
     'OS_LINUX',
+    'OS_MAC',
     'OS_MACOSX',
     'OS_NACL',
     'OS_NACL_NONSFI',
@@ -4540,8 +4542,9 @@ def _DidYouMeanOSMacro(bad_macro):
             'B': 'OS_BSD',
             'C': 'OS_CHROMEOS',
             'F': 'OS_FREEBSD',
+            'I': 'OS_IOS',
             'L': 'OS_LINUX',
-            'M': 'OS_MACOSX',
+            'M': 'OS_MAC',
             'N': 'OS_NACL',
             'O': 'OS_OPENBSD',
             'P': 'OS_POSIX',
