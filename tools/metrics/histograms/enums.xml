@@ -9539,6 +9539,8 @@ histogram as enum -->
   <int value="40" label="ZoomIn"/>
   <int value="41" label="ZoomOutFirst"/>
   <int value="42" label="ZoomOut"/>
+  <int value="43" label="ZoomCustomFirst"/>
+  <int value="44" label="ZoomCustom"/>
 </enum>
 
 <enum name="ChromePDFViewerAnnotationType">
