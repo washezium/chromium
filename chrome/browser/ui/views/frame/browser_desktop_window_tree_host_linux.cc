@@ -19,6 +19,7 @@
 
 namespace {
 
+#if defined(USE_DBUS_MENU)
 bool CreateGlobalMenuBar() {
 #if defined(USE_OZONE)
   return ui::OzonePlatform::GetInstance()
@@ -28,6 +29,7 @@ bool CreateGlobalMenuBar() {
   return true;
 #endif
 }
+#endif
 
 }  // namespace
 
