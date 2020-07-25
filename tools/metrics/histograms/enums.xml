@@ -3541,6 +3541,14 @@ Unknown properties are collapsed to zero. -->
   <int value="2" label="Closed shape"/>
 </enum>
 
+<enum name="AssistantInteractionResolution">
+  <int value="0" label="kNormal"/>
+  <int value="1" label="kInterruption"/>
+  <int value="2" label="kError"/>
+  <int value="3" label="kMicTimeout"/>
+  <int value="4" label="kMultiDeviceHotwordLoss"/>
+</enum>
+
 <enum name="AssistantOptInFlowStatus">
   <int value="0" label="FLOW_STARTED"/>
   <int value="1" label="ACTIVITY_CONTROL_SHOWN"/>
