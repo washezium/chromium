@@ -2,73 +2,73 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_LOADER_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
-#define CONTENT_RENDERER_LOADER_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
+#define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
 
 #include <memory>
 
 #include "base/memory/weak_ptr.h"
 #include "third_party/blink/public/platform/scheduler/web_resource_loading_task_runner_handle.h"
+#include "third_party/blink/public/platform/web_common.h"
 #include "third_party/blink/public/platform/web_url_loader.h"
 #include "third_party/blink/public/platform/web_url_loader_factory.h"
 
-namespace content {
+namespace blink {
 
 // WebURLLoaderFactory for InternetDisconnectedWebURLLoader.
-class InternetDisconnectedWebURLLoaderFactory final
-    : public blink::WebURLLoaderFactory {
+class BLINK_PLATFORM_EXPORT InternetDisconnectedWebURLLoaderFactory final
+    : public WebURLLoaderFactory {
  public:
-  std::unique_ptr<blink::WebURLLoader> CreateURLLoader(
-      const blink::WebURLRequest&,
-      std::unique_ptr<blink::scheduler::WebResourceLoadingTaskRunnerHandle>
+  std::unique_ptr<WebURLLoader> CreateURLLoader(
+      const WebURLRequest&,
+      std::unique_ptr<scheduler::WebResourceLoadingTaskRunnerHandle>
           task_runner_handle) override;
 };
 
 // WebURLLoader which always returns an internet disconnected error. At present,
 // this is used for ServiceWorker's offline-capability-check fetch event.
-class InternetDisconnectedWebURLLoader final : public blink::WebURLLoader {
+class InternetDisconnectedWebURLLoader final : public WebURLLoader {
  public:
   explicit InternetDisconnectedWebURLLoader(
-      std::unique_ptr<blink::scheduler::WebResourceLoadingTaskRunnerHandle>
+      std::unique_ptr<scheduler::WebResourceLoadingTaskRunnerHandle>
           task_runner_handle);
   ~InternetDisconnectedWebURLLoader() override;
 
   // WebURLLoader implementation:
   void LoadSynchronously(
       std::unique_ptr<network::ResourceRequest> request,
-      scoped_refptr<blink::WebURLRequest::ExtraData> request_extra_data,
+      scoped_refptr<WebURLRequest::ExtraData> request_extra_data,
       int requestor_id,
       bool download_to_network_cache_only,
       bool pass_response_pipe_to_client,
       bool no_mime_sniffing,
       base::TimeDelta timeout_interval,
-      blink::WebURLLoaderClient*,
-      blink::WebURLResponse&,
-      base::Optional<blink::WebURLError>&,
-      blink::WebData&,
+      WebURLLoaderClient*,
+      WebURLResponse&,
+      base::Optional<WebURLError>&,
+      WebData&,
       int64_t& encoded_data_length,
       int64_t& encoded_body_length,
-      blink::WebBlobInfo& downloaded_blob) override;
+      WebBlobInfo& downloaded_blob) override;
   void LoadAsynchronously(
       std::unique_ptr<network::ResourceRequest> request,
-      scoped_refptr<blink::WebURLRequest::ExtraData> request_extra_data,
+      scoped_refptr<WebURLRequest::ExtraData> request_extra_data,
       int requestor_id,
       bool download_to_network_cache_only,
       bool no_mime_sniffing,
-      blink::WebURLLoaderClient* client) override;
+      WebURLLoaderClient* client) override;
   void SetDefersLoading(bool defers) override;
-  void DidChangePriority(blink::WebURLRequest::Priority, int) override;
+  void DidChangePriority(WebURLRequest::Priority, int) override;
   scoped_refptr<base::SingleThreadTaskRunner> GetTaskRunner() override;
 
  private:
-  void DidFail(blink::WebURLLoaderClient* client,
-               const blink::WebURLError& error);
+  void DidFail(WebURLLoaderClient* client, const WebURLError& error);
 
-  std::unique_ptr<blink::scheduler::WebResourceLoadingTaskRunnerHandle>
+  std::unique_ptr<scheduler::WebResourceLoadingTaskRunnerHandle>
       task_runner_handle_;
   base::WeakPtrFactory<InternetDisconnectedWebURLLoader> weak_factory_{this};
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_LOADER_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
+#endif  // THIRD_PARTY_BLINK_PUBLIC_PLATFORM_INTERNET_DISCONNECTED_WEB_URL_LOADER_H_
