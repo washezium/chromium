@@ -124,6 +124,14 @@ _BANNED_JAVA_FUNCTIONS = (
       ),
       False,
     ),
+    (
+      '.waitForIdleSync()',
+      (
+       'Do not use waitForIdleSync as it masks underlying issues. There is '
+       'almost always something else you should wait on instead.',
+      ),
+      False,
+    ),
 )
 
 # Format: Sequence of tuples containing:
