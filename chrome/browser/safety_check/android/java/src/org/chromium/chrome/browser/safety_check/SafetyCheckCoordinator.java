@@ -63,6 +63,14 @@ public class SafetyCheckCoordinator implements DefaultLifecycleObserver {
                         }
                     }
                 });
+        // Show the initial state every time the fragment is resumed (navigation from a different
+        // screen, app in the background, etc).
+        mSettingsFragment.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onResume(LifecycleOwner lifecycleOwner) {
+                mMediator.setInitialState();
+            }
+        });
     }
 
     @VisibleForTesting

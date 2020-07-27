@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import androidx.annotation.VisibleForTesting;
@@ -32,6 +33,8 @@ import java.lang.ref.WeakReference;
 class SafetyCheckMediator implements SafetyCheckCommonObserver {
     /** The minimal amount of time to show the checking state. */
     private static final int CHECKING_MIN_DURATION_MS = 1000;
+    /** Time after which the null-states will be shown: 10 minutes. */
+    private static final long RESET_TO_NULL_AFTER_MS = 10 * DateUtils.MINUTE_IN_MILLIS;
 
     /** Bridge to the C++ side for the Safe Browsing and passwords checks. */
     private SafetyCheckBridge mSafetyCheckBridge;
@@ -76,6 +79,8 @@ class SafetyCheckMediator implements SafetyCheckCommonObserver {
         this(model, client, settingsLauncher, null, new Handler());
         // Have to initialize this after the constructor call, since a "this" instance is needed.
         mSafetyCheckBridge = new SafetyCheckBridge(SafetyCheckMediator.this);
+        // Determine and set the initial state.
+        setInitialState();
     }
 
     @VisibleForTesting
@@ -128,6 +133,44 @@ class SafetyCheckMediator implements SafetyCheckCommonObserver {
         mModel.set(SafetyCheckProperties.LAST_RUN_TIMESTAMP,
                 mPreferenceManager.readLong(
                         ChromePreferenceKeys.SETTINGS_SAFETY_CHECK_LAST_RUN_TIMESTAMP, 0));
+        if (mSafetyCheckBridge != null) {
+            // Determine and set the initial state.
+            setInitialState();
+        }
+    }
+
+    /**
+     * Determines the initial state to show, triggering any fast checks if necessary based on the
+     * last run timestamp.
+     */
+    public void setInitialState() {
+        long currentTime = System.currentTimeMillis();
+        long lastRun = mPreferenceManager.readLong(
+                ChromePreferenceKeys.SETTINGS_SAFETY_CHECK_LAST_RUN_TIMESTAMP, 0);
+        // Always show the passwords unsafe state.
+        if (mSafetyCheckBridge.getNumberOfPasswordLeaksFromLastCheck() != 0) {
+            mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.COMPROMISED_EXIST);
+        }
+        if (currentTime - lastRun < RESET_TO_NULL_AFTER_MS) {
+            // Show the passwords safe state
+            if (!mSafetyCheckBridge.savedPasswordsExist()) {
+                mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.NO_PASSWORDS);
+            } else if (mSafetyCheckBridge.getNumberOfPasswordLeaksFromLastCheck() == 0) {
+                mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.SAFE);
+            }
+            // Rerun the updates and Safe Browsing checks.
+            mModel.set(SafetyCheckProperties.SAFE_BROWSING_STATE, SafeBrowsingState.CHECKING);
+            mModel.set(SafetyCheckProperties.UPDATES_STATE, UpdatesState.CHECKING);
+            mSafetyCheckBridge.checkSafeBrowsing();
+            mUpdatesClient.checkForUpdates(new WeakReference(mUpdatesCheckCallback));
+        } else {
+            // The unsafe state was already set above, so only set to unchecked if it is safe.
+            if (mSafetyCheckBridge.getNumberOfPasswordLeaksFromLastCheck() == 0) {
+                mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.UNCHECKED);
+            }
+            mModel.set(SafetyCheckProperties.SAFE_BROWSING_STATE, SafeBrowsingState.UNCHECKED);
+            mModel.set(SafetyCheckProperties.UPDATES_STATE, UpdatesState.UNCHECKED);
+        }
     }
 
     /** Triggers all safety check child checks. */
