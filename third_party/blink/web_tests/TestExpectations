@@ -6633,32 +6633,6 @@ crbug.com/1071915 fast/hidpi/image-srcset-png-canvas.html [ Pass Failure ]
 crbug.com/1084256 [ Linux ] http/tests/misc/insert-iframe-into-xml-document-before-xsl-transform.html [ Pass Failure ]
 crbug.com/1084276 [ Mac ] http/tests/security/offscreencanvas-placeholder-read-blocked-no-crossorigin.html [ Pass Failure ]
 
-# Disabled for enabling Wasm BigInt support
-crbug.com/1097765 external/wpt/wasm/jsapi/constructor/instantiate-bad-imports.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/constructor/instantiate-bad-imports.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/constructor/instantiate.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/constructor/instantiate.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/global/constructor.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/global/constructor.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/global/value-get-set.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/global/value-get-set.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/instance/constructor-bad-imports.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/instance/constructor-bad-imports.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/instance/constructor.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/jsapi/instance/constructor.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming-bad-imports.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming-bad-imports.any.serviceworker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming-bad-imports.any.sharedworker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming-bad-imports.any.worker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming.any.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming.any.serviceworker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming.any.sharedworker.html [ Failure Pass ]
-crbug.com/1097765 external/wpt/wasm/webapi/instantiateStreaming.any.worker.html [ Failure Pass ]
-
-# Disabled for enabling Wasm multi-value support
-crbug.com/1097717 external/wpt/wasm/jsapi/constructor/multi-value.any.html [ Failure Pass ]
-crbug.com/1097717 external/wpt/wasm/jsapi/constructor/multi-value.any.worker.html [ Failure Pass ]
-
 # Disabled to prepare fixing the tests in V8
 crbug.com/v8/10556 external/wpt/wasm/jsapi/instance/constructor-caching.any.html [ Failure Pass ]
 crbug.com/v8/10556 external/wpt/wasm/jsapi/instance/constructor-caching.any.worker.html [ Failure Pass ]
