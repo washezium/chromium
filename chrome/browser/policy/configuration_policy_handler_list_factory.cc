@@ -55,6 +55,7 @@
 #include "components/content_settings/core/common/pref_names.h"
 #include "components/data_reduction_proxy/core/common/data_reduction_proxy_pref_names.h"
 #include "components/embedder_support/pref_names.h"
+#include "components/enterprise/browser/reporting/common_pref_names.h"
 #include "components/feed/core/shared_prefs/pref_names.h"
 #include "components/history/core/common/pref_names.h"
 #include "components/language/core/browser/pref_names.h"
@@ -626,7 +627,7 @@ const PolicyToPreferenceMapEntry kSimplePolicyMap[] = {
     prefs::kWebRtcEventLogCollectionAllowed,
     base::Value::Type::BOOLEAN },
   { key::kCloudReportingEnabled,
-    prefs::kCloudReportingEnabled,
+    enterprise_reporting::kCloudReportingEnabled,
     base::Value::Type::BOOLEAN },
   { key::kSuppressUnsupportedOSWarning,
     prefs::kSuppressUnsupportedOSWarning,

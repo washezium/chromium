@@ -900,7 +900,6 @@ extern const char kRecoveryComponentNeedsElevation[];
 extern const char kRegisteredSupervisedUserWhitelists[];
 
 #if !defined(OS_ANDROID)
-extern const char kCloudReportingEnabled[];
 extern const char kCloudExtensionRequestEnabled[];
 extern const char kCloudExtensionRequestIds[];
 #endif
