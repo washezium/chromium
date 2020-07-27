@@ -190,10 +190,7 @@ source_set("unit_tests") {
     "run_all_unittests.cc",
     "running_samples_unittest.cc",
     "session_options_unittest.cc",
-
-    # TODO(https://crbug.com/968640): Fix and reenable tests once we have some
-    # breathing room.
-    # "telemetry_log_writer_unittest.cc",
+    "telemetry_log_writer_unittest.cc",
     "typed_buffer_unittest.cc",
     "util_unittest.cc",
     "weighted_samples_unittest.cc",

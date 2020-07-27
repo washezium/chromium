@@ -134,7 +134,7 @@ void FtlServicesPlayground::GetIceServer(base::OnceClosure on_done) {
   ftl::GetICEServerRequest request;
   *request.mutable_header() = FtlGrpcContext::CreateRequestHeader();
   auto grpc_request = CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&PeerToPeer::Stub::AsyncGetICEServer,
+      base::BindOnce(&PeerToPeer::StubInterface::AsyncGetICEServer,
                      base::Unretained(peer_to_peer_stub_.get())),
       request,
       base::BindOnce(&FtlServicesPlayground::OnGetIceServerResponse,

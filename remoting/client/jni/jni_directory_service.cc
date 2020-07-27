@@ -62,7 +62,7 @@ void JniDirectoryService::RetrieveHostList(
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   grpc_executor_.ExecuteRpc(CreateGrpcAsyncUnaryRequest(
       base::BindOnce(
-          &apis::v1::RemotingDirectoryService::Stub::AsyncGetHostList,
+          &apis::v1::RemotingDirectoryService::StubInterface::AsyncGetHostList,
           base::Unretained(stub_.get())),
       apis::v1::GetHostListRequest(),
       base::BindOnce(&JniDirectoryService::OnHostListRetrieved,
@@ -78,8 +78,9 @@ void JniDirectoryService::DeleteHost(
   apis::v1::DeleteHostRequest request;
   request.set_host_id(base::android::ConvertJavaStringToUTF8(env, host_id));
   grpc_executor_.ExecuteRpc(CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&apis::v1::RemotingDirectoryService::Stub::AsyncDeleteHost,
-                     base::Unretained(stub_.get())),
+      base::BindOnce(
+          &apis::v1::RemotingDirectoryService::StubInterface::AsyncDeleteHost,
+          base::Unretained(stub_.get())),
       request,
       base::BindOnce(&JniDirectoryService::OnHostDeleted,
                      base::Unretained(this),

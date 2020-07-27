@@ -72,7 +72,7 @@ void FtlRegistrationManager::RegistrationClientImpl::SignInGaia(
     const ftl::SignInGaiaRequest& request,
     SignInGaiaResponseCallback on_done) {
   auto grpc_request = CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&Registration::Stub::AsyncSignInGaia,
+      base::BindOnce(&Registration::StubInterface::AsyncSignInGaia,
                      base::Unretained(registration_stub_.get())),
       request, std::move(on_done));
   FtlGrpcContext::FillClientContext(grpc_request->context());

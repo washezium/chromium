@@ -74,8 +74,9 @@ void DirectoryServiceClient::RegisterHost(const std::string& host_id,
   register_host_request.set_host_client_id(host_client_id);
 
   auto async_request = CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&RemotingDirectoryService::Stub::AsyncRegisterHost,
-                     base::Unretained(stub_.get())),
+      base::BindOnce(
+          &RemotingDirectoryService::StubInterface::AsyncRegisterHost,
+          base::Unretained(stub_.get())),
       register_host_request, std::move(callback));
 
   async_request->context()->set_credentials(
@@ -90,7 +91,7 @@ void DirectoryServiceClient::DeleteHost(const std::string& host_id,
   delete_host_request.set_host_id(host_id);
 
   auto async_request = CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&RemotingDirectoryService::Stub::AsyncDeleteHost,
+      base::BindOnce(&RemotingDirectoryService::StubInterface::AsyncDeleteHost,
                      base::Unretained(stub_.get())),
       delete_host_request, std::move(callback));
 

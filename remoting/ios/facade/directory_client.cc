@@ -25,7 +25,7 @@ DirectoryClient::~DirectoryClient() = default;
 
 void DirectoryClient::GetHostList(GetHostListCallback callback) {
   grpc_executor_->ExecuteRpc(CreateGrpcAsyncUnaryRequest(
-      base::BindOnce(&DirectoryService::Stub::AsyncGetHostList,
+      base::BindOnce(&DirectoryService::StubInterface::AsyncGetHostList,
                      base::Unretained(stub_.get())),
       apis::v1::GetHostListRequest(), std::move(callback)));
 }
