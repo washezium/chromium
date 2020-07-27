@@ -1568,6 +1568,10 @@
       status: "stable",
     },
     {
+      name: "RestrictGamepadAccess",
+      status: "experimental",
+    },
+    {
       name: "RTCAdaptivePtime",
       origin_trial_feature_name: "RTCAdaptivePtime",
       status: "experimental",

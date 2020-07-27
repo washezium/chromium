@@ -28647,6 +28647,7 @@ Called by update_feature_policy_enum.py.-->
   <int value="76" label="ClipboardRead"/>
   <int value="77" label="ClipboardWrite"/>
   <int value="78" label="WebShare"/>
+  <int value="79" label="Gamepad"/>
 </enum>
 
 <enum name="FeaturePolicyImageCompressionFormat">
@@ -40366,6 +40367,7 @@ from previous Chrome versions.
   <int value="-1453647118" label="PasswordLeakDetection:disabled"/>
   <int value="-1451644187" label="OverviewSwipeToClose:enabled"/>
   <int value="-1450576851" label="OmniboxUIExperimentVerticalLayout:enabled"/>
+  <int value="-1449590570" label="RestrictGamepadAccess:enabled"/>
   <int value="-1448511207" label="UseMessagesStagingUrl:disabled"/>
   <int value="-1447147245" label="VideoPlayerNativeControls:enabled"/>
   <int value="-1446625028" label="CrostiniUsbAllowUnsupported:enabled"/>
@@ -42164,6 +42166,7 @@ from previous Chrome versions.
   <int value="491334698" label="ConditionalTabStripAndroid:enabled"/>
   <int value="492113129" label="ExperimentalAppBanners:enabled"/>
   <int value="492985975" label="use-monitor-color-space"/>
+  <int value="493758709" label="RestrictGamepadAccess:disabled"/>
   <int value="493903641" label="disable-appcontainer"/>
   <int value="494733611" label="disable-drop-sync-credential"/>
   <int value="494939785" label="InsecureFormSubmissionInterstitial:disabled"/>

@@ -3723,6 +3723,11 @@
     "expiry_milestone": 80
   },
   {
+    "name": "restrict-gamepad-access",
+    "owners": [ "//device/gamepad/OWNERS", "jameshollyer@chromium.org" ],
+    "expiry_milestone": 89
+  },
+  {
     "name": "rewrite-leveldb-on-deletion",
     "owners": [ "dullweber" ],
     "expiry_milestone": 75

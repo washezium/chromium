@@ -1101,6 +1101,9 @@ extern const char kRewriteLevelDBOnDeletionDescription[];
 extern const char kRequestUnbufferedDispatchName[];
 extern const char kRequestUnbufferedDispatchDescription[];
 
+extern const char kRestrictGamepadAccessName[];
+extern const char kRestrictGamepadAccessDescription[];
+
 extern const char kRequestTabletSiteName[];
 extern const char kRequestTabletSiteDescription[];
 
