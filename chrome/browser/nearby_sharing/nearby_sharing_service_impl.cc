@@ -99,8 +99,10 @@ std::string ConnectionsStatusToString(
       return "ALREADY_CONNECTED_TO_ENDPOINT";
     case NearbyConnectionsManager::ConnectionsStatus::kNotConnectedToEndpoint:
       return "NOT_CONNECTED_TO_ENDPOINT";
-    case NearbyConnectionsManager::ConnectionsStatus::kRadioError:
-      return "RADIO_ERROR";
+    case NearbyConnectionsManager::ConnectionsStatus::kBluetoothError:
+      return "BLUETOOTH_ERROR";
+    case NearbyConnectionsManager::ConnectionsStatus::kWifiLanError:
+      return "WIFI_LAN_ERROR";
     case NearbyConnectionsManager::ConnectionsStatus::kPayloadUnknown:
       return "PAYLOAD_UNKNOWN";
   }

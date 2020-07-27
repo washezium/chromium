@@ -43,8 +43,7 @@ class FakeNearbyConnectionsManager : public NearbyConnectionsManager {
                         DataUsage data_usage,
                         ConnectionsCallback callback) override;
   void StopAdvertising() override;
-  void StartDiscovery(std::vector<uint8_t> endpoint_info,
-                      DiscoveryListener* listener,
+  void StartDiscovery(DiscoveryListener* listener,
                       ConnectionsCallback callback) override;
   void StopDiscovery() override;
   std::unique_ptr<NearbyConnection> Connect(

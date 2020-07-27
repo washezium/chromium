@@ -67,7 +67,6 @@ void FakeNearbyConnectionsManager::StopAdvertising() {
 }
 
 void FakeNearbyConnectionsManager::StartDiscovery(
-    std::vector<uint8_t> endpoint_info,
     DiscoveryListener* listener,
     ConnectionsCallback callback) {
   is_shutdown_ = false;

@@ -13,6 +13,7 @@
 #include "base/files/file_path.h"
 #include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
+#include "chrome/browser/nearby_sharing/mock_nearby_connections.h"
 #include "chrome/browser/profiles/profile_attributes_entry.h"
 #include "chrome/services/sharing/public/mojom/nearby_connections.mojom.h"
 #include "chrome/services/sharing/public/mojom/nearby_connections_types.mojom.h"
@@ -30,8 +31,6 @@
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-using NearbyConnectionsMojom =
-    location::nearby::connections::mojom::NearbyConnections;
 using NearbyConnectionsDependencies =
     location::nearby::connections::mojom::NearbyConnectionsDependencies;
 using NearbyConnectionsDependenciesPtr =
@@ -39,10 +38,6 @@ using NearbyConnectionsDependenciesPtr =
 using NearbySharingDecoderMojom = sharing::mojom::NearbySharingDecoder;
 
 namespace {
-
-class MockNearbyConnections : public NearbyConnectionsMojom {
- public:
-};
 
 class MockNearbySharingDecoder : public NearbySharingDecoderMojom {
  public:

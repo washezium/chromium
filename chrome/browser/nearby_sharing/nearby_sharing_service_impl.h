@@ -28,7 +28,6 @@
 #include "components/prefs/pref_change_registrar.h"
 
 class FastInitiationManager;
-class NearbyConnectionsManager;
 class PrefService;
 class Profile;
 
