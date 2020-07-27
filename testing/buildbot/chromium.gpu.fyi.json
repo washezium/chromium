@@ -9355,32 +9355,6 @@
       },
       {
         "args": [
-          "--test-launcher-retry-limit=0",
-          "--no-xvfb"
-        ],
-        "merge": {
-          "args": [],
-          "script": "//testing/merge_scripts/standard_gtest_merge.py"
-        },
-        "should_retry_with_patch": false,
-        "swarming": {
-          "can_use_on_swarming_builders": true,
-          "containment_type": "AUTO",
-          "dimension_sets": [
-            {
-              "gpu": "1002:6613",
-              "os": "Ubuntu",
-              "pool": "chromium.tests.gpu"
-            }
-          ],
-          "expiration": 21600,
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
-        },
-        "test": "angle_white_box_tests",
-        "test_id_prefix": "ninja://third_party/angle/src/tests:angle_white_box_tests/"
-      },
-      {
-        "args": [
           "--enable-gpu",
           "--test-launcher-bot-mode",
           "--test-launcher-jobs=1",
