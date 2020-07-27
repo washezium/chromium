@@ -418,6 +418,7 @@
         'AuthSchemes',
         'DisableAuthNegotiateCnameLookup',
         'EnableAuthNegotiatePort',
+        'AuthServerAllowlist',
         'AuthServerWhitelist',
         'AuthNegotiateDelegateAllowlist',
         'AuthNegotiateDelegateWhitelist',
@@ -4134,6 +4135,7 @@
       'type': 'string',
       'schema': { 'type': 'string' },
       'supported_on': ['chrome.*:9-','android:46-','webview_android:49-','chrome_os:62-'],
+      'deprecated': True,
       'features': {
         'dynamic_refresh': False,
         'per_profile': False,
@@ -4142,7 +4144,29 @@
       'id': 29,
       'caption': '''Authentication server whitelist''',
       'tags': [],
-      'desc': '''Specifies which servers should be whitelisted for integrated authentication. Integrated authentication is only enabled when <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> receives an authentication challenge from a proxy or from a server which is in this permitted list.
+      'desc': '''This policy is deprecated, please use the '<ph name="AUTH_SERVER_ALLOWLIST_POLICY_NAME">AuthServerAllowlist</ph>' policy instead.
+
+          Specifies which servers should be allowed for integrated authentication. Integrated authentication is only enabled when <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> receives an authentication challenge from a proxy or from a server which is in this permitted list.
+
+          Separate multiple server names with commas. Wildcards (*) are allowed.
+
+          If you leave this policy not set <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> will try to detect if a server is on the Intranet and only then will it respond to IWA requests.  If a server is detected as Internet then IWA requests from it will be ignored by <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph>.''',
+    },
+    {
+      'name': 'AuthServerAllowlist',
+      'owners': ['file://components/policy/resources/OWNERS'],
+      'type': 'string',
+      'schema': { 'type': 'string' },
+      'supported_on': ['chrome.*:86-','android:86-','webview_android:86-','chrome_os:86-'],
+      'features': {
+        'dynamic_refresh': False,
+        'per_profile': False,
+      },
+      'example_value': '*.example.com,example.com',
+      'id': 747,
+      'caption': '''Authentication server allowlist''',
+      'tags': [],
+      'desc': '''Specifies which servers should be allowed for integrated authentication. Integrated authentication is only enabled when <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> receives an authentication challenge from a proxy or from a server which is in this permitted list.
 
           Separate multiple server names with commas. Wildcards (*) are allowed.
 
@@ -23104,6 +23128,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 746,
+  'highest_id_currently_used': 747,
   'highest_atomic_group_id_currently_used': 38
 }

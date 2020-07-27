@@ -1959,8 +1959,8 @@ const char kDisableAuthNegotiateCnameLookup[] =
 // SPN.
 const char kEnableAuthNegotiatePort[] = "auth.enable_negotiate_port";
 
-// Whitelist containing servers for which Integrated Authentication is enabled.
-const char kAuthServerWhitelist[] = "auth.server_whitelist";
+// Allowlist containing servers for which Integrated Authentication is enabled.
+const char kAuthServerAllowlist[] = "auth.server_whitelist";
 
 // Allowlist containing servers Chrome is allowed to do Kerberos delegation
 // with.

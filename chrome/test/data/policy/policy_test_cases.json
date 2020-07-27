@@ -1158,6 +1158,16 @@
     ]
   },
 
+  "AuthServerAllowlist": {
+    "os": ["win", "linux", "mac", "chromeos", "android"],
+    "policy_pref_mapping_test": [
+      {
+        "policies": { "AuthServerAllowlist": "localhost" },
+        "prefs": { "auth.server_whitelist": { "local_state": true } }
+      }
+    ]
+  },
+
   "AuthNegotiateDelegateWhitelist": {
     "os": ["win", "linux", "mac", "chromeos", "android"],
     "policy_pref_mapping_test": [

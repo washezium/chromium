@@ -21286,6 +21286,7 @@ Called by update_document_policy_enum.py.-->
   <int value="744" label="NativeMessagingBlocklist"/>
   <int value="745" label="NativeMessagingAllowlist"/>
   <int value="746" label="AuthNegotiateDelegateAllowlist"/>
+  <int value="747" label="AuthServerAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
