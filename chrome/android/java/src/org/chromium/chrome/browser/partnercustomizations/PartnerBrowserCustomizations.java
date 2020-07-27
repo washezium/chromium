@@ -24,7 +24,6 @@ import org.chromium.chrome.browser.AppHooks;
 import org.chromium.chrome.browser.ChromeVersionInfo;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.browser.ntp.NewTabPage;
-import org.chromium.chrome.browser.partnerbookmarks.PartnerBookmarksReader;
 import org.chromium.components.embedder_support.util.UrlConstants;
 import org.chromium.components.embedder_support.util.UrlUtilities;
 import org.chromium.content_public.browser.UiThreadTaskTraits;
@@ -38,6 +37,9 @@ import java.util.List;
 public class PartnerBrowserCustomizations {
     private static final String TAG = "PartnerCustomize";
     private static final String PROVIDER_AUTHORITY = "com.android.partnerbrowsercustomizations";
+
+    /** Default timeout in ms for reading PartnerBrowserCustomizations provider. */
+    private static final int DEFAULT_TIMEOUT_MS = 10_000;
 
     private static final int HOMEPAGE_URL_MAX_LENGTH = 1000;
     // Private homepage structure.
@@ -228,8 +230,7 @@ public class PartnerBrowserCustomizations {
     /**
      * @return Whether partner bookmarks editing is disabled by the partner.
      */
-    @VisibleForTesting
-    boolean isBookmarksEditingDisabled() {
+    public boolean isBookmarksEditingDisabled() {
         return mBookmarksEditingDisabled;
     }
 
@@ -272,13 +273,22 @@ public class PartnerBrowserCustomizations {
      * Constructs an async task that reads PartnerBrowserCustomization provider.
      *
      * @param context   The current application context.
+     */
+    public void initializeAsync(final Context context) {
+        initializeAsync(context, DEFAULT_TIMEOUT_MS);
+    }
+
+    /**
+     * Constructs an async task that reads PartnerBrowserCustomization provider.
+     *
+     * @param context   The current application context.
      * @param timeoutMs If initializing takes more than this time, cancels it. The unit is ms.
      */
-    public void initializeAsync(final Context context, long timeoutMs) {
+    @VisibleForTesting
+    void initializeAsync(final Context context, long timeoutMs) {
         mIsInitialized = false;
         // Setup an initializing async task.
         final AsyncTask<Void> initializeAsyncTask = new AsyncTask<Void>() {
-            private boolean mDisablePartnerBookmarksShim;
             private boolean mHomepageUriChanged;
 
             private void refreshHomepage(Provider provider) {
@@ -306,13 +316,7 @@ public class PartnerBrowserCustomizations {
 
             private void refreshBookmarksEditingDisabled(Provider provider) {
                 try {
-                    boolean disabled = provider.isBookmarksEditingDisabled();
-                    // Only need to disable it once.
-                    if (disabled != mBookmarksEditingDisabled) {
-                        assert disabled;
-                        mDisablePartnerBookmarksShim = true;
-                    }
-                    mBookmarksEditingDisabled = disabled;
+                    mBookmarksEditingDisabled = provider.isBookmarksEditingDisabled();
                 } catch (Exception e) {
                     Log.w(TAG, "Partner disable bookmarks editing read failed : ", e);
                 }
@@ -367,11 +371,6 @@ public class PartnerBrowserCustomizations {
 
                 if (mHomepageUriChanged && mListener != null) {
                     mListener.onHomepageUpdate();
-                }
-
-                // Disable partner bookmarks editing if necessary.
-                if (mDisablePartnerBookmarksShim) {
-                    PartnerBookmarksReader.disablePartnerBookmarksEditing();
                 }
             }
         };
