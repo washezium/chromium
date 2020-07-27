@@ -39,6 +39,7 @@
 #include "content/browser/feature_observer.h"
 #include "content/browser/frame_host/back_forward_cache_metrics.h"
 #include "content/browser/frame_host/should_swap_browsing_instance.h"
+#include "content/browser/idle/idle_manager_impl.h"
 #include "content/browser/net/cross_origin_opener_policy_reporter.h"
 #include "content/browser/renderer_host/media/render_frame_audio_input_stream_factory.h"
 #include "content/browser/renderer_host/media/render_frame_audio_output_stream_factory.h"
@@ -1286,6 +1287,8 @@ class CONTENT_EXPORT RenderFrameHostImpl
   void BindSerialService(
       mojo::PendingReceiver<blink::mojom::SerialService> receiver);
 #endif
+
+  IdleManager* GetIdleManagerForTesting() override;
 
   void GetIdleManager(
       mojo::PendingReceiver<blink::mojom::IdleManager> receiver);
@@ -2577,6 +2580,9 @@ class CONTENT_EXPORT RenderFrameHostImpl
 
   // GeolocationService which provides Geolocation.
   std::unique_ptr<GeolocationServiceImpl> geolocation_service_;
+
+  // IdleManager which provides Idle status.
+  std::unique_ptr<IdleManagerImpl> idle_manager_;
 
   // SensorProvider proxy which acts as a gatekeeper to the real SensorProvider.
   std::unique_ptr<SensorProviderProxyImpl> sensor_provider_proxy_;
