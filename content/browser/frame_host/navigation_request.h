@@ -36,7 +36,6 @@
 #include "content/public/browser/peak_gpu_memory_tracker.h"
 #include "content/public/browser/render_process_host_observer.h"
 #include "content/public/common/impression.h"
-#include "content/public/common/previews_state.h"
 #include "mojo/public/cpp/bindings/associated_remote.h"
 #include "mojo/public/cpp/bindings/pending_associated_remote.h"
 #include "mojo/public/cpp/bindings/pending_remote.h"
@@ -47,6 +46,7 @@
 #include "services/network/public/cpp/origin_policy.h"
 #include "services/network/public/mojom/blocked_by_response_reason.mojom-shared.h"
 #include "services/network/public/mojom/web_sandbox_flags.mojom-shared.h"
+#include "third_party/blink/public/common/loader/previews_state.h"
 
 #if defined(OS_ANDROID)
 #include "base/android/scoped_java_ref.h"

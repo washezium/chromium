@@ -995,9 +995,9 @@ std::unique_ptr<NavigationRequest> NavigationRequest::CreateForCommit(
           is_same_document ? mojom::NavigationType::SAME_DOCUMENT
                            : mojom::NavigationType::DIFFERENT_DOCUMENT,
           NavigationDownloadPolicy(), params.should_replace_current_entry,
-          params.base_url, params.base_url, PREVIEWS_UNSPECIFIED,
-          base::TimeTicks::Now(), params.method, nullptr,
-          network::mojom::SourceLocation::New(),
+          params.base_url, params.base_url,
+          blink::PreviewsTypes::PREVIEWS_UNSPECIFIED, base::TimeTicks::Now(),
+          params.method, nullptr, network::mojom::SourceLocation::New(),
           false /* started_from_context_menu */,
           params.gesture == NavigationGestureUser, CreateInitiatorCSPInfo(),
           std::vector<int>() /* initiator_origin_trial_features */,
@@ -2552,7 +2552,7 @@ void NavigationRequest::OnRequestFailedInternal(
   // anymore from now while the error page is being loaded.
   loader_.reset();
 
-  common_params_->previews_state = PREVIEWS_OFF;
+  common_params_->previews_state = blink::PreviewsTypes::PREVIEWS_OFF;
   if (status.ssl_info.has_value())
     ssl_info_ = status.ssl_info;
 

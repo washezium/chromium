@@ -813,7 +813,8 @@ RenderFrameHostImpl::RenderFrameHostImpl(
       has_selection_(false),
       is_audible_(false),
       should_virtual_keyboard_overlay_content_(false),
-      last_navigation_previews_state_(PREVIEWS_UNSPECIFIED),
+      last_navigation_previews_state_(
+          blink::PreviewsTypes::PREVIEWS_UNSPECIFIED),
       waiting_for_init_(renderer_initiated_creation),
       has_focused_editable_element_(false),
       push_messaging_manager_(

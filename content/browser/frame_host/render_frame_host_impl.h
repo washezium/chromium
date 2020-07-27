@@ -62,7 +62,6 @@
 #include "content/public/browser/render_frame_host.h"
 #include "content/public/browser/render_process_host_observer.h"
 #include "content/public/common/javascript_dialog_type.h"
-#include "content/public/common/previews_state.h"
 #include "media/mojo/mojom/interface_factory.mojom-forward.h"
 #include "media/mojo/mojom/media_metrics_provider.mojom-forward.h"
 #include "media/mojo/services/media_metrics_provider.h"
@@ -91,6 +90,7 @@
 #include "services/viz/public/mojom/hit_test/input_target_client.mojom.h"
 #include "third_party/blink/public/common/feature_policy/document_policy.h"
 #include "third_party/blink/public/common/feature_policy/feature_policy.h"
+#include "third_party/blink/public/common/loader/previews_state.h"
 #include "third_party/blink/public/mojom/bluetooth/web_bluetooth.mojom.h"
 #include "third_party/blink/public/mojom/choosers/file_chooser.mojom.h"
 #include "third_party/blink/public/mojom/choosers/popup_menu.mojom.h"
@@ -983,7 +983,7 @@ class CONTENT_EXPORT RenderFrameHostImpl
   // Returns the PreviewsState of the last successful navigation
   // that made a network request. The PreviewsState is a bitmask of potentially
   // several Previews optimizations.
-  PreviewsState last_navigation_previews_state() const {
+  blink::PreviewsState last_navigation_previews_state() const {
     return last_navigation_previews_state_;
   }
 
@@ -2699,7 +2699,7 @@ class CONTENT_EXPORT RenderFrameHostImpl
   // The Previews state of the last navigation. This is used during history
   // navigation of subframes to ensure that subframes navigate with the same
   // Previews status as the top-level frame.
-  PreviewsState last_navigation_previews_state_;
+  blink::PreviewsState last_navigation_previews_state_;
 
   // This boolean indicates whether the RenderFrame has committed *any*
   // navigation or not. Starts off false and is set to true for the lifetime of
