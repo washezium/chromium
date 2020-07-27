@@ -596,6 +596,7 @@ jumbo_component("platform") {
     "fonts/font_matching_metrics.h",
     "fonts/font_metrics.cc",
     "fonts/font_metrics.h",
+    "fonts/font_metrics_override.h",
     "fonts/font_optical_sizing.cc",
     "fonts/font_optical_sizing.h",
     "fonts/font_orientation.cc",

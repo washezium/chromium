@@ -433,6 +433,10 @@
       status: "experimental",
     },
     {
+      name: "CSSFontMetricsOverride",
+      status: "test",
+    },
+    {
       name: "CSSFontSizeAdjust",
       status: "experimental",
     },
