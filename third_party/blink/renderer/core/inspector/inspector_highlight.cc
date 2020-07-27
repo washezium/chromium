@@ -566,6 +566,7 @@ std::unique_ptr<protocol::ListValue> BuildGridLineNames(
       direction == kForColumns ? layout_grid->StyleRef().NamedGridColumnLines()
                                : layout_grid->StyleRef().NamedGridRowLines();
   LayoutUnit gap = layout_grid->GridGap(direction);
+  LayoutUnit firstOffset = tracks.front();
 
   for (const auto& item : named_lines_map) {
     const String& name = item.key;
@@ -580,7 +581,7 @@ std::unique_ptr<protocol::ListValue> BuildGridLineNames(
       LayoutUnit gap_offset =
           index > 0 && index < tracks.size() - 1 ? gap / 2 : LayoutUnit();
       line->setValue("offset", protocol::FundamentalValue::create(
-                                   (track - gap_offset) * scale));
+                                   (track - gap_offset - firstOffset) * scale));
 
       lines->pushValue(std::move(line));
     }
