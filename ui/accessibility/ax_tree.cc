@@ -1353,10 +1353,8 @@ bool AXTree::ComputePendingChangesToNode(const AXNodeData& new_data,
       if (!update_state->IncrementPendingCreateNodeCount(child_id,
                                                          new_data.id)) {
         error_ = base::StringPrintf(
-            "Node %d from |new_child_id_set| is already pending for "
-            "creation, cannot be a new child (of parent %d)\n"
-            "Parent Node info:\n%s",
-            child_id, new_data.id, new_data.ToString().c_str());
+            "Node %d is already pending for creation, cannot be a new child",
+            child_id);
         return false;
       }
     }
@@ -1408,10 +1406,8 @@ bool AXTree::ComputePendingChangesToNode(const AXNodeData& new_data,
       if (!update_state->IncrementPendingCreateNodeCount(child_id,
                                                          new_data.id)) {
         error_ = base::StringPrintf(
-            "Node %d from |create_or_destroy_ids| is already pending for "
-            "creation, cannot be a new child (of parent %d)\n"
-            "Parent Node info:\n%s",
-            child_id, new_data.id, new_data.ToString().c_str());
+            "Node %d is already pending for creation, cannot be a new child",
+            child_id);
         return false;
       }
     } else {

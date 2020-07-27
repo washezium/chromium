@@ -2019,7 +2019,7 @@ class TranslateManagerWithMainFrameLanguageDetectionBrowserTest
 // TODO(https://crbug.com/1106620): Disabled due to flake and crashes.
 IN_PROC_BROWSER_TEST_F(
     TranslateManagerWithMainFrameLanguageDetectionBrowserTest,
-    TranslateIframe) {
+    DISABLED_TranslateIframe) {
   base::HistogramTester histograms;
   SetTranslateScript(kTestValidScript);
 
