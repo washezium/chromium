@@ -1114,7 +1114,7 @@
     },
     {
       name: "MediaPreservesPitch",
-      status: "experimental",
+      status: "stable",
     },
     {
       name: "MediaQueryNavigationControls",
