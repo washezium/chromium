@@ -324,6 +324,12 @@ bool TextInput::SetCompositionFromExistingText(
   return false;
 }
 
+gfx::Rect TextInput::GetAutocorrectCharacterBounds() const {
+  // TODO(https://crbug.com/952757): Implement this method.
+  NOTIMPLEMENTED_LOG_ONCE();
+  return gfx::Rect();
+}
+
 // TODO(crbug.com/1091088) Implement setAutocorrectRange
 bool TextInput::SetAutocorrectRange(const base::string16& autocorrect_text,
                                     const gfx::Range& range) {

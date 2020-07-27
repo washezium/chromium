@@ -1846,12 +1846,26 @@ bool Textfield::SetCompositionFromExistingText(
 #endif
 
 #if defined(OS_CHROMEOS)
+gfx::Rect Textfield::GetAutocorrectCharacterBounds() const {
+  gfx::Range autocorrect_range = model_->autocorrect_range();
+  if (autocorrect_range.is_empty())
+    return gfx::Rect();
+
+  gfx::RenderText* render_text = GetRenderText();
+  const gfx::SelectionModel caret(autocorrect_range, gfx::CURSOR_BACKWARD);
+  gfx::Rect rect;
+  rect = render_text->GetCursorBounds(caret, false);
+
+  ConvertRectToScreen(this, &rect);
+  return rect;
+}
+
 bool Textfield::SetAutocorrectRange(const base::string16& autocorrect_text,
                                     const gfx::Range& range) {
   base::UmaHistogramEnumeration("InputMethod.Assistive.Autocorrect.Count",
                                 TextInputClient::SubClass::kTextField);
-  // TODO(crbug.com/1091088) Implement autocorrect range textfield handling.
-  return false;
+  model_->SetAutocorrectRange(autocorrect_text, range);
+  return true;
 }
 #endif
 

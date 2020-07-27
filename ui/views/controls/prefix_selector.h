@@ -83,6 +83,7 @@ class VIEWS_EXPORT PrefixSelector : public ui::TextInputClient {
 #endif
 
 #if defined(OS_CHROMEOS)
+  gfx::Rect GetAutocorrectCharacterBounds() const override;
   bool SetAutocorrectRange(const base::string16& autocorrect_text,
                            const gfx::Range& range) override;
 #endif

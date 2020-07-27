@@ -153,6 +153,10 @@ bool DummyTextInputClient::SetCompositionFromExistingText(
 #endif
 
 #if defined(OS_CHROMEOS)
+gfx::Rect DummyTextInputClient::GetAutocorrectCharacterBounds() const {
+  return gfx::Rect();
+}
+
 bool DummyTextInputClient::SetAutocorrectRange(
     const base::string16& autocorrect_text,
     const gfx::Range& range) {

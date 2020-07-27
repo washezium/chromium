@@ -753,6 +753,33 @@ void TextfieldModel::SetCompositionText(
   }
 }
 
+#if defined(OS_CHROMEOS)
+bool TextfieldModel::SetAutocorrectRange(const base::string16& autocorrect_text,
+                                         const gfx::Range& autocorrect_range) {
+  // TODO(crbug.com/1108170): Use original text to create the Undo window.
+  original_text_ = render_text_->GetTextFromRange(autocorrect_range);
+  uint32_t autocorrect_range_start = autocorrect_range.start();
+
+  // TODO(crbug.com/1108170): Update the autocorrect range when the composition
+  // changes for ChromeOS. The current autocorrect_range_ does not get updated
+  // when composition changes or more text is committed.
+  autocorrect_range_ =
+      gfx::Range(autocorrect_range_start,
+                 autocorrect_text.length() + autocorrect_range_start);
+
+  base::string16 before_text =
+      render_text_->GetTextFromRange(gfx::Range(0, autocorrect_range.start()));
+  base::string16 after_text = render_text_->GetTextFromRange(gfx::Range(
+      autocorrect_range.end(),
+      std::max(autocorrect_range.end(),
+               static_cast<uint32_t>(render_text_->text().length()))));
+  base::string16 new_text =
+      before_text.append(autocorrect_text).append(after_text);
+  SetRenderTextText(new_text);
+  return true;
+}
+#endif
+
 void TextfieldModel::SetCompositionFromExistingText(const gfx::Range& range) {
   if (range.is_empty() || !gfx::Range(0, text().length()).Contains(range)) {
     ClearComposition();

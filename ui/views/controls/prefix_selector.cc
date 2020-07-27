@@ -172,6 +172,11 @@ bool PrefixSelector::SetCompositionFromExistingText(
 #endif
 
 #if defined(OS_CHROMEOS)
+gfx::Rect PrefixSelector::GetAutocorrectCharacterBounds() const {
+  NOTIMPLEMENTED_LOG_ONCE();
+  return gfx::Rect();
+}
+
 bool PrefixSelector::SetAutocorrectRange(const base::string16& autocorrect_text,
                                          const gfx::Range& range) {
   // TODO(crbug.com/1091088) Implement setAutocorrectRange.

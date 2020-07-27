@@ -628,6 +628,12 @@ bool ArcImeService::SetCompositionFromExistingText(
   return false;
 }
 
+gfx::Rect ArcImeService::GetAutocorrectCharacterBounds() const {
+  // TODO(https://crbug.com/952757): Implement this method.
+  NOTIMPLEMENTED_LOG_ONCE();
+  return gfx::Rect();
+}
+
 bool ArcImeService::SetAutocorrectRange(const base::string16& autocorrect_text,
                                         const gfx::Range& range) {
   base::UmaHistogramEnumeration("InputMethod.Assistive.Autocorrect.Count",

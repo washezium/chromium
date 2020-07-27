@@ -63,6 +63,8 @@ class DummyTextInputClient : public TextInputClient {
 #endif
 
 #if defined(OS_CHROMEOS)
+  gfx::Rect GetAutocorrectCharacterBounds() const override;
+
   // Set the autocorrect range
   bool SetAutocorrectRange(const base::string16& autocorrect_text,
                            const gfx::Range& range) override;
