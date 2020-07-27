@@ -705,9 +705,6 @@ void AppendSwitchesFromExperimentalSettings(base::CommandLine* command_line) {
       base::SysUTF8ToNSString(policy::key::kAutofillCreditCardEnabled),
       base::SysUTF8ToNSString(policy::key::kChromeVariations),
       base::SysUTF8ToNSString(policy::key::kDefaultPopupsSetting),
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderEnabled),
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderSearchURL),
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderKeyword),
       base::SysUTF8ToNSString(policy::key::kPasswordManagerEnabled)
     ];
 
@@ -723,13 +720,6 @@ void AppendSwitchesFromExperimentalSettings(base::CommandLine* command_line) {
 
       // 2 = Do not allow any site to show popups
       base::SysUTF8ToNSString(policy::key::kDefaultPopupsSetting) : @2,
-
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderEnabled) :
-          @YES,
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderSearchURL) :
-          @"http://www.google.com/?q={searchTerms}",
-      base::SysUTF8ToNSString(policy::key::kDefaultSearchProviderKeyword) :
-          @"google",
 
       base::SysUTF8ToNSString(policy::key::kPasswordManagerEnabled) : @NO,
     };
