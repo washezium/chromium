@@ -207,6 +207,7 @@
 #include "components/dom_distiller/core/url_constants.h"
 #include "components/embedder_support/switches.h"
 #include "components/error_page/common/error_page_switches.h"
+#include "components/error_page/content/browser/net_error_auto_reloader.h"
 #include "components/feature_engagement/public/feature_constants.h"
 #include "components/feature_engagement/public/feature_list.h"
 #include "components/google/core/common/google_switches.h"
@@ -1117,6 +1118,18 @@ void MaybeRecordSameSiteCookieEngagementHistogram(
         "CookieInsecureAndSameSiteNone",
         engagement_level);
   }
+}
+
+bool IsErrorPageAutoReloadEnabled() {
+  const base::CommandLine& command_line =
+      *base::CommandLine::ForCurrentProcess();
+  if (command_line.HasSwitch(switches::kEnableAutomation))
+    return false;
+  if (command_line.HasSwitch(switches::kEnableAutoReload))
+    return true;
+  if (command_line.HasSwitch(switches::kDisableAutoReload))
+    return false;
+  return true;
 }
 
 }  // namespace
@@ -2041,16 +2054,6 @@ bool ChromeContentBrowserClient::IsFileAccessAllowed(
 
 namespace {
 
-bool IsAutoReloadEnabled() {
-  const base::CommandLine& browser_command_line =
-      *base::CommandLine::ForCurrentProcess();
-  if (browser_command_line.HasSwitch(switches::kEnableAutoReload))
-    return true;
-  if (browser_command_line.HasSwitch(switches::kDisableAutoReload))
-    return false;
-  return true;
-}
-
 void MaybeAppendBlinkSettingsSwitchForFieldTrial(
     const base::CommandLine& browser_command_line,
     base::CommandLine* command_line) {
@@ -2301,9 +2304,6 @@ void ChromeContentBrowserClient::AppendExtraCommandLineSwitches(
             blink::switches::kUserAgentClientHintDisable);
       }
     }
-
-    if (IsAutoReloadEnabled())
-      command_line->AppendSwitch(switches::kEnableAutoReload);
 
     MaybeAppendBlinkSettingsSwitchForFieldTrial(browser_command_line,
                                                 command_line);
@@ -4110,6 +4110,12 @@ ChromeContentBrowserClient::CreateThrottlesForNavigation(
           MaybeCreateNavigationThrottle(
               handle, std::make_unique<ChromeSecurityBlockingPageFactory>()),
       &throttles);
+
+  if (IsErrorPageAutoReloadEnabled() && handle->IsInMainFrame()) {
+    MaybeAddThrottle(
+        error_page::NetErrorAutoReloader::MaybeCreateThrottleFor(handle),
+        &throttles);
+  }
 
   return throttles;
 }
