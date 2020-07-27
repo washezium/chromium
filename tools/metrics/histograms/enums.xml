@@ -37075,6 +37075,10 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="0" label="Copy"/>
 </enum>
 
+<enum name="IOSMenuScenario">
+  <int value="0" label="History Entry"/>
+</enum>
+
 <enum name="IOSNTPImpression">
   <int value="0" label="Local suggestions"/>
   <int value="1" label="Remote suggestions"/>
