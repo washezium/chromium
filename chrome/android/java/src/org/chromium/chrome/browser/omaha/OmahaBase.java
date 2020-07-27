@@ -301,9 +301,9 @@ public class OmahaBase {
     }
 
     protected boolean generateAndPostRequest(long currentTimestamp, String sessionID) {
-        return generateAndPostRequest(
-                       currentTimestamp, sessionID, mCurrentRequest, mTimestampOfInstall)
-                != null;
+        mVersionConfig = generateAndPostRequest(
+                currentTimestamp, sessionID, mCurrentRequest, mTimestampOfInstall);
+        return mVersionConfig != null;
     }
 
     protected VersionConfig generateAndPostRequest(long currentTimestamp, String sessionID,
