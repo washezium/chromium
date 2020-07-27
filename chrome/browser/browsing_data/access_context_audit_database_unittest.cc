@@ -320,6 +320,32 @@ TEST_F(AccessContextAuditDatabaseTest, RemoveAllRecords) {
   EXPECT_EQ(0u, storage_api_rows);
 }
 
+TEST_F(AccessContextAuditDatabaseTest, RemoveAllRecordsForTimeRange) {
+  // Check that records within the specified time range are removed.
+  auto test_records = GetTestRecords();
+  OpenDatabase();
+  database()->AddRecords(test_records);
+  ValidateDatabaseRecords(database(), test_records);
+
+  auto begin_time =
+      base::Time::FromDeltaSinceWindowsEpoch(base::TimeDelta::FromHours(4));
+  auto end_time =
+      base::Time::FromDeltaSinceWindowsEpoch(base::TimeDelta::FromHours(6));
+
+  database()->RemoveAllRecordsForTimeRange(begin_time, end_time);
+
+  test_records.erase(
+      std::remove_if(
+          test_records.begin(), test_records.end(),
+          [=](const AccessContextAuditDatabase::AccessRecord& record) {
+            return record.last_access_time >= begin_time &&
+                   record.last_access_time <= end_time;
+          }),
+      test_records.end());
+
+  ValidateDatabaseRecords(database(), test_records);
+}
+
 TEST_F(AccessContextAuditDatabaseTest, RemoveAllCookieRecords) {
   // Check that all matching cookie records are removed from the database.
   auto test_records = GetTestRecords();

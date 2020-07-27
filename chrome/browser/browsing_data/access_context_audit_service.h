@@ -56,6 +56,10 @@ class AccessContextAuditService : public KeyedService,
   void OnURLsDeleted(history::HistoryService* history_service,
                      const history::DeletionInfo& deletion_info) override;
 
+  // Override the internal clock used to record storage API access timestamps
+  // and check for expired cookies.
+  void SetClockForTesting(base::Clock* clock);
+
   // Override internal task runner with provided task runner. Must be called
   // before Init().
   void SetTaskRunnerForTesting(
@@ -71,6 +75,7 @@ class AccessContextAuditService : public KeyedService,
   scoped_refptr<AccessContextAuditDatabase> database_;
   scoped_refptr<base::SequencedTaskRunner> database_task_runner_;
 
+  base::Clock* clock_;
   Profile* profile_;
 
   mojo::Receiver<network::mojom::CookieChangeListener>

@@ -88,6 +88,9 @@ class AccessContextAuditDatabase
   // Removes all records from the the database.
   void RemoveAllRecords();
 
+  // Removes all records where |begin| <= record.last_access_time <= |end|.
+  void RemoveAllRecordsForTimeRange(base::Time begin, base::Time end);
+
   // Removes all records that match the provided cookie details.
   void RemoveAllRecordsForCookie(const std::string& name,
                                  const std::string& domain,

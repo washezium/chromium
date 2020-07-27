@@ -7,6 +7,7 @@
 #include "base/files/scoped_temp_dir.h"
 #include "base/i18n/time_formatting.h"
 #include "base/test/scoped_feature_list.h"
+#include "base/test/simple_test_clock.h"
 #include "base/test/test_simple_task_runner.h"
 #include "chrome/browser/browsing_data/access_context_audit_database.h"
 #include "chrome/browser/browsing_data/access_context_audit_service_factory.h"
@@ -146,6 +147,7 @@ class AccessContextAuditServiceTest : public testing::Test {
   void ClearReturnedRecords() { records_.clear(); }
 
   TestCookieManager* cookie_manager() { return &cookie_manager_; }
+  base::SimpleTestClock* clock() { return &clock_; }
   TestingProfile* profile() { return profile_.get(); }
   history::HistoryService* history_service() { return history_service_; }
   AccessContextAuditService* service() {
@@ -155,6 +157,7 @@ class AccessContextAuditServiceTest : public testing::Test {
  protected:
   content::BrowserTaskEnvironment browser_task_environment_;
   std::unique_ptr<TestingProfile> profile_;
+  base::SimpleTestClock clock_;
   base::ScopedTempDir temp_directory_;
   TestCookieManager cookie_manager_;
   history::HistoryService* history_service_;
@@ -392,6 +395,93 @@ TEST_F(AccessContextAuditServiceTest, AllHistoryDeletion) {
                      base::Unretained(this)));
   browser_task_environment_.RunUntilIdle();
   EXPECT_EQ(0u, GetReturnedRecords().size());
+}
+
+TEST_F(AccessContextAuditServiceTest, TimeRangeHistoryDeletion) {
+  // Test that deleting a time range of history records correctly removes
+  // records within the time range, as well as records for which no history
+  // entry for the top frame origin remains.
+
+  // Create a situation where origin https://foo.com has history entries and
+  // access records with timestamps both inside and outside the deleted range.
+  // Additionally create a single history entry for origin https://bar.com
+  // inside the deleted range, and multiple access records outside the range.
+  // After deletion, the access records for https://foo.com outside the deletion
+  // range should still be present, while all access records https://bar.com
+  // should have been removed.
+
+  const GURL kURL1 = GURL("https://foo.com/example.html");
+  const GURL kURL2 = GURL("https://bar.com/another.html");
+  const url::Origin kOrigin1 = url::Origin::Create(kURL1);
+  const url::Origin kOrigin2 = url::Origin::Create(kURL2);
+  const GURL kTestCookieURL = GURL("https://test.com");
+  const auto kTestStorageType1 =
+      AccessContextAuditDatabase::StorageAPIType::kWebDatabase;
+  const auto kTestStorageType2 =
+      AccessContextAuditDatabase::StorageAPIType::kAppCache;
+
+  clock()->SetNow(base::Time::Now());
+  service()->SetClockForTesting(clock());
+  const base::Time kInsideTimeRange =
+      clock()->Now() + base::TimeDelta::FromHours(1);
+  const base::Time kOutsideTimeRange =
+      clock()->Now() + base::TimeDelta::FromHours(3);
+
+  history_service()->AddPageWithDetails(kURL1, base::ASCIIToUTF16("Test1"), 1,
+                                        1, kInsideTimeRange, false,
+                                        history::SOURCE_BROWSED);
+  history_service()->AddPageWithDetails(kURL2, base::ASCIIToUTF16("Test2"), 1,
+                                        1, kInsideTimeRange, false,
+                                        history::SOURCE_BROWSED);
+  history_service()->AddPageWithDetails(kURL1, base::ASCIIToUTF16("Test3"), 1,
+                                        1, kOutsideTimeRange, false,
+                                        history::SOURCE_BROWSED);
+
+  // Record accesses to cookies both inside and outside the deletion range.
+  auto cookie_accessed_in_range = net::CanonicalCookie::Create(
+      kTestCookieURL, "inside=1; max-age=3600", kInsideTimeRange,
+      base::nullopt /* server_time */);
+  auto cookie_accessed_outside_range = net::CanonicalCookie::Create(
+      kTestCookieURL, "outside=1; max-age=3600", kOutsideTimeRange,
+      base::nullopt /* server_time */);
+
+  service()->RecordCookieAccess({*cookie_accessed_in_range}, kOrigin1);
+  service()->RecordCookieAccess({*cookie_accessed_outside_range}, kOrigin1);
+  service()->RecordCookieAccess({*cookie_accessed_outside_range}, kOrigin2);
+
+  // Record accesses to storage APIs both inside and outside the deletion range.
+  clock()->SetNow(kInsideTimeRange);
+  service()->RecordStorageAPIAccess(kOrigin1, kTestStorageType1, kOrigin1);
+  clock()->SetNow(kOutsideTimeRange);
+  service()->RecordStorageAPIAccess(kOrigin1, kTestStorageType2, kOrigin1);
+  service()->RecordStorageAPIAccess(kOrigin2, kTestStorageType1, kOrigin2);
+
+  // Ensure all records have been initially recorded.
+  service()->GetAllAccessRecords(
+      base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
+                     base::Unretained(this)));
+  browser_task_environment_.RunUntilIdle();
+  EXPECT_EQ(6u, GetReturnedRecords().size());
+
+  // Expire history in target time range.
+  base::RunLoop run_loop;
+  base::CancelableTaskTracker task_tracker;
+  history_service()->ExpireHistoryBetween(
+      std::set<GURL>(), kInsideTimeRange - base::TimeDelta::FromMinutes(10),
+      kInsideTimeRange + base::TimeDelta::FromMinutes(10),
+      /*user_initiated*/ true, run_loop.QuitClosure(), &task_tracker);
+  run_loop.Run();
+
+  // Ensure records have been removed as expected.
+  service()->GetAllAccessRecords(
+      base::BindOnce(&AccessContextAuditServiceTest::AccessRecordCallback,
+                     base::Unretained(this)));
+  browser_task_environment_.RunUntilIdle();
+  EXPECT_EQ(2u, GetReturnedRecords().size());
+  CheckContainsCookieRecord(cookie_accessed_outside_range.get(), kOrigin1,
+                            GetReturnedRecords());
+  CheckContainsStorageAPIRecord(kOrigin1, kTestStorageType2, kOrigin1,
+                                GetReturnedRecords());
 }
 
 TEST_F(AccessContextAuditServiceTest, SessionOnlyRecords) {

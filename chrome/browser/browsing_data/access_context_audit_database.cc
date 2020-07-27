@@ -306,6 +306,38 @@ void AccessContextAuditDatabase::RemoveAllRecords() {
   transaction.Commit();
 }
 
+void AccessContextAuditDatabase::RemoveAllRecordsForTimeRange(base::Time begin,
+                                                              base::Time end) {
+  sql::Transaction transaction(&db_);
+  if (!transaction.Begin())
+    return;
+
+  std::string remove = "DELETE FROM ";
+  remove.append(kCookieTableName);
+  remove.append(" WHERE access_utc BETWEEN ? AND ?");
+  sql::Statement remove_cookies(
+      db_.GetCachedStatement(SQL_FROM_HERE, remove.c_str()));
+  remove_cookies.BindInt64(0,
+                           begin.ToDeltaSinceWindowsEpoch().InMicroseconds());
+  remove_cookies.BindInt64(1, end.ToDeltaSinceWindowsEpoch().InMicroseconds());
+  if (!remove_cookies.Run())
+    return;
+
+  remove = "DELETE FROM ";
+  remove.append(kStorageAPITableName);
+  remove.append(" WHERE access_utc BETWEEN ? AND ?");
+  sql::Statement remove_storage_apis(
+      db_.GetCachedStatement(SQL_FROM_HERE, remove.c_str()));
+  remove_storage_apis.BindInt64(
+      0, begin.ToDeltaSinceWindowsEpoch().InMicroseconds());
+  remove_storage_apis.BindInt64(
+      1, end.ToDeltaSinceWindowsEpoch().InMicroseconds());
+  if (!remove_storage_apis.Run())
+    return;
+
+  transaction.Commit();
+}
+
 void AccessContextAuditDatabase::RemoveSessionOnlyRecords(
     scoped_refptr<content_settings::CookieSettings> cookie_settings,
     const ContentSettingsForOneType& content_settings) {
