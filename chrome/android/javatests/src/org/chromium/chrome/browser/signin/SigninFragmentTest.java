@@ -47,7 +47,6 @@ import org.chromium.chrome.test.util.ActivityUtils;
 import org.chromium.chrome.test.util.ApplicationTestUtils;
 import org.chromium.chrome.test.util.ChromeRenderTestRule;
 import org.chromium.chrome.test.util.browser.sync.SyncTestUtil;
-import org.chromium.components.signin.ChromeSigninController;
 import org.chromium.components.signin.metrics.SigninAccessPoint;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
 import org.chromium.content_public.browser.test.util.TestThreadUtils;
@@ -164,8 +163,6 @@ public class SigninFragmentTest {
                     .getIdentityManager()
                     .hasPrimaryAccount();
         }, CriteriaHelper.DEFAULT_MAX_TIME_TO_POLL, CriteriaHelper.DEFAULT_POLLING_INTERVAL);
-        // TODO(https://crbug.com/1041815): Usage of ChromeSigninController should be removed later
-        Assert.assertTrue(ChromeSigninController.get().isSignedIn());
         Assert.assertTrue(SyncTestUtil.isSyncRequested());
         TestThreadUtils.runOnUiThreadBlocking(
                 () -> { Assert.assertFalse(ProfileSyncService.get().isFirstSetupComplete()); });
