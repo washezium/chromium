@@ -81,6 +81,10 @@
 # for correct re-flowing of the text.
 # [1] https://www.chromium.org/developers/tools-we-use-in-chromium/grit/grit-users-guide.
 #
+# See documentation in docs/enterprise/components/policy/resources/description_guidelines.md
+# for how product names should appear in <ph> tags to ensure consistency.
+#
+#
 # Generated grd names:
 #   Each name has two parts: the second part is either CAPTION, DESC or LABEL,
 #   and the first part identifies the item the text applies to:
