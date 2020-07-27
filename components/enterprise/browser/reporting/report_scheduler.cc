@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/enterprise/reporting/report_scheduler.h"
+#include "components/enterprise/browser/reporting/report_scheduler.h"
 
 #include <string>
 #include <utility>
@@ -13,9 +13,9 @@
 #include "base/task/post_task.h"
 #include "base/time/time.h"
 #include "build/build_config.h"
-#include "chrome/browser/enterprise/reporting/reporting_delegate_factory_desktop.h"
 #include "components/enterprise/browser/controller/browser_dm_token_storage.h"
 #include "components/enterprise/browser/reporting/common_pref_names.h"
+#include "components/enterprise/browser/reporting/reporting_delegate_factory.h"
 #include "components/policy/core/common/cloud/cloud_policy_client.h"
 #include "components/policy/core/common/cloud/device_management_service.h"
 #include "components/prefs/pref_service.h"
@@ -44,7 +44,7 @@ void ReportScheduler::Delegate::SetReportTriggerCallback(
 ReportScheduler::ReportScheduler(
     policy::CloudPolicyClient* client,
     std::unique_ptr<ReportGenerator> report_generator,
-    ReportingDelegateFactoryDesktop* delegate_factory)
+    ReportingDelegateFactory* delegate_factory)
     : ReportScheduler(std::move(client),
                       std::move(report_generator),
                       delegate_factory->GetReportSchedulerDelegate()) {}

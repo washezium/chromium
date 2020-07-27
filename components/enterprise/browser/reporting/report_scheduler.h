@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_SCHEDULER_H_
-#define CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_SCHEDULER_H_
+#ifndef COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_SCHEDULER_H_
+#define COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_SCHEDULER_H_
 
 #include <stdint.h>
 #include <memory>
@@ -24,12 +24,13 @@ class CloudPolicyClient;
 
 namespace enterprise_reporting {
 
-class ReportingDelegateFactoryDesktop;
+class ReportingDelegateFactory;
 
-// Schedules report generation and upload every 24 hours and upon browser update
-// for desktop Chrome while cloud reporting is enabled via administrative
-// policy. If either of these triggers fires while a report is being generated,
-// processing is deferred until the existing processing completes.
+// Schedules report generation and upload every 24 hours (and upon browser
+// update for desktop Chrome) while cloud reporting is enabled via
+// administrative policy. If either of these triggers fires while a report is
+// being generated, processing is deferred until the existing processing
+// completes.
 class ReportScheduler {
  public:
   // The trigger leading to report generation. Values are bitmasks in the
@@ -66,7 +67,7 @@ class ReportScheduler {
 
   ReportScheduler(policy::CloudPolicyClient* client,
                   std::unique_ptr<ReportGenerator> report_generator,
-                  ReportingDelegateFactoryDesktop* delegate_factory);
+                  ReportingDelegateFactory* delegate_factory);
 
   ReportScheduler(policy::CloudPolicyClient* client,
                   std::unique_ptr<ReportGenerator> report_generator,
@@ -150,4 +151,4 @@ class ReportScheduler {
 
 }  // namespace enterprise_reporting
 
-#endif  // CHROME_BROWSER_ENTERPRISE_REPORTING_REPORT_SCHEDULER_H_
+#endif  // COMPONENTS_ENTERPRISE_BROWSER_REPORTING_REPORT_SCHEDULER_H_
