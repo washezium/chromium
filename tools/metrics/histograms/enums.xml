@@ -52220,7 +52220,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="424" label="Sleep When Laptop Lid is Closed"/>
   <int value="425" label="Display: Resolution"/>
   <int value="426" label="Display: Refresh Rate"/>
-  <int value="427" label="Remove DLC"/>
+  <int value="427" label="Remove DLC (Deprecated)"/>
   <int value="428" label="Display: Mirroring"/>
   <int value="429" label="Allow Windows To Span Displays"/>
   <int value="430" label="Ambient Colors"/>
@@ -52385,7 +52385,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="403" label="Display"/>
   <int value="404" label="Storage"/>
   <int value="405" label="External Storage"/>
-  <int value="406" label="DLC"/>
+  <int value="406" label="DLC (Deprecated)"/>
   <int value="407" label="Power"/>
   <int value="500" label="Change Picture"/>
   <int value="501" label="Ambient Mode"/>

@@ -970,9 +970,6 @@ extern const char kNewOsSettingsSearchDescription[];
 extern const char kOsSettingsDeepLinkingName[];
 extern const char kOsSettingsDeepLinkingDescription[];
 
-extern const char kDlcSettingsUiName[];
-extern const char kDlcSettingsUiDescription[];
-
 extern const char kEnableDeJellyName[];
 extern const char kEnableDeJellyDescription[];
 

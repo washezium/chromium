@@ -938,11 +938,6 @@
     "expiry_milestone": 89
   },
   {
-    "name": "dlc-settings-ui",
-    "owners": [ "cros-customization@google.com", "hsuregan" ],
-    "expiry_milestone": 86
-  },
-  {
     "name": "dns-httpssvc",
     "owners": [ "dmcardle", "ericorth" ],
     "expiry_milestone": 88
