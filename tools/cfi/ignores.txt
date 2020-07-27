@@ -1,3 +1,6 @@
+# This file defines which warnings should be ignored while running clang's
+# control flow integrity sanitizer, as run by the cfi_flags build target.
+
 [cfi-unrelated-cast|cfi-derived-cast]
 
 # e.g. RolloverProtectedTickClock
@@ -141,7 +144,7 @@ src:*ppapi/*
 src:*content/renderer/pepper*
 fun:*PpapiThread*
 fun:*BrokerProcessDispatcher*
-# Blacklist base::Callback due to https://crbug.com/845855
+# Ignore base::Callback due to https://crbug.com/845855
 fun:*FunctorTraits*
 
 # PipeWire due to https://crbug.com/926115
