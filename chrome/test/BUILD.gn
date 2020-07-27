@@ -3675,6 +3675,7 @@ test("unit_tests") {
       "../browser/nearby_sharing/transfer_metadata_builder.cc",
       "../browser/nearby_sharing/transfer_metadata_builder.h",
       "../browser/nearby_sharing/webrtc_signaling_messenger_unittest.cc",
+      "../browser/password_manager/generated_password_leak_detection_pref_unittest.cc",
       "../browser/performance_manager/test_support/page_discarding_utils.cc",
       "../browser/performance_manager/test_support/page_discarding_utils.h",
       "../browser/profiles/profile_avatar_icon_util_unittest.cc",

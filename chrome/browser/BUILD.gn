@@ -3357,6 +3357,8 @@ static_library("browser") {
       "obsolete_system/obsolete_system.h",
       "page_load_metrics/observers/session_restore_page_load_metrics_observer.cc",
       "page_load_metrics/observers/session_restore_page_load_metrics_observer.h",
+      "password_manager/generated_password_leak_detection_pref.cc",
+      "password_manager/generated_password_leak_detection_pref.h",
       "performance_manager/mechanisms/page_discarder.cc",
       "performance_manager/mechanisms/page_discarder.h",
       "performance_manager/mechanisms/page_loader.cc",
