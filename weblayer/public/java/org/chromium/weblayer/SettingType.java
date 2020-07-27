@@ -37,6 +37,11 @@ public @interface SettingType {
      * This setting is disabled by default, but can also be enabled by the user by checking a
      * checkbox in the Safe Browsing interstitial which is displayed when the user encounters a
      * dangerous web page. The setting persists on disk.
+     *
+     * Note: this setting applies when Safe Browsing is enabled (i.e. BASIC_SAFE_BROWSING_ENABLED
+     * is true).
+     *
+     * @since 85
      */
     int EXTENDED_REPORTING_SAFE_BROWSING_ENABLED =
             org.chromium.weblayer_private.interfaces.SettingType
@@ -45,6 +50,11 @@ public @interface SettingType {
     /**
      * Allows the embedder to set whether it wants to enable/disable the Safe Browsing Real-time URL
      * checks. This functionality is disabled by default.
+     *
+     * Note: this setting applies when Safe Browsing is enabled (i.e. BASIC_SAFE_BROWSING_ENABLED
+     * is true).
+     *
+     * @since 85
      */
     int REAL_TIME_SAFE_BROWSING_ENABLED =
             org.chromium.weblayer_private.interfaces.SettingType.REAL_TIME_SAFE_BROWSING_ENABLED;
