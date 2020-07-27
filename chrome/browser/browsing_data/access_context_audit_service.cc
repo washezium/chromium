@@ -21,7 +21,8 @@ AccessContextAuditService::~AccessContextAuditService() = default;
 
 bool AccessContextAuditService::Init(
     const base::FilePath& database_dir,
-    network::mojom::CookieManager* cookie_manager) {
+    network::mojom::CookieManager* cookie_manager,
+    history::HistoryService* history_service) {
   database_ = base::MakeRefCounted<AccessContextAuditDatabase>(database_dir);
 
   // Tests may have provided a task runner already.
@@ -41,7 +42,7 @@ bool AccessContextAuditService::Init(
 
   cookie_manager->AddGlobalChangeListener(
       cookie_listener_receiver_.BindNewPipeAndPassRemote());
-
+  history_observer_.Add(history_service);
   return true;
 }
 
@@ -108,6 +109,35 @@ void AccessContextAuditService::OnCookieChange(
                          database_, change.cookie.Name(),
                          change.cookie.Domain(), change.cookie.Path()));
     }
+  }
+}
+
+void AccessContextAuditService::OnURLsDeleted(
+    history::HistoryService* history_service,
+    const history::DeletionInfo& deletion_info) {
+  if (deletion_info.IsAllHistory()) {
+    database_task_runner_->PostTask(
+        FROM_HERE, base::BindOnce(&AccessContextAuditDatabase::RemoveAllRecords,
+                                  database_));
+    return;
+  }
+
+  std::vector<url::Origin> deleted_origins;
+  // Map is of type {Origin -> {Count, LastVisitTime}}.
+  for (const auto& origin_urls_remaining :
+       deletion_info.deleted_urls_origin_map()) {
+    if (origin_urls_remaining.second.first > 0)
+      continue;
+    deleted_origins.emplace_back(
+        url::Origin::Create(origin_urls_remaining.first));
+  }
+
+  if (deleted_origins.size() > 0) {
+    database_task_runner_->PostTask(
+        FROM_HERE,
+        base::BindOnce(
+            &AccessContextAuditDatabase::RemoveAllRecordsForTopFrameOrigins,
+            database_, std::move(deleted_origins)));
   }
 }
 
