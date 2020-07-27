@@ -790,6 +790,9 @@ static void UpdateAnimationBaseComputedStyle(StyleResolverState& state,
   if (!state.GetAnimatingElement())
     return;
 
+  if (!state.CanCacheBaseStyle())
+    return;
+
   if (forced_update)
     state.GetAnimatingElement()->EnsureElementAnimations();
 
@@ -831,6 +834,7 @@ scoped_refptr<ComputedStyle> StyleResolver::StyleForElement(
   bool can_cache_animation_base_computed_style =
       !default_parent && !default_layout_parent &&
       matching_behavior == kMatchAllRules;
+  state.SetCanCacheBaseStyle(can_cache_animation_base_computed_style);
 
   STACK_UNINITIALIZED StyleCascade cascade(state);
 
@@ -1105,6 +1109,7 @@ scoped_refptr<ComputedStyle> StyleResolver::PseudoStyleForElement(
     MaybeResetCascade(cascade);
   }
 
+  state.SetCanCacheBaseStyle(true);
   if (ApplyAnimatedStyle(state, cascade))
     StyleAdjuster::AdjustComputedStyle(state, nullptr);
 
