@@ -2216,6 +2216,11 @@ const char kEnrollmentRecoveryRequired[] = "EnrollmentRecoveryRequired";
 // app.
 const char kHelpAppShouldShowGetStarted[] = "help_app.should_show_get_started";
 
+// Pref name for whether we should show the Parental Control module in the Help
+// app.
+const char kHelpAppShouldShowParentalControl[] =
+    "help_app.should_show_parental_control";
+
 // Pref name for whether the device was in tablet mode when going through
 // the OOBE.
 const char kHelpAppTabletModeDuringOobe[] = "help_app.tablet_mode_during_oobe";

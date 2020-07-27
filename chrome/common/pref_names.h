@@ -712,6 +712,7 @@ extern const char kOobeMarketingOptInScreenFinished[];
 extern const char kDeviceRegistered[];
 extern const char kEnrollmentRecoveryRequired[];
 extern const char kHelpAppShouldShowGetStarted[];
+extern const char kHelpAppShouldShowParentalControl[];
 extern const char kHelpAppTabletModeDuringOobe[];
 extern const char kUsedPolicyCertificates[];
 extern const char kServerBackedDeviceState[];
