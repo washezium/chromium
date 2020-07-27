@@ -281,7 +281,7 @@ public class SettingsActivity extends ChromeBaseAppCompatActivity
             framentSettingsLauncher.setSettingsLauncher(mSettingsLauncher);
         } else if (fragment instanceof SafetyCheckSettingsFragment) {
             SafetyCheckCoordinator.create((SafetyCheckSettingsFragment) fragment,
-                    new SafetyCheckUpdatesDelegateImpl(this));
+                    new SafetyCheckUpdatesDelegateImpl(this), new SettingsLauncherImpl());
         } else if (fragment instanceof PasswordCheckFragmentView) {
             PasswordCheckComponentUiFactory.create((PasswordCheckFragmentView) fragment);
         }

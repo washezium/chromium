@@ -4,13 +4,18 @@
 
 package org.chromium.chrome.browser.safety_check;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.Preference;
 
+import org.chromium.base.BuildConfig;
 import org.chromium.base.Callback;
+import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.password_check.BulkLeakCheckServiceState;
 import org.chromium.chrome.browser.preferences.ChromePreferenceKeys;
 import org.chromium.chrome.browser.preferences.SharedPreferencesManager;
@@ -18,6 +23,8 @@ import org.chromium.chrome.browser.safety_check.SafetyCheckBridge.SafetyCheckCom
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.PasswordsState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.SafeBrowsingState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.UpdatesState;
+import org.chromium.chrome.browser.settings.SettingsLauncher;
+import org.chromium.content_public.common.ContentUrlConstants;
 import org.chromium.ui.modelutil.PropertyModel;
 
 import java.lang.ref.WeakReference;
@@ -58,25 +65,62 @@ class SafetyCheckMediator implements SafetyCheckCommonObserver {
     };
 
     /**
-     * Creates a new instance of the Safety check mediator given a model and an updates client.
+     * Creates a new instance given a model, an updates client, and a settings launcher.
      *
      * @param model A model instance.
      * @param client An updates client.
+     * @param settingsLauncher An instance of the {@link SettingsLauncher} implementation.
      */
-    public SafetyCheckMediator(PropertyModel model, SafetyCheckUpdatesDelegate client) {
-        this(model, client, null, new Handler());
+    public SafetyCheckMediator(PropertyModel model, SafetyCheckUpdatesDelegate client,
+            SettingsLauncher settingsLauncher) {
+        this(model, client, settingsLauncher, null, new Handler());
         // Have to initialize this after the constructor call, since a "this" instance is needed.
         mSafetyCheckBridge = new SafetyCheckBridge(SafetyCheckMediator.this);
     }
 
     @VisibleForTesting
     SafetyCheckMediator(PropertyModel model, SafetyCheckUpdatesDelegate client,
-            SafetyCheckBridge bridge, Handler handler) {
+            SettingsLauncher settingsLauncher, SafetyCheckBridge bridge, Handler handler) {
         mModel = model;
         mUpdatesClient = client;
         mSafetyCheckBridge = bridge;
         mHandler = handler;
         mPreferenceManager = SharedPreferencesManager.getInstance();
+        // Set the listener for clicking the updates element.
+        mModel.set(SafetyCheckProperties.UPDATES_CLICK_LISTENER,
+                (Preference.OnPreferenceClickListener) (p) -> {
+                    if (!BuildConfig.IS_CHROME_BRANDED) {
+                        return true;
+                    }
+                    String chromeAppId = ContextUtils.getApplicationContext().getPackageName();
+                    // Open the Play Store page for the installed Chrome channel.
+                    p.getContext().startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(ContentUrlConstants.PLAY_STORE_URL_PREFIX + chromeAppId)));
+                    return true;
+                });
+        // Set the listener for clicking the Safe Browsing element.
+        mModel.set(SafetyCheckProperties.SAFE_BROWSING_CLICK_LISTENER,
+                (Preference.OnPreferenceClickListener) (p) -> {
+                    // Open the Sync and Services settings.
+                    // TODO(crbug.com/1070620): replace the hardcoded class name with an import and
+                    // ".class.getName()" once SyncAndServicesSettings is moved out of
+                    // //chrome/android.
+                    p.getContext().startActivity(settingsLauncher.createSettingsActivityIntent(
+                            p.getContext(),
+                            "org.chromium.chrome.browser.sync.settings.SyncAndServicesSettings"));
+                    return true;
+                });
+        // Set the listener for clicking the passwords element.
+        mModel.set(SafetyCheckProperties.PASSWORDS_CLICK_LISTENER,
+                (Preference.OnPreferenceClickListener) (p) -> {
+                    // Open the Passwords settings.
+                    // TODO(crbug.com/1070620): replace the hardcoded class name with an import and
+                    // ".class.getName()" once PasswordSettings is moved out of //chrome/android.
+                    p.getContext().startActivity(settingsLauncher.createSettingsActivityIntent(
+                            p.getContext(),
+                            "org.chromium.chrome.browser.password_manager.settings.PasswordSettings"));
+                    return true;
+                });
         // Set the listener for clicking the Check button.
         mModel.set(SafetyCheckProperties.SAFETY_CHECK_BUTTON_CLICK_LISTENER,
                 (View.OnClickListener) (v) -> performSafetyCheck());

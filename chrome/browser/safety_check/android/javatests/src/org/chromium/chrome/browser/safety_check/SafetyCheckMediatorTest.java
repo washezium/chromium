@@ -24,6 +24,7 @@ import org.chromium.chrome.browser.password_check.BulkLeakCheckServiceState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.PasswordsState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.SafeBrowsingState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.UpdatesState;
+import org.chromium.chrome.browser.settings.SettingsLauncher;
 import org.chromium.ui.modelutil.PropertyModel;
 
 import java.lang.ref.WeakReference;
@@ -35,6 +36,8 @@ public class SafetyCheckMediatorTest {
     @Mock
     private SafetyCheckUpdatesDelegate mUpdatesDelegate;
     @Mock
+    private SettingsLauncher mSettingsLauncher;
+    @Mock
     private SafetyCheckBridge mBridge;
     @Mock
     private Handler mHandler;
@@ -45,7 +48,8 @@ public class SafetyCheckMediatorTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mModel = SafetyCheckProperties.createSafetyCheckModel();
-        mMediator = new SafetyCheckMediator(mModel, mUpdatesDelegate, mBridge, mHandler);
+        mMediator = new SafetyCheckMediator(
+                mModel, mUpdatesDelegate, mSettingsLauncher, mBridge, mHandler);
         // Execute any delayed tasks immediately.
         doAnswer(invocation -> {
             Runnable runnable = (Runnable) (invocation.getArguments()[0]);
