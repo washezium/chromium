@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.sync;
+package org.chromium.components.signin.base;
 
 import androidx.annotation.IntDef;
 
-import org.chromium.chrome.R;
+import org.chromium.base.annotations.CalledByNative;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -80,20 +80,14 @@ public class GoogleServiceAuthError {
         int NUM_ENTRIES = 14;
     }
 
-    public static int getMessageID(@State int state) {
-        switch (state) {
-            case State.INVALID_GAIA_CREDENTIALS:
-                return R.string.sync_error_ga;
-            case State.CONNECTION_FAILED:
-                return R.string.sync_error_connection;
-            case State.SERVICE_UNAVAILABLE:
-                return R.string.sync_error_service_unavailable;
-            // case State.NONE:
-            // case State.REQUEST_CANCELED:
-            // case State.UNEXPECTED_SERVICE_RESPONSE:
-            // case State.SERVICE_ERROR:
-            default:
-                return R.string.sync_error_generic;
-        }
+    private final @State int mState;
+
+    @CalledByNative
+    private GoogleServiceAuthError(@State int state) {
+        mState = state;
+    }
+
+    public @State int getState() {
+        return mState;
     }
 }
