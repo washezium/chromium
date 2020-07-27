@@ -5758,6 +5758,7 @@ if (!is_android) {
       "//extensions/buildflags",
       "//skia",
       "//testing/gtest",
+      "//ui/base:features",
     ]
 
     if (enable_plugins) {
