@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_client.h"
+#include "chrome/updater/device_management/dm_client.h"
 
 #include <stdint.h>
 
@@ -14,7 +14,7 @@
 #include "base/test/gmock_callback_support.h"
 #include "base/test/task_environment.h"
 #include "build/build_config.h"
-#include "chrome/updater/dm_storage.h"
+#include "chrome/updater/device_management/dm_storage.h"
 #include "components/policy/proto/device_management_backend.pb.h"
 #include "components/update_client/network.h"
 #include "net/base/url_util.h"

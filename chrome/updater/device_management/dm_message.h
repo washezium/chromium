@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_UPDATER_DM_MESSAGE_H_
-#define CHROME_UPDATER_DM_MESSAGE_H_
+#ifndef CHROME_UPDATER_DEVICE_MANAGEMENT_DM_MESSAGE_H_
+#define CHROME_UPDATER_DEVICE_MANAGEMENT_DM_MESSAGE_H_
 
 #include <string>
 
@@ -42,4 +42,4 @@ DMPolicyMap ParsePolicyFetchResponse(const std::string& response_data,
                                      const std::string& expected_device_id);
 }  // namespace updater
 
-#endif  // CHROME_UPDATER_DM_MESSAGE_H_
+#endif  // CHROME_UPDATER_DEVICE_MANAGEMENT_DM_MESSAGE_H_

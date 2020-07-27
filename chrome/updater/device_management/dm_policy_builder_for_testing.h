@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_UPDATER_DM_POLICY_BUILDER_FOR_TESTING_H_
-#define CHROME_UPDATER_DM_POLICY_BUILDER_FOR_TESTING_H_
+#ifndef CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_BUILDER_FOR_TESTING_H_
+#define CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_BUILDER_FOR_TESTING_H_
 
 #include <stdint.h>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "chrome/updater/dm_message.h"
+#include "chrome/updater/device_management/dm_message.h"
 
 namespace enterprise_management {
 class DeviceManagementResponse;
@@ -145,4 +145,4 @@ GetDefaultTestingPolicyFetchDMResponse(
 
 }  // namespace updater
 
-#endif  // CHROME_UPDATER_DM_POLICY_BUILDER_FOR_TESTING_H_
+#endif  // CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_BUILDER_FOR_TESTING_H_

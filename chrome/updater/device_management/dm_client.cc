@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_client.h"
+#include "chrome/updater/device_management/dm_client.h"
 
 #include <utility>
 
@@ -12,7 +12,7 @@
 #include "base/threading/sequenced_task_runner_handle.h"
 #include "build/build_config.h"
 #include "chrome/updater/constants.h"
-#include "chrome/updater/dm_storage.h"
+#include "chrome/updater/device_management/dm_storage.h"
 #include "chrome/updater/updater_version.h"
 #include "chrome/updater/util.h"
 #include "components/policy/core/common/cloud/cloud_policy_util.h"

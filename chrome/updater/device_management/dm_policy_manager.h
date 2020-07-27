@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_UPDATER_DM_POLICY_MANAGER_H_
-#define CHROME_UPDATER_DM_POLICY_MANAGER_H_
+#ifndef CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_MANAGER_H_
+#define CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_MANAGER_H_
 
 #include <memory>
 #include <string>
@@ -60,4 +60,4 @@ class DMPolicyManager : public PolicyManagerInterface {
 
 }  // namespace updater
 
-#endif  // CHROME_UPDATER_DM_POLICY_MANAGER_H_
+#endif  // CHROME_UPDATER_DEVICE_MANAGEMENT_DM_POLICY_MANAGER_H_

@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_message.h"
+#include "chrome/updater/device_management/dm_message.h"
 
 #include <memory>
 #include <utility>
 
 #include "base/logging.h"
 #include "base/strings/string_util.h"
-#include "chrome/updater/dm_cached_policy_info.h"
+#include "chrome/updater/device_management/dm_cached_policy_info.h"
 #include "components/policy/core/common/cloud/cloud_policy_constants.h"
 #include "components/policy/proto/device_management_backend.pb.h"
 #include "crypto/signature_verifier.h"

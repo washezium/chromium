@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_UPDATER_DM_STORAGE_H_
-#define CHROME_UPDATER_DM_STORAGE_H_
+#ifndef CHROME_UPDATER_DEVICE_MANAGEMENT_DM_STORAGE_H_
+#define CHROME_UPDATER_DEVICE_MANAGEMENT_DM_STORAGE_H_
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@
 #include "base/memory/ref_counted.h"
 #include "base/sequence_checker.h"
 #include "build/build_config.h"
-#include "chrome/updater/dm_message.h"
+#include "chrome/updater/device_management/dm_message.h"
 
 namespace updater {
 
@@ -139,4 +139,4 @@ scoped_refptr<DMStorage> GetDefaultDMStorage();
 
 }  // namespace updater
 
-#endif  // CHROME_UPDATER_DM_STORAGE_H_
+#endif  // CHROME_UPDATER_DEVICE_MANAGEMENT_DM_STORAGE_H_

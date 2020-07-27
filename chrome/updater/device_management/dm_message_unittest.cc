@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_message.h"
+#include "chrome/updater/device_management/dm_message.h"
 
 #include <stdint.h>
 #include <memory>
 #include <utility>
 
-#include "chrome/updater/dm_cached_policy_info.h"
-#include "chrome/updater/dm_policy_builder_for_testing.h"
+#include "chrome/updater/device_management/dm_cached_policy_info.h"
+#include "chrome/updater/device_management/dm_policy_builder_for_testing.h"
 #include "chrome/updater/protos/omaha_settings.pb.h"
 #include "components/policy/proto/device_management_backend.pb.h"
 #include "testing/gtest/include/gtest/gtest.h"

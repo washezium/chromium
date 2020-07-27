@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_cached_policy_info.h"
+#include "chrome/updater/device_management/dm_cached_policy_info.h"
 
 #include "components/policy/proto/device_management_backend.pb.h"
 

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/updater/dm_storage.h"
+#include "chrome/updater/device_management/dm_storage.h"
 
 #include "base/strings/string16.h"
 #include "base/strings/sys_string_conversions.h"

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_UPDATER_DM_CLIENT_H_
-#define CHROME_UPDATER_DM_CLIENT_H_
+#ifndef CHROME_UPDATER_DEVICE_MANAGEMENT_DM_CLIENT_H_
+#define CHROME_UPDATER_DEVICE_MANAGEMENT_DM_CLIENT_H_
 
 #include <stdint.h>
 
@@ -119,4 +119,4 @@ class DMClient {
 
 }  // namespace updater
 
-#endif  // CHROME_UPDATER_DM_CLIENT_H_
+#endif  // CHROME_UPDATER_DEVICE_MANAGEMENT_DM_CLIENT_H_
