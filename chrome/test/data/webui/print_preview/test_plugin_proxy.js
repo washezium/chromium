@@ -2,13 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import {PDFPlugin, PluginProxy} from 'chrome://print/print_preview.js';
 import {assert} from 'chrome://resources/js/assert.m.js';
-import {TestBrowserProxy} from 'chrome://test/test_browser_proxy.m.js';
+import {TestBrowserProxy} from '../test_browser_proxy.m.js';
 
 /**
  * Test version of the PluginProxy.
+ * @implements {PluginProxy}
  */
-export class PDFPluginStub extends TestBrowserProxy {
+export class TestPluginProxy extends TestBrowserProxy {
   constructor() {
     super(['loadPreviewPage']);
 
@@ -28,99 +30,67 @@ export class PDFPluginStub extends TestBrowserProxy {
     this.fakePlugin_ = null;
   }
 
-  /** @param {boolean} Whether the PDF plugin should be compatible. */
+  /**
+   * @param {boolean} compatible Whether the PDF plugin should be compatible.
+   */
   setPluginCompatible(compatible) {
     this.compatible_ = compatible;
   }
 
-  /**
-   * @param {?Function} loadCompleteCallback Callback to call when the preview
-   *     loads.
-   */
+  /** @override */
   setLoadCompleteCallback(loadCompleteCallback) {
     assert(!this.loadCompleteCallback_);
     this.loadCompleteCallback_ = loadCompleteCallback;
   }
 
-  /**
-   * @param {?Function} preloadCallback Callback to call before the preview
-   *     loads.
-   */
+  /** @param {?Function} preloadCallback */
   setPreloadCallback(preloadCallback) {
     this.preloadCallback_ = preloadCallback;
   }
 
-  /** @param {?Function} keyEventCallback */
+  /** @override */
   setKeyEventCallback(keyEventCallback) {}
 
-  /** @param {?Function} viewportChangedCallback */
+  /** @override */
   setViewportChangedCallback(viewportChangedCallback) {
     this.viewportChangedCallback_ = viewportChangedCallback;
   }
 
-  /**
-   * @param {!Element} oopCompatObj The out of process compatibility element.
-   * @return {boolean} Whether the plugin exists and is compatible.
-   */
+  /** @override */
   checkPluginCompatibility(oopCompatObj) {
     return this.compatible_;
   }
 
-  /** @return {boolean} Whether the plugin is ready. */
+  /** @override */
   pluginReady() {
     return !!this.fakePlugin_;
   }
 
-  /**
-   * Sets the load callback to imitate the plugin.
-   * @param {number} previewUid The unique ID of the preview UI.
-   * @param {number} index The preview index to load.
-   * @return {?print_preview.PDFPlugin}
-   */
+  /** @override */
   createPlugin(previewUid, index) {
-    if (!this.compatible_) {
-      return null;
-    }
-
-    this.fakePlugin_ = document.createElement('div');
+    this.fakePlugin_ =
+        /** @type {!HTMLDivElement} */ (document.createElement('div'));
     this.fakePlugin_.classList.add('preview-area-plugin');
     this.fakePlugin_.id = 'pdf-viewer';
-    return this.fakePlugin_;
+    return /** @type {!PDFPlugin} */ (this.fakePlugin_);
   }
 
-  /**
-   * @param {number} previewUid Unique identifier of preview.
-   * @param {number} index Page index for plugin.
-   * @param {boolean} color Whether the preview should be color.
-   * @param {!Array<number>} pages Page indices to preview.
-   * @param {boolean} modifiable Whether the document is modifiable.
-   */
+  /** @override */
   resetPrintPreviewMode(previewUid, index, color, pages, modifiable) {}
 
-  /**
-   * @param {number} scrollX The amount to horizontally scroll in pixels.
-   * @param {number} scrollY The amount to vertically scroll in pixels.
-   */
+  /** @override */
   scrollPosition(scrollX, scrollY) {}
 
-  /** @param {!KeyEvent} e Keyboard event to forward to the plugin. */
+  /** @override */
   sendKeyEvent(e) {}
 
+  /** @override */
   hideToolbars() {}
 
-  /**
-   * @param {boolean} eventsOn Whether pointer events should be captured by
-   *     the plugin.
-   */
+  /** @override */
   setPointerEvents(eventsOn) {}
 
-  /**
-   * Called when the preview area wants the plugin to load a preview page.
-   * Immediately calls loadCompleteCallback_().
-   * @param {number} previewUid The unique ID of the preview UI.
-   * @param {number} pageIndex The page index to load.
-   * @param {number} index The preview index.
-   */
+  /** @override */
   loadPreviewPage(previewUid, pageIndex, index) {
     this.methodCalled(
         'loadPreviewPage',
@@ -133,6 +103,7 @@ export class PDFPluginStub extends TestBrowserProxy {
     }
   }
 
+  /** @override */
   darkModeChanged(darkMode) {}
 
   /**
@@ -142,7 +113,6 @@ export class PDFPluginStub extends TestBrowserProxy {
    * @param {number} pageWidth The page width in pixels.
    * @param {number} viewportWidth The viewport width in pixels.
    * @param {number} viewportHeight The viewport height in pixels.
-   * @private
    */
   triggerVisualStateChange(
       pageX, pageY, pageWidth, viewportWidth, viewportHeight) {
