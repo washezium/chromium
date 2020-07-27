@@ -568,6 +568,10 @@ bool IsParentalControlsSettingsEnabled() {
   return base::FeatureList::IsEnabled(kParentalControlsSettings);
 }
 
+bool IsPhoneHubEnabled() {
+  return base::FeatureList::IsEnabled(kPhoneHub);
+}
+
 bool IsQuickAnswersDogfood() {
   return base::FeatureList::IsEnabled(kQuickAnswersDogfood);
 }
