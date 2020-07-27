@@ -51,6 +51,7 @@
 #include "third_party/blink/public/mojom/window_features/window_features.mojom.h"
 #include "ui/base/window_open_disposition.h"
 #include "weblayer/browser/autofill_client_impl.h"
+#include "weblayer/browser/browser_context_impl.h"
 #include "weblayer/browser/browser_impl.h"
 #include "weblayer/browser/browser_process.h"
 #include "weblayer/browser/content_browser_client_impl.h"
