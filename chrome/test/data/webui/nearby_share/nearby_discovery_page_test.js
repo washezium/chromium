@@ -20,7 +20,7 @@ suite('DiscoveryPageTest', function() {
   let discoveryManager;
 
   /** @type {!number} Next device id to be used. */
-  let nextId = 0;
+  let nextId = 1;
 
   /**
    * Get the list of device names that are currently shown.
@@ -79,6 +79,10 @@ suite('DiscoveryPageTest', function() {
   });
 
   test('selects share target with success', async function() {
+    // TODO(knollr): Remove this once prototyping is done.
+    /** @suppress {visibility} */
+    discoveryPageElement.shareTargets_ = [];
+
     const created = await setupShareTarget();
     discoveryPageElement.$$('#next-button').click();
     const selectedId = await discoveryManager.whenCalled('selectShareTarget');

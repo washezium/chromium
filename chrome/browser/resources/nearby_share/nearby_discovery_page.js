@@ -96,7 +96,24 @@ Polymer({
 
   /** @override */
   attached() {
-    this.shareTargets_ = [];
+    // TODO(knollr): Remove this once prototyping is done.
+    this.shareTargets_ = [
+      {
+        id: {high: 0, low: 1},
+        name: 'Alyssa\'s Pixel',
+        type: nearbyShare.mojom.ShareTargetType.kTablet,
+      },
+      {
+        id: {high: 0, low: 2},
+        name: 'Shangela\'s Pixel 2XL',
+        type: nearbyShare.mojom.ShareTargetType.kPhone,
+      },
+      {
+        id: {high: 0, low: 3},
+        name: 'Mira\'s Chromebook',
+        type: nearbyShare.mojom.ShareTargetType.kLaptop,
+      }
+    ];
     this.shareTargetMap_ = new Map();
 
     this.mojoEventTarget_ =
