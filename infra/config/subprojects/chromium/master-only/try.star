@@ -275,11 +275,6 @@ try_.chromium_chromiumos_builder(
 
 try_.chromium_chromiumos_builder(
     name = 'chromeos-kevin-compile-rel',
-    tryjob = try_.job(
-        location_regexp = [
-            '.+/[+]/chromeos/CHROMEOS_LKGM',
-        ],
-    ),
     main_list_view = 'try'
 )
 
@@ -289,6 +284,7 @@ try_.chromium_chromiumos_builder(
         location_regexp = [
             '.+/[+]/build/chromeos/.+',
             '.+/[+]/build/config/chromeos/.*',
+            '.+/[+]/chromeos/CHROMEOS_LKGM',
         ],
     ),
     main_list_view = 'try',
