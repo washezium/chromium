@@ -686,7 +686,7 @@ class BBJSONGenerator(object):
           '--bucket',
           bucket,
           '--test-name',
-          test_name
+          result.get('name', test_name)
         ],
         'script': '//build/android/pylib/results/presentation/'
           'test_results_presentation.py',
@@ -722,7 +722,8 @@ class BBJSONGenerator(object):
       return None
     result = copy.deepcopy(test_config)
     if 'test' in result:
-      result['name'] = test_name
+      if 'name' not in result:
+        result['name'] = test_name
     else:
       result['test'] = test_name
     self.initialize_swarming_dictionary_for_test(result, tester_config)
