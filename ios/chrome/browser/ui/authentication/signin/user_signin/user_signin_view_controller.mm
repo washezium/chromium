@@ -86,6 +86,9 @@ enum AuthenticationButtonType {
 // Button used to exit the sign-in operation without confirmation, e.g. "No
 // Thanks", "Cancel".
 @property(nonatomic, strong) UIButton* skipSigninButton;
+// Stack view that displays the skip and continue buttons on a horizontal
+// layout.
+@property(nonatomic, strong) UIStackView* horizontalButtonsView;
 // Property that denotes whether the unified consent screen reached bottom has
 // triggered.
 @property(nonatomic, assign) BOOL hasUnifiedConsentScreenReachedBottom;
@@ -201,13 +204,20 @@ enum AuthenticationButtonType {
   [self setConfirmationButtonProperties];
   [self maybeEnablePointerSupportWithButton:self.confirmationButton];
   self.confirmationButton.translatesAutoresizingMaskIntoConstraints = NO;
-  [self.view addSubview:self.confirmationButton];
 
   self.skipSigninButton = [[UIButton alloc] init];
   [self setSkipSigninButtonProperties];
   [self maybeEnablePointerSupportWithButton:self.skipSigninButton];
   self.skipSigninButton.translatesAutoresizingMaskIntoConstraints = NO;
-  [self.view addSubview:self.skipSigninButton];
+
+  self.horizontalButtonsView = [[UIStackView alloc] initWithArrangedSubviews:@[
+    self.skipSigninButton, self.confirmationButton
+  ]];
+  self.horizontalButtonsView.distribution =
+      UIStackViewDistributionEqualCentering;
+  self.horizontalButtonsView.axis = UILayoutConstraintAxisHorizontal;
+  self.horizontalButtonsView.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.view addSubview:self.horizontalButtonsView];
 
   self.unifiedConsentViewController.view
       .translatesAutoresizingMaskIntoConstraints = NO;
@@ -256,23 +266,16 @@ enum AuthenticationButtonType {
 - (NSMutableArray*)generateConstraintsWithConstants:
     (AuthenticationViewConstants)constants {
   NSMutableArray* constraints = [NSMutableArray array];
-  // Confirmation button constraints
   [constraints addObjectsFromArray:@[
     [self.view.safeAreaLayoutGuide.trailingAnchor
-        constraintEqualToAnchor:self.confirmationButton.trailingAnchor
+        constraintEqualToAnchor:self.horizontalButtonsView.trailingAnchor
                        constant:constants.ButtonHorizontalPadding],
+    [self.view.safeAreaLayoutGuide.leadingAnchor
+        constraintEqualToAnchor:self.horizontalButtonsView.leadingAnchor
+                       constant:-constants.ButtonHorizontalPadding],
     [self.view.safeAreaLayoutGuide.bottomAnchor
-        constraintEqualToAnchor:self.confirmationButton.bottomAnchor
-                       constant:constants.ButtonVerticalPadding],
-  ]];
-  // Skip button constraints
-  [constraints addObjectsFromArray:@[
-    [self.skipSigninButton.leadingAnchor
-        constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor
-                       constant:constants.ButtonHorizontalPadding],
-    [self.view.safeAreaLayoutGuide.bottomAnchor
-        constraintEqualToAnchor:self.skipSigninButton.bottomAnchor
-                       constant:constants.ButtonVerticalPadding],
+        constraintEqualToAnchor:self.horizontalButtonsView.bottomAnchor
+                       constant:constants.ButtonVerticalPadding]
   ]];
   return constraints;
 }
@@ -352,10 +355,6 @@ enum AuthenticationButtonType {
           constraintEqualToAnchor:self.containerView.leadingAnchor],
       [self.unifiedConsentViewController.view.trailingAnchor
           constraintEqualToAnchor:self.containerView.trailingAnchor],
-      // Constraint between the container view and the confirmation button.
-      [self.confirmationButton.topAnchor
-          constraintEqualToAnchor:self.containerView.bottomAnchor
-                         constant:kCompactConstants.ButtonVerticalPadding],
     ]];
     _compactSizeClassConstraints = constraints;
   }
@@ -384,10 +383,6 @@ enum AuthenticationButtonType {
           constraintEqualToAnchor:self.containerView.centerXAnchor],
       [self.unifiedConsentViewController.view.centerYAnchor
           constraintEqualToAnchor:self.containerView.centerYAnchor],
-      // Constraint between the container view and the confirmation button.
-      [self.confirmationButton.topAnchor
-          constraintEqualToAnchor:self.containerView.bottomAnchor
-                         constant:kRegularConstants.ButtonVerticalPadding],
     ]];
     // Adding constraints to ensure the user consent view has a limited size
     // on iPad. If the screen is bigger than the max size, those constraints
