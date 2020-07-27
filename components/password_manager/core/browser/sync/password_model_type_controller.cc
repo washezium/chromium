@@ -81,6 +81,10 @@ PasswordModelTypeController::PasswordModelTypeController(
         FROM_HERE, base::BindOnce(&PasswordModelTypeController::MaybeClearStore,
                                   weak_ptr_factory_.GetWeakPtr(),
                                   account_password_store_for_cleanup));
+  } else {
+    // If the feature flag is disabled, clear any related prefs that might still
+    // be around.
+    features_util::ClearAccountStorageSettingsForAllUsers(pref_service_);
   }
 }
 
