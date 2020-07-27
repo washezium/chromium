@@ -108,7 +108,7 @@
 #   |since_version| and is removed after |until_version|. |until_version|
 #   is optional.
 #
-#   The format of the 'futured_on' list entries is '<platform>'.
+#   The format of the 'future_on' list entries is '<platform>'.
 #   There is no version range attached to it and the policy is available in the
 #   Dev and Canary channel only unless it's listed in the
 #   EnableExperimentalPolicies policy.
