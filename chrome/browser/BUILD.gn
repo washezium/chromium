@@ -3830,6 +3830,8 @@ static_library("browser") {
       "apps/app_service/paused_apps.h",
       "apps/app_service/plugin_vm_apps.cc",
       "apps/app_service/plugin_vm_apps.h",
+      "apps/app_service/remote_apps.cc",
+      "apps/app_service/remote_apps.h",
       "apps/app_service/uninstall_dialog.cc",
       "apps/app_service/uninstall_dialog.h",
       "apps/app_service/web_apps_chromeos.cc",
