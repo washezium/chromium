@@ -1289,8 +1289,6 @@ static_library("browser") {
     "prerender/prerender_field_trial.h",
     "prerender/prerender_handle.cc",
     "prerender/prerender_handle.h",
-    "prerender/prerender_histograms.cc",
-    "prerender/prerender_histograms.h",
     "prerender/prerender_link_manager.cc",
     "prerender/prerender_link_manager.h",
     "prerender/prerender_link_manager_factory.cc",
