@@ -4,8 +4,6 @@
 
 #include "chrome/browser/media/output_protection_proxy.h"
 
-#include <utility>
-
 #include "base/bind.h"
 #include "build/build_config.h"
 #include "chrome/browser/media/webrtc/media_capture_devices_dispatcher.h"
@@ -40,36 +38,35 @@ OutputProtectionProxy::~OutputProtectionProxy() {
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 }
 
-void OutputProtectionProxy::QueryStatus(QueryStatusCallback callback) {
+void OutputProtectionProxy::QueryStatus(const QueryStatusCallback& callback) {
   DVLOG(1) << __func__;
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 
 #if defined(OS_CHROMEOS)
   output_protection_delegate_.QueryStatus(
       base::BindOnce(&OutputProtectionProxy::ProcessQueryStatusResult,
-                     weak_ptr_factory_.GetWeakPtr(), std::move(callback)));
+                     weak_ptr_factory_.GetWeakPtr(), callback));
 #else  // defined(OS_CHROMEOS)
-  ProcessQueryStatusResult(std::move(callback), true, 0, 0);
+  ProcessQueryStatusResult(callback, true, 0, 0);
 #endif  // defined(OS_CHROMEOS)
 }
 
 void OutputProtectionProxy::EnableProtection(
     uint32_t desired_method_mask,
-    EnableProtectionCallback callback) {
+    const EnableProtectionCallback& callback) {
   DVLOG(1) << __func__;
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 
 #if defined(OS_CHROMEOS)
-  output_protection_delegate_.SetProtection(desired_method_mask,
-                                            std::move(callback));
+  output_protection_delegate_.SetProtection(desired_method_mask, callback);
 #else   // defined(OS_CHROMEOS)
   NOTIMPLEMENTED();
-  std::move(callback).Run(false);
+  callback.Run(false);
 #endif  // defined(OS_CHROMEOS)
 }
 
 void OutputProtectionProxy::ProcessQueryStatusResult(
-    QueryStatusCallback callback,
+    const QueryStatusCallback& callback,
     bool success,
     uint32_t link_mask,
     uint32_t protection_mask) {
@@ -79,7 +76,7 @@ void OutputProtectionProxy::ProcessQueryStatusResult(
   // TODO(xjz): Investigate whether this check should be removed.
   if (!GetRenderFrameView(render_process_id_, render_frame_id_)) {
     LOG(WARNING) << "RenderFrameHost is not alive.";
-    std::move(callback).Run(false, 0, 0);
+    callback.Run(false, 0, 0);
     return;
   }
 
@@ -94,5 +91,5 @@ void OutputProtectionProxy::ProcessQueryStatusResult(
       new_link_mask |= display::DISPLAY_CONNECTION_TYPE_NETWORK;
   }
 
-  std::move(callback).Run(success, new_link_mask, protection_mask);
+  callback.Run(success, new_link_mask, protection_mask);
 }
