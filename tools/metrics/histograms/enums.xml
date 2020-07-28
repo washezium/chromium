@@ -39086,6 +39086,11 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="1" label="SinkNeverStarted"/>
 </enum>
 
+<enum name="LocalSearchServiceBackend">
+  <int value="0" label="LinearMap"/>
+  <int value="1" label="InvertedIndex"/>
+</enum>
+
 <enum name="LocalSearchServiceResponseStatus">
   <int value="0" label="UnknownError"/>
   <int value="1" label="Success"/>
