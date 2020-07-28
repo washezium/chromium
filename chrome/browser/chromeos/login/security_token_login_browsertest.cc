@@ -25,6 +25,7 @@
 #include "chrome/browser/chromeos/login/existing_user_controller.h"
 #include "chrome/browser/chromeos/login/test/device_state_mixin.h"
 #include "chrome/browser/chromeos/login/test/login_manager_mixin.h"
+#include "chrome/browser/chromeos/login/test/test_predicate_waiter.h"
 #include "chrome/browser/chromeos/profiles/profile_helper.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/test/base/mixin_based_in_process_browser_test.h"
@@ -55,11 +56,14 @@ namespace {
 // The PIN code that the test certificate provider extension is configured to
 // expect.
 constexpr char kCorrectPin[] = "17093";
+constexpr char kWrongPin[] = "1234";
 
 // UI golden strings in the en-US locale:
 constexpr char kChallengeResponseLoginLabel[] = "Sign in with smart card";
 constexpr char kChallengeResponseErrorLabel[] =
     "Couldn’t recognize your smart card. Try again.";
+constexpr char kPinDialogDefaultTitle[] = "Smart card PIN";
+constexpr char kPinDialogInvalidPinTitle[] = "Invalid PIN.";
 
 constexpr char kChallengeData[] = "challenge";
 
@@ -214,6 +218,16 @@ class SecurityTokenLoginTest : public MixinBasedInProcessBrowserTest,
     pin_dialog_waiting_run_loop.Run();
   }
 
+  void WaitForPinDialogTitle(const std::string& awaited_title) {
+    test::TestPredicateWaiter waiter(base::BindRepeating(
+        [](const std::string& awaited_title) {
+          return LoginScreenTestApi::GetPinRequestWidgetTitle() ==
+                 base::UTF8ToUTF16(awaited_title);
+        },
+        awaited_title));
+    waiter.Wait();
+  }
+
   void WaitForActiveSession() { login_manager_mixin_.WaitForActiveSession(); }
 
  private:
@@ -272,6 +286,8 @@ IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, Basic) {
   // certificate provider extension receives this request and requests the PIN
   // dialog.
   StartLoginAndWaitForPinDialog();
+  EXPECT_EQ(LoginScreenTestApi::GetPinRequestWidgetTitle(),
+            base::UTF8ToUTF16(kPinDialogDefaultTitle));
 
   // The PIN is entered.
   LoginScreenTestApi::SubmitPinRequestWidget(kCorrectPin);
@@ -298,6 +314,20 @@ IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, PinCancel) {
   EXPECT_EQ(LoginScreenTestApi::GetChallengeResponseLabel(
                 GetChallengeResponseAccountId()),
             base::UTF8ToUTF16(kChallengeResponseLoginLabel));
+}
+
+// Test the successful login scenario when the correct PIN was entered only on
+// the second attempt.
+IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, WrongPinThenCorrect) {
+  StartLoginAndWaitForPinDialog();
+
+  // A wrong PIN is entered, and an error is shown in the PIN dialog.
+  LoginScreenTestApi::SubmitPinRequestWidget(kWrongPin);
+  WaitForPinDialogTitle(kPinDialogInvalidPinTitle);
+
+  // The correct PIN is entered, and the login succeeds.
+  LoginScreenTestApi::SubmitPinRequestWidget(kCorrectPin);
+  WaitForActiveSession();
 }
 
 // Test the login failure scenario when the extension fails to sign the
