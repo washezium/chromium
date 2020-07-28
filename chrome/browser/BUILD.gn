@@ -3891,6 +3891,8 @@ static_library("browser") {
       "metrics/assistant_service_metrics_provider.h",
       "metrics/chromeos_metrics_provider.cc",
       "metrics/chromeos_metrics_provider.h",
+      "metrics/cros_healthd_metrics_provider.cc",
+      "metrics/cros_healthd_metrics_provider.h",
       "metrics/perf/collection_params.cc",
       "metrics/perf/collection_params.h",
       "metrics/perf/cpu_identity.cc",
