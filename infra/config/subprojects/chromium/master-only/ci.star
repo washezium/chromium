@@ -560,6 +560,14 @@ ci.chromiumos_builder(
     main_console_view = 'main',
 )
 
+ci.chromiumos_builder(
+    name = 'linux-ash-chrome-builder-rel',
+    console_view_entry = ci.console_view_entry(
+        category = 'default',
+        short_name = 'lcr',
+    ),
+    main_console_view = 'main',
+)
 
 ci.clang_builder(
     name = 'CFI Linux CF',

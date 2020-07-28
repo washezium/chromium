@@ -98,6 +98,14 @@
         },
         'os_type': 'chromeos'
       },
+      'linux-ash-chrome-builder-rel': {
+        'additional_compile_targets': [
+          'chrome',
+        ],
+        'mixins': [
+          'chrome-swarming-pool',
+        ],
+      },
       'linux-chrome': {
         'additional_compile_targets': [
           'chrome',
