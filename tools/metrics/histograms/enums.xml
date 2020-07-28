@@ -57098,6 +57098,12 @@ Called by update_net_trust_anchors.py.-->
   <int value="1" label="PriorityChanged"/>
 </enum>
 
+<enum name="PrivacyScreenToggleUISurface">
+  <int value="0" label="KeyboardShortcut"/>
+  <int value="1" label="FeaturePod"/>
+  <int value="2" label="ToastButton"/>
+</enum>
+
 <enum name="PrivetNotificationsEvent">
   <int value="0" label="PRIVET_SERVICE_STARTED"/>
   <int value="1" label="PRIVET_LISTER_STARTED"/>
