@@ -42,7 +42,9 @@ bool PrefixSelector::ShouldContinueSelection() const {
 void PrefixSelector::SetCompositionText(
     const ui::CompositionText& composition) {}
 
-void PrefixSelector::ConfirmCompositionText(bool keep_selection) {}
+uint32_t PrefixSelector::ConfirmCompositionText(bool keep_selection) {
+  return UINT32_MAX;
+}
 
 void PrefixSelector::ClearCompositionText() {}
 

@@ -119,13 +119,16 @@ void TextInput::SetCompositionText(const ui::CompositionText& composition) {
   delegate_->SetCompositionText(composition);
 }
 
-void TextInput::ConfirmCompositionText(bool keep_selection) {
+uint32_t TextInput::ConfirmCompositionText(bool keep_selection) {
   // TODO(b/134473433) Modify this function so that when keep_selection is
   // true, the selection is not changed when text committed
   if (keep_selection) {
     NOTIMPLEMENTED_LOG_ONCE();
   }
+  const uint32_t composition_text_length =
+      static_cast<uint32_t>(composition_.text.length());
   delegate_->Commit(composition_.text);
+  return composition_text_length;
 }
 
 void TextInput::ClearCompositionText() {

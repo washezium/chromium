@@ -1486,21 +1486,21 @@ void Textfield::SetCompositionText(const ui::CompositionText& composition) {
   OnAfterUserAction();
 }
 
-void Textfield::ConfirmCompositionText(bool keep_selection) {
+uint32_t Textfield::ConfirmCompositionText(bool keep_selection) {
   // TODO(b/134473433) Modify this function so that when keep_selection is
   // true, the selection is not changed when text committed
   if (keep_selection) {
     NOTIMPLEMENTED_LOG_ONCE();
   }
   if (!model_->HasCompositionText())
-    return;
-
+    return 0;
   OnBeforeUserAction();
   skip_input_method_cancel_composition_ = true;
-  model_->ConfirmCompositionText();
+  const uint32_t confirmed_text_length = model_->ConfirmCompositionText();
   skip_input_method_cancel_composition_ = false;
   UpdateAfterChange(true, true);
   OnAfterUserAction();
+  return confirmed_text_length;
 }
 
 void Textfield::ClearCompositionText() {

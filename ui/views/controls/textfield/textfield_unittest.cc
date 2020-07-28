@@ -2980,6 +2980,30 @@ TEST_F(TextfieldTest, OverflowInRTLTest) {
   base::i18n::SetICUDefaultLocale(locale);
 }
 
+TEST_F(TextfieldTest, CommitComposingTextTest) {
+  InitTextfield();
+  ui::CompositionText composition;
+  composition.text = UTF8ToUTF16("abc123");
+  ui::TextInputClient* client = textfield_;
+  client->SetCompositionText(composition);
+  uint32_t composed_text_length =
+      client->ConfirmCompositionText(/* keep_selection */ false);
+
+  EXPECT_EQ(composed_text_length, static_cast<uint32_t>(6));
+}
+
+TEST_F(TextfieldTest, CommitEmptyComposingTextTest) {
+  InitTextfield();
+  ui::CompositionText composition;
+  composition.text = UTF8ToUTF16("");
+  ui::TextInputClient* client = textfield_;
+  client->SetCompositionText(composition);
+  uint32_t composed_text_length =
+      client->ConfirmCompositionText(/* keep_selection */ false);
+
+  EXPECT_EQ(composed_text_length, static_cast<uint32_t>(0));
+}
+
 TEST_F(TextfieldTest, GetCompositionCharacterBoundsTest) {
   InitTextfield();
   ui::CompositionText composition;

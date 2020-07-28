@@ -790,10 +790,11 @@ void TextfieldModel::SetCompositionFromExistingText(const gfx::Range& range) {
   render_text_->SetCompositionRange(range);
 }
 
-void TextfieldModel::ConfirmCompositionText() {
+uint32_t TextfieldModel::ConfirmCompositionText() {
   DCHECK(HasCompositionText());
   base::string16 composition =
       text().substr(composition_range_.start(), composition_range_.length());
+  uint32_t composition_length = composition_range_.length();
   // TODO(oshima): current behavior on ChromeOS is a bit weird and not
   // sure exactly how this should work. Find out and fix if necessary.
   AddOrMergeEditHistory(std::make_unique<internal::InsertEdit>(
@@ -802,6 +803,7 @@ void TextfieldModel::ConfirmCompositionText() {
   ClearComposition();
   if (delegate_)
     delegate_->OnCompositionTextConfirmedOrCleared();
+  return composition_length;
 }
 
 void TextfieldModel::CancelCompositionText() {

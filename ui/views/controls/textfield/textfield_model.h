@@ -250,8 +250,9 @@ class VIEWS_EXPORT TextfieldModel {
   // out of bounds, the composition will be cleared.
   void SetCompositionFromExistingText(const gfx::Range& range);
 
-  // Converts current composition text into final content.
-  void ConfirmCompositionText();
+  // Converts current composition text into final content and returns the
+  // length of the text committed.
+  uint32_t ConfirmCompositionText();
 
   // Removes current composition text.
   void CancelCompositionText();

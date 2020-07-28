@@ -111,7 +111,7 @@ class ArcImeService : public KeyedService,
 
   // Overridden from ui::TextInputClient:
   void SetCompositionText(const ui::CompositionText& composition) override;
-  void ConfirmCompositionText(bool keep_selection) override;
+  uint32_t ConfirmCompositionText(bool keep_selection) override;
   void ClearCompositionText() override;
   void InsertText(const base::string16& text) override;
   void InsertChar(const ui::KeyEvent& event) override;

@@ -25,7 +25,7 @@ class DummyTextInputClient : public TextInputClient {
 
   // Overriden from TextInputClient.
   void SetCompositionText(const CompositionText& composition) override;
-  void ConfirmCompositionText(bool) override;
+  uint32_t ConfirmCompositionText(bool keep_selection) override;
   void ClearCompositionText() override;
   void InsertText(const base::string16& text) override;
   void InsertChar(const KeyEvent& event) override;
