@@ -25,7 +25,6 @@
 #include "base/strings/string16.h"
 #include "base/test/metrics/histogram_tester.h"
 #include "build/build_config.h"
-#include "cc/test/pixel_test_utils.h"
 #include "components/viz/common/quads/compositor_frame.h"
 #include "content/public/browser/browser_message_filter.h"
 #include "content/public/browser/notification_observer.h"
@@ -1912,12 +1911,9 @@ class ProxyDSFObserver {
 // ManhattanDistancePixelComparator which allows some small differences.  If
 // the flag switches::kRebaselinePixelTests (--rebaseline-pixel-tests) is set,
 // this function will (over)write the reference file with the produced output.
-bool CompareWebContentsOutputToReference(
-    WebContents* web_contents,
-    const base::FilePath& expected_path,
-    const gfx::Size& snapshot_size,
-    const cc::PixelComparator& comparator =
-        cc::ManhattanDistancePixelComparator());
+bool CompareWebContentsOutputToReference(WebContents* web_contents,
+                                         const base::FilePath& expected_path,
+                                         const gfx::Size& snapshot_size);
 
 }  // namespace content
 
