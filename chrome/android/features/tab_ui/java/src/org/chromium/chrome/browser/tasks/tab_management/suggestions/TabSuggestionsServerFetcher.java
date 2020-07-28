@@ -63,6 +63,13 @@ public class TabSuggestionsServerFetcher implements TabSuggestionsFetcher {
     @Override
     public void fetch(TabContext tabContext, Callback<TabSuggestionsFetcherResults> callback) {
         try {
+            for (TabContext.TabInfo tabInfo : tabContext.getUngroupedTabs()) {
+                if (tabInfo.isIncognito) {
+                    callback.onResult(
+                            new TabSuggestionsFetcherResults(Collections.emptyList(), tabContext));
+                    return;
+                }
+            }
             EndpointFetcher.fetchUsingChromeAPIKey(res
                     -> { fetchCallback(res, callback, tabContext); },
                     mProfileForTesting == null ? Profile.getLastUsedRegularProfile()
