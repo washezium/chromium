@@ -30,7 +30,7 @@ import org.chromium.chrome.R;
 import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
-import org.chromium.chrome.browser.omnibox.status.StatusViewCoordinator;
+import org.chromium.chrome.browser.omnibox.status.StatusCoordinator;
 import org.chromium.chrome.browser.omnibox.suggestions.AutocompleteController.OnSuggestionsReceivedListener;
 import org.chromium.chrome.browser.omnibox.suggestions.AutocompleteResult;
 import org.chromium.chrome.browser.tab.EmptyTabObserver;
@@ -191,13 +191,12 @@ public class OmniboxTest {
             final LocationBarLayout locationBar =
                     (LocationBarLayout) mActivityTestRule.getActivity().findViewById(
                             R.id.location_bar);
-            StatusViewCoordinator statusViewCoordinator =
-                    locationBar.getStatusViewCoordinatorForTesting();
-            boolean securityIcon = statusViewCoordinator.isSecurityButtonShown();
+            StatusCoordinator statusCoordinator = locationBar.getStatusCoordinatorForTesting();
+            boolean securityIcon = statusCoordinator.isSecurityButtonShown();
             if (mActivityTestRule.getActivity().isTablet()) {
                 Assert.assertTrue("Omnibox should have a Security icon", securityIcon);
                 Assert.assertEquals(R.drawable.omnibox_info,
-                        statusViewCoordinator.getSecurityIconResourceIdForTesting());
+                        statusCoordinator.getSecurityIconResourceIdForTesting());
             } else {
                 Assert.assertFalse("Omnibox should not have a Security icon", securityIcon);
             }
@@ -238,15 +237,14 @@ public class OmniboxTest {
             final LocationBarLayout locationBar =
                     (LocationBarLayout) mActivityTestRule.getActivity().findViewById(
                             R.id.location_bar);
-            StatusViewCoordinator statusViewCoordinator =
-                    locationBar.getStatusViewCoordinatorForTesting();
-            boolean securityIcon = statusViewCoordinator.isSecurityButtonShown();
+            StatusCoordinator statusCoordinator = locationBar.getStatusCoordinatorForTesting();
+            boolean securityIcon = statusCoordinator.isSecurityButtonShown();
             Assert.assertTrue("Omnibox should have a Security icon", securityIcon);
             Assert.assertEquals("location_bar_status_icon with wrong resource-id",
                     R.id.location_bar_status_icon, securityButton.getId());
             Assert.assertTrue(securityButton.isShown());
             Assert.assertEquals(R.drawable.omnibox_https_valid,
-                    statusViewCoordinator.getSecurityIconResourceIdForTesting());
+                    statusCoordinator.getSecurityIconResourceIdForTesting());
         } finally {
             httpsTestServer.stopAndDestroyServer();
         }
@@ -298,7 +296,7 @@ public class OmniboxTest {
                     R.id.location_bar_status_icon);
 
             boolean securityIcon =
-                    locationBarLayout.getStatusViewCoordinatorForTesting().isSecurityButtonShown();
+                    locationBarLayout.getStatusCoordinatorForTesting().isSecurityButtonShown();
             Assert.assertTrue("Omnibox should have a Security icon", securityIcon);
             Assert.assertEquals("location_bar_status_icon with wrong resource-id",
                     R.id.location_bar_status_icon, securityButton.getId());

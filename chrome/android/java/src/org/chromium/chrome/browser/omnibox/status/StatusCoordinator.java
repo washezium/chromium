@@ -32,7 +32,7 @@ import org.chromium.ui.modelutil.PropertyModelChangeProcessor;
  * A component for displaying a status icon (e.g. security icon or navigation icon) and optional
  * verbose status text.
  */
-public class StatusViewCoordinator implements View.OnClickListener, UrlTextChangeListener {
+public class StatusCoordinator implements View.OnClickListener, UrlTextChangeListener {
     private final StatusView mStatusView;
     private final StatusMediator mMediator;
     private final PropertyModel mModel;
@@ -42,12 +42,13 @@ public class StatusViewCoordinator implements View.OnClickListener, UrlTextChang
     private boolean mUrlHasFocus;
 
     /**
-     * Creates a new StatusViewCoordinator.
+     * Creates a new {@link StatusCoordinator}.
+     *
      * @param isTablet Whether the UI is shown on a tablet.
      * @param statusView The status view, used to supply and manipulate child views.
      * @param urlBarEditingTextStateProvider The url coordinator.
      */
-    public StatusViewCoordinator(boolean isTablet, StatusView statusView,
+    public StatusCoordinator(boolean isTablet, StatusView statusView,
             UrlBarEditingTextStateProvider urlBarEditingTextStateProvider) {
         mIsTablet = isTablet;
         mStatusView = statusView;
