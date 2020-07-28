@@ -274,7 +274,15 @@ IN_PROC_BROWSER_TEST_P(WebAppBrowserTest, HasMinimalUiButtons) {
     tester.ExpectUniqueSample(kLaunchWebAppDisplayModeHistogram, display_mode,
                               1);
 
-    return app_browser->app_controller()->HasMinimalUiButtons();
+    bool matches;
+    EXPECT_TRUE(ExecuteScriptAndExtractBool(
+        app_browser->tab_strip_model()->GetActiveWebContents(),
+        "window.domAutomationController.send(window.matchMedia('(display-mode: "
+        "minimal-ui)').matches)",
+        &matches));
+    EXPECT_EQ(app_browser->app_controller()->HasMinimalUiButtons(), matches);
+
+    return matches;
   };
 
   EXPECT_TRUE(has_buttons(DisplayMode::kBrowser,
