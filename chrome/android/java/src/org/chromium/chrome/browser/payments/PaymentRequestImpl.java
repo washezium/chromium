@@ -133,7 +133,7 @@ public class PaymentRequestImpl
                    PaymentApp.InstrumentDetailsCallback,
                    PaymentResponseHelper.PaymentResponseRequesterDelegate, FocusChangedObserver,
                    NormalizedAddressRequestDelegate, PaymentDetailsConverter.MethodChecker,
-                   PaymentHandlerUiObserver, PaymentUIsManager.Delegate {
+                   PaymentHandlerUiObserver {
     /**
      * A delegate to ask questions about the system, that allows tests to inject behaviour without
      * having to modify the entire system. This partially mirrors a similar C++
@@ -338,7 +338,7 @@ public class PaymentRequestImpl
      * items. Used to display modified totals for each payment apps, modified total in order
      * summary, and additional line items in order summary.
      */
-    private Map<String, PaymentDetailsModifier> mModifiers;
+    private Map<String, PaymentDetailsModifier> mModifiers = new ArrayMap<>();
 
     private PaymentRequestSpec mSpec;
     private String mId;
@@ -467,7 +467,7 @@ public class PaymentRequestImpl
         mSkipUiForNonUrlPaymentMethodIdentifiers = mDelegate.skipUiForBasicCard();
 
         if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
-        mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
+        mPaymentUIsManager = new PaymentUIsManager(
                 /*params=*/this, addressEditor, cardEditor);
         mPaymentAppComparator = new PaymentAppComparator(/*params=*/this);
     }
@@ -1457,12 +1457,11 @@ public class PaymentRequestImpl
         }
 
         if (details.modifiers != null) {
-            if (details.modifiers.length == 0 && mModifiers != null) mModifiers.clear();
+            if (details.modifiers.length == 0) mModifiers.clear();
 
             for (int i = 0; i < details.modifiers.length; i++) {
                 PaymentDetailsModifier modifier = details.modifiers[i];
                 String method = modifier.methodData.supportedMethod;
-                if (mModifiers == null) mModifiers = new ArrayMap<>();
                 mModifiers.put(method, modifier);
             }
         }
@@ -1474,32 +1473,12 @@ public class PaymentRequestImpl
             mRawShippingOptions = Collections.unmodifiableList(new ArrayList<>());
         }
 
-        updateAppModifiedTotals();
+        mPaymentUIsManager.updateAppModifiedTotals();
 
         assert mRawTotal != null;
         assert mRawLineItems != null;
 
         return true;
-    }
-
-    // Implement PaymentUIsManager.Delegate:
-    @Override
-    public void updateAppModifiedTotals() {
-        if (!PaymentFeatureList.isEnabled(PaymentFeatureList.WEB_PAYMENTS_MODIFIERS)) return;
-        if (mModifiers == null) return;
-        if (mPaymentUIsManager.getPaymentMethodsSection() == null) return;
-
-        for (int i = 0; i < mPaymentUIsManager.getPaymentMethodsSection().getSize(); i++) {
-            PaymentApp app = (PaymentApp) mPaymentUIsManager.getPaymentMethodsSection().getItem(i);
-            PaymentDetailsModifier modifier = mPaymentUIsManager.getModifier(app);
-            app.setModifiedTotal(modifier == null || modifier.total == null
-                            ? null
-                            : mPaymentUIsManager.getOrCreateCurrencyFormatter(modifier.total.amount)
-                                      .format(modifier.total.amount.value));
-        }
-
-        mPaymentUIsManager.updateOrderSummary(
-                (PaymentApp) mPaymentUIsManager.getPaymentMethodsSection().getSelectedItem());
     }
 
     /**
@@ -1855,7 +1834,7 @@ public class PaymentRequestImpl
                 // to take (if another card was selected prior to the add flow, it will stay
                 // selected).
 
-                updateAppModifiedTotals();
+                mPaymentUIsManager.updateAppModifiedTotals();
                 mPaymentUIsManager.getPaymentRequestUI().updateSection(
                         PaymentRequestUI.DataType.PAYMENT_METHODS,
                         mPaymentUIsManager.getPaymentMethodsSection());
@@ -1898,7 +1877,7 @@ public class PaymentRequestImpl
             if (mMethodData.containsKey(paymentMethodName)) {
                 methodData.put(paymentMethodName, mMethodData.get(paymentMethodName));
             }
-            if (mModifiers != null && mModifiers.containsKey(paymentMethodName)) {
+            if (mModifiers.containsKey(paymentMethodName)) {
                 modifiers.put(paymentMethodName, mModifiers.get(paymentMethodName));
             }
             if (paymentMethodName.equals(MethodStrings.ANDROID_PAY)
@@ -2318,8 +2297,8 @@ public class PaymentRequestImpl
 
     // PaymentAppFactoryParams implementation.
     @Override
-    public Map<String, PaymentDetailsModifier> getModifiers() {
-        return mModifiers == null ? new HashMap<>() : Collections.unmodifiableMap(mModifiers);
+    public Map<String, PaymentDetailsModifier> getUnmodifiableModifiers() {
+        return Collections.unmodifiableMap(mModifiers);
     }
 
     // PaymentAppFactoryParams implementation.
@@ -2499,7 +2478,7 @@ public class PaymentRequestImpl
 
         mPendingApps.clear();
 
-        updateAppModifiedTotals();
+        mPaymentUIsManager.updateAppModifiedTotals();
 
         SettingsAutofillAndPaymentsObserver.getInstance().registerObserver(mPaymentUIsManager);
 
