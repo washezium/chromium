@@ -102,8 +102,7 @@ public class ClipboardSuggestionProcessorTest {
         mModel = mProcessor.createModel();
         mProcessor.populateModel(mSuggestion, mModel, 0);
         SuggestionViewViewBinder.bind(mModel, mRootView, SuggestionViewProperties.TEXT_LINE_1_TEXT);
-        SuggestionViewViewBinder.bind(
-                mModel, mRootView, SuggestionCommonProperties.USE_DARK_COLORS);
+        SuggestionViewViewBinder.bind(mModel, mRootView, SuggestionCommonProperties.OMNIBOX_THEME);
         SuggestionViewViewBinder.bind(
                 mModel, mRootView, SuggestionViewProperties.IS_SEARCH_SUGGESTION);
         SuggestionViewViewBinder.bind(mModel, mRootView, SuggestionViewProperties.TEXT_LINE_2_TEXT);

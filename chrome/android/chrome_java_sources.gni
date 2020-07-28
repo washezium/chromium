@@ -1115,6 +1115,8 @@ chrome_java_sources = [
   "java/src/org/chromium/chrome/browser/omnibox/status/StatusView.java",
   "java/src/org/chromium/chrome/browser/omnibox/status/StatusViewBinder.java",
   "java/src/org/chromium/chrome/browser/omnibox/status/StatusViewCoordinator.java",
+  "java/src/org/chromium/chrome/browser/omnibox/styles/OmniboxResourceProvider.java",
+  "java/src/org/chromium/chrome/browser/omnibox/styles/OmniboxTheme.java",
   "java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteController.java",
   "java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteCoordinator.java",
   "java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteCoordinatorFactory.java",
