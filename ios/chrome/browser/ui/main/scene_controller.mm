@@ -391,18 +391,12 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
     }
 
     if (self.startupParameters) {
-      ApplicationModeForTabOpening mode =
-          self.startupParameters.applicationMode;
-      UrlLoadParams params =
-          UrlLoadParams::InNewTab(self.startupParameters.externalURL);
-      BOOL dismissOmnibox =
-          [self.startupParameters postOpeningAction] != FOCUS_OMNIBOX;
-      [self dismissModalsAndOpenSelectedTabInMode:mode
-                                withUrlLoadParams:params
-                                   dismissOmnibox:dismissOmnibox
-                                       completion:^{
-                                         self.startupParameters = nil;
-                                       }];
+      [UserActivityHandler
+          handleStartupParametersWithTabOpener:self
+                         connectionInformation:self
+                            startupInformation:self.mainController
+                                  browserState:self.currentInterface
+                                                   .browserState];
     }
 
   } else {
