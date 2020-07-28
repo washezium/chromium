@@ -2419,6 +2419,7 @@ static_library("ui") {
       "webui/version_handler_chromeos.cc",
       "webui/version_handler_chromeos.h",
       "window_sizer/window_sizer_chromeos.cc",
+      "window_sizer/window_sizer_chromeos.h",
     ]
 
     deps += [
