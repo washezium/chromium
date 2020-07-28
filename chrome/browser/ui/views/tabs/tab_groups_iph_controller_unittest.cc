@@ -121,3 +121,21 @@ TEST_F(TabGroupsIPHControllerTest, NotifyEventOnTabGroupCreated) {
 
   browser()->tab_strip_model()->AddToNewGroup({0});
 }
+
+TEST_F(TabGroupsIPHControllerTest, DismissedOnContextMenuOpened) {
+  EXPECT_CALL(*mock_tracker_,
+              ShouldTriggerHelpUI(
+                  Ref(feature_engagement::kIPHDesktopTabGroupsNewGroupFeature)))
+      .Times(1)
+      .WillOnce(Return(true));
+
+  for (int i = 0; i < 6; ++i)
+    chrome::NewTab(browser());
+
+  EXPECT_CALL(
+      *mock_tracker_,
+      Dismissed(Ref(feature_engagement::kIPHDesktopTabGroupsNewGroupFeature)))
+      .Times(1);
+
+  iph_controller_->TabContextMenuOpened();
+}
