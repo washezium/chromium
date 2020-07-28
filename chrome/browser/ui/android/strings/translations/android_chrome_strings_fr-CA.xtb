@@ -589,6 +589,7 @@ Pour modifier ce paramètre, <ph name="BEGIN_LINK" />réinitialisez la synchroni
 <translation id="5723735397759933332">Le mode simplifié vous permet d'économiser davantage de données en optimisant les images sur les pages HTTPS.</translation>
 <translation id="5726692708398506830">Agrandir la taille de tout le contenu de la page</translation>
 <translation id="5732819098735351888">Le téléchargement commencera lorsque vous serez connecté à un réseau Wi-Fi.</translation>
+<translation id="5733983706093266635">Impossible de créer un code QR. L'URL contient plus de <ph name="CHARACTER_LIMIT" /> caractères.</translation>
 <translation id="5748802427693696783">Passage aux onglets standards</translation>
 <translation id="5749068826913805084">Chrome a besoin d'accéder au stockage pour télécharger des fichiers.</translation>
 <translation id="5763382633136178763">Onglets de navigation privée</translation>

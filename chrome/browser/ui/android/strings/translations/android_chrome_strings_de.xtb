@@ -589,6 +589,7 @@ Wenn Sie diese Einstellung ändern möchten, <ph name="BEGIN_LINK" />setzen Sie 
 <translation id="5723735397759933332">Der Lite-Modus spart nun durch die Optimierung von Bildern auf HTTPS-Seiten noch mehr Daten.</translation>
 <translation id="5726692708398506830">Gesamten Seiteninhalt vergrößern</translation>
 <translation id="5732819098735351888">Der Download beginnt bei Verbindung mit einem WLAN.</translation>
+<translation id="5733983706093266635">QR-Code konnte nicht erstellt werden. Die URL ist länger als <ph name="CHARACTER_LIMIT" /> Zeichen.</translation>
 <translation id="5748802427693696783">Zu Standard-Tabs gewechselt</translation>
 <translation id="5749068826913805084">Chrome benötigt Speicherzugriff, um Dateien herunterladen zu können.</translation>
 <translation id="5763382633136178763">Inkognito-Tabs</translation>

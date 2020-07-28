@@ -3478,7 +3478,7 @@ Souhaitez-vous lancer <ph name="CONTROL_PANEL_APPLET_NAME" />?</translation>
 <translation id="5379140238605961210">Continuer de bloquer l'accès au microphone</translation>
 <translation id="5382591305415226340">Gérer des liens pris en charge</translation>
 <translation id="5383377866517186886">L'appareil photo est désactivé dans les Préférences Système du Mac</translation>
-<translation id="5383740867328871413">Groupe sans nom : <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
+<translation id="5383740867328871413">Groupe sans nom : <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="5388885445722491159">Associé</translation>
 <translation id="5389237414310520250">Le nouvel utilisateur n'a pas pu être créé. Veuillez vérifier l'espace libre de votre disque dur et les autorisations, puis réessayer.</translation>
 <translation id="5390100381392048184">Autoriser les sites à faire jouer du son</translation>
@@ -5625,7 +5625,7 @@ Conservez votre fichier de clé en lieu sûr. Vous en aurez besoin lors de la cr
 <translation id="8062844841289846053">{COUNT,plural, =1{1 feuille de papier}one{{COUNT} feuille de papier}other{{COUNT} feuilles de papier}}</translation>
 <translation id="8063235345342641131">Avatar vert par défaut</translation>
 <translation id="8063535366119089408">Afficher le fichier</translation>
-<translation id="8064279191081105977">Groupe <ph name="GROUP_NAME" /> : <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
+<translation id="8064279191081105977">Groupe <ph name="GROUP_NAME" /> : <ph name="GROUP_CONTENTS" /> – <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Touchez pour vous connecter</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Imprimer en tant qu'image</translation>

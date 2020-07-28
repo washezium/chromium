@@ -589,6 +589,7 @@ Para baguhin ang setting na ito, <ph name="BEGIN_LINK" />i-reset ang pag-sync<ph
 <translation id="5723735397759933332">Makakatipid ka na ngayon ng higit pang data sa Lite mode sa pamamagitan ng pag-optimize ng mga larawan sa mga HTTPS page.</translation>
 <translation id="5726692708398506830">Palakihin ang lahat ng nasa page</translation>
 <translation id="5732819098735351888">Magsisimula ang pag-download sa Wi-Fi.</translation>
+<translation id="5733983706093266635">Hindi makagawa ng QR code. Mahigit sa <ph name="CHARACTER_LIMIT" /> (na) character ang URL.</translation>
 <translation id="5748802427693696783">Lumipat sa mga karaniwang tab</translation>
 <translation id="5749068826913805084">Kailangan ng Chrome ng access sa storage para mag-download ng mga file.</translation>
 <translation id="5763382633136178763">Mga tab na incognito</translation>

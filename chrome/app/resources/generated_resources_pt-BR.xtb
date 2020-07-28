@@ -5628,7 +5628,7 @@ Mantenha a sua chave de arquivo em um local seguro. Você precisará dela para c
 <translation id="8062844841289846053">{COUNT,plural, =1{1 folha de papel}one{{COUNT} folha de papel}other{{COUNT} folhas de papel}}</translation>
 <translation id="8063235345342641131">Avatar verde padrão</translation>
 <translation id="8063535366119089408">Ver arquivo</translation>
-<translation id="8064279191081105977">Grupo <ph name="GROUP_NAME" /> - <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
+<translation id="8064279191081105977">Grupo <ph name="GROUP_NAME" />: <ph name="GROUP_CONTENTS" /> - <ph name="COLLAPSED_STATE" /></translation>
 <translation id="8068253693380742035">Toque para fazer login</translation>
 <translation id="8069615408251337349">Google Cloud Print</translation>
 <translation id="8071432093239591881">Imprimir como imagem</translation>
