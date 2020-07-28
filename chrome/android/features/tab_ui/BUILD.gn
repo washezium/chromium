@@ -207,7 +207,7 @@ android_library("java") {
     "//components/infobars/core:infobar_enums_java",
     "//components/policy/android:policy_java",
     "//components/search_engines/android:java",
-    "//components/signin/core/browser/android:java",
+    "//components/signin/public/android:java",
     "//content/public/android:content_java",
     "//content/public/android:content_java_resources",
     "//third_party/android_deps:android_support_v7_appcompat_java",

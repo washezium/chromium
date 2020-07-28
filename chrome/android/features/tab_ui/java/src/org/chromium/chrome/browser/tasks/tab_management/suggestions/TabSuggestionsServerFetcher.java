@@ -16,7 +16,7 @@ import org.chromium.chrome.browser.complex_tasks.endpoint_fetcher.EndpointFetche
 import org.chromium.chrome.browser.complex_tasks.endpoint_fetcher.EndpointResponse;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.profiles.Profile;
-import org.chromium.components.signin.ChromeSigninController;
+import org.chromium.chrome.browser.signin.IdentityServicesProvider;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -132,7 +132,9 @@ public class TabSuggestionsServerFetcher implements TabSuggestionsFetcher {
 
     @VisibleForTesting
     protected boolean isSignedIn() {
-        return ChromeSigninController.get().isSignedIn();
+        return IdentityServicesProvider.get()
+                .getIdentityManager(Profile.getLastUsedRegularProfile())
+                .hasPrimaryAccount();
     }
 
     @VisibleForTesting
