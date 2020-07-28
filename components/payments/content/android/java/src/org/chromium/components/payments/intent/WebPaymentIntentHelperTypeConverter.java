@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.payments;
+package org.chromium.components.payments.intent;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import org.chromium.base.CollectionUtil;
-import org.chromium.components.payments.intent.WebPaymentIntentHelperType;
 import org.chromium.payments.mojom.AddressErrors;
 import org.chromium.payments.mojom.PaymentCurrencyAmount;
 import org.chromium.payments.mojom.PaymentDetailsModifier;

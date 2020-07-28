@@ -56,6 +56,7 @@ import org.chromium.components.browser_ui.bottomsheet.BottomSheetControllerProvi
 import org.chromium.components.embedder_support.util.UrlConstants;
 import org.chromium.components.page_info.CertificateChainHelper;
 import org.chromium.components.payments.AbortReason;
+import org.chromium.components.payments.CanMakePaymentQuery;
 import org.chromium.components.payments.ComponentPaymentRequestImpl;
 import org.chromium.components.payments.ComponentPaymentRequestImpl.ComponentPaymentRequestDelegate;
 import org.chromium.components.payments.ComponentPaymentRequestImpl.NativeObserverForTest;
