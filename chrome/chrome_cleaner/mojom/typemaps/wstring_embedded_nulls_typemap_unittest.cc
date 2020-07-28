@@ -9,10 +9,10 @@
 #include "base/synchronization/waitable_event.h"
 #include "chrome/chrome_cleaner/ipc/ipc_test_util.h"
 #include "chrome/chrome_cleaner/ipc/mojo_task_runner.h"
-#include "chrome/chrome_cleaner/mojom/string16_embedded_nulls.mojom.h"
-#include "chrome/chrome_cleaner/mojom/test_string16_embedded_nulls.mojom.h"
-#include "chrome/chrome_cleaner/strings/string16_embedded_nulls.h"
+#include "chrome/chrome_cleaner/mojom/test_wstring_embedded_nulls.mojom.h"
+#include "chrome/chrome_cleaner/mojom/wstring_embedded_nulls.mojom.h"
 #include "chrome/chrome_cleaner/strings/string_test_helpers.h"
+#include "chrome/chrome_cleaner/strings/wstring_embedded_nulls.h"
 #include "chrome/chrome_cleaner/test/test_util.h"
 #include "mojo/core/embedder/embedder.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
@@ -30,18 +30,18 @@ namespace {
 
 using base::WaitableEvent;
 
-class TestString16EmbeddedNullsImpl : public mojom::TestString16EmbeddedNulls {
+class TestWStringEmbeddedNullsImpl : public mojom::TestWStringEmbeddedNulls {
  public:
-  explicit TestString16EmbeddedNullsImpl(
-      mojo::PendingReceiver<mojom::TestString16EmbeddedNulls> receiver)
+  explicit TestWStringEmbeddedNullsImpl(
+      mojo::PendingReceiver<mojom::TestWStringEmbeddedNulls> receiver)
       : receiver_(this, std::move(receiver)) {}
 
-  void Echo(const String16EmbeddedNulls& path, EchoCallback callback) override {
+  void Echo(const WStringEmbeddedNulls& path, EchoCallback callback) override {
     std::move(callback).Run(path);
   }
 
  private:
-  mojo::Receiver<mojom::TestString16EmbeddedNulls> receiver_;
+  mojo::Receiver<mojom::TestWStringEmbeddedNulls> receiver_;
 };
 
 class SandboxParentProcess : public chrome_cleaner::ParentProcess {
@@ -51,10 +51,9 @@ class SandboxParentProcess : public chrome_cleaner::ParentProcess {
 
  protected:
   void CreateImpl(mojo::ScopedMessagePipeHandle mojo_pipe) override {
-    mojo::PendingReceiver<mojom::TestString16EmbeddedNulls> receiver(
+    mojo::PendingReceiver<mojom::TestWStringEmbeddedNulls> receiver(
         std::move(mojo_pipe));
-    impl_ =
-        std::make_unique<TestString16EmbeddedNullsImpl>(std::move(receiver));
+    impl_ = std::make_unique<TestWStringEmbeddedNullsImpl>(std::move(receiver));
   }
 
   void DestroyImpl() override { impl_.reset(); }
@@ -62,26 +61,27 @@ class SandboxParentProcess : public chrome_cleaner::ParentProcess {
  private:
   ~SandboxParentProcess() override = default;
 
-  std::unique_ptr<TestString16EmbeddedNullsImpl> impl_;
+  std::unique_ptr<TestWStringEmbeddedNullsImpl> impl_;
 };
 
 class SandboxChildProcess : public chrome_cleaner::ChildProcess {
  public:
   explicit SandboxChildProcess(scoped_refptr<MojoTaskRunner> mojo_task_runner)
       : ChildProcess(mojo_task_runner),
-        remote_(std::make_unique<
-                mojo::Remote<mojom::TestString16EmbeddedNulls>>()) {}
+        remote_(
+            std::make_unique<mojo::Remote<mojom::TestWStringEmbeddedNulls>>()) {
+  }
 
   void BindToPipe(mojo::ScopedMessagePipeHandle mojo_pipe,
                   WaitableEvent* event) {
     remote_->Bind(
-        mojo::PendingRemote<chrome_cleaner::mojom::TestString16EmbeddedNulls>(
+        mojo::PendingRemote<chrome_cleaner::mojom::TestWStringEmbeddedNulls>(
             std::move(mojo_pipe), 0));
     event->Signal();
   }
 
-  bool SuccessfulEcho(const String16EmbeddedNulls& input) {
-    String16EmbeddedNulls output;
+  bool SuccessfulEcho(const WStringEmbeddedNulls& input) {
+    WStringEmbeddedNulls output;
     WaitableEvent event(WaitableEvent::ResetPolicy::MANUAL,
                         WaitableEvent::InitialState::NOT_SIGNALED);
     mojo_task_runner_->PostTask(
@@ -98,7 +98,7 @@ class SandboxChildProcess : public chrome_cleaner::ChildProcess {
     mojo_task_runner_->PostTask(
         FROM_HERE,
         base::BindOnce(
-            [](std::unique_ptr<mojo::Remote<mojom::TestString16EmbeddedNulls>>
+            [](std::unique_ptr<mojo::Remote<mojom::TestWStringEmbeddedNulls>>
                    remote) { remote.reset(); },
             std::move(remote_)));
   }
@@ -116,12 +116,12 @@ class SandboxChildProcess : public chrome_cleaner::ChildProcess {
         output, event);
   }
 
-  void RunEcho(const String16EmbeddedNulls& input,
-               mojom::TestString16EmbeddedNulls::EchoCallback callback) {
+  void RunEcho(const WStringEmbeddedNulls& input,
+               mojom::TestWStringEmbeddedNulls::EchoCallback callback) {
     (*remote_)->Echo(input, std::move(callback));
   }
 
-  std::unique_ptr<mojo::Remote<mojom::TestString16EmbeddedNulls>> remote_;
+  std::unique_ptr<mojo::Remote<mojom::TestWStringEmbeddedNulls>> remote_;
 };
 
 scoped_refptr<SandboxChildProcess> InitChildProcess() {
@@ -144,47 +144,47 @@ MULTIPROCESS_TEST_MAIN(EchoMain) {
   scoped_refptr<SandboxChildProcess> child_process = InitChildProcess();
 
   // Empty string.
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls()));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(nullptr)));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(nullptr, 0)));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(nullptr, 1)));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(L"", 0)));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls()));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(nullptr)));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(nullptr, 0)));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(nullptr, 1)));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(L"", 0)));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(std::vector<wchar_t>{})));
+      WStringEmbeddedNulls(std::vector<wchar_t>{})));
   EXPECT_TRUE(
-      child_process->SuccessfulEcho(String16EmbeddedNulls(base::string16())));
+      child_process->SuccessfulEcho(WStringEmbeddedNulls(std::wstring())));
+  EXPECT_TRUE(
+      child_process->SuccessfulEcho(WStringEmbeddedNulls(std::wstring(L""))));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::string16(L""))));
+      WStringEmbeddedNulls(base::WStringPiece())));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::StringPiece16())));
-  EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::StringPiece16(L""))));
+      WStringEmbeddedNulls(base::WStringPiece(L""))));
 
   // Null-terminated strings. Zeroes will be replaced with null characters.
   constexpr wchar_t kStringWithNulls[] = L"string0with0nulls";
   const std::vector<wchar_t> vec1 = CreateVectorWithNulls(kStringWithNulls);
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(vec1.data(), vec1.size())));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(vec1)));
+      WStringEmbeddedNulls(vec1.data(), vec1.size())));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(vec1)));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::string16(vec1.data(), vec1.size()))));
+      WStringEmbeddedNulls(std::wstring(vec1.data(), vec1.size()))));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::StringPiece16(vec1.data(), vec1.size()))));
+      WStringEmbeddedNulls(base::WStringPiece(vec1.data(), vec1.size()))));
 
   // Non null-terminated strings.
   const std::vector<wchar_t> vec2(vec1.begin(), vec1.end() - 1);
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(vec2.data(), vec2.size())));
-  EXPECT_TRUE(child_process->SuccessfulEcho(String16EmbeddedNulls(vec2)));
+      WStringEmbeddedNulls(vec2.data(), vec2.size())));
+  EXPECT_TRUE(child_process->SuccessfulEcho(WStringEmbeddedNulls(vec2)));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::string16(vec2.data(), vec2.size()))));
+      WStringEmbeddedNulls(std::wstring(vec2.data(), vec2.size()))));
   EXPECT_TRUE(child_process->SuccessfulEcho(
-      String16EmbeddedNulls(base::StringPiece16(vec2.data(), vec2.size()))));
+      WStringEmbeddedNulls(base::WStringPiece(vec2.data(), vec2.size()))));
 
   return ::testing::Test::HasNonfatalFailure();
 }
 
-class String16EmbeddedNullsTypemapTest : public ::testing::Test {
+class WStringEmbeddedNullsTypemapTest : public ::testing::Test {
  public:
   void SetUp() override {
     mojo_task_runner_ = MojoTaskRunner::Create();
@@ -197,7 +197,7 @@ class String16EmbeddedNullsTypemapTest : public ::testing::Test {
   scoped_refptr<SandboxParentProcess> parent_process_;
 };
 
-TEST_F(String16EmbeddedNullsTypemapTest, Echo) {
+TEST_F(WStringEmbeddedNullsTypemapTest, Echo) {
   int32_t exit_code = -1;
   EXPECT_TRUE(
       parent_process_->LaunchConnectedChildProcess("EchoMain", &exit_code));

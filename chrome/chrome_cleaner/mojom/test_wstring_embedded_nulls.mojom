@@ -4,9 +4,9 @@
 
 module chrome_cleaner.mojom;
 
-import "chrome/chrome_cleaner/mojom/string16_embedded_nulls.mojom";
+import "chrome/chrome_cleaner/mojom/wstring_embedded_nulls.mojom";
 
 // Simple interface that echoes an object for typemap testing.
-interface TestString16EmbeddedNulls {
-  Echo(String16EmbeddedNulls input) => (String16EmbeddedNulls output);
+interface TestWStringEmbeddedNulls {
+  Echo(WStringEmbeddedNulls input) => (WStringEmbeddedNulls output);
 };

@@ -4,13 +4,13 @@
 
 module chrome_cleaner.mojom;
 
-// Typemapped to chrome_cleaner::String16EmbeddedNulls.
+// Typemapped to chrome_cleaner::WStringEmbeddedNulls.
 //
 // Note: Mojo doesn't allow sending null arrays over the wire, and the strings
 //       represented by this type can be empty (without a null at the end).
 //       Because of that, represented as a union of either something that is
 //       always empty (NullValue) or a non-empty array of uint16.
-union String16EmbeddedNulls {
+union WStringEmbeddedNulls {
   // The underlying string is a null array (not the same as an empty string,
   // which has at least one character '\0').
   NullValue? null_value;
