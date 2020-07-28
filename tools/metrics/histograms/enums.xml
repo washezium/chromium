@@ -35416,6 +35416,14 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="9" label="PERSONAL_LAST_NAME"/>
 </enum>
 
+<enum name="IMEAssistiveDisabledReason">
+  <int value="0" label="None"/>
+  <int value="1" label="Feature flag off"/>
+  <int value="2" label="Enterprise settings off"/>
+  <int value="3" label="User settings off"/>
+  <int value="4" label="Url or App not allowed"/>
+</enum>
+
 <enum name="IMECommitType">
   <obsolete>
     Deprecated 03/2015, and replaced by IMECommitType2.
