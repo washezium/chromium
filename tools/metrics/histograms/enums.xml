@@ -39763,6 +39763,7 @@ from previous Chrome versions.
   <int value="-2090484194" label="ContextualSearchUrlActions:disabled"/>
   <int value="-2088555929" label="EnableAppGridGhost:enabled"/>
   <int value="-2088472280" label="KeyboardShortcutViewerApp:disabled"/>
+  <int value="-2084849051" label="TabGroupsCollapseFreezing:disabled"/>
   <int value="-2083998415" label="VrLaunchIntent:enabled"/>
   <int value="-2083195884" label="enable-firewall-hole-punching"/>
   <int value="-2082462043" label="ViewPasswords:disabled"/>
@@ -40142,6 +40143,7 @@ from previous Chrome versions.
   <int value="-1703709912" label="enable-new-ntp"/>
   <int value="-1703308540" label="disable-webaudio"/>
   <int value="-1701123067" label="ShowManagedUi:enabled"/>
+  <int value="-1698438797" label="TabGroupsCollapseFreezing:enabled"/>
   <int value="-1696778023"
       label="HappinessTrackingSurveysForDesktopSettings:disabled"/>
   <int value="-1696619241" label="OmniboxWrapPopupPosition:disabled"/>
