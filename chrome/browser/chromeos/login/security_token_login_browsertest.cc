@@ -64,6 +64,13 @@ constexpr char kChallengeResponseErrorLabel[] =
     "Couldn’t recognize your smart card. Try again.";
 constexpr char kPinDialogDefaultTitle[] = "Smart card PIN";
 constexpr char kPinDialogInvalidPinTitle[] = "Invalid PIN.";
+constexpr char kPinDialogInvalidPin2AttemptsTitle[] =
+    "Invalid PIN. 2 attempts left";
+// TODO(crbug.com/1060695): Fix the incorrect plural in the message.
+constexpr char kPinDialogInvalidPin1AttemptTitle[] =
+    "Invalid PIN. 1 attempts left";
+constexpr char kPinDialogNoAttemptsLeftTitle[] =
+    "Maximum allowed attempts exceeded.";
 
 constexpr char kChallengeData[] = "challenge";
 
@@ -328,6 +335,29 @@ IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, WrongPinThenCorrect) {
   // The correct PIN is entered, and the login succeeds.
   LoginScreenTestApi::SubmitPinRequestWidget(kCorrectPin);
   WaitForActiveSession();
+}
+
+// Test the login failure scenario when the wrong PIN is entered several times
+// until there's no more attempt left (simulating, e.g., a smart card lockout).
+IN_PROC_BROWSER_TEST_F(SecurityTokenLoginTest, WrongPinUntilLockout) {
+  test_certificate_provider_extension()->set_remaining_pin_attempts(3);
+
+  StartLoginAndWaitForPinDialog();
+
+  // A wrong PIN is entered several times, causing a corresponding error
+  // displayed in the PIN dialog.
+  LoginScreenTestApi::SubmitPinRequestWidget(kWrongPin);
+  WaitForPinDialogTitle(kPinDialogInvalidPin2AttemptsTitle);
+  LoginScreenTestApi::SubmitPinRequestWidget(kWrongPin);
+  WaitForPinDialogTitle(kPinDialogInvalidPin1AttemptTitle);
+  LoginScreenTestApi::SubmitPinRequestWidget(kWrongPin);
+  WaitForPinDialogTitle(kPinDialogNoAttemptsLeftTitle);
+
+  // After closing the PIN dialog with the fatal error, the login fails.
+  AuthFailureWaiter auth_failure_waiter;
+  LoginScreenTestApi::CancelPinRequestWidget();
+  EXPECT_EQ(auth_failure_waiter.Wait(),
+            AuthFailure::COULD_NOT_MOUNT_CRYPTOHOME);
 }
 
 // Test the login failure scenario when the extension fails to sign the
