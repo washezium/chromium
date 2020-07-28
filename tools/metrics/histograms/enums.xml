@@ -28553,6 +28553,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3353"
       label="CrossBrowsingContextGroupMainFrameNulledNonEmptyNameAccessed"/>
   <int value="3354" label="PositionSticky"/>
+  <int value="3355" label="CommaSeparatorInAllowAttribute"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
