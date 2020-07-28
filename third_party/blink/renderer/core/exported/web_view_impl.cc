@@ -1167,21 +1167,6 @@ WebInputEventResult WebViewImpl::SendContextMenuEvent() {
 }
 #endif
 
-void WebViewImpl::ShowContextMenuForElement(WebElement element) {
-  if (!GetPage())
-    return;
-
-  GetPage()->GetContextMenuController().ClearContextMenu();
-  {
-    ContextMenuAllowedScope scope;
-    if (LocalFrame* focused_frame = To<LocalFrame>(
-            GetPage()->GetFocusController().FocusedOrMainFrame())) {
-      focused_frame->GetEventHandler().ShowNonLocatedContextMenu(
-          element.Unwrap<Element>());
-    }
-  }
-}
-
 WebPagePopupImpl* WebViewImpl::OpenPagePopup(PagePopupClient* client) {
   DCHECK(client);
 
