@@ -1398,44 +1398,41 @@ const FeatureEntry::FeatureVariation kLongpressResolveVariations[] = {
 #endif  // defined(OS_ANDROID)
 
 const FeatureEntry::FeatureParam kResamplingInputEventsLSQEnabled[] = {
-    {"predictor", blink::features::kScrollPredictorNameLsq}};
+    {"predictor", features::kPredictorNameLsq}};
 const FeatureEntry::FeatureParam kResamplingInputEventsKalmanEnabled[] = {
-    {"predictor", blink::features::kScrollPredictorNameKalman}};
+    {"predictor", features::kPredictorNameKalman}};
 const FeatureEntry::FeatureParam kResamplingInputEventsLinearFirstEnabled[] = {
-    {"predictor", blink::features::kScrollPredictorNameLinearFirst}};
+    {"predictor", features::kPredictorNameLinearFirst}};
 const FeatureEntry::FeatureParam kResamplingInputEventsLinearSecondEnabled[] = {
-    {"predictor", blink::features::kScrollPredictorNameLinearSecond}};
+    {"predictor", features::kPredictorNameLinearSecond}};
 const FeatureEntry::FeatureParam
     kResamplingInputEventsLinearResamplingEnabled[] = {
-        {"predictor", blink::features::kScrollPredictorNameLinearResampling}};
+        {"predictor", features::kPredictorNameLinearResampling}};
 
 const FeatureEntry::FeatureVariation kResamplingInputEventsFeatureVariations[] =
-    {{blink::features::kScrollPredictorNameLsq,
-      kResamplingInputEventsLSQEnabled,
+    {{features::kPredictorNameLsq, kResamplingInputEventsLSQEnabled,
       base::size(kResamplingInputEventsLSQEnabled), nullptr},
-     {blink::features::kScrollPredictorNameKalman,
-      kResamplingInputEventsKalmanEnabled,
+     {features::kPredictorNameKalman, kResamplingInputEventsKalmanEnabled,
       base::size(kResamplingInputEventsKalmanEnabled), nullptr},
-     {blink::features::kScrollPredictorNameLinearFirst,
+     {features::kPredictorNameLinearFirst,
       kResamplingInputEventsLinearFirstEnabled,
       base::size(kResamplingInputEventsLinearFirstEnabled), nullptr},
-     {blink::features::kScrollPredictorNameLinearSecond,
+     {features::kPredictorNameLinearSecond,
       kResamplingInputEventsLinearSecondEnabled,
       base::size(kResamplingInputEventsLinearSecondEnabled), nullptr},
-     {blink::features::kScrollPredictorNameLinearResampling,
+     {features::kPredictorNameLinearResampling,
       kResamplingInputEventsLinearResamplingEnabled,
       base::size(kResamplingInputEventsLinearResamplingEnabled), nullptr}};
 
 const FeatureEntry::FeatureParam kFilteringPredictionEmptyFilterEnabled[] = {
-    {"filter", blink::features::kFilterNameEmpty}};
+    {"filter", features::kFilterNameEmpty}};
 const FeatureEntry::FeatureParam kFilteringPredictionOneEuroFilterEnabled[] = {
-    {"filter", blink::features::kFilterNameOneEuro}};
+    {"filter", features::kFilterNameOneEuro}};
 
 const FeatureEntry::FeatureVariation kFilteringPredictionFeatureVariations[] = {
-    {blink::features::kFilterNameEmpty, kFilteringPredictionEmptyFilterEnabled,
+    {features::kFilterNameEmpty, kFilteringPredictionEmptyFilterEnabled,
      base::size(kFilteringPredictionEmptyFilterEnabled), nullptr},
-    {blink::features::kFilterNameOneEuro,
-     kFilteringPredictionOneEuroFilterEnabled,
+    {features::kFilterNameOneEuro, kFilteringPredictionOneEuroFilterEnabled,
      base::size(kFilteringPredictionOneEuroFilterEnabled), nullptr}};
 
 #if defined(OS_ANDROID)
