@@ -3012,6 +3012,11 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kCastMediaRouteProviderName,
      flag_descriptions::kCastMediaRouteProviderDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(media_router::kCastMediaRouteProvider)},
+    {"global-media-controls-cast-start-stop",
+     flag_descriptions::kGlobalMediaControlsCastStartStopName,
+     flag_descriptions::kGlobalMediaControlsCastStartStopDescription,
+     kOsWin | kOsMac | kOsLinux,
+     FEATURE_VALUE_TYPE(media_router::kGlobalMediaControlsCastStartStop)},
 #endif  // !OS_ANDROID
 #if defined(OS_ANDROID)
     {"autofill-keyboard-accessory-view",

@@ -3092,6 +3092,12 @@ const char kCastMediaRouteProviderDescription[] =
     "Enables the native Cast Media Route Provider implementation to be used "
     "instead of the implementation in the Media Router component extension.";
 
+const char kGlobalMediaControlsCastStartStopName[] =
+    "Global media controls control Cast start/stop";
+const char kGlobalMediaControlsCastStartStopDescription[] =
+    "Allows global media controls to control when a Cast session is started "
+    "or stopped instead of relying on the Cast dialog.";
+
 const char kNtpDismissPromosName[] = "Dismiss promos on the New Tab Page";
 const char kNtpDismissPromosDescription[] =
     "Enables a UI to persistently dismiss [non-emergency] promos on the "

@@ -1771,6 +1771,9 @@ extern const char kEnableAccessibilityLiveCaptionsDescription[];
 extern const char kCastMediaRouteProviderName[];
 extern const char kCastMediaRouteProviderDescription[];
 
+extern const char kGlobalMediaControlsCastStartStopName[];
+extern const char kGlobalMediaControlsCastStartStopDescription[];
+
 extern const char kNtpDismissPromosName[];
 extern const char kNtpDismissPromosDescription[];
 

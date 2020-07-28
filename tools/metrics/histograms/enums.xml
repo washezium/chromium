@@ -39946,6 +39946,7 @@ from previous Chrome versions.
   <int value="-1896871201" label="CrossOriginOpenerPolicyReporting:enabled"/>
   <int value="-1896394207" label="PasswordChange:disabled"/>
   <int value="-1895719323" label="VrBrowsingTabsView:enabled"/>
+  <int value="-1895050832" label="GlobalMediaControlsCastStartStop:disabled"/>
   <int value="-1894699049" label="AudioFocusEnforcement:disabled"/>
   <int value="-1894054576" label="FontAccess:enabled"/>
   <int value="-1893668420"
@@ -42227,6 +42228,7 @@ from previous Chrome versions.
   <int value="557200974" label="WebSocketHandshakeReuseConnection:disabled"/>
   <int value="557915559" label="CCTModuleCustomRequestHeader:enabled"/>
   <int value="558873715" label="SiteDetails:disabled"/>
+  <int value="561951500" label="GlobalMediaControlsCastStartStop:enabled"/>
   <int value="562979188" label="DesktopIOSPromotion:enabled"/>
   <int value="564355877" label="OopRasterizationDDL:disabled"/>
   <int value="564522013" label="Av1Decoder:disabled"/>
