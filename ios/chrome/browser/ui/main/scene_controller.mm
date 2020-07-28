@@ -1587,6 +1587,13 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
           dismissWithNewTabAnimationToBrowser:targetInterface.browser
                             withUrlLoadParams:urlLoadParams
                                       atIndex:tabIndex];
+      // In this particular usage, there should be no postOpeningAction,
+      // as triggering voice search while there are multiple windows opened is probably
+      // a bad idea both technically and as a user experience.
+      // It should be the caller duty to not set a completion if they don't need it.
+      if (completion) {
+        completion();
+      }
     }
   } else {
     if (!self.currentInterface.viewController.presentedViewController) {
