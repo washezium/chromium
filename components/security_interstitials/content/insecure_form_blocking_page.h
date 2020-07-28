@@ -33,7 +33,6 @@ class InsecureFormBlockingPage : public SecurityInterstitialPage {
  protected:
   // SecurityInterstitialPage::
   void CommandReceived(const std::string& command) override;
-  bool ShouldCreateNewNavigation() const override;
   void PopulateInterstitialStrings(
       base::DictionaryValue* load_time_data) override;
 

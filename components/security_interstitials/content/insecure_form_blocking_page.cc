@@ -39,10 +39,6 @@ SecurityInterstitialPage::TypeID InsecureFormBlockingPage::GetTypeForTesting() {
   return InsecureFormBlockingPage::kTypeForTesting;
 }
 
-bool InsecureFormBlockingPage::ShouldCreateNewNavigation() const {
-  return false;
-}
-
 void InsecureFormBlockingPage::CommandReceived(const std::string& command) {
   if (command == "\"pageLoadComplete\"") {
     // content::WaitForRenderFrameReady sends this message when the page
