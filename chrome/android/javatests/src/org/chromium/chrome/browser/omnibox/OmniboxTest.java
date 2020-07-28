@@ -18,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.chromium.base.ThreadUtils;
 import org.chromium.base.test.params.ParameterizedCommandLineFlags;
 import org.chromium.base.test.params.ParameterizedCommandLineFlags.Switches;
 import org.chromium.base.test.params.SkipCommandLineParameterization;
@@ -263,16 +264,19 @@ public class OmniboxTest {
                 ServerCertificate.CERT_OK);
         CallbackHelper didThemeColorChangedCallbackHelper = new CallbackHelper();
         CallbackHelper onSSLStateUpdatedCallbackHelper = new CallbackHelper();
-        new TabModelSelectorTabObserver(mActivityTestRule.getActivity().getTabModelSelector()) {
-            @Override
-            public void onDidChangeThemeColor(Tab tab, int color) {
-                didThemeColorChangedCallbackHelper.notifyCalled();
-            }
-            @Override
-            public void onSSLStateUpdated(Tab tab) {
-                onSSLStateUpdatedCallbackHelper.notifyCalled();
-            }
-        };
+        ThreadUtils.runOnUiThreadBlocking(
+                ()
+                        -> new TabModelSelectorTabObserver(
+                                mActivityTestRule.getActivity().getTabModelSelector()) {
+                    @Override
+                    public void onDidChangeThemeColor(Tab tab, int color) {
+                        didThemeColorChangedCallbackHelper.notifyCalled();
+                    }
+                    @Override
+                    public void onSSLStateUpdated(Tab tab) {
+                        onSSLStateUpdatedCallbackHelper.notifyCalled();
+                    }
+                });
 
         try {
             final String testHttpsUrl =
