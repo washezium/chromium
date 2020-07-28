@@ -15,23 +15,12 @@
 
 namespace mojo {
 
-// Defines NullValue as mapped to nullptr_t.
 template <>
-struct StructTraits<chrome_cleaner::mojom::NullValueDataView, nullptr_t> {
-  static bool Read(chrome_cleaner::mojom::NullValueDataView data,
-                   nullptr_t* value);
-};
-
-template <>
-struct UnionTraits<chrome_cleaner::mojom::WStringEmbeddedNullsDataView,
-                   chrome_cleaner::WStringEmbeddedNulls> {
+struct StructTraits<chrome_cleaner::mojom::WStringEmbeddedNullsDataView,
+                    chrome_cleaner::WStringEmbeddedNulls> {
   // This should only be called by Mojo to marshal the object before sending it
   // through the pipe.
   static base::span<const uint16_t> value(
-      const chrome_cleaner::WStringEmbeddedNulls& str);
-  static nullptr_t null_value(const chrome_cleaner::WStringEmbeddedNulls& str);
-
-  static chrome_cleaner::mojom::WStringEmbeddedNullsDataView::Tag GetTag(
       const chrome_cleaner::WStringEmbeddedNulls& str);
 
   static bool Read(chrome_cleaner::mojom::WStringEmbeddedNullsDataView str_view,
