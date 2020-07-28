@@ -483,5 +483,8 @@ specific_include_rules = {
   ],
   "chrome_find_request_manager_browsertest\.cc": [
     "+pdf/document_loader_impl.h",
-  ]
+  ],
+  "focus_ring_browsertest\.cc": [
+    "+cc/test/pixel_comparator.h",
+  ],
 }
