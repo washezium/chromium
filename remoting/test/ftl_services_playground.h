@@ -17,6 +17,10 @@
 #include "remoting/signaling/ftl_registration_manager.h"
 #include "remoting/signaling/signaling_tracker_impl.h"
 
+namespace network {
+class TransitionalURLLoaderFactoryOwner;
+}  // namespace network
+
 namespace remoting {
 
 namespace test {
@@ -51,7 +55,7 @@ class FtlServicesPlayground {
 
   void SignInGaia(base::OnceClosure on_done);
   void OnSignInGaiaResponse(base::OnceClosure on_done,
-                            const grpc::Status& status);
+                            const ProtobufHttpStatus& status);
 
   void PullMessages(base::OnceClosure on_done);
   void OnPullMessagesResponse(base::OnceClosure on_done,
@@ -77,6 +81,8 @@ class FtlServicesPlayground {
   std::unique_ptr<test::TestTokenStorage> storage_;
   std::unique_ptr<test::TestOAuthTokenGetter> token_getter_;
   std::unique_ptr<GrpcAuthenticatedExecutor> executor_;
+  std::unique_ptr<network::TransitionalURLLoaderFactoryOwner>
+      url_loader_factory_owner_;
 
   std::unique_ptr<FtlRegistrationManager> registration_manager_;
 

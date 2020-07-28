@@ -21,12 +21,16 @@
 #include "base/task/post_task.h"
 #include "remoting/base/grpc_support/grpc_async_unary_request.h"
 #include "remoting/base/oauth_token_getter_impl.h"
+#include "remoting/base/protobuf_http_status.h"
+#include "remoting/base/url_request_context_getter.h"
 #include "remoting/proto/ftl/v1/ftl_services.grpc.pb.h"
 #include "remoting/signaling/ftl_grpc_context.h"
 #include "remoting/test/cli_util.h"
 #include "remoting/test/test_device_id_provider.h"
 #include "remoting/test/test_oauth_token_getter.h"
 #include "remoting/test/test_token_storage.h"
+#include "services/network/public/cpp/shared_url_loader_factory.h"
+#include "services/network/transitional_url_loader_factory_owner.h"
 
 namespace {
 
@@ -103,6 +107,13 @@ void FtlServicesPlayground::StartLoop() {
                                            weak_factory_.GetWeakPtr())});
   }
 
+  auto url_request_context_getter =
+      base::MakeRefCounted<URLRequestContextGetter>(
+          base::ThreadTaskRunnerHandle::Get());
+  url_loader_factory_owner_ =
+      std::make_unique<network::TransitionalURLLoaderFactoryOwner>(
+          url_request_context_getter);
+
   test::RunCommandOptionsLoop(options);
 }
 
@@ -111,7 +122,7 @@ void FtlServicesPlayground::ResetServices(base::OnceClosure on_done) {
   peer_to_peer_stub_ = PeerToPeer::NewStub(FtlGrpcContext::CreateChannel());
 
   registration_manager_ = std::make_unique<FtlRegistrationManager>(
-      token_getter_.get(),
+      token_getter_.get(), url_loader_factory_owner_->GetURLLoaderFactory(),
       std::make_unique<test::TestDeviceIdProvider>(storage_.get()));
 
   message_subscription_.reset();
@@ -178,10 +189,15 @@ void FtlServicesPlayground::SignInGaia(base::OnceClosure on_done) {
                      weak_factory_.GetWeakPtr(), std::move(on_done)));
 }
 
-void FtlServicesPlayground::OnSignInGaiaResponse(base::OnceClosure on_done,
-                                                 const grpc::Status& status) {
+void FtlServicesPlayground::OnSignInGaiaResponse(
+    base::OnceClosure on_done,
+    const ProtobufHttpStatus& status) {
   if (!status.ok()) {
-    HandleGrpcStatusError(std::move(on_done), status);
+    // TODO(yuweih): Clean this up.
+    HandleGrpcStatusError(
+        std::move(on_done),
+        grpc::Status(static_cast<grpc::StatusCode>(status.error_code()),
+                     status.error_message()));
     return;
   }
 
