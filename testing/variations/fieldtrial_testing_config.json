@@ -2297,8 +2297,7 @@
                 {
                     "name": "DnsHttpssvcStudy",
                     "params": {
-                        "HttpssvcQueryHttpssvc": "false",
-                        "HttpssvcQueryIntegrity": "true"
+                        "DnsHttpssvcUseIntegrity": "true"
                     },
                     "enable_features": [
                         "DnsHttpssvc"
