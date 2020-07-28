@@ -7,6 +7,8 @@
 
 #include "components/security_interstitials/content/security_interstitial_page.h"
 
+class PrefRegistrySimple;
+
 namespace security_interstitials {
 class SecurityInterstitialControllerClient;
 
@@ -21,6 +23,8 @@ class InsecureFormBlockingPage : public SecurityInterstitialPage {
 
   static const SecurityInterstitialPage::TypeID kTypeForTesting;
   ~InsecureFormBlockingPage() override;
+
+  static void RegisterProfilePrefs(PrefRegistrySimple* registry);
 
   // SecurityInterstitialPage::
   void OnInterstitialClosing() override {}
