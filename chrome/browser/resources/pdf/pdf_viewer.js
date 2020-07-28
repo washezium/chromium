@@ -108,6 +108,11 @@ export class PDFViewerElement extends PDFViewerBaseElement {
 
       bookmarks_: Array,
 
+      documentHasFocus_: {
+        type: Boolean,
+        value: false,
+      },
+
       hasEdits_: {
         type: Boolean,
         value: false,
@@ -162,6 +167,9 @@ export class PDFViewerElement extends PDFViewerBaseElement {
 
     /** @private {!Array<!Bookmark>} */
     this.bookmarks_ = [];
+
+    /** @private {boolean} */
+    this.documentHasFocus_ = false;
 
     /** @private {boolean} */
     this.hasEdits_ = false;
@@ -702,7 +710,8 @@ export class PDFViewerElement extends PDFViewerBaseElement {
         });
         return;
       case 'documentFocusChanged':
-        // TODO(crbug.com/1069370): Draw a focus rect around plugin.
+        this.documentHasFocus_ =
+            /** @type {{ hasFocus: boolean }} */ (data).hasFocus;
         return;
     }
     assertNotReached('Unknown message type received: ' + data.type);
