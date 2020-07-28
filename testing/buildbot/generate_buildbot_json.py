@@ -869,6 +869,15 @@ class BBJSONGenerator(object):
 
     browser = ('android-webview-instrumentation'
                if is_android_webview else tester_config['browser_config'])
+
+    # Most platforms require --enable-logging=stderr to get useful browser logs.
+    # However, this actively messes with logging on CrOS (because Chrome's
+    # stderr goes nowhere on CrOS) AND --log-level=0 is required for some reason
+    # in order to see JavaScript console messages. See
+    # https://chromium.googlesource.com/chromium/src.git/+/HEAD/docs/chrome_os_logging.md
+    logging_arg = '--log-level=0' if self.is_chromeos(
+        tester_config) else '--enable-logging=stderr'
+
     args = [
         test_to_run,
         '--show-stdout',
@@ -878,7 +887,7 @@ class BBJSONGenerator(object):
         # being expected to fail, but passing.
         '--passthrough',
         '-v',
-        '--extra-browser-args=--enable-logging=stderr --js-flags=--expose-gc',
+        '--extra-browser-args=%s --js-flags=--expose-gc' % logging_arg,
     ] + args
     result['args'] = self.maybe_fixup_args_array(self.substitute_gpu_args(
       tester_config, result['swarming'], args))
