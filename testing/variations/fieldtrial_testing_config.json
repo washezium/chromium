@@ -4701,8 +4701,6 @@
                         "NtpRealbox",
                         "OmniboxDisplayTitleForCurrentUrl",
                         "OmniboxDocumentProvider",
-                        "OmniboxHistoryQuickProviderAllowButDoNotScoreMidwordTerms",
-                        "OmniboxHistoryQuickProviderAllowMidwordContinuations",
                         "OmniboxMaxURLMatches",
                         "OmniboxOnFocusSuggestions",
                         "OmniboxRemoveSuggestionsFromClipboard",
@@ -4729,8 +4727,6 @@
                         "rounded_edges": "true"
                     },
                     "enable_features": [
-                        "OmniboxHistoryQuickProviderAllowButDoNotScoreMidwordTerms",
-                        "OmniboxHistoryQuickProviderAllowMidwordContinuations",
                         "OmniboxOnFocusSuggestions"
                     ]
                 }
@@ -4750,8 +4746,6 @@
                     },
                     "enable_features": [
                         "OmniboxDisableInstantExtendedLimit",
-                        "OmniboxHistoryQuickProviderAllowButDoNotScoreMidwordTerms",
-                        "OmniboxHistoryQuickProviderAllowMidwordContinuations",
                         "OmniboxOnFocusSuggestions"
                     ]
                 }
