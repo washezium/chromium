@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/prerender/prerender_history.h"
+#include "components/prerender/browser/prerender_history.h"
 
 #include <memory>
 #include <utility>
@@ -13,8 +13,7 @@
 
 namespace prerender {
 
-PrerenderHistory::PrerenderHistory(size_t max_items)
-    : max_items_(max_items) {
+PrerenderHistory::PrerenderHistory(size_t max_items) : max_items_(max_items) {
   DCHECK(max_items > 0);
 }
 

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_PRERENDER_PRERENDER_HISTORY_H_
-#define CHROME_BROWSER_PRERENDER_PRERENDER_HISTORY_H_
+#ifndef COMPONENTS_PRERENDER_BROWSER_PRERENDER_HISTORY_H_
+#define COMPONENTS_PRERENDER_BROWSER_PRERENDER_HISTORY_H_
 
 #include <stddef.h>
 
@@ -36,10 +36,10 @@ class PrerenderHistory {
           FinalStatus final_status_arg,
           Origin origin_arg,
           base::Time end_time_arg)
-        : url(url_arg), final_status(final_status_arg),
+        : url(url_arg),
+          final_status(final_status_arg),
           origin(origin_arg),
-          end_time(end_time_arg) {
-    }
+          end_time(end_time_arg) {}
 
     // The URL which was prerendered. This should be the URL included in the
     // <link rel="prerender"> tag, and not any URLs which it may have redirected
@@ -80,4 +80,4 @@ class PrerenderHistory {
 };
 
 }  // namespace prerender
-#endif  // CHROME_BROWSER_PRERENDER_PRERENDER_HISTORY_H_
+#endif  // COMPONENTS_PRERENDER_BROWSER_PRERENDER_HISTORY_H_
