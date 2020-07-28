@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "weblayer/shell/android/browsertests_apk/metrics_test_helper.h"
+#include "weblayer/browser/android/metrics/metrics_test_helper.h"
 
 #include "base/android/jni_android.h"
 #include "base/android/jni_string.h"
 #include "base/no_destructor.h"
+#include "weblayer/browser/profile_impl.h"
 #include "weblayer/test/weblayer_browsertests_jni/MetricsTestHelper_jni.h"
 
 namespace weblayer {
@@ -16,6 +17,15 @@ namespace {
 OnLogsMetricsCallback& GetOnLogMetricsCallback() {
   static base::NoDestructor<OnLogsMetricsCallback> s_callback;
   return *s_callback;
+}
+
+ProfileImpl* GetProfileByName(const std::string& name) {
+  for (auto* profile : ProfileImpl::GetAllProfiles()) {
+    if (profile->name() == name)
+      return profile;
+  }
+
+  return nullptr;
 }
 
 }  // namespace
@@ -33,12 +43,15 @@ void RemoveTestGmsBridge() {
   GetOnLogMetricsCallback().Reset();
 }
 
-void CreateProfile(const std::string& name) {
+ProfileImpl* CreateProfile(const std::string& name) {
+  DCHECK(!GetProfileByName(name));
   JNIEnv* env = base::android::AttachCurrentThread();
   Java_MetricsTestHelper_createProfile(
       env, base::android::ConvertUTF8ToJavaString(env, name));
+  return GetProfileByName(name);
 }
 void DestroyProfile(const std::string& name) {
+  DCHECK(GetProfileByName(name));
   JNIEnv* env = base::android::AttachCurrentThread();
   Java_MetricsTestHelper_destroyProfile(
       env, base::android::ConvertUTF8ToJavaString(env, name));

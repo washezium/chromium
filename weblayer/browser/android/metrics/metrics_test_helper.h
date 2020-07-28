@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef WEBLAYER_SHELL_ANDROID_BROWSERTESTS_APK_METRICS_TEST_HELPER_H_
-#define WEBLAYER_SHELL_ANDROID_BROWSERTESTS_APK_METRICS_TEST_HELPER_H_
+#ifndef WEBLAYER_BROWSER_ANDROID_METRICS_METRICS_TEST_HELPER_H_
+#define WEBLAYER_BROWSER_ANDROID_METRICS_METRICS_TEST_HELPER_H_
 
 #include <string>
 
@@ -11,6 +11,7 @@
 #include "third_party/metrics_proto/chrome_user_metrics_extension.pb.h"
 
 namespace weblayer {
+class ProfileImpl;
 
 // Various utilities to bridge to Java code for metrics related tests.
 
@@ -27,10 +28,10 @@ void InstallTestGmsBridge(
 void RemoveTestGmsBridge();
 
 // See Profile::Create()'s comments for the semantics of |name|.
-void CreateProfile(const std::string& name);
+ProfileImpl* CreateProfile(const std::string& name);
 
 void DestroyProfile(const std::string& name);
 
 }  // namespace weblayer
 
-#endif  // WEBLAYER_SHELL_ANDROID_BROWSERTESTS_APK_METRICS_TEST_HELPER_H_
+#endif  // WEBLAYER_BROWSER_ANDROID_METRICS_METRICS_TEST_HELPER_H_
