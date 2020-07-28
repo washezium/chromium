@@ -42,4 +42,13 @@ public class PaymentOptionsUtils {
         return String.format("{payerEmail:%s,payerName:%s,payerPhone:%s,shipping:%s}",
                 requestPayerEmail, requestPayerName, requestPayerPhone, requestShipping);
     }
+
+    /**
+     * @param paymentOptions The PaymentOptions of the payment request.
+     * @return Whether requestShipping is specified in the payment request.
+     */
+    public static boolean requestShipping(
+            org.chromium.payments.mojom.PaymentOptions paymentOptions) {
+        return paymentOptions != null && paymentOptions.requestShipping;
+    }
 }
