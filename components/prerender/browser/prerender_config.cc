@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/prerender/prerender_config.h"
+#include "components/prerender/browser/prerender_config.h"
 
 namespace prerender {
 
@@ -16,6 +16,6 @@ Config::Config()
       abandon_time_to_live(base::TimeDelta::FromSeconds(3)),
       default_tab_bounds(640, 480) {}
 
-Config::~Config() { }
+Config::~Config() {}
 
 }  // namespace prerender
