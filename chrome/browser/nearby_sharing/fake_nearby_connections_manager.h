@@ -24,7 +24,7 @@ class FakeNearbyConnectionsManager : public NearbyConnectionsManager {
     void Read(ReadCallback callback) override;
     void Write(std::vector<uint8_t> bytes, WriteCallback callback) override;
     void Close() override;
-    bool IsClosed() override;
+    bool IsClosed() const override;
     void RegisterForDisconnection(base::OnceClosure callback) override;
 
    private:

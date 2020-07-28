@@ -14,6 +14,7 @@
 #include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
 #include "chrome/browser/nearby_sharing/mock_nearby_connections.h"
+#include "chrome/browser/nearby_sharing/mock_nearby_sharing_decoder.h"
 #include "chrome/browser/profiles/profile_attributes_entry.h"
 #include "chrome/services/sharing/public/mojom/nearby_connections.mojom.h"
 #include "chrome/services/sharing/public/mojom/nearby_connections_types.mojom.h"
@@ -38,27 +39,6 @@ using NearbyConnectionsDependenciesPtr =
 using NearbySharingDecoderMojom = sharing::mojom::NearbySharingDecoder;
 
 namespace {
-
-class MockNearbySharingDecoder : public NearbySharingDecoderMojom {
- public:
-  MockNearbySharingDecoder() = default;
-  explicit MockNearbySharingDecoder(
-      const sharing::mojom::NearbySharingDecoder&) = delete;
-  MockNearbySharingDecoder& operator=(
-      const sharing::mojom::NearbySharingDecoder&) = delete;
-  ~MockNearbySharingDecoder() override = default;
-
-  // sharing::mojom::NearbySharingDecoder:
-  MOCK_METHOD(void,
-              DecodeAdvertisement,
-              (const std::vector<uint8_t>& data,
-               DecodeAdvertisementCallback callback),
-              (override));
-  MOCK_METHOD(void,
-              DecodeFrame,
-              (const std::vector<uint8_t>& data, DecodeFrameCallback callback),
-              (override));
-};
 
 class FakeSharingMojoService : public sharing::mojom::Sharing {
  public:

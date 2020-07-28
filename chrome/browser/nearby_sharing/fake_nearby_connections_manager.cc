@@ -27,7 +27,7 @@ void FakeNearbyConnectionsManager::FakeNearbyConnection::Close() {
     std::move(disconnection_callback_).Run();
 }
 
-bool FakeNearbyConnectionsManager::FakeNearbyConnection::IsClosed() {
+bool FakeNearbyConnectionsManager::FakeNearbyConnection::IsClosed() const {
   return is_closed_;
 }
 
