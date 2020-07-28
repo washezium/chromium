@@ -23,10 +23,12 @@
 #include "ui/display/test/display_manager_test_api.h"
 #include "ui/wm/public/activation_client.h"
 
-class WindowSizerAshTest : public ChromeAshTestBase {
+class WindowSizerChromeOSTest : public ChromeAshTestBase {
  public:
-  WindowSizerAshTest() = default;
-  ~WindowSizerAshTest() override = default;
+  WindowSizerChromeOSTest() = default;
+  WindowSizerChromeOSTest(const WindowSizerChromeOSTest&) = delete;
+  WindowSizerChromeOSTest& operator=(const WindowSizerChromeOSTest&) = delete;
+  ~WindowSizerChromeOSTest() override = default;
 
   // The window sizing code only works when the window hasn't yet been created.
   std::unique_ptr<Browser> CreateWindowlessBrowser(
@@ -94,9 +96,6 @@ class WindowSizerAshTest : public ChromeAshTestBase {
 
  protected:
   TestingProfile profile_;
-
- private:
-  DISALLOW_COPY_AND_ASSIGN(WindowSizerAshTest);
 };
 
 namespace {
@@ -125,8 +124,9 @@ std::unique_ptr<Browser> CreateTestBrowser(aura::Window* window,
 
 // Test that the window is sized appropriately for the first run experience
 // where the default window bounds calculation is invoked.
-TEST_F(WindowSizerAshTest, DefaultSizeCase) {
-  { // 4:3 monitor case, 1024x768, no taskbar
+TEST_F(WindowSizerChromeOSTest, DefaultSizeCase) {
+  {
+    // 4:3 monitor case, 1024x768, no taskbar.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(p1024x768, p1024x768, gfx::Rect(),
                                          gfx::Rect(), gfx::Rect(), DEFAULT,
@@ -137,7 +137,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
         window_bounds);
   }
 
-  { // 4:3 monitor case, 1024x768, taskbar on bottom
+  {
+    // 4:3 monitor case, 1024x768, taskbar on bottom.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_bottom_work_area, gfx::Rect(), gfx::Rect(),
@@ -148,7 +149,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 4:3 monitor case, 1024x768, taskbar on right
+  {
+    // 4:3 monitor case, 1024x768, taskbar on right.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_right_work_area, gfx::Rect(), gfx::Rect(),
@@ -160,7 +162,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
         window_bounds);
   }
 
-  { // 4:3 monitor case, 1024x768, taskbar on left
+  {
+    // 4:3 monitor case, 1024x768, taskbar on left.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_left_work_area, gfx::Rect(), gfx::Rect(),
@@ -172,7 +175,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 4:3 monitor case, 1024x768, taskbar on top
+  {
+    // 4:3 monitor case, 1024x768, taskbar on top.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_top_work_area, gfx::Rect(), gfx::Rect(), gfx::Rect(),
@@ -184,7 +188,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 4:3 monitor case, 1280x1024
+  {
+    // 4:3 monitor case, 1280x1024.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(p1280x1024, p1280x1024, gfx::Rect(),
                                          gfx::Rect(), gfx::Rect(), DEFAULT,
@@ -194,7 +199,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 4:3 monitor case, 1600x1200
+  {
+    // 4:3 monitor case, 1600x1200.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(p1600x1200, p1600x1200, gfx::Rect(),
                                          gfx::Rect(), gfx::Rect(), DEFAULT,
@@ -204,7 +210,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 16:10 monitor case, 1680x1050
+  {
+    // 16:10 monitor case, 1680x1050.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(p1680x1050, p1680x1050, gfx::Rect(),
                                          gfx::Rect(), gfx::Rect(), DEFAULT,
@@ -214,7 +221,8 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
               window_bounds);
   }
 
-  { // 16:10 monitor case, 1920x1200
+  {
+    // 16:10 monitor case, 1920x1200.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(p1920x1200, p1920x1200, gfx::Rect(),
                                          gfx::Rect(), gfx::Rect(), DEFAULT,
@@ -227,8 +235,9 @@ TEST_F(WindowSizerAshTest, DefaultSizeCase) {
 
 // Test that the next opened window is positioned appropriately given the
 // bounds of an existing window of the same type.
-TEST_F(WindowSizerAshTest, LastWindowBoundsCase) {
-  { // normal, in the middle of the screen somewhere.
+TEST_F(WindowSizerChromeOSTest, LastWindowBoundsCase) {
+  {
+    // Normal, in the middle of the screen somewhere.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(),
@@ -240,7 +249,8 @@ TEST_F(WindowSizerAshTest, LastWindowBoundsCase) {
               window_bounds.ToString());
   }
 
-  { // taskbar on top.
+  {
+    // Taskbar on top.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_top_work_area, gfx::Rect(),
@@ -254,7 +264,8 @@ TEST_F(WindowSizerAshTest, LastWindowBoundsCase) {
               window_bounds.ToString());
   }
 
-  { // Too small to satisify the minimum visibility condition.
+  {
+    // Too small to satisify the minimum visibility condition.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(),
@@ -267,8 +278,8 @@ TEST_F(WindowSizerAshTest, LastWindowBoundsCase) {
               window_bounds.ToString());
   }
 
-
-  { // Normal.
+  {
+    // Normal.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(),
@@ -281,8 +292,10 @@ TEST_F(WindowSizerAshTest, LastWindowBoundsCase) {
   }
 }
 
-TEST_F(WindowSizerAshTest, LastWindowOffscreenWithNonAggressiveRepositioning) {
-  { // taskbar on left.
+TEST_F(WindowSizerChromeOSTest,
+       LastWindowOffscreenWithNonAggressiveRepositioning) {
+  {
+    // Taskbar on left.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, taskbar_left_work_area, gfx::Rect(),
@@ -294,7 +307,8 @@ TEST_F(WindowSizerAshTest, LastWindowOffscreenWithNonAggressiveRepositioning) {
               window_bounds.ToString());
   }
 
-  { // offset would put the new window offscreen at the bottom but the minimum
+  {
+    // Offset would put the new window offscreen at the bottom but the minimum
     // visibility condition is barely satisfied without relocation.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
@@ -304,20 +318,20 @@ TEST_F(WindowSizerAshTest, LastWindowOffscreenWithNonAggressiveRepositioning) {
               window_bounds.ToString());
   }
 
-  { // offset would put the new window offscreen at the bottom and the minimum
+  {
+    // Offset would put the new window offscreen at the bottom and the minimum
     // visibility condition is satisified by relocation.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(), gfx::Rect(10, 729, 500, 400),
         gfx::Rect(), LAST_ACTIVE, NULL, gfx::Rect(), &window_bounds);
-    EXPECT_EQ(gfx::Rect(10 + kWindowTilePixels,
-                        738 /* not 739 */,
-                        500,
-                        400).ToString(),
+    EXPECT_EQ(gfx::Rect(10 + kWindowTilePixels, 738 /* not 739 */, 500, 400)
+                  .ToString(),
               window_bounds.ToString());
   }
 
-  { // offset would put the new window offscreen at the right but the minimum
+  {
+    // Offset would put the new window offscreen at the right but the minimum
     // visibility condition is barely satisfied without relocation.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
@@ -327,35 +341,33 @@ TEST_F(WindowSizerAshTest, LastWindowOffscreenWithNonAggressiveRepositioning) {
               window_bounds.ToString());
   }
 
-  { // offset would put the new window offscreen at the right and the minimum
+  {
+    // Offset would put the new window offscreen at the right and the minimum
     // visibility condition is satisified by relocation.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(), gfx::Rect(985, 10, 500, 400),
         gfx::Rect(), LAST_ACTIVE, NULL, gfx::Rect(), &window_bounds);
-    EXPECT_EQ(gfx::Rect(994 /* not 995 */,
-                        10 + kWindowTilePixels,
-                        500,
-                        400).ToString(),
+    EXPECT_EQ(gfx::Rect(994 /* not 995 */, 10 + kWindowTilePixels, 500, 400)
+                  .ToString(),
               window_bounds.ToString());
   }
 
-  { // offset would put the new window offscreen at the bottom right and the
+  {
+    // Offset would put the new window offscreen at the bottom right and the
     // minimum visibility condition is satisified by relocation.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1024x768, p1024x768, gfx::Rect(), gfx::Rect(985, 729, 500, 400),
         gfx::Rect(), LAST_ACTIVE, NULL, gfx::Rect(), &window_bounds);
-    EXPECT_EQ(gfx::Rect(994 /* not 995 */,
-                        738 /* not 739 */,
-                        500,
-                        400).ToString(),
-              window_bounds.ToString());
+    EXPECT_EQ(
+        gfx::Rect(994 /* not 995 */, 738 /* not 739 */, 500, 400).ToString(),
+        window_bounds.ToString());
   }
 }
 
 // Test the placement of newly created windows.
-TEST_F(WindowSizerAshTest, PlaceNewWindows) {
+TEST_F(WindowSizerChromeOSTest, PlaceNewWindows) {
   // Create a browser to pass into the WindowSizerTestUtil::GetWindowBounds
   // function.
   Browser::CreateParams native_params(&profile_, true);
@@ -389,7 +401,8 @@ TEST_F(WindowSizerAshTest, PlaceNewWindows) {
   }
 
   browser_window->Hide();
-  { // If a window is there but not shown the persisted default should be used.
+  {
+    // If a window is there but not shown the persisted default should be used.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1600x1200, p1600x1200, gfx::Rect(), gfx::Rect(50, 100, 300, 150),
@@ -398,7 +411,8 @@ TEST_F(WindowSizerAshTest, PlaceNewWindows) {
     EXPECT_EQ("50,100 300x150", window_bounds.ToString());
   }
 
-  { // If a window is there but not shown the default should be returned.
+  {
+    // If a window is there but not shown the default should be returned.
     gfx::Rect window_bounds;
     WindowSizerTestUtil::GetWindowBounds(
         p1600x1200, p1600x1200, gfx::Rect(), gfx::Rect(), bottom_s1600x1200,
@@ -419,7 +433,7 @@ TEST_F(WindowSizerAshTest, PlaceNewWindows) {
 // Test the placement of newly created windows on an empty desktop.
 // This test supplements "PlaceNewWindows" by testing the creation of a newly
 // created browser window on an empty desktop.
-TEST_F(WindowSizerAshTest, PlaceNewBrowserWindowOnEmptyDesktop) {
+TEST_F(WindowSizerChromeOSTest, PlaceNewBrowserWindowOnEmptyDesktop) {
   Browser::CreateParams native_params(&profile_, true);
   auto browser = CreateWindowlessBrowser(native_params);
 
@@ -458,7 +472,7 @@ TEST_F(WindowSizerAshTest, PlaceNewBrowserWindowOnEmptyDesktop) {
   EXPECT_EQ("50,100 300x150", window_bounds.ToString());
 }
 
-TEST_F(WindowSizerAshTest, PlaceNewBrowserWindowOnLargeDesktop) {
+TEST_F(WindowSizerChromeOSTest, PlaceNewBrowserWindowOnLargeDesktop) {
   Browser::CreateParams native_params(&profile_, true);
   auto browser = CreateWindowlessBrowser(native_params);
 
@@ -479,7 +493,7 @@ TEST_F(WindowSizerAshTest, PlaceNewBrowserWindowOnLargeDesktop) {
 }
 
 // Test the placement of newly created windows on multiple dislays.
-TEST_F(WindowSizerAshTest, PlaceNewWindowsOnMultipleDisplays) {
+TEST_F(WindowSizerChromeOSTest, PlaceNewWindowsOnMultipleDisplays) {
   UpdateDisplay("1600x1200,1600x1200");
   display::Display primary_display =
       display::Screen::GetScreen()->GetPrimaryDisplay();
@@ -521,9 +535,8 @@ TEST_F(WindowSizerAshTest, PlaceNewWindowsOnMultipleDisplays) {
     gfx::Rect window_bounds;
     GetWindowBounds(new_browser.get(), gfx::Rect(), primary_display.id(),
                     &window_bounds);
-    // TODO(oshima): Use exact bounds when the window_sizer_ash is
-    // moved to ash and changed to include the result from
-    // RearrangeVisibleWindowOnShow.
+    // TODO(oshima): Use exact bounds when the window sizer includes the result
+    // from RearrangeVisibleWindowOnShow.
     EXPECT_TRUE(primary_bounds.Contains(window_bounds));
   }
 
@@ -540,9 +553,8 @@ TEST_F(WindowSizerAshTest, PlaceNewWindowsOnMultipleDisplays) {
     gfx::Rect window_bounds;
     GetWindowBounds(new_browser.get(), gfx::Rect(), second_display.id(),
                     &window_bounds);
-    // TODO(oshima): Use exact bounds when the window_sizer_ash is
-    // moved to ash and changed to include the result from
-    // RearrangeVisibleWindowOnShow.
+    // TODO(oshima): Use exact bounds when the window sizer includes the result
+    // from RearrangeVisibleWindowOnShow.
     EXPECT_TRUE(secondary_bounds.Contains(window_bounds));
   }
 
@@ -557,15 +569,14 @@ TEST_F(WindowSizerAshTest, PlaceNewWindowsOnMultipleDisplays) {
     gfx::Rect window_bounds;
     GetWindowBounds(new_browser.get(), gfx::Rect(), primary_display.id(),
                     &window_bounds);
-    // TODO(oshima): Use exact bounds when the window_sizer_ash is
-    // moved to ash and changed to include the result from
-    // RearrangeVisibleWindowOnShow.
+    // TODO(oshima): Use exact bounds when the window sizer includes the result
+    // from RearrangeVisibleWindowOnShow.
     EXPECT_TRUE(primary_bounds.Contains(window_bounds));
   }
 }
 
 // Test that the show state is properly returned for non default cases.
-TEST_F(WindowSizerAshTest, TestShowState) {
+TEST_F(WindowSizerChromeOSTest, TestShowState) {
   UpdateDisplay("1600x1200");
 
   // Creating a browser & window to play with.
@@ -615,7 +626,7 @@ TEST_F(WindowSizerAshTest, TestShowState) {
                 browser_popup.get(), p1600x1200, p1600x1200));
 }
 
-TEST_F(WindowSizerAshTest, TestShowStateOnTinyScreen) {
+TEST_F(WindowSizerChromeOSTest, TestShowStateOnTinyScreen) {
   Browser::CreateParams params(Browser::TYPE_NORMAL, &profile_, true);
   auto browser = CreateWindowlessBrowser(params);
 
@@ -630,7 +641,7 @@ TEST_F(WindowSizerAshTest, TestShowStateOnTinyScreen) {
 }
 
 // Test that the default show state override behavior is properly handled.
-TEST_F(WindowSizerAshTest, TestShowStateDefaults) {
+TEST_F(WindowSizerChromeOSTest, TestShowStateDefaults) {
   UpdateDisplay("1600x1200");
   // Creating a browser & window to play with.
 
@@ -683,7 +694,7 @@ TEST_F(WindowSizerAshTest, TestShowStateDefaults) {
             ui::SHOW_STATE_NORMAL);
 }
 
-TEST_F(WindowSizerAshTest, DefaultStateBecomesMaximized) {
+TEST_F(WindowSizerChromeOSTest, DefaultStateBecomesMaximized) {
   // Create a browser to pass into the WindowSizerTestUtil::GetWindowBounds
   // function.
   Browser::CreateParams native_params(&profile_, true);
@@ -718,7 +729,7 @@ TEST_F(WindowSizerAshTest, DefaultStateBecomesMaximized) {
 // the non browser window. This differ from PersistedBoundsCase
 // in that this uses real ash shell implementations + StateProvider
 // rather than mocks.
-TEST_F(WindowSizerAshTest, DefaultBoundsInTargetDisplay) {
+TEST_F(WindowSizerChromeOSTest, DefaultBoundsInTargetDisplay) {
   UpdateDisplay("500x500,600x600");
 
   // By default windows are placed on the primary display.
@@ -740,16 +751,13 @@ TEST_F(WindowSizerAshTest, DefaultBoundsInTargetDisplay) {
     display::Screen::GetScreen()->SetDisplayForNewWindows(second_display_id);
     gfx::Rect bounds;
     ui::WindowShowState show_state;
-    WindowSizer::GetBrowserWindowBoundsAndShowState(
-        gfx::Rect(),
-        NULL,
-        &bounds,
-        &show_state);
+    WindowSizer::GetBrowserWindowBoundsAndShowState(gfx::Rect(), nullptr,
+                                                    &bounds, &show_state);
     EXPECT_TRUE(second_root->GetBoundsInScreen().Contains(bounds));
   }
 }
 
-TEST_F(WindowSizerAshTest, TrustedPopupBehavior) {
+TEST_F(WindowSizerChromeOSTest, TrustedPopupBehavior) {
   Browser::CreateParams trusted_popup_create_params(Browser::TYPE_POPUP,
                                                     &profile_, true);
   trusted_popup_create_params.trusted_source = true;

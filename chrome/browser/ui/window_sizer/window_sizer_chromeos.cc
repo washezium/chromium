@@ -37,8 +37,9 @@ bool ShouldForceMaximizeOnFirstRun() {
 
 }  // namespace
 
-bool WindowSizer::GetBrowserBoundsAsh(gfx::Rect* bounds,
-                                      ui::WindowShowState* show_state) const {
+bool WindowSizer::GetBrowserBoundsChromeOS(
+    gfx::Rect* bounds,
+    ui::WindowShowState* show_state) const {
   if (!browser_)
     return false;
 
@@ -48,16 +49,18 @@ bool WindowSizer::GetBrowserBoundsAsh(gfx::Rect* bounds,
   bool determined = false;
   if (bounds->IsEmpty()) {
     if (browser_->is_type_normal()) {
-      GetTabbedBrowserBoundsAsh(bounds, show_state);
+      GetTabbedBrowserBoundsChromeOS(bounds, show_state);
       determined = true;
     } else if (browser_->is_trusted_source()) {
       // For trusted popups (v1 apps and system windows), do not use the last
       // active window bounds, only use saved or default bounds.
-      if (!GetSavedWindowBounds(bounds, show_state))
-        *bounds = GetDefaultWindowBoundsAsh(browser_, GetDisplayForNewWindow());
+      if (!GetSavedWindowBounds(bounds, show_state)) {
+        *bounds =
+            GetDefaultWindowBoundsChromeOS(browser_, GetDisplayForNewWindow());
+      }
       determined = true;
     } else if (state_provider_) {
-      // In Ash, prioritize the last saved |show_state|. If you have questions
+      // Finally, prioritize the last saved |show_state|. If you have questions
       // or comments about this behavior please contact oshima@chromium.org.
       gfx::Rect ignored_bounds, ignored_work_area;
       state_provider_->GetPersistentState(&ignored_bounds, &ignored_work_area,
@@ -76,14 +79,14 @@ bool WindowSizer::GetBrowserBoundsAsh(gfx::Rect* bounds,
       // gets maximized after this method returns. Return a sensible default
       // in order to make restored state visibly different from maximized.
       *show_state = ui::SHOW_STATE_MAXIMIZED;
-      *bounds = GetDefaultWindowBoundsAsh(browser_, display);
+      *bounds = GetDefaultWindowBoundsChromeOS(browser_, display);
       determined = true;
     }
   }
   return determined;
 }
 
-void WindowSizer::GetTabbedBrowserBoundsAsh(
+void WindowSizer::GetTabbedBrowserBoundsChromeOS(
     gfx::Rect* bounds_in_screen,
     ui::WindowShowState* show_state) const {
   DCHECK(show_state);
@@ -96,7 +99,7 @@ void WindowSizer::GetTabbedBrowserBoundsAsh(
   bool is_saved_bounds = GetSavedWindowBounds(bounds_in_screen, show_state);
   display::Display display = GetDisplayForNewWindow(*bounds_in_screen);
   if (!is_saved_bounds)
-    *bounds_in_screen = GetDefaultWindowBoundsAsh(browser_, display);
+    *bounds_in_screen = GetDefaultWindowBoundsChromeOS(browser_, display);
 
   if (browser_->is_session_restore()) {
     // Respect display for saved bounds during session restore.
@@ -126,7 +129,8 @@ void WindowSizer::GetTabbedBrowserBoundsAsh(
   bounds_in_screen->AdjustToFit(display.work_area());
 }
 
-gfx::Rect WindowSizer::GetDefaultWindowBoundsAsh(
+// static
+gfx::Rect WindowSizer::GetDefaultWindowBoundsChromeOS(
     const Browser* browser,
     const display::Display& display) {
   // Let apps set their own default.

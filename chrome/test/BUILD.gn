@@ -2554,7 +2554,7 @@ if (!is_android) {
         "../browser/ui/webui/chromeos/system_web_dialog_browsertest.cc",
         "../browser/ui/webui/settings/chromeos/account_manager_handler_browsertest.cc",
         "../browser/ui/webui/settings/chromeos/device_power_handler_browsertest.cc",
-        "../browser/ui/window_sizer/window_sizer_ash_uitest.cc",
+        "../browser/ui/window_sizer/window_sizer_chromeos_uitest.cc",
         "base/interactive_test_utils.cc",
         "base/interactive_test_utils.h",
         "base/interactive_test_utils_aura.cc",
@@ -4537,7 +4537,7 @@ test("unit_tests") {
       "../browser/ui/passwords/account_storage_auth_helper_unittest.cc",
       "../browser/ui/webui/settings/settings_manage_profile_handler_unittest.cc",
 
-      # Chrome OS uses window_sizer_ash_unittest.cc
+      # Chrome OS uses window_sizer_chromeos_unittest.cc
       "../browser/ui/window_sizer/window_sizer_unittest.cc",
     ]
     sources += [
@@ -4637,7 +4637,7 @@ test("unit_tests") {
       "../browser/ui/webui/chromeos/login/fake_update_required_screen_handler.cc",
       "../browser/ui/webui/chromeos/login/fake_update_required_screen_handler.h",
       "../browser/ui/webui/chromeos/sync/os_sync_handler_unittest.cc",
-      "../browser/ui/window_sizer/window_sizer_ash_unittest.cc",
+      "../browser/ui/window_sizer/window_sizer_chromeos_unittest.cc",
     ]
     deps += [
       "//ash:test_support",
