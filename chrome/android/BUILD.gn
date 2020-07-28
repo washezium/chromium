@@ -972,7 +972,7 @@ android_library("chrome_test_java") {
     "//chrome/browser/image_fetcher:java",
     "//chrome/browser/offline_pages/android:java",
     "//chrome/browser/paint_preview/android:java",
-    "//chrome/browser/password_check/android:public_java",
+    "//chrome/browser/password_check:public_java",
     "//chrome/browser/password_manager/android_test_helpers:test_support_java",
     "//chrome/browser/performance_hints/android:java",
     "//chrome/browser/preferences:java",
