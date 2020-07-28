@@ -3484,7 +3484,7 @@ class SSLUIWorkerFetchTest
     browser_client->SetMixedContentSettings(
         allow_running_insecure_content, strict_mixed_content_checking,
         strictly_block_blockable_mixed_content);
-    tab->GetRenderViewHost()->OnWebkitPreferencesChanged();
+    tab->OnWebPreferencesChanged();
     CheckMixedContentSettings(allow_running_insecure_content,
                               strict_mixed_content_checking,
                               strictly_block_blockable_mixed_content);
@@ -3520,7 +3520,7 @@ class SSLUIWorkerFetchTest
       content::TitleWatcher watcher(tab, loaded_title);
       watcher.AlsoWaitForTitle(failed_title);
       SetAllowRunningInsecureContent();
-      tab->GetRenderViewHost()->OnWebkitPreferencesChanged();
+      tab->OnWebPreferencesChanged();
       EXPECT_EQ(expected_load_after_allow ? loaded_title : failed_title,
                 watcher.WaitAndGetTitle());
     }
