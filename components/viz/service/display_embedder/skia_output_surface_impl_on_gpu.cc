@@ -517,6 +517,7 @@ bool SkiaOutputSurfaceImplOnGpu::FinishPaintCurrentFrame(
     if (!output_device_->SetDrawRectangle(*draw_rectangle)) {
       MarkContextLost(
           ContextLostReason::CONTEXT_LOST_SET_DRAW_RECTANGLE_FAILED);
+      return false;
     }
   }
 
