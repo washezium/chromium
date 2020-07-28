@@ -5042,6 +5042,9 @@ crbug.com/856119 [ Win7 ] fast/js/regress/resolved-timezone-defined.html [ Pass 
 crbug.com/757955 [ Win7 Debug ] http/tests/devtools/sources/debugger-pause/pause-on-elements-panel.js [ Pass Timeout ]
 crbug.com/757955 http/tests/devtools/tracing/timeline-paint/layer-tree.js [ Pass Failure Timeout ]
 
+# Temporarily disable test until DevTools roll happens.
+crbug.com/1103854 http/tests/devtools/modules-load-network.js [ Pass Failure ]
+
 # This test has a fixed number of time which can depend on performance.
 
 crbug.com/669329 http/tests/devtools/tracing/timeline-js/timeline-runtime-stats.js [ Pass Failure Crash Timeout ]
