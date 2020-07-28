@@ -271,7 +271,7 @@ SkiaOutputSurfaceImplOnGpu::PromiseImageAccessHelper::PromiseImageAccessHelper(
 
 SkiaOutputSurfaceImplOnGpu::PromiseImageAccessHelper::
     ~PromiseImageAccessHelper() {
-  CHECK(image_contexts_.empty());
+  DCHECK(image_contexts_.empty() || impl_on_gpu_->was_context_lost());
 }
 
 void SkiaOutputSurfaceImplOnGpu::PromiseImageAccessHelper::BeginAccess(
