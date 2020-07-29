@@ -20,7 +20,7 @@ import {html} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.
 
 import {Bookmark} from './bookmark_type.js';
 import {BrowserApi} from './browser_api.js';
-import {FittingType, SaveRequestType, TwoUpViewAction} from './constants.js';
+import {FittingType, Point, SaveRequestType, TwoUpViewAction} from './constants.js';
 import {ViewerPdfToolbarNewElement} from './elements/viewer-pdf-toolbar-new.js';
 // <if expr="chromeos">
 import {InkController} from './ink_controller.js';
@@ -32,7 +32,6 @@ import {DeserializeKeyEvent, LoadState, SerializeKeyEvent} from './pdf_scripting
 import {PDFViewerBaseElement} from './pdf_viewer_base.js';
 import {DestinationMessageData, DocumentDimensionsMessageData, shouldIgnoreKeyEvents} from './pdf_viewer_utils.js';
 import {ToolbarManager} from './toolbar_manager.js';
-import {Point} from './viewport.js';
 
 
 /**
