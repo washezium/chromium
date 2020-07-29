@@ -561,17 +561,15 @@ void ChromePasswordManagerClient::NotifyUserCredentialsWereLeaked(
     const base::string16& username) {
 #if defined(OS_ANDROID)
   if (base::FeatureList::IsEnabled(
+          password_manager::features::kPasswordChangeInSettings) &&
+      GetPasswordFeatureManager()->IsGenerationEnabled()) {
+    PasswordScriptsFetcherFactory::GetInstance()
+        ->GetForBrowserContext(web_contents()->GetBrowserContext())
+        ->PrewarmCache();
+  }
+  if (base::FeatureList::IsEnabled(
           password_manager::features::kPasswordChange)) {
     was_leak_dialog_shown_ = true;
-    // Prefetch list of scripts whose execution is possible.
-    // TODO(crbug.com/1108692): Make sure the list is only prefetched in case
-    // the password-change-in-settings flag is enabled.
-    if (IsSavingAndFillingEnabled(origin) &&
-        GetPasswordFeatureManager()->IsGenerationEnabled()) {
-      PasswordScriptsFetcherFactory::GetInstance()
-          ->GetForBrowserContext(web_contents()->GetBrowserContext())
-          ->PrewarmCache();
-    }
   }
   HideSavePasswordInfobar(web_contents());
   (new CredentialLeakControllerAndroid(
