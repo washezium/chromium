@@ -24,7 +24,6 @@
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/task_manager/web_contents_tags.h"
 #include "chrome/browser/ui/tab_helpers.h"
-#include "chrome/browser/ui/web_contents_sizer.h"
 #include "chrome/common/chrome_render_frame.mojom.h"
 #include "components/history/core/browser/history_types.h"
 #include "components/prerender/common/prerender_final_status.h"
@@ -228,8 +227,9 @@ void PrerenderContents::StartPrerendering(
 
   web_contents_delegate_.reset(new WebContentsDelegateImpl(this));
   prerender_contents_.get()->SetDelegate(web_contents_delegate_.get());
+
   // Set the size of the prerender WebContents.
-  ResizeWebContents(prerender_contents_.get(), bounds_);
+  prerender_contents_.get()->Resize(bounds_);
 
   // TODO(davidben): This logic assumes each prerender has at most one
   // route. https://crbug.com/440544
