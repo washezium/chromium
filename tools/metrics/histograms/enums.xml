@@ -21299,6 +21299,7 @@ Called by update_document_policy_enum.py.-->
   <int value="747" label="AuthServerAllowlist"/>
   <int value="748" label="InsecureFormsWarningsEnabled"/>
   <int value="749" label="SpellcheckLanguageBlocklist"/>
+  <int value="750" label="ExternalPrintServersAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
