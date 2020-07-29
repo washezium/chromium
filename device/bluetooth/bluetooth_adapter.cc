@@ -306,7 +306,7 @@ void BluetoothAdapter::NotifyDevicePairedChanged(BluetoothDevice* device,
 }
 #endif
 
-#if defined(OS_CHROMEOS)
+#if defined(OS_CHROMEOS) || defined(OS_LINUX)
 void BluetoothAdapter::NotifyDeviceBatteryChanged(BluetoothDevice* device) {
   DCHECK_EQ(device->GetAdapter(), this);
   for (auto& observer : observers_) {
