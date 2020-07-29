@@ -873,10 +873,10 @@ deps = {
       'dep_type': 'cipd',
   },
 
-  # Build tools for Chrome OS. Note: This depends on third_party/pyelftools.
+  # Build tools for Chrome OS.
   'src/third_party/chromite': {
       'url': Var('chromium_git') + '/chromiumos/chromite.git' + '@' + '1da974976b2a88fb094bc5c87dcf775db5a1ac68',
-      'condition': 'checkout_linux',
+      'condition': 'checkout_chromeos',
   },
 
   'src/third_party/cld_3/src':
@@ -1277,7 +1277,7 @@ deps = {
       'dep_type': 'cipd',
   },
 
-  # Dependency of chromite.git and skia.
+  # Dependency of skia.
   'src/third_party/pyelftools': {
       'url': Var('chromium_git') + '/chromiumos/third_party/pyelftools.git' + '@' + '19b3e610c86fcadb837d252c794cb5e8008826ae',
       'condition': 'checkout_linux',
