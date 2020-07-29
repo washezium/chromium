@@ -5,7 +5,7 @@
 // Note: This test focuses on functionality implemented in AffiliationService
 // itself. More thorough The AffiliationBackend is tested in-depth separarately.
 
-#include "components/password_manager/core/browser/android_affiliation/affiliation_service.h"
+#include "components/password_manager/core/browser/android_affiliation/android_affiliation_service.h"
 
 #include <memory>
 
