@@ -955,18 +955,6 @@ static inline bool ObjectIsRelayoutBoundary(const LayoutObject* object) {
     return false;
   }
 
-  if (object->ShouldApplyLayoutContainment() &&
-      object->ShouldApplySizeContainment())
-    return true;
-
-  // If either dimension is percent-based, intrinsic, or anything but fixed,
-  // this object cannot form a re-layout boundary. A non-fixed computed logical
-  // height will allow the object to grow and shrink based on the content
-  // inside. The same goes for for logical width, if this objects is inside a
-  // shrink-to-fit container, for instance.
-  if (!style->Width().IsFixed() || !style->Height().IsFixed())
-    return false;
-
   if (const LayoutBox* layout_box = ToLayoutBoxOrNull(object)) {
     // In general we can't relayout a flex item independently of its container;
     // not only is the result incorrect due to the override size that's set, it
@@ -983,6 +971,19 @@ static inline bool ObjectIsRelayoutBoundary(const LayoutObject* object) {
         return false;
     }
   }
+
+  if (object->ShouldApplyLayoutContainment() &&
+      object->ShouldApplySizeContainment()) {
+    return true;
+  }
+
+  // If either dimension is percent-based, intrinsic, or anything but fixed,
+  // this object cannot form a re-layout boundary. A non-fixed computed logical
+  // height will allow the object to grow and shrink based on the content
+  // inside. The same goes for for logical width, if this objects is inside a
+  // shrink-to-fit container, for instance.
+  if (!style->Width().IsFixed() || !style->Height().IsFixed())
+    return false;
 
   if (object->IsTextControl())
     return true;
