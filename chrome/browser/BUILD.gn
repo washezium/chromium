@@ -625,6 +625,8 @@ static_library("browser") {
     "lite_video/lite_video_keyed_service.h",
     "lite_video/lite_video_keyed_service_factory.cc",
     "lite_video/lite_video_keyed_service_factory.h",
+    "lite_video/lite_video_navigation_metrics.cc",
+    "lite_video/lite_video_navigation_metrics.h",
     "lite_video/lite_video_observer.cc",
     "lite_video/lite_video_observer.h",
     "lite_video/lite_video_switches.cc",
