@@ -273,7 +273,7 @@ bool SharedContextState::InitializeGrContext(
     if (gpu_preferences.force_max_texture_size)
       options.fMaxTextureSizeOverride = gpu_preferences.force_max_texture_size;
     options.fPreferExternalImagesOverES3 = true;
-    owned_gr_context_ = GrContext::MakeGL(std::move(interface), options);
+    owned_gr_context_ = GrDirectContext::MakeGL(std::move(interface), options);
     gr_context_ = owned_gr_context_.get();
   }
 

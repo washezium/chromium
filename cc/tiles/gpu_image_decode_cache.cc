@@ -41,7 +41,7 @@
 #include "third_party/skia/include/core/SkSurface.h"
 #include "third_party/skia/include/core/SkYUVAIndex.h"
 #include "third_party/skia/include/gpu/GrBackendSurface.h"
-#include "third_party/skia/include/gpu/GrContext.h"
+#include "third_party/skia/include/gpu/GrDirectContext.h"
 #include "ui/gfx/color_space.h"
 #include "ui/gfx/geometry/size.h"
 #include "ui/gfx/skia_util.h"
@@ -422,7 +422,7 @@ bool DrawAndScaleImage(const DrawImage& draw_image,
 
 // Takes ownership of the backing texture of an SkImage. This allows us to
 // delete this texture under Skia (via discardable).
-sk_sp<SkImage> TakeOwnershipOfSkImageBacking(GrContext* context,
+sk_sp<SkImage> TakeOwnershipOfSkImageBacking(GrDirectContext* context,
                                              sk_sp<SkImage> image) {
   // If the image is not texture backed, it has no backing, just return it.
   if (!image->isTextureBacked()) {

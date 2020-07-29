@@ -2074,7 +2074,8 @@ RenderThreadImpl::SharedCompositorWorkerContextProvider(
               ->HasGrContextSupport()) {
         // Do not check GrContext above. It is lazy-created, and we only want to
         // create it if it might be used.
-        GrContext* gr_context = shared_worker_context_provider_->GrContext();
+        GrDirectContext* gr_context =
+            shared_worker_context_provider_->GrContext();
         really_support_gpu_rasterization = !!gr_context;
       }
     }
