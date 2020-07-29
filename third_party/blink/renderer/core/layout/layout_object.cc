@@ -1659,6 +1659,7 @@ void LayoutObject::InvalidateDisplayItemClients(
     PaintInvalidationReason reason) const {
   // This default implementation invalidates only the object itself as a
   // DisplayItemClient.
+  DCHECK(!GetSelectionDisplayItemClient());
   ObjectPaintInvalidator(*this).InvalidateDisplayItemClient(*this, reason);
 }
 
@@ -3996,8 +3997,6 @@ inline void LayoutObject::SetShouldCheckGeometryForPaintInvalidation() {
 }
 
 void LayoutObject::SetShouldInvalidateSelection() {
-  if (!CanUpdateSelectionOnRootLineBoxes())
-    return;
   bitfields_.SetShouldInvalidateSelection(true);
   SetShouldCheckForPaintInvalidation();
 }
@@ -4305,24 +4304,6 @@ void LayoutObject::InvalidateClipPathCache() {
   for (auto* fragment = &fragment_; fragment;
        fragment = fragment->NextFragment())
     fragment->InvalidateClipPathCache();
-}
-
-IntRect LayoutObject::AdjustVisualRectForInlineBox(
-    const IntRect& visual_rect) const {
-  // For simplicity, we use the layout object's visual rect as the visual rect
-  // of contained inline boxes, mapped to the correct transform space of the
-  // inline boxes.
-  if (const auto* properties = FirstFragment().PaintProperties()) {
-    if (const auto* scroll_translation = properties->ScrollTranslation()) {
-      // This mapping happens for inline box whose LayoutObject is a LayoutBlock
-      // whose VisualRect is not in the same transform space as the inline box.
-      // For now this happens for EllipsisBox only.
-      auto float_visual_rect = FloatRect(visual_rect);
-      float_visual_rect.Move(-scroll_translation->Translation2D());
-      return EnclosingIntRect(float_visual_rect);
-    }
-  }
-  return visual_rect;
 }
 
 Vector<PhysicalRect> LayoutObject::OutlineRects(
