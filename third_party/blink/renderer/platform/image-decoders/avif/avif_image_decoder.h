@@ -49,6 +49,8 @@ class PLATFORM_EXPORT AVIFImageDecoder final : public ImageDecoder {
   // (ftyp) that supports the brand 'avif' or 'avis'.
   static bool MatchesAVIFSignature(const FastSharedBufferReader& fast_reader);
 
+  gfx::ColorTransform* GetColorTransformForTesting();
+
  private:
   // ImageDecoder:
   void DecodeSize() override;
