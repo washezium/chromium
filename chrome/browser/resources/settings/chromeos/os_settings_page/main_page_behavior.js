@@ -5,11 +5,9 @@
 // clang-format off
 // #import {assert} from 'chrome://resources/js/assert.m.js';
 // #import {beforeNextRender} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
-// #import {ensureLazyLoaded} from '../ensure_lazy_loaded.js';
-// #import {Route, Router, MinimumRoutes} from '../router.m.js';
+// #import {Route, Router, MinimumRoutes} from '../../router.m.js';
 // clang-format on
 
-// TODO(dpapad): Fully migrate this file to polymer 3.
 cr.define('settings', function() {
   /**
    * @enum {string}
@@ -148,8 +146,8 @@ cr.define('settings', function() {
     shouldExpandAdvanced_(route) {
       const routes = /** @type {!settings.MinimumRoutes} */ (
           settings.Router.getInstance().getRoutes());
-      return this.tagName === 'SETTINGS-BASIC-PAGE' &&
-          routes.ADVANCED && routes.ADVANCED.contains(route);
+      return (this.tagName === 'OS-SETTINGS-PAGE') &&
+            routes.ADVANCED && routes.ADVANCED.contains(route);
     },
 
     /**
@@ -199,11 +197,12 @@ cr.define('settings', function() {
 
       // Explicitly load the lazy_load.html module, since all subpages reside in
       // the lazy loaded module.
-      // Polymer 2 codepath
-      /* #ignore */ Polymer.importHref('/lazy_load.html', () => {});
+      /* #ignore */ Polymer.importHref(
+          /* #ignore */ '/chromeos/lazy_load.html', () => {});
 
+      // TODO(jonmann): Implement lazy loading in Polymer 3.
       // Polymer 3 codepath, do not delete next line comment.
-      // #polymer3 ensureLazyLoaded();
+      // #polymer3 // ensureLazyLoaded();
 
       this.ensureSectionForRoute_(route).then(section => {
         section.classList.add('expanded');
@@ -264,7 +263,7 @@ cr.define('settings', function() {
       }
 
       // Case where going from |this| page to an unrelated page. For example:
-      //  |this| is settings-basic-page AND
+      //  |this| is os-settings-page AND
       //  oldRoute is /searchEngines AND
       //  newRoute is /help.
       if (containsOld && !containsNew) {
@@ -272,7 +271,7 @@ cr.define('settings', function() {
       }
 
       // Case where return from an unrelated page to |this| page. For example:
-      //  |this| is settings-basic-page AND
+      //  |this| is os-settings-page AND
       //  oldRoute is /help AND
       //  newRoute is /searchEngines
       if (!containsOld && containsNew) {
