@@ -192,9 +192,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
   // Navigate metrics get recorded.
   ui_test_utils::NavigateToURL(browser(), GURL("chrome://testserver.com"));
 
-  // Close the tab to flush any UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
-
   histogram_tester()->ExpectTotalCount("LiteVideo.Navigation.HasHint", 0);
   auto entries =
       ukm_recorder.GetEntriesByName(ukm::builders::LiteVideo::kEntryName);
@@ -220,9 +217,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
   GURL navigation_url("https://testserver.com");
   // Navigate metrics get recorded.
   ui_test_utils::NavigateToURL(browser(), navigation_url);
-
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
 
   EXPECT_GT(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.Navigation.HasHint", 1),
@@ -261,9 +255,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
 
   // Navigate metrics get recorded.
   ui_test_utils::NavigateToURL(browser(), navigation_url);
-
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
 
   EXPECT_GT(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.HintAgent.HasHint", 1),
@@ -319,9 +310,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
   // parameters for testing.
   NavigateParams params_blocklisted(browser(), url, ui::PAGE_TRANSITION_TYPED);
   ui_test_utils::NavigateToURL(&params_blocklisted);
-
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
 
   EXPECT_GT(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.Navigation.HasHint", 2),
@@ -389,9 +377,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
   NavigateParams params_blocklisted(browser(), url, ui::PAGE_TRANSITION_TYPED);
   ui_test_utils::NavigateToURL(&params_blocklisted);
 
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
-
   EXPECT_GT(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.Navigation.HasHint", 2),
             0);
@@ -456,9 +441,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
 
   // Navigate  again to ensure that it was not blocklisted.
   ui_test_utils::NavigateToURL(&params);
-
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
 
   EXPECT_GT(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.HintAgent.HasHint", 2),
@@ -643,9 +625,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
   // Navigate metrics get recorded.
   ui_test_utils::NavigateToURL(browser(), https_url());
 
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
-
   EXPECT_EQ(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.Navigation.HasHint", 2),
             2);
@@ -660,15 +639,17 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceBrowserTest,
 
   auto entries =
       ukm_recorder.GetEntriesByName(ukm::builders::LiteVideo::kEntryName);
-  ASSERT_EQ(1u, entries.size());
-  auto* entry = entries[0];
-  ukm_recorder.ExpectEntrySourceHasUrl(entry, https_url());
-  ukm_recorder.ExpectEntryMetric(
-      entry, ukm::builders::LiteVideo::kThrottlingStartDecisionName,
-      static_cast<int>(lite_video::LiteVideoDecision::kNotAllowed));
-  ukm_recorder.ExpectEntryMetric(
-      entry, ukm::builders::LiteVideo::kBlocklistReasonName,
-      static_cast<int>(lite_video::LiteVideoBlocklistReason::kAllowed));
+  ASSERT_EQ(2u, entries.size());
+  for (auto* entry : entries) {
+    // Both entries should be tied to the mainframe url.
+    ukm_recorder.ExpectEntrySourceHasUrl(entry, https_url());
+    ukm_recorder.ExpectEntryMetric(
+        entry, ukm::builders::LiteVideo::kThrottlingStartDecisionName,
+        static_cast<int>(lite_video::LiteVideoDecision::kNotAllowed));
+    ukm_recorder.ExpectEntryMetric(
+        entry, ukm::builders::LiteVideo::kBlocklistReasonName,
+        static_cast<int>(lite_video::LiteVideoBlocklistReason::kAllowed));
+  }
 }
 
 class LiteVideoKeyedServiceCoinflipBrowserTest
@@ -704,9 +685,6 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceCoinflipBrowserTest,
   // Navigate metrics get recorded.
   ui_test_utils::NavigateToURL(browser(), https_url());
 
-  // Close the tab to flush the UKM metrics.
-  browser()->tab_strip_model()->GetActiveWebContents()->Close();
-
   EXPECT_EQ(RetryForHistogramUntilCountReached(
                 *histogram_tester(), "LiteVideo.Navigation.HasHint", 2),
             2);
@@ -715,12 +693,12 @@ IN_PROC_BROWSER_TEST_F(LiteVideoKeyedServiceCoinflipBrowserTest,
 
   auto entries =
       ukm_recorder.GetEntriesByName(ukm::builders::LiteVideo::kEntryName);
-  // Only recording the mainframe event.
-  ASSERT_EQ(1u, entries.size());
-  auto* entry = entries[0];
-  // Both entries should be tied to the mainframe url.
-  ukm_recorder.ExpectEntrySourceHasUrl(entry, https_url());
-  ukm_recorder.ExpectEntryMetric(
-      entry, ukm::builders::LiteVideo::kThrottlingStartDecisionName,
-      static_cast<int>(lite_video::LiteVideoDecision::kHoldback));
+  ASSERT_EQ(2u, entries.size());
+  for (auto* entry : entries) {
+    // Both entries should be tied to the mainframe url.
+    ukm_recorder.ExpectEntrySourceHasUrl(entry, https_url());
+    ukm_recorder.ExpectEntryMetric(
+        entry, ukm::builders::LiteVideo::kThrottlingStartDecisionName,
+        static_cast<int>(lite_video::LiteVideoDecision::kHoldback));
+  }
 }
