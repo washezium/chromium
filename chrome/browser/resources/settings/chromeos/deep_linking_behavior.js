@@ -14,11 +14,12 @@
 
 // #import {afterNextRender, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 // #import {assert} from 'chrome://resources/js/assert.m.js';
+// #import {getSettingIdParameter} from '../setting_id_param_util.m.js';
 // #import {loadTimeData} from 'chrome://resources/js/load_time_data.m.js';
 // #import {Router} from '../router.m.js';
 // clang-format on
 
-const kDeepLinkSettingId = 'settingId';
+/** @type {string} */
 const kDeepLinkFocusId = 'deep-link-focus-id';
 
 /** @polymerBehavior */
@@ -41,11 +42,10 @@ const kDeepLinkFocusId = 'deep-link-focus-id';
    * @return {?chromeos.settings.mojom.Setting}
    */
   getDeepLinkSettingId() {
-    if (!loadTimeData.getBoolean('isDeepLinkingEnabled')) {
+    const settingIdStr = getSettingIdParameter();
+    if (!settingIdStr) {
       return null;
     }
-    const settingIdStr = settings.Router.getInstance().getQueryParameters().get(
-        kDeepLinkSettingId);
     const settingIdNum = Number(settingIdStr);
     if (isNaN(settingIdNum)) {
       return null;
