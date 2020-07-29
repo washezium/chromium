@@ -11,6 +11,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import android.os.Bundle;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,14 +31,18 @@ import org.chromium.base.ContextUtils;
 import org.chromium.base.Promise;
 import org.chromium.base.test.BaseRobolectricTestRunner;
 import org.chromium.chrome.R;
+import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.browserservices.ui.controller.Verifier;
 import org.chromium.chrome.browser.browserservices.ui.controller.trustedwebactivity.ClientPackageNameProvider;
 import org.chromium.chrome.browser.customtabs.CustomTabIntentDataProvider;
 import org.chromium.chrome.browser.customtabs.CustomTabsConnection;
 import org.chromium.chrome.browser.customtabs.content.TabObserverRegistrar;
 import org.chromium.chrome.browser.customtabs.content.TabObserverRegistrar.CustomTabTabObserver;
+import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.test.util.browser.Features;
+import org.chromium.chrome.test.util.browser.Features.DisableFeatures;
+import org.chromium.chrome.test.util.browser.Features.EnableFeatures;
 import org.chromium.content_public.browser.NavigationHandle;
 
 /**
@@ -44,6 +50,7 @@ import org.chromium.content_public.browser.NavigationHandle;
  */
 @RunWith(BaseRobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
+@DisableFeatures(ChromeFeatureList.TRUSTED_WEB_ACTIVITY_QUALITY_ENFORCEMENT)
 public class QualityEnforcerUnitTest {
     private static final String TRUSTED_ORIGIN_PAGE = "https://www.origin1.com/page1";
     private static final String UNTRUSTED_PAGE = "https://www.origin2.com/page1";
@@ -52,6 +59,8 @@ public class QualityEnforcerUnitTest {
 
     @Rule
     public TestRule mFeaturesProcessor = new Features.JUnitProcessor();
+    @Mock
+    private ChromeActivity mActivity;
     @Mock
     private CustomTabIntentDataProvider mIntentDataProvider;
     @Mock
@@ -81,8 +90,8 @@ public class QualityEnforcerUnitTest {
         when(mVerifier.verify(TRUSTED_ORIGIN_PAGE)).thenReturn(Promise.fulfilled(true));
         when(mVerifier.verify(UNTRUSTED_PAGE)).thenReturn(Promise.fulfilled(false));
 
-        mQualityEnforcer = new QualityEnforcer(mTabObserverRegistrar, mIntentDataProvider,
-                mCustomTabsConnection, mVerifier, mClientPackageNameProvider);
+        mQualityEnforcer = new QualityEnforcer(mActivity, mTabObserverRegistrar,
+                mIntentDataProvider, mCustomTabsConnection, mVerifier, mClientPackageNameProvider);
     }
 
     @Test
@@ -116,6 +125,32 @@ public class QualityEnforcerUnitTest {
         navigateToUrl(TRUSTED_ORIGIN_PAGE, HTTP_STATUS_SUCCESS);
         navigateToUrl(TRUSTED_ORIGIN_PAGE, HTTP_ERROR_NOT_FOUND);
         verifyTriggered404();
+    }
+
+    @Test
+    @EnableFeatures(ChromeFeatureList.TRUSTED_WEB_ACTIVITY_QUALITY_ENFORCEMENT)
+    public void triggerCrash_whenClientSupports() {
+        Bundle result = new Bundle();
+        result.putBoolean("success", true);
+        when(mCustomTabsConnection.sendExtraCallbackWithResult(
+                     any(), eq(QualityEnforcer.CRASH), any()))
+                .thenReturn(result);
+
+        navigateToUrl(TRUSTED_ORIGIN_PAGE, HTTP_ERROR_NOT_FOUND);
+        verify(mActivity).finish();
+    }
+
+    @Test
+    @EnableFeatures(ChromeFeatureList.TRUSTED_WEB_ACTIVITY_QUALITY_ENFORCEMENT)
+    public void notTriggerCrash_whenClientDoesntSupport() {
+        Bundle result = new Bundle();
+        result.putBoolean("success", false);
+        when(mCustomTabsConnection.sendExtraCallbackWithResult(
+                     any(), eq(QualityEnforcer.CRASH), any()))
+                .thenReturn(result);
+
+        navigateToUrl(TRUSTED_ORIGIN_PAGE, HTTP_ERROR_NOT_FOUND);
+        verify(mActivity, never()).finish();
     }
 
     private void verifyTriggered404() {

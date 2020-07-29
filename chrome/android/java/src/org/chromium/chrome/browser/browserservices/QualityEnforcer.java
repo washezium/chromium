@@ -15,12 +15,14 @@ import androidx.browser.customtabs.CustomTabsSessionToken;
 import org.chromium.base.ContextUtils;
 import org.chromium.base.Promise;
 import org.chromium.chrome.R;
+import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.browserservices.ui.controller.Verifier;
 import org.chromium.chrome.browser.browserservices.ui.controller.trustedwebactivity.ClientPackageNameProvider;
 import org.chromium.chrome.browser.customtabs.CustomTabsConnection;
 import org.chromium.chrome.browser.customtabs.content.TabObserverRegistrar;
 import org.chromium.chrome.browser.customtabs.content.TabObserverRegistrar.CustomTabTabObserver;
 import org.chromium.chrome.browser.dependency_injection.ActivityScope;
+import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.content_public.browser.NavigationHandle;
 import org.chromium.ui.widget.Toast;
@@ -40,9 +42,12 @@ import javax.inject.Inject;
 public class QualityEnforcer {
     @VisibleForTesting
     static final String NOTIFY = "quality_enforcement.notify";
+    @VisibleForTesting
+    static final String CRASH = "quality_enforcement.crash";
     private static final String KEY_CRASH_REASON = "crash_reason";
     private static final String KEY_SUCCESS = "success";
 
+    private final ChromeActivity<?> mActivity;
     private final Verifier mVerifier;
     private final CustomTabsConnection mConnection;
     private final CustomTabsSessionToken mSessionToken;
@@ -75,9 +80,10 @@ public class QualityEnforcer {
     };
 
     @Inject
-    public QualityEnforcer(TabObserverRegistrar tabObserverRegistrar,
+    public QualityEnforcer(ChromeActivity<?> activity, TabObserverRegistrar tabObserverRegistrar,
             BrowserServicesIntentDataProvider intentDataProvider, CustomTabsConnection connection,
             Verifier verifier, ClientPackageNameProvider clientPackageNameProvider) {
+        mActivity = activity;
         mVerifier = verifier;
         mConnection = connection;
         mSessionToken = intentDataProvider.getSession();
@@ -92,7 +98,14 @@ public class QualityEnforcer {
 
         Bundle args = new Bundle();
         args.putString(KEY_CRASH_REASON, message);
-        mConnection.sendExtraCallbackWithResult(mSessionToken, NOTIFY, args);
+        if (!ChromeFeatureList.isEnabled(
+                    ChromeFeatureList.TRUSTED_WEB_ACTIVITY_QUALITY_ENFORCEMENT)) {
+            mConnection.sendExtraCallbackWithResult(mSessionToken, NOTIFY, args);
+        } else {
+            Bundle result = mConnection.sendExtraCallbackWithResult(mSessionToken, CRASH, args);
+            boolean success = result != null && result.getBoolean(KEY_SUCCESS);
+            if (success) mActivity.finish();
+        }
     }
 
     private void showErrorToast(String message) {

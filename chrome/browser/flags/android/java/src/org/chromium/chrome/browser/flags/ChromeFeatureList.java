@@ -414,6 +414,8 @@ public abstract class ChromeFeatureList {
             "TrustedWebActivityNotificationDelegationAutoEnrolment";
     public static final String TRUSTED_WEB_ACTIVITY_NEW_DISCLOSURE =
             "TrustedWebActivityNewDisclosure";
+    public static final String TRUSTED_WEB_ACTIVITY_QUALITY_ENFORCEMENT =
+            "TrustedWebActivityQualityEnforcement";
     public static final String TRUSTED_WEB_ACTIVITY_LOCATION_DELEGATION =
             "TrustedWebActivityLocationDelegation";
     public static final String VIDEO_PERSISTENCE = "VideoPersistence";
