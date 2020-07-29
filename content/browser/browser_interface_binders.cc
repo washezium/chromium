@@ -526,7 +526,7 @@ void PopulateFrameBinders(RenderFrameHostImpl* host, mojo::BinderMap* map) {
       &RenderFrameHostImpl::GetGeolocationService, base::Unretained(host)));
 
   map->Add<blink::mojom::IdleManager>(base::BindRepeating(
-      &RenderFrameHostImpl::GetIdleManager, base::Unretained(host)));
+      &RenderFrameHostImpl::BindIdleManager, base::Unretained(host)));
 
   if (base::FeatureList::IsEnabled(blink::features::kNativeFileSystemAPI)) {
     map->Add<blink::mojom::NativeFileSystemManager>(

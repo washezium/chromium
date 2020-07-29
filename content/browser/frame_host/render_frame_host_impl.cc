@@ -7269,11 +7269,11 @@ void RenderFrameHostImpl::GetHidService(
 }
 #endif
 
-IdleManager* RenderFrameHostImpl::GetIdleManagerForTesting() {
+IdleManager* RenderFrameHostImpl::GetIdleManager() {
   return idle_manager_.get();
 }
 
-void RenderFrameHostImpl::GetIdleManager(
+void RenderFrameHostImpl::BindIdleManager(
     mojo::PendingReceiver<blink::mojom::IdleManager> receiver) {
   if (!IsFeatureEnabled(blink::mojom::FeaturePolicyFeature::kIdleDetection)) {
     mojo::ReportBadMessage("Feature policy blocks access to IdleDetection.");
