@@ -559,7 +559,7 @@ public class PaymentUIsManager
         }
     }
 
-    /** @return Whether PaymentRequest UI should show the shipping section. */
+    /** Implements {@link PaymentRequestUI.Client.shouldShowShippingSection}. */
     public boolean shouldShowShippingSection() {
         if (!PaymentOptionsUtils.requestShipping(mParams.getPaymentOptions())) return false;
 
@@ -567,5 +567,27 @@ public class PaymentUIsManager
 
         PaymentApp selectedApp = (PaymentApp) mPaymentMethodsSection.getSelectedItem();
         return selectedApp == null || !selectedApp.handlesShippingAddress();
+    }
+
+    /** Implements {@link PaymentRequestUI.Client.shouldShowContactSection}. */
+    public boolean shouldShowContactSection() {
+        PaymentApp selectedApp = (mPaymentMethodsSection == null)
+                ? null
+                : (PaymentApp) mPaymentMethodsSection.getSelectedItem();
+        org.chromium.payments.mojom.PaymentOptions options = mParams.getPaymentOptions();
+        if (PaymentOptionsUtils.requestPayerName(options)
+                && (selectedApp == null || !selectedApp.handlesPayerName())) {
+            return true;
+        }
+        if (PaymentOptionsUtils.requestPayerPhone(options)
+                && (selectedApp == null || !selectedApp.handlesPayerPhone())) {
+            return true;
+        }
+        if (PaymentOptionsUtils.requestPayerEmail(options)
+                && (selectedApp == null || !selectedApp.handlesPayerEmail())) {
+            return true;
+        }
+
+        return false;
     }
 }

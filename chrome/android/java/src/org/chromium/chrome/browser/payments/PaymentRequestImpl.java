@@ -1671,20 +1671,7 @@ public class PaymentRequestImpl
 
     @Override
     public boolean shouldShowContactSection() {
-        PaymentApp selectedApp = (mPaymentUIsManager.getPaymentMethodsSection() == null)
-                ? null
-                : (PaymentApp) mPaymentUIsManager.getPaymentMethodsSection().getSelectedItem();
-        if (mRequestPayerName && (selectedApp == null || !selectedApp.handlesPayerName())) {
-            return true;
-        }
-        if (mRequestPayerPhone && (selectedApp == null || !selectedApp.handlesPayerPhone())) {
-            return true;
-        }
-        if (mRequestPayerEmail && (selectedApp == null || !selectedApp.handlesPayerEmail())) {
-            return true;
-        }
-
-        return false;
+        return mPaymentUIsManager.shouldShowContactSection();
     }
 
     private void editAddress(final AutofillAddress toEdit) {
