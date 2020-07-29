@@ -7,15 +7,10 @@
 #include "ash/clipboard/clipboard_history_controller.h"
 #include "ash/session/session_controller_impl.h"
 #include "ash/shell.h"
-#include "base/bind.h"
 #include "base/stl_util.h"
-#include "base/strings/utf_string_conversions.h"
 #include "components/account_id/account_id.h"
-#include "ui/base/clipboard/clipboard.h"
-#include "ui/base/clipboard/clipboard_buffer.h"
-#include "ui/base/clipboard/clipboard_constants.h"
-#include "ui/base/clipboard/clipboard_format_type.h"
 #include "ui/base/clipboard/clipboard_monitor.h"
+#include "ui/base/clipboard/clipboard_non_backed.h"
 
 namespace ash {
 
@@ -81,57 +76,13 @@ void ClipboardHistory::OnClipboardDataChanged() {
   if (num_pause_clipboard_history_ > 0)
     return;
 
-  ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
+  auto* clipboard = ui::ClipboardNonBacked::GetForCurrentThread();
   CHECK(clipboard);
 
-  std::vector<base::string16> mime_types;
-  clipboard->ReadAvailableTypes(ui::ClipboardBuffer::kCopyPaste,
-                                /* data_dst = */ nullptr, &mime_types);
+  const auto* clipboard_data = clipboard->GetClipboardData();
+  CHECK(clipboard_data);
 
-  ui::ClipboardData new_data;
-  bool contains_bitmap = false;
-  for (const auto& type16 : mime_types) {
-    const std::string type(base::UTF16ToUTF8(type16));
-    if (type == ui::ClipboardFormatType::GetPlainTextType().GetName()) {
-      base::string16 text;
-      clipboard->ReadText(ui::ClipboardBuffer::kCopyPaste,
-                          /* data_dst = */ nullptr, &text);
-      new_data.set_text(base::UTF16ToUTF8(text));
-    } else if (type == ui::ClipboardFormatType::GetHtmlType().GetName()) {
-      uint32_t start, end;
-      base::string16 html_markup;
-      std::string src_url;
-      clipboard->ReadHTML(ui::ClipboardBuffer::kCopyPaste,
-                          /* data_dst = */ nullptr, &html_markup, &src_url,
-                          &start, &end);
-      new_data.set_markup_data(base::UTF16ToUTF8(html_markup));
-      new_data.set_url(src_url);
-    } else if (type == ui::ClipboardFormatType::GetRtfType().GetName()) {
-      std::string rtf_data;
-      clipboard->ReadRTF(ui::ClipboardBuffer::kCopyPaste,
-                         /* data_dst = */ nullptr, &rtf_data);
-      new_data.SetRTFData(rtf_data);
-    } else if (type == ui::ClipboardFormatType::GetBitmapType().GetName()) {
-      contains_bitmap = true;
-    }
-  }
-
-  if (contains_bitmap) {
-    clipboard->ReadImage(
-        ui::ClipboardBuffer::kCopyPaste, /*data_dst=*/nullptr,
-        base::BindOnce(&ClipboardHistory::OnRecievePNGFromClipboard,
-                       weak_ptr_factory_.GetWeakPtr(), GetActiveAccountId(),
-                       std::move(new_data)));
-    return;
-  }
-
-  std::string custom_data;
-  const auto& custom_format = ui::ClipboardFormatType::GetWebCustomDataType();
-  clipboard->ReadData(custom_format, /* data_dst = */ nullptr, &custom_data);
-  if (!custom_data.empty())
-    new_data.SetCustomData(custom_format.GetName(), custom_data);
-
-  CommitData(GetActiveAccountId(), std::move(new_data));
+  CommitData(GetActiveAccountId(), ui::ClipboardData(*clipboard_data));
 }
 
 void ClipboardHistory::CommitData(const AccountId& account_id,
@@ -157,13 +108,6 @@ void ClipboardHistory::CommitData(const AccountId& account_id,
   // data.
   if (history_with_duplicates.size() > kMaxClipboardItemsShared * 2)
     history_with_duplicates.pop_front();
-}
-
-void ClipboardHistory::OnRecievePNGFromClipboard(const AccountId& account_id,
-                                                 ui::ClipboardData data,
-                                                 const SkBitmap& bitmap) {
-  data.SetBitmapData(bitmap);
-  CommitData(account_id, std::move(data));
 }
 
 void ClipboardHistory::PauseClipboardHistory() {

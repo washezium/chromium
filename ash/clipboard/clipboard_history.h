@@ -14,7 +14,6 @@
 #include "ash/shell_observer.h"
 #include "base/component_export.h"
 #include "base/memory/weak_ptr.h"
-#include "third_party/skia/include/core/SkBitmap.h"
 #include "ui/base/clipboard/clipboard_data.h"
 #include "ui/base/clipboard/clipboard_observer.h"
 
@@ -22,7 +21,7 @@ class AccountId;
 
 namespace ui {
 class ClipboardData;
-}
+}  // namespace ui
 
 namespace ash {
 
@@ -68,12 +67,6 @@ class ASH_EXPORT ClipboardHistory : public ui::ClipboardObserver,
   // Adds |data| to the clipboard history belonging to the account indicated
   // by |account_id|.
   void CommitData(const AccountId& account_id, ui::ClipboardData data);
-
-  // Callback to read a bitmap from the clipboard data belonging to the account
-  // indicated by |active_account_id|.
-  void OnRecievePNGFromClipboard(const AccountId& active_account_id,
-                                 ui::ClipboardData data,
-                                 const SkBitmap& bitmap);
   void PauseClipboardHistory();
   void UnPauseClipboardHistory();
 
