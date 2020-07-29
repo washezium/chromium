@@ -31889,6 +31889,8 @@ Called by update_feature_policy_enum.py.-->
       label="PocketLab; f000aa32-0452-4000-b000-000000000000"/>
   <int value="252638028" label="fe9c"/>
   <int value="253001319" label="fe84"/>
+  <int value="265147461"
+      label="Root Robot; 48c5d828-ac2a-442d-97a3-0c9822b04979"/>
   <int value="267848299" label="fe3e"/>
   <int value="270670950" label="fe62"/>
   <int value="272049750"
