@@ -39,6 +39,7 @@ void OnHSTSQueryResultHelper(
 HttpPasswordStoreMigrator::HttpPasswordStoreMigrator(
     const url::Origin& https_origin,
     const PasswordManagerClient* client,
+    network::mojom::NetworkContext* network_context,
     Consumer* consumer)
     : client_(client), consumer_(consumer) {
   DCHECK(client_);
@@ -52,8 +53,10 @@ HttpPasswordStoreMigrator::HttpPasswordStoreMigrator(
                                  http_origin.GetOrigin().spec(), http_origin);
   http_origin_domain_ = url::Origin::Create(http_origin);
   client_->GetProfilePasswordStore()->GetLogins(form, this);
-  client_->PostHSTSQueryForHost(
-      https_origin, base::BindOnce(&OnHSTSQueryResultHelper, GetWeakPtr()));
+
+  PostHSTSQueryForHostAndNetworkContext(
+      https_origin, network_context,
+      base::BindOnce(&OnHSTSQueryResultHelper, GetWeakPtr()));
 }
 
 HttpPasswordStoreMigrator::~HttpPasswordStoreMigrator() = default;

@@ -119,7 +119,8 @@ void MultiStoreFormFetcher::OnGetPasswordStoreResultsFrom(
     // TODO(crbug.com/1107741): Consider also supporting HTTP->HTTPS migration
     // for the account store.
     http_migrator_ = std::make_unique<HttpPasswordStoreMigrator>(
-        url::Origin::Create(form_digest_.url), client_, this);
+        url::Origin::Create(form_digest_.url), client_,
+        client_->GetNetworkContext(), this);
     // The migrator will call us back at ProcessMigratedForms().
     return;
   }

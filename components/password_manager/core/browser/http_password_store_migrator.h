@@ -59,6 +59,7 @@ class HttpPasswordStoreMigrator : public PasswordStoreConsumer {
   // |https_origin| should specify a valid HTTPS URL.
   HttpPasswordStoreMigrator(const url::Origin& https_origin,
                             const PasswordManagerClient* client,
+                            network::mojom::NetworkContext* network_context,
                             Consumer* consumer);
   ~HttpPasswordStoreMigrator() override;
 
@@ -70,7 +71,7 @@ class HttpPasswordStoreMigrator : public PasswordStoreConsumer {
   void OnGetPasswordStoreResults(
       std::vector<std::unique_ptr<autofill::PasswordForm>> results) override;
 
-  // Callback for |PasswordManagerClient::PostHSTSQueryForHost|.
+  // Callback for PostHSTSQueryForHostAndNetworkContext.
   void OnHSTSQueryResult(HSTSResult is_hsts);
 
  private:

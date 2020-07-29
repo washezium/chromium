@@ -283,16 +283,6 @@ bool ChromePasswordManagerClient::IsFillingFallbackEnabled(
               ->IsGuestSession();
 }
 
-void ChromePasswordManagerClient::PostHSTSQueryForHost(
-    const url::Origin& origin,
-    password_manager::HSTSCallback callback) const {
-  password_manager::PostHSTSQueryForHostAndNetworkContext(
-      origin,
-      content::BrowserContext::GetDefaultStoragePartition(profile_)
-          ->GetNetworkContext(),
-      std::move(callback));
-}
-
 bool ChromePasswordManagerClient::PromptUserToSaveOrUpdatePassword(
     std::unique_ptr<password_manager::PasswordFormManagerForUI> form_to_save,
     bool update_password) {
@@ -856,6 +846,12 @@ scoped_refptr<network::SharedURLLoaderFactory>
 ChromePasswordManagerClient::GetURLLoaderFactory() {
   return content::BrowserContext::GetDefaultStoragePartition(profile_)
       ->GetURLLoaderFactoryForBrowserProcess();
+}
+
+network::mojom::NetworkContext* ChromePasswordManagerClient::GetNetworkContext()
+    const {
+  return content::BrowserContext::GetDefaultStoragePartition(profile_)
+      ->GetNetworkContext();
 }
 
 bool ChromePasswordManagerClient::IsUnderAdvancedProtection() const {
