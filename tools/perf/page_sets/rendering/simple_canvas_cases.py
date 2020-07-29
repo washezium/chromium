@@ -72,9 +72,14 @@ class FillClearRect(SimpleCanvasPage):
   URL = 'file://../simple_canvas/fill_clear_rect.html'
 
 
-class GetImageData(SimpleCanvasPage):
-  BASE_NAME = 'get_image_data.html'
-  URL = 'file://../simple_canvas/get_image_data.html'
+class GetImageDataOnCPU(SimpleCanvasPage):
+  BASE_NAME = 'get_image_data_cpu.html'
+  URL = 'file://../simple_canvas/get_image_data_cpu.html'
+
+
+class GetImageDataOnGPU(SimpleCanvasPage):
+  BASE_NAME = 'get_image_data_gpu.html'
+  URL = 'file://../simple_canvas/get_image_data_gpu.html'
 
 
 class GpuBoundShader(SimpleCanvasPage):
