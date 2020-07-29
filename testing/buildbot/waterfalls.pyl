@@ -2096,7 +2096,7 @@
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',
-          'xcode_11n700h',
+          'xcode_11e708',
         ],
         'test_suites': {
           'isolated_scripts': 'ios13_beta_simulator_tests'
@@ -2115,7 +2115,7 @@
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',
-          'xcode_11n700h',
+          'xcode_11e708',
         ],
         'test_suites': {
           'isolated_scripts': 'ios13_sdk_simulator_tests'
