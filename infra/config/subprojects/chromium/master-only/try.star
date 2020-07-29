@@ -325,7 +325,7 @@ try_.chromium_linux_builder(
 )
 
 try_.chromium_linux_builder(
-    name = 'linux-lacros-rel',
+    name = 'linux-lacros-fyi-rel',
 )
 
 try_.chromium_linux_builder(
