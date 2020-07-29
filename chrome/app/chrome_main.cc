@@ -18,7 +18,7 @@
 #include "headless/public/headless_shell.h"
 #include "ui/gfx/switches.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include "chrome/app/chrome_main_mac.h"
 #endif
 
@@ -97,7 +97,7 @@ int ChromeMain(int argc, const char** argv) {
   const base::CommandLine* command_line(base::CommandLine::ForCurrentProcess());
   ALLOW_UNUSED_LOCAL(command_line);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   SetUpBundleOverrides();
 #endif
 
@@ -108,11 +108,11 @@ int ChromeMain(int argc, const char** argv) {
   MainThreadStackSamplingProfiler scoped_sampling_profiler;
 
   // Chrome-specific process modes.
-#if defined(OS_LINUX) || defined(OS_MACOSX) || defined(OS_WIN)
+#if defined(OS_LINUX) || defined(OS_MAC) || defined(OS_WIN)
   if (command_line->HasSwitch(switches::kHeadless)) {
     return headless::HeadlessShellMain(params);
   }
-#endif  // defined(OS_LINUX) || defined(OS_MACOSX) || defined(OS_WIN)
+#endif  // defined(OS_LINUX) || defined(OS_MAC) || defined(OS_WIN)
 
   int rv = content::ContentMain(params);
 
