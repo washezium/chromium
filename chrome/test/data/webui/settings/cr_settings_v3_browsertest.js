@@ -227,16 +227,9 @@ var CrSettingsPasswordsSectionV3Test = class extends CrSettingsV3BrowserTest {
   }
 };
 
-// Flaky on Debug builds https://crbug.com/1090931
-GEN('#if !defined(NDEBUG)');
-GEN('#define MAYBE_All DISABLED_All');
-GEN('#else');
-GEN('#define MAYBE_All All');
-GEN('#endif');
-TEST_F('CrSettingsPasswordsSectionV3Test', 'MAYBE_All', function() {
+TEST_F('CrSettingsPasswordsSectionV3Test', 'All', function() {
   mocha.run();
 });
-GEN('#undef MAYBE_All');
 
 // eslint-disable-next-line no-var
 var CrSettingsMultiStorePasswordUiEntryV3Test =
