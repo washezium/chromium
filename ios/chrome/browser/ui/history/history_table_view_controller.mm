@@ -1082,7 +1082,7 @@ const CGFloat kButtonHorizontalPadding = 30.0;
                                          action:openInNewTabAction
                                           style:UIAlertActionStyleDefault];
 
-  if (IsMultiwindowSupported()) {
+  if (IsMultipleScenesSupported()) {
     // Add "Open In New Window" option.
     NSString* openInNewWindowTitle =
         l10n_util::GetNSString(IDS_IOS_CONTENT_CONTEXT_OPENINNEWWINDOW);

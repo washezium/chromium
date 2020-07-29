@@ -1767,7 +1767,7 @@ std::vector<GURL> GetUrlsToOpen(const std::vector<const BookmarkNode*>& nodes) {
                 }
                  style:UIAlertActionStyleDefault];
 
-  if (IsMultiwindowSupported()) {
+  if (IsMultipleScenesSupported()) {
     NSString* title =
         l10n_util::GetNSString(IDS_IOS_CONTENT_CONTEXT_OPENINNEWWINDOW);
     id<ApplicationCommands> windowOpener = HandlerForProtocol(
