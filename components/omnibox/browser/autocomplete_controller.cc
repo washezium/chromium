@@ -770,8 +770,11 @@ void AutocompleteController::UpdateAssociatedKeywords(
 void AutocompleteController::UpdateHeaders(AutocompleteResult* result) {
   DCHECK(result);
 
-  // Set the suggestion group ID to header mapping information.
+  // Sets the AutocompleteResult header metadata to what the ZeroSuggestProvider
+  // has fetched. In the future, if other search suggest providers also have
+  // header metadata, we will have to update this code to merge the metadata.
   result->set_headers_map(zero_suggest_provider_->headers_map());
+  result->set_hidden_group_ids(zero_suggest_provider_->hidden_group_ids());
 
   // Move all grouped matches to the bottom while maintaining the current order.
   std::stable_sort(result->begin(), result->end(),
