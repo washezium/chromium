@@ -2318,6 +2318,7 @@ void WebViewImpl::PropagateZoomFactorToLocalFrameRoots(Frame* frame,
 }
 
 double WebViewImpl::SetZoomLevel(double zoom_level) {
+  double old_zoom_level = zoom_level_;
   if (zoom_level < minimum_zoom_level_)
     zoom_level_ = minimum_zoom_level_;
   else if (zoom_level > maximum_zoom_level_)
@@ -2343,6 +2344,11 @@ double WebViewImpl::SetZoomLevel(double zoom_level) {
     }
   }
   PropagateZoomFactorToLocalFrameRoots(AsView().page->MainFrame(), zoom_factor);
+
+  if (old_zoom_level != zoom_level_) {
+    Client()->ZoomLevelChanged();
+    CancelPagePopup();
+  }
 
   return zoom_level_;
 }

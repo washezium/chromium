@@ -738,7 +738,7 @@ void RenderViewTest::Resize(gfx::Size new_size,
   visual_properties.is_fullscreen_granted = is_fullscreen_granted;
   visual_properties.display_mode = blink::mojom::DisplayMode::kBrowser;
 
-  render_widget->UpdateVisualProperties(visual_properties);
+  render_widget->GetWebWidget()->ApplyVisualProperties(visual_properties);
 }
 
 void RenderViewTest::SimulateUserTypingASCIICharacter(char ascii_character,

@@ -1341,8 +1341,8 @@ void EventSender::Reset() {
 
   // Disable the zoom level override. Reset() also happens during creation of
   // the RenderWidget, which we can detect by checking for the WebWidget.
-  if (web_widget_test_proxy_->GetWebWidget())
-    web_widget_test_proxy_->ResetZoomLevelForTesting();
+  if (web_widget_test_proxy_->GetWebFrameWidget())
+    web_widget_test_proxy_->GetWebFrameWidget()->ResetZoomLevelForTesting();
 
 #if defined(OS_WIN)
   wm_key_down_ = WM_KEYDOWN;

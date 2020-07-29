@@ -1385,17 +1385,9 @@ void RenderViewImpl::PrintPage(WebLocalFrame* frame) {
       render_widget->GetWebWidget()->HandlingInputEvent());
 }
 
-bool RenderViewImpl::SetZoomLevel(double zoom_level) {
-  if (zoom_level == page_zoom_level_)
-    return false;
-
-  // If we change the zoom level for the view, make sure any subsequent subframe
-  // loads reflect the current zoom level.
-  page_zoom_level_ = zoom_level;
-  GetWebView()->SetZoomLevel(zoom_level);
+void RenderViewImpl::ZoomLevelChanged() {
   for (auto& observer : observers_)
     observer.OnZoomLevelChanged();
-  return true;
 }
 
 void RenderViewImpl::SetPreferCompositingToLCDTextEnabled(bool prefer) {
@@ -1433,7 +1425,7 @@ void RenderViewImpl::PropagatePageZoomToNewlyAttachedFrame(
   if (use_zoom_for_dsf)
     GetWebView()->SetZoomFactorForDeviceScaleFactor(device_scale_factor);
   else
-    GetWebView()->SetZoomLevel(page_zoom_level_);
+    GetWebView()->SetZoomLevel(GetWebView()->ZoomLevel());
 }
 
 void RenderViewImpl::SetValidationMessageDirection(
@@ -1604,7 +1596,7 @@ int RenderViewImpl::GetRoutingID() {
 }
 
 float RenderViewImpl::GetZoomLevel() {
-  return page_zoom_level_;
+  return webview_->ZoomLevel();
 }
 
 const WebPreferences& RenderViewImpl::GetWebkitPreferences() {
