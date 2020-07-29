@@ -6876,3 +6876,6 @@ crbug.com/1108786 [ Linux ] http/tests/devtools/tracing/timeline-js/timeline-gc-
 
 # Sheriff 2020-07-27
 crbug.com/1107944 [ Mac ] http/tests/devtools/tracing/timeline-paint/timeline-paint.js [ Pass Failure ]
+
+# Temporarily disable tests to allow a fix in devtools frontend
+crbug.com/1011811 http/tests/devtools/modules-load-initial.js [ Pass Failure ]
