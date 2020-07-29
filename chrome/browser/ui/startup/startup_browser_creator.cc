@@ -269,7 +269,10 @@ bool CanOpenProfileOnStartup(Profile* profile) {
 
 #if !defined(OS_CHROMEOS)
 bool ShouldShowProfilePicker() {
-  return !signin_util::IsForceSigninEnabled() &&
+  size_t number_of_profiles = g_browser_process->profile_manager()
+                                  ->GetProfileAttributesStorage()
+                                  .GetNumberOfProfiles();
+  return !signin_util::IsForceSigninEnabled() && number_of_profiles != 1 &&
          base::FeatureList::IsEnabled(features::kNewProfilePicker);
 }
 #endif  // !defined(OS_CHROMEOS)
