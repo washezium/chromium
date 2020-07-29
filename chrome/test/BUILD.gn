@@ -872,8 +872,6 @@ if (!is_android) {
       "../browser/chrome_security_exploit_browsertest.cc",
       "../browser/chrome_service_worker_browsertest.cc",
       "../browser/chrome_worker_browsertest.cc",
-      "../browser/chromeos/certificate_provider/test_certificate_provider_extension_login_screen_mixin.cc",
-      "../browser/chromeos/certificate_provider/test_certificate_provider_extension_login_screen_mixin.h",
       "../browser/chromeos/login/saml/test_client_cert_saml_idp_mixin.cc",
       "../browser/chromeos/login/saml/test_client_cert_saml_idp_mixin.h",
       "../browser/chromeos/scoped_test_system_nss_key_slot_mixin.cc",
