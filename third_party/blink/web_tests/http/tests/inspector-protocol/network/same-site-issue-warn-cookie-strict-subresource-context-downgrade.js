@@ -1,6 +1,6 @@
 (async function(testRunner) {
   const {page, session, dp} = await testRunner.startBlank(
-      `Verifies that accessing a cookie in a breaking schemeful context downgrading situation triggers an inspector issue.\n`);
+      `Verifies that a subresource accessing a SameSite=Strict cookie across schemes triggers a context downgrade inspector issue.\n`);
 
   await dp.Network.enable();
   await dp.Audits.enable();

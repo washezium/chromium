@@ -1,4 +1,4 @@
-Verifies that accessing a cookie in a breaking schemeful context downgrading situation triggers an inspector issue.
+Verifies that a subresource accessing a SameSite=Lax cookie across schemes triggers a context downgrade inspector issue.
 
 Inspector issue:{
     issue : {
@@ -12,14 +12,14 @@ Inspector issue:{
                 }
                 cookieExclusionReasons : [
                 ]
-                cookieUrl : https://cookie.test:8443/inspector-protocol/network/resources/set-cookie.php?cookie=name%3Dvalue%3B%20SameSite%3DStrict
+                cookieUrl : https://cookie.test:8443/inspector-protocol/network/resources/set-cookie.php?cookie=name%3Dvalue%3B%20SameSite%3DLax
                 cookieWarningReasons : [
-                    [0] : WarnSameSiteLaxCrossDowngradeStrict
+                    [0] : WarnSameSiteLaxCrossDowngradeLax
                 ]
                 operation : SetCookie
                 request : {
                     requestId : <string>
-                    url : https://cookie.test:8443/inspector-protocol/network/resources/set-cookie.php?cookie=name%3Dvalue%3B%20SameSite%3DStrict
+                    url : https://cookie.test:8443/inspector-protocol/network/resources/set-cookie.php?cookie=name%3Dvalue%3B%20SameSite%3DLax
                 }
                 siteForCookies : http://cookie.test/
             }
