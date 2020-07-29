@@ -666,10 +666,11 @@ class GenXproto(FileWriter):
         if not case.field_name:
             return fields
         name = safe_name(case.field_name)
-        with Indent(self, 'struct %s_t {' % name, '};'):
+        typename = adjust_type_name(name)
+        with Indent(self, 'struct %s {' % typename, '};'):
             for field in fields:
                 self.write('%s %s{};' % field)
-        return [(name + '_t', name)]
+        return [(typename, name)]
 
     def copy_case(self, case, switch_name):
         op = 'CaseEq' if case.type.is_case else 'CaseAnd'

@@ -271,8 +271,8 @@ TEST_F(EventsXTest, TouchEventBasic) {
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_ORIENTATION, 0.3f);
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_PRESSURE, 100);
   ui::ScopedXI2Event scoped_xevent;
-  scoped_xevent.InitTouchEvent(0, XI_TouchBegin, 5, gfx::Point(10, 10),
-                               valuators);
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchBegin, 5,
+                               gfx::Point(10, 10), valuators);
   EXPECT_EQ(ui::ET_TOUCH_PRESSED, ui::EventTypeFromXEvent(*scoped_xevent));
   EXPECT_EQ("10,10", FlooredEventLocationString(*scoped_xevent));
   EXPECT_EQ(GetTouchIdFromXEvent(*scoped_xevent), 0);
@@ -285,8 +285,8 @@ TEST_F(EventsXTest, TouchEventBasic) {
   // Touch update, with new orientation info.
   valuators.clear();
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_ORIENTATION, 0.5f);
-  scoped_xevent.InitTouchEvent(0, XI_TouchUpdate, 5, gfx::Point(20, 20),
-                               valuators);
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchUpdate, 5,
+                               gfx::Point(20, 20), valuators);
   EXPECT_EQ(ui::ET_TOUCH_MOVED, ui::EventTypeFromXEvent(*scoped_xevent));
   EXPECT_EQ("20,20", FlooredEventLocationString(*scoped_xevent));
   EXPECT_EQ(GetTouchIdFromXEvent(*scoped_xevent), 0);
@@ -300,8 +300,8 @@ TEST_F(EventsXTest, TouchEventBasic) {
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_MAJOR, 100);
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_ORIENTATION, 0.9f);
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_PRESSURE, 500);
-  scoped_xevent.InitTouchEvent(0, XI_TouchBegin, 6, gfx::Point(200, 200),
-                               valuators);
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchBegin, 6,
+                               gfx::Point(200, 200), valuators);
   EXPECT_EQ(ui::ET_TOUCH_PRESSED, ui::EventTypeFromXEvent(*scoped_xevent));
   EXPECT_EQ("200,200", FlooredEventLocationString(*scoped_xevent));
   EXPECT_EQ(GetTouchIdFromXEvent(*scoped_xevent), 1);
@@ -314,8 +314,8 @@ TEST_F(EventsXTest, TouchEventBasic) {
   // value.
   valuators.clear();
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_PRESSURE, 50);
-  scoped_xevent.InitTouchEvent(0, XI_TouchEnd, 5, gfx::Point(30, 30),
-                               valuators);
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchEnd, 5,
+                               gfx::Point(30, 30), valuators);
   EXPECT_EQ(ui::ET_TOUCH_RELEASED, ui::EventTypeFromXEvent(*scoped_xevent));
   EXPECT_EQ("30,30", FlooredEventLocationString(*scoped_xevent));
   EXPECT_EQ(GetTouchIdFromXEvent(*scoped_xevent), 0);
@@ -328,8 +328,8 @@ TEST_F(EventsXTest, TouchEventBasic) {
   // radius value.
   valuators.clear();
   valuators.emplace_back(DeviceDataManagerX11::DT_TOUCH_MAJOR, 50);
-  scoped_xevent.InitTouchEvent(0, XI_TouchEnd, 6, gfx::Point(200, 200),
-                               valuators);
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchEnd, 6,
+                               gfx::Point(200, 200), valuators);
   EXPECT_EQ(ui::ET_TOUCH_RELEASED, ui::EventTypeFromXEvent(*scoped_xevent));
   EXPECT_EQ("200,200", FlooredEventLocationString(*scoped_xevent));
   EXPECT_EQ(GetTouchIdFromXEvent(*scoped_xevent), 1);
@@ -358,22 +358,22 @@ TEST_F(EventsXTest, TouchEventNotRemovingFromNativeMapping) {
 
   // Two touch presses with the same tracking id.
   ui::ScopedXI2Event xpress0;
-  xpress0.InitTouchEvent(kDeviceId, XI_TouchBegin, kTrackingId,
-                         gfx::Point(10, 10), valuators);
+  xpress0.InitTouchEvent(kDeviceId, x11::Input::DeviceEvent::TouchBegin,
+                         kTrackingId, gfx::Point(10, 10), valuators);
   auto upress0 = ui::BuildTouchEventFromXEvent(*xpress0);
   EXPECT_EQ(kDeviceId, GetTouchIdForTrackingId(kTrackingId));
 
   ui::ScopedXI2Event xpress1;
-  xpress1.InitTouchEvent(kDeviceId, XI_TouchBegin, kTrackingId,
-                         gfx::Point(20, 20), valuators);
+  xpress1.InitTouchEvent(kDeviceId, x11::Input::DeviceEvent::TouchBegin,
+                         kTrackingId, gfx::Point(20, 20), valuators);
   auto upress1 = ui::BuildTouchEventFromXEvent(*xpress1);
   EXPECT_EQ(kDeviceId, GetTouchIdForTrackingId(kTrackingId));
 
   // The second touch release should clear the mapping from the
   // tracking id.
   ui::ScopedXI2Event xrelease1;
-  xrelease1.InitTouchEvent(kDeviceId, XI_TouchEnd, kTrackingId,
-                           gfx::Point(10, 10), valuators);
+  xrelease1.InitTouchEvent(kDeviceId, x11::Input::DeviceEvent::TouchEnd,
+                           kTrackingId, gfx::Point(10, 10), valuators);
   { auto urelease1 = ui::BuildTouchEventFromXEvent(*xrelease1); }
   EXPECT_EQ(-1, GetTouchIdForTrackingId(kTrackingId));
 }
@@ -389,7 +389,8 @@ TEST_F(EventsXTest, CopiedTouchEventNotRemovingFromXEventMapping) {
 
   // Create a release event which has a native touch id mapping.
   ui::ScopedXI2Event xrelease0;
-  xrelease0.InitTouchEvent(0, XI_TouchEnd, 0, gfx::Point(10, 10), valuators);
+  xrelease0.InitTouchEvent(0, x11::Input::DeviceEvent::TouchEnd, 0,
+                           gfx::Point(10, 10), valuators);
   auto urelease0 = ui::BuildTouchEventFromXEvent(*xrelease0);
   {
     // When the copy is destructed it should not attempt to remove the mapping.
@@ -404,9 +405,10 @@ TEST_F(EventsXTest, DisableKeyboard) {
   DeviceDataManagerX11* device_data_manager =
       static_cast<DeviceDataManagerX11*>(DeviceDataManager::GetInstance());
   int blocked_device_id = 1;
+  auto blocked_device = static_cast<x11::Input::DeviceId>(blocked_device_id);
   int other_device_id = 2;
   int master_device_id = 3;
-  device_data_manager->DisableDevice(blocked_device_id);
+  device_data_manager->DisableDevice(blocked_device);
 
   std::unique_ptr<std::set<KeyboardCode>> excepted_keys(
       new std::set<KeyboardCode>);
@@ -432,7 +434,7 @@ TEST_F(EventsXTest, DisableKeyboard) {
                           ui::VKEY_B, 0);
   EXPECT_EQ(ui::ET_KEY_PRESSED, ui::EventTypeFromXEvent(*xev));
 
-  device_data_manager->EnableDevice(blocked_device_id);
+  device_data_manager->EnableDevice(blocked_device);
   device_data_manager->SetDisabledKeyboardAllowedKeys(nullptr);
 
   // A key returns KEY_PRESSED as per usual now that keyboard was re-enabled.
@@ -446,13 +448,14 @@ TEST_F(EventsXTest, DisableMouse) {
   DeviceDataManagerX11* device_data_manager =
       static_cast<DeviceDataManagerX11*>(DeviceDataManager::GetInstance());
   int blocked_device_id = 1;
+  auto blocked_device = static_cast<x11::Input::DeviceId>(blocked_device_id);
   int other_device_id = 2;
   std::vector<int> device_list;
   device_list.push_back(blocked_device_id);
   device_list.push_back(other_device_id);
   TouchFactory::GetInstance()->SetPointerDeviceForTest(device_list);
 
-  device_data_manager->DisableDevice(blocked_device_id);
+  device_data_manager->DisableDevice(blocked_device);
 
   ScopedXI2Event xev;
   xev.InitGenericButtonEvent(blocked_device_id, ET_MOUSE_PRESSED, gfx::Point(),
@@ -463,7 +466,7 @@ TEST_F(EventsXTest, DisableMouse) {
                              EF_LEFT_MOUSE_BUTTON);
   EXPECT_EQ(ui::ET_MOUSE_PRESSED, ui::EventTypeFromXEvent(*xev));
 
-  device_data_manager->EnableDevice(blocked_device_id);
+  device_data_manager->EnableDevice(blocked_device);
 
   xev.InitGenericButtonEvent(blocked_device_id, ET_MOUSE_PRESSED, gfx::Point(),
                              EF_LEFT_MOUSE_BUTTON);

@@ -18,6 +18,7 @@
 #include "ui/events/keycodes/keyboard_codes_posix.h"
 #include "ui/events/keycodes/keysym_to_unicode.h"
 #include "ui/gfx/x/x11.h"
+#include "ui/gfx/x/xinput.h"
 
 #define VKEY_UNSUPPORTED VKEY_UNKNOWN
 
@@ -1438,10 +1439,10 @@ void InitXKeyEventFromXIDeviceEvent(const XEvent& src, XEvent* xkeyevent) {
   DCHECK(src.type == x11::GeGenericEvent::opcode);
   XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(src.xcookie.data);
   switch (xievent->evtype) {
-    case XI_KeyPress:
+    case x11::Input::DeviceEvent::KeyPress:
       xkeyevent->type = x11::KeyEvent::Press;
       break;
-    case XI_KeyRelease:
+    case x11::Input::DeviceEvent::KeyRelease:
       xkeyevent->type = x11::KeyEvent::Release;
       break;
     default:

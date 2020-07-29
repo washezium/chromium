@@ -28,6 +28,7 @@
 #include "ui/events/x/x11_window_event_manager.h"
 #include "ui/gfx/x/connection.h"
 #include "ui/gfx/x/x11.h"
+#include "ui/gfx/x/xproto.h"
 
 namespace ui {
 
@@ -224,13 +225,14 @@ bool X11WholeScreenMoveLoop::GrabPointer(scoped_refptr<X11Cursor> cursor) {
 
   // Pass "owner_events" as false so that X sends all mouse events to
   // |grab_input_window_|.
-  int ret = ui::GrabPointer(grab_input_window_, false, cursor);
-  if (ret != GrabSuccess) {
+  auto ret = ui::GrabPointer(grab_input_window_, false, cursor);
+  if (ret != x11::GrabStatus::Success) {
     DLOG(ERROR) << "Grabbing pointer for dragging failed: "
-                << ui::GetX11ErrorString(connection->display(), ret);
+                << ui::GetX11ErrorString(connection->display(),
+                                         static_cast<int>(ret));
   }
   connection->Flush();
-  return ret == GrabSuccess;
+  return ret == x11::GrabStatus::Success;
 }
 
 void X11WholeScreenMoveLoop::GrabEscKey() {

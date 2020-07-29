@@ -808,13 +808,16 @@ TEST(EventTest, EventLatencyOSTouchHistograms) {
   ui::SetUpTouchDevicesForTest(devices);
 
   // Init touch begin, update, and end events with tracking id 5, touch id 0.
-  scoped_xevent.InitTouchEvent(0, XI_TouchBegin, 5, gfx::Point(10, 10), {});
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchBegin, 5,
+                               gfx::Point(10, 10), {});
   auto touch_begin = ui::BuildTouchEventFromXEvent(*scoped_xevent);
   histogram_tester.ExpectTotalCount("Event.Latency.OS.TOUCH_PRESSED", 1);
-  scoped_xevent.InitTouchEvent(0, XI_TouchUpdate, 5, gfx::Point(20, 20), {});
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchUpdate, 5,
+                               gfx::Point(20, 20), {});
   auto touch_update = ui::BuildTouchEventFromXEvent(*scoped_xevent);
   histogram_tester.ExpectTotalCount("Event.Latency.OS.TOUCH_MOVED", 1);
-  scoped_xevent.InitTouchEvent(0, XI_TouchEnd, 5, gfx::Point(30, 30), {});
+  scoped_xevent.InitTouchEvent(0, x11::Input::DeviceEvent::TouchEnd, 5,
+                               gfx::Point(30, 30), {});
   auto touch_end = ui::BuildTouchEventFromXEvent(*scoped_xevent);
   histogram_tester.ExpectTotalCount("Event.Latency.OS.TOUCH_RELEASED", 1);
 }

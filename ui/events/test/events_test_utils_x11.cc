@@ -52,9 +52,9 @@ int XKeyEventType(ui::EventType type) {
 int XIKeyEventType(ui::EventType type) {
   switch (type) {
     case ui::ET_KEY_PRESSED:
-      return XI_KeyPress;
+      return x11::Input::DeviceEvent::KeyPress;
     case ui::ET_KEY_RELEASED:
-      return XI_KeyRelease;
+      return x11::Input::DeviceEvent::KeyRelease;
     default:
       return 0;
   }
@@ -65,9 +65,9 @@ int XIButtonEventType(ui::EventType type) {
     case ui::ET_MOUSEWHEEL:
     case ui::ET_MOUSE_PRESSED:
       // The button release X events for mouse wheels are dropped by Aura.
-      return XI_ButtonPress;
+      return x11::Input::DeviceEvent::ButtonPress;
     case ui::ET_MOUSE_RELEASED:
-      return XI_ButtonRelease;
+      return x11::Input::DeviceEvent::ButtonRelease;
     default:
       NOTREACHED();
       return 0;
@@ -120,7 +120,8 @@ x11::Event CreateXInput2Event(int deviceid,
   xiev->event_x = location.x();
   xiev->event_y = location.y();
   xiev->event = DefaultRootWindow(gfx::GetXDisplay());
-  if (evtype == XI_ButtonPress || evtype == XI_ButtonRelease) {
+  if (evtype == x11::Input::DeviceEvent::ButtonPress ||
+      evtype == x11::Input::DeviceEvent::ButtonRelease) {
     xiev->buttons.mask_len = 8;
     xiev->buttons.mask = new unsigned char[xiev->buttons.mask_len];
     memset(xiev->buttons.mask, 0, xiev->buttons.mask_len);
@@ -287,7 +288,8 @@ void ScopedXI2Event::InitScrollEvent(int deviceid,
                                      int x_offset_ordinal,
                                      int y_offset_ordinal,
                                      int finger_count) {
-  event_ = CreateXInput2Event(deviceid, XI_Motion, 0, gfx::Point());
+  event_ = CreateXInput2Event(deviceid, x11::Input::DeviceEvent::Motion, 0,
+                              gfx::Point());
 
   Valuator valuators[] = {
       Valuator(DeviceDataManagerX11::DT_CMT_SCROLL_X, x_offset),
@@ -305,7 +307,8 @@ void ScopedXI2Event::InitFlingScrollEvent(int deviceid,
                                           int x_velocity_ordinal,
                                           int y_velocity_ordinal,
                                           bool is_cancel) {
-  event_ = CreateXInput2Event(deviceid, XI_Motion, deviceid, gfx::Point());
+  event_ = CreateXInput2Event(deviceid, x11::Input::DeviceEvent::Motion,
+                              deviceid, gfx::Point());
 
   Valuator valuators[] = {
       Valuator(DeviceDataManagerX11::DT_CMT_FLING_STATE, is_cancel ? 1 : 0),

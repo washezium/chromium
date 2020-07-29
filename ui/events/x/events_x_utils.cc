@@ -76,10 +76,10 @@ class XModifierStateWatcher {
       case x11::GeGenericEvent::opcode: {
         XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(xev.xcookie.data);
         switch (xievent->evtype) {
-          case XI_KeyPress:
+          case x11::Input::DeviceEvent::KeyPress:
             state_ = xievent->mods.effective |= mask;
             break;
-          case XI_KeyRelease:
+          case x11::Input::DeviceEvent::KeyRelease:
             state_ = xievent->mods.effective &= ~mask;
             break;
           default:
@@ -113,10 +113,11 @@ class XModifierStateWatcher {
 // location (0, 0).
 // This needs to be done in a cleaner way: http://crbug.com/169256
 bool TouchEventIsGeneratedHack(const x11::Event& x11_event) {
-  const XEvent& xev = x11_event.xlib_event();
-  XIDeviceEvent* event = static_cast<XIDeviceEvent*>(xev.xcookie.data);
-  CHECK(event->evtype == XI_TouchBegin || event->evtype == XI_TouchUpdate ||
-        event->evtype == XI_TouchEnd);
+  auto* event = x11_event.As<x11::Input::DeviceEvent>();
+  CHECK(event);
+  CHECK(event->opcode == x11::Input::DeviceEvent::TouchBegin ||
+        event->opcode == x11::Input::DeviceEvent::TouchUpdate ||
+        event->opcode == x11::Input::DeviceEvent::TouchEnd);
 
   // Force is normalized to [0, 1].
   if (ui::GetTouchForceFromXEvent(x11_event) < 1.0f)
@@ -127,8 +128,7 @@ bool TouchEventIsGeneratedHack(const x11::Event& x11_event) {
 
   // Radius is in pixels, and the valuator is the diameter in pixels.
   double radius = ui::GetTouchRadiusXFromXEvent(x11_event), min, max;
-  unsigned int deviceid =
-      static_cast<XIDeviceEvent*>(xev.xcookie.data)->sourceid;
+  auto deviceid = event->sourceid;
   if (!ui::DeviceDataManagerX11::GetInstance()->GetDataRange(
           deviceid, ui::DeviceDataManagerX11::DT_TOUCH_MAJOR, &min, &max)) {
     return false;
@@ -198,8 +198,8 @@ int GetEventFlagsFromXGenericEvent(const x11::Event& x11_event) {
   const XEvent& xev = x11_event.xlib_event();
   DCHECK(xev.type == x11::GeGenericEvent::opcode);
   XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(xev.xcookie.data);
-  DCHECK((xievent->evtype == XI_KeyPress) ||
-         (xievent->evtype == XI_KeyRelease));
+  DCHECK((xievent->evtype == x11::Input::DeviceEvent::KeyPress) ||
+         (xievent->evtype == x11::Input::DeviceEvent::KeyRelease));
   return GetEventFlagsFromXState(xievent->mods.effective) |
          (xev.xkey.send_event ? ui::EF_FINAL : 0);
 }
@@ -229,12 +229,12 @@ int GetEventFlagsForButton(int button) {
   }
 }
 
-int GetButtonMaskForX2Event(XIDeviceEvent* xievent) {
+int GetButtonMaskForX2Event(const x11::Input::DeviceEvent& xievent) {
   int buttonflags = 0;
-  for (int i = 0; i < 8 * xievent->buttons.mask_len; i++) {
-    if (XIMaskIsSet(xievent->buttons.mask, i)) {
+  for (size_t i = 0; i < 32 * xievent.button_mask.size(); i++) {
+    if (XIMaskIsSet(xievent.button_mask.data(), i)) {
       int button =
-          (xievent->sourceid == xievent->deviceid)
+          (xievent.sourceid == xievent.deviceid)
               ? ui::DeviceDataManagerX11::GetInstance()->GetMappedButton(i)
               : i;
       buttonflags |= GetEventFlagsForButton(button);
@@ -244,40 +244,39 @@ int GetButtonMaskForX2Event(XIDeviceEvent* xievent) {
 }
 
 ui::EventType GetTouchEventType(const x11::Event& x11_event) {
-  const XEvent& xev = x11_event.xlib_event();
-  XIDeviceEvent* event = static_cast<XIDeviceEvent*>(xev.xcookie.data);
-  switch (event->evtype) {
-    case XI_TouchBegin:
+  auto* event = x11_event.As<x11::Input::DeviceEvent>();
+  if (!event) {
+    // This is either a crossing event (which are handled by
+    // PlatformEventDispatcher directly) or a device changed event (which can
+    // happen when --touch-devices flag is used).
+    return ui::ET_UNKNOWN;
+  }
+  switch (event->opcode) {
+    case x11::Input::DeviceEvent::TouchBegin:
       return TouchEventIsGeneratedHack(x11_event) ? ui::ET_UNKNOWN
                                                   : ui::ET_TOUCH_PRESSED;
-    case XI_TouchUpdate:
+    case x11::Input::DeviceEvent::TouchUpdate:
       return TouchEventIsGeneratedHack(x11_event) ? ui::ET_UNKNOWN
                                                   : ui::ET_TOUCH_MOVED;
-    case XI_TouchEnd:
+    case x11::Input::DeviceEvent::TouchEnd:
       return TouchEventIsGeneratedHack(x11_event) ? ui::ET_TOUCH_CANCELLED
                                                   : ui::ET_TOUCH_RELEASED;
+    default:;
   }
 
   DCHECK(ui::TouchFactory::GetInstance()->IsTouchDevice(event->sourceid));
-  switch (event->evtype) {
-    case XI_ButtonPress:
+  switch (event->opcode) {
+    case x11::Input::DeviceEvent::ButtonPress:
       return ui::ET_TOUCH_PRESSED;
-    case XI_ButtonRelease:
+    case x11::Input::DeviceEvent::ButtonRelease:
       return ui::ET_TOUCH_RELEASED;
-    case XI_Motion:
+    case x11::Input::DeviceEvent::Motion:
       // Should not convert any emulated Motion event from touch device to
       // touch event.
-      if (!(event->flags & XIPointerEmulated) && GetButtonMaskForX2Event(event))
+      if (!static_cast<bool>(event->flags &
+                             x11::Input::KeyEventFlags::KeyRepeat) &&
+          GetButtonMaskForX2Event(*event))
         return ui::ET_TOUCH_MOVED;
-      return ui::ET_UNKNOWN;
-    case XI_DeviceChanged:
-      // This can happen when --touch-devices flag is used.
-      return ui::ET_UNKNOWN;
-    case XI_Leave:
-    case XI_Enter:
-    case XI_FocusIn:
-    case XI_FocusOut:
-      // These may be handled by the PlatformEventDispatcher directly.
       return ui::ET_UNKNOWN;
     default:
       NOTREACHED();
@@ -435,7 +434,9 @@ EventType EventTypeFromXEvent(const x11::Event& x11_event) {
       if (!device || !factory->ShouldProcessDeviceEvent(*device))
         return ET_UNKNOWN;
 
-      XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(xev.xcookie.data);
+      auto* xievent = x11_event.As<x11::Input::DeviceEvent>();
+      if (!xievent)
+        break;
 
       // This check works only for master and floating slave devices. That is
       // why it is necessary to check for the XI_Touch* events in the following
@@ -443,27 +444,27 @@ EventType EventTypeFromXEvent(const x11::Event& x11_event) {
       if (factory->IsTouchDevice(xievent->sourceid))
         return GetTouchEventType(x11_event);
 
-      switch (xievent->evtype) {
-        case XI_TouchBegin:
+      switch (xievent->opcode) {
+        case x11::Input::DeviceEvent::TouchBegin:
           return ui::ET_TOUCH_PRESSED;
-        case XI_TouchUpdate:
+        case x11::Input::DeviceEvent::TouchUpdate:
           return ui::ET_TOUCH_MOVED;
-        case XI_TouchEnd:
+        case x11::Input::DeviceEvent::TouchEnd:
           return ui::ET_TOUCH_RELEASED;
-        case XI_ButtonPress: {
+        case x11::Input::DeviceEvent::ButtonPress: {
           int button = EventButtonFromXEvent(x11_event);
           if (button >= kMinWheelButton && button <= kMaxWheelButton)
             return ET_MOUSEWHEEL;
           return ET_MOUSE_PRESSED;
         }
-        case XI_ButtonRelease: {
+        case x11::Input::DeviceEvent::ButtonRelease: {
           int button = EventButtonFromXEvent(x11_event);
           // Drop wheel events; we should've already scrolled on the press.
           if (button >= kMinWheelButton && button <= kMaxWheelButton)
             return ET_UNKNOWN;
           return ET_MOUSE_RELEASED;
         }
-        case XI_Motion: {
+        case x11::Input::DeviceEvent::Motion: {
           bool is_cancel;
           DeviceDataManagerX11* devices = DeviceDataManagerX11::GetInstance();
           if (GetFlingDataFromXEvent(x11_event, nullptr, nullptr, nullptr,
@@ -480,21 +481,21 @@ EventType EventTypeFromXEvent(const x11::Event& x11_event) {
           }
           if (devices->IsCMTMetricsEvent(x11_event))
             return ET_UMA_DATA;
-          if (GetButtonMaskForX2Event(xievent))
+          if (GetButtonMaskForX2Event(*xievent))
             return ET_MOUSE_DRAGGED;
           if (DeviceDataManagerX11::GetInstance()->HasEventData(
-                  xievent, DeviceDataManagerX11::DT_CMT_SCROLL_X) ||
+                  x11_event, DeviceDataManagerX11::DT_CMT_SCROLL_X) ||
               DeviceDataManagerX11::GetInstance()->HasEventData(
-                  xievent, DeviceDataManagerX11::DT_CMT_SCROLL_Y)) {
+                  x11_event, DeviceDataManagerX11::DT_CMT_SCROLL_Y)) {
             // Don't produce mouse move events for mousewheel scrolls.
             return ET_UNKNOWN;
           }
 
           return ET_MOUSE_MOVED;
         }
-        case XI_KeyPress:
+        case x11::Input::DeviceEvent::KeyPress:
           return ET_KEY_PRESSED;
-        case XI_KeyRelease:
+        case x11::Input::DeviceEvent::KeyRelease:
           return ET_KEY_RELEASED;
       }
     }
@@ -529,21 +530,23 @@ int EventFlagsFromXEvent(const x11::Event& x11_event) {
     case x11::MotionNotifyEvent::opcode:
       return GetEventFlagsFromXState(xev.xmotion.state);
     case x11::GeGenericEvent::opcode: {
-      XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(xev.xcookie.data);
+      auto* xievent = x11_event.As<x11::Input::DeviceEvent>();
+      if (!xievent)
+        break;
 
-      switch (xievent->evtype) {
-        case XI_TouchBegin:
-        case XI_TouchUpdate:
-        case XI_TouchEnd:
-          return GetButtonMaskForX2Event(xievent) |
+      switch (xievent->opcode) {
+        case x11::Input::DeviceEvent::TouchBegin:
+        case x11::Input::DeviceEvent::TouchUpdate:
+        case x11::Input::DeviceEvent::TouchEnd:
+          return GetButtonMaskForX2Event(*xievent) |
                  GetEventFlagsFromXState(xievent->mods.effective) |
                  GetEventFlagsFromXState(
                      XModifierStateWatcher::GetInstance()->state());
-        case XI_ButtonPress:
-        case XI_ButtonRelease: {
+        case x11::Input::DeviceEvent::ButtonPress:
+        case x11::Input::DeviceEvent::ButtonRelease: {
           const bool touch =
               TouchFactory::GetInstance()->IsTouchDevice(xievent->sourceid);
-          int flags = GetButtonMaskForX2Event(xievent) |
+          int flags = GetButtonMaskForX2Event(*xievent) |
                       GetEventFlagsFromXState(xievent->mods.effective);
           if (touch) {
             flags |= GetEventFlagsFromXState(
@@ -556,11 +559,11 @@ int EventFlagsFromXEvent(const x11::Event& x11_event) {
             flags |= GetEventFlagsForButton(button);
           return flags;
         }
-        case XI_Motion:
-          return GetButtonMaskForX2Event(xievent) |
+        case x11::Input::DeviceEvent::Motion:
+          return GetButtonMaskForX2Event(*xievent) |
                  GetEventFlagsFromXState(xievent->mods.effective);
-        case XI_KeyPress:
-        case XI_KeyRelease: {
+        case x11::Input::DeviceEvent::KeyPress:
+        case x11::Input::DeviceEvent::KeyRelease: {
           XModifierStateWatcher::GetInstance()->UpdateStateFromXEvent(
               x11_event);
           return GetEventFlagsFromXGenericEvent(x11_event);
@@ -594,9 +597,9 @@ gfx::Point EventLocationFromXEvent(const x11::Event& x11_event) {
       float y = xievent->event_y;
 #if defined(OS_CHROMEOS)
       switch (xievent->evtype) {
-        case XI_TouchBegin:
-        case XI_TouchUpdate:
-        case XI_TouchEnd:
+        case x11::Input::DeviceEvent::TouchBegin:
+        case x11::Input::DeviceEvent::TouchUpdate:
+        case x11::Input::DeviceEvent::TouchEnd:
           ui::DeviceDataManagerX11::GetInstance()->ApplyTouchTransformer(
               xievent->deviceid, &x, &y);
           break;
@@ -653,8 +656,8 @@ int GetChangedMouseButtonFlagsFromXEvent(const x11::Event& x11_event) {
     case x11::GeGenericEvent::opcode: {
       XIDeviceEvent* xievent = static_cast<XIDeviceEvent*>(xev.xcookie.data);
       switch (xievent->evtype) {
-        case XI_ButtonPress:
-        case XI_ButtonRelease:
+        case x11::Input::DeviceEvent::ButtonPress:
+        case x11::Input::DeviceEvent::ButtonRelease:
           return GetEventFlagsForButton(EventButtonFromXEvent(x11_event));
         default:
           break;
@@ -739,28 +742,18 @@ float GetTouchAngleFromXEvent(const x11::Event& xev) {
 }
 
 float GetTouchForceFromXEvent(const x11::Event& x11_event) {
-  const XEvent& xev = x11_event.xlib_event();
-  XIDeviceEvent* event = static_cast<XIDeviceEvent*>(xev.xcookie.data);
-  if (event->evtype == XI_TouchEnd)
+  auto* event = x11_event.As<x11::Input::DeviceEvent>();
+  if (event->opcode == x11::Input::DeviceEvent::TouchEnd)
     return 0.0;
   double force = 0.0;
   force = GetTouchParamFromXEvent(
       x11_event, ui::DeviceDataManagerX11::DT_TOUCH_PRESSURE, 0.0);
-  unsigned int deviceid =
-      static_cast<XIDeviceEvent*>(xev.xcookie.data)->sourceid;
+  auto deviceid = event->sourceid;
   // Force is normalized to fall into [0, 1]
   if (!ui::DeviceDataManagerX11::GetInstance()->NormalizeData(
           deviceid, ui::DeviceDataManagerX11::DT_TOUCH_PRESSURE, &force))
     force = 0.0;
   return force;
-}
-
-EventPointerType GetTouchPointerTypeFromXEvent(const x11::Event& x11_event) {
-  const XEvent& xev = x11_event.xlib_event();
-  XIDeviceEvent* event = static_cast<XIDeviceEvent*>(xev.xcookie.data);
-  DCHECK(ui::TouchFactory::GetInstance()->IsTouchDevice(event->sourceid));
-  return ui::TouchFactory::GetInstance()->GetTouchDevicePointerType(
-      event->sourceid);
 }
 
 PointerDetails GetTouchPointerDetailsFromXEvent(const x11::Event& xev) {

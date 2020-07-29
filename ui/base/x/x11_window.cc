@@ -697,7 +697,8 @@ gfx::Rect XWindow::GetOuterBounds() const {
 void XWindow::GrabPointer() {
   // If the pointer is already in |xwindow_|, we will not get a crossing event
   // with a mode of NotifyGrab, so we must record the grab state manually.
-  has_pointer_grab_ |= !ui::GrabPointer(xwindow_, true, nullptr);
+  has_pointer_grab_ |=
+      (ui::GrabPointer(xwindow_, true, nullptr) == x11::GrabStatus::Success);
 }
 
 void XWindow::ReleasePointerGrab() {

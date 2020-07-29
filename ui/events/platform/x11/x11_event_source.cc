@@ -115,10 +115,10 @@ Time ExtractTimeFromXEvent(const x11::Event& x11_event) {
 }
 
 void UpdateDeviceList() {
-  XDisplay* display = gfx::GetXDisplay();
-  DeviceListCacheX11::GetInstance()->UpdateDeviceList(display);
-  TouchFactory::GetInstance()->UpdateDeviceList(display);
-  DeviceDataManagerX11::GetInstance()->UpdateDeviceList(display);
+  auto* connection = x11::Connection::Get();
+  DeviceListCacheX11::GetInstance()->UpdateDeviceList(connection);
+  TouchFactory::GetInstance()->UpdateDeviceList(connection);
+  DeviceDataManagerX11::GetInstance()->UpdateDeviceList(connection);
 }
 
 }  // namespace
@@ -404,21 +404,16 @@ void X11EventSource::ProcessXEvent(x11::Event* xevent) {
 // X11EventSource, protected
 
 void X11EventSource::PostDispatchEvent(x11::Event* x11_event) {
-  XEvent* xevent = &x11_event->xlib_event();
   bool should_update_device_list = false;
 
-  if (xevent->type == x11::GeGenericEvent::opcode) {
-    if (xevent->xgeneric.evtype == XI_HierarchyChanged) {
+  if (x11_event->As<x11::Input::HierarchyEvent>()) {
+    should_update_device_list = true;
+  } else if (auto* device = x11_event->As<x11::Input::DeviceChangedEvent>()) {
+    if (device->reason == x11::Input::ChangeReason::DeviceChange) {
       should_update_device_list = true;
-    } else if (xevent->xgeneric.evtype == XI_DeviceChanged) {
-      XIDeviceChangedEvent* xev =
-          static_cast<XIDeviceChangedEvent*>(xevent->xcookie.data);
-      if (xev->reason == XIDeviceChange) {
-        should_update_device_list = true;
-      } else if (xev->reason == XISlaveSwitch) {
-        ui::DeviceDataManagerX11::GetInstance()->InvalidateScrollClasses(
-            xev->sourceid);
-      }
+    } else if (device->reason == x11::Input::ChangeReason::SlaveSwitch) {
+      ui::DeviceDataManagerX11::GetInstance()->InvalidateScrollClasses(
+          device->sourceid);
     }
   }
 
@@ -427,9 +422,10 @@ void X11EventSource::PostDispatchEvent(x11::Event* x11_event) {
     hotplug_event_handler_->OnHotplugEvent();
   }
 
-  if (xevent->type == x11::CrossingEvent::EnterNotify &&
-      xevent->xcrossing.detail != NotifyInferior &&
-      xevent->xcrossing.mode != NotifyUngrab) {
+  auto* crossing = x11_event->As<x11::CrossingEvent>();
+  if (crossing && crossing->opcode == x11::CrossingEvent::EnterNotify &&
+      crossing->detail == x11::NotifyDetail::Inferior &&
+      crossing->mode == x11::NotifyMode::Ungrab) {
     // Clear stored scroll data
     ui::DeviceDataManagerX11::GetInstance()->InvalidateScrollClasses(
         DeviceDataManagerX11::kAllDevices);
