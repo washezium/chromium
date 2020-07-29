@@ -1728,6 +1728,9 @@
   <message name="IDS_ONC_WIFI_SSID" desc="ONC Property label for WiFi.SSID">
     SSID
   </message>
+  <message name="IDS_ONC_WIFI_BSSID" desc="Settings > Network > Wifi Network Detail Page > label for BSSID property. BSSID is a a unique 48 bit identifier for a wireless access point.">
+    BSSID
+  </message>
 
   <!-- Settings Internet Page-->
   <message name="IDS_SETTINGS_INTERNET_CONFIG" desc="Title for the network configuration dialog.">
