@@ -365,7 +365,7 @@ class PluginPowerSaverPixelTest : public PluginPowerSaverBrowserTest {
 // Flaky on Windows, Asan, and Msan. See crbug.com/549285 and crbug.com/512140.
 // Because ChromeOS cannot use software rendering and the pixel tests continue
 // to flake with hardware acceleration, disable these on ChromeOS.
-#if defined(OS_MACOSX) || defined(OS_WIN) || defined(ADDRESS_SANITIZER) || \
+#if defined(OS_MAC) || defined(OS_WIN) || defined(ADDRESS_SANITIZER) || \
     defined(MEMORY_SANITIZER) || defined(OS_CHROMEOS)
 #define MAYBE_SmallCrossOrigin DISABLED_SmallCrossOrigin
 #else
@@ -415,7 +415,7 @@ IN_PROC_BROWSER_TEST_F(PluginPowerSaverPixelTest, MAYBE_SmallerThanPlayIcon) {
 // Flaky on Windows, Asan, and Msan. See crbug.com/549285 and crbug.com/512140.
 // Because ChromeOS cannot use software rendering and the pixel tests continue
 // to flake with hardware acceleration, disable these on ChromeOS.
-#if defined(OS_MACOSX) || defined(OS_WIN) || defined(ADDRESS_SANITIZER) || \
+#if defined(OS_MAC) || defined(OS_WIN) || defined(ADDRESS_SANITIZER) || \
     defined(MEMORY_SANITIZER) || defined(OS_CHROMEOS)
 #define MAYBE_PosterTests DISABLED_PosterTests
 #else
