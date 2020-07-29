@@ -15,6 +15,7 @@
 #include "components/gcm_driver/fake_gcm_driver.h"
 #include "components/gcm_driver/gcm_driver.h"
 #include "components/gcm_driver/instance_id/instance_id_driver.h"
+#include "components/sync/invalidations/invalidations_listener.h"
 #include "google_apis/gcm/engine/account_mapping.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
@@ -30,6 +31,7 @@ namespace {
 
 const char kDefaultSenderId[] = "fake_sender_id";
 const char kSyncInvalidationsAppId[] = "com.google.chrome.sync.invalidations";
+const char kPayloadKey[] = "payload";
 
 class MockInstanceID : public InstanceID {
  public:
@@ -69,6 +71,11 @@ class MockInstanceIDDriver : public instance_id::InstanceIDDriver {
   MOCK_CONST_METHOD1(ExistsInstanceID, bool(const std::string& app_id));
 };
 
+class MockListener : public InvalidationsListener {
+ public:
+  MOCK_METHOD1(OnInvalidationReceived, void(const std::string& payload));
+};
+
 class FCMHandlerTest : public testing::Test {
  public:
   FCMHandlerTest()
@@ -101,6 +108,18 @@ TEST_F(FCMHandlerTest, ShouldReturnValidToken) {
   fcm_handler_.StartListening();
 
   EXPECT_EQ("token", fcm_handler_.GetFCMRegistrationToken());
+}
+
+TEST_F(FCMHandlerTest, ShouldPropagatePayloadToListener) {
+  const std::string kPayloadValue = "some_payload";
+  NiceMock<MockListener> mock_listener;
+  fcm_handler_.AddListener(&mock_listener);
+
+  gcm::IncomingMessage gcm_message;
+  gcm_message.data[kPayloadKey] = kPayloadValue;
+
+  EXPECT_CALL(mock_listener, OnInvalidationReceived(kPayloadValue));
+  fcm_handler_.OnMessage(kSyncInvalidationsAppId, gcm_message);
 }
 
 }  // namespace

@@ -6,6 +6,7 @@
 #define COMPONENTS_SYNC_INVALIDATIONS_FCM_HANDLER_H_
 
 #include <string>
+#include <vector>
 
 #include "base/sequence_checker.h"
 #include "components/gcm_driver/gcm_app_handler.h"
@@ -21,6 +22,8 @@ class InstanceIDDriver;
 }
 
 namespace syncer {
+
+class InvalidationsListener;
 
 // This handler is used to register with FCM and to process incoming messages.
 class FCMHandler : public gcm::GCMAppHandler {
@@ -42,6 +45,11 @@ class FCMHandler : public gcm::GCMAppHandler {
   // registration token and doesn't unsubscribe from FCM. All incoming
   // invalidations will be dropped.
   void StopListening();
+
+  // Add or remove a new listener which will be notified on each new incoming
+  // invalidation. |listener| must not be nullptr.
+  void AddListener(InvalidationsListener* listener);
+  void RemoveListener(InvalidationsListener* listener);
 
   // Used to get an obtained FCM token. Returns empty string if it hasn't
   // received yet.
@@ -74,6 +82,8 @@ class FCMHandler : public gcm::GCMAppHandler {
 
   // Contains an FCM registration token if not empty.
   std::string fcm_registration_token_;
+
+  std::vector<InvalidationsListener*> listeners_;
 
   base::WeakPtrFactory<FCMHandler> weak_ptr_factory_{this};
 };

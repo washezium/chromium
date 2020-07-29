@@ -10,8 +10,11 @@
 #include "base/time/time.h"
 #include "components/gcm_driver/gcm_driver.h"
 #include "components/gcm_driver/instance_id/instance_id_driver.h"
+#include "components/sync/invalidations/invalidations_listener.h"
 
 namespace syncer {
+
+const char kPayloadKey[] = "payload";
 
 FCMHandler::FCMHandler(gcm::GCMDriver* gcm_driver,
                        instance_id::InstanceIDDriver* instance_id_driver,
@@ -57,6 +60,17 @@ void FCMHandler::ShutdownHandler() {
   NOTREACHED();
 }
 
+void FCMHandler::AddListener(InvalidationsListener* listener) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  DCHECK(listener);
+  listeners_.push_back(listener);
+}
+
+void FCMHandler::RemoveListener(InvalidationsListener* listener) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  base::Erase(listeners_, listener);
+}
+
 void FCMHandler::OnStoreReset() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   // Currently the FCM registration token is not stored and there is nothing to
@@ -68,7 +82,15 @@ void FCMHandler::OnMessage(const std::string& app_id,
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK_EQ(app_id, app_id_);
 
-  // TODO(rushans): parse the incoming message.
+  auto it = message.data.find(kPayloadKey);
+  std::string payload;
+  if (it != message.data.end()) {
+    payload = it->second;
+  }
+
+  for (InvalidationsListener* listener : listeners_) {
+    listener->OnInvalidationReceived(payload);
+  }
 }
 
 void FCMHandler::OnMessagesDeleted(const std::string& app_id) {
