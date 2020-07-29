@@ -5,8 +5,10 @@
 package org.chromium.chrome.browser.payments.ui;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.Callback;
+import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.autofill.PersonalDataManager.CreditCard;
 import org.chromium.chrome.browser.payments.AddressEditor;
 import org.chromium.chrome.browser.payments.AutofillAddress;
@@ -15,6 +17,9 @@ import org.chromium.chrome.browser.payments.AutofillPaymentAppFactory;
 import org.chromium.chrome.browser.payments.CardEditor;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl;
 import org.chromium.chrome.browser.payments.SettingsAutofillAndPaymentsObserver;
+import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator;
+import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator.PaymentHandlerUiObserver;
+import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator.PaymentHandlerWebContentsObserver;
 import org.chromium.components.autofill.EditableOption;
 import org.chromium.components.payments.CurrencyFormatter;
 import org.chromium.components.payments.PaymentApp;
@@ -23,11 +28,13 @@ import org.chromium.components.payments.PaymentFeatureList;
 import org.chromium.components.payments.PaymentOptionsUtils;
 import org.chromium.components.payments.PaymentRequestLifecycleObserver;
 import org.chromium.components.payments.PaymentRequestParams;
+import org.chromium.content_public.browser.WebContents;
 import org.chromium.payments.mojom.PaymentCurrencyAmount;
 import org.chromium.payments.mojom.PaymentDetails;
 import org.chromium.payments.mojom.PaymentDetailsModifier;
 import org.chromium.payments.mojom.PaymentItem;
 import org.chromium.payments.mojom.PaymentShippingOption;
+import org.chromium.url.GURL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +50,10 @@ import java.util.Set;
  * This class manages all of the UIs related to payment. The UI logic of {@link PaymentRequestImpl}
  * should be moved into this class.
  */
-public class PaymentUIsManager
-        implements SettingsAutofillAndPaymentsObserver.Observer, PaymentRequestLifecycleObserver {
+public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Observer,
+                                          PaymentRequestLifecycleObserver,
+                                          PaymentHandlerUiObserver {
+    private PaymentHandlerCoordinator mPaymentHandlerUi;
     private Callback<PaymentInformation> mPaymentInformationCallback;
     private SectionInformation mUiShippingOptions;
     private final Delegate mDelegate;
@@ -589,5 +598,60 @@ public class PaymentUIsManager
         }
 
         return false;
+    }
+
+    // Implement PaymentHandlerUiObserver:
+    @Override
+    public void onPaymentHandlerUiClosed() {
+        mPaymentUisShowStateReconciler.onBottomSheetClosed();
+        mPaymentHandlerUi = null;
+    }
+
+    // Implement PaymentHandlerUiObserver:
+    @Override
+    public void onPaymentHandlerUiShown() {
+        assert mPaymentHandlerUi != null;
+        mPaymentUisShowStateReconciler.onBottomSheetShown();
+    }
+
+    /** Close the PaymentHandler UI if not already. */
+    public void ensureHideAndResetPaymentHandlerUi() {
+        if (mPaymentHandlerUi == null) return;
+        mPaymentHandlerUi.hide();
+        mPaymentHandlerUi = null;
+    }
+
+    /**
+     * Create and show the (BottomSheet) PaymentHandler UI.
+     * @param webContents The WebContents of the merchant page.
+     * @param url The URL of the payment app.
+     * @param paymentHandlerWebContentsObserver An observer of the WebContents of the Payment
+     *         Handler UI.
+     * @param isOffTheRecord Whether the merchant page is currently in an OffTheRecord tab.
+     * @return Whether the PaymentHandler UI is shown successfully.
+     */
+    public boolean showPaymentHandlerUI(WebContents webContents, GURL url,
+            PaymentHandlerWebContentsObserver paymentHandlerWebContentsObserver,
+            boolean isOffTheRecord) {
+        if (mPaymentHandlerUi != null) return false;
+        ChromeActivity chromeActivity = ChromeActivity.fromWebContents(webContents);
+        if (chromeActivity == null) return false;
+
+        mPaymentHandlerUi = new PaymentHandlerCoordinator();
+        return mPaymentHandlerUi.show(chromeActivity, url, isOffTheRecord,
+                paymentHandlerWebContentsObserver, /*uiObserver=*/this);
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public WebContents getPaymentHandlerWebContentsForTest() {
+        if (mPaymentHandlerUi == null) return null;
+        return mPaymentHandlerUi.getWebContentsForTest();
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public boolean clickPaymentHandlerSecurityIconForTest() {
+        if (mPaymentHandlerUi == null) return false;
+        mPaymentHandlerUi.clickSecurityIconForTest();
+        return true;
     }
 }
