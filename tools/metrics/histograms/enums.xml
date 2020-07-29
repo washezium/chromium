@@ -28570,6 +28570,9 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3356" label="ConversionAPIAll"/>
   <int value="3357" label="ImpressionRegistration"/>
   <int value="3358" label="ConversionRegistration"/>
+  <int value="3359" label="MainFrameCSPViaHTTP"/>
+  <int value="3360" label="MainFrameCSPViaMeta"/>
+  <int value="3361" label="MainFrameCSPViaOriginPolicy"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
