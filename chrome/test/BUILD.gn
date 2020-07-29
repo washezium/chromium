@@ -631,15 +631,15 @@ static_library("browser_tests_runner") {
 
 if (!is_android) {
   test("browser_tests") {
+    if ((is_linux && !is_chromeos) || chromeos_is_browser_only) {
+      use_xvfb = true
+    }
+
     configs += [ "//build/config:precompiled_headers" ]
     defines = [
       "HAS_OUT_OF_PROC_TEST_RUNNER",
       "CHROME_VERSION_MAJOR=" + chrome_version_major,
     ]
-    if (chromeos_is_browser_only) {
-      use_ash_chrome = true
-      use_xvfb = true
-    }
 
     deps = [
       ":browser_tests_runner",
@@ -3058,8 +3058,8 @@ if (is_mac) {
 }
 
 test("unit_tests") {
-  if (chromeos_is_browser_only) {
-    use_ash_chrome = true
+  if ((is_linux && !is_chromeos) || chromeos_is_browser_only) {
+    use_xvfb = true
   }
 
   inputs = [
@@ -6518,8 +6518,7 @@ if (!is_fuchsia) {
 
 if (!is_fuchsia && !is_android) {
   test("sync_integration_tests") {
-    if (chromeos_is_browser_only) {
-      use_ash_chrome = true
+    if ((is_linux && !is_chromeos) || chromeos_is_browser_only) {
       use_xvfb = true
     }
 
