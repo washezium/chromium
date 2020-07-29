@@ -3861,6 +3861,14 @@ To change this setting, <ph name="BEGIN_LINK">&lt;resetlink&gt;</ph>reset sync<p
         chrome_qrcode_<ph name="CURRENT_TIMESTAMP_MS">%1$s<ex>1582667748515</ex></ph>
       </message>
 
+      <message name="IDS_LINK_TO_TEXT_SUCCESS_MESSAGE" desc="Message displayed when link to highlighted text is successfully created.">
+        Share link to the highlighted text in an app
+      </message>
+
+      <message name="IDS_LINK_TO_TEXT_FAILURE_MESSAGE" desc="Message displayed when link to highlighted text was not possible to create.">
+        Can't create link to text. Share link to page in an app.
+      </message>
+
       <!-- Share Screenshot strings -->
       <message name="IDS_SCREENSHOT_EDIT_TITLE" desc="The text shown on the share option for screenshots.">
         Edit
