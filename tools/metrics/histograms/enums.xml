@@ -2181,7 +2181,7 @@ Unknown properties are collapsed to zero. -->
   <int value="25" label="SET_PROXY_OVERRIDE">
     ProxyController#setProxyOverride(Executor,Runnable)
   </int>
-  <int value="26" label="SET_SAFE_BROWSING_WHITELIST">
+  <int value="26" label="SET_SAFE_BROWSING_ALLOWLIST_DEPRECATED_NAME">
     WebViewCompat#setSafeBrowsingWhitelist(List(String),ValueCallback(Boolean))
   </int>
   <int value="27" label="SET_SERVICE_WORKER_CLIENT">
@@ -2256,6 +2256,15 @@ Unknown properties are collapsed to zero. -->
   </int>
   <int value="51" label="WEBVIEW_RENDERER_TERMINATE">
     WebViewRenderProcess#terminate()
+  </int>
+  <int value="52" label="ADD_DOCUMENT_START_SCRIPT">
+    WebViewCompat#addDocumentStartJavaScript(String,String[])
+  </int>
+  <int value="53" label="REMOVE_DOCUMENT_START_SCRIPT">
+    ScriptReference#remove()
+  </int>
+  <int value="54" label="SET_SAFE_BROWSING_ALLOWLIST">
+    WebViewCompat#setSafeBrowsingAllowlist(Set(String),ValueCallback(Boolean))
   </int>
 </enum>
 
