@@ -9,7 +9,6 @@
 // #import {Route, Router, MinimumRoutes} from '../router.m.js';
 // clang-format on
 
-// TODO(dpapad): Fully migrate this file to polymer 3.
 cr.define('settings', function() {
   /**
    * @enum {string}
@@ -148,7 +147,12 @@ cr.define('settings', function() {
     shouldExpandAdvanced_(route) {
       const routes = /** @type {!settings.MinimumRoutes} */ (
           settings.Router.getInstance().getRoutes());
-      return this.tagName === 'SETTINGS-BASIC-PAGE' &&
+      return (
+                 this.tagName === 'SETTINGS-BASIC-PAGE'
+                 // <if expr="chromeos">
+                 || this.tagName === 'OS-SETTINGS-PAGE'
+                 // </if>
+                 ) &&
           routes.ADVANCED && routes.ADVANCED.contains(route);
     },
 
@@ -199,8 +203,16 @@ cr.define('settings', function() {
 
       // Explicitly load the lazy_load.html module, since all subpages reside in
       // the lazy loaded module.
+      // TODO(dpapad): On chrome://os-settings the lazy_load.html file resides
+      // at a different path. Remove conditional logic once this file is not
+      // shared between chrome://settings and chrome://os-settings.
       // Polymer 2 codepath
-      /* #ignore */ Polymer.importHref('/lazy_load.html', () => {});
+      /* #ignore */ const lazyLoadPathPrefix =
+          /* #ignore */ window.location.origin === 'chrome://settings' ?
+          /* #ignore */ '' :
+          /* #ignore */ '/chromeos';
+      /* #ignore */ Polymer.importHref(
+          /* #ignore */ `${lazyLoadPathPrefix}/lazy_load.html`, () => {});
 
       // Polymer 3 codepath, do not delete next line comment.
       // #polymer3 ensureLazyLoaded();
