@@ -3568,6 +3568,31 @@
             ]
         }
     ],
+    "Identifiability": [
+        {
+            "platforms": [
+                "windows",
+                "mac",
+                "chromeos",
+                "linux",
+                "android",
+                "android_webview"
+            ],
+            "experiments": [
+                {
+                    "name": "G1",
+                    "params": {
+                        "Gen": "1",
+                        "Max": "10",
+                        "Rho": "1000"
+                    },
+                    "enable_features": [
+                        "IdentifiabilityStudy"
+                    ]
+                }
+            ]
+        }
+    ],
     "IdentityDiscIPH": [
         {
             "platforms": [
