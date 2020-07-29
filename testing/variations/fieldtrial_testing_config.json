@@ -6651,10 +6651,9 @@
             ],
             "experiments": [
                 {
-                    "name": "Enabled_With_WebRTC_2020-05-21",
+                    "name": "Enabled",
                     "enable_features": [
-                        "SharedClipboardUI",
-                        "SharingPeerConnectionReceiver"
+                        "SharedClipboardUI"
                     ]
                 }
             ]
