@@ -16,6 +16,7 @@ import org.chromium.chrome.browser.payments.AutofillPaymentAppCreator;
 import org.chromium.chrome.browser.payments.AutofillPaymentAppFactory;
 import org.chromium.chrome.browser.payments.CardEditor;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl;
+import org.chromium.chrome.browser.payments.PaymentRequestImpl.PaymentRequestServiceObserverForTest;
 import org.chromium.chrome.browser.payments.SettingsAutofillAndPaymentsObserver;
 import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator;
 import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator.PaymentHandlerUiObserver;
@@ -123,7 +124,7 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
         }
 
         /** A callback invoked when the bottom sheet is hidden, to enforce the visibility rules. */
-        public void onBottomSheetClosed() {
+        /* package */ void onBottomSheetClosed() {
             mShowingBottomSheet = false;
             updatePaymentRequestDialogShowState();
         }
@@ -138,20 +139,32 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
      * Create PaymentUIsManager.
      * @param delegate The delegate of this instance.
      * @param params The parameters of the payment request specified by the merchant.
-     * @param addressEditor The AddressEditor of the PaymentRequest UI.
-     * @param cardEditor The CardEditor of the PaymentRequest UI.
+     * @param webContents The WebContents of the merchant page.
+     * @param isOffTheRecord Whether merchant page is in an isOffTheRecord tab.
      */
-    // TODO(crbug.com/1107102): AddressEditor and CardEditor should be initialized in this
-    // constructor instead of the caller of the constructor, once CardEditor's "ForTest" symbols
-    // have been removed from the production code.
     public PaymentUIsManager(Delegate delegate, PaymentRequestParams params,
-            AddressEditor addressEditor, CardEditor cardEditor) {
+            WebContents webContents, boolean isOffTheRecord) {
         mDelegate = delegate;
         mParams = params;
-        mAddressEditor = addressEditor;
-        mCardEditor = cardEditor;
+
+        // Do not persist changes on disk in OffTheRecord mode.
+        mAddressEditor = new AddressEditor(
+                AddressEditor.Purpose.PAYMENT_REQUEST, /*saveToDisk=*/!isOffTheRecord);
+        // PaymentRequest card editor does not show the organization name in the dropdown with the
+        // billing address labels.
+        mCardEditor = new CardEditor(webContents, mAddressEditor, /*includeOrgLabel=*/false);
+
         mPaymentUisShowStateReconciler = new PaymentUisShowStateReconciler();
         mCurrencyFormatterMap = new HashMap<>();
+    }
+
+    /**
+     * Set an observer for test.
+     * @param observerForTest An observer for test.
+     */
+    @VisibleForTesting
+    public static void setObserverForTest(PaymentRequestServiceObserverForTest observerForTest) {
+        CardEditor.setObserverForTest(observerForTest);
     }
 
     /** @return The PaymentRequestUI. */

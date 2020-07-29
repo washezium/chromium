@@ -452,21 +452,13 @@ public class PaymentRequestImpl
 
         mIsOffTheRecord = mDelegate.isOffTheRecord(ChromeActivity.fromWebContents(mWebContents));
 
-        // Do not persist changes on disk in OffTheRecord mode.
-        AddressEditor addressEditor = new AddressEditor(
-                AddressEditor.Purpose.PAYMENT_REQUEST, /*saveToDisk=*/!mIsOffTheRecord);
-        // PaymentRequest card editor does not show the organization name in the dropdown with the
-        // billing address labels.
-        CardEditor cardEditor = new CardEditor(
-                mWebContents, addressEditor, /*includeOrgLabel=*/false, sObserverForTest);
-
         mJourneyLogger = new JourneyLogger(mIsOffTheRecord, mWebContents);
 
         mSkipUiForNonUrlPaymentMethodIdentifiers = mDelegate.skipUiForBasicCard();
 
         if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
         mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
-                /*params=*/this, addressEditor, cardEditor);
+                /*params=*/this, mWebContents, mIsOffTheRecord);
         mPaymentAppComparator = new PaymentAppComparator(/*params=*/this);
     }
 
@@ -2764,6 +2756,7 @@ public class PaymentRequestImpl
     @VisibleForTesting
     public static void setObserverForTest(PaymentRequestServiceObserverForTest observerForTest) {
         sObserverForTest = observerForTest;
+        PaymentUIsManager.setObserverForTest(sObserverForTest);
     }
 
     @VisibleForTesting
