@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.display_cutout;
+package org.chromium.components.browser_ui.display_cutout;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -42,7 +42,7 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
     private @Nullable InsetObserverView mInsetObserverView;
 
     /** An interface for providing embedder-specific behavior to the controller. */
-    interface Delegate {
+    public interface Delegate {
         /** Returns the activity this controller is associated with, if there is one. */
         @Nullable
         Activity getAttachedActivity();
@@ -147,7 +147,7 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
      */
     @VisibleForTesting
     @TargetApi(Build.VERSION_CODES.P)
-    protected int getDisplayCutoutMode() {
+    public int getDisplayCutoutMode() {
         // If we are not interactable then force the default mode.
         if (!mDelegate.isInteractable()) {
             return LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
@@ -175,18 +175,22 @@ public class DisplayCutoutController implements InsetObserverView.WindowInsetObs
         mWindow.setAttributes(attributes);
     }
 
-    /** Updates the layout based on internal state. */
-    void maybeUpdateLayout() {
+    /** Should be called to refresh the activity window's layout based on current state. */
+    public void maybeUpdateLayout() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return;
 
         LayoutParams attributes = getWindowAttributes();
         if (attributes == null) return;
 
-        attributes.layoutInDisplayCutoutMode = getDisplayCutoutMode();
+        final int displayCutoutMode = getDisplayCutoutMode();
+        if (attributes.layoutInDisplayCutoutMode == displayCutoutMode) return;
+
+        attributes.layoutInDisplayCutoutMode = displayCutoutMode;
         setWindowAttributes(attributes);
     }
 
-    void onActivityAttachmentChanged(@Nullable WindowAndroid window) {
+    /** Should be called when the associated UI surface is attached or detached to an activity. */
+    public void onActivityAttachmentChanged(@Nullable WindowAndroid window) {
         if (window == null) {
             maybeRemoveInsetObserver();
         } else {
