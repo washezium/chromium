@@ -64707,8 +64707,12 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
 </enum>
 
 <enum name="SigninSSOIdentityListRequestCacheState">
-  <int value="0" label="SSO Identity list is stale"/>
-  <int value="1" label="SSO Identity list is valid"/>
+  <int value="0"
+      label="SSO identity cache is stale, the identity list is synchronously
+             fetched."/>
+  <int value="1"
+      label="SSO identity cache is valid, the identity list from the cache is
+             returned."/>
 </enum>
 
 <enum name="SigninSSOWKWebViewGetAllCookiesRequest">
