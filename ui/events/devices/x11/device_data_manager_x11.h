@@ -252,8 +252,7 @@ class EVENTS_DEVICES_X11_EXPORT DeviceDataManagerX11
                             const std::vector<int>& cmt_devices,
                             const std::vector<int>& other_devices);
 
-  void SetValuatorDataForTest(XIDeviceEvent* xievent,
-                              x11::Input::DeviceEvent* devev,
+  void SetValuatorDataForTest(x11::Input::DeviceEvent* devev,
                               DataType type,
                               double value);
 
@@ -345,9 +344,6 @@ class EVENTS_DEVICES_X11_EXPORT DeviceDataManagerX11
 
   // Major opcode for the XInput extension. Used to identify XInput events.
   int xi_opcode_;
-
-  // A quick lookup table for determining if the XI event is an XIDeviceEvent.
-  std::bitset<kMaxXIEventType> xi_device_event_types_;
 
   // A quick lookup table for determining if events from the pointer device
   // should be processed.

@@ -205,7 +205,7 @@ void X11WholeScreenMoveLoop::EndMoveLoop() {
     UpdateCursor(initial_cursor_);
 
   auto* connection = x11::Connection::Get();
-  auto esc_keycode = KeysymToKeycode(connection, kEscKeysym);
+  auto esc_keycode = connection->KeysymToKeycode(kEscKeysym);
   for (auto mask : kModifiersMasks)
     connection->UngrabKey({esc_keycode, grab_input_window_, mask});
 
@@ -237,7 +237,7 @@ bool X11WholeScreenMoveLoop::GrabPointer(scoped_refptr<X11Cursor> cursor) {
 
 void X11WholeScreenMoveLoop::GrabEscKey() {
   auto* connection = x11::Connection::Get();
-  auto esc_keycode = KeysymToKeycode(connection, kEscKeysym);
+  auto esc_keycode = connection->KeysymToKeycode(kEscKeysym);
   for (auto mask : kModifiersMasks) {
     connection->GrabKey({false, grab_input_window_, mask, esc_keycode,
                          x11::GrabMode::Async, x11::GrabMode::Async});

@@ -232,6 +232,7 @@ READ_SPECIAL = set([
 
 WRITE_SPECIAL = set([
     ('xcb', 'ClientMessage'),
+    ('xcb', 'Expose'),
     ('xcb', 'UnmapNotify'),
     ('xcb', 'SelectionNotify'),
 ])
@@ -582,14 +583,6 @@ class GenXproto(FileWriter):
         renamed = tuple(self.rename_type(item, name))
         if (name[-1] in ('FLOAT32', 'FLOAT64')
                 or renamed in self.replace_with_enum):
-            return
-        elif name[-1] == 'FP1616':
-            # Xcbproto defines FP1616 as uint32_t instead of a struct of
-            # two 16-bit ints, which is how it's intended to be used.
-            with Indent(self, 'struct Fp1616 {', '};'):
-                self.write('int16_t integral;')
-                self.write('uint16_t frac;')
-            self.write()
             return
 
         xidunion = self.get_xidunion_element(name)

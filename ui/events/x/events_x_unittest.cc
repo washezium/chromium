@@ -240,7 +240,6 @@ TEST_F(EventsXTest, ClickCount) {
     InitButtonEvent(&event, true, location, 1, 0);
     {
       uint32_t time = time_stamp.InMilliseconds() & UINT32_MAX;
-      event.xlib_event().xbutton.time = time;
       event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(time);
       auto mouseev = ui::BuildMouseEventFromXEvent(event);
       EXPECT_EQ(ui::ET_MOUSE_PRESSED, mouseev->type());
@@ -250,7 +249,6 @@ TEST_F(EventsXTest, ClickCount) {
     InitButtonEvent(&event, false, location, 1, 0);
     {
       uint32_t time = time_stamp.InMilliseconds() & UINT32_MAX;
-      event.xlib_event().xbutton.time = time;
       event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(time);
       auto mouseev = ui::BuildMouseEventFromXEvent(event);
       EXPECT_EQ(ui::ET_MOUSE_RELEASED, mouseev->type());
@@ -547,14 +545,12 @@ TEST_F(EventsXTest, TimestampRolloverAndAdjustWhenDecreasing) {
   clock.SetNowTicks(TimeTicksFromMillis(0x100000001));
   ResetTimestampRolloverCountersForTesting();
 
-  event.xlib_event().xbutton.time = 0xFFFFFFFF;
   event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(0xFFFFFFFF);
   EXPECT_EQ(TimeTicksFromMillis(0xFFFFFFFF), ui::EventTimeFromXEvent(event));
 
   clock.SetNowTicks(TimeTicksFromMillis(0x100000007));
   ResetTimestampRolloverCountersForTesting();
 
-  event.xlib_event().xbutton.time = 3;
   event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(3);
   EXPECT_EQ(TimeTicksFromMillis(0x100000000 + 3),
             ui::EventTimeFromXEvent(event));
@@ -568,17 +564,14 @@ TEST_F(EventsXTest, NoTimestampRolloverWhenMonotonicIncreasing) {
   clock.SetNowTicks(TimeTicksFromMillis(10));
   ResetTimestampRolloverCountersForTesting();
 
-  event.xlib_event().xbutton.time = 6;
   event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(6);
   EXPECT_EQ(TimeTicksFromMillis(6), ui::EventTimeFromXEvent(event));
-  event.xlib_event().xbutton.time = 7;
   event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(7);
   EXPECT_EQ(TimeTicksFromMillis(7), ui::EventTimeFromXEvent(event));
 
   clock.SetNowTicks(TimeTicksFromMillis(0x100000005));
   ResetTimestampRolloverCountersForTesting();
 
-  event.xlib_event().xbutton.time = 0xFFFFFFFF;
   event.As<x11::ButtonEvent>()->time = static_cast<x11::Time>(0xFFFFFFFF);
   EXPECT_EQ(TimeTicksFromMillis(0xFFFFFFFF), ui::EventTimeFromXEvent(event));
 }

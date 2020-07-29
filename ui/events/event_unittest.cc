@@ -444,13 +444,11 @@ namespace {
 
 void SetKeyEventTimestamp(x11::Event* event, int64_t time64) {
   uint32_t time = time64 & UINT32_MAX;
-  event->xlib_event().xkey.time = time;
   event->As<x11::KeyEvent>()->time = static_cast<x11::Time>(time);
 }
 
 void AdvanceKeyEventTimestamp(x11::Event* event) {
-  uint32_t time = event->xlib_event().xkey.time + 1;
-  event->xlib_event().xkey.time = time;
+  auto time = static_cast<uint32_t>(event->As<x11::KeyEvent>()->time) + 1;
   event->As<x11::KeyEvent>()->time = static_cast<x11::Time>(time);
 }
 
@@ -483,8 +481,7 @@ TEST(EventTest, AutoRepeat) {
   // IBUS-GTK uses the mask (1 << 25) to detect reposted event.
   {
     x11::Event& event = *native_event_a_pressed_nonstandard_state;
-    int mask = event.xlib_event().xkey.state | 1 << 25;
-    event.xlib_event().xkey.state = mask;
+    int mask = static_cast<int>(event.As<x11::KeyEvent>()->state) | 1 << 25;
     event.As<x11::KeyEvent>()->state = static_cast<x11::KeyButMask>(mask);
   }
 
