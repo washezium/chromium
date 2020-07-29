@@ -163,7 +163,7 @@
 #include "content/child/child_thread_impl.h"
 #include "ui/gfx/geometry/rect_f.h"
 
-#elif defined(OS_MACOSX)
+#elif defined(OS_MAC)
 #include "skia/ext/skia_utils_mac.h"
 #endif
 
@@ -950,7 +950,7 @@ void RenderView::ApplyWebPreferences(const WebPreferences& prefs,
 
   settings->SetTouchDragDropEnabled(prefs.touch_drag_drop_enabled);
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   web_view->SetMaximumLegibleScale(prefs.default_maximum_page_scale_factor);
 #endif
 

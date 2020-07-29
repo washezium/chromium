@@ -140,7 +140,7 @@
 #include "media/mojo/mojom/remoting.mojom-forward.h"
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include "content/browser/renderer_host/text_input_host_impl.h"
 #include "third_party/blink/public/mojom/input/text_input_host.mojom.h"
 #endif
@@ -189,7 +189,7 @@ void BindTextDetection(
   GetShapeDetectionService()->BindTextDetection(std::move(receiver));
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 void BindTextInputHost(
     mojo::PendingReceiver<blink::mojom::TextInputHost> receiver) {
   GetIOThreadTaskRunner({})->PostTask(
@@ -705,7 +705,7 @@ void PopulateFrameBinders(RenderFrameHostImpl* host, mojo::BinderMap* map) {
       &RenderFrameHostImpl::BindSerialService, base::Unretained(host)));
 #endif  // !defined(OS_ANDROID)
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   map->Add<blink::mojom::TextInputHost>(
       base::BindRepeating(&BindTextInputHost));
 #endif

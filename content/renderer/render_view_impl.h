@@ -309,7 +309,7 @@ class CONTENT_EXPORT RenderViewImpl : public blink::WebViewClient,
   FRIEND_TEST_ALL_PREFIXES(RenderViewImplTest, UpdateDSFAfterSwapIn);
   FRIEND_TEST_ALL_PREFIXES(RenderViewImplTest,
                            BeginNavigationHandlesAllTopLevel);
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   FRIEND_TEST_ALL_PREFIXES(RenderViewTest, MacTestCmdUp);
 #endif
   FRIEND_TEST_ALL_PREFIXES(RenderViewImplTest, SetHistoryLengthAndOffset);
@@ -412,7 +412,7 @@ class CONTENT_EXPORT RenderViewImpl : public blink::WebViewClient,
   void SuspendVideoCaptureDevices(bool suspend);
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   void UpdateFontRenderingFromRendererPrefs() {}
 #else
   void UpdateFontRenderingFromRendererPrefs();

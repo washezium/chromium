@@ -2226,7 +2226,7 @@ TEST_F(RenderViewImplTest, TestBackForward) {
   EXPECT_EQ(1, was_page_b);
 }
 
-#if defined(OS_MACOSX) || defined(USE_AURA)
+#if defined(OS_MAC) || defined(USE_AURA)
 TEST_F(RenderViewImplTest, GetCompositionCharacterBoundsTest) {
   LoadHTML("<textarea id=\"test\" cols=\"100\"></textarea>");
   ExecuteJavaScriptForTests("document.getElementById('test').focus();");
@@ -3208,7 +3208,7 @@ TEST_F(RenderViewImplEnableZoomForDSFTest,
   }
 }
 
-#if defined(OS_MACOSX) || defined(USE_AURA)
+#if defined(OS_MAC) || defined(USE_AURA)
 TEST_F(RenderViewImplEnableZoomForDSFTest,
        DISABLED_GetCompositionCharacterBoundsTest) {  // http://crbug.com/582016
   SetDeviceScaleFactor(1.f);

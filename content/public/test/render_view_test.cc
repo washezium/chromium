@@ -69,7 +69,7 @@
 #include "ui/native_theme/native_theme_features.h"
 #include "v8/include/v8.h"
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
 #include "base/mac/scoped_nsautorelease_pool.h"
 #endif
 
@@ -406,7 +406,7 @@ void RenderViewTest::SetUp() {
   SetDWriteFontProxySenderForTesting(CreateFakeCollectionSender());
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   autorelease_pool_ = std::make_unique<base::mac::ScopedNSAutoreleasePool>();
 #endif
   command_line_ =
@@ -520,7 +520,7 @@ void RenderViewTest::TearDown() {
   ClearDWriteFontProxySenderForTesting();
 #endif
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   autorelease_pool_.reset();
 #endif
 
