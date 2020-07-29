@@ -38,6 +38,24 @@
 
 namespace translate {
 
+namespace {
+
+// Returns whether or not the given list includes at least one language with
+// the same base as the input language.
+// For example: "en-US" and "en-UK" share the same base "en".
+bool ContainsSameBaseLanguage(const std::vector<std::string>& list,
+                              base::StringPiece language_code) {
+  base::StringPiece base_language =
+      language::ExtractBaseLanguage(language_code);
+  for (const auto& item : list) {
+    if (base_language == language::ExtractBaseLanguage(item))
+      return true;
+  }
+  return false;
+}
+
+}  // namespace
+
 const char kForceTriggerTranslateCount[] =
     "translate_force_trigger_on_english_count_for_backoff_1";
 const char TranslatePrefs::kPrefTranslateSiteBlacklistDeprecated[] =
@@ -222,7 +240,7 @@ void TranslatePrefs::AddToLanguageList(const std::string& input_language,
   // We should block the language if the list does not already contain another
   // language with the same base language.
   const bool should_block =
-      !language::ContainsSameBaseLanguage(languages, chrome_language);
+      !ContainsSameBaseLanguage(languages, chrome_language);
 
   if (force_blocked || should_block) {
     BlockLanguage(input_language);
@@ -260,7 +278,7 @@ void TranslatePrefs::RemoveFromLanguageList(const std::string& input_language) {
 
     // We should unblock the language if this was the last one from the same
     // language family.
-    if (!language::ContainsSameBaseLanguage(languages, chrome_language)) {
+    if (!ContainsSameBaseLanguage(languages, chrome_language)) {
       UnblockLanguage(input_language);
     }
   }
@@ -943,13 +961,13 @@ bool TranslatePrefs::IsDictionaryEmpty(const char* pref_id) const {
 void TranslatePrefs::PurgeUnsupportedLanguagesInLanguageFamily(
     const std::string& language,
     std::vector<std::string>* list) {
-  std::string base_language = language::ExtractBaseLanguage(language);
+  base::StringPiece base_language = language::ExtractBaseLanguage(language);
   std::set<std::string> languages_in_same_family;
 
   std::copy_if(
       list->begin(), list->end(),
       std::inserter(languages_in_same_family, languages_in_same_family.end()),
-      [&base_language](const std::string& lang) {
+      [base_language](const std::string& lang) {
         return base_language == language::ExtractBaseLanguage(lang);
       });
 
