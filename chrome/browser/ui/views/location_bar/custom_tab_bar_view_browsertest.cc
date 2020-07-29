@@ -422,8 +422,14 @@ IN_PROC_BROWSER_TEST_P(CustomTabBarViewBrowserTest,
 }
 
 // Right-click menu on CustomTabBar should have Copy URL option.
+// TODO(crbug.com/988323): Times out on Mac.
+#if defined(OS_MACOSX)
+#define MAYBE_RightClickMenuShowsCopyUrl DISABLED_RightClickMenuShowsCopyUrl
+#else
+#define MAYBE_RightClickMenuShowsCopyUrl RightClickMenuShowsCopyUrl
+#endif
 IN_PROC_BROWSER_TEST_P(CustomTabBarViewBrowserTest,
-                       RightClickMenuShowsCopyUrl) {
+                       MAYBE_RightClickMenuShowsCopyUrl) {
   const GURL& app_url = https_server()->GetURL("app.com", "/ssl/google.html");
   InstallPWA(app_url);
   EXPECT_TRUE(app_browser_->is_type_app());
