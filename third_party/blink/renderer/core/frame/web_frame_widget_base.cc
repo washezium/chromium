@@ -1349,10 +1349,4 @@ void WebFrameWidgetBase::GetCompositionCharacterBoundsInWindow(
   }
 }
 
-WebTextInputType WebFrameWidgetBase::TextInputType() {
-  WebLocalFrame* focused_frame = FocusedWebLocalFrameInWidget();
-  if (!focused_frame)
-    return WebTextInputType::kWebTextInputTypeNone;
-  return focused_frame->GetInputMethodController()->TextInputType();
-}
 }  // namespace blink
