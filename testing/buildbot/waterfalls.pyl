@@ -2265,7 +2265,7 @@
           'gtest_tests': 'fieldtrial_browser_tests',
         },
       },
-      'linux-lacros-tester-rel': {
+      'linux-lacros-tester-fyi-rel': {
         'additional_compile_targets': [
           'chrome',
           'chrome_sandbox',
