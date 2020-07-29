@@ -4908,7 +4908,7 @@ bool LayerTreeHostImpl::ShouldAnimateScroll(
   bool has_precise_scroll_deltas = scroll_state.delta_granularity() ==
                                    ui::ScrollGranularity::kScrollByPrecisePixel;
 
-#if defined(OS_MACOSX)
+#if defined(OS_MAC)
   if (has_precise_scroll_deltas)
     return false;
 
