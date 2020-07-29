@@ -2182,14 +2182,14 @@ std::vector<GURL> GetUrlsToOpen(const std::vector<const BookmarkNode*>& nodes) {
   if (node->is_url()) {
     actionProvider = ^(NSArray<UIMenuElement*>* suggestedActions) {
       // Record that this context menu was shown to the user.
-      RecordMenuShown(MenuScenario::BookmarkEntry);
+      RecordMenuShown(MenuScenario::kBookmarkEntry);
 
       ActionFactory* actionFactory =
-          [[ActionFactory alloc] initWithScenario:MenuScenario::BookmarkEntry];
+          [[ActionFactory alloc] initWithScenario:MenuScenario::kBookmarkEntry];
 
       UIAction* copyAction = [actionFactory actionToCopyURL:node->url()];
 
-      return [UIMenu menuWithTitle:[NSString string] children:@[ copyAction ]];
+      return [UIMenu menuWithTitle:@"" children:@[ copyAction ]];
     };
   }
 

@@ -628,7 +628,8 @@ const CGFloat kButtonHorizontalPadding = 30.0;
   HistoryEntryItem* entry = base::mac::ObjCCastStrict<HistoryEntryItem>(
       [self.tableViewModel itemAtIndexPath:indexPath]);
   UIView* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-  return [self.menuProvider createConfigurationForItem:entry withView:cell];
+  return [self.menuProvider contextMenuConfigurationForItem:entry
+                                                   withView:cell];
 }
 
 #pragma mark - UITableViewDataSource
