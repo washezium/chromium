@@ -530,8 +530,7 @@ TEST_F(ProfileManagerTest, AddProfileToStorageCheckOmitted) {
       prefs::kSupervisedUserId, supervised_users::kChildAccountSUID);
 
   // RegisterTestingProfile adds the profile to the cache and takes ownership.
-  profile_manager->RegisterTestingProfile(std::move(supervised_profile), true,
-                                          false);
+  profile_manager->RegisterTestingProfile(std::move(supervised_profile), true);
   ASSERT_EQ(1u, storage.GetNumberOfProfiles());
   EXPECT_TRUE(storage.GetAllProfilesAttributesSortedByName()[0]->IsOmitted());
 #endif
@@ -541,7 +540,7 @@ TEST_F(ProfileManagerTest, AddProfileToStorageCheckOmitted) {
   auto nonsupervised_profile =
       std::make_unique<TestingProfile>(nonsupervised_path, nullptr);
   profile_manager->RegisterTestingProfile(std::move(nonsupervised_profile),
-                                          true, false);
+                                          true);
 
 #if BUILDFLAG(ENABLE_SUPERVISED_USERS)
   EXPECT_EQ(2u, storage.GetNumberOfProfiles());
@@ -1377,8 +1376,7 @@ TEST_F(ProfileManagerTest, LastProfileDeletedWithGuestActiveProfile) {
   builder.SetPath(ProfileManager::GetGuestProfilePath());
   std::unique_ptr<TestingProfile> guest_profile = builder.Build();
   guest_profile->set_profile_name(guest_profile_name);
-  profile_manager->RegisterTestingProfile(std::move(guest_profile), false,
-                                          false);
+  profile_manager->RegisterTestingProfile(std::move(guest_profile), false);
 
   // The Guest profile does not get added to the ProfileAttributesStorage.
   EXPECT_EQ(2u, profile_manager->GetLoadedProfiles().size());
