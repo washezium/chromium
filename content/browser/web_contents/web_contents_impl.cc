@@ -2385,8 +2385,7 @@ void WebContentsImpl::NotifyPreferencesChanged() {
 }
 
 void WebContentsImpl::SyncRendererPrefs() {
-  blink::mojom::RendererPreferences renderer_preferences =
-      GetRendererPrefs(GetBrowserContext());
+  blink::mojom::RendererPreferences renderer_preferences = GetRendererPrefs();
   RenderViewHostImpl::GetPlatformSpecificPrefs(&renderer_preferences);
   SendPageMessage(
       new PageMsg_SetRendererPrefs(MSG_ROUTING_NONE, renderer_preferences));
@@ -6145,8 +6144,7 @@ RenderViewHostDelegateView* WebContentsImpl::GetDelegateView() {
   return render_view_host_delegate_view_;
 }
 
-blink::mojom::RendererPreferences WebContentsImpl::GetRendererPrefs(
-    BrowserContext* browser_context) const {
+blink::mojom::RendererPreferences WebContentsImpl::GetRendererPrefs() const {
   return renderer_preferences_;
 }
 
