@@ -2882,28 +2882,12 @@ void LocalFrame::PostMessageEvent(
   }
   message_event->initMessageEvent(
       "message", false, false, std::move(message.message), source_origin,
-      "" /*lastEventId*/, window, ports, user_activation,
-      message.transfer_user_activation);
+      "" /*lastEventId*/, window, ports, user_activation);
 
   // If the agent cluster id had a value it means this was locked when it
   // was serialized.
   if (message.locked_agent_cluster_id)
     message_event->LockToAgentCluster();
-
-  // Transfer user activation state in the target's renderer when
-  // |transferUserActivation| is true.
-  //
-  // Also do the same as an ad-hoc solution to allow the origin trial of dynamic
-  // delegation of autoplay capability through postMessages.  Note that we
-  // skipped updating the user activation states in all other copies of the
-  // frame tree in this case because this is a temporary hack.
-  //
-  // TODO(mustaq): Remove the ad-hoc solution when the API shape is
-  // ready. https://crbug.com/985914
-  if (RuntimeEnabledFeatures::UserActivationPostMessageTransferEnabled() &&
-      message.transfer_user_activation) {
-    TransferUserActivationFrom(source_frame);
-  }
 
   // Finally dispatch the message to the DOM Window.
   DomWindow()->DispatchMessageEventWithOriginCheck(

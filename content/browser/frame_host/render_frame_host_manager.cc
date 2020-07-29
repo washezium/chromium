@@ -1082,22 +1082,6 @@ void RenderFrameHostManager::UpdateUserActivationState(
   }
 }
 
-void RenderFrameHostManager::TransferUserActivationFrom(
-    RenderFrameHostImpl* source_rfh) {
-  for (const auto& pair : proxy_hosts_) {
-    SiteInstance* site_instance = pair.second->GetSiteInstance();
-    if (site_instance != source_rfh->GetSiteInstance()) {
-      base::Optional<base::UnguessableToken> source_frame_token =
-          source_rfh->frame_tree_node()
-              ->render_manager()
-              ->GetFrameTokenForSiteInstance(site_instance);
-      DCHECK(source_frame_token.has_value());
-      pair.second->GetAssociatedRemoteFrame()->TransferUserActivationToRenderer(
-          source_frame_token.value());
-    }
-  }
-}
-
 void RenderFrameHostManager::OnSetHadStickyUserActivationBeforeNavigation(
     bool value) {
   for (const auto& pair : proxy_hosts_) {
