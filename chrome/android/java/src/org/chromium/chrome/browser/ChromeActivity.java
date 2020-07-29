@@ -156,7 +156,6 @@ import org.chromium.chrome.browser.vr.ArDelegate;
 import org.chromium.chrome.browser.vr.ArDelegateProvider;
 import org.chromium.chrome.browser.vr.VrModuleProvider;
 import org.chromium.chrome.browser.webapps.addtohomescreen.AddToHomescreenCoordinator;
-import org.chromium.chrome.browser.widget.ScrimView;
 import org.chromium.chrome.modules.image_editor.ImageEditorModuleProvider;
 import org.chromium.components.bookmarks.BookmarkId;
 import org.chromium.components.browser_ui.bottomsheet.BottomSheetController;
@@ -689,13 +688,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
      */
     public ManualFillingComponent getManualFillingComponent() {
         return mManualFillingComponent;
-    }
-
-    /**
-     * @return The View used to obscure content and bring focus to a foreground view.
-     */
-    public ScrimView getScrim() {
-        return mRootUiCoordinator.getScrim();
     }
 
     @Override

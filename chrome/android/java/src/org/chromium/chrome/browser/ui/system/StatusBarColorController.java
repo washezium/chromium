@@ -31,7 +31,6 @@ import org.chromium.chrome.browser.tabmodel.TabModelSelector;
 import org.chromium.chrome.browser.tabmodel.TabModelSelectorObserver;
 import org.chromium.chrome.browser.toolbar.ToolbarColors;
 import org.chromium.chrome.browser.toolbar.top.TopToolbarCoordinator;
-import org.chromium.chrome.browser.widget.ScrimView;
 import org.chromium.components.browser_ui.styles.ChromeColors;
 import org.chromium.ui.UiUtils;
 import org.chromium.ui.base.WindowAndroid;
@@ -69,7 +68,6 @@ public class StatusBarColorController
     private final boolean mIsTablet;
     private final @Nullable OverviewModeBehavior mOverviewModeBehavior;
     private final StatusBarColorProvider mStatusBarColorProvider;
-    private final ScrimView.StatusBarScrimDelegate mStatusBarScrimDelegate;
     private final ActivityTabProvider.ActivityTabTabObserver mStatusBarColorTabObserver;
     private final TabModelSelectorObserver mTabModelSelectorObserver;
 
@@ -102,10 +100,6 @@ public class StatusBarColorController
         mIsTablet = chromeActivity.isTablet();
         mOverviewModeBehavior = chromeActivity.getOverviewModeBehavior();
         mStatusBarColorProvider = chromeActivity;
-        mStatusBarScrimDelegate = (fraction) -> {
-            mStatusBarScrimFraction = fraction;
-            updateStatusBarColor();
-        };
 
         Resources resources = chromeActivity.getResources();
         mStandardPrimaryBgColor = ChromeColors.getPrimaryBackgroundColor(resources, false);
@@ -227,6 +221,15 @@ public class StatusBarColorController
     }
 
     /**
+     * Update the scrim amount on the status bar.
+     * @param fraction The scrim fraction in range [0, 1].
+     */
+    public void setStatusBarScrimFraction(float fraction) {
+        mStatusBarScrimFraction = fraction;
+        updateStatusBarColor();
+    }
+
+    /**
      * @param tabModelSelector The {@link TabModelSelector} to check whether incognito model is
      *                         selected.
      */
@@ -234,14 +237,6 @@ public class StatusBarColorController
         assert mTabModelSelector == null : "mTabModelSelector should only be set once.";
         mTabModelSelector = tabModelSelector;
         if (mTabModelSelector != null) mTabModelSelector.addObserver(mTabModelSelectorObserver);
-    }
-
-    /**
-     * @return The {@link ScrimView.StatusBarScrimDelegate} that adjusts the status bar color based
-     *         on the scrim offset.
-     */
-    public ScrimView.StatusBarScrimDelegate getStatusBarScrimDelegate() {
-        return mStatusBarScrimDelegate;
     }
 
     public void updateStatusBarColor() {
