@@ -3515,6 +3515,24 @@
             ]
         }
     ],
+    "IOSRequestDesktopByDefault": [
+        {
+            "platforms": [
+                "ios"
+            ],
+            "experiments": [
+                {
+                    "name": "DesktopEverywhere",
+                    "enable_features": [
+                        "UseDefaultUserAgentInWebClient"
+                    ],
+                    "disable_features": [
+                        "MobileGoogleSRP"
+                    ]
+                }
+            ]
+        }
+    ],
     "IOSSSLCommittedInterstitials": [
         {
             "platforms": [
