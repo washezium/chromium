@@ -187,6 +187,42 @@ DISABLED_HEADLESS_ASYNC_DEVTOOLED_TEST_F(
 HEADLESS_ASYNC_DEVTOOLED_TEST_F(HeadlessDevToolsClientChangeWindowBoundsTest);
 #endif
 
+class HeadlessDevToolsClientOuterSizeTest
+    : public HeadlessDevToolsClientWindowManagementTest {
+  void RunDevTooledTest() override {
+    SetWindowBounds(
+        gfx::Rect(100, 200, 800, 600),
+        base::BindOnce(&HeadlessDevToolsClientOuterSizeTest::OnSetWindowBounds,
+                       base::Unretained(this)));
+  }
+
+  void OnSetWindowBounds(
+      std::unique_ptr<browser::SetWindowBoundsResult> result) {
+    devtools_client_->GetRuntime()->Evaluate(
+        "window.outerWidth",
+        base::BindOnce(&HeadlessDevToolsClientOuterSizeTest::OnOuterWidthResult,
+                       base::Unretained(this)));
+    devtools_client_->GetRuntime()->Evaluate(
+        "window.outerHeight",
+        base::BindOnce(
+            &HeadlessDevToolsClientOuterSizeTest::OnOuterHeightResult,
+            base::Unretained(this)));
+  }
+
+  void OnOuterWidthResult(std::unique_ptr<runtime::EvaluateResult> result) {
+    EXPECT_TRUE(result->GetResult()->HasValue());
+    EXPECT_EQ(800, result->GetResult()->GetValue()->GetInt());
+  }
+
+  void OnOuterHeightResult(std::unique_ptr<runtime::EvaluateResult> result) {
+    EXPECT_TRUE(result->GetResult()->HasValue());
+    EXPECT_EQ(600, result->GetResult()->GetValue()->GetInt());
+    FinishAsynchronousTest();
+  }
+};
+
+HEADLESS_ASYNC_DEVTOOLED_TEST_F(HeadlessDevToolsClientOuterSizeTest);
+
 class HeadlessDevToolsClientChangeWindowStateTest
     : public HeadlessDevToolsClientWindowManagementTest {
  public:
