@@ -7551,6 +7551,24 @@
             ]
         }
     ],
+    "UseTextForUpdateButton": [
+        {
+            "platforms": [
+                "chromeos",
+                "linux",
+                "mac",
+                "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "UseTextForUpdateButton",
+                    "enable_features": [
+                        "UseTextForUpdateButton"
+                    ]
+                }
+            ]
+        }
+    ],
     "UserDataSnapshot": [
         {
             "platforms": [
