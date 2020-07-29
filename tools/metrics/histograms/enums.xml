@@ -68442,6 +68442,16 @@ would be helpful to identify which type is being sent.
   <int value="2" label="Not loaded on creation"/>
 </enum>
 
+<enum name="TabbedPaintPreviewExitCause">
+  <int value="0" label="Pull to Refresh"/>
+  <int value="1" label="Actionbar Action"/>
+  <int value="2" label="Compositor Failed to Load"/>
+  <int value="3" label="Tab Finished Loading"/>
+  <int value="4" label="Link Clicked"/>
+  <int value="5" label="Navigation Started"/>
+  <int value="6" label="Tab Destroyed"/>
+</enum>
+
 <enum name="TabDiscardingEvents">
   <int value="0" label="Switched to an active tab"/>
   <int value="1" label="Switched to a discarded tab"/>
