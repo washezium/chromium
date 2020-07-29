@@ -50900,6 +50900,11 @@
       }
     ]
   },
+  "linux-ash-chromium-builder-fyi-rel": {
+    "additional_compile_targets": [
+      "chrome"
+    ]
+  },
   "linux-bfcache-rel": {
     "gtest_tests": [
       {

@@ -2160,6 +2160,11 @@
           'scripts': 'test_traffic_annotation_auditor_script',
         },
       },
+      'linux-ash-chromium-builder-fyi-rel': {
+        'additional_compile_targets': [
+          'chrome',
+        ],
+      },
       'linux-bfcache-rel': {
         'mixins': [
           'linux-xenial',

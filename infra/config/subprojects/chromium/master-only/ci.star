@@ -1503,6 +1503,14 @@ ci.fyi_builder(
 )
 
 ci.fyi_builder(
+    name = 'linux-ash-chromium-builder-fyi-rel',
+    console_view_entry = ci.console_view_entry(
+        category = 'default',
+        short_name = 'lcr',
+    ),
+)
+
+ci.fyi_builder(
     name = 'linux-bfcache-rel',
     console_view_entry = ci.console_view_entry(
         category = 'linux',
