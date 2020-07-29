@@ -321,8 +321,7 @@ IN_PROC_BROWSER_TEST_F(PluginPowerSaverBrowserTest, RunAllFlashInAllowMode) {
   policy::PolicyMap policy;
   policy.Set(policy::key::kRunAllFlashInAllowMode,
              policy::POLICY_LEVEL_MANDATORY, policy::POLICY_SCOPE_USER,
-             policy::POLICY_SOURCE_CLOUD, std::make_unique<base::Value>(true),
-             nullptr);
+             policy::POLICY_SOURCE_CLOUD, base::Value(true), nullptr);
   provider_.UpdateChromePolicy(policy);
   content::RunAllPendingInMessageLoop();
 

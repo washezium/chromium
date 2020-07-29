@@ -476,8 +476,7 @@ class PopupBlockerSpecialPolicyBrowserTest : public PopupBlockerBrowserTest {
 
     policy_map.Set(policy::key::kAllowPopupsDuringPageUnload,
                    policy::POLICY_LEVEL_MANDATORY, policy::POLICY_SCOPE_USER,
-                   policy::POLICY_SOURCE_CLOUD,
-                   std::make_unique<base::Value>(true), nullptr);
+                   policy::POLICY_SOURCE_CLOUD, base::Value(true), nullptr);
     policy_provider_.UpdateChromePolicy(policy_map);
 
 #if defined(OS_CHROMEOS)
