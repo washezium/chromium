@@ -310,7 +310,7 @@ bool SharedContextState::InitializeGL(
   DCHECK(!use_passthrough_cmd_decoder || !use_virtualized_gl_contexts_);
 
   feature_info_ = std::move(feature_info);
-  feature_info_->Initialize(gpu::CONTEXT_TYPE_OPENGLES2,
+  feature_info_->Initialize(feature_info_->context_type(),
                             use_passthrough_cmd_decoder,
                             gles2::DisallowedFeatures());
 
