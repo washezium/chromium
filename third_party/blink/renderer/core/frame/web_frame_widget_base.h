@@ -375,7 +375,7 @@ class CORE_EXPORT WebFrameWidgetBase
   // Sets the inert bit on an out-of-process iframe, causing it to ignore
   // input.
   void SetIsInertForSubFrame(bool inert) override {}
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
   void GetStringAtPoint(const gfx::Point& point_in_local_root,
                         GetStringAtPointCallback callback) override;
 #endif

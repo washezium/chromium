@@ -55,7 +55,7 @@
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 #include "third_party/blink/renderer/platform/wtf/cross_thread_functional.h"
 
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
 #include "third_party/blink/renderer/core/editing/substring_util.h"
 #include "third_party/blink/renderer/platform/fonts/mac/attributed_string_type_converter.h"
 #include "ui/base/mojom/attributed_string.mojom-blink.h"
@@ -324,7 +324,7 @@ void WebFrameWidgetBase::SetTextDirection(base::i18n::TextDirection direction) {
     focusedFrame->SetTextDirection(direction);
 }
 
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
 void WebFrameWidgetBase::GetStringAtPoint(const gfx::Point& point_in_local_root,
                                           GetStringAtPointCallback callback) {
   gfx::Point baseline_point;
@@ -1350,7 +1350,7 @@ void WebFrameWidgetBase::DidOverscroll(
     const gfx::Vector2dF& accumulated_overscroll,
     const gfx::PointF& position,
     const gfx::Vector2dF& velocity) {
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
   // On OSX the user can disable the elastic overscroll effect. If that's the
   // case, don't forward the overscroll notification.
   if (!widget_base_->LayerTreeHost()->GetSettings().enable_elastic_overscroll)

@@ -790,7 +790,7 @@ bool CanvasResourceWebGPUSharedImage::IsValid() const {
 }
 
 GLenum CanvasResourceWebGPUSharedImage::TextureTarget() const {
-#if defined(OS_APPLE)
+#if defined(OS_MAC)
   return GL_TEXTURE_RECTANGLE_ARB;
 #else
   return GL_TEXTURE_2D;
