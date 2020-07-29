@@ -340,6 +340,7 @@ source_set("unit_tests") {
     "android_intent_helper_unittest.cc",
     "app_list/app_list_config_provider_unittest.cc",
     "default_scale_factor_retriever_unittest.cc",
+    "metrics_util_unittest.cc",
     "pagination/pagination_model_unittest.cc",
     "power_utils_unittest.cc",
     "rounded_corner_decorator_unittest.cc",
