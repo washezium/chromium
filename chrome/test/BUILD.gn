@@ -2148,6 +2148,7 @@ if (!is_android) {
       sources += [
         "../browser/apps/platform_apps/app_window_interactive_uitest_base.cc",
         "../browser/apps/platform_apps/app_window_interactive_uitest_base.h",
+        "../browser/chromeos/accessibility/accessibility_common_browsertest.cc",
         "../browser/chromeos/accessibility/accessibility_manager_browsertest.cc",
         "../browser/chromeos/accessibility/dictation_chromeos_browsertest.cc",
         "../browser/chromeos/accessibility/magnification_controller_browsertest.cc",
