@@ -1202,8 +1202,6 @@ if (!is_android) {
       "../browser/ssl/ocsp_browsertest.cc",
       "../browser/ssl/security_state_tab_helper_browsertest.cc",
       "../browser/ssl/ssl_browsertest.cc",
-      "../browser/ssl/ssl_client_certificate_selector_test.cc",
-      "../browser/ssl/ssl_client_certificate_selector_test.h",
       "../browser/ssl/stateful_ssl_host_state_delegate_test.cc",
       "../browser/storage/durable_storage_browsertest.cc",
       "../browser/storage_access_api/api_browsertest.cc",
@@ -2685,7 +2683,6 @@ if (!is_android) {
         "../browser/ui/cocoa/task_manager_mac_browsertest.mm",
         "../browser/ui/cocoa/touchbar/browser_window_touch_bar_controller_browsertest.mm",
         "../browser/ui/views/frame/browser_non_client_frame_view_mac_browsertest.cc",
-        "../browser/ui/views/ssl_client_certificate_selector_mac_browsertest.mm",
         "../common/profiler/stack_sampling_browsertest.cc",
 
         # TODO(crbug/845389): Re-Enable the following, which were temporarily
@@ -6118,6 +6115,7 @@ if (!is_android) {
         "../browser/ui/views/passwords/password_bubble_interactive_uitest.cc",
         "../browser/ui/views/permission_bubble/permission_bubble_interactive_uitest.cc",
         "../browser/ui/views/sad_tab_view_interactive_uitest.cc",
+        "../browser/ui/views/ssl_client_certificate_selector_browsertest.cc",
         "../browser/ui/views/status_icons/status_tray_state_changer_interactive_uitest_win.cc",
         "../browser/ui/views/tabs/tab_drag_controller_interactive_uitest.cc",
         "../browser/ui/views/tabs/tab_drag_controller_interactive_uitest.h",
@@ -6152,10 +6150,6 @@ if (!is_android) {
       }
       if (is_mac) {
         deps += [ "//content/test:browsertest_support" ]
-      } else {
-        sources += [
-          "../browser/ui/views/ssl_client_certificate_selector_browsertest.cc",
-        ]
       }
       if (is_win && use_aura) {
         sources += [

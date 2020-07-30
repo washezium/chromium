@@ -3743,6 +3743,8 @@ static_library("ui") {
       "views/sharing/sharing_dialog_view.h",
       "views/sharing/sharing_icon_view.cc",
       "views/sharing/sharing_icon_view.h",
+      "views/ssl_client_certificate_selector.cc",
+      "views/ssl_client_certificate_selector.h",
       "views/status_bubble_views.cc",
       "views/status_bubble_views.h",
       "views/storage/storage_pressure_bubble_view.cc",
@@ -3974,8 +3976,6 @@ static_library("ui") {
         "views/frame/browser_view_commands_mac.mm",
         "views/policy/enterprise_startup_dialog_mac_util.h",
         "views/policy/enterprise_startup_dialog_mac_util.mm",
-        "views/ssl_client_certificate_selector_mac.h",
-        "views/ssl_client_certificate_selector_mac.mm",
       ]
 
       # The Views task manager is not used on Mac - a native Cocoa
@@ -3988,8 +3988,6 @@ static_library("ui") {
       sources += [
         "views/create_application_shortcut_view.cc",
         "views/create_application_shortcut_view.h",
-        "views/ssl_client_certificate_selector.cc",
-        "views/ssl_client_certificate_selector.h",
       ]
     }
 
