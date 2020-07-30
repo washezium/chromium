@@ -285,23 +285,6 @@ void PrerenderManager::MoveEntryToPendingDelete(PrerenderContents* entry,
   PostCleanupTask();
 }
 
-void PrerenderManager::RecordNoStateFirstContentfulPaint(const GURL& url,
-                                                         bool is_no_store,
-                                                         bool was_hidden,
-                                                         base::TimeDelta time) {
-  base::TimeDelta prefetch_age;
-  Origin origin;
-  GetPrefetchInformation(url, &prefetch_age, nullptr /* final_status*/,
-                         &origin);
-  OnPrefetchUsed(url);
-
-  histograms_->RecordPrefetchFirstContentfulPaintTime(
-      origin, is_no_store, was_hidden, time, prefetch_age);
-  for (auto& observer : observers_) {
-    observer->OnFirstContentfulPaint();
-  }
-}
-
 bool PrerenderManager::IsWebContentsPrerendering(
     const WebContents* web_contents,
     Origin* origin) const {

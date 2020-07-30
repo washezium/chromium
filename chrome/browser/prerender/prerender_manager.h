@@ -169,24 +169,6 @@ class PrerenderManager : public content::RenderProcessHostObserver,
   virtual void MoveEntryToPendingDelete(PrerenderContents* entry,
                                         FinalStatus final_status);
 
-  // Called to record the time to First Contentful Paint for all pages that were
-  // not prerendered.
-  //
-  // As part of recording, determines whether the load had previously matched
-  // the criteria for triggering a NoStatePrefetch. In the prerendering
-  // experimental group such triggering makes the page prerendered, while in the
-  // group doing only 'simple loads' it would have been a noop.
-  //
-  // Must not be called for prefetch loads themselves (which are never painted
-  // anyway). The |is_no_store| must be true iff the main resource has a
-  // "no-store" cache control HTTP header. The |was_hidden| tells whether the
-  // the page was hidden at least once between starting the load and registering
-  // the FCP.
-  void RecordNoStateFirstContentfulPaint(const GURL& url,
-                                         bool is_no_store,
-                                         bool was_hidden,
-                                         base::TimeDelta time);
-
   static PrerenderManagerMode GetMode() { return mode_; }
   static void SetMode(PrerenderManagerMode mode) { mode_ = mode; }
 
