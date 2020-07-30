@@ -116,7 +116,7 @@
     'SIM_IPAD_PRO_2ND_GEN_12_4': {
         'args': [
           '--platform',
-          'iPad Pro (12.9-inch)',
+          'iPad Pro (12.9-inch) (2nd generation)',
           '--version',
           '12.4',
         ],
@@ -125,7 +125,7 @@
     'SIM_IPAD_PRO_2ND_GEN_13_6': {
         'args': [
           '--platform',
-          'iPad Pro (12.9-inch)',
+          'iPad Pro (12.9-inch) (2nd generation)',
           '--version',
           '13.6',
         ],
