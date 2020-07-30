@@ -4,8 +4,6 @@
 
 #include "ash/clipboard/clipboard_history_controller.h"
 
-#include <queue>
-
 #include "ash/accelerators/accelerator_controller_impl.h"
 #include "ash/clipboard/clipboard_history.h"
 #include "ash/clipboard/clipboard_history_menu_model_adapter.h"
@@ -182,7 +180,8 @@ void ClipboardHistoryController::ShowMenu() {
     return;
 
   clipboard_items_ =
-      clipboard_history_->GetRecentClipboardDataWithNoDuplicates();
+      std::vector<ui::ClipboardData>(clipboard_history_->GetItems().begin(),
+                                     clipboard_history_->GetItems().end());
 
   std::unique_ptr<ui::SimpleMenuModel> menu_model =
       std::make_unique<ui::SimpleMenuModel>(menu_delegate_.get());
@@ -212,7 +211,7 @@ void ClipboardHistoryController::MenuOptionSelected(int index) {
 
   if (it == clipboard_items_.end()) {
     // The last option in the menu is used to delete history.
-    clipboard_history_->ClearHistory();
+    clipboard_history_->Clear();
     return;
   }
 

@@ -26,11 +26,11 @@ AccountId GetActiveAccountId() {
 
 ClipboardHistory::ScopedPause::ScopedPause(ClipboardHistory* clipboard_history)
     : clipboard_history_(clipboard_history) {
-  clipboard_history_->PauseClipboardHistory();
+  clipboard_history_->Pause();
 }
 
 ClipboardHistory::ScopedPause::~ScopedPause() {
-  clipboard_history_->UnPauseClipboardHistory();
+  clipboard_history_->Resume();
 }
 
 ClipboardHistory::ClipboardHistory() {
@@ -43,37 +43,24 @@ ClipboardHistory::~ClipboardHistory() {
   ui::ClipboardMonitor::GetInstance()->RemoveObserver(this);
 }
 
-void ClipboardHistory::ClearHistory() {
-  history_with_duplicates_mappings_[GetActiveAccountId()] =
-      std::deque<ui::ClipboardData>();
+const std::list<ui::ClipboardData>& ClipboardHistory::GetItems() const {
+  auto it = items_by_account_id_.find(GetActiveAccountId());
+  DCHECK(it != items_by_account_id_.cend());
+  return it->second;
 }
 
-std::vector<ui::ClipboardData>
-ClipboardHistory::GetRecentClipboardDataWithNoDuplicates() const {
-  std::vector<ui::ClipboardData> history_without_duplicates;
-  const std::deque<ui::ClipboardData>& history_with_duplicates =
-      history_with_duplicates_mappings_.find(GetActiveAccountId())->second;
-  for (auto it = history_with_duplicates.crbegin();
-       it != history_with_duplicates.crend(); ++it) {
-    if (history_without_duplicates.size() == kMaxClipboardItemsShared)
-      break;
-    const ui::ClipboardData& current_data = *it;
-    if (!base::Contains(history_without_duplicates, current_data))
-      history_without_duplicates.push_back(current_data);
-  }
-  return history_without_duplicates;
+void ClipboardHistory::Clear() {
+  items_by_account_id_[GetActiveAccountId()] = std::list<ui::ClipboardData>();
 }
 
 bool ClipboardHistory::IsEmpty() const {
-  auto it = history_with_duplicates_mappings_.find(GetActiveAccountId());
-  DCHECK(it != history_with_duplicates_mappings_.cend());
-  return it->second.empty();
+  return GetItems().empty();
 }
 
 void ClipboardHistory::OnClipboardDataChanged() {
   // TODO(newcomer): Prevent Clipboard from recording metrics when pausing
   // observation.
-  if (num_pause_clipboard_history_ > 0)
+  if (num_pause_ > 0)
     return;
 
   auto* clipboard = ui::ClipboardNonBacked::GetForCurrentThread();
@@ -82,48 +69,40 @@ void ClipboardHistory::OnClipboardDataChanged() {
   const auto* clipboard_data = clipboard->GetClipboardData();
   CHECK(clipboard_data);
 
-  CommitData(GetActiveAccountId(), ui::ClipboardData(*clipboard_data));
+  CommitData(ui::ClipboardData(*clipboard_data));
 }
 
-void ClipboardHistory::CommitData(const AccountId& account_id,
-                                  ui::ClipboardData data) {
-  const AccountId active_account_id = GetActiveAccountId();
+void ClipboardHistory::CommitData(ui::ClipboardData data) {
+  std::list<ui::ClipboardData>& items =
+      items_by_account_id_[GetActiveAccountId()];
 
-  // CommitData() is called asynchronously when handling bitmap data.
-  // Theoretically the active account may switch before CommitData() is handled.
-  // Return early in this edge case.
-  if (account_id != active_account_id)
+  // If |data| is already contained in |items|, at *most* we need to move it to
+  // the front to retain sort order by recency.
+  auto it = std::find(items.begin(), items.end(), data);
+  if (it != items.end()) {
+    if (it != items.begin())
+      items.splice(items.begin(), items, it, std::next(it));
     return;
+  }
 
-  DCHECK(active_account_id.is_valid());
+  items.push_front(std::move(data));
 
-  std::deque<ui::ClipboardData>& history_with_duplicates =
-      history_with_duplicates_mappings_[active_account_id];
-
-  // Keep duplicates to maintain most recent ordering.
-  history_with_duplicates.push_back(std::move(data));
-
-  // Keep the history with duplicates to a reasonable limit, but greater than
-  // kMaxClipboardItemsShared, so that repeated copies to not push off relevant
-  // data.
-  if (history_with_duplicates.size() > kMaxClipboardItemsShared * 2)
-    history_with_duplicates.pop_front();
+  if (items.size() > kMaxClipboardItemsShared)
+    items.pop_back();
 }
 
-void ClipboardHistory::PauseClipboardHistory() {
-  ++num_pause_clipboard_history_;
+void ClipboardHistory::Pause() {
+  ++num_pause_;
 }
 
-void ClipboardHistory::UnPauseClipboardHistory() {
-  --num_pause_clipboard_history_;
+void ClipboardHistory::Resume() {
+  --num_pause_;
 }
 
 void ClipboardHistory::OnActiveUserSessionChanged(
     const AccountId& active_account_id) {
-  if (!base::Contains(history_with_duplicates_mappings_, active_account_id)) {
-    history_with_duplicates_mappings_[active_account_id] =
-        std::deque<ui::ClipboardData>();
-  }
+  if (!base::Contains(items_by_account_id_, active_account_id))
+    items_by_account_id_[active_account_id] = std::list<ui::ClipboardData>();
 }
 
 void ClipboardHistory::OnShellDestroying() {
