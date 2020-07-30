@@ -6,6 +6,7 @@
 
 #include "url/gurl.h"
 #include "weblayer/browser/java/jni/ErrorPageCallbackProxy_jni.h"
+#include "weblayer/public/error_page.h"
 #include "weblayer/public/tab.h"
 
 using base::android::AttachCurrentThread;
@@ -27,6 +28,12 @@ ErrorPageCallbackProxy::~ErrorPageCallbackProxy() {
 bool ErrorPageCallbackProxy::OnBackToSafety() {
   JNIEnv* env = AttachCurrentThread();
   return Java_ErrorPageCallbackProxy_onBackToSafety(env, java_impl_);
+}
+
+std::unique_ptr<ErrorPage> ErrorPageCallbackProxy::GetErrorPageContent(
+    Navigation* navigation) {
+  // TODO(sky): wire up java side support.
+  return nullptr;
 }
 
 static jlong JNI_ErrorPageCallbackProxy_CreateErrorPageCallbackProxy(
