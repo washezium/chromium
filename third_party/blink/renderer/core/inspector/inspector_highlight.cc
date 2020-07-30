@@ -1201,8 +1201,10 @@ void InspectorHighlightBase::AppendPath(
 
 InspectorSourceOrderHighlight::InspectorSourceOrderHighlight(
     Node* node,
-    Color outline_color)
-    : InspectorHighlightBase(node) {
+    Color outline_color,
+    int source_order_position)
+    : InspectorHighlightBase(node),
+      source_order_position_(source_order_position) {
   FloatQuad content, padding, border, margin;
   if (!BuildNodeQuads(node, &content, &padding, &border, &margin))
     return;
@@ -1214,6 +1216,7 @@ InspectorSourceOrderHighlight::AsProtocolValue() const {
   std::unique_ptr<protocol::DictionaryValue> object =
       protocol::DictionaryValue::create();
   object->setValue("paths", highlight_paths_->clone());
+  object->setInteger("sourceOrder", source_order_position_);
   return object;
 }
 
