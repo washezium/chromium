@@ -628,7 +628,7 @@ static_library("ui") {
     ]
   }
 
-  if (is_win || is_android || is_linux) {
+  if (is_win || is_android || is_linux || is_chromeos) {
     sources += [
       "webui/sandbox/sandbox_internals_ui.cc",
       "webui/sandbox/sandbox_internals_ui.h",
@@ -3047,7 +3047,7 @@ static_library("ui") {
     # to fail on this variant. Since this target is only referenced (but not
     # compiled) on this variant, it's okay to add this "incorrect" dependency
     # to Cast Linux builds so that `gn check` passes.
-    if (toolkit_views || (is_chromecast && is_linux)) {
+    if (toolkit_views || (is_chromecast && (is_linux || is_chromeos))) {
       public_deps += [
         "//ui/views",
         "//ui/views/controls/webview",
@@ -3139,7 +3139,7 @@ static_library("ui") {
     }
   }
 
-  if (is_linux) {  # Both desktop Linux and ChromeOS.
+  if (is_linux || is_chromeos) {  # Both desktop Linux and ChromeOS.
     sources += [
       "certificate_dialogs.cc",
       "certificate_dialogs.h",
@@ -3955,7 +3955,7 @@ static_library("ui") {
       ]
     }
 
-    if (is_linux) {
+    if (is_linux || is_chromeos) {
       sources += [
         "views/process_singleton_dialog_linux.cc",
         "views/status_icons/status_tray_linux.cc",
