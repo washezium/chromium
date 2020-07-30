@@ -41251,6 +41251,8 @@ from previous Chrome versions.
   <int value="-593536514" label="ExperimentalTabController:enabled"/>
   <int value="-591874964" label="LiteVideo:enabled"/>
   <int value="-589096918" label="ash-enable-fullscreen-app-list"/>
+  <int value="-588669613"
+      label="OmniboxClobberIsZeroSuggestEntrypoint:enabled"/>
   <int value="-582870536" label="BluetoothNextHandsfreeProfile:enabled"/>
   <int value="-579192400" label="disable-input-view"/>
   <int value="-577982497" label="CupsPrintersUiOverhaul:enabled"/>
@@ -42213,6 +42215,8 @@ from previous Chrome versions.
   <int value="480677983" label="WebXRARDOMOverlay:disabled"/>
   <int value="481506759" label="ServiceWorkerScriptStreaming:enabled"/>
   <int value="482232604" label="PercentBasedScrolling:enabled"/>
+  <int value="482429100"
+      label="OmniboxClobberIsZeroSuggestEntrypoint:disabled"/>
   <int value="485957747" label="finch-seed-ignore-pending-download"/>
   <int value="487810392" label="EnablePalmOnToolTypePalm:enabled"/>
   <int value="491334698" label="ConditionalTabStripAndroid:enabled"/>

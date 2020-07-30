@@ -3612,6 +3612,11 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(omnibox::kOmniboxTabSwitchSuggestions)},
 #endif  // defined(OS_ANDROID)
 
+    {"omnibox-clobber-is-zero-suggest-entrypoint",
+     flag_descriptions::kOmniboxClobberIsZeroSuggestEntrypointName,
+     flag_descriptions::kOmniboxClobberIsZeroSuggestEntrypointDescription,
+     kOsAll, FEATURE_VALUE_TYPE(omnibox::kClobberIsZeroSuggestEntrypoint)},
+
     {"omnibox-on-device-head-suggestions-incognito",
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoName,
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoDescription,
