@@ -2413,7 +2413,7 @@ kasutades juhtpaneeli funktsiooni <ph name="CONTROL_PANEL_APPLET_NAME" />.
 <translation id="3949790930165450333"><ph name="DEVICE_NAME" /> (<ph name="DEVICE_ID" />)</translation>
 <translation id="394984172568887996">Imporditud IE'st</translation>
 <translation id="3949981384795585075">{NUM_APPS,plural, =1{See rakendus võib olla ohtlik}other{Need rakendused võivad olla ohtlikud}}</translation>
-<translation id="3950820424414687140">Sisselogimine</translation>
+<translation id="3950820424414687140">Logige sisse</translation>
 <translation id="3953834000574892725">Minu kontod</translation>
 <translation id="3954354850384043518">Pooleli</translation>
 <translation id="3954469006674843813"><ph name="WIDTH" /> × <ph name="HEIGHT" /> (<ph name="REFRESH_RATE" /> hertsi)</translation>

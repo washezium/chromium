@@ -1844,7 +1844,7 @@ Puoi gestire le impostazioni dell'account installando l'app Family Link su quest
 <translation id="3289668031376215426">Maiuscole automatiche</translation>
 <translation id="3289856944988573801">Per verificare la disponibilità di aggiornamenti, utilizza una rete Ethernet o Wi-Fi.</translation>
 <translation id="3290356915286466215">Non protetta</translation>
-<translation id="3292264722181603749"><ph name="DOMAIN" /> sta disattivando il debug ADB, che ripristinerà il dispositivo. Effettua il backup dei tuoi file prima di riavviare il dispositivo.</translation>
+<translation id="3292264722181603749"><ph name="DOMAIN" /> sta disattivando il debug ADB. Questa operazione ripristinerà il dispositivo. Effettua il backup dei tuoi file prima di riavviare il dispositivo.</translation>
 <translation id="3293644607209440645">Invia questa pagina</translation>
 <translation id="32939749466444286">Il container Linux non è stato avviato. Riprova.</translation>
 <translation id="3294437725009624529">Ospite</translation>

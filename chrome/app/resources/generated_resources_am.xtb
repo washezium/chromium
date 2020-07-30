@@ -2412,7 +2412,7 @@
 <translation id="3949790930165450333"><ph name="DEVICE_NAME" /> (<ph name="DEVICE_ID" />)</translation>
 <translation id="394984172568887996">ከIE የመጣ</translation>
 <translation id="3949981384795585075">{NUM_APPS,plural, =1{ይህ መተግበሪያ አደገኛ ሊሆን ይችላል}one{እነዚህ መተግበሪያዎች አደገኛ ሊሆኑ ይችላሉ}other{እነዚህ መተግበሪያዎች አደገኛ ሊሆኑ ይችላሉ}}</translation>
-<translation id="3950820424414687140">ይግቡ</translation>
+<translation id="3950820424414687140">በመለያ ይግቡ</translation>
 <translation id="3953834000574892725">የእኔ መለያዎች</translation>
 <translation id="3954354850384043518">በሂደት ላይ</translation>
 <translation id="3954469006674843813"><ph name="WIDTH" /> x <ph name="HEIGHT" /> (<ph name="REFRESH_RATE" /> ኸርዝ)</translation>

@@ -3189,7 +3189,7 @@ Se questa impostazione viene disattivata o non viene impostata, sia gli utenti l
 
           Se il criterio viene attivato o se non viene configurato, la voce del menu contestuale per il tuo provider di ricerca predefinito è disponibile.
 
-          Il valore del criterio viene applicato solo se il criterio <ph name="DEFAULT_SEARCH_PROVIDER_ENABLED_POLICY_NAME" /> viene attivato e non altrimenti.</translation>
+          Il valore del criterio viene applicato solo se il criterio <ph name="DEFAULT_SEARCH_PROVIDER_ENABLED_POLICY_NAME" /> viene attivato e non è applicabile in caso contrario.</translation>
 <translation id="5697306356229823047">Segnala utenti dispositivo</translation>
 <translation id="5699487516670033016">Consente di specificare la durata in ore della cache. La cache viene utilizzata per velocizzare l'accesso. Contiene dati generali (nome del gruppo di lavoro e così via) riguardo alle aree di autenticazione delle affiliate, come le aree di autenticazione ritenute attendibili dall'area di autenticazione della macchina. Nessun dato specifico dell'utente o delle aree di autenticazione delle affiliate viene memorizzato nella cache. Se il dispositivo viene riavviato, la cache viene svuotata.
 
@@ -3400,7 +3400,7 @@ Se questa impostazione viene disattivata o non viene impostata, sia gli utenti l
        Valori validi: • 0 = disattivata• 1 = attivata• 2 = riquadro d'ingrandimento ancorato attivato
 
           Nota: se specificato, <ph name="DEVICE_LOGIN_SCREEN_SCREEN_MAGNIFIER_TYPE_POLICY_NAME" /> sostituisce questo criterio.</translation>
-<translation id="6015281292796053435">Questo criterio consente di stabilire se segnalare o meno le informazioni di Navigazione sicura, incluso il numero dell'avviso di Navigazione sicura e il numero del relativo click-through.
+<translation id="6015281292796053435">Questo criterio consente di stabilire se segnalare o meno le informazioni di Navigazione sicura, inclusi il numero dell'avviso di Navigazione sicura e il numero del relativo click-through.
 
       Se il criterio <ph name="CLOUD_REPORTING_ENABLED_POLICY_NAME" /> non viene configurato o viene disattivato, viene ignorato.
 
