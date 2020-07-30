@@ -1515,6 +1515,11 @@ const char kOmniboxRichAutocompletionMinCharName[] =
     "Omnibox Rich Autocompletion Min Characters";
 const char kOmniboxRichAutocompletionMinCharDescription[] =
     "Specifies min input character length to trigger rich autocompletion.";
+const char kOmniboxRichAutocompletionShowAdditionalTextName[] =
+    "Omnibox Rich Autocompletion Show Additional Text";
+const char kOmniboxRichAutocompletionShowAdditionalTextDescription[] =
+    "Show the suggestion title or URL additional text when the input matches "
+    "the URL or title respectively. Defaults to true.";
 
 const char kOmniboxOnFocusSuggestionsName[] = "Omnibox on-focus suggestions";
 const char kOmniboxOnFocusSuggestionsDescription[] =

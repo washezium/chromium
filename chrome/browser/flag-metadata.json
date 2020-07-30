@@ -3307,6 +3307,11 @@
     "expiry_milestone": 95
   },
   {
+    "name": "omnibox-rich-autocompletion-show-additional-text",
+    "owners": [ "manukh", "chrome-omnibox-team@google.com" ],
+    "expiry_milestone": 95
+  },
+  {
     "name": "omnibox-search-engine-logo",
     "owners": [ "wylieb", "chrome-omnibox-team@google.com" ],
     "expiry_milestone": 90

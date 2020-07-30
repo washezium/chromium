@@ -1067,6 +1067,22 @@ const FeatureEntry::FeatureVariation
             nullptr,
         }};
 
+const FeatureEntry::FeatureVariation
+    kOmniboxRichAutocompletionShowAdditionalTextVariations[] = {
+        {
+            "Show Additional Text",
+            (FeatureEntry::FeatureParam[]){},
+            0,
+            nullptr,
+        },
+        {
+            "Hide Additional Text",
+            (FeatureEntry::FeatureParam[]){
+                {"RichAutocompletionAutocompleteShowAdditionalText", "false"}},
+            1,
+            nullptr,
+        }};
+
 #endif  // defined(OS_LINUX) || defined(OS_MAC) || defined(OS_WIN)
 
 const FeatureEntry::FeatureParam kOmniboxOnFocusSuggestionsParamSERP[] = {
@@ -3729,6 +3745,14 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_WITH_PARAMS_VALUE_TYPE(omnibox::kRichAutocompletion,
                                     kOmniboxRichAutocompletionMinCharVariations,
                                     "OmniboxBundledExperimentV1")},
+    {"omnibox-rich-autocompletion-show-additional-text",
+     flag_descriptions::kOmniboxRichAutocompletionShowAdditionalTextName,
+     flag_descriptions::kOmniboxRichAutocompletionShowAdditionalTextDescription,
+     kOsDesktop,
+     FEATURE_WITH_PARAMS_VALUE_TYPE(
+         omnibox::kRichAutocompletion,
+         kOmniboxRichAutocompletionShowAdditionalTextVariations,
+         "OmniboxBundledExperimentV1")},
 #endif  // defined(OS_LINUX) || defined(OS_MAC) || defined(OS_WIN)
 
     {"enable-speculative-service-worker-start-on-query-input",
