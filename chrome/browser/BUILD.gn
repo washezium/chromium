@@ -3357,8 +3357,6 @@ static_library("browser") {
       "nearby_sharing/text_attachment.h",
       "nearby_sharing/transfer_metadata.cc",
       "nearby_sharing/transfer_metadata.h",
-      "nearby_sharing/transfer_metadata_builder.cc",
-      "nearby_sharing/transfer_metadata_builder.h",
       "nearby_sharing/transfer_update_callback.h",
       "nearby_sharing/webrtc_signaling_messenger.cc",
       "nearby_sharing/webrtc_signaling_messenger.h",
