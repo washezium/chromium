@@ -455,7 +455,7 @@ class DetachToBrowserTabDragControllerTest
     // be obscured by other windows if there are any. This should be fixed in
     // order to be consistent with other platforms.
     EXPECT_TRUE(ui_test_utils::BringBrowserWindowToFront(browser()));
-#endif  // OS_MACOSX
+#endif  // OS_MAC
   }
 
   InputSource input_source() const {
