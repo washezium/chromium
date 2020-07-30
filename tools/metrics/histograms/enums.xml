@@ -8271,6 +8271,11 @@ Called by update_bad_message_reasons.py.-->
   <int value="1" label="WebAPK notification permission enabled"/>
 </enum>
 
+<enum name="BooleanWillReadFrequently">
+  <int value="0" label="Not initialized to be read frequently"/>
+  <int value="1" label="Initialized to be read frequently"/>
+</enum>
+
 <enum name="BooleanWiped">
   <int value="0" label="Re-enabled"/>
   <int value="1" label="Wiped out"/>
@@ -8666,6 +8671,11 @@ Called by update_bad_message_reasons.py.-->
   <int value="5" label="Sub-pixel text anti-aliasing support"/>
   <int value="6" label="drawImage called with a texture backed source image"/>
   <int value="7" label="Running on low-end device"/>
+</enum>
+
+<enum name="CanvasGPUFallbackToCPUScenario">
+  <int value="0" label="Large pattern drawn onto a GPU canvas"/>
+  <int value="1" label="Slow getImageData on GPU canvases"/>
 </enum>
 
 <enum name="CanvasHibernationEvent">
