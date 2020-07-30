@@ -13359,6 +13359,27 @@ to ensure that the crash string is shown properly on the user-facing crash UI.
   <int value="6" label="UPDATE_IN_PROGRESS"/>
 </enum>
 
+<enum name="CrosCrashSenderRemoveReason">
+<!-- TotalRemoval should be the total of other values -->
+
+  <int value="0" label="TotalRemoval"/>
+  <int value="1" label="NotOfficialImage"/>
+<!-- NoMetricsConsent is included only for completeness; if we don't have
+metrics consent we also won't be able to send UMA metrics. -->
+
+  <int value="2" label="NoMetricsConsent"/>
+  <int value="3" label="ProcessingFileExists"/>
+  <int value="4" label="LargeMetaFile"/>
+  <int value="5" label="UnparseableMetaFile"/>
+  <int value="6" label="PayloadUnspecified"/>
+  <int value="7" label="PayloadAbsolute"/>
+  <int value="8" label="PayloadNonexistent"/>
+  <int value="9" label="PayloadKindUnknown"/>
+  <int value="10" label="OSVersionTooOld"/>
+  <int value="11" label="OldIncompleteMeta"/>
+  <int value="12" label="FinishedUploading"/>
+</enum>
+
 <enum name="CrosDictationToggleDictationMethod">
   <int value="0" label="Search+D"/>
   <int value="1" label="Click onscreen button"/>
