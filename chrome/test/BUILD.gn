@@ -682,6 +682,7 @@ if (!is_android) {
       "//components/embedder_support",
       "//components/enterprise",
       "//components/enterprise:test_support",
+      "//components/error_page/content/browser",
       "//components/feature_engagement/test:test_support",
       "//components/metrics:demographics_test_support",
       "//components/nacl/common:buildflags",
