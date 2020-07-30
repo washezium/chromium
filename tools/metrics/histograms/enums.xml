@@ -37116,6 +37116,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
 <enum name="IOSMenuScenario">
   <int value="0" label="History Entry"/>
   <int value="1" label="Bookmark Entry"/>
+  <int value="2" label="ReadingList Entry"/>
 </enum>
 
 <enum name="IOSNTPImpression">
