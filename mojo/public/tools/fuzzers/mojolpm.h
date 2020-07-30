@@ -50,7 +50,6 @@ class TestcaseBase {
   virtual ~TestcaseBase() = default;
   virtual bool IsFinished() = 0;
   virtual void NextAction() = 0;
-  virtual int NextResponseIndex(TypeId type) = 0;
 };
 
 class Context {
@@ -188,7 +187,6 @@ class Context {
   bool IsFinished();
   void NextAction();
   void PostNextAction();
-  int NextResponseIndex(TypeId type_id);
 
   scoped_refptr<base::SequencedTaskRunner> task_runner() const {
     return task_runner_;
