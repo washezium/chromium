@@ -37118,6 +37118,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="1" label="Bookmark Entry"/>
   <int value="2" label="ReadingList Entry"/>
   <int value="3" label="RecentTabs Entry"/>
+  <int value="4" label="ContentSuggestions Entry"/>
 </enum>
 
 <enum name="IOSNTPImpression">
