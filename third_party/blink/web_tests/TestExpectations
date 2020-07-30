@@ -1232,7 +1232,6 @@ crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/css/css-contain/contain
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/contain/contain-size-multicol-002.html [ Crash Failure ]
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/contain/contain-size-multicol-003.html [ Failure ]
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-flexbox.html [ Pass ]
-crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-grid.html [ Crash Pass ]
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-multicol.html [ Failure ]
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-percentage-block-size.html [ Failure ]
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-transform-translatez.html [ Failure ]
