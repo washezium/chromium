@@ -244,10 +244,6 @@ class MockWebMediaPlayerDelegate : public blink::WebMediaPlayerDelegate {
     DCHECK_EQ(player_id_, player_id);
   }
 
-  void DidBufferUnderflow(int player_id) override {
-    DCHECK_EQ(player_id_, player_id);
-  }
-
   bool IsFrameHidden() override { return is_hidden_; }
 
   bool IsFrameClosed() override { return is_closed_; }
