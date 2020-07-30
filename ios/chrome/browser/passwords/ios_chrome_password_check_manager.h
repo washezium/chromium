@@ -69,6 +69,12 @@ class IOSChromePasswordCheckManager
   GetSavedPasswordsFor(
       const password_manager::CredentialWithPassword& credential) const;
 
+  // Deletes |form| and its duplicates.
+  void DeletePasswordForm(const autofill::PasswordForm& form);
+
+  // Deletes compromised credentials which are related to |form|.
+  void DeleteCompromisedPasswordForm(const autofill::PasswordForm& form);
+
   void AddObserver(Observer* observer) { observers_.AddObserver(observer); }
   void RemoveObserver(Observer* observer) {
     observers_.RemoveObserver(observer);

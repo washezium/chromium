@@ -19,8 +19,6 @@ using CompromisedCredentialsView =
 
 @interface PasswordDetailsMediator () <PasswordCheckObserver,
                                        PasswordDetailsViewControllerDelegate> {
-  autofill::PasswordForm _password;
-
   // Password Check manager.
   IOSChromePasswordCheckManager* _manager;
 

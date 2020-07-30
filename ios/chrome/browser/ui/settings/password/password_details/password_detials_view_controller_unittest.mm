@@ -35,6 +35,9 @@
 // Test class that conforms to PasswordDetailsHanler in order to test the
 // presenter methods are called correctly.
 @interface FakePasswordDetailsHandler : NSObject <PasswordDetailsHandler>
+
+@property(nonatomic, assign) BOOL deletionCalled;
+
 @end
 
 @implementation FakePasswordDetailsHandler
@@ -44,6 +47,10 @@
 }
 
 - (void)showPasscodeDialog {
+}
+
+- (void)showPasswordDeleteDialogWithOrigin:(NSString*)origin {
+  self.deletionCalled = YES;
 }
 
 @end
@@ -246,4 +253,20 @@ TEST_F(PasswordDetailsViewControllerTest, TestEditingReauthFailed) {
   [passwordDetails editButtonPressed];
   EXPECT_FALSE(passwordDetails.tableView.editing);
   CheckEditCellText(kMaskedPassword, 0, 2);
+}
+
+// Tests that delete button trigger showing password delete dialog.
+TEST_F(PasswordDetailsViewControllerTest, TestPasswordDelete) {
+  SetPassword();
+
+  EXPECT_FALSE(handler().deletionCalled);
+  PasswordDetailsViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  [passwordDetails editButtonPressed];
+  [[UIApplication sharedApplication]
+      sendAction:passwordDetails.deleteButton.action
+              to:passwordDetails.deleteButton.target
+            from:nil
+        forEvent:nil];
+  EXPECT_TRUE(handler().deletionCalled);
 }

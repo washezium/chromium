@@ -4,6 +4,7 @@
 
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_view_controller.h"
 
+#include "base/ios/ios_util.h"
 #include "base/mac/foundation_util.h"
 #include "base/metrics/histogram_macros.h"
 #include "base/strings/sys_string_conversions.h"
@@ -19,6 +20,7 @@
 #import "ios/chrome/browser/ui/table_view/cells/table_view_cells_constants.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_text_edit_item.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_text_item.h"
+#include "ios/chrome/browser/ui/util/uikit_ui_util.h"
 #import "ios/chrome/common/ui/colors/UIColor+cr_semantic_colors.h"
 #import "ios/chrome/common/ui/colors/semantic_color_names.h"
 #import "ios/chrome/common/ui/reauthentication/reauthentication_module.h"
@@ -304,7 +306,7 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
 // Called when user tapped Delete button during editing. It means presented
 // password should be deleted.
 - (void)deleteItems:(NSArray<NSIndexPath*>*)indexPaths {
-  // TODO:(crbug.com/1075494) - Show Confirmation dialog and delete password.
+  [self.handler showPasswordDeleteDialogWithOrigin:self.password.origin];
 }
 
 - (BOOL)shouldHideToolbar {

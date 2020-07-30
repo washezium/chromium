@@ -319,3 +319,41 @@ TEST_F(IOSChromePasswordCheckManagerTest, NotifyObserversAboutStateChanges) {
       ->OnStateChanged(BulkLeakCheckServiceInterface::State::kRunning);
   RunUntilIdle();
 }
+
+// Tests password deleted.
+TEST_F(IOSChromePasswordCheckManagerTest, DeletePassword) {
+  PasswordForm form = MakeSavedPassword(kExampleCom, kUsername1);
+  store().AddLogin(form);
+  RunUntilIdle();
+
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleCom, kUsername1, base::TimeDelta::FromMinutes(1),
+                      CompromiseType::kLeaked));
+  RunUntilIdle();
+  EXPECT_THAT(
+      manager().GetCompromisedCredentials(),
+      ElementsAre(ExpectCompromisedCredential(
+          kExampleCom, kUsername1, kPassword1, base::TimeDelta::FromMinutes(1),
+          CompromiseTypeFlags::kCredentialLeaked)));
+
+  manager().DeleteCompromisedPasswordForm(form);
+  RunUntilIdle();
+
+  EXPECT_THAT(manager().GetCompromisedCredentials(), IsEmpty());
+}
+
+// Tests duplicated passwords deleted.
+TEST_F(IOSChromePasswordCheckManagerTest, DeleteDuplicatedPasswords) {
+  std::vector<PasswordForm> passwords = {
+      MakeSavedPassword(kExampleCom, kUsername1, kPassword1, "element_1"),
+      MakeSavedPassword(kExampleCom, kUsername1, kPassword1, "element_2")};
+
+  store().AddLogin(passwords[0]);
+  store().AddLogin(passwords[1]);
+  RunUntilIdle();
+  EXPECT_EQ(2u, store().stored_passwords().at(kExampleCom).size());
+
+  manager().DeletePasswordForm(passwords[0]);
+  RunUntilIdle();
+  EXPECT_TRUE(store().stored_passwords().at(kExampleCom).empty());
+}
