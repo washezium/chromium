@@ -2017,7 +2017,7 @@
     {
       name: "WebHID",
       origin_trial_feature_name: "WebHID",
-      status: "experimental",
+      status: {"Android": "", "default": "experimental"},
     },
     {
       name: "WebNFC",
