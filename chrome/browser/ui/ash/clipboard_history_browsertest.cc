@@ -21,6 +21,11 @@ namespace {
 void SetClipboardText(const std::string& text) {
   ui::ScopedClipboardWriter(ui::ClipboardBuffer::kCopyPaste)
       .WriteText(base::ASCIIToUTF16(text));
+
+  // ClipboardHistory will post a task to process clipboard data in order to
+  // debounce multiple clipboard writes occurring in sequence. Here we give
+  // ClipboardHistory the chance to run its posted tasks before proceeding.
+  base::RunLoop().RunUntilIdle();
 }
 
 const std::list<ui::ClipboardData>& GetClipboardData() {
