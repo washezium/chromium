@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.os.SystemClock;
 
 import androidx.annotation.VisibleForTesting;
@@ -343,6 +344,19 @@ public class StripLayoutHelperManager implements SceneOverlay {
         modelSelector.getTabModelFilterProvider().addTabModelFilterObserver(mTabModelObserver);
 
         mTabModelSelector = modelSelector;
+
+        if (mTabModelSelector.isTabStateInitialized()) {
+            updateModelSwitcherButton();
+        } else {
+            mTabModelSelector.addObserver(new EmptyTabModelSelectorObserver() {
+                @Override
+                public void onTabStateInitialized() {
+                    updateModelSwitcherButton();
+                    new Handler().post(() -> mTabModelSelector.removeObserver(this));
+                }
+            });
+        }
+
         mNormalHelper.setTabModel(mTabModelSelector.getModel(false),
                 tabCreatorManager.getTabCreator(false));
         mIncognitoHelper.setTabModel(mTabModelSelector.getModel(true),
@@ -491,11 +505,6 @@ public class StripLayoutHelperManager implements SceneOverlay {
     @Override
     public boolean handlesTabCreating() {
         return false;
-    }
-
-    @Override
-    public void tabStateInitialized() {
-        updateModelSwitcherButton();
     }
 
     private void tabModelSwitched(boolean incognito) {

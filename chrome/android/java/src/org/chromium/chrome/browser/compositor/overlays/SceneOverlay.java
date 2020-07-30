@@ -81,9 +81,4 @@ public interface SceneOverlay {
      * @return True if this overlay handles tab creation.
      */
     boolean handlesTabCreating();
-
-    /**
-     * Called when the TabModelSelector has been initialized with an accurate tab count.
-     */
-    void tabStateInitialized();
 }

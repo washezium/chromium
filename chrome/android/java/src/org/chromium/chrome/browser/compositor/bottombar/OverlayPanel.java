@@ -961,7 +961,4 @@ public class OverlayPanel extends OverlayPanelAnimation implements ActivityState
         closePanel(StateChangeReason.BACK_PRESS, true);
         return true;
     }
-
-    @Override
-    public void tabStateInitialized() {}
 }
