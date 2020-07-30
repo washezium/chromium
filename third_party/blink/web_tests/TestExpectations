@@ -6868,3 +6868,5 @@ crbug.com/1092794 fast/canvas/OffscreenCanvas-2d-placeholder-willReadFrequently.
 
 # Sheriff 2020-07-30
 crbug.com/1111287 http/tests/devtools/sources/debugger-breakpoints/breakpoint-with-sourcemap-dart.js [ Pass Failure ]
+
+crbug.com/1111410 http/tests/serviceworker/service-worker-gc.html [ Pass Failure ]
