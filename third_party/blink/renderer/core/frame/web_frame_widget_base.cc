@@ -582,6 +582,22 @@ void WebFrameWidgetBase::UpdateVisualProperties(
   // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/display-mode
   SetDisplayMode(visual_properties.display_mode);
 
+  bool capture_sequence_number_changed =
+      visual_properties.capture_sequence_number !=
+      last_capture_sequence_number_;
+  if (capture_sequence_number_changed) {
+    last_capture_sequence_number_ = visual_properties.capture_sequence_number;
+
+    // Send the capture sequence number to RemoteFrames that are below the
+    // local root for this widget.
+    ForEachRemoteFrameControlledByWidget(WTF::BindRepeating(
+        [](uint32_t capture_sequence_number, RemoteFrame* remote_frame) {
+          remote_frame->Client()->UpdateCaptureSequenceNumber(
+              capture_sequence_number);
+        },
+        visual_properties.capture_sequence_number));
+  }
+
   Client()->UpdateVisualProperties(visual_properties);
 }
 
