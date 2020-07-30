@@ -41,6 +41,10 @@
 #include "third_party/pdfium/public/fpdfview.h"
 #include "third_party/skia/include/core/SkBitmap.h"
 
+namespace gfx {
+class Size;
+}  // namespace gfx
+
 namespace chrome_pdf {
 
 class KeyboardInputEvent;
@@ -106,7 +110,8 @@ class PDFiumEngine : public PDFEngine,
   void RotateCounterclockwise() override;
   void SetTwoUpView(bool enable) override;
   void DisplayAnnotations(bool display) override;
-  pp::Size ApplyDocumentLayout(const DocumentLayout::Options& options) override;
+  gfx::Size ApplyDocumentLayout(
+      const DocumentLayout::Options& options) override;
   std::string GetSelectedText() override;
   bool CanEditText() override;
   bool HasEditableText() override;
@@ -289,7 +294,7 @@ class PDFiumEngine : public PDFEngine,
   //
   // TODO(kmoon): LoadPageSizes() is a bit misnomer, but LoadPageInfo() is
   // taken right now...
-  std::vector<pp::Size> LoadPageSizes(
+  std::vector<gfx::Size> LoadPageSizes(
       const DocumentLayout::Options& layout_options);
 
   void LoadBody();

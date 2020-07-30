@@ -62,6 +62,7 @@
 #include "third_party/skia/include/core/SkBitmap.h"
 #include "ui/events/keycodes/keyboard_codes.h"
 #include "ui/gfx/geometry/rect.h"
+#include "ui/gfx/geometry/size.h"
 #include "ui/gfx/geometry/vector2d.h"
 #include "v8/include/v8.h"
 
@@ -2651,7 +2652,7 @@ void PDFiumEngine::ProposeNextDocumentLayout() {
 }
 
 void PDFiumEngine::UpdateDocumentLayout(DocumentLayout* layout) {
-  std::vector<pp::Size> page_sizes = LoadPageSizes(layout->options());
+  std::vector<gfx::Size> page_sizes = LoadPageSizes(layout->options());
   if (page_sizes.empty())
     return;
 
@@ -2662,9 +2663,9 @@ void PDFiumEngine::UpdateDocumentLayout(DocumentLayout* layout) {
   }
 }
 
-std::vector<pp::Size> PDFiumEngine::LoadPageSizes(
+std::vector<gfx::Size> PDFiumEngine::LoadPageSizes(
     const DocumentLayout::Options& layout_options) {
-  std::vector<pp::Size> page_sizes;
+  std::vector<gfx::Size> page_sizes;
   if (!doc_loader_)
     return page_sizes;
   if (pages_.empty() && document_loaded_)
@@ -2698,7 +2699,7 @@ std::vector<pp::Size> PDFiumEngine::LoadPageSizes(
     pp::Size size = page_available ? GetPageSizeForLayout(i, layout_options)
                                    : default_page_size_;
     EnlargePage(layout_options, i, new_page_count, &size);
-    page_sizes.push_back(size);
+    page_sizes.push_back(SizeFromPPSize(size));
   }
 
   // Add new pages. If |document_loaded_| == false, do not mark page as
@@ -3562,7 +3563,7 @@ void PDFiumEngine::OnSelectionPositionChanged() {
   client_->SelectionChanged(left, right);
 }
 
-pp::Size PDFiumEngine::ApplyDocumentLayout(
+gfx::Size PDFiumEngine::ApplyDocumentLayout(
     const DocumentLayout::Options& options) {
   // We need to return early if the layout would not change, otherwise calling
   // client_->ScrollToPage() would send another "viewport" message, triggering

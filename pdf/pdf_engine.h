@@ -362,7 +362,7 @@ class PDFEngine {
   // Applies the document layout options proposed by a call to
   // PDFEngine::Client::ProposeDocumentLayout(), returning the overall size of
   // the new effective layout.
-  virtual pp::Size ApplyDocumentLayout(
+  virtual gfx::Size ApplyDocumentLayout(
       const DocumentLayout::Options& options) = 0;
 
   virtual std::string GetSelectedText() = 0;

@@ -1747,7 +1747,8 @@ void OutOfProcessInstance::HandleViewportMessage(
     DocumentLayout::Options layout_options;
     layout_options.FromVar(layout_options_var);
     // TODO(crbug.com/1013800): Eliminate need to get document size from here.
-    document_size_ = engine_->ApplyDocumentLayout(layout_options);
+    document_size_ =
+        PPSizeFromSize(engine_->ApplyDocumentLayout(layout_options));
     OnGeometryChanged(zoom_, device_scale_);
   }
 
