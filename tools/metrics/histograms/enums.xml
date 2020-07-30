@@ -24071,6 +24071,7 @@ Called by update_extension_histograms.py.-->
       label="AUTOTESTPRIVATE_STARTTHROUGHPUTTRACKERDATACOLLECTION"/>
   <int value="1493"
       label="AUTOTESTPRIVATE_STOPTHROUGHPUTTRACKERDATACOLLECTION"/>
+  <int value="1494" label="INPUTMETHODPRIVATE_GETAUTOCORRECTRANGE"/>
 </enum>
 
 <enum name="ExtensionIconState">
