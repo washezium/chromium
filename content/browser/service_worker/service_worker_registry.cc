@@ -166,7 +166,7 @@ void ServiceWorkerRegistry::CreateNewVersion(
     NewVersionCallback callback) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
   DCHECK(registration);
-  storage()->GetNewVersionId(base::BindOnce(
+  GetRemoteStorageControl()->GetNewVersionId(base::BindOnce(
       &ServiceWorkerRegistry::DidGetNewVersionId, weak_factory_.GetWeakPtr(),
       std::move(registration), script_url, script_type, std::move(callback)));
 }
@@ -831,8 +831,10 @@ ServiceWorkerRegistry::GetOrCreateRegistration(
   scoped_refptr<ServiceWorkerVersion> version =
       context_->GetLiveVersion(data.version_id);
   if (!version) {
+    // TODO(crbug.com/1055677): Pass ServiceWorkerLiveVersionRef
     version = base::MakeRefCounted<ServiceWorkerVersion>(
         registration.get(), data.script, data.script_type, data.version_id,
+        mojo::PendingRemote<storage::mojom::ServiceWorkerLiveVersionRef>(),
         context_->AsWeakPtr());
     version->set_fetch_handler_existence(
         data.has_fetch_handler
@@ -1323,15 +1325,18 @@ void ServiceWorkerRegistry::DidGetNewVersionId(
     const GURL& script_url,
     blink::mojom::ScriptType script_type,
     NewVersionCallback callback,
-    int64_t version_id) {
+    int64_t version_id,
+    mojo::PendingRemote<storage::mojom::ServiceWorkerLiveVersionRef>
+        version_reference) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
   if (version_id == blink::mojom::kInvalidServiceWorkerVersionId) {
     std::move(callback).Run(nullptr);
     return;
   }
-  std::move(callback).Run(base::MakeRefCounted<ServiceWorkerVersion>(
+  auto version = base::MakeRefCounted<ServiceWorkerVersion>(
       registration.get(), script_url, script_type, version_id,
-      context_->AsWeakPtr()));
+      std::move(version_reference), context_->AsWeakPtr());
+  std::move(callback).Run(std::move(version));
 }
 
 void ServiceWorkerRegistry::ScheduleDeleteAndStartOver() {
