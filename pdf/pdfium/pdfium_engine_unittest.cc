@@ -851,7 +851,7 @@ TEST_F(PDFiumEngineTabbingTest, MaintainViewportWhenFocusIsUpdated) {
       &client, FILE_PATH_LITERAL("annotation_form_fields.pdf"));
   ASSERT_TRUE(engine);
   ASSERT_EQ(2, engine->GetNumberOfPages());
-  engine->PluginSizeUpdated(pp::Size(60, 40));
+  engine->PluginSizeUpdated(gfx::Size(60, 40));
 
   {
     InSequence sequence;
@@ -904,7 +904,7 @@ TEST_F(PDFiumEngineTabbingTest, ScrollFocusedAnnotationIntoView) {
       &client, FILE_PATH_LITERAL("annotation_form_fields.pdf"));
   ASSERT_TRUE(engine);
   ASSERT_EQ(2, engine->GetNumberOfPages());
-  engine->PluginSizeUpdated(pp::Size(60, 40));
+  engine->PluginSizeUpdated(gfx::Size(60, 40));
 
   {
     InSequence sequence;

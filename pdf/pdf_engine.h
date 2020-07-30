@@ -329,7 +329,7 @@ class PDFEngine {
   // name, so not repeating the description here unless it's different.
   virtual bool New(const char* url, const char* headers) = 0;
   virtual void PageOffsetUpdated(const pp::Point& page_offset) = 0;
-  virtual void PluginSizeUpdated(const pp::Size& size) = 0;
+  virtual void PluginSizeUpdated(const gfx::Size& size) = 0;
   virtual void ScrolledToXPosition(int position) = 0;
   virtual void ScrolledToYPosition(int position) = 0;
   // Paint is called a series of times. Before these n calls are made, PrePaint
@@ -446,7 +446,7 @@ class PDFEngine {
   // Returns the duplex setting.
   virtual int GetDuplexType() = 0;
   // Returns true if all the pages are the same size.
-  virtual bool GetPageSizeAndUniformity(pp::Size* size) = 0;
+  virtual bool GetPageSizeAndUniformity(gfx::Size* size) = 0;
 
   // Returns a VarArray of Bookmarks, each a VarDictionary containing the
   // following key/values:
