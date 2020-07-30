@@ -4371,10 +4371,10 @@ TEST_F(RenderTextTest, StringSizeMultiline) {
   render_text->SetMultiline(true);
   EXPECT_EQ(55, render_text->TotalLineWidth());
 
-  EXPECT_EQ(
-      30, render_text->GetLineSize(SelectionModel(0, CURSOR_FORWARD)).width());
-  EXPECT_EQ(
-      25, render_text->GetLineSize(SelectionModel(6, CURSOR_FORWARD)).width());
+  EXPECT_FLOAT_EQ(
+      30, render_text->GetLineSizeF(SelectionModel(0, CURSOR_FORWARD)).width());
+  EXPECT_FLOAT_EQ(
+      25, render_text->GetLineSizeF(SelectionModel(6, CURSOR_FORWARD)).width());
   // |GetStringSize()| of multi-line text does not include newline character.
   EXPECT_EQ(25, render_text->GetStringSize().width());
   // Expect height to be 2 times the font height. This assumes simple strings
@@ -4515,6 +4515,30 @@ TEST_F(RenderTextTest, TextSizeMultiline) {
   }
 }
 
+TEST_F(RenderTextTest, LineSizeMultiline) {
+  // Set a fractional glyph size to trigger floating rounding logic.
+  const float kGlyphWidth = 1.2;
+  SetGlyphWidth(kGlyphWidth);
+
+  RenderText* render_text = GetRenderText();
+  render_text->SetMultiline(true);
+  render_text->SetText(ASCIIToUTF16("xx\nxxx\nxxxxx"));
+
+  const float expected_line1_size = 3 * kGlyphWidth;
+  const float expected_line2_size = 4 * kGlyphWidth;
+  const float expected_line3_size = 5 * kGlyphWidth;
+
+  EXPECT_FLOAT_EQ(
+      expected_line1_size,
+      render_text->GetLineSizeF(SelectionModel(1, CURSOR_FORWARD)).width());
+  EXPECT_FLOAT_EQ(
+      expected_line2_size,
+      render_text->GetLineSizeF(SelectionModel(4, CURSOR_FORWARD)).width());
+  EXPECT_FLOAT_EQ(
+      expected_line3_size,
+      render_text->GetLineSizeF(SelectionModel(10, CURSOR_FORWARD)).width());
+}
+
 TEST_F(RenderTextTest, SetFontList) {
   RenderText* render_text = GetRenderText();
   render_text->SetFontList(
@@ -4610,6 +4634,8 @@ TEST_F(RenderTextTest, GetCursorBoundsInReplacementMode) {
 TEST_F(RenderTextTest, GetCursorBoundsWithGraphemes) {
   constexpr int kGlyphWidth = 10;
   SetGlyphWidth(kGlyphWidth);
+  constexpr int kGlyphHeight = 12;
+  SetGlyphHeight(kGlyphHeight);
 
   RenderText* render_text = GetRenderText();
   render_text->SetText(
@@ -4617,27 +4643,24 @@ TEST_F(RenderTextTest, GetCursorBoundsWithGraphemes) {
   render_text->SetDisplayRect(Rect(100, 20));
   render_text->SetVerticalAlignment(ALIGN_TOP);
 
-  const int line_height =
-      render_text->GetLineSize(SelectionModel(0, CURSOR_FORWARD)).height();
-
   static const size_t kGraphemeBoundaries[] = {0, 2, 4, 6, 7};
   for (size_t i = 0; i < base::size(kGraphemeBoundaries); ++i) {
     const size_t text_offset = kGraphemeBoundaries[i];
     EXPECT_EQ(render_text->GetCursorBounds(
                   SelectionModel(text_offset, CURSOR_FORWARD), true),
-              Rect(i * kGlyphWidth, 0, 1, line_height));
+              Rect(i * kGlyphWidth, 0, 1, kGlyphHeight));
     EXPECT_EQ(render_text->GetCursorBounds(
                   SelectionModel(text_offset, CURSOR_FORWARD), false),
-              Rect(i * kGlyphWidth, 0, kGlyphWidth, line_height));
+              Rect(i * kGlyphWidth, 0, kGlyphWidth, kGlyphHeight));
   }
 
   // Check cursor bounds at end of text.
   EXPECT_EQ(
       render_text->GetCursorBounds(SelectionModel(10, CURSOR_FORWARD), true),
-      Rect(50, 0, 1, line_height));
+      Rect(50, 0, 1, kGlyphHeight));
   EXPECT_EQ(
       render_text->GetCursorBounds(SelectionModel(10, CURSOR_FORWARD), false),
-      Rect(50, 0, 1, line_height));
+      Rect(50, 0, 1, kGlyphHeight));
 }
 
 TEST_F(RenderTextTest, GetTextOffset) {
