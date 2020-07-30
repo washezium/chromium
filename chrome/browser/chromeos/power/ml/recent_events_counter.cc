@@ -15,6 +15,7 @@ RecentEventsCounter::RecentEventsCounter(base::TimeDelta duration,
     : duration_(duration), num_buckets_(num_buckets) {
   DCHECK_GT(num_buckets_, 0);
   bucket_duration_ = duration_ / num_buckets_;
+  DCHECK_EQ(duration_, bucket_duration_ * num_buckets_);
   event_count_.resize(num_buckets_, 0);
 }
 
@@ -44,11 +45,10 @@ void RecentEventsCounter::Log(base::TimeDelta timestamp) {
   }
   first_bucket_index_ = (bucket_index + 1) % num_buckets_;
 
-  int num_cycles = floor(timestamp / duration_);
-  base::TimeDelta cycle_start = num_cycles * duration_;
-  int extra_buckets = floor((timestamp - cycle_start) / bucket_duration_);
-  first_bucket_time_ = cycle_start + extra_buckets * bucket_duration_ +
-                       bucket_duration_ - duration_;
+  // Move the first bucket time such that |bucket_index| is the last bucket in
+  // the period [first_bucket_time_, first_bucket_time_ + duration_).
+  first_bucket_time_ =
+      timestamp - (timestamp % bucket_duration_) + bucket_duration_ - duration_;
 }
 
 int RecentEventsCounter::GetTotal(base::TimeDelta now) {
@@ -73,9 +73,7 @@ int RecentEventsCounter::GetTotal(base::TimeDelta now) {
 int RecentEventsCounter::GetBucketIndex(base::TimeDelta timestamp) const {
   DCHECK_GE(timestamp, base::TimeDelta());
 
-  int num_cycles = floor(timestamp / duration_);
-  base::TimeDelta cycle_start = num_cycles * duration_;
-  int index = floor((timestamp - cycle_start) / bucket_duration_);
+  int index = (timestamp % duration_) / bucket_duration_;
   if (index >= num_buckets_) {
     return num_buckets_ - 1;
   }
