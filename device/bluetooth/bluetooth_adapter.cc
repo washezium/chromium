@@ -28,7 +28,7 @@ namespace device {
 BluetoothAdapter::ServiceOptions::ServiceOptions() = default;
 BluetoothAdapter::ServiceOptions::~ServiceOptions() = default;
 
-#if !defined(OS_ANDROID) && !defined(OS_CHROMEOS) && !defined(OS_MACOSX) && \
+#if !defined(OS_ANDROID) && !defined(OS_CHROMEOS) && !defined(OS_MAC) && \
     !defined(OS_WIN) && !defined(OS_LINUX)
 // static
 scoped_refptr<BluetoothAdapter> BluetoothAdapter::CreateAdapter() {
