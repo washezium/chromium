@@ -549,6 +549,8 @@ void PolicyProvider::OnPreferenceChanged(const std::string& name) {
       name == prefs::kManagedPluginsBlockedForUrls ||
       name == prefs::kManagedPopupsAllowedForUrls ||
       name == prefs::kManagedPopupsBlockedForUrls ||
+      name == prefs::kManagedWebUsbAskForUrls ||
+      name == prefs::kManagedWebUsbBlockedForUrls ||
       name == prefs::kManagedLegacyCookieAccessAllowedForDomains) {
     ReadManagedContentSettings(true);
     ReadManagedDefaultSettings();
