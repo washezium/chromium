@@ -7215,7 +7215,7 @@ WebContentsImpl::GetFaviconURLs() {
 
 // The Mac implementation  of the next two methods is in
 // web_contents_impl_mac.mm
-#if !defined(OS_MACOSX)
+#if !defined(OS_MAC)
 
 void WebContentsImpl::Resize(const gfx::Rect& new_bounds) {
 #if defined(USE_AURA)
@@ -7238,7 +7238,7 @@ gfx::Size WebContentsImpl::GetSize() {
 #endif
 }
 
-#endif  // !defined(OS_MACOSX)
+#endif  // !defined(OS_MAC)
 
 BrowserPluginEmbedder* WebContentsImpl::GetBrowserPluginEmbedder() const {
   return browser_plugin_embedder_.get();
