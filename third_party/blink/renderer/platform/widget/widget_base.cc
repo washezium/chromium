@@ -225,6 +225,9 @@ void WidgetBase::GetWidgetInputHandler(
 
 void WidgetBase::UpdateVisualProperties(
     const VisualProperties& visual_properties) {
+  LayerTreeHost()->SetBrowserControlsParams(
+      visual_properties.browser_controls_params);
+
   client_->UpdateVisualProperties(visual_properties);
 }
 

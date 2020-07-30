@@ -562,9 +562,6 @@ void RenderWidget::UpdateVisualProperties(
     browser_controls_params_ = visual_properties.browser_controls_params;
   }
 
-  layer_tree_host_->SetBrowserControlsParams(
-      visual_properties.browser_controls_params);
-
   if (!auto_resize_mode_) {
     if (visual_properties.is_fullscreen_granted != is_fullscreen_granted_) {
       is_fullscreen_granted_ = visual_properties.is_fullscreen_granted;
