@@ -58,6 +58,7 @@ class PLATFORM_EXPORT AVIFImageDecoder final : public ImageDecoder {
   void InitializeNewFrame(size_t) override;
   void Decode(size_t) override;
   bool CanReusePreviousFrameBuffer(size_t) const override;
+  cc::YUVSubsampling GetYUVSubsampling() const override;
 
   // Creates |decoder_| and decodes the size and frame count.
   bool MaybeCreateDemuxer();

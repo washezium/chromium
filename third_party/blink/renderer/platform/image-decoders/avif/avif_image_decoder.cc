@@ -533,6 +533,22 @@ bool AVIFImageDecoder::CanReusePreviousFrameBuffer(size_t index) const {
   return true;
 }
 
+cc::YUVSubsampling AVIFImageDecoder::GetYUVSubsampling() const {
+  DCHECK(CanDecodeToYUV());
+  switch (decoder_->image->yuvFormat) {
+    case AVIF_PIXEL_FORMAT_YUV420:
+      return cc::YUVSubsampling::k420;
+    case AVIF_PIXEL_FORMAT_YUV422:
+      return cc::YUVSubsampling::k422;
+    case AVIF_PIXEL_FORMAT_YUV444:
+      return cc::YUVSubsampling::k444;
+    case AVIF_PIXEL_FORMAT_YUV400:
+    case AVIF_PIXEL_FORMAT_NONE:
+      NOTREACHED();
+      return cc::YUVSubsampling::kUnknown;
+  }
+}
+
 bool AVIFImageDecoder::MaybeCreateDemuxer() {
   if (decoder_)
     return true;

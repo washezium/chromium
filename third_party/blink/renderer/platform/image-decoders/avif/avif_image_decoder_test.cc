@@ -523,6 +523,16 @@ void ReadYUV(const char* file_name,
   decoder->DecodeToYUV();
   EXPECT_FALSE(decoder->Failed());
 
+  auto metadata = decoder->MakeMetadataForDecodeAcceleration();
+  EXPECT_EQ(cc::ImageType::kAVIF, metadata.image_type);
+  EXPECT_EQ(gfx::Size(size), metadata.image_size);
+  if (expected_y_size == expected_uv_size)
+    EXPECT_EQ(cc::YUVSubsampling::k444, metadata.yuv_subsampling);
+  else if (expected_y_size.Height() == expected_uv_size.Height())
+    EXPECT_EQ(cc::YUVSubsampling::k422, metadata.yuv_subsampling);
+  else
+    EXPECT_EQ(cc::YUVSubsampling::k420, metadata.yuv_subsampling);
+
   if (!rgb_pixel)
     return;
 
