@@ -1256,10 +1256,8 @@ void WizardController::OnAssistantOptInFlowScreenExit(
   ShowMultiDeviceSetupScreen();
 }
 
-void WizardController::OnMultiDeviceSetupScreenExit(
-    MultiDeviceSetupScreen::Result result) {
-  OnScreenExit(MultiDeviceSetupScreenView::kScreenId,
-               MultiDeviceSetupScreen::GetResultString(result));
+void WizardController::OnMultiDeviceSetupScreenExit() {
+  OnScreenExit(MultiDeviceSetupScreenView::kScreenId, kDefaultExitReason);
 
   ShowGestureNavigationScreen();
 }

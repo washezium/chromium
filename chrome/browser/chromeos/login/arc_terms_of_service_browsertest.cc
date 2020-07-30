@@ -724,6 +724,7 @@ class PublicAccountArcTermsOfServiceScreenTest
 IN_PROC_BROWSER_TEST_F(PublicAccountArcTermsOfServiceScreenTest,
                        SkippedForPublicAccount) {
   StartPublicSession();
+  ShowArcTosScreen();
 
   chromeos::test::WaitForPrimaryUserSessionStart();
   histogram_tester_.ExpectTotalCount(
