@@ -24106,6 +24106,7 @@ Called by update_extension_histograms.py.-->
   <int value="1493"
       label="AUTOTESTPRIVATE_STOPTHROUGHPUTTRACKERDATACOLLECTION"/>
   <int value="1494" label="INPUTMETHODPRIVATE_GETAUTOCORRECTRANGE"/>
+  <int value="1495" label="FILEMANAGERPRIVATEINTERNAL_SHARESHEETHASTARGETS"/>
 </enum>
 
 <enum name="ExtensionIconState">
