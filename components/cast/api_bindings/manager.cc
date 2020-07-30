@@ -2,42 +2,44 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chromecast/bindings/bindings_manager.h"
+#include "components/cast/api_bindings/manager.h"
 
 #include <utility>
 
 #include "base/logging.h"
 
-namespace chromecast {
-namespace bindings {
+namespace cast_api_bindings {
 
-BindingsManager::BindingsManager() = default;
+Manager::Manager() = default;
 
-BindingsManager::~BindingsManager() {
+Manager::~Manager() {
   DCHECK(port_handlers_.empty());
 }
 
-void BindingsManager::RegisterPortHandler(base::StringPiece port_name,
-                                          MessagePortConnectedHandler handler) {
+void Manager::RegisterPortHandler(base::StringPiece port_name,
+                                  MessagePortConnectedHandler handler) {
   auto result = port_handlers_.try_emplace(port_name, std::move(handler));
   DCHECK(result.second);
 }
 
-void BindingsManager::UnregisterPortHandler(base::StringPiece port_name) {
+void Manager::UnregisterPortHandler(base::StringPiece port_name) {
   size_t deleted = port_handlers_.erase(port_name);
   DCHECK_EQ(deleted, 1u);
 }
 
-void BindingsManager::OnPortConnected(base::StringPiece port_name,
-                                      blink::WebMessagePort port) {
+bool Manager::OnPortConnected(base::StringPiece port_name,
+                              blink::WebMessagePort port) {
+  if (!port.IsValid())
+    return false;
+
   auto handler = port_handlers_.find(port_name);
   if (handler == port_handlers_.end()) {
     LOG(ERROR) << "No handler found for port " << port_name << ".";
-    return;
+    return false;
   }
 
   handler->second.Run(std::move(port));
+  return true;
 }
 
-}  // namespace bindings
-}  // namespace chromecast
+}  // namespace cast_api_bindings
