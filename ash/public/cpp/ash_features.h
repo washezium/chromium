@@ -21,6 +21,10 @@ ASH_PUBLIC_EXPORT extern const base::Feature kAllowAmbientEQ;
 // certain devices.
 ASH_PUBLIC_EXPORT extern const base::Feature kAutoNightLight;
 
+// Enables the Capture Mode feature which is an enhanced screenshot and screen
+// capture user experience.
+ASH_PUBLIC_EXPORT extern const base::Feature kCaptureMode;
+
 // Enables contextual nudges for gesture education.
 ASH_PUBLIC_EXPORT extern const base::Feature kContextualNudges;
 
@@ -175,6 +179,8 @@ ASH_PUBLIC_EXPORT bool IsAltTabLimitedToActiveDesk();
 ASH_PUBLIC_EXPORT bool IsPerDeskShelfEnabled();
 
 ASH_PUBLIC_EXPORT bool IsAutoNightLightEnabled();
+
+ASH_PUBLIC_EXPORT bool IsCaptureModeEnabled();
 
 ASH_PUBLIC_EXPORT bool IsHideArcMediaNotificationsEnabled();
 
