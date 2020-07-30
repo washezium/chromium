@@ -905,7 +905,8 @@ VisualCursorDirection RenderText::GetVisualDirectionOfLogicalBeginning() {
 
 Size RenderText::GetStringSize() {
   const SizeF size_f = GetStringSizeF();
-  return Size(base::ClampCeil(size_f.width()), size_f.height());
+  return Size(base::ClampCeil(size_f.width()),
+              base::ClampCeil(size_f.height()));
 }
 
 float RenderText::TotalLineWidth() {
