@@ -4873,11 +4873,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kAppServiceIntentHandlingDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(features::kAppServiceIntentHandling)},
 
-    {"ash-swiping-from-left-edge-to-go-back",
-     flag_descriptions::kAshSwipingFromLeftEdgeToGoBackName,
-     flag_descriptions::kAshSwipingFromLeftEdgeToGoBackDescription, kOsCrOS,
-     FEATURE_VALUE_TYPE(ash::features::kSwipingFromLeftEdgeToGoBack)},
-
     {"use-fake-device-for-media-stream",
      flag_descriptions::kUseFakeDeviceForMediaStreamName,
      flag_descriptions::kUseFakeDeviceForMediaStreamDescription, kOsCrOS,
