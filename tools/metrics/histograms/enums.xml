@@ -21300,6 +21300,9 @@ Called by update_document_policy_enum.py.-->
   <int value="748" label="InsecureFormsWarningsEnabled"/>
   <int value="749" label="SpellcheckLanguageBlocklist"/>
   <int value="750" label="ExternalPrintServersAllowlist"/>
+  <int value="751" label="DefaultSerialGuardSetting"/>
+  <int value="752" label="SerialAskForUrls"/>
+  <int value="753" label="SerialBlockedForUrls"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
