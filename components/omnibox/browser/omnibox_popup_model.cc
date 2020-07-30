@@ -617,7 +617,7 @@ base::string16 OmniboxPopupModel::GetAccessibilityLabelForCurrentSelection(
       // in the button-row UI configuration.
       break;
     case FOCUSED_BUTTON_TAB_SWITCH:
-      additional_message_id = IDS_ACC_TAB_SWITCH_SUFFIX;
+      additional_message_id = IDS_ACC_TAB_SWITCH_BUTTON_FOCUSED_PREFIX;
       break;
     case FOCUSED_BUTTON_PEDAL:
       // TODO(orinj): Add an accessibility message for the Pedal button
