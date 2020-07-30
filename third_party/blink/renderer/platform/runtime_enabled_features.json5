@@ -655,10 +655,6 @@
       settable_from_internals: true,
     },
     {
-      name: "DisplayOverride",
-      status: "test",
-    },
-    {
       name: "DocumentCookie",
     },
     {
@@ -1934,6 +1930,10 @@
     {
       name: "WebAnimationsSVG",
       status: "experimental",
+    },
+    {
+      name: "WebAppManifestDisplayOverride",
+      status: "test",
     },
     {
       name: "WebAssemblySimd",
