@@ -82,6 +82,13 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
   [super viewDidLoad];
   self.tableView.accessibilityIdentifier = kPasswordDetailsViewControllerId;
   self.tableView.allowsSelectionDuringEditing = YES;
+
+  UILabel* titleLabel = [[UILabel alloc] init];
+  titleLabel.lineBreakMode = NSLineBreakByTruncatingHead;
+  titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+  titleLabel.adjustsFontForContentSizeCategory = YES;
+  titleLabel.text = self.password.origin;
+  self.navigationItem.titleView = titleLabel;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -112,7 +119,6 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
 
 - (void)loadModel {
   [super loadModel];
-  self.title = self.password.origin;
 
   TableViewModel* model = self.tableViewModel;
   [model addSectionWithIdentifier:SectionIdentifierPassword];

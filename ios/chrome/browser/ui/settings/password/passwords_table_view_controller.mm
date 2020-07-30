@@ -1405,6 +1405,13 @@ std::vector<std::unique_ptr<autofill::PasswordForm>> CopyOf(
           forControlEvents:UIControlEventTouchUpInside];
       break;
     }
+    case ItemTypeSavedPassword:
+    case ItemTypeBlocked: {
+      TableViewDetailTextCell* textCell =
+          base::mac::ObjCCastStrict<TableViewDetailTextCell>(cell);
+      textCell.textLabel.lineBreakMode = NSLineBreakByTruncatingHead;
+      break;
+    }
   }
   return cell;
 }

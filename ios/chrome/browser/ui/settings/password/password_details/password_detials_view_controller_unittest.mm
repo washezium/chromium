@@ -152,7 +152,6 @@ TEST_F(PasswordDetailsViewControllerTest, TestPassword) {
   EXPECT_EQ(1, NumberOfSections());
   EXPECT_EQ(3, NumberOfItemsInSection(0));
 
-  EXPECT_NSEQ(@"example.com", controller().title);
   CheckEditCellText(@"http://www.example.com/", 0, 0);
   CheckEditCellText(@"test@egmail.com", 0, 1);
   CheckEditCellText(kMaskedPassword, 0, 2);
@@ -165,7 +164,6 @@ TEST_F(PasswordDetailsViewControllerTest, TestCompromisedPassword) {
   EXPECT_EQ(3, NumberOfItemsInSection(0));
   EXPECT_EQ(2, NumberOfItemsInSection(1));
 
-  EXPECT_NSEQ(@"example.com", controller().title);
   CheckEditCellText(@"http://www.example.com/", 0, 0);
   CheckEditCellText(@"test@egmail.com", 0, 1);
   CheckEditCellText(kMaskedPassword, 0, 2);
