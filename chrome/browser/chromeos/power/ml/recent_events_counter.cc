@@ -4,6 +4,8 @@
 
 #include "chrome/browser/chromeos/power/ml/recent_events_counter.h"
 
+#include <algorithm>
+
 #include "base/check_op.h"
 
 namespace chromeos {
@@ -36,13 +38,21 @@ void RecentEventsCounter::Log(base::TimeDelta timestamp) {
     return;
   }
 
-  // The event is later than the current window for the existing data.
-  event_count_[bucket_index] = 1;
-
-  for (int i = first_bucket_index_; i != bucket_index;
-       i = (i + 1) % num_buckets_) {
-    event_count_[i] = 0;
+  if (timestamp >= first_bucket_time_ + 2 * duration_) {
+    // The event is later than the current window for the existing data, by MORE
+    // than `duration` -> zero all the buckets.
+    std::fill(event_count_.begin(), event_count_.end(), 0);
+  } else {
+    // The event is later than the current window for the existing data, by LESS
+    // than `duration` -> zero the buckets between the old `first_bucket_index_`
+    // and this event's `bucket_index`.
+    for (int i = first_bucket_index_; i != bucket_index;
+         i = (i + 1) % num_buckets_) {
+      event_count_[i] = 0;
+    }
   }
+
+  event_count_[bucket_index] = 1;
   first_bucket_index_ = (bucket_index + 1) % num_buckets_;
 
   // Move the first bucket time such that |bucket_index| is the last bucket in
