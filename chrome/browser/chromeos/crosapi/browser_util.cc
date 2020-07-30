@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/crosapi/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/browser_util.h"
 
 #include "base/files/file_path.h"
 #include "base/path_service.h"
@@ -19,7 +19,8 @@
 using user_manager::User;
 using version_info::Channel;
 
-namespace lacros_util {
+namespace crosapi {
+namespace browser_util {
 namespace {
 
 // Some account types require features that aren't yet supported by lacros.
@@ -91,4 +92,5 @@ bool IsLacrosAllowed(Channel channel) {
   }
 }
 
-}  // namespace lacros_util
+}  // namespace browser_util
+}  // namespace crosapi

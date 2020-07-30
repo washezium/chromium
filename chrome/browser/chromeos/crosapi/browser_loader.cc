@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/crosapi/lacros_loader.h"
+#include "chrome/browser/chromeos/crosapi/browser_loader.h"
 
 #include <utility>
 
@@ -13,8 +13,10 @@
 #include "base/logging.h"
 #include "base/task/task_traits.h"
 #include "base/task/thread_pool.h"
-#include "chrome/browser/chromeos/crosapi/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/browser_util.h"
 #include "chromeos/constants/chromeos_switches.h"
+
+namespace crosapi {
 
 namespace {
 
@@ -34,22 +36,22 @@ bool CheckInstalledAndMaybeRemoveUserDirectory(
   // shuts down during the directory remove, some partially-removed directory
   // may be kept, and if the user flips the flag in the next time, that
   // partially-removed directory could be used. Fix this.
-  base::DeletePathRecursively(lacros_util::GetUserDataDir());
+  base::DeletePathRecursively(browser_util::GetUserDataDir());
   return true;
 }
 
 }  // namespace
 
-LacrosLoader::LacrosLoader(
+BrowserLoader::BrowserLoader(
     scoped_refptr<component_updater::CrOSComponentManager> manager)
     : component_manager_(manager) {
   DCHECK(component_manager_);
 }
 
-LacrosLoader::~LacrosLoader() = default;
+BrowserLoader::~BrowserLoader() = default;
 
-void LacrosLoader::Load(LoadCompletionCallback callback) {
-  DCHECK(lacros_util::IsLacrosAllowed());
+void BrowserLoader::Load(LoadCompletionCallback callback) {
+  DCHECK(browser_util::IsLacrosAllowed());
 
   // TODO(crbug.com/1078607): Remove non-error logging from this class.
   LOG(WARNING) << "Starting lacros component load.";
@@ -70,21 +72,21 @@ void LacrosLoader::Load(LoadCompletionCallback callback) {
       kLacrosComponentName,
       component_updater::CrOSComponentManager::MountPolicy::kMount,
       component_updater::CrOSComponentManager::UpdatePolicy::kForce,
-      base::BindOnce(&LacrosLoader::OnLoadComplete, weak_factory_.GetWeakPtr(),
+      base::BindOnce(&BrowserLoader::OnLoadComplete, weak_factory_.GetWeakPtr(),
                      std::move(callback)));
 }
 
-void LacrosLoader::Unload() {
-  DCHECK(lacros_util::IsLacrosAllowed());
+void BrowserLoader::Unload() {
+  DCHECK(browser_util::IsLacrosAllowed());
   base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE, {base::MayBlock()},
       base::BindOnce(&CheckInstalledAndMaybeRemoveUserDirectory,
                      component_manager_),
-      base::BindOnce(&LacrosLoader::UnloadAfterCleanUp,
+      base::BindOnce(&BrowserLoader::UnloadAfterCleanUp,
                      weak_factory_.GetWeakPtr()));
 }
 
-void LacrosLoader::OnLoadComplete(
+void BrowserLoader::OnLoadComplete(
     LoadCompletionCallback callback,
     component_updater::CrOSComponentManager::Error error,
     const base::FilePath& path) {
@@ -99,7 +101,9 @@ void LacrosLoader::OnLoadComplete(
   std::move(callback).Run(success ? path : base::FilePath());
 }
 
-void LacrosLoader::UnloadAfterCleanUp(bool was_installed) {
+void BrowserLoader::UnloadAfterCleanUp(bool was_installed) {
   if (was_installed)
     component_manager_->Unload(kLacrosComponentName);
 }
+
+}  // namespace crosapi

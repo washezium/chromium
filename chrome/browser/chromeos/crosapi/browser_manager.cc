@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/crosapi/lacros_manager.h"
+#include "chrome/browser/chromeos/crosapi/browser_manager.h"
 
 #include <sys/statvfs.h>
 
@@ -27,8 +27,8 @@
 #include "base/task/thread_pool.h"
 #include "base/threading/scoped_blocking_call.h"
 #include "chrome/browser/chromeos/crosapi/ash_chrome_service_impl.h"
-#include "chrome/browser/chromeos/crosapi/lacros_loader.h"
-#include "chrome/browser/chromeos/crosapi/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/browser_loader.h"
+#include "chrome/browser/chromeos/crosapi/browser_util.h"
 #include "chrome/browser/component_updater/cros_component_manager.h"
 #include "chrome/browser/profiles/profile_manager.h"
 #include "chromeos/constants/chromeos_features.h"
@@ -47,13 +47,15 @@
 // to debug and develop. Get rid of the log spamming
 // when it gets stable enough.
 
+namespace crosapi {
+
 namespace {
 
-// Pointer to the global instance of LacrosManager.
-LacrosManager* g_instance = nullptr;
+// Pointer to the global instance of BrowserManager.
+BrowserManager* g_instance = nullptr;
 
 base::FilePath LacrosLogPath() {
-  return lacros_util::GetUserDataDir().Append("lacros.log");
+  return browser_util::GetUserDataDir().Append("lacros.log");
 }
 
 std::string GetXdgRuntimeDir() {
@@ -86,22 +88,22 @@ void TerminateLacrosChrome(base::Process process) {
 
 void SetLaunchOnLoginPref(bool launch_on_login) {
   ProfileManager::GetPrimaryUserProfile()->GetPrefs()->SetBoolean(
-      lacros_util::kLaunchOnLoginPref, launch_on_login);
+      browser_util::kLaunchOnLoginPref, launch_on_login);
 }
 
 bool GetLaunchOnLoginPref() {
   return ProfileManager::GetPrimaryUserProfile()->GetPrefs()->GetBoolean(
-      lacros_util::kLaunchOnLoginPref);
+      browser_util::kLaunchOnLoginPref);
 }
 
 }  // namespace
 
 // static
-LacrosManager* LacrosManager::Get() {
+BrowserManager* BrowserManager::Get() {
   return g_instance;
 }
 
-LacrosManager::LacrosManager(
+BrowserManager::BrowserManager(
     scoped_refptr<component_updater::CrOSComponentManager> manager)
     : component_manager_(manager) {
   DCHECK(!g_instance);
@@ -113,7 +115,7 @@ LacrosManager::LacrosManager(
   session_manager::SessionManager::Get()->AddObserver(this);
 }
 
-LacrosManager::~LacrosManager() {
+BrowserManager::~BrowserManager() {
   // Unregister, just in case the manager is destroyed before
   // OnUserSessionStarted() is called.
   session_manager::SessionManager::Get()->RemoveObserver(this);
@@ -126,17 +128,17 @@ LacrosManager::~LacrosManager() {
   g_instance = nullptr;
 }
 
-bool LacrosManager::IsReady() const {
+bool BrowserManager::IsReady() const {
   return state_ != State::NOT_INITIALIZED && state_ != State::LOADING &&
          state_ != State::UNAVAILABLE;
 }
 
-void LacrosManager::SetLoadCompleteCallback(LoadCompleteCallback callback) {
+void BrowserManager::SetLoadCompleteCallback(LoadCompleteCallback callback) {
   load_complete_callback_ = std::move(callback);
 }
 
-void LacrosManager::NewWindow() {
-  if (!lacros_util::IsLacrosAllowed())
+void BrowserManager::NewWindow() {
+  if (!browser_util::IsLacrosAllowed())
     return;
 
   if (!IsReady()) {
@@ -162,7 +164,7 @@ void LacrosManager::NewWindow() {
   lacros_chrome_service_->NewWindow(base::DoNothing());
 }
 
-bool LacrosManager::Start() {
+bool BrowserManager::Start() {
   DCHECK_EQ(state_, State::STOPPED);
   DCHECK(!lacros_path_.empty());
 
@@ -187,7 +189,7 @@ bool LacrosManager::Start() {
   options.kill_on_parent_death = true;
 
   // Paths are UTF-8 safe on Chrome OS.
-  std::string user_data_dir = lacros_util::GetUserDataDir().AsUTF8Unsafe();
+  std::string user_data_dir = browser_util::GetUserDataDir().AsUTF8Unsafe();
 
   std::vector<std::string> argv = {chrome_path,
                                    "--ozone-platform=wayland",
@@ -277,14 +279,14 @@ bool LacrosManager::Start() {
                                  channel.TakeLocalEndpoint());
   binder->Bind(lacros_chrome_service_.BindNewPipeAndPassReceiver());
   lacros_chrome_service_.set_disconnect_handler(base::BindOnce(
-      &LacrosManager::OnMojoDisconnected, weak_factory_.GetWeakPtr()));
+      &BrowserManager::OnMojoDisconnected, weak_factory_.GetWeakPtr()));
   lacros_chrome_service_->RequestAshChromeServiceReceiver(
-      base::BindOnce(&LacrosManager::OnAshChromeServiceReceiverReceived,
+      base::BindOnce(&BrowserManager::OnAshChromeServiceReceiverReceived,
                      weak_factory_.GetWeakPtr()));
   return true;
 }
 
-void LacrosManager::OnAshChromeServiceReceiverReceived(
+void BrowserManager::OnAshChromeServiceReceiverReceived(
     mojo::PendingReceiver<crosapi::mojom::AshChromeService> pending_receiver) {
   DCHECK_EQ(state_, State::STARTING);
   ash_chrome_service_ =
@@ -297,7 +299,7 @@ void LacrosManager::OnAshChromeServiceReceiverReceived(
   LOG(WARNING) << "Connection to lacros-chrome is established.";
 }
 
-void LacrosManager::OnMojoDisconnected() {
+void BrowserManager::OnMojoDisconnected() {
   DCHECK(state_ == State::STARTING || state_ == State::RUNNING);
   LOG(WARNING)
       << "Mojo to lacros-chrome is disconnected. Terminating lacros-chrome";
@@ -308,11 +310,11 @@ void LacrosManager::OnMojoDisconnected() {
   base::ThreadPool::PostTaskAndReply(
       FROM_HERE, {base::WithBaseSyncPrimitives()},
       base::BindOnce(&TerminateLacrosChrome, std::move(lacros_process_)),
-      base::BindOnce(&LacrosManager::OnLacrosChromeTerminated,
+      base::BindOnce(&BrowserManager::OnLacrosChromeTerminated,
                      weak_factory_.GetWeakPtr()));
 }
 
-void LacrosManager::OnLacrosChromeTerminated() {
+void BrowserManager::OnLacrosChromeTerminated() {
   DCHECK_EQ(state_, State::TERMINATING);
   LOG(WARNING) << "Lacros-chrome is terminated";
   state_ = State::STOPPED;
@@ -321,33 +323,33 @@ void LacrosManager::OnLacrosChromeTerminated() {
   SetLaunchOnLoginPref(false);
 }
 
-void LacrosManager::OnUserSessionStarted(bool is_primary_user) {
+void BrowserManager::OnUserSessionStarted(bool is_primary_user) {
   DCHECK_EQ(state_, State::NOT_INITIALIZED);
 
   // Ensure this isn't called multiple times.
   session_manager::SessionManager::Get()->RemoveObserver(this);
 
   // Must be checked after user session start because it depends on user type.
-  if (!lacros_util::IsLacrosAllowed())
+  if (!browser_util::IsLacrosAllowed())
     return;
 
   // May be null in tests.
   if (!component_manager_)
     return;
 
-  DCHECK(!lacros_loader_);
-  lacros_loader_ = std::make_unique<LacrosLoader>(component_manager_);
+  DCHECK(!browser_loader_);
+  browser_loader_ = std::make_unique<BrowserLoader>(component_manager_);
   if (chromeos::features::IsLacrosSupportEnabled()) {
     state_ = State::LOADING;
-    lacros_loader_->Load(base::BindOnce(&LacrosManager::OnLoadComplete,
-                                        weak_factory_.GetWeakPtr()));
+    browser_loader_->Load(base::BindOnce(&BrowserManager::OnLoadComplete,
+                                         weak_factory_.GetWeakPtr()));
   } else {
     state_ = State::UNAVAILABLE;
-    lacros_loader_->Unload();
+    browser_loader_->Unload();
   }
 }
 
-void LacrosManager::OnLoadComplete(const base::FilePath& path) {
+void BrowserManager::OnLoadComplete(const base::FilePath& path) {
   DCHECK_EQ(state_, State::LOADING);
 
   lacros_path_ = path;
@@ -361,3 +363,5 @@ void LacrosManager::OnLoadComplete(const base::FilePath& path) {
     Start();
   }
 }
+
+}  // namespace crosapi

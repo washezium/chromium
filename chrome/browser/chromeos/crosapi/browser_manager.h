@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_MANAGER_H_
-#define CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_MANAGER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_MANAGER_H_
+#define CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_MANAGER_H_
 
 #include <memory>
 
@@ -21,22 +21,26 @@ class CrOSComponentManager;
 }  // namespace component_updater
 
 class AshChromeServiceImpl;
-class LacrosLoader;
 
-// Manages the lifetime of lacros-chrome, and its loading status.
-class LacrosManager : public session_manager::SessionManagerObserver {
+namespace crosapi {
+
+class BrowserLoader;
+
+// Manages the lifetime of lacros-chrome, and its loading status. This class is
+// a part of ash-chrome.
+class BrowserManager : public session_manager::SessionManagerObserver {
  public:
-  // Static getter of LacrosManager instance. In real use cases,
-  // LacrosManager instance should be unique in the process.
-  static LacrosManager* Get();
+  // Static getter of BrowserManager instance. In real use cases,
+  // BrowserManager instance should be unique in the process.
+  static BrowserManager* Get();
 
-  explicit LacrosManager(
+  explicit BrowserManager(
       scoped_refptr<component_updater::CrOSComponentManager> manager);
 
-  LacrosManager(const LacrosManager&) = delete;
-  LacrosManager& operator=(const LacrosManager&) = delete;
+  BrowserManager(const BrowserManager&) = delete;
+  BrowserManager& operator=(const BrowserManager&) = delete;
 
-  ~LacrosManager() override;
+  ~BrowserManager() override;
 
   // Returns true if the binary is ready to launch or already launched.
   // Typical usage is to check IsReady(), then if it returns false,
@@ -122,7 +126,7 @@ class LacrosManager : public session_manager::SessionManagerObserver {
   // May be null in tests.
   scoped_refptr<component_updater::CrOSComponentManager> component_manager_;
 
-  std::unique_ptr<LacrosLoader> lacros_loader_;
+  std::unique_ptr<crosapi::BrowserLoader> browser_loader_;
 
   // Path to the lacros-chrome disk image directory.
   base::FilePath lacros_path_;
@@ -141,7 +145,9 @@ class LacrosManager : public session_manager::SessionManagerObserver {
   // Instantiated on receiving the PendingReceiver from lacros-chrome.
   std::unique_ptr<AshChromeServiceImpl> ash_chrome_service_;
 
-  base::WeakPtrFactory<LacrosManager> weak_factory_{this};
+  base::WeakPtrFactory<BrowserManager> weak_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_MANAGER_H_
+}  // namespace crosapi
+
+#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_MANAGER_H_

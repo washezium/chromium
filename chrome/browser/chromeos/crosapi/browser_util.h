@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_UTIL_H_
-#define CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_UTIL_H_
+#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_UTIL_H_
+#define CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_UTIL_H_
 
 class PrefRegistrySimple;
 
@@ -15,7 +15,9 @@ namespace version_info {
 enum class Channel;
 }  // namespace version_info
 
-namespace lacros_util {
+// These methods are used by ash-chrome.
+namespace crosapi {
+namespace browser_util {
 
 // Boolean preference. Whether to launch lacros-chrome on login.
 extern const char kLaunchOnLoginPref[];
@@ -33,6 +35,7 @@ bool IsLacrosAllowed();
 // As above, but takes a channel. Exposed for testing.
 bool IsLacrosAllowed(version_info::Channel channel);
 
-}  // namespace lacros_util
+}  // namespace browser_util
+}  // namespace crosapi
 
-#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_UTIL_H_
+#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_UTIL_H_

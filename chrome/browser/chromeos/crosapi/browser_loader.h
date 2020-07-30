@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_
-#define CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_LOADER_H_
+#define CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_LOADER_H_
 
 #include "base/callback.h"
 #include "base/files/file_path.h"
@@ -11,16 +11,19 @@
 #include "base/memory/weak_ptr.h"
 #include "chrome/browser/component_updater/cros_component_manager.h"
 
-// Manages download of the lacros-chrome binary.
-class LacrosLoader {
+namespace crosapi {
+
+// Manages download of the lacros-chrome binary. This class is a part of
+// ash-chrome.
+class BrowserLoader {
  public:
-  explicit LacrosLoader(
+  explicit BrowserLoader(
       scoped_refptr<component_updater::CrOSComponentManager> manager);
 
-  LacrosLoader(const LacrosLoader&) = delete;
-  LacrosLoader& operator=(const LacrosLoader&) = delete;
+  BrowserLoader(const BrowserLoader&) = delete;
+  BrowserLoader& operator=(const BrowserLoader&) = delete;
 
-  ~LacrosLoader();
+  ~BrowserLoader();
 
   // Starts to load lacros-chrome binary.
   // |callback| is called on completion with the path to the lacros-chrome on
@@ -46,7 +49,9 @@ class LacrosLoader {
   // May be null in tests.
   scoped_refptr<component_updater::CrOSComponentManager> component_manager_;
 
-  base::WeakPtrFactory<LacrosLoader> weak_factory_{this};
+  base::WeakPtrFactory<BrowserLoader> weak_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_LACROS_LOADER_H_
+}  // namespace crosapi
+
+#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_BROWSER_LOADER_H_

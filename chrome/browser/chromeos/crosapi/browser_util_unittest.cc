@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/crosapi/lacros_util.h"
+#include "chrome/browser/chromeos/crosapi/browser_util.h"
 
 #include "components/account_id/account_id.h"
 #include "components/user_manager/fake_user_manager.h"
@@ -12,6 +12,8 @@
 
 using user_manager::User;
 using version_info::Channel;
+
+namespace crosapi {
 
 class LacrosUtilTest : public testing::Test {
  public:
@@ -39,27 +41,27 @@ class LacrosUtilTest : public testing::Test {
 
 TEST_F(LacrosUtilTest, AllowedForDeveloperBuild) {
   AddRegularUser("user@test.com");
-  EXPECT_TRUE(lacros_util::IsLacrosAllowed(Channel::UNKNOWN));
+  EXPECT_TRUE(browser_util::IsLacrosAllowed(Channel::UNKNOWN));
 }
 
 TEST_F(LacrosUtilTest, BlockedForRegularUser) {
   AddRegularUser("user@test.com");
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::CANARY));
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::DEV));
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::BETA));
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::STABLE));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::CANARY));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::DEV));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::BETA));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::STABLE));
 }
 
 TEST_F(LacrosUtilTest, AllowedForGoogler) {
   AddRegularUser("user@google.com");
-  EXPECT_TRUE(lacros_util::IsLacrosAllowed(Channel::CANARY));
-  EXPECT_TRUE(lacros_util::IsLacrosAllowed(Channel::DEV));
-  EXPECT_TRUE(lacros_util::IsLacrosAllowed(Channel::BETA));
+  EXPECT_TRUE(browser_util::IsLacrosAllowed(Channel::CANARY));
+  EXPECT_TRUE(browser_util::IsLacrosAllowed(Channel::DEV));
+  EXPECT_TRUE(browser_util::IsLacrosAllowed(Channel::BETA));
 }
 
 TEST_F(LacrosUtilTest, BlockedForGoogler) {
   AddRegularUser("user@google.com");
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::STABLE));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::STABLE));
 }
 
 TEST_F(LacrosUtilTest, BlockedForChildUser) {
@@ -68,5 +70,7 @@ TEST_F(LacrosUtilTest, BlockedForChildUser) {
   fake_user_manager_->UserLoggedIn(account_id, user->username_hash(),
                                    /*browser_restart=*/false,
                                    /*is_child=*/true);
-  EXPECT_FALSE(lacros_util::IsLacrosAllowed(Channel::UNKNOWN));
+  EXPECT_FALSE(browser_util::IsLacrosAllowed(Channel::UNKNOWN));
 }
+
+}  // namespace crosapi
