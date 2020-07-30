@@ -83,14 +83,6 @@ public interface SceneOverlay {
     boolean handlesTabCreating();
 
     /**
-     * Notify the a title has changed.
-     *
-     * @param tabId     The id of the tab that has changed.
-     * @param title     The new title.
-     */
-    void tabTitleChanged(int tabId, String title);
-
-    /**
      * Called when the TabModelSelector has been initialized with an accurate tab count.
      */
     void tabStateInitialized();

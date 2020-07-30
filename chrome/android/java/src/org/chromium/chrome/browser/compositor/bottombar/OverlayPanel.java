@@ -963,8 +963,5 @@ public class OverlayPanel extends OverlayPanelAnimation implements ActivityState
     }
 
     @Override
-    public void tabTitleChanged(int tabId, String title) {}
-
-    @Override
     public void tabStateInitialized() {}
 }

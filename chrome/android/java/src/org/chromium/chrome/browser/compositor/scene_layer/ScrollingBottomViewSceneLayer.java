@@ -159,9 +159,6 @@ public class ScrollingBottomViewSceneLayer extends SceneOverlayLayer implements 
     public void getVirtualViews(List<VirtualView> views) {}
 
     @Override
-    public void tabTitleChanged(int tabId, String title) {}
-
-    @Override
     public void tabStateInitialized() {}
 
     @NativeMethods
