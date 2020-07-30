@@ -201,6 +201,8 @@ bool AssistiveSuggester::IsAssistPersonalInfoEnabled() {
 bool AssistiveSuggester::IsEmojiSuggestAdditionEnabled() {
   return base::FeatureList::IsEnabled(
              chromeos::features::kEmojiSuggestAddition) &&
+         profile_->GetPrefs()->GetBoolean(
+             prefs::kEmojiSuggestionEnterpriseAllowed) &&
          profile_->GetPrefs()->GetBoolean(prefs::kEmojiSuggestionEnabled);
 }
 
