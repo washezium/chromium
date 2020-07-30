@@ -42,6 +42,7 @@ class HermesProfileClientImpl : public HermesProfileClient {
  public:
   explicit HermesProfileClientImpl(dbus::Bus* bus) : bus_(bus) {}
   explicit HermesProfileClientImpl(const HermesProfileClient&) = delete;
+  HermesProfileClient& operator=(const HermesProfileClient&) = delete;
   ~HermesProfileClientImpl() override = default;
 
   using Object = std::pair<dbus::ObjectProxy*, Properties*>;
@@ -74,8 +75,6 @@ class HermesProfileClientImpl : public HermesProfileClient {
       const dbus::ObjectPath& carrier_profile_path) override {
     return GetObject(carrier_profile_path).second;
   }
-
-  HermesProfileClient& operator=(const HermesProfileClient&) = delete;
 
  private:
   Object GetObject(const dbus::ObjectPath& object_path) {
