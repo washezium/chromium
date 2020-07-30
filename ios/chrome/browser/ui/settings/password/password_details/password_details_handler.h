@@ -19,6 +19,9 @@
 // version. It is displayed inside dialog.
 - (void)showPasswordDeleteDialogWithOrigin:(NSString*)origin;
 
+// Called when the user wants to save edited password.
+- (void)showPasswordEditDialogWithOrigin:(NSString*)origin;
+
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_PASSWORD_DETAILS_PASSWORD_DETAILS_HANDLER_H_

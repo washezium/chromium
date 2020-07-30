@@ -4,6 +4,7 @@
 
 #include "ios/chrome/browser/passwords/ios_chrome_password_check_manager.h"
 
+#include "base/strings/utf_string_conversions.h"
 #include "components/keyed_service/core/service_access_type.h"
 #include "components/password_manager/core/common/password_manager_pref_names.h"
 #include "components/prefs/pref_service.h"
@@ -150,11 +151,24 @@ IOSChromePasswordCheckManager::GetSavedPasswordsFor(
   return compromised_credentials_manager_.GetSavedPasswordsFor(credential);
 }
 
+void IOSChromePasswordCheckManager::EditPasswordForm(
+    const autofill::PasswordForm& form,
+    base::StringPiece password) {
+  saved_passwords_presenter_.EditPassword(form, base::UTF8ToUTF16(password));
+}
+
+void IOSChromePasswordCheckManager::EditCompromisedPasswordForm(
+    const autofill::PasswordForm& form,
+    base::StringPiece password) {
+  compromised_credentials_manager_.UpdateCompromisedCredentials(
+      password_manager::CredentialView(form), password);
+}
+
 void IOSChromePasswordCheckManager::DeletePasswordForm(
     const autofill::PasswordForm& form) {
   auto duplicates =
       GetDuplicatesOfForm(form, saved_passwords_presenter_.GetSavedPasswords());
-  for (const auto& duplicate : duplicates) {
+  for (auto& duplicate : duplicates) {
     password_store_->RemoveLogin(duplicate);
   }
 }

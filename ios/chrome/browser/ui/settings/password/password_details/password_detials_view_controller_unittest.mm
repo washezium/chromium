@@ -38,6 +38,8 @@
 
 @property(nonatomic, assign) BOOL deletionCalled;
 
+@property(nonatomic, assign) BOOL editingCalled;
+
 @end
 
 @implementation FakePasswordDetailsHandler
@@ -53,12 +55,19 @@
   self.deletionCalled = YES;
 }
 
+- (void)showPasswordEditDialogWithOrigin:(NSString*)origin {
+  self.editingCalled = YES;
+}
+
 @end
 
 // Test class that conforms to PasswordDetailsViewControllerDelegate in order to
 // test the delegate methods are called correctly.
 @interface FakePasswordDetailsDelegate
     : NSObject <PasswordDetailsViewControllerDelegate>
+
+@property(nonatomic, strong) PasswordDetails* password;
+
 @end
 
 @implementation FakePasswordDetailsDelegate
@@ -66,6 +75,7 @@
 - (void)passwordDetailsViewController:
             (PasswordDetailsViewController*)viewController
                didEditPasswordDetails:(PasswordDetails*)password {
+  self.password = password;
 }
 
 @end
@@ -267,4 +277,48 @@ TEST_F(PasswordDetailsViewControllerTest, TestPasswordDelete) {
             from:nil
         forEvent:nil];
   EXPECT_TRUE(handler().deletionCalled);
+}
+
+// Tests password editing. User confirmed this action.
+TEST_F(PasswordDetailsViewControllerTest, TestEditPasswordConfirmed) {
+  SetPassword();
+
+  PasswordDetailsViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  [passwordDetails editButtonPressed];
+  EXPECT_FALSE(handler().editingCalled);
+  EXPECT_FALSE(delegate().password);
+  EXPECT_TRUE(passwordDetails.tableView.editing);
+
+  TableViewTextEditItem* cell =
+      static_cast<TableViewTextEditItem*>(GetTableViewItem(0, 2));
+  cell.textFieldValue = @"new_password";
+
+  [passwordDetails editButtonPressed];
+  EXPECT_TRUE(handler().editingCalled);
+
+  [passwordDetails passwordEditingConfirmed];
+  EXPECT_TRUE(delegate().password);
+
+  EXPECT_NSEQ(@"new_password", delegate().password.password);
+  EXPECT_FALSE(passwordDetails.tableView.editing);
+}
+
+// Tests  password editing. User cancelled this action.
+TEST_F(PasswordDetailsViewControllerTest, TestEditPasswordCancel) {
+  SetPassword();
+
+  PasswordDetailsViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  [passwordDetails editButtonPressed];
+  EXPECT_FALSE(delegate().password);
+  EXPECT_TRUE(passwordDetails.tableView.editing);
+
+  TableViewTextEditItem* cell =
+      static_cast<TableViewTextEditItem*>(GetTableViewItem(0, 2));
+  cell.textFieldValue = @"new_password";
+
+  [passwordDetails editButtonPressed];
+  EXPECT_FALSE(delegate().password);
+  EXPECT_TRUE(passwordDetails.tableView.editing);
 }

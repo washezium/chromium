@@ -106,14 +106,16 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
     return;
   }
 
-  [super editButtonPressed];
-
-  if (!self.tableView.editing) {
-    // TODO:(crbug.com/1075494) - Update |_password| accordingly.
-    [self.delegate passwordDetailsViewController:self
-                          didEditPasswordDetails:self.password];
+  if (self.tableView.editing) {
+    // If password value was changed show confirmation dialog before saving
+    // password. Editing mode will be exited only if user confirm saving.
+    if (self.password.password != self.passwordTextItem.textFieldValue) {
+      [self.handler showPasswordEditDialogWithOrigin:self.password.origin];
+      return;
+    }
   }
 
+  [super editButtonPressed];
   [self reloadData];
 }
 
@@ -400,10 +402,17 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
       return l10n_util::GetNSString(
           IDS_IOS_SETTINGS_PASSWORD_REAUTH_REASON_COPY);
     case ReauthenticationReasonEdit:
-      // TODO:(crbug.com/1075494) - Add custom string for edit.
       return l10n_util::GetNSString(
-          IDS_IOS_SETTINGS_PASSWORD_REAUTH_REASON_SHOW);
+          IDS_IOS_SETTINGS_PASSWORD_REAUTH_REASON_EDIT);
   }
+}
+
+- (void)passwordEditingConfirmed {
+  self.password.password = self.passwordTextItem.textFieldValue;
+  [self.delegate passwordDetailsViewController:self
+                        didEditPasswordDetails:self.password];
+  [super editButtonPressed];
+  [self reloadData];
 }
 
 #pragma mark - Actions
