@@ -16,6 +16,7 @@
 #include "remoting/base/protobuf_http_request.h"
 #include "remoting/base/protobuf_http_request_config.h"
 #include "remoting/base/service_urls.h"
+#include "remoting/proto/remoting/v1/telemetry_messages.pb.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
 
 namespace remoting {

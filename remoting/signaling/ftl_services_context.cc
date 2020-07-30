@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "remoting/signaling/ftl_grpc_context.h"
+#include "remoting/signaling/ftl_services_context.h"
 
 #include <utility>
 
@@ -11,7 +11,6 @@
 #include "build/build_config.h"
 #include "google_apis/google_api_keys.h"
 #include "remoting/base/service_urls.h"
-#include "third_party/grpc/src/include/grpcpp/client_context.h"
 
 namespace remoting {
 
@@ -19,15 +18,13 @@ namespace {
 
 constexpr char kChromotingAppIdentifier[] = "CRD";
 
-static base::NoDestructor<GrpcChannelSharedPtr> g_channel_for_testing;
-
 const net::BackoffEntry::Policy kBackoffPolicy = {
     // Number of initial errors (in sequence) to ignore before applying
     // exponential back-off rules.
     0,
 
     // Initial delay for exponential back-off in ms.
-    FtlGrpcContext::kBackoffInitialDelay.InMilliseconds(),
+    FtlServicesContext::kBackoffInitialDelay.InMilliseconds(),
 
     // Factor by which the waiting time will be multiplied.
     2,
@@ -37,7 +34,7 @@ const net::BackoffEntry::Policy kBackoffPolicy = {
     0.5,
 
     // Maximum amount of time we are willing to delay our request in ms.
-    FtlGrpcContext::kBackoffMaxDelay.InMilliseconds(),
+    FtlServicesContext::kBackoffMaxDelay.InMilliseconds(),
 
     // Time to keep an entry from being discarded even when it
     // has no significant state, -1 to never discard.
@@ -49,26 +46,26 @@ const net::BackoffEntry::Policy kBackoffPolicy = {
 
 }  // namespace
 
-constexpr base::TimeDelta FtlGrpcContext::kBackoffInitialDelay;
-constexpr base::TimeDelta FtlGrpcContext::kBackoffMaxDelay;
+constexpr base::TimeDelta FtlServicesContext::kBackoffInitialDelay;
+constexpr base::TimeDelta FtlServicesContext::kBackoffMaxDelay;
 
 // static
-const net::BackoffEntry::Policy& FtlGrpcContext::GetBackoffPolicy() {
+const net::BackoffEntry::Policy& FtlServicesContext::GetBackoffPolicy() {
   return kBackoffPolicy;
 }
 
 // static
-std::string FtlGrpcContext::GetServerEndpoint() {
+std::string FtlServicesContext::GetServerEndpoint() {
   return ServiceUrls::GetInstance()->ftl_server_endpoint();
 }
 
 // static
-std::string FtlGrpcContext::GetChromotingAppIdentifier() {
+std::string FtlServicesContext::GetChromotingAppIdentifier() {
   return kChromotingAppIdentifier;
 }
 
 // static
-ftl::Id FtlGrpcContext::CreateIdFromString(const std::string& ftl_id) {
+ftl::Id FtlServicesContext::CreateIdFromString(const std::string& ftl_id) {
   ftl::Id id;
   id.set_id(ftl_id);
   id.set_app(GetChromotingAppIdentifier());
@@ -78,29 +75,7 @@ ftl::Id FtlGrpcContext::CreateIdFromString(const std::string& ftl_id) {
 }
 
 // static
-GrpcChannelSharedPtr FtlGrpcContext::CreateChannel() {
-  if (*g_channel_for_testing) {
-    return *g_channel_for_testing;
-  }
-  return CreateSslChannelForEndpoint(
-      ServiceUrls::GetInstance()->ftl_server_endpoint());
-}
-
-// static
-void FtlGrpcContext::FillClientContext(grpc_impl::ClientContext* context) {
-#if defined(OS_CHROMEOS)
-  // Use the default Chrome API key for ChromeOS as the only host instance
-  // which runs there is used for the ChromeOS Enterprise Kiosk mode
-  // scenario.  If we decide to implement a remote access host for ChromeOS,
-  // then we will need a way for the caller to provide an API key.
-  context->AddMetadata("x-goog-api-key", google_apis::GetAPIKey());
-#else
-  context->AddMetadata("x-goog-api-key", google_apis::GetRemotingAPIKey());
-#endif
-}
-
-// static
-ftl::RequestHeader FtlGrpcContext::CreateRequestHeader(
+ftl::RequestHeader FtlServicesContext::CreateRequestHeader(
     const std::string& ftl_auth_token) {
   ftl::RequestHeader header;
   header.set_request_id(base::GenerateGUID());
@@ -126,11 +101,6 @@ ftl::RequestHeader FtlGrpcContext::CreateRequestHeader(
 #endif
   client_info->set_platform_type(platform_type);
   return header;
-}
-
-// static
-void FtlGrpcContext::SetChannelForTesting(GrpcChannelSharedPtr channel) {
-  *g_channel_for_testing = channel;
 }
 
 }  // namespace remoting

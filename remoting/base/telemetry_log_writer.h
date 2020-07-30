@@ -19,13 +19,21 @@
 #include "remoting/base/chromoting_event_log_writer.h"
 #include "remoting/base/oauth_token_getter.h"
 #include "remoting/base/url_request.h"
-#include "remoting/proto/remoting/v1/telemetry_messages.pb.h"
 
 namespace network {
 class SharedURLLoaderFactory;
 }  // namespace network
 
 namespace remoting {
+
+namespace apis {
+namespace v1 {
+
+class CreateEventRequest;
+class CreateEventResponse;
+
+}  // namespace v1
+}  // namespace apis
 
 class ProtobufHttpClient;
 class ProtobufHttpStatus;
