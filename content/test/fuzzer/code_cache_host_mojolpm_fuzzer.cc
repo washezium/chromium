@@ -233,7 +233,7 @@ class CodeCacheHostFuzzerContext : public mojolpm::Context {
 
     receiver_bound.Wait();
 
-    mojolpm::AddRemote(id, std::move(remote));
+    AddInstance(id, std::move(remote));
   }
 
  private:

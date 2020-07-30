@@ -30,6 +30,14 @@ void Context::StartTestcase(
 }
 
 void Context::EndTestcase() {
+  // We need to destroy all Remotes/Receivers before we start destroying other
+  // objects (like callbacks).
+  for (const TypeId& interface_type_id : interface_type_ids_) {
+    auto instances_iter = instances_.find(interface_type_id);
+    if (instances_iter != instances_.end()) {
+      instances_iter->second.clear();
+    }
+  }
   instances_.clear();
   testcase_ = nullptr;
 }
