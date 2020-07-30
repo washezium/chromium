@@ -1339,6 +1339,8 @@ class ServiceWorkerResourceStorageTest : public ServiceWorkerStorageTest {
     // Add the resources ids to the uncommitted list.
     registry()->StoreUncommittedResourceId(resource_id1_, scope_);
     registry()->StoreUncommittedResourceId(resource_id2_, scope_);
+    // Make sure that StoreUncommittedResourceId mojo message is received.
+    storage_control().FlushForTesting();
 
     std::vector<int64_t> verify_ids = GetUncommittedResourceIdsFromDB();
     EXPECT_EQ(2u, verify_ids.size());
@@ -1552,6 +1554,8 @@ TEST_F(ServiceWorkerResourceStorageDiskTest, CleanupOnRestart) {
   int64_t kStaleUncommittedResourceId = GetNewResourceIdSync(storage_control());
   registry()->StoreUncommittedResourceId(kStaleUncommittedResourceId,
                                          registration_->scope());
+  // Make sure that StoreUncommittedResourceId mojo message is received.
+  storage_control().FlushForTesting();
   verify_ids = GetUncommittedResourceIdsFromDB();
   EXPECT_EQ(1u, verify_ids.size());
   WriteBasicResponse(storage_control(), kStaleUncommittedResourceId);

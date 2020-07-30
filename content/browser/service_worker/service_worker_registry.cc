@@ -485,7 +485,7 @@ void ServiceWorkerRegistry::UpdateLastUpdateCheckTime(
     base::Time last_update_check_time,
     StatusCallback callback) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
-  storage()->UpdateLastUpdateCheckTime(
+  GetRemoteStorageControl()->UpdateLastUpdateCheckTime(
       registration_id, origin, last_update_check_time,
       CreateDatabaseStatusCallback(std::move(callback)));
 }
@@ -496,7 +496,7 @@ void ServiceWorkerRegistry::UpdateNavigationPreloadEnabled(
     bool enable,
     StatusCallback callback) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
-  storage()->UpdateNavigationPreloadEnabled(
+  GetRemoteStorageControl()->UpdateNavigationPreloadEnabled(
       registration_id, origin, enable,
       CreateDatabaseStatusCallback(std::move(callback)));
 }
@@ -507,7 +507,7 @@ void ServiceWorkerRegistry::UpdateNavigationPreloadHeader(
     const std::string& value,
     StatusCallback callback) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
-  storage()->UpdateNavigationPreloadHeader(
+  GetRemoteStorageControl()->UpdateNavigationPreloadHeader(
       registration_id, origin, value,
       CreateDatabaseStatusCallback(std::move(callback)));
 }
@@ -515,7 +515,7 @@ void ServiceWorkerRegistry::UpdateNavigationPreloadHeader(
 void ServiceWorkerRegistry::StoreUncommittedResourceId(int64_t resource_id,
                                                        const GURL& origin) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
-  storage()->StoreUncommittedResourceId(
+  GetRemoteStorageControl()->StoreUncommittedResourceId(
       resource_id, origin,
       base::BindOnce(&ServiceWorkerRegistry::DidWriteUncommittedResourceIds,
                      weak_factory_.GetWeakPtr()));
@@ -530,7 +530,7 @@ void ServiceWorkerRegistry::DoomUncommittedResource(int64_t resource_id) {
 void ServiceWorkerRegistry::DoomUncommittedResources(
     const std::vector<int64_t>& resource_ids) {
   DCHECK_CURRENTLY_ON(ServiceWorkerContext::GetCoreThreadId());
-  storage()->DoomUncommittedResources(
+  GetRemoteStorageControl()->DoomUncommittedResources(
       resource_ids,
       base::BindOnce(&ServiceWorkerRegistry::DidDoomUncommittedResourceIds,
                      weak_factory_.GetWeakPtr(), resource_ids));
