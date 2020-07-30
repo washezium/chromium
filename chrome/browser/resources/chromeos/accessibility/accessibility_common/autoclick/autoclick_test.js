@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-GEN_INCLUDE(['../common/testing/e2e_test_base.js']);
-GEN_INCLUDE(['mock_accessibility_private.js']);
+GEN_INCLUDE(['../../common/testing/e2e_test_base.js']);
+GEN_INCLUDE(['../../common/testing/mock_accessibility_private.js']);
 
 /**
- * Base class for browser tests for automatic clicks extension.
+ * Automatic clicks feature using accessibility common extension browser tests.
  */
 AutoclickE2ETest = class extends E2ETestBase {
   constructor() {
