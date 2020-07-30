@@ -1379,6 +1379,7 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
      * @return OverviewModeBehavior if this activity supports an overview mode and the
      *         OverviewModeBehavior has been initialized, null otherwise.
      */
+    @VisibleForTesting
     public @Nullable OverviewModeBehavior getOverviewModeBehavior() {
         return null;
     }
@@ -1387,7 +1388,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
      * @return {@link ObservableSupplier} for the {@link OverviewModeBehavior} for this activity
      *         if it supports an overview mode, null otherwise.
      */
-    @VisibleForTesting
     public @Nullable ObservableSupplier<OverviewModeBehavior> getOverviewModeBehaviorSupplier() {
         return null;
     }

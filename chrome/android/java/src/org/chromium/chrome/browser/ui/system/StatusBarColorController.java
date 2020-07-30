@@ -14,6 +14,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import org.chromium.base.ApiCompatibilityUtils;
+import org.chromium.base.Callback;
+import org.chromium.base.supplier.ObservableSupplier;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.ActivityTabProvider;
 import org.chromium.chrome.browser.ChromeActivity;
@@ -66,7 +68,7 @@ public class StatusBarColorController
 
     private final Window mWindow;
     private final boolean mIsTablet;
-    private final @Nullable OverviewModeBehavior mOverviewModeBehavior;
+    private @Nullable OverviewModeBehavior mOverviewModeBehavior;
     private final StatusBarColorProvider mStatusBarColorProvider;
     private final ActivityTabProvider.ActivityTabTabObserver mStatusBarColorTabObserver;
     private final TabModelSelectorObserver mTabModelSelectorObserver;
@@ -77,6 +79,8 @@ public class StatusBarColorController
     private final @ColorInt int mIncognitoDefaultThemeColor;
 
     private @Nullable TabModelSelector mTabModelSelector;
+    private ObservableSupplier<OverviewModeBehavior> mOverviewModeBehaviorSupplier;
+    private Callback<OverviewModeBehavior> mOverviewModeBehaviorSupplierObserver;
     private @Nullable OverviewModeBehavior.OverviewModeObserver mOverviewModeObserver;
     private @Nullable Tab mCurrentTab;
     private boolean mIsInOverviewMode;
@@ -98,7 +102,6 @@ public class StatusBarColorController
             ChromeActivity chromeActivity, ActivityTabProvider tabProvider) {
         mWindow = chromeActivity.getWindow();
         mIsTablet = chromeActivity.isTablet();
-        mOverviewModeBehavior = chromeActivity.getOverviewModeBehavior();
         mStatusBarColorProvider = chromeActivity;
 
         Resources resources = chromeActivity.getResources();
@@ -173,21 +176,34 @@ public class StatusBarColorController
             }
         };
 
-        if (mOverviewModeBehavior != null) {
-            mOverviewModeObserver = new EmptyOverviewModeObserver() {
-                @Override
-                public void onOverviewModeStartedShowing(boolean showToolbar) {
-                    mIsInOverviewMode = true;
-                    updateStatusBarColor();
-                }
+        mOverviewModeBehaviorSupplier = chromeActivity.getOverviewModeBehaviorSupplier();
 
+        if (mOverviewModeBehaviorSupplier != null) {
+            mOverviewModeBehaviorSupplierObserver = new Callback<OverviewModeBehavior>() {
                 @Override
-                public void onOverviewModeFinishedHiding() {
-                    mIsInOverviewMode = false;
-                    updateStatusBarColor();
+                public void onResult(OverviewModeBehavior overviewModeBehavior) {
+                    assert overviewModeBehavior != null;
+                    mOverviewModeBehavior = overviewModeBehavior;
+                    mOverviewModeObserver = new EmptyOverviewModeObserver() {
+                        @Override
+                        public void onOverviewModeStartedShowing(boolean showToolbar) {
+                            mIsInOverviewMode = true;
+                            updateStatusBarColor();
+                        }
+
+                        @Override
+                        public void onOverviewModeFinishedHiding() {
+                            mIsInOverviewMode = false;
+                            updateStatusBarColor();
+                        }
+                    };
+                    mOverviewModeBehavior.addOverviewModeObserver(mOverviewModeObserver);
+                    // TODO(crbug.com/1084528): Replace with OneShotSupplier when it is available.
+                    mOverviewModeBehaviorSupplier.removeObserver(this);
+                    mOverviewModeBehaviorSupplier = null;
                 }
             };
-            mOverviewModeBehavior.addOverviewModeObserver(mOverviewModeObserver);
+            mOverviewModeBehaviorSupplier.addObserver(mOverviewModeBehaviorSupplierObserver);
         }
 
         chromeActivity.getLifecycleDispatcher().register(this);
@@ -197,6 +213,9 @@ public class StatusBarColorController
     @Override
     public void destroy() {
         mStatusBarColorTabObserver.destroy();
+        if (mOverviewModeBehaviorSupplier != null) {
+            mOverviewModeBehaviorSupplier.removeObserver(mOverviewModeBehaviorSupplierObserver);
+        }
         if (mOverviewModeBehavior != null) {
             mOverviewModeBehavior.removeOverviewModeObserver(mOverviewModeObserver);
         }

@@ -16,7 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +29,6 @@ import org.chromium.base.metrics.RecordUserAction;
 import org.chromium.base.supplier.Supplier;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.browser_controls.BrowserControlsStateProvider;
-import org.chromium.chrome.browser.compositor.layouts.OverviewModeBehavior;
 import org.chromium.chrome.browser.compositor.layouts.content.InvalidationAwareThumbnailProvider;
 import org.chromium.chrome.browser.download.DownloadManagerService;
 import org.chromium.chrome.browser.feature_engagement.TrackerFactory;
@@ -284,7 +282,6 @@ public class NewTabPage implements NativePage, InvalidationAwareThumbnailProvide
      * @param browserControlsStateProvider {@link BrowserControlsStateProvider} to observe for
      *         offset changes.
      * @param activityTabProvider Provides the current active tab.
-     * @param overviewModeBehavior Overview mode to observe for mode changes.
      * @param snackbarManager {@link SnackBarManager} object.
      * @param lifecycleDispatcher Activity lifecycle dispatcher.
      * @param tabModelSelector {@link TabModelSelector} object.
@@ -296,11 +293,10 @@ public class NewTabPage implements NativePage, InvalidationAwareThumbnailProvide
      * @param bottomSheetController The controller for bottom sheets, used by the feed.
      */
     public NewTabPage(Activity activity, BrowserControlsStateProvider browserControlsStateProvider,
-            Supplier<Tab> activityTabProvider, @Nullable OverviewModeBehavior overviewModeBehavior,
-            SnackbarManager snackbarManager, ActivityLifecycleDispatcher lifecycleDispatcher,
-            TabModelSelector tabModelSelector, boolean isTablet, NewTabPageUma uma,
-            boolean isInNightMode, NativePageHost nativePageHost, Tab tab,
-            BottomSheetController bottomSheetController) {
+            Supplier<Tab> activityTabProvider, SnackbarManager snackbarManager,
+            ActivityLifecycleDispatcher lifecycleDispatcher, TabModelSelector tabModelSelector,
+            boolean isTablet, NewTabPageUma uma, boolean isInNightMode,
+            NativePageHost nativePageHost, Tab tab, BottomSheetController bottomSheetController) {
         mConstructedTimeNs = System.nanoTime();
         TraceEvent.begin(TAG);
 
@@ -400,8 +396,7 @@ public class NewTabPage implements NativePage, InvalidationAwareThumbnailProvide
                 mSearchProviderHasLogo,
                 TemplateUrlServiceFactory.get().isDefaultSearchEngineGoogle(),
                 mFeedSurfaceProvider.getScrollDelegate(), mContextMenuManager,
-                mFeedSurfaceProvider.getUiConfig(), activityTabProvider, lifecycleDispatcher,
-                overviewModeBehavior, uma);
+                mFeedSurfaceProvider.getUiConfig(), activityTabProvider, lifecycleDispatcher, uma);
         TraceEvent.end(TAG);
     }
 
