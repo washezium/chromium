@@ -19,6 +19,7 @@
 #include "base/time/time.h"
 #include "base/timer/timer.h"
 #include "chrome/browser/prerender/prerender_contents.h"
+#include "chrome/browser/prerender/prerender_manager_delegate.h"
 #include "components/keyed_service/core/keyed_service.h"
 #include "components/prerender/browser/prerender_config.h"
 #include "components/prerender/browser/prerender_histograms.h"
@@ -92,7 +93,8 @@ class PrerenderManager : public content::RenderProcessHostObserver,
   };
 
   // Owned by a Profile object for the lifetime of the profile.
-  explicit PrerenderManager(Profile* profile);
+  PrerenderManager(Profile* profile,
+                   std::unique_ptr<PrerenderManagerDelegate> delegate);
   ~PrerenderManager() override;
 
   // From KeyedService:
@@ -530,6 +532,10 @@ class PrerenderManager : public content::RenderProcessHostObserver,
 
   // The profile that owns this PrerenderManager.
   Profile* profile_;
+
+  // The delegate that allows content embedder to override the logic in this
+  // class.
+  std::unique_ptr<PrerenderManagerDelegate> delegate_;
 
   // All running prerenders. Sorted by expiry time, in ascending order.
   PrerenderDataVector active_prerenders_;
