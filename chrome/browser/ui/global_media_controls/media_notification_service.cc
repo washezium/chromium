@@ -221,9 +221,7 @@ bool MediaNotificationService::Session::IsPlaying() {
   return is_playing_;
 }
 
-void MediaNotificationService::Session::SetAudioSinkId(const std::string& id) {
-  controller_->SetAudioSinkId(id);
-}
+void MediaNotificationService::Session::SetAudioSinkId(const std::string& id) {}
 
 // static
 void MediaNotificationService::Session::RecordDismissReason(

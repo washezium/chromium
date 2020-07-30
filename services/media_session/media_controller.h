@@ -53,7 +53,6 @@ class MediaController : public mojom::MediaController,
   void ScrubTo(base::TimeDelta seek_time) override;
   void EnterPictureInPicture() override;
   void ExitPictureInPicture() override;
-  void SetAudioSinkId(const base::Optional<std::string>& id) override;
 
   // mojom::MediaSessionObserver overrides.
   void MediaSessionInfoChanged(
