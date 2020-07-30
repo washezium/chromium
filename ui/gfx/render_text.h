@@ -563,9 +563,6 @@ class GFX_EXPORT RenderText {
   void set_shadows(const ShadowValues& shadows) { shadows_ = shadows; }
   const ShadowValues& shadows() const { return shadows_; }
 
-  // Returns rectangle surrounding the current string (from origin to size)
-  RectF GetStringRect();
-
   // Get the visual bounds containing the logical substring within the |range|.
   // If |range| is empty, the result is empty. These bounds could be visually
   // discontinuous if the substring is split by a LTR/RTL level change.
