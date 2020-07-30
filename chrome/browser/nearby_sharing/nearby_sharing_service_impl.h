@@ -33,6 +33,11 @@
 #include "components/prefs/pref_change_registrar.h"
 
 class FastInitiationManager;
+class NearbyConnectionsManager;
+class NearbyShareContactManager;
+class NearbyShareCertificateManager;
+class NearbyShareClientFactory;
+class NearbyShareLocalDeviceDataManager;
 class PrefService;
 class Profile;
 
@@ -99,6 +104,10 @@ class NearbySharingServiceImpl
 
   // Test methods
   void FlushMojoForTesting();
+  NearbyShareHttpNotifier* GetHttpNotifier() override;
+  NearbyShareLocalDeviceDataManager* GetLocalDeviceDataManager() override;
+  NearbyShareContactManager* GetContactManager() override;
+  NearbyShareCertificateManager* GetCertificateManager() override;
 
  private:
   bool IsVisibleInBackground(Visibility visibility);
@@ -143,6 +152,10 @@ class NearbySharingServiceImpl
   std::unique_ptr<FastInitiationManager> fast_initiation_manager_;
   std::unique_ptr<NearbyNotificationManager> nearby_notification_manager_;
   NearbyShareHttpNotifier nearby_share_http_notifier_;
+  std::unique_ptr<NearbyShareClientFactory> http_client_factory_;
+  std::unique_ptr<NearbyShareLocalDeviceDataManager> local_device_data_manager_;
+  std::unique_ptr<NearbyShareContactManager> contact_manager_;
+  std::unique_ptr<NearbyShareCertificateManager> certificate_manager_;
 
   // A list of foreground receivers.
   base::ObserverList<TransferUpdateCallback> foreground_receive_callbacks_;

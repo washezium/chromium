@@ -9,14 +9,21 @@
 #include "base/bind.h"
 #include "base/task_runner_util.h"
 #include "base/threading/thread_task_runner_handle.h"
+#include "chrome/browser/nearby_sharing/certificates/nearby_share_certificate_manager_impl.h"
+#include "chrome/browser/nearby_sharing/client/nearby_share_client_impl.h"
 #include "chrome/browser/nearby_sharing/common/nearby_share_prefs.h"
+#include "chrome/browser/nearby_sharing/contacts/nearby_share_contact_manager_impl.h"
 #include "chrome/browser/nearby_sharing/fast_initiation_manager.h"
+#include "chrome/browser/nearby_sharing/local_device_data/nearby_share_local_device_data_manager_impl.h"
 #include "chrome/browser/nearby_sharing/logging/logging.h"
 #include "chrome/browser/nearby_sharing/nearby_connections_manager.h"
+#include "chrome/browser/profiles/profile.h"
+#include "chrome/browser/signin/identity_manager_factory.h"
 #include "chrome/services/sharing/public/cpp/advertisement.h"
 #include "chrome/services/sharing/public/mojom/nearby_connections_types.mojom.h"
 #include "components/prefs/pref_service.h"
 #include "device/bluetooth/bluetooth_adapter_factory.h"
+#include "services/network/public/cpp/shared_url_loader_factory.h"
 #include "ui/base/idle/idle.h"
 
 namespace {
@@ -119,7 +126,18 @@ NearbySharingServiceImpl::NearbySharingServiceImpl(
     : prefs_(prefs),
       profile_(profile),
       settings_(prefs),
-      nearby_connections_manager_(std::move(nearby_connections_manager)) {
+      nearby_connections_manager_(std::move(nearby_connections_manager)),
+      http_client_factory_(std::make_unique<NearbyShareClientFactoryImpl>(
+          IdentityManagerFactory::GetForProfile(profile),
+          profile->GetURLLoaderFactory(),
+          &nearby_share_http_notifier_)),
+      local_device_data_manager_(
+          NearbyShareLocalDeviceDataManagerImpl::Factory::Create(
+              prefs,
+              http_client_factory_.get())),
+      contact_manager_(NearbyShareContactManagerImpl::Factory::Create()),
+      certificate_manager_(
+          NearbyShareCertificateManagerImpl::Factory::Create()) {
   DCHECK(prefs_);
   DCHECK(profile_);
   DCHECK(nearby_connections_manager_);
@@ -332,6 +350,24 @@ void NearbySharingServiceImpl::OnEnabledChanged(bool enabled) {
 
 void NearbySharingServiceImpl::FlushMojoForTesting() {
   settings_receiver_.FlushForTesting();
+}
+
+NearbyShareHttpNotifier* NearbySharingServiceImpl::GetHttpNotifier() {
+  return &nearby_share_http_notifier_;
+}
+
+NearbyShareLocalDeviceDataManager*
+NearbySharingServiceImpl::GetLocalDeviceDataManager() {
+  return local_device_data_manager_.get();
+}
+
+NearbyShareContactManager* NearbySharingServiceImpl::GetContactManager() {
+  return contact_manager_.get();
+}
+
+NearbyShareCertificateManager*
+NearbySharingServiceImpl::GetCertificateManager() {
+  return certificate_manager_.get();
 }
 
 bool NearbySharingServiceImpl::IsVisibleInBackground(Visibility visibility) {
