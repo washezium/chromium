@@ -25,14 +25,15 @@ namespace chromeos {
 // HermesManagerClient is used to talk to the main Hermes Manager dbus object.
 class COMPONENT_EXPORT(HERMES_CLIENT) HermesManagerClient {
  public:
-  // Interface for setting up and manipulating hermes manager in a testing
-  // environment.
   class TestInterface {
    public:
     // Adds a new Euicc object with given path and properties.
     virtual void AddEuicc(const dbus::ObjectPath& path,
                           const std::string& eid,
                           bool is_actve) = 0;
+
+    // Clears all Euicc objects and associated profiles.
+    virtual void ClearEuiccs() = 0;
   };
 
   // Interface for observing Hermes Manager changes.

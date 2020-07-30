@@ -30,9 +30,6 @@ const char* kFakeProfileNamePrefix = "FakeCellularNetwork_";
 const char* kFakeServiceProvider = "Fake Wireless";
 const char* kFakeNetworkServicePathPrefix = "/service/cellular1";
 
-// Delay for slow methods or methods that involve network round-trips.
-const base::TimeDelta interactive_delay = base::TimeDelta::FromSeconds(3);
-
 bool PopPendingProfile(HermesEuiccClient::Properties* properties,
                        dbus::ObjectPath carrier_profile_path) {
   std::vector<dbus::ObjectPath> pending_profiles =
@@ -96,6 +93,25 @@ void FakeHermesEuiccClient::Properties::Set(
 FakeHermesEuiccClient::FakeHermesEuiccClient() = default;
 FakeHermesEuiccClient::~FakeHermesEuiccClient() = default;
 
+void FakeHermesEuiccClient::ClearEuicc(const dbus::ObjectPath& euicc_path) {
+  PropertiesMap::iterator it = properties_map_.find(euicc_path);
+  if (it == properties_map_.end())
+    return;
+  auto* profile_test = HermesProfileClient::Get()->GetTestInterface();
+  HermesEuiccClient::Properties* properties = it->second.get();
+  for (const auto& path : properties->installed_carrier_profiles().value()) {
+    profile_test->ClearProfile(path);
+  }
+  for (const auto& path : properties->pending_carrier_profiles().value()) {
+    profile_test->ClearProfile(path);
+  }
+  properties_map_.erase(it);
+}
+
+void FakeHermesEuiccClient::ResetPendingEventsRequested() {
+  pending_event_requested_ = false;
+}
+
 dbus::ObjectPath FakeHermesEuiccClient::AddFakeCarrierProfile(
     const dbus::ObjectPath& euicc_path,
     hermes::profile::State state,
@@ -157,6 +173,15 @@ void FakeHermesEuiccClient::AddCarrierProfile(
       installed_profiles);
 }
 
+void FakeHermesEuiccClient::QueueHermesErrorStatus(
+    HermesResponseStatus status) {
+  error_status_queue_.push(status);
+}
+
+void FakeHermesEuiccClient::SetInteractiveDelay(base::TimeDelta delay) {
+  interactive_delay_ = delay;
+}
+
 void FakeHermesEuiccClient::InstallProfileFromActivationCode(
     const dbus::ObjectPath& euicc_path,
     const std::string& activation_code,
@@ -167,7 +192,7 @@ void FakeHermesEuiccClient::InstallProfileFromActivationCode(
       base::BindOnce(&FakeHermesEuiccClient::DoInstallProfileFromActivationCode,
                      weak_ptr_factory_.GetWeakPtr(), euicc_path,
                      activation_code, confirmation_code, std::move(callback)),
-      interactive_delay);
+      interactive_delay_);
 }
 
 void FakeHermesEuiccClient::InstallPendingProfile(
@@ -181,7 +206,7 @@ void FakeHermesEuiccClient::InstallPendingProfile(
                      weak_ptr_factory_.GetWeakPtr(), euicc_path,
                      carrier_profile_path, confirmation_code,
                      std::move(callback)),
-      interactive_delay);
+      interactive_delay_);
 }
 
 void FakeHermesEuiccClient::RequestPendingEvents(
@@ -192,7 +217,7 @@ void FakeHermesEuiccClient::RequestPendingEvents(
       base::BindOnce(&FakeHermesEuiccClient::DoRequestPendingEvents,
                      weak_ptr_factory_.GetWeakPtr(), euicc_path,
                      std::move(callback)),
-      interactive_delay);
+      interactive_delay_);
 }
 
 void FakeHermesEuiccClient::UninstallProfile(
@@ -204,7 +229,7 @@ void FakeHermesEuiccClient::UninstallProfile(
       base::BindOnce(&FakeHermesEuiccClient::DoUninstallProfile,
                      weak_ptr_factory_.GetWeakPtr(), euicc_path,
                      carrier_profile_path, std::move(callback)),
-      interactive_delay);
+      interactive_delay_);
 }
 
 FakeHermesEuiccClient::Properties* FakeHermesEuiccClient::GetProperties(
@@ -233,6 +258,12 @@ void FakeHermesEuiccClient::DoInstallProfileFromActivationCode(
     InstallCarrierProfileCallback callback) {
   DVLOG(1) << "Installing profile from activation code: code="
            << activation_code << ", confirmation_code=" << confirmation_code;
+  if (!error_status_queue_.empty()) {
+    std::move(callback).Run(error_status_queue_.front(), nullptr);
+    error_status_queue_.pop();
+    return;
+  }
+
   if (!base::StartsWith(activation_code, kFakeActivationCodePrefix,
                         base::CompareCase::SENSITIVE)) {
     std::move(callback).Run(HermesResponseStatus::kErrorInvalidActivationCode,
@@ -273,6 +304,12 @@ void FakeHermesEuiccClient::DoInstallPendingProfile(
   DVLOG(1) << "Installing pending profile: path="
            << carrier_profile_path.value()
            << ", confirmation_code=" << confirmation_code;
+  if (!error_status_queue_.empty()) {
+    std::move(callback).Run(error_status_queue_.front());
+    error_status_queue_.pop();
+    return;
+  }
+
   Properties* euicc_properties = GetProperties(euicc_path);
   if (!PopPendingProfile(euicc_properties, carrier_profile_path)) {
     std::move(callback).Run(HermesResponseStatus::kErrorUnknown);
@@ -297,6 +334,12 @@ void FakeHermesEuiccClient::DoRequestPendingEvents(
     const dbus::ObjectPath& euicc_path,
     HermesResponseCallback callback) {
   DVLOG(1) << "Pending Events Requested";
+  if (!error_status_queue_.empty()) {
+    std::move(callback).Run(error_status_queue_.front());
+    error_status_queue_.pop();
+    return;
+  }
+
   if (!pending_event_requested_) {
     AddFakeCarrierProfile(euicc_path, hermes::profile::State::kPending, "");
     pending_event_requested_ = true;
@@ -308,6 +351,12 @@ void FakeHermesEuiccClient::DoUninstallProfile(
     const dbus::ObjectPath& euicc_path,
     const dbus::ObjectPath& carrier_profile_path,
     HermesResponseCallback callback) {
+  if (!error_status_queue_.empty()) {
+    std::move(callback).Run(error_status_queue_.front());
+    error_status_queue_.pop();
+    return;
+  }
+
   Properties* euicc_properties = GetProperties(euicc_path);
   std::vector<dbus::ObjectPath> installed_profiles =
       euicc_properties->installed_carrier_profiles().value();

@@ -18,7 +18,8 @@ namespace chromeos {
 
 // Fake implementation for HermesProfileClient.
 class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesProfileClient
-    : public HermesProfileClient {
+    : public HermesProfileClient,
+      public HermesProfileClient::TestInterface {
  public:
   class Properties : public HermesProfileClient::Properties {
    public:
@@ -38,6 +39,9 @@ class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesProfileClient
   FakeHermesProfileClient& operator=(const FakeHermesProfileClient&) = delete;
   ~FakeHermesProfileClient() override;
 
+  // HermesProfileClient::TestInterface:
+  void ClearProfile(const dbus::ObjectPath& carrier_profile_path) override;
+
   // HermesProfileClient:
   void EnableCarrierProfile(const dbus::ObjectPath& object_path,
                             HermesResponseCallback callback) override;
@@ -45,6 +49,7 @@ class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesProfileClient
                              HermesResponseCallback callback) override;
   HermesProfileClient::Properties* GetProperties(
       const dbus::ObjectPath& object_path) override;
+  HermesProfileClient::TestInterface* GetTestInterface() override;
 
  private:
   void UpdateCellularDevice(HermesProfileClient::Properties* properties);

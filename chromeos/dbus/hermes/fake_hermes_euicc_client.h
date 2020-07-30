@@ -5,8 +5,11 @@
 #ifndef CHROMEOS_DBUS_HERMES_FAKE_HERMES_EUICC_CLIENT_H_
 #define CHROMEOS_DBUS_HERMES_FAKE_HERMES_EUICC_CLIENT_H_
 
+#include <queue>
+
 #include "base/component_export.h"
 #include "base/macros.h"
+#include "base/time/time.h"
 #include "chromeos/dbus/hermes/hermes_euicc_client.h"
 #include "third_party/cros_system_api/dbus/hermes/dbus-constants.h"
 
@@ -38,6 +41,8 @@ class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesEuiccClient
   ~FakeHermesEuiccClient() override;
 
   // HermesEuiccClient::TestInterface:
+  void ClearEuicc(const dbus::ObjectPath& euicc_path) override;
+  void ResetPendingEventsRequested() override;
   dbus::ObjectPath AddFakeCarrierProfile(const dbus::ObjectPath& euicc_path,
                                          hermes::profile::State state,
                                          std::string activation_code) override;
@@ -49,6 +54,8 @@ class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesEuiccClient
                          const std::string& activation_code,
                          const std::string& network_service_path,
                          hermes::profile::State state) override;
+  void QueueHermesErrorStatus(HermesResponseStatus status) override;
+  void SetInteractiveDelay(base::TimeDelta delay) override;
 
   // HermesEuiccClient:
   void InstallProfileFromActivationCode(
@@ -98,9 +105,15 @@ class COMPONENT_EXPORT(HERMES_CLIENT) FakeHermesEuiccClient
   // Counter to generate fake ids and properties for profiles.
   int fake_profile_counter_ = 0;
 
+  // Queue of error code to be returned from method calls.
+  std::queue<HermesResponseStatus> error_status_queue_;
+
   // Mapping between carrier profile objects and their corresponding
   // shill network service paths.
   std::map<dbus::ObjectPath, std::string> profile_service_path_map_;
+
+  // Delay for simulating slow methods.
+  base::TimeDelta interactive_delay_;
 
   using PropertiesMap =
       std::map<const dbus::ObjectPath, std::unique_ptr<Properties>>;

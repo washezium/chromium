@@ -76,6 +76,8 @@ class HermesProfileClientImpl : public HermesProfileClient {
     return GetObject(carrier_profile_path).second;
   }
 
+  TestInterface* GetTestInterface() override { return nullptr; }
+
  private:
   Object GetObject(const dbus::ObjectPath& object_path) {
     ObjectMap::iterator it = object_map_.find(object_path);

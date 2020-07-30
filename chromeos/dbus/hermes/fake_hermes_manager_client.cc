@@ -50,6 +50,15 @@ void FakeHermesManagerClient::AddEuicc(const dbus::ObjectPath& path,
                      weak_ptr_factory_.GetWeakPtr()));
 }
 
+void FakeHermesManagerClient::ClearEuiccs() {
+  HermesEuiccClient::TestInterface* euicc_test =
+      HermesEuiccClient::Get()->GetTestInterface();
+  for (const auto& path : available_euiccs_) {
+    euicc_test->ClearEuicc(path);
+  }
+  available_euiccs_.clear();
+}
+
 const std::vector<dbus::ObjectPath>&
 FakeHermesManagerClient::GetAvailableEuiccs() {
   return available_euiccs_;

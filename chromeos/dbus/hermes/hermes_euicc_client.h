@@ -27,10 +27,15 @@ class COMPONENT_EXPORT(HERMES_CLIENT) HermesEuiccClient {
       base::OnceCallback<void(HermesResponseStatus status,
                               const dbus::ObjectPath* carrier_profile_path)>;
 
-  // Interface for setting up and manipulating hermes euicc in a testing
-  // environment.
   class TestInterface {
    public:
+    // Clears a given Euicc and associated profiles.
+    virtual void ClearEuicc(const dbus::ObjectPath& euicc_path) = 0;
+
+    // Resets the test interface for a new fake pending profile
+    // will be added on subsequent  call to RequestPendingEvents.
+    virtual void ResetPendingEventsRequested() = 0;
+
     // Adds a new carrier profiles under given euicc object using faked
     // default values for properties. Returns the path to the newly
     // added profile.
@@ -48,6 +53,13 @@ class COMPONENT_EXPORT(HERMES_CLIENT) HermesEuiccClient {
                                    const std::string& activation_code,
                                    const std::string& network_service_path,
                                    hermes::profile::State state) = 0;
+
+    // Queues an error code that will be returned from a subsequent
+    // method call.
+    virtual void QueueHermesErrorStatus(HermesResponseStatus status) = 0;
+
+    // Set delay for interactive methods.
+    virtual void SetInteractiveDelay(base::TimeDelta delay) = 0;
   };
 
   // Hermes Euicc properties.

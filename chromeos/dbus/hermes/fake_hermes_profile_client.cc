@@ -56,6 +56,11 @@ void FakeHermesProfileClient::Properties::Set(
 FakeHermesProfileClient::FakeHermesProfileClient() = default;
 FakeHermesProfileClient::~FakeHermesProfileClient() = default;
 
+void FakeHermesProfileClient::ClearProfile(
+    const dbus::ObjectPath& carrier_profile_path) {
+  properties_map_.erase(carrier_profile_path);
+}
+
 void FakeHermesProfileClient::EnableCarrierProfile(
     const dbus::ObjectPath& object_path,
     HermesResponseCallback callback) {
@@ -131,6 +136,11 @@ HermesProfileClient::Properties* FakeHermesProfileClient::GetProperties(
                           base::Unretained(this), object_path)));
   properties_map_[object_path] = std::move(properties);
   return properties_map_[object_path].get();
+}
+
+HermesProfileClient::TestInterface*
+FakeHermesProfileClient::GetTestInterface() {
+  return this;
 }
 
 // Updates the Shill Cellular device properties so that they match the given
