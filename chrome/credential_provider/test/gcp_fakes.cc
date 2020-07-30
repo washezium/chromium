@@ -1206,4 +1206,56 @@ void FakeDevicePoliciesManager::GetDevicePolicies(
   *device_policies = device_policies_;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+FakeGCPWFiles::FakeGCPWFiles() : original_files(*GetInstanceStorage()) {
+  *GetInstanceStorage() = this;
+}
+
+FakeGCPWFiles::~FakeGCPWFiles() {
+  *GetInstanceStorage() = original_files;
+}
+
+// Installable files are sanitized for testing due to
+// differences between build artifacts file location and the way they are being
+// packaged. When tests are running, they are checking the build artifacts which
+// doesn't reflect foldering structure within 7zip archive.
+std::vector<base::FilePath::StringType>
+FakeGCPWFiles::GetEffectiveInstallFiles() {
+  auto effective_files = original_files->GetEffectiveInstallFiles();
+
+  std::vector<base::FilePath::StringType> sanitized_files;
+  for (auto& install_file : effective_files) {
+    size_t found = install_file.find_last_of('\\');
+    if (found != base::string16::npos) {
+      sanitized_files.push_back(install_file.substr(found + 1));
+    } else {
+      sanitized_files.push_back(install_file);
+    }
+  }
+
+  return sanitized_files;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+FakeOSServiceManager::FakeOSServiceManager()
+    : os_service_manager_(*GetInstanceStorage()) {
+  *GetInstanceStorage() = this;
+}
+
+FakeOSServiceManager::~FakeOSServiceManager() {
+  *GetInstanceStorage() = os_service_manager_;
+}
+
+DWORD FakeOSServiceManager::GetServiceStatus(SERVICE_STATUS* service_status) {
+  return ERROR_SERVICE_DOES_NOT_EXIST;
+}
+
+DWORD FakeOSServiceManager::InstallService(
+    const base::FilePath& service_binary_path,
+    extension::ScopedScHandle* sc_handle) {
+  return ERROR_SUCCESS;
+}
+
 }  // namespace credential_provider
