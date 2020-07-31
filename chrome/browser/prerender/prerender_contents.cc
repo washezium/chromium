@@ -17,7 +17,6 @@
 #include "build/build_config.h"
 #include "chrome/browser/prerender/prerender_contents_delegate.h"
 #include "chrome/browser/prerender/prerender_manager.h"
-#include "chrome/browser/prerender/prerender_manager_factory.h"
 #include "components/prerender/common/prerender_final_status.h"
 #include "components/prerender/common/prerender_util.h"
 #include "components/prerender/common/render_frame_prerender_messages.mojom.h"
@@ -182,19 +181,6 @@ void PrerenderContents::SetPrerenderMode(prerender::mojom::PrerenderMode mode) {
 // static
 PrerenderContents::Factory* PrerenderContents::CreateFactory() {
   return new PrerenderContentsFactoryImpl();
-}
-
-// static
-PrerenderContents* PrerenderContents::FromWebContents(
-    content::WebContents* web_contents) {
-  if (!web_contents)
-    return NULL;
-  PrerenderManager* prerender_manager =
-      PrerenderManagerFactory::GetForBrowserContext(
-          web_contents->GetBrowserContext());
-  if (!prerender_manager)
-    return NULL;
-  return prerender_manager->GetPrerenderContents(web_contents);
 }
 
 void PrerenderContents::StartPrerendering(

@@ -14,8 +14,15 @@ class WebContents;
 
 namespace prerender {
 
+class PrerenderContents;
+
 class ChromePrerenderContentsDelegate : public PrerenderContentsDelegate {
  public:
+  // Returns a PrerenderContents from the given web_contents, if it's used for
+  // prerendering. Otherwise returns nullptr. Handles a nullptr input for
+  // convenience.
+  static PrerenderContents* FromWebContents(content::WebContents* web_contents);
+
   ChromePrerenderContentsDelegate() = default;
   ~ChromePrerenderContentsDelegate() override = default;
 
