@@ -4740,7 +4740,7 @@ TEST_F(RenderTextTest, GetTextOffsetHorizontalDefaultInRTL) {
   SetRTL(was_rtl);
 }
 
-TEST_F(RenderTextTest, GetTextOffsetVerticalAignment) {
+TEST_F(RenderTextTest, GetTextOffsetVerticalAlignment) {
   RenderText* render_text = GetRenderText();
   render_text->SetText(ASCIIToUTF16("abcdefg"));
   render_text->SetFontList(FontList("Arial, 13px"));
@@ -4776,7 +4776,7 @@ TEST_F(RenderTextTest, GetTextOffsetVerticalAignment) {
   EXPECT_EQ(kEnlargementY, offset.y());
 }
 
-TEST_F(RenderTextTest, GetTextOffsetVerticalAignment_Multiline) {
+TEST_F(RenderTextTest, GetTextOffsetVerticalAlignment_Multiline) {
   RenderText* render_text = GetRenderText();
   render_text->SetMultiline(true);
   render_text->SetMaxLines(2);
