@@ -118,8 +118,6 @@ class COMPONENT_EXPORT(UI_BASE) OSExchangeDataProviderWin
 
   static DataObjectImpl* GetDataObjectImpl(const OSExchangeData& data);
   static IDataObject* GetIDataObject(const OSExchangeData& data);
-  static IDataObjectAsyncCapability* GetIAsyncOperation(
-      const OSExchangeData& data);
 
   explicit OSExchangeDataProviderWin(IDataObject* source);
   OSExchangeDataProviderWin();
