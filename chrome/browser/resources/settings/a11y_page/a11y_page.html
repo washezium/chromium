@@ -22,6 +22,13 @@
         </settings-toggle-button>
         <settings-toggle-button
             class="hr"
+            pref="{{prefs.settings.a11y.caretbrowsing.enabled}}"
+            on-change="onA11yCaretBrowsingChange_"
+            label="$i18n{caretBrowsingTitle}"
+            sub-label="$i18n{caretBrowsingSubtitle}">
+        </settings-toggle-button>
+        <settings-toggle-button
+            class="hr"
             hidden$="[[!showAccessibilityLabelsSetting_]]"
             pref="{{prefs.settings.a11y.enable_accessibility_image_labels}}"
             on-change="onA11yImageLabelsChange_"

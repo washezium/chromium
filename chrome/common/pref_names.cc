@@ -3052,4 +3052,16 @@ const char kAdbSideloadingPowerwashOnNextRebootNotificationShown[] =
     "adb_sideloading_powerwash_on_next_reboot_notification_shown";
 #endif
 
+#if !defined(OS_ANDROID)
+// Boolean pref that indicates whether caret browsing is currently enabled.
+const char kCaretBrowsingEnabled[] = "settings.a11y.caretbrowsing.enabled";
+
+// Boolean pref for whether the user is shown a dialog to confirm that caret
+// browsing should be enabled/disabled when the keyboard shortcut is pressed.
+// If set to false, no intervening dialog is displayed and caret browsing mode
+// is toggled silently by the keyboard shortcut.
+const char kShowCaretBrowsingDialog[] =
+    "settings.a11y.caretbrowsing.show_dialog";
+#endif
+
 }  // namespace prefs

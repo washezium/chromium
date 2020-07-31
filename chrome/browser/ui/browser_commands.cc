@@ -105,6 +105,7 @@
 #include "content/public/browser/render_view_host.h"
 #include "content/public/browser/render_widget_host_view.h"
 #include "content/public/browser/web_contents.h"
+#include "content/public/common/content_switches.h"
 #include "content/public/common/page_state.h"
 #include "content/public/common/url_constants.h"
 #include "content/public/common/url_utils.h"
@@ -1465,6 +1466,31 @@ bool CanViewSource(const Browser* browser) {
                                              ->GetActiveWebContents()
                                              ->GetController()
                                              .CanViewSource();
+}
+
+void ToggleCaretBrowsing(Browser* browser) {
+  PrefService* prefService = browser->profile()->GetPrefs();
+  bool enabled = prefService->GetBoolean(prefs::kCaretBrowsingEnabled);
+
+  if (enabled) {
+    base::RecordAction(base::UserMetricsAction(
+        "Accessibility.CaretBrowsing.DisableWithKeyboard"));
+    prefService->SetBoolean(prefs::kCaretBrowsingEnabled, false);
+    return;
+  }
+
+  // Show a confirmation dialog, unless either (1) the command-line
+  // flag was used, or (2) the user previously checked the box
+  // indicating not to ask them next time.
+  if (prefService->GetBoolean(prefs::kShowCaretBrowsingDialog) &&
+      !base::CommandLine::ForCurrentProcess()->HasSwitch(
+          switches::kEnableCaretBrowsing)) {
+    browser->window()->ShowCaretBrowsingDialog();
+  } else {
+    base::RecordAction(base::UserMetricsAction(
+        "Accessibility.CaretBrowsing.EnableWithKeyboard"));
+    prefService->SetBoolean(prefs::kCaretBrowsingEnabled, true);
+  }
 }
 
 #if !defined(TOOLKIT_VIEWS)

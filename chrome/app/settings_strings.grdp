@@ -59,6 +59,19 @@
   <message name="IDS_SETTINGS_CAPTIONS_ENABLE_LIVE_CAPTION_SUBTITLE" desc="Subtitle of the setting to enable Live Caption.">
     Live caption detects speech in media and automatically generates captions for all media playing in Chrome.
   </message>
+  <message name="IDS_SETTINGS_ENABLE_CARET_BROWSING_TITLE" desc="Name of the setting to enable Caret Browsing, which allows you to move around any web page using a text caret.">
+    Navigate pages with a text cursor
+  </message>
+  <if expr="not chromeos">
+    <message name="IDS_SETTINGS_ENABLE_CARET_BROWSING_SUBTITLE" desc="Subtitle of the setting to enable Caret Browsing, which allows you to move around any web page using a text caret.">
+      To turn caret browsing on or off, use the shortcut F7
+    </message>
+  </if>
+  <if expr="chromeos">
+    <message name="IDS_SETTINGS_ENABLE_CARET_BROWSING_SUBTITLE" desc="Subtitle of the setting to enable Caret Browsing, which allows you to move around any web page using a text caret.">
+      To turn caret browsing on or off, use the shortcut Ctrl+Search+7
+    </message>
+  </if>
   <if expr="not chromeos">
     <message name="IDS_SETTINGS_ACCESSIBILITY_FOCUS_HIGHLIGHT_DESCRIPTION" desc="In the settings tab, the text next to the checkbox to highlight the focused object to make it easier to see.">
       Show a quick highlight on the focused object

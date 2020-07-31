@@ -139,6 +139,20 @@ Polymer({
    * @private
    * @param {!Event} event
    */
+  onA11yCaretBrowsingChange_(event) {
+    if (event.target.checked) {
+      chrome.metricsPrivate.recordUserAction(
+          'Accessibility.CaretBrowsing.EnableWithSettings');
+    } else {
+      chrome.metricsPrivate.recordUserAction(
+          'Accessibility.CaretBrowsing.DisableWithSettings');
+    }
+  },
+
+  /**
+   * @private
+   * @param {!Event} event
+   */
   onA11yImageLabelsChange_(event) {
     const a11yImageLabelsOn = event.target.checked;
     if (a11yImageLabelsOn) {
