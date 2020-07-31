@@ -22380,6 +22380,34 @@ If you disable this policy, web page scrolling to specific text fragments via UR
           ''',
     },
     {
+      'name': 'BackForwardCacheEnabled',
+      'owners': ['chrome-bfcache@google.com'],
+      'type': 'main',
+      'schema': { 'type': 'boolean' },
+      'supported_on': ['android:86-'],
+      'features': {
+        'per_profile': False,
+        'dynamic_refresh': True,
+      },
+      'example_value': True,
+      'id': 758,
+      'caption': '''Control the <ph name="PRODUCT_NAME">BackForwardCache</ph> feature.''',
+      'tags': [],
+      'desc': '''When enabled the <ph name="PRODUCT_NAME">BackForwardCache</ph> feature causes web pages to be preserved in its current state (document tree, script, etc.) into the back-forward cache when navigated away from the page.
+          If we navigated back to the page, the page will be restored from the back-forward cache, showing it in the state it was in when cached before.
+
+          This feature might break some websites that does not expect itself to
+          get cached, particularly websites that depend on unload handlers being
+          fired when navigated away from the page, as the unload event will
+          not be dispatched when navigated away from a page and it gets saved
+          in the back-forward cache.
+
+          If this policy is set to enabled or not set, the <ph name="PRODUCT_NAME">BackForwardCache</ph> feature will be enabled.
+
+          If this policy is set to disabled then the feature will be force disabled.
+          ''',
+    },
+    {
       'name': 'PinUnlockAutosubmitEnabled',
       'owners': ['rrsilva@google.com', 'cros-oac@google.com'],
       'future': True,
@@ -23417,6 +23445,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 757,
+  'highest_id_currently_used': 758,
   'highest_atomic_group_id_currently_used': 39
 }

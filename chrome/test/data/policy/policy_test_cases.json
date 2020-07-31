@@ -7899,5 +7899,19 @@
         "prefs": { "cros.system.channelDowngradeBehavior": {} }
       }
     ]
+  },
+  "BackForwardCacheEnabled": {
+    "os": ["android"],
+    "policy_pref_mapping_test": [
+      {
+        "policies": { "BackForwardCacheEnabled": true },
+        "prefs": {
+          "policy.back_forward_cache_enabled": {
+            "local_state":  true,
+            "value": true
+          }
+        }
+      }
+    ]
   }
 }
