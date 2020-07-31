@@ -3595,9 +3595,11 @@ void ProxyDSFObserver::OnCreation(RenderFrameProxyHost* rfph) {
     runner_->Quit();
 }
 
-bool CompareWebContentsOutputToReference(WebContents* web_contents,
-                                         const base::FilePath& expected_path,
-                                         const gfx::Size& snapshot_size) {
+bool CompareWebContentsOutputToReference(
+    WebContents* web_contents,
+    const base::FilePath& expected_path,
+    const gfx::Size& snapshot_size,
+    const cc::PixelComparator& comparator) {
   // Produce a frame of output first to ensure the system is in a consistent,
   // known state.
   {
@@ -3633,8 +3635,7 @@ bool CompareWebContentsOutputToReference(WebContents* web_contents,
               SkIRect::MakeWH(snapshot_size.width(), snapshot_size.height()));
 
           snapshot_matches =
-              cc::MatchesPNGFile(clipped_bitmap, expected_path,
-                                 cc::ManhattanDistancePixelComparator());
+              cc::MatchesPNGFile(clipped_bitmap, expected_path, comparator);
 
           // When rebaselining the pixel test, the test may fail. However, the
           // reference file will still be overwritten.
