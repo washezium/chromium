@@ -21337,6 +21337,7 @@ Called by update_document_policy_enum.py.-->
   <int value="754" label="DefaultSensorsSetting"/>
   <int value="755" label="SensorsAllowedForUrls"/>
   <int value="756" label="SensorsBlockedForUrls"/>
+  <int value="757" label="DeviceChannelDowngradeBehavior"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
