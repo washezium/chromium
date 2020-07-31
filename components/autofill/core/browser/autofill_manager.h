@@ -656,6 +656,8 @@ class AutofillManager : public AutofillHandler,
   bool frame_has_parsed_forms_ = false;
   // Is there a field with autocomplete="one-time-code" observed?
   bool has_observed_one_time_code_field_ = false;
+  // Is there a field with phone number collection observed?
+  bool has_observed_phone_number_field_ = false;
 
   // When the user first interacted with a potentially fillable form on this
   // page.

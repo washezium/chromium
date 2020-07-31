@@ -467,6 +467,9 @@ AutofillManager::AutofillManager(
 
 AutofillManager::~AutofillManager() {
   if (frame_has_parsed_forms_) {
+    base::UmaHistogramBoolean(
+        "Autofill.WebOTP.PhoneNumberCollection.ParseResult",
+        has_observed_phone_number_field_);
     base::UmaHistogramBoolean("Autofill.WebOTP.OneTimeCode.FromAutocomplete",
                               has_observed_one_time_code_field_);
   }
@@ -2053,6 +2056,11 @@ void AutofillManager::OnFormsParsed(const std::vector<const FormData*>& forms,
     if (!form_structure) {
       NOTREACHED();
       continue;
+    }
+
+    if (data_util::ContainsPhone(data_util::DetermineGroups(
+            form_structure->GetServerFieldTypes()))) {
+      has_observed_phone_number_field_ = true;
     }
 
     // TODO(crbug.com/869482): avoid logging developer engagement multiple
