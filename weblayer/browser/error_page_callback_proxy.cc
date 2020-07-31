@@ -4,8 +4,10 @@
 
 #include "weblayer/browser/error_page_callback_proxy.h"
 
+#include "base/android/jni_string.h"
 #include "url/gurl.h"
 #include "weblayer/browser/java/jni/ErrorPageCallbackProxy_jni.h"
+#include "weblayer/browser/navigation_impl.h"
 #include "weblayer/public/error_page.h"
 #include "weblayer/public/tab.h"
 
@@ -32,8 +34,15 @@ bool ErrorPageCallbackProxy::OnBackToSafety() {
 
 std::unique_ptr<ErrorPage> ErrorPageCallbackProxy::GetErrorPageContent(
     Navigation* navigation) {
-  // TODO(sky): wire up java side support.
-  return nullptr;
+  JNIEnv* env = AttachCurrentThread();
+  auto error_string = Java_ErrorPageCallbackProxy_getErrorPageContent(
+      env, java_impl_,
+      static_cast<NavigationImpl*>(navigation)->java_navigation());
+  if (!error_string)
+    return nullptr;
+  auto error_page = std::make_unique<ErrorPage>();
+  error_page->html = ConvertJavaStringToUTF8(env, error_string);
+  return error_page;
 }
 
 static jlong JNI_ErrorPageCallbackProxy_CreateErrorPageCallbackProxy(
