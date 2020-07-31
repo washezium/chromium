@@ -10,6 +10,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build.VERSION_CODES;
 import android.support.test.InstrumentationRegistry;
 import android.util.Pair;
 
@@ -146,7 +147,8 @@ public class TracingSettingsTest {
     @MediumTest
     @Feature({"Preferences"})
     @DisabledTest
-    @DisableIf.Build(sdk_is_less_than = 21, message = "crbug.com/899894")
+    @DisableIf.Build(sdk_is_less_than = VERSION_CODES.M,
+            message = "crbug.com/899894 (for <L), crbug.com/1111816 (for L)")
     public void testRecordTrace() throws Exception {
         mActivityTestRule.startMainActivityOnBlankPage();
         mSettingsActivityTestRule.startSettingsActivity();
