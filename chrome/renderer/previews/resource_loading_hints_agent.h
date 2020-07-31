@@ -63,7 +63,6 @@ class ResourceLoadingHintsAgent
       blink::mojom::CompressPublicImagesHintsPtr images_hints) override;
   void SetLiteVideoHint(
       blink::mojom::LiteVideoHintPtr lite_video_hint) override;
-  void StopThrottlingMediaRequests() override;
 
   void SetReceiver(
       mojo::PendingAssociatedReceiver<

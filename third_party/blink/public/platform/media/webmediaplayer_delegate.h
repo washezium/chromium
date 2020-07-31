@@ -130,9 +130,6 @@ class BLINK_PLATFORM_EXPORT WebMediaPlayerDelegate {
   virtual void DidPictureInPictureAvailabilityChange(int delegate_id,
                                                      bool available) = 0;
 
-  // Notify that a buffer underflow event happened for the media player.
-  virtual void DidBufferUnderflow(int player_id) = 0;
-
   // Notify that playback is stopped. This will drop wake locks and remove any
   // external controls.
   //

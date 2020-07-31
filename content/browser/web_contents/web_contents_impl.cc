@@ -7611,11 +7611,6 @@ void WebContentsImpl::MediaResized(const gfx::Size& size,
     observer.MediaResized(size, id);
 }
 
-void WebContentsImpl::MediaBufferUnderflow(const MediaPlayerId& id) {
-  for (auto& observer : observers_)
-    observer.MediaBufferUnderflow(id);
-}
-
 void WebContentsImpl::MediaEffectivelyFullscreenChanged(bool is_fullscreen) {
   for (auto& observer : observers_)
     observer.MediaEffectivelyFullscreenChanged(is_fullscreen);
