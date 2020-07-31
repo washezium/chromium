@@ -652,6 +652,11 @@ class AutofillManager : public AutofillHandler,
   // Has the user edited a field that was previously autofilled?
   bool user_did_edit_autofilled_field_ = false;
 
+  // Does the frame has any parsed forms?
+  bool frame_has_parsed_forms_ = false;
+  // Is there a field with autocomplete="one-time-code" observed?
+  bool has_observed_one_time_code_field_ = false;
+
   // When the user first interacted with a potentially fillable form on this
   // page.
   base::TimeTicks initial_interaction_timestamp_;

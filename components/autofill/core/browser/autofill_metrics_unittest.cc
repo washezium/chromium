@@ -10403,6 +10403,73 @@ TEST_F(AutofillMetricsTest,
   }
 }
 
+// Verify that we don't log Autofill.WebOTP.OneTimeCode.FromAutocomplete if the
+// frame has no form.
+TEST_F(AutofillMetricsTest, FrameHasNoForm) {
+  autofill_manager_.reset();
+  EXPECT_FALSE(base::StatisticsRecorder::FindHistogram(
+      "Autofill.WebOTP.OneTimeCode.FromAutocomplete"));
+}
+
+// Verify that we correctly log metrics if a frame has
+// autocomplete="one-time-code".
+TEST_F(AutofillMetricsTest, FrameHasAutocompleteOneTimeCode) {
+  FormData form;
+  form.unique_renderer_id = MakeFormRendererId();
+  form.name = ASCIIToUTF16("TestForm");
+  form.url = GURL("http://example.com/form.html");
+  form.action = GURL("http://example.com/submit.html");
+  form.main_frame_origin = url::Origin::Create(autofill_client_.form_origin());
+
+  FormFieldData field;
+
+  std::vector<FormData> forms_with_one_time_code(1, form);
+
+  test::CreateTestFormField("", "", "", "password", &field);
+  field.autocomplete_attribute = "one-time-code";
+  forms_with_one_time_code.back().fields.push_back(field);
+  test::CreateTestFormField("", "", "", "password", &field);
+  forms_with_one_time_code.back().fields.push_back(field);
+
+  base::HistogramTester histogram_tester;
+  autofill_manager_->OnFormsSeen(forms_with_one_time_code, TimeTicks());
+  autofill_manager_.reset();
+  // Verifies that autocomplete="one-time-code" in a form is correctly recorded.
+  histogram_tester.ExpectBucketCount(
+      "Autofill.WebOTP.OneTimeCode.FromAutocomplete",
+      /* has_one_time_code */ 1,
+      /* sample count */ 1);
+  histogram_tester.ExpectTotalCount(
+      "Autofill.WebOTP.OneTimeCode.FromAutocomplete", 1);
+}
+
+// Verify that we correctly log metrics if a frame does not have
+// autocomplete="one-time-code".
+TEST_F(AutofillMetricsTest, FrameDoesNotHaveAutocompleteOneTimeCode) {
+  FormData form;
+  form.unique_renderer_id = MakeFormRendererId();
+  form.name = ASCIIToUTF16("TestForm");
+  form.url = GURL("http://example.com/form.html");
+  form.action = GURL("http://example.com/submit.html");
+  form.main_frame_origin = url::Origin::Create(autofill_client_.form_origin());
+
+  FormFieldData field;
+  std::vector<FormData> forms_without_one_time_code(1, form);
+
+  test::CreateTestFormField("", "", "", "password", &field);
+  forms_without_one_time_code.back().fields.push_back(field);
+
+  base::HistogramTester histogram_tester;
+  autofill_manager_->OnFormsSeen(forms_without_one_time_code, TimeTicks());
+  autofill_manager_.reset();
+  histogram_tester.ExpectBucketCount(
+      "Autofill.WebOTP.OneTimeCode.FromAutocomplete",
+      /* has_one_time_code */ 0,
+      /* sample count */ 1);
+  histogram_tester.ExpectTotalCount(
+      "Autofill.WebOTP.OneTimeCode.FromAutocomplete", 1);
+}
+
 TEST_F(AutofillMetricsTest, LogAutocompleteSuggestionAcceptedIndex_WithIndex) {
   base::HistogramTester histogram_tester;
   const int test_index = 3;
