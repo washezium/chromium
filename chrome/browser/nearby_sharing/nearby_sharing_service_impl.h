@@ -40,6 +40,7 @@ class NearbyShareContactManager;
 class NearbyShareCertificateManager;
 class NearbyShareClientFactory;
 class NearbyShareLocalDeviceDataManager;
+class NotificationDisplayService;
 class PrefService;
 class Profile;
 
@@ -54,6 +55,7 @@ class NearbySharingServiceImpl
  public:
   explicit NearbySharingServiceImpl(
       PrefService* prefs,
+      NotificationDisplayService* notification_display_service,
       Profile* profile,
       std::unique_ptr<NearbyConnectionsManager> nearby_connections_manager,
       NearbyProcessManager* process_manager);

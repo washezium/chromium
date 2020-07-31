@@ -122,6 +122,7 @@ std::string ConnectionsStatusToString(
 
 NearbySharingServiceImpl::NearbySharingServiceImpl(
     PrefService* prefs,
+    NotificationDisplayService* notification_display_service,
     Profile* profile,
     std::unique_ptr<NearbyConnectionsManager> nearby_connections_manager,
     NearbyProcessManager* process_manager)
@@ -157,8 +158,8 @@ NearbySharingServiceImpl::NearbySharingServiceImpl(
 
   GetBluetoothAdapter();
 
-  nearby_notification_manager_ =
-      std::make_unique<NearbyNotificationManager>(profile_, this);
+  nearby_notification_manager_ = std::make_unique<NearbyNotificationManager>(
+      notification_display_service, this);
 }
 
 NearbySharingServiceImpl::~NearbySharingServiceImpl() {
