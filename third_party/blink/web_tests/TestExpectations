@@ -992,6 +992,7 @@ crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/mult
 crbug.com/994172 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-span-all-dynamic-add-007.html [ Pass Crash ]
 crbug.com/924142 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-span-all-dynamic-add-010.html [ Crash Pass ]
 crbug.com/874051 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-span-all-fieldset-002.html [ Failure Crash ]
+crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-span-all-fieldset-003.html [ Crash Failure ]
 crbug.com/829028 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-span-all-list-item-001.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-width-001.xht [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/external/wpt/css/css-multicol/multicol-width-002.xht [ Failure ]
@@ -1231,7 +1232,6 @@ crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-repl
 
 ### virtual/layout_ng_fieldset/fast/forms/fieldset/
 crbug.com/875235 virtual/layout_ng_fieldset/fast/forms/fieldset/fieldset-align.html [ Failure ]
-crbug.com/875235 virtual/layout_ng_fieldset/fast/forms/fieldset/fieldset-legend-change.html [ Crash ]
 crbug.com/875235 virtual/layout_ng_fieldset/fast/forms/fieldset/legend-small-after-margin-before-border-horizontal-mode.html [ Failure ]
 crbug.com/875235 virtual/layout_ng_fieldset/fast/forms/fieldset/legend-after-margin-with-before-border-horizontal-mode.html [ Failure ]
 
