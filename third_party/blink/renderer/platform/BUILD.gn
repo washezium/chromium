@@ -2230,7 +2230,7 @@ test("blink_fuzzer_unittests") {
 
   sources = [ "testing/run_all_tests.cc" ]
 
-  if (is_linux) {
+  if (is_linux || is_chromeos) {
     deps += [
       "//third_party/blink/renderer/platform/scheduler:scheduler_fuzzer_tests",
     ]
