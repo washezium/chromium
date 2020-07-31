@@ -1225,6 +1225,26 @@
             ]
         }
     ],
+    "BrowserVerifiedUserActivationKeyboardTrigger": [
+        {
+            "platforms": [
+                "windows",
+                "mac",
+                "chromeos",
+                "linux",
+                "android",
+                "android_weblayer"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "BrowserVerifiedUserActivationKeyboard"
+                    ]
+                }
+            ]
+        }
+    ],
     "CSSMatchedPropertiesCacheDependencies": [
         {
             "platforms": [
