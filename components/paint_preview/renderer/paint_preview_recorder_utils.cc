@@ -41,7 +41,12 @@ void ParseGlyphsAndLinks(const cc::PaintOpBuffer* buffer,
                               annotate_op->rect);
         // Delete the data. We no longer need it.
         annotate_op->data.reset();
-        return;
+        break;
+      }
+      case cc::PaintOpType::CustomData: {
+        auto* custom_op = static_cast<cc::CustomDataOp*>(*it);
+        custom_op->id = tracker->TransformContentForRemoteFrame(custom_op->id);
+        break;
       }
       case cc::PaintOpType::Save: {
         tracker->Save();

@@ -72,6 +72,10 @@ class PaintPreviewTracker {
   // Adds |link| with bounding box |rect| to the list of links.
   void AnnotateLink(const GURL& link, const SkRect& rect);
 
+  // Transforms the cull rect for |id| to be in the correct place and return a
+  // non-zero replacement ID if the cull rect needed to be updated.
+  uint32_t TransformContentForRemoteFrame(uint32_t id);
+
   // Data Serialization -------------------------------------------------------
   // NOTE: once any of these methods are called the PaintPreviewTracker should
   // be considered immutable.
@@ -92,6 +96,11 @@ class PaintPreviewTracker {
 
   // Moves |links_| to out. Invalidates existing entries in |links_|.
   void MoveLinks(std::vector<mojom::LinkDataPtr>* out);
+
+  const base::flat_map<uint32_t, sk_sp<SkPicture>>&
+  GetSubframePicsForTesting() {
+    return subframe_pics_;
+  }
 
  private:
   const base::UnguessableToken guid_;

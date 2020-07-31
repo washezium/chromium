@@ -147,6 +147,28 @@ void PaintPreviewTracker::AnnotateLink(const GURL& url, const SkRect& rect) {
                      out_rect.height())));
 }
 
+uint32_t PaintPreviewTracker::TransformContentForRemoteFrame(uint32_t old_id) {
+  if (matrix_.isIdentity())
+    return old_id;
+
+  auto pic_it = subframe_pics_.find(old_id);
+  if (pic_it == subframe_pics_.end())
+    return old_id;
+
+  SkRect out_rect;
+  matrix_.mapRect(&out_rect, pic_it->second->cullRect());
+
+  base::UnguessableToken embedding_token =
+      content_id_to_embedding_token_[old_id];
+  uint32_t new_id = CreateContentForRemoteFrame(
+      gfx::Rect(out_rect.x(), out_rect.y(), out_rect.width(),
+                out_rect.height()),
+      embedding_token);
+  subframe_pics_.erase(old_id);
+  content_id_to_embedding_token_.erase(old_id);
+  return new_id;
+}
+
 void PaintPreviewTracker::CustomDataToSkPictureCallback(SkCanvas* canvas,
                                                         uint32_t content_id) {
   auto map_it = content_id_to_embedding_token_.find(content_id);

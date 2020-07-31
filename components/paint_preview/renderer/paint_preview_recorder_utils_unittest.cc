@@ -157,6 +157,45 @@ TEST(PaintPreviewRecorderUtilsTest, TestParseLinks) {
   EXPECT_EQ(links[3]->rect.height(), rect_4.height());
 }
 
+TEST(PaintPreviewRecorderUtilsTest, TestTransformSubframeRects) {
+  PaintPreviewTracker tracker(base::UnguessableToken::Create(),
+                              base::UnguessableToken::Create(), true);
+  gfx::Rect rect(20, 30, 40, 50);
+  auto subframe_token = base::UnguessableToken::Create();
+  int old_id = tracker.CreateContentForRemoteFrame(rect, subframe_token);
+
+  cc::PaintFlags flags;
+  cc::PaintRecorder recorder;
+  cc::PaintCanvas* canvas = recorder.beginRecording(500, 500);
+  canvas->save();
+  canvas->translate(10, 20);
+  canvas->recordCustomData(old_id);
+  canvas->restore();
+  auto record = recorder.finishRecordingAsPicture();
+
+  auto map = tracker.GetSubframePicsForTesting();
+  auto it = map.find(old_id);
+  ASSERT_NE(it, map.end());
+  auto old_cull_rect = it->second->cullRect();
+  EXPECT_EQ(rect.x(), old_cull_rect.x());
+  EXPECT_EQ(rect.y(), old_cull_rect.y());
+  EXPECT_EQ(rect.width(), old_cull_rect.width());
+  EXPECT_EQ(rect.height(), old_cull_rect.height());
+
+  ParseGlyphsAndLinks(record.get(), &tracker);
+
+  map = tracker.GetSubframePicsForTesting();
+  ASSERT_EQ(map.size(), 1U);
+  // Iterate over the one element since we don't know the key.
+  for (const auto& pair : map) {
+    auto old_cull_rect = pair.second->cullRect();
+    EXPECT_EQ(rect.x() + 10, old_cull_rect.x());
+    EXPECT_EQ(rect.y() + 20, old_cull_rect.y());
+    EXPECT_EQ(rect.width(), old_cull_rect.width());
+    EXPECT_EQ(rect.height(), old_cull_rect.height());
+  }
+}
+
 class PaintPreviewRecorderUtilsSerializeAsSkPictureTest
     : public testing::TestWithParam<mojom::Persistence> {
  public:
