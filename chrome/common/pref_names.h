@@ -245,7 +245,7 @@ extern const char kShowMobileDataNotification[];
 extern const char kChromeOSReleaseNotesVersion[];
 extern const char kNoteTakingAppId[];
 extern const char kNoteTakingAppEnabledOnLockScreen[];
-extern const char kNoteTakingAppsLockScreenWhitelist[];
+extern const char kNoteTakingAppsLockScreenAllowlist[];
 extern const char kNoteTakingAppsLockScreenToastShown[];
 extern const char kRestoreLastLockScreenNote[];
 extern const char kSessionUserActivitySeen[];

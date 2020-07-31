@@ -21339,6 +21339,7 @@ Called by update_document_policy_enum.py.-->
   <int value="756" label="SensorsBlockedForUrls"/>
   <int value="757" label="DeviceChannelDowngradeBehavior"/>
   <int value="758" label="BackForwardCacheEnabled"/>
+  <int value="759" label="NoteTakingAppsLockScreenAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
