@@ -41,6 +41,18 @@ class PaintPreviewTracker {
   }
   bool IsMainFrame() const { return is_main_frame_; }
 
+  // Transform methods --------------------------------------------------------
+
+  // Used to transform the position of links when parsing the paint op buffer.
+  // These are inspired by the methods in SkCanvas.
+  void Save();
+  void Restore();
+  void SetMatrix(const SkMatrix& matrix);
+  void Concat(const SkMatrix& matrix);
+  void Scale(SkScalar x, SkScalar y);
+  void Rotate(SkScalar degrees);
+  void Translate(SkScalar x, SkScalar y);
+
   // Data Collection ----------------------------------------------------------
 
   // Creates a placeholder SkPicture for an OOP subframe located at |rect|
@@ -58,7 +70,7 @@ class PaintPreviewTracker {
   void AddGlyphs(const SkTextBlob* blob);
 
   // Adds |link| with bounding box |rect| to the list of links.
-  void AnnotateLink(const GURL& link, const gfx::Rect& rect);
+  void AnnotateLink(const GURL& link, const SkRect& rect);
 
   // Data Serialization -------------------------------------------------------
   // NOTE: once any of these methods are called the PaintPreviewTracker should
@@ -87,6 +99,8 @@ class PaintPreviewTracker {
   const bool is_main_frame_;
 
   SkISize scroll_;
+  SkMatrix matrix_;
+  std::vector<SkMatrix> states_;
 
   std::vector<mojom::LinkDataPtr> links_;
   PictureSerializationContext content_id_to_embedding_token_;
