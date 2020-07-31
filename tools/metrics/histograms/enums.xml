@@ -50882,6 +50882,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="7" label="Parse issue advice failure"/>
   <int value="8" label="Remote consent fallback (deprecated 06/2020)"/>
   <int value="9" label="Parse remote consent failure"/>
+  <int value="10" label="Mint token success with fallback scopes"/>
 </enum>
 
 <enum name="OAuthMultiloginResponseStatus">
