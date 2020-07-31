@@ -1165,6 +1165,12 @@ void RenderFrameHostImpl::DisableBackForwardCache(base::StringPiece reason) {
   MaybeEvictFromBackForwardCache();
 }
 
+void RenderFrameHostImpl::DisableProactiveBrowsingInstanceSwapForTesting() {
+  // This should only be called on main frames.
+  DCHECK(!GetParent());
+  is_proactive_browsing_instance_swap_disabled_for_testing_ = true;
+}
+
 void RenderFrameHostImpl::OnGrantedMediaStreamAccess() {
   was_granted_media_access_ = true;
   MaybeEvictFromBackForwardCache();
