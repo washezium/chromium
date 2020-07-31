@@ -18332,6 +18332,7 @@
         'cloud_only': True,
       },
       'supported_on': ['chrome.*:72-', 'chrome_os:81-'],
+      'future_on': [ 'ios' ],
       'caption': '''Enables <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> cloud reporting''',
       'example_value': True,
       'desc': '''This policy controls <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> cloud reporting which uploads information about the browser operation to Google Admin console.
