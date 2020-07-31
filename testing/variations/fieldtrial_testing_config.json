@@ -1409,6 +1409,21 @@
             ]
         }
     ],
+    "CertVerifierBuiltin": [
+        {
+            "platforms": [
+                "mac"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "CertVerifierBuiltin"
+                    ]
+                }
+            ]
+        }
+    ],
     "ChromeCleanupDistribution": [
         {
             "platforms": [
