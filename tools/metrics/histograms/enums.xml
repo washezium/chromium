@@ -21334,6 +21334,9 @@ Called by update_document_policy_enum.py.-->
   <int value="751" label="DefaultSerialGuardSetting"/>
   <int value="752" label="SerialAskForUrls"/>
   <int value="753" label="SerialBlockedForUrls"/>
+  <int value="754" label="DefaultSensorsSetting"/>
+  <int value="755" label="SensorsAllowedForUrls"/>
+  <int value="756" label="SensorsBlockedForUrls"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
@@ -55855,6 +55858,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="36" label="Display"/>
   <int value="37" label="ActiveDirectoryManagement"/>
   <int value="38" label="LegacySameSiteCookieBehaviorSettings"/>
+  <int value="39" label="SensorsSettings"/>
 </enum>
 
 <enum name="PolicyLoadStatus">
