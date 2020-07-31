@@ -109,9 +109,6 @@ const base::Feature kSwapSideVolumeButtonsForOrientation{
 const base::Feature kEnableBackgroundBlur{"EnableBackgroundBlur",
                                           base::FEATURE_ENABLED_BY_DEFAULT};
 
-const base::Feature kDragFromShelfToHomeOrOverview{
-    "DragFromShelfToHomeOrOverview", base::FEATURE_DISABLED_BY_DEFAULT};
-
 const base::Feature kHideShelfControlsInTabletMode{
     "HideShelfControlsInTabletMode", base::FEATURE_ENABLED_BY_DEFAULT};
 
@@ -226,10 +223,8 @@ bool IsBackgroundBlurEnabled() {
 
 bool IsDragFromShelfToHomeOrOverviewEnabled() {
   // The kDragFromShelfToHomeOrOverview feature is only enabled on the devices
-  // that have hotseat enabled (i.e., on Krane and on Dogfood devices) in M80.
-  // See crbug.com/1029991 for details.
-  return base::FeatureList::IsEnabled(kDragFromShelfToHomeOrOverview) ||
-         chromeos::switches::ShouldShowShelfHotseat();
+  // that have hotseat enabled.
+  return chromeos::switches::ShouldShowShelfHotseat();
 }
 
 bool IsReduceDisplayNotificationsEnabled() {

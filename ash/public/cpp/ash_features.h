@@ -139,12 +139,6 @@ ASH_PUBLIC_EXPORT extern const base::Feature kShelfAppScaling;
 // may have choppier app list animations while in this mode. crbug.com/765292.
 ASH_PUBLIC_EXPORT extern const base::Feature kEnableBackgroundBlur;
 
-// Enables dragging from shelf to enter home screen or overview feature.
-// Only for tablet mode.
-// TODO(https://crbug.com/992642): Remove this after this feature is fully
-// launched.
-ASH_PUBLIC_EXPORT extern const base::Feature kDragFromShelfToHomeOrOverview;
-
 // When enabled, shelf navigation controls and the overview tray item will be
 // removed from the shelf in tablet mode (unless otherwise specified by user
 // preferences, or policy).
