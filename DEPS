@@ -4097,8 +4097,11 @@ include_rules = [
   '+third_party/icu/source/i18n/unicode',
   '+url',
 
-  # Chromium cannot directly depend on Abseil.
+  # Abseil features must be allowlisted explicitly for now. See
+  # //styleguide/c++/c++11.html. Allowed features' headers will be listed
+  # explicitly here.
   '-absl',
+  '-third_party/abseil-cpp',
 ]
 
 
