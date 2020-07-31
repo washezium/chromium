@@ -5,8 +5,10 @@
 #include "chromeos/services/device_sync/cryptauth_v2_enrollment_manager_impl.h"
 
 #include "base/bind.h"
+#include "base/hash/hash.h"
 #include "base/memory/ptr_util.h"
 #include "base/metrics/histogram_functions.h"
+#include "base/strings/string_number_conversions.h"
 #include "base/time/clock.h"
 #include "base/values.h"
 #include "chromeos/components/multidevice/logging/logging.h"
@@ -147,6 +149,9 @@ CryptAuthV2EnrollmentManagerImpl::Factory::~Factory() = default;
 // static
 void CryptAuthV2EnrollmentManagerImpl::RegisterPrefs(
     PrefRegistrySimple* registry) {
+  registry->RegisterStringPref(
+      prefs::kCryptAuthLastEnrolledClientAppMetadataHash, std::string());
+
   // TODO(nohle): Remove when v1 Enrollment is deprecated.
   registry->RegisterStringPref(prefs::kCryptAuthEnrollmentUserPublicKey,
                                std::string());
@@ -183,28 +188,34 @@ void CryptAuthV2EnrollmentManagerImpl::Start() {
   scheduler_->StartEnrollmentScheduling(
       scheduler_weak_ptr_factory_.GetWeakPtr());
 
-  // If the v1 and v2 user key pairs initially disagreed, force a re-enrollment
-  // with the v1 user key pair that replaced the v2 user key pair.
-  if (initial_v1_and_v2_user_key_pairs_disagree_) {
+  std::string last_enrolled_client_app_metadata_hash = pref_service_->GetString(
+      prefs::kCryptAuthLastEnrolledClientAppMetadataHash);
+  if (!last_enrolled_client_app_metadata_hash.empty() &&
+      GetClientAppMetadataHash() != last_enrolled_client_app_metadata_hash) {
+    // Re-enroll if the ClientAppMetadata has changed since the last successful
+    // enrollment. NOTE: Do not force an enrollment if the ClientAppMetadata
+    // hash has never been set.
+    ForceEnrollmentNow(
+        cryptauth::InvocationReason::INVOCATION_REASON_SOFTWARE_UPDATE,
+        base::nullopt /* session_id */);
+  } else if (initial_v1_and_v2_user_key_pairs_disagree_) {
+    // If the v1 and v2 user key pairs initially disagreed, force a
+    // re-enrollment with the v1 user key pair that replaced the v2 user key
+    // pair.
     ForceEnrollmentNow(
         cryptauth::InvocationReason::INVOCATION_REASON_INITIALIZATION,
         base::nullopt /* session_id */);
-  }
-
-  // It is possible, though unlikely, that |scheduler_| has previously enrolled
-  // successfully but |key_registry_| no longer holds the enrolled keys, for
-  // example, if keys are deleted from the key registry or if the persisted key
-  // registry pref cannot be parsed due to an encoding change. In this case,
-  // force a re-enrollment.
-  if (scheduler_->GetLastSuccessfulEnrollmentTime() &&
-      (GetUserPublicKey().empty() || GetUserPrivateKey().empty())) {
+  } else if (scheduler_->GetLastSuccessfulEnrollmentTime() &&
+             (GetUserPublicKey().empty() || GetUserPrivateKey().empty())) {
+    // It is possible, though unlikely, that |scheduler_| has previously
+    // enrolled successfully but |key_registry_| no longer holds the enrolled
+    // keys, for example, if keys are deleted from the key registry or if the
+    // persisted key registry pref cannot be parsed due to an encoding change.
+    // In this case, force a re-enrollment.
     ForceEnrollmentNow(
         cryptauth::InvocationReason::INVOCATION_REASON_FAILURE_RECOVERY,
         base::nullopt /* session_id */);
   }
-
-  // TODO(nohle): Check hash of ClientAppMetadata in prefs; re-enroll if
-  // changed.
 }
 
 void CryptAuthV2EnrollmentManagerImpl::ForceEnrollmentNow(
@@ -336,6 +347,8 @@ void CryptAuthV2EnrollmentManagerImpl::OnEnrollmentFinished(
                  << current_client_metadata_->invocation_reason()
                  << " succeeded with result code "
                  << enrollment_result_copy.result_code();
+    pref_service_->SetString(prefs::kCryptAuthLastEnrolledClientAppMetadataHash,
+                             GetClientAppMetadataHash());
   } else {
     PA_LOG(WARNING) << "Enrollment attempt with invocation reason "
                     << current_client_metadata_->invocation_reason()
@@ -358,6 +371,20 @@ void CryptAuthV2EnrollmentManagerImpl::OnEnrollmentFinished(
   }
 
   NotifyEnrollmentFinished(enrollment_result_copy.IsSuccess());
+}
+
+std::string CryptAuthV2EnrollmentManagerImpl::GetClientAppMetadataHash() const {
+  // NOTE: SerializeAsString() is not guaranteed to be stable; it could change
+  // if the protobuf serialization algorithm changes or if the field
+  // serialization is inherently nondeterministic. However, because we only have
+  // MessageLite protocol buffers in Chrome, MessageDifferencer is not
+  // available. So, we either need to compare field-by-field (maintenance heavy)
+  // or compare the serializations. We choose the latter and risk a spurious
+  // re-enrollment if the serialization algorithm changes. We assume the
+  // ClientAppMetadata fields are serialized deterministically; unit tests will
+  // fail if they are not.
+  return base::NumberToString(
+      base::PersistentHash(client_app_metadata_.SerializeAsString()));
 }
 
 std::string CryptAuthV2EnrollmentManagerImpl::GetV1UserPublicKey() const {

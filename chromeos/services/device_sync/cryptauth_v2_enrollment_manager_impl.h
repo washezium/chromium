@@ -128,6 +128,7 @@ class CryptAuthV2EnrollmentManagerImpl
   void Enroll();
   void OnEnrollmentFinished(const CryptAuthEnrollmentResult& enrollment_result);
 
+  std::string GetClientAppMetadataHash() const;
   std::string GetV1UserPublicKey() const;
   std::string GetV1UserPrivateKey() const;
 
