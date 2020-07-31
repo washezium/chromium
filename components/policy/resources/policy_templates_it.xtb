@@ -157,6 +157,9 @@ Per ulteriori informazioni sui contesti sicuri, visita il sito https://www.w3.or
 
       Se la norma non è impostata o è impostata su false, Fast Transition non viene utilizzato.
       Se è impostata su true, Fast Transition viene utilizzato quando il punto di accesso wireless lo supporta.</translation>
+<translation id="1240722269871366886">Questo criterio consente a <ph name="PRODUCT_OS_NAME" /> di suggerire le emoji quando gli utenti digitano il testo sulle tastiere fisiche o virtuali.
+      Se questo criterio viene impostato su vero, la funzionalità verrà attivata e gli utenti potranno modificarla.
+      Per impostazione predefinita questo criterio è impostato su falso, il che significa che non vengono suggerite emoji e gli utenti non possono ignorarlo.</translation>
 <translation id="1243570869342663665">Controlla il filtro dei contenuti per adulti di SafeSites.</translation>
 <translation id="1257550411839719984">Imposta directory di download predefinita</translation>
 <translation id="1265053460044691532">Limita il tempo per cui un utente autenticato tramite SAML può eseguire l'accesso offline</translation>
@@ -792,9 +795,6 @@ Questa norma viene rispettata soltanto se la norma "DefaultSearchProviderEnabled
       Questo criterio non dovrebbe essere utilizzato per i dispositivi usati dal pubblico generale.
 
       Se il criterio è impostato su true o non configurato, la notifica di avviso sulla privacy nella sessione Ospite gestita con avvio automatico verrà bloccata finché l'utente non la ignorerà.</translation>
-<translation id="2288338171390565087">Questa funzionalità suggerisce emoji quando un utente digita una parola di cui viene trovata una corrispondenza nella mappa di emoji integrata.
-      Se il criterio viene impostato su true, la funzionalità viene attivata forzatamente e gli utenti non potranno ignorarla.
-      Per impostazione predefinita questo criterio è impostato su false, il che significa che non vengono suggerite emoji e gli utenti non possono ignorarlo.</translation>
 <translation id="2289265947759479962">Questo criterio consente di stabilire se segnalare o meno le informazioni sulla versione, ad esempio la versione del sistema operativo, la piattaforma e l'architettura del sistema operativo, la versione di <ph name="PRODUCT_NAME" /> e il canale di <ph name="PRODUCT_NAME" />.
 
       Se il criterio <ph name="CLOUD_REPORTING_ENABLED_POLICY_NAME" /> non viene configurato o viene disattivato, viene ignorato.
