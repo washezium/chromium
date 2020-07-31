@@ -32,7 +32,6 @@
 #include "chromeos/services/device_sync/proto/cryptauth_common.pb.h"
 #include "chromeos/services/device_sync/proto/cryptauth_directive.pb.h"
 #include "chromeos/services/device_sync/proto/cryptauth_v2_test_util.h"
-#include "chromeos/services/device_sync/public/cpp/fake_client_app_metadata_provider.h"
 #include "chromeos/services/device_sync/public/cpp/gcm_constants.h"
 #include "chromeos/services/device_sync/value_string_encoding.h"
 #include "components/prefs/pref_service.h"
@@ -111,7 +110,7 @@ class DeviceSyncCryptAuthV2EnrollmentManagerImplTest
       CryptAuthEnrollmentManager::Observer {
  protected:
   DeviceSyncCryptAuthV2EnrollmentManagerImplTest()
-      : fake_gcm_manager_(std::string() /* registration_id */),
+      : fake_gcm_manager_(cryptauthv2::kTestGcmRegistrationId),
         mock_client_factory_(
             MockCryptAuthClientFactory::MockType::MAKE_NICE_MOCKS) {}
 
@@ -162,15 +161,12 @@ class DeviceSyncCryptAuthV2EnrollmentManagerImplTest
   }
 
   void CreateEnrollmentManager() {
-    auto mock_timer = std::make_unique<base::MockOneShotTimer>();
-    mock_timer_ = mock_timer.get();
-
     VerifyUserKeyPairStateHistogram(0u /* total_count */);
 
     enrollment_manager_ = CryptAuthV2EnrollmentManagerImpl::Factory::Create(
-        &fake_client_app_metadata_provider_, key_registry_.get(),
+        cryptauthv2::GetClientAppMetadataForTest(), key_registry_.get(),
         &mock_client_factory_, &fake_gcm_manager_, &fake_enrollment_scheduler_,
-        &test_pref_service_, &test_clock_, std::move(mock_timer));
+        &test_pref_service_, &test_clock_);
 
     VerifyUserKeyPairStateHistogram(1u /* total_count */);
 
@@ -189,52 +185,11 @@ class DeviceSyncCryptAuthV2EnrollmentManagerImplTest
               num_enrollment_started_notifications_);
   }
 
-  void CompleteGcmRegistration(bool success) {
-    EXPECT_TRUE(fake_gcm_manager_.GetRegistrationId().empty());
-
-    if (success) {
-      fake_gcm_manager_.CompleteRegistration(
-          cryptauthv2::kTestGcmRegistrationId);
-    } else {
-      // An empty registration ID is interpreted as an error by
-      // FakeCryptAuthGCMManager.
-      fake_gcm_manager_.CompleteRegistration(std::string());
-    }
-  }
-
-  void HandleGetClientAppMetadataRequest(bool success) {
-    EXPECT_GT(fake_client_app_metadata_provider_.metadata_requests().size(),
-              0u);
-    EXPECT_EQ(cryptauthv2::kTestGcmRegistrationId,
-              fake_client_app_metadata_provider_.metadata_requests()
-                  .back()
-                  .gcm_registration_id);
-
-    if (success) {
-      std::move(fake_client_app_metadata_provider_.metadata_requests()
-                    .back()
-                    .callback)
-          .Run(cryptauthv2::GetClientAppMetadataForTest());
-      return;
-    }
-
-    std::move(
-        fake_client_app_metadata_provider_.metadata_requests().back().callback)
-        .Run(base::nullopt /* client_app_metadata */);
-  }
-
   void FinishEnrollmentAttempt(
       size_t expected_enroller_instance_index,
       const cryptauthv2::ClientMetadata& expected_client_metadata,
       const CryptAuthEnrollmentResult& enrollment_result) {
     EXPECT_TRUE(enrollment_manager_->IsEnrollmentInProgress());
-
-    // A valid GCM registration ID and valid ClientAppMetadata must exist before
-    // the enroller can be invoked.
-    EXPECT_EQ(cryptauthv2::kTestGcmRegistrationId,
-              fake_gcm_manager_.GetRegistrationId());
-    EXPECT_GT(fake_client_app_metadata_provider_.metadata_requests().size(),
-              0u);
 
     // Only the most recently created enroller is valid.
     EXPECT_EQ(fake_enroller_factory_->created_instances().size() - 1,
@@ -289,8 +244,6 @@ class DeviceSyncCryptAuthV2EnrollmentManagerImplTest
   }
 
   base::SimpleTestClock* test_clock() { return &test_clock_; }
-
-  base::MockOneShotTimer* mock_timer() { return mock_timer_; }
 
   const base::HistogramTester* histogram_tester() { return &histogram_tester_; }
 
@@ -366,11 +319,9 @@ class DeviceSyncCryptAuthV2EnrollmentManagerImplTest
   std::vector<bool> observer_enrollment_finished_success_list_;
 
   TestingPrefServiceSimple test_pref_service_;
-  FakeClientAppMetadataProvider fake_client_app_metadata_provider_;
   FakeCryptAuthGCMManager fake_gcm_manager_;
   FakeCryptAuthScheduler fake_enrollment_scheduler_;
   base::SimpleTestClock test_clock_;
-  base::MockOneShotTimer* mock_timer_;
   MockCryptAuthClientFactory mock_client_factory_;
   base::HistogramTester histogram_tester_;
   std::unique_ptr<CryptAuthKeyRegistry> key_registry_;
@@ -404,9 +355,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   VerifyEnrollmentManagerObserversNotifiedOfStart(
       1 /* expected_num_enrollment_started_notifications */);
 
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
-
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kSuccessNewKeysEnrolled,
       cryptauthv2::GetClientDirectiveForTest());
@@ -422,59 +370,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   VerifyEnrollmentResults({expected_enrollment_result});
 }
 
-TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest, GcmRegistrationFailed) {
-  CreateEnrollmentManager();
-  enrollment_manager()->Start();
-
-  fake_enrollment_scheduler()->RequestEnrollment(
-      cryptauthv2::ClientMetadata::INITIALIZATION /* invocation_reason */,
-      base::nullopt /* session_id */);
-
-  CompleteGcmRegistration(false /* success */);
-
-  VerifyEnrollmentResults({CryptAuthEnrollmentResult(
-      CryptAuthEnrollmentResult::ResultCode::kErrorGcmRegistrationFailed,
-      base::nullopt /* client_directive */)});
-}
-
-TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
-       ClientAppMetadataFetchFailed) {
-  CreateEnrollmentManager();
-  enrollment_manager()->Start();
-
-  fake_enrollment_scheduler()->RequestEnrollment(
-      cryptauthv2::ClientMetadata::INITIALIZATION /* invocation_reason */,
-      base::nullopt /* session_id */);
-
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(false /* success */);
-
-  VerifyEnrollmentResults({CryptAuthEnrollmentResult(
-      CryptAuthEnrollmentResult::ResultCode::kErrorClientAppMetadataFetchFailed,
-      base::nullopt /* client_directive */)});
-}
-
-TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
-       ClientAppMetadataTimeout) {
-  CreateEnrollmentManager();
-  enrollment_manager()->Start();
-
-  fake_enrollment_scheduler()->RequestEnrollment(
-      cryptauthv2::ClientMetadata::INITIALIZATION /* invocation_reason */,
-      base::nullopt /* session_id */);
-
-  CompleteGcmRegistration(true /* success */);
-
-  // Timeout waiting for ClientAppMetadata.
-  EXPECT_TRUE(mock_timer()->IsRunning());
-  mock_timer()->Fire();
-
-  VerifyEnrollmentResults(
-      {CryptAuthEnrollmentResult(CryptAuthEnrollmentResult::ResultCode::
-                                     kErrorTimeoutWaitingForClientAppMetadata,
-                                 base::nullopt /* client_directive */)});
-}
-
 TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest, ForcedEnrollment) {
   CreateEnrollmentManager();
   enrollment_manager()->Start();
@@ -487,9 +382,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest, ForcedEnrollment) {
       1 /* expected_num_enrollment_started_notifications */);
 
   // Simulate a failed enrollment attempt due to CryptAuth server overload.
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
-
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kErrorCryptAuthServerOverloaded,
       base::nullopt /* client_directive */);
@@ -553,9 +445,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   VerifyEnrollmentManagerObserversNotifiedOfStart(
       1 /* expected_num_enrollment_started_notifications */);
 
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
-
   CryptAuthEnrollmentResult first_expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kErrorCryptAuthServerOverloaded,
       base::nullopt /* client_directive */);
@@ -615,8 +504,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   EXPECT_TRUE(enrollment_manager()->IsEnrollmentInProgress());
   VerifyEnrollmentManagerObserversNotifiedOfStart(
       1 /* expected_num_enrollment_started_notifications */);
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kSuccessNoNewKeysNeeded,
       cryptauthv2::GetClientDirectiveForTest());
@@ -639,8 +526,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   EXPECT_TRUE(enrollment_manager()->IsEnrollmentInProgress());
   VerifyEnrollmentManagerObserversNotifiedOfStart(
       1 /* expected_num_enrollment_started_notifications */);
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kErrorCryptAuthServerOverloaded,
       base::nullopt /* client_directive */);
@@ -717,8 +602,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kSuccessNewKeysEnrolled,
       base::nullopt /* client_directive */);
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
   FinishEnrollmentAttempt(0u /* expected_enroller_instance_index */,
                           expected_client_metadata, expected_enrollment_result);
 
@@ -806,8 +689,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
       expected_invocation_reasons.back(), kFakeSessionId);
   VerifyEnrollmentManagerObserversNotifiedOfStart(
       1 /* expected_num_enrollment_started_notifications */);
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
   FinishEnrollmentAttempt(
       0u /* expected_enroller_instance_index */,
       cryptauthv2::BuildClientMetadata(
@@ -891,8 +772,6 @@ TEST_F(DeviceSyncCryptAuthV2EnrollmentManagerImplTest,
   CryptAuthEnrollmentResult expected_enrollment_result(
       CryptAuthEnrollmentResult::ResultCode::kSuccessNewKeysEnrolled,
       base::nullopt /* client_directive */);
-  CompleteGcmRegistration(true /* success */);
-  HandleGetClientAppMetadataRequest(true /* success */);
   FinishEnrollmentAttempt(0u /* expected_enroller_instance_index */,
                           expected_client_metadata, expected_enrollment_result);
 
