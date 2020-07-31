@@ -57875,6 +57875,10 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="5" label="User elected to send feedback."/>
 </enum>
 
+<enum name="PromoBrowserCommandEnum">
+  <int value="0" label="Unknown Command"/>
+</enum>
+
 <enum name="ProtectorError">
   <obsolete>
     Deprecated 8/2013. No longer generated.
