@@ -1214,15 +1214,6 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/inline-re
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/cascade/* [ Skip ]
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 
-# Flexbox in NG
-
-# Fail in NG flex, pass in legacy flex.
-crbug.com/845235 virtual/layout_ng_flex_box/external/wpt/css/css-flexbox/quirks-auto-block-size-with-percentage-item.html [ Pass Failure ]
-crbug.com/846557 [ Mac ] virtual/layout_ng_flex_box/css3/flexbox/button.html [ Failure ]
-
-# Fail in both legacy flex and NG flex
-crbug.com/626703 virtual/layout_ng_flex_box/external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/flexbox/flexbox-align-self-baseline-horiz-008.xhtml [ Failure ]
-
 # Fieldset in NG
 #
 crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/css/css-contain/contain-size-breaks-001.html [ Crash Failure ]
