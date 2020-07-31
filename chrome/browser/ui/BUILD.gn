@@ -1509,6 +1509,7 @@ static_library("ui") {
       "//components/keep_alive_registry",
       "//components/network_session_configurator/common",
       "//components/page_load_metrics/browser",
+      "//components/performance_manager:site_data_proto",
       "//components/profile_metrics",
       "//components/safety_check",
       "//components/search_provider_logos",
