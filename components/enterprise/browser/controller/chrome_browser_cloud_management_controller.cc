@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/policy/chrome_browser_cloud_management_controller.h"
+#include "components/enterprise/browser/controller/chrome_browser_cloud_management_controller.h"
 
 #include <utility>
 
@@ -14,7 +14,6 @@
 #include "base/task/post_task.h"
 #include "base/task/thread_pool.h"
 #include "base/threading/thread_task_runner_handle.h"
-#include "build/branding_buildflags.h"
 #include "build/build_config.h"
 #include "components/enterprise/browser/controller/browser_dm_token_storage.h"
 #include "components/enterprise/browser/controller/chrome_browser_cloud_management_helper.h"

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_POLICY_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
-#define CHROME_BROWSER_POLICY_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
+#ifndef COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
+#define COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
 
 #include <memory>
 #include <string>
@@ -13,7 +13,7 @@
 #include "base/memory/ref_counted.h"
 #include "base/observer_list.h"
 #include "base/time/time.h"
-#include "chrome/browser/enterprise/reporting/reporting_delegate_factory_desktop.h"
+#include "components/enterprise/browser/reporting/reporting_delegate_factory.h"
 #include "components/policy/core/common/cloud/cloud_policy_client.h"
 
 class PrefService;
@@ -21,7 +21,7 @@ class PrefService;
 namespace network {
 class NetworkConnectionTracker;
 class SharedURLLoaderFactory;
-}
+}  // namespace network
 
 namespace enterprise_reporting {
 class ReportScheduler;
@@ -235,4 +235,4 @@ class ChromeBrowserCloudManagementController
 
 }  // namespace policy
 
-#endif  // CHROME_BROWSER_POLICY_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
+#endif  // COMPONENTS_ENTERPRISE_BROWSER_CONTROLLER_CHROME_BROWSER_CLOUD_MANAGEMENT_CONTROLLER_H_
