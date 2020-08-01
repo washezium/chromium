@@ -3758,9 +3758,8 @@ id content::AXTextMarkerFrom(const BrowserAccessibilityCocoa* anchor,
 }
 
 - (BOOL)accessibilityNotifiesWhenDestroyed {
-  TRACE_EVENT1("accessibility",
-               "BrowserAccessibilityCocoa::accessibilityNotifiesWhenDestroyed",
-               "role=", ui::ToString([self internalRole]));
+  TRACE_EVENT0("accessibility",
+               "BrowserAccessibilityCocoa::accessibilityNotifiesWhenDestroyed");
   // Indicate that BrowserAccessibilityCocoa will post a notification when it's
   // destroyed (see -detach). This allows VoiceOver to do some internal things
   // more efficiently.
