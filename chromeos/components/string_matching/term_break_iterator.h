@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_STRING_MATCHING_TERM_BREAK_ITERATOR_H_
-#define CHROME_COMMON_STRING_MATCHING_TERM_BREAK_ITERATOR_H_
+#ifndef CHROMEOS_COMPONENTS_STRING_MATCHING_TERM_BREAK_ITERATOR_H_
+#define CHROMEOS_COMPONENTS_STRING_MATCHING_TERM_BREAK_ITERATOR_H_
 
 #include <stddef.h>
 
@@ -17,6 +17,9 @@ namespace i18n {
 class UTF16CharIterator;
 }
 }  // namespace base
+
+namespace chromeos {
+namespace string_matching {
 
 // TermBreakIterator breaks terms out of a word. Terms are broken on
 // camel case boundaries and alpha/number boundaries. Numbers are defined
@@ -65,4 +68,7 @@ class TermBreakIterator {
   DISALLOW_COPY_AND_ASSIGN(TermBreakIterator);
 };
 
-#endif  // CHROME_COMMON_STRING_MATCHING_TERM_BREAK_ITERATOR_H_
+}  // namespace string_matching
+}  // namespace chromeos
+
+#endif  // CHROMEOS_COMPONENTS_STRING_MATCHING_TERM_BREAK_ITERATOR_H_

@@ -2,12 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/tokenized_string.h"
+#include "chromeos/components/string_matching/tokenized_string.h"
 
 #include <stddef.h>
 
 #include "base/strings/utf_string_conversions.h"
 #include "testing/gtest/include/gtest/gtest.h"
+
+namespace chromeos {
+namespace string_matching {
 
 namespace {
 
@@ -24,6 +27,7 @@ base::string16 GetContent(const TokenizedString& tokenized) {
   }
   return str;
 }
+}  // namespace
 
 TEST(TokenizedStringTest, Empty) {
   base::string16 empty;
@@ -120,4 +124,5 @@ TEST(TokenizedStringTest, TokenizeWords) {
   }
 }
 
-}  // namespace
+}  // namespace string_matching
+}  // namespace chromeos

@@ -2,14 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/common/string_matching/term_break_iterator.h"
+#include "chromeos/components/string_matching/term_break_iterator.h"
 
 #include "base/strings/utf_string_conversions.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-using base::UTF8ToUTF16;
+namespace chromeos {
+namespace string_matching {
 
-namespace {
+using base::UTF8ToUTF16;
 
 TEST(TermBreakIteratorTest, EmptyWord) {
   base::string16 empty;
@@ -84,4 +85,5 @@ TEST(TermBreakIteratorTest, CaseAndNoCase) {
   EXPECT_FALSE(iter.Advance());  // Test unexpected advance after end.
 }
 
-}  // namespace
+}  // namespace string_matching
+}  // namespace chromeos

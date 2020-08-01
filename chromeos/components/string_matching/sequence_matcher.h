@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_COMMON_STRING_MATCHING_SEQUENCE_MATCHER_H_
-#define CHROME_COMMON_STRING_MATCHING_SEQUENCE_MATCHER_H_
+#ifndef CHROMEOS_COMPONENTS_STRING_MATCHING_SEQUENCE_MATCHER_H_
+#define CHROMEOS_COMPONENTS_STRING_MATCHING_SEQUENCE_MATCHER_H_
 
 #include <string>
 #include <unordered_map>
@@ -11,6 +11,9 @@
 
 #include "base/macros.h"
 #include "base/strings/string16.h"
+
+namespace chromeos {
+namespace string_matching {
 
 // Performs the calculation of similarity level between 2 strings. This class's
 // functionality is inspired by python's difflib.SequenceMatcher library.
@@ -82,4 +85,7 @@ class SequenceMatcher {
   DISALLOW_COPY_AND_ASSIGN(SequenceMatcher);
 };
 
-#endif  // CHROME_COMMON_STRING_MATCHING_SEQUENCE_MATCHER_H_
+}  // namespace string_matching
+}  // namespace chromeos
+
+#endif  // CHROMEOS_COMPONENTS_STRING_MATCHING_SEQUENCE_MATCHER_H_
