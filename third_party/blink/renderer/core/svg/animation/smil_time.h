@@ -114,6 +114,11 @@ class SMILTime {
     DCHECK(other.IsFinite());
     return time_.IntDiv(other.time_);
   }
+  double FltDiv(SMILTime other) const {
+    DCHECK(IsFinite());
+    DCHECK(other.IsFinite());
+    return time_.FltDiv(other.time_);
+  }
   SMILTime operator%(SMILTime other) const {
     DCHECK(IsFinite());
     DCHECK(other.IsFinite());
