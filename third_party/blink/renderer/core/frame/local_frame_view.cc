@@ -380,7 +380,7 @@ void LocalFrameView::ForAllThrottledLocalFrameViews(const Function& function) {
     if (!child_local_frame)
       continue;
     if (LocalFrameView* child_view = child_local_frame->View())
-      child_view->ForAllNonThrottledLocalFrameViews(function);
+      child_view->ForAllThrottledLocalFrameViews(function);
   }
 }
 
