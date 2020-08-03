@@ -8,6 +8,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <tuple>
 #include <utility>
 
 #include "base/bind.h"
@@ -44,12 +45,13 @@ bool IsBetterMatch(const autofill::PasswordForm& form1,
 void FilterDuplicates(
     std::vector<std::unique_ptr<autofill::PasswordForm>>* forms) {
   std::vector<std::unique_ptr<autofill::PasswordForm>> federated_forms;
-  // The key is [username, signon_realm]. signon_realm is used only for PSL
-  // matches because those entries have it in the UI.
+  // The key is [username, signon_realm, store]. signon_realm is used only for
+  // PSL matches because those entries have it in the UI.
   auto get_key = [](const auto& form) {
-    return std::make_pair(form->username_value, form->is_public_suffix_match
-                                                    ? form->signon_realm
-                                                    : std::string());
+    return std::make_tuple(
+        form->username_value,
+        form->is_public_suffix_match ? form->signon_realm : std::string(),
+        form->in_store);
   };
   auto cmp = [&](const auto& lhs, const auto& rhs) {
     return get_key(lhs) < get_key(rhs);
