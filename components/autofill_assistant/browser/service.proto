@@ -1924,10 +1924,6 @@ message ConfigureUiStateProto {
     // The overlay is decided according to the state the client is in.
     DEFAULT = 0;
     // The overlay is always hidden.
-    // At the moment this also changes the behavior of the back button and it
-    // should only be used for browse mode.
-    // TODO(HLUCA): add a separate setting in this action to configure the back
-    // button behavior.
     HIDDEN = 1;
   }
   optional OverlayBehavior overlay_behavior = 1;
