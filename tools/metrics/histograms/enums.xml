@@ -68550,6 +68550,11 @@ would be helpful to identify which type is being sent.
   <int value="20" label="Permission Requests High"/>
   <int value="21" label="Announcement"/>
   <int value="22" label="Share Save Image"/>
+  <int value="23" label="TWA Disclosure Initial"/>
+  <int value="24" label="TWA Disclosure Subsequent"/>
+  <int value="25" label="Chrome Reengagement 1"/>
+  <int value="26" label="Chrome Reengagement 2"/>
+  <int value="27" label="Chrome Reengagement 3"/>
 </enum>
 
 <enum name="TabBackgroundLoadStatus">
