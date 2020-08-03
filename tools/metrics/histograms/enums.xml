@@ -28615,6 +28615,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3359" label="MainFrameCSPViaHTTP"/>
   <int value="3360" label="MainFrameCSPViaMeta"/>
   <int value="3361" label="MainFrameCSPViaOriginPolicy"/>
+  <int value="3362" label="HtmlClipboardApiRead"/>
+  <int value="3363" label="HtmlClipboardApiWrite"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
