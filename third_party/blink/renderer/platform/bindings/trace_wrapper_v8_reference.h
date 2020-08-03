@@ -138,6 +138,14 @@ struct VectorTraits<blink::TraceWrapperV8Reference<T>>
   static const bool kCanClearUnusedSlotsWithMemset = true;
   static const bool kCanCopyWithMemcpy = false;
   static const bool kCanMoveWithMemcpy = false;
+  static constexpr bool kCanTraceConcurrently = true;
+};
+
+template <typename T>
+struct HashTraits<blink::TraceWrapperV8Reference<T>>
+    : GenericHashTraits<blink::TraceWrapperV8Reference<T>> {
+  STATIC_ONLY(HashTraits);
+  static constexpr bool kCanTraceConcurrently = true;
 };
 
 }  // namespace WTF
