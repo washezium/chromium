@@ -16106,6 +16106,7 @@
       'type': 'main',
       'schema': { 'type': 'boolean'},
       'supported_on': ['chrome.*:75-'],
+      'future_on': ['ios'],
       'features': {
         'dynamic_refresh': False,
         'per_profile': False,
