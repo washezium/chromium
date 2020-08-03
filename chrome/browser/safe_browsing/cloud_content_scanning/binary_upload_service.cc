@@ -34,6 +34,7 @@
 #include "components/prefs/pref_service.h"
 #include "components/safe_browsing/content/web_ui/safe_browsing_ui.h"
 #include "components/safe_browsing/core/common/safe_browsing_prefs.h"
+#include "components/safe_browsing/core/features.h"
 #include "components/safe_browsing/core/proto/webprotect.pb.h"
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
@@ -106,6 +107,14 @@ base::Optional<GURL> GetUrlOverride() {
 }
 
 }  // namespace
+
+BinaryUploadService::BinaryUploadService(Profile* profile)
+    : url_loader_factory_(profile->GetURLLoaderFactory()),
+      binary_fcm_service_(BinaryFCMService::Create(profile)),
+      profile_(profile),
+      weakptr_factory_(this) {
+  DCHECK(base::FeatureList::IsEnabled(kSafeBrowsingSeparateNetworkContexts));
+}
 
 BinaryUploadService::BinaryUploadService(
     scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory,

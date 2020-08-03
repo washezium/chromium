@@ -36,6 +36,8 @@ class BinaryUploadService : public KeyedService {
   // The maximum size of data that can be uploaded via this service.
   constexpr static size_t kMaxUploadSizeBytes = 50 * 1024 * 1024;  // 50 MB
 
+  explicit BinaryUploadService(Profile* profile);
+
   BinaryUploadService(
       scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory,
       Profile* profile);
