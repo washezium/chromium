@@ -94,6 +94,10 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
     public interface Delegate {
         /** Dispatch the payer detail change event if needed. */
         void dispatchPayerDetailChangeEventIfNeeded(PayerDetail detail);
+        /** Record the show event to the journey logger and record the transaction amount. */
+        void recordShowEventAndTransactionAmount();
+        /** Start the normalization of the new shipping address. */
+        void startShippingAddressChangeNormalization(AutofillAddress editedAddress);
     }
 
     /**
@@ -790,6 +794,61 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
 
                 mPaymentRequestUI.updateSection(
                         PaymentRequestUI.DataType.CONTACT_DETAILS, mContactSection);
+
+                if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
+            }
+        });
+    }
+
+    /**
+     * Edit the address on the PaymentRequest UI.
+     * @param toEdit The address to edit.
+     */
+    public void editAddress(final AutofillAddress toEdit) {
+        mAddressEditor.edit(toEdit, new Callback<AutofillAddress>() {
+            @Override
+            public void onResult(AutofillAddress editedAddress) {
+                if (mPaymentRequestUI == null) return;
+
+                if (editedAddress != null) {
+                    mAddressEditor.setAddressErrors(null);
+
+                    // Sets or updates the shipping address label.
+                    editedAddress.setShippingAddressLabelWithCountry();
+
+                    mCardEditor.updateBillingAddressIfComplete(editedAddress);
+
+                    // A partial or complete address came back from the editor (could have been from
+                    // adding/editing or cancelling out of the edit flow).
+                    if (!editedAddress.isComplete()) {
+                        // If the address is not complete, unselect it (editor can return incomplete
+                        // information when cancelled).
+                        mShippingAddressesSection.setSelectedItemIndex(
+                                SectionInformation.NO_SELECTION);
+                        providePaymentInformationToPaymentRequestUI();
+                        mDelegate.recordShowEventAndTransactionAmount();
+                    } else {
+                        if (toEdit == null) {
+                            // Address is complete and user was in the "Add flow": add an item to
+                            // the list.
+                            mShippingAddressesSection.addAndSelectItem(editedAddress);
+                        }
+
+                        if (mContactSection != null) {
+                            // Update |mContactSection| with the new/edited
+                            // address, which will update an existing item or add a new one to the
+                            // end of the list.
+                            mContactSection.addOrUpdateWithAutofillAddress(editedAddress);
+                            mPaymentRequestUI.updateSection(
+                                    PaymentRequestUI.DataType.CONTACT_DETAILS, mContactSection);
+                        }
+
+                        mDelegate.startShippingAddressChangeNormalization(editedAddress);
+                    }
+                } else {
+                    providePaymentInformationToPaymentRequestUI();
+                    mDelegate.recordShowEventAndTransactionAmount();
+                }
 
                 if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
             }
