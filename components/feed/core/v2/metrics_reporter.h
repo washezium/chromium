@@ -47,7 +47,9 @@ enum class FeedUserActionType {
   // User action not reported here. See Suggestions.SurfaceVisible.
   kOpenedFeedSurface = 10,
   kTappedOpenInNewIncognitoTab = 11,
-  kMaxValue = kTappedOpenInNewIncognitoTab,
+  kEphemeralChange = 12,
+  kEphemeralChangeRejected = 13,
+  kMaxValue = kEphemeralChangeRejected,
 };
 
 }  // namespace internal
@@ -77,6 +79,9 @@ class MetricsReporter {
   void NotInterestedInAction();
   void ManageInterestsAction();
   void ContextMenuOpened();
+  void EphemeralStreamChange();
+  void EphemeralStreamChangeRejected();
+
   // Indicates the user scrolled the feed by |distance_dp| and then stopped
   // scrolling.
   void StreamScrolled(int distance_dp);

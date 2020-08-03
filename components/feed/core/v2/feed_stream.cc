@@ -308,6 +308,7 @@ EphemeralChangeId FeedStream::CreateEphemeralChange(
     DLOG(ERROR) << "Calling CreateEphemeralChange before the model is loaded";
     return {};
   }
+  metrics_reporter_->EphemeralStreamChange();
   return model_->CreateEphemeralChange(std::move(operations));
 }
 
@@ -327,6 +328,7 @@ bool FeedStream::CommitEphemeralChange(EphemeralChangeId id) {
 bool FeedStream::RejectEphemeralChange(EphemeralChangeId id) {
   if (!model_)
     return false;
+  metrics_reporter_->EphemeralStreamChangeRejected();
   return model_->RejectEphemeralChange(id);
 }
 

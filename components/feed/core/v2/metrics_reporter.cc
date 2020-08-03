@@ -231,6 +231,14 @@ void MetricsReporter::ContextMenuOpened() {
       "ContentSuggestions.Feed.CardAction.ContextMenu"));
 }
 
+void MetricsReporter::EphemeralStreamChange() {
+  ReportUserActionHistogram(FeedUserActionType::kEphemeralChange);
+}
+
+void MetricsReporter::EphemeralStreamChangeRejected() {
+  ReportUserActionHistogram(FeedUserActionType::kEphemeralChangeRejected);
+}
+
 void MetricsReporter::SurfaceOpened(SurfaceId surface_id) {
   ReportPersistentDataIfDayIsDone();
 
