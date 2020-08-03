@@ -40,6 +40,7 @@ class TraceWrapperV8Reference {
   }
 
   bool IsEmpty() const { return handle_.IsEmpty(); }
+  bool IsEmptySafe() const { return handle_.IsEmptyThreadSafe(); }
   void Clear() { handle_.Reset(); }
   ALWAYS_INLINE const v8::TracedReference<T>& Get() const { return handle_; }
   ALWAYS_INLINE v8::TracedReference<T>& Get() { return handle_; }
