@@ -742,8 +742,6 @@ crbug.com/1081802 external/wpt/css/css-flexbox/overflow-area-001.html [ Failure 
 crbug.com/1081802 external/wpt/css/css-flexbox/overflow-area-002.html [ Failure ]
 crbug.com/807497 external/wpt/css/css-flexbox/anonymous-flex-item-005.html [ Failure ]
 crbug.com/1111708 external/wpt/css/css-flexbox/flexbox_justifycontent-center-overflow.html [ Failure ]
-crbug.com/1111710 external/wpt/css/css-flexbox/getcomputedstyle/flexbox_computedstyle_flex-basis-0percent.html [ Failure ]
-crbug.com/1111710 external/wpt/css/css-flexbox/getcomputedstyle/flexbox_computedstyle_flex-shorthand-number.html [ Failure ]
 
 # These testcases are incorrect, mark them as failing until they're fixed in the testsuite.
 # https://lists.w3.org/Archives/Public/www-style/2016Jan/0275.html
