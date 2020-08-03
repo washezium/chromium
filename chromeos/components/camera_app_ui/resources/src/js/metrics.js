@@ -5,8 +5,6 @@
 import {browserProxy} from './browser_proxy/browser_proxy.js';
 import {assert} from './chrome_util.js';
 // eslint-disable-next-line no-unused-vars
-import {Intent} from './intent.js';
-// eslint-disable-next-line no-unused-vars
 import {PerfEvent} from './perf.js';
 import * as state from './state.js';
 // eslint-disable-next-line no-unused-vars
@@ -290,22 +288,30 @@ function sendPerfEvent(event, duration, extras = {}) {
 
 /**
  * Sends intent type event.
- * @param {!Intent} intent Intent to be logged.
- * @param {!IntentResultType} intentResult
+ * TODO(b/131133953): Pass an Intent directly once the type-only import feature
+ * is implemented in Closure Compiler.
+ * @param{{
+ *   mode: Mode,
+ *   result: IntentResultType,
+ *   shouldHandleResult: boolean,
+ *   shouldDownScale: boolean,
+ *   isSecure: boolean
+ * }} params
  */
-function sendIntentEvent(intent, intentResult) {
+function sendIntentEvent(
+    {mode, result, shouldHandleResult, shouldDownScale, isSecure}) {
   const getBoolValue = (b) => b ? '1' : '0';
   sendEvent(
       {
         eventCategory: 'intent',
-        eventAction: intent.mode,
-        eventLabel: intentResult,
+        eventAction: mode,
+        eventLabel: result,
       },
       new Map([
-        [12, intentResult],
-        [13, getBoolValue(intent.shouldHandleResult)],
-        [14, getBoolValue(intent.shouldDownScale)],
-        [15, getBoolValue(intent.isSecure)],
+        [12, result],
+        [13, getBoolValue(shouldHandleResult)],
+        [14, getBoolValue(shouldDownScale)],
+        [15, getBoolValue(isSecure)],
       ]));
 }
 
