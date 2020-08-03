@@ -153,7 +153,7 @@ export class Intent {
    * @param {metrics.IntentResultType} result
    */
   logResult(result) {
-    metrics.log(metrics.Type.INTENT, {
+    metrics.sendIntentEvent({
       mode: this.mode,
       result,
       shouldHandleResult: this.shouldHandleResult,
