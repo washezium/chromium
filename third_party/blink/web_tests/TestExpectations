@@ -2102,6 +2102,10 @@ crbug.com/796619 [ Win10 ] external/wpt/css/css-fonts/matching/fixed-stretch-sty
 crbug.com/796619 [ Win10 ] external/wpt/css/css-fonts/matching/stretch-distance-over-weight-distance.html [ Failure ]
 crbug.com/796619 [ Win10 ] external/wpt/css/css-fonts/matching/style-ranges-over-weight-direction.html [ Failure ]
 
+# CSS Font Feature Resolution is not implemented yet
+crbug.com/450619 external/wpt/css/css-fonts/font-feature-resolution-001.html [ Failure ]
+crbug.com/450619 external/wpt/css/css-fonts/font-feature-resolution-002.html [ Failure ]
+
 # These need a rebaseline due crbug.com/504745 on Windows when they are activated again.
 crbug.com/521124 crbug.com/410145 [ Win7 ] fast/css/font-weight-1.html [ Pass Failure ]
 
@@ -3438,8 +3442,6 @@ crbug.com/626703 external/wpt/css/vendor-imports/mozilla/mozilla-central-reftest
 crbug.com/626703 external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/counter-styles-3/descriptor-symbols.html [ Failure ]
 crbug.com/626703 external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/counter-styles-3/system-extends-invalid.html [ Failure ]
 crbug.com/626703 external/wpt/css/vendor-imports/mozilla/mozilla-central-reftests/counter-styles-3/redefine-builtin.html [ Failure ]
-crbug.com/626703 external/wpt/css/css-fonts/font-feature-resolution-001.html [ Failure ]
-crbug.com/626703 external/wpt/css/css-fonts/font-feature-resolution-002.html [ Failure ]
 crbug.com/626703 external/wpt/css/css-fonts/font-variant-05.xht [ Failure ]
 crbug.com/626703 external/wpt/css/css-fonts/font-variant-06.xht [ Failure ]
 crbug.com/626703 external/wpt/css/mediaqueries/viewport-script-dynamic.html [ Failure ]
