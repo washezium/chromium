@@ -873,22 +873,27 @@ void DevToolsUIBindings::LoadNetworkResource(const DispatchCallback& callback,
         base::FilePath() /* profile_path */,
         nullptr /* shared_cors_origin_access_list */);
   } else if (content::HasWebUIScheme(gurl)) {
-    // In debug builds, or when a custom devtools is used, allow retrieving
-    // files from the chrome:// and devtools:// schemes.
-#if defined(NDEBUG)
-    const bool devtools_should_be_debuggable = true;
-#else
-    const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
-    const bool devtools_should_be_debuggable =
-        cmd_line->HasSwitch(switches::kCustomDevtoolsFrontend);
-#endif
     content::WebContents* target_tab =
         DevToolsWindow::AsDevToolsWindow(web_contents_)
             ->GetInspectedWebContents();
+#if defined(NDEBUG)
+    // In release builds, allow files from the chrome://, devtools:// and
+    // chrome-untrusted:// schemes if a custom devtools front-end was specified.
+    const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
     const bool allow_web_ui_scheme =
-        devtools_should_be_debuggable && target_tab &&
-        content::HasWebUIScheme(target_tab->GetURL());
-    if (allow_web_ui_scheme) {
+        cmd_line->HasSwitch(switches::kCustomDevtoolsFrontend);
+#else
+    // In debug builds, always allow retrieving files from the chrome://,
+    // devtools:// and chrome-untrusted:// schemes.
+    const bool allow_web_ui_scheme = true;
+#endif
+    // Only allow retrieval if the scheme of the file is the same as the
+    // top-level frame of the inspected page.
+    // TODO(sigurds): Track which frame triggered the load, match schemes to the
+    // committed URL of that frame, and use the loader associated with that
+    // frame to allow nested frames with different schemes to load files.
+    if (allow_web_ui_scheme && target_tab &&
+        target_tab->GetURL().scheme() == gurl.scheme()) {
       std::vector<std::string> allowed_webui_hosts;
       content::RenderFrameHost* frame_host = web_contents()->GetMainFrame();
       url_loader_factory = content::CreateWebUIURLLoader(
