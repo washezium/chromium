@@ -175,4 +175,31 @@ TEST_F(CredentialManagerPendingRequestTaskTest,
   EXPECT_EQ(2U, client()->forms_passed_to_ui().size());
 }
 
+TEST_F(CredentialManagerPendingRequestTaskTest,
+       SameUsernameSamePasswordsInBothStores) {
+  // This is testing that when two credentials have the same username and
+  //  passwords from two store, the account store version is passed to the UI.
+  CredentialManagerPendingRequestTask task(
+      &delegate_mock_, /*callback=*/base::DoNothing(),
+      CredentialMediationRequirement::kOptional, /*include_passwords=*/true,
+      /*request_federations=*/{}, StoresToQuery::kProfileAndAccountStores);
+
+  autofill::PasswordForm profile_form = form_;
+  profile_form.in_store = autofill::PasswordForm::Store::kProfileStore;
+  std::vector<std::unique_ptr<autofill::PasswordForm>> profile_forms;
+  profile_forms.push_back(
+      std::make_unique<autofill::PasswordForm>(profile_form));
+
+  autofill::PasswordForm account_form = form_;
+  account_form.in_store = autofill::PasswordForm::Store::kAccountStore;
+  std::vector<std::unique_ptr<autofill::PasswordForm>> account_forms;
+  account_forms.push_back(
+      std::make_unique<autofill::PasswordForm>(account_form));
+
+  task.OnGetPasswordStoreResultsFrom(profile_store_, std::move(profile_forms));
+  task.OnGetPasswordStoreResultsFrom(account_store_, std::move(account_forms));
+  ASSERT_EQ(1U, client()->forms_passed_to_ui().size());
+  EXPECT_TRUE(client()->forms_passed_to_ui()[0]->IsUsingAccountStore());
+}
+
 }  // namespace password_manager
