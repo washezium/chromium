@@ -307,9 +307,12 @@ class BinaryUploadService : public KeyedService {
   base::flat_map<Request*, std::unique_ptr<DlpDeepScanningVerdict>>
       received_dlp_verdicts_;
 
-  // Maps requests to each tag-result pair.
-  base::flat_map<Request*, enterprise_connectors::ContentAnalysisResponse>
-      received_connector_responses_;
+  // Maps requests to each corresponding tag-result pairs.
+  base::flat_map<
+      Request*,
+      base::flat_map<std::string,
+                     enterprise_connectors::ContentAnalysisResponse::Result>>
+      received_connector_results_;
 
   // Indicates whether this browser can upload data for enterprise requests.
   // Advanced Protection scans are validated using the user's Advanced
