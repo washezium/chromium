@@ -4,6 +4,8 @@
 
 package org.chromium.chrome.browser.payments.ui;
 
+import android.os.Handler;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
@@ -12,9 +14,11 @@ import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.autofill.PersonalDataManager.CreditCard;
 import org.chromium.chrome.browser.payments.AddressEditor;
 import org.chromium.chrome.browser.payments.AutofillAddress;
+import org.chromium.chrome.browser.payments.AutofillContact;
 import org.chromium.chrome.browser.payments.AutofillPaymentAppCreator;
 import org.chromium.chrome.browser.payments.AutofillPaymentAppFactory;
 import org.chromium.chrome.browser.payments.CardEditor;
+import org.chromium.chrome.browser.payments.ContactEditor;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl.PaymentRequestServiceObserverForTest;
 import org.chromium.chrome.browser.payments.SettingsAutofillAndPaymentsObserver;
@@ -30,6 +34,7 @@ import org.chromium.components.payments.PaymentOptionsUtils;
 import org.chromium.components.payments.PaymentRequestLifecycleObserver;
 import org.chromium.components.payments.PaymentRequestParams;
 import org.chromium.content_public.browser.WebContents;
+import org.chromium.payments.mojom.PayerDetail;
 import org.chromium.payments.mojom.PaymentCurrencyAmount;
 import org.chromium.payments.mojom.PaymentDetails;
 import org.chromium.payments.mojom.PaymentDetailsModifier;
@@ -42,9 +47,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -54,6 +61,9 @@ import java.util.Set;
 public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Observer,
                                           PaymentRequestLifecycleObserver,
                                           PaymentHandlerUiObserver {
+    private final Handler mHandler = new Handler();
+    private final Queue<Runnable> mRetryQueue = new LinkedList<>();
+    private ContactEditor mContactEditor;
     private PaymentHandlerCoordinator mPaymentHandlerUi;
     private Callback<PaymentInformation> mPaymentInformationCallback;
     private SectionInformation mUiShippingOptions;
@@ -77,6 +87,8 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
 
     /** The delegate of this class. */
     public interface Delegate {
+        /** Dispatch the payer detail change event if needed. */
+        void dispatchPayerDetailChangeEventIfNeeded(PayerDetail detail);
     }
 
     /**
@@ -283,6 +295,21 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
     public void setPaymentInformationCallback(
             Callback<PaymentInformation> paymentInformationCallback) {
         mPaymentInformationCallback = paymentInformationCallback;
+    }
+
+    /** Get the contact editor on PaymentRequest UI. */
+    public ContactEditor getContactEditor() {
+        return mContactEditor;
+    }
+
+    /** Set the contact editor for PaymentRequest UI. */
+    public void setContactEditor(ContactEditor contactEditor) {
+        mContactEditor = contactEditor;
+    }
+
+    /** Get the retry queue. */
+    public Queue<Runnable> getRetryQueue() {
+        return mRetryQueue;
     }
 
     // Implement SettingsAutofillAndPaymentsObserver.Observer:
@@ -676,5 +703,46 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
                 new PaymentInformation(mUiShoppingCart, mShippingAddressesSection,
                         mUiShippingOptions, mContactSection, mPaymentMethodsSection));
         mPaymentInformationCallback = null;
+    }
+
+    /**
+     * Edit the contact information on the PaymentRequest UI.
+     * @param toEdit The information to edit.
+     **/
+    public void editContactOnPaymentRequestUI(final AutofillContact toEdit) {
+        mContactEditor.edit(toEdit, new Callback<AutofillContact>() {
+            @Override
+            public void onResult(AutofillContact editedContact) {
+                if (mPaymentRequestUI == null) return;
+
+                if (editedContact != null) {
+                    mContactEditor.setPayerErrors(null);
+
+                    // A partial or complete contact came back from the editor (could have been from
+                    // adding/editing or cancelling out of the edit flow).
+                    if (!editedContact.isComplete()) {
+                        // If the contact is not complete according to the requirements of the flow,
+                        // unselect it (editor can return incomplete information when cancelled).
+                        mContactSection.setSelectedItemIndex(SectionInformation.NO_SELECTION);
+                    } else if (toEdit == null) {
+                        // Contact is complete and we were in the "Add flow": add an item to the
+                        // list.
+                        mContactSection.addAndSelectItem(editedContact);
+                    } else {
+                        mDelegate.dispatchPayerDetailChangeEventIfNeeded(
+                                editedContact.toPayerDetail());
+                    }
+                    // If contact is complete and (toEdit != null), no action needed: the contact
+                    // was already selected in the UI.
+                }
+                // If |editedContact| is null, the user has cancelled out of the "Add flow". No
+                // action to take (if a contact was selected in the UI, it will stay selected).
+
+                mPaymentRequestUI.updateSection(
+                        PaymentRequestUI.DataType.CONTACT_DETAILS, mContactSection);
+
+                if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
+            }
+        });
     }
 }

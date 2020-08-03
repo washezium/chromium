@@ -116,10 +116,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -313,7 +311,6 @@ public class PaymentRequestImpl
     private boolean mHasEnrolledInstrumentUsesPerMethodQuota;
     private boolean mIsCurrentPaymentRequestShowing;
     private boolean mWasRetryCalled;
-    private final Queue<Runnable> mRetryQueue = new LinkedList<>();
 
     /**
      * The raw total amount being charged, as it was received from the website. This data is passed
@@ -350,7 +347,6 @@ public class PaymentRequestImpl
     private MinimalUICoordinator mMinimalUi;
     private PaymentApp mInvokedPaymentApp;
     private boolean mHideServerAutofillCards;
-    private ContactEditor mContactEditor;
     private boolean mHasRecordedAbortReason;
     private boolean mWaitForUpdatedDetails;
     private TabModelSelector mObservedTabModelSelector;
@@ -596,13 +592,14 @@ public class PaymentRequestImpl
 
         if (mRequestPayerName || mRequestPayerPhone || mRequestPayerEmail) {
             // Do not persist changes on disk in OffTheRecord mode.
-            mContactEditor = new ContactEditor(mRequestPayerName, mRequestPayerPhone,
-                    mRequestPayerEmail, /*saveToDisk=*/!mIsOffTheRecord);
+            mPaymentUIsManager.setContactEditor(new ContactEditor(mRequestPayerName,
+                    mRequestPayerPhone, mRequestPayerEmail, /*saveToDisk=*/!mIsOffTheRecord));
             boolean haveCompleteContactInfo = false;
             for (int i = 0; i < mAutofillProfiles.size(); i++) {
                 AutofillProfile profile = mAutofillProfiles.get(i);
-                if (mContactEditor.checkContactCompletionStatus(profile.getFullName(),
-                            profile.getPhoneNumber(), profile.getEmailAddress())
+                if (mPaymentUIsManager.getContactEditor().checkContactCompletionStatus(
+                            profile.getFullName(), profile.getPhoneNumber(),
+                            profile.getEmailAddress())
                         == ContactEditor.COMPLETE) {
                     haveCompleteContactInfo = true;
                     break;
@@ -757,8 +754,8 @@ public class PaymentRequestImpl
         }
 
         if (shouldShowContactSection()) {
-            mPaymentUIsManager.setContactSection(new ContactDetailsSection(
-                    activity, mAutofillProfiles, mContactEditor, mJourneyLogger));
+            mPaymentUIsManager.setContactSection(new ContactDetailsSection(activity,
+                    mAutofillProfiles, mPaymentUIsManager.getContactEditor(), mJourneyLogger));
         }
 
         mPaymentUIsManager.setPaymentRequestUI(new PaymentRequestUI(activity, this,
@@ -797,8 +794,8 @@ public class PaymentRequestImpl
                 mPaymentUIsManager.getPaymentRequestUI().getEditorDialog());
         mPaymentUIsManager.getCardEditor().setEditorDialog(
                 mPaymentUIsManager.getPaymentRequestUI().getCardEditorDialog());
-        if (mContactEditor != null) {
-            mContactEditor.setEditorDialog(
+        if (mPaymentUIsManager.getContactEditor() != null) {
+            mPaymentUIsManager.getContactEditor().setEditorDialog(
                     mPaymentUIsManager.getPaymentRequestUI().getEditorDialog());
         }
 
@@ -1545,7 +1542,8 @@ public class PaymentRequestImpl
                 if (!mWasRetryCalled) return PaymentRequestUI.SelectionResult.NONE;
                 dispatchPayerDetailChangeEventIfNeeded(contact.toPayerDetail());
             } else {
-                editContact(contact);
+                mJourneyLogger.incrementSelectionEdits(Section.CONTACT_INFO);
+                mPaymentUIsManager.editContactOnPaymentRequestUI(contact);
                 if (!mWasRetryCalled) return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
             }
             mPaymentUIsManager.setPaymentInformationCallback(callback);
@@ -1560,8 +1558,8 @@ public class PaymentRequestImpl
             if (shouldShowContactSection() && mPaymentUIsManager.getContactSection() == null) {
                 ChromeActivity activity = ChromeActivity.fromWebContents(mWebContents);
                 assert activity != null;
-                mPaymentUIsManager.setContactSection(new ContactDetailsSection(
-                        activity, mAutofillProfiles, mContactEditor, mJourneyLogger));
+                mPaymentUIsManager.setContactSection(new ContactDetailsSection(activity,
+                        mAutofillProfiles, mPaymentUIsManager.getContactEditor(), mJourneyLogger));
             }
             mPaymentUIsManager.onSelectedPaymentMethodUpdated();
             PaymentApp paymentApp = (PaymentApp) option;
@@ -1595,7 +1593,8 @@ public class PaymentRequestImpl
         }
 
         if (optionType == PaymentRequestUI.DataType.CONTACT_DETAILS) {
-            editContact((AutofillContact) option);
+            mJourneyLogger.incrementSelectionEdits(Section.CONTACT_INFO);
+            mPaymentUIsManager.editContactOnPaymentRequestUI((AutofillContact) option);
             return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
         }
 
@@ -1619,7 +1618,7 @@ public class PaymentRequestImpl
             mJourneyLogger.incrementSelectionAdds(Section.SHIPPING_ADDRESS);
             return PaymentRequestUI.SelectionResult.ASYNCHRONOUS_VALIDATION;
         } else if (optionType == PaymentRequestUI.DataType.CONTACT_DETAILS) {
-            editContact(null);
+            mPaymentUIsManager.editContactOnPaymentRequestUI(null);
             // Log the add of contact info.
             mJourneyLogger.incrementSelectionAdds(Section.CONTACT_INFO);
             return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
@@ -1697,49 +1696,9 @@ public class PaymentRequestImpl
                     recordShowEventAndTransactionAmount();
                 }
 
-                if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
-            }
-        });
-    }
-
-    private void editContact(final AutofillContact toEdit) {
-        if (toEdit != null) {
-            // Log the edit of a contact info.
-            mJourneyLogger.incrementSelectionEdits(Section.CONTACT_INFO);
-        }
-        mContactEditor.edit(toEdit, new Callback<AutofillContact>() {
-            @Override
-            public void onResult(AutofillContact editedContact) {
-                if (mPaymentUIsManager.getPaymentRequestUI() == null) return;
-
-                if (editedContact != null) {
-                    mContactEditor.setPayerErrors(null);
-
-                    // A partial or complete contact came back from the editor (could have been from
-                    // adding/editing or cancelling out of the edit flow).
-                    if (!editedContact.isComplete()) {
-                        // If the contact is not complete according to the requirements of the flow,
-                        // unselect it (editor can return incomplete information when cancelled).
-                        mPaymentUIsManager.getContactSection().setSelectedItemIndex(
-                                SectionInformation.NO_SELECTION);
-                    } else if (toEdit == null) {
-                        // Contact is complete and we were in the "Add flow": add an item to the
-                        // list.
-                        mPaymentUIsManager.getContactSection().addAndSelectItem(editedContact);
-                    } else {
-                        dispatchPayerDetailChangeEventIfNeeded(editedContact.toPayerDetail());
-                    }
-                    // If contact is complete and (toEdit != null), no action needed: the contact
-                    // was already selected in the UI.
+                if (!mPaymentUIsManager.getRetryQueue().isEmpty()) {
+                    mHandler.post(mPaymentUIsManager.getRetryQueue().remove());
                 }
-                // If |editedContact| is null, the user has cancelled out of the "Add flow". No
-                // action to take (if a contact was selected in the UI, it will stay selected).
-
-                mPaymentUIsManager.getPaymentRequestUI().updateSection(
-                        PaymentRequestUI.DataType.CONTACT_DETAILS,
-                        mPaymentUIsManager.getContactSection());
-
-                if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
             }
         });
     }
@@ -2018,7 +1977,7 @@ public class PaymentRequestImpl
         }
 
         if (shouldShowShippingSection() && hasShippingAddressError(errors.shippingAddress)) {
-            mRetryQueue.add(() -> {
+            mPaymentUIsManager.getRetryQueue().add(() -> {
                 mPaymentUIsManager.getAddressEditor().setAddressErrors(errors.shippingAddress);
                 AutofillAddress selectedAddress =
                         (AutofillAddress) mPaymentUIsManager.getShippingAddressesSection()
@@ -2028,15 +1987,18 @@ public class PaymentRequestImpl
         }
 
         if (shouldShowContactSection() && hasPayerError(errors.payer)) {
-            mRetryQueue.add(() -> {
-                mContactEditor.setPayerErrors(errors.payer);
+            mPaymentUIsManager.getRetryQueue().add(() -> {
+                mPaymentUIsManager.getContactEditor().setPayerErrors(errors.payer);
                 AutofillContact selectedContact =
                         (AutofillContact) mPaymentUIsManager.getContactSection().getSelectedItem();
-                editContact(selectedContact);
+                mJourneyLogger.incrementSelectionEdits(Section.CONTACT_INFO);
+                mPaymentUIsManager.editContactOnPaymentRequestUI(selectedContact);
             });
         }
 
-        if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
+        if (!mPaymentUIsManager.getRetryQueue().isEmpty()) {
+            mHandler.post(mPaymentUIsManager.getRetryQueue().remove());
+        }
     }
 
     private boolean hasShippingAddressError(AddressErrors errors) {
@@ -2718,7 +2680,9 @@ public class PaymentRequestImpl
         PaymentDetailsUpdateServiceHelper.getInstance().reset();
     }
 
-    private void dispatchPayerDetailChangeEventIfNeeded(PayerDetail detail) {
+    // Implement PaymentUIsManager.Delegate:
+    @Override
+    public void dispatchPayerDetailChangeEventIfNeeded(PayerDetail detail) {
         PaymentRequestClient client = getClient();
         if (client == null || !mWasRetryCalled) return;
         client.onPayerDetailChange(detail);
