@@ -11,6 +11,8 @@ import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.Callback;
 import org.chromium.chrome.browser.ChromeActivity;
+import org.chromium.chrome.browser.autofill.PersonalDataManager;
+import org.chromium.chrome.browser.autofill.PersonalDataManager.AutofillProfile;
 import org.chromium.chrome.browser.autofill.PersonalDataManager.CreditCard;
 import org.chromium.chrome.browser.payments.AddressEditor;
 import org.chromium.chrome.browser.payments.AutofillAddress;
@@ -39,6 +41,7 @@ import org.chromium.payments.mojom.PaymentCurrencyAmount;
 import org.chromium.payments.mojom.PaymentDetails;
 import org.chromium.payments.mojom.PaymentDetailsModifier;
 import org.chromium.payments.mojom.PaymentItem;
+import org.chromium.payments.mojom.PaymentOptions;
 import org.chromium.payments.mojom.PaymentShippingOption;
 import org.chromium.url.GURL;
 
@@ -61,6 +64,7 @@ import java.util.Set;
 public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Observer,
                                           PaymentRequestLifecycleObserver,
                                           PaymentHandlerUiObserver {
+    private final boolean mIsOffTheRecord;
     private final Handler mHandler = new Handler();
     private final Queue<Runnable> mRetryQueue = new LinkedList<>();
     private ContactEditor mContactEditor;
@@ -82,7 +86,8 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
     private SectionInformation mShippingAddressesSection;
     private ContactDetailsSection mContactSection;
     private AutofillPaymentAppCreator mAutofillPaymentAppCreator;
-
+    private boolean mHaveRequestedAutofillData = true;
+    private List<AutofillProfile> mAutofillProfiles;
     private Boolean mCanUserAddCreditCard;
 
     /** The delegate of this class. */
@@ -166,6 +171,7 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
 
         mPaymentUisShowStateReconciler = new PaymentUisShowStateReconciler();
         mCurrencyFormatterMap = new HashMap<>();
+        mIsOffTheRecord = isOffTheRecord;
     }
 
     /**
@@ -302,14 +308,19 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
         return mContactEditor;
     }
 
-    /** Set the contact editor for PaymentRequest UI. */
-    public void setContactEditor(ContactEditor contactEditor) {
-        mContactEditor = contactEditor;
-    }
-
     /** Get the retry queue. */
     public Queue<Runnable> getRetryQueue() {
         return mRetryQueue;
+    }
+
+    /** @return The autofill profiles. */
+    public List<AutofillProfile> getAutofillProfiles() {
+        return mAutofillProfiles;
+    }
+
+    /** @return Whether PaymentRequestUI has requested autofill data. */
+    public boolean haveRequestedAutofillData() {
+        return mHaveRequestedAutofillData;
     }
 
     // Implement SettingsAutofillAndPaymentsObserver.Observer:
@@ -393,6 +404,45 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
         mCanUserAddCreditCard = mMerchantSupportsAutofillCards
                 && !PaymentFeatureList.isEnabledOrExperimentalFeaturesEnabled(
                         PaymentFeatureList.STRICT_HAS_ENROLLED_AUTOFILL_INSTRUMENT);
+
+        if (PaymentOptionsUtils.requestAnyInformation(mParams.getPaymentOptions())) {
+            mAutofillProfiles = Collections.unmodifiableList(
+                    PersonalDataManager.getInstance().getProfilesToSuggest(
+                            false /* includeNameInLabel */));
+        }
+
+        if (PaymentOptionsUtils.requestShipping(mParams.getPaymentOptions())) {
+            boolean haveCompleteShippingAddress = false;
+            for (int i = 0; i < mAutofillProfiles.size(); i++) {
+                if (AutofillAddress.checkAddressCompletionStatus(
+                            mAutofillProfiles.get(i), AutofillAddress.CompletenessCheckType.NORMAL)
+                        == AutofillAddress.CompletionStatus.COMPLETE) {
+                    haveCompleteShippingAddress = true;
+                    break;
+                }
+            }
+            mHaveRequestedAutofillData &= haveCompleteShippingAddress;
+        }
+
+        PaymentOptions options = mParams.getPaymentOptions();
+        if (PaymentOptionsUtils.requestAnyContactInformation(mParams.getPaymentOptions())) {
+            // Do not persist changes on disk in OffTheRecord mode.
+            mContactEditor = new ContactEditor(PaymentOptionsUtils.requestPayerName(options),
+                    PaymentOptionsUtils.requestPayerPhone(options),
+                    PaymentOptionsUtils.requestPayerEmail(options),
+                    /*saveToDisk=*/!mIsOffTheRecord);
+            boolean haveCompleteContactInfo = false;
+            for (int i = 0; i < getAutofillProfiles().size(); i++) {
+                AutofillProfile profile = getAutofillProfiles().get(i);
+                if (getContactEditor().checkContactCompletionStatus(profile.getFullName(),
+                            profile.getPhoneNumber(), profile.getEmailAddress())
+                        == ContactEditor.COMPLETE) {
+                    haveCompleteContactInfo = true;
+                    break;
+                }
+            }
+            mHaveRequestedAutofillData &= haveCompleteContactInfo;
+        }
     }
 
     /** @return The selected payment app type. */

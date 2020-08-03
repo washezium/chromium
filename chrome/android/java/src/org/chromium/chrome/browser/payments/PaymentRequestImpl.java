@@ -304,8 +304,6 @@ public class PaymentRequestImpl
     private final JourneyLogger mJourneyLogger;
     private final boolean mIsOffTheRecord;
 
-    private List<AutofillProfile> mAutofillProfiles;
-    private boolean mHaveRequestedAutofillData = true;
     private boolean mIsCanMakePaymentResponsePending;
     private boolean mIsHasEnrolledInstrumentResponsePending;
     private boolean mHasEnrolledInstrumentUsesPerMethodQuota;
@@ -571,43 +569,6 @@ public class PaymentRequestImpl
                 .onPaymentRequestParamsInitiated(
                         /*params=*/this);
 
-        if (PaymentOptionsUtils.requestAnyInformation(mPaymentOptions)) {
-            mAutofillProfiles = Collections.unmodifiableList(
-                    PersonalDataManager.getInstance().getProfilesToSuggest(
-                            false /* includeNameInLabel */));
-        }
-
-        if (mRequestShipping) {
-            boolean haveCompleteShippingAddress = false;
-            for (int i = 0; i < mAutofillProfiles.size(); i++) {
-                if (AutofillAddress.checkAddressCompletionStatus(
-                            mAutofillProfiles.get(i), AutofillAddress.CompletenessCheckType.NORMAL)
-                        == AutofillAddress.CompletionStatus.COMPLETE) {
-                    haveCompleteShippingAddress = true;
-                    break;
-                }
-            }
-            mHaveRequestedAutofillData &= haveCompleteShippingAddress;
-        }
-
-        if (mRequestPayerName || mRequestPayerPhone || mRequestPayerEmail) {
-            // Do not persist changes on disk in OffTheRecord mode.
-            mPaymentUIsManager.setContactEditor(new ContactEditor(mRequestPayerName,
-                    mRequestPayerPhone, mRequestPayerEmail, /*saveToDisk=*/!mIsOffTheRecord));
-            boolean haveCompleteContactInfo = false;
-            for (int i = 0; i < mAutofillProfiles.size(); i++) {
-                AutofillProfile profile = mAutofillProfiles.get(i);
-                if (mPaymentUIsManager.getContactEditor().checkContactCompletionStatus(
-                            profile.getFullName(), profile.getPhoneNumber(),
-                            profile.getEmailAddress())
-                        == ContactEditor.COMPLETE) {
-                    haveCompleteContactInfo = true;
-                    break;
-                }
-            }
-            mHaveRequestedAutofillData &= haveCompleteContactInfo;
-        }
-
         PaymentAppService.getInstance().create(/*delegate=*/this);
 
         // Log the various types of payment methods that were requested by the merchant.
@@ -750,12 +711,13 @@ public class PaymentRequestImpl
         }
 
         if (shouldShowShippingSection() && !mWaitForUpdatedDetails) {
-            createShippingSection(activity, mAutofillProfiles);
+            createShippingSection(activity, mPaymentUIsManager.getAutofillProfiles());
         }
 
         if (shouldShowContactSection()) {
-            mPaymentUIsManager.setContactSection(new ContactDetailsSection(activity,
-                    mAutofillProfiles, mPaymentUIsManager.getContactEditor(), mJourneyLogger));
+            mPaymentUIsManager.setContactSection(
+                    new ContactDetailsSection(activity, mPaymentUIsManager.getAutofillProfiles(),
+                            mPaymentUIsManager.getContactEditor(), mJourneyLogger));
         }
 
         mPaymentUIsManager.setPaymentRequestUI(new PaymentRequestUI(activity, this,
@@ -1323,7 +1285,7 @@ public class PaymentRequestImpl
         // Do not create shipping section When UI is not built yet. This happens when the show
         // promise gets resolved before all apps are ready.
         if (mPaymentUIsManager.getPaymentRequestUI() != null && shouldShowShippingSection()) {
-            createShippingSection(chromeActivity, mAutofillProfiles);
+            createShippingSection(chromeActivity, mPaymentUIsManager.getAutofillProfiles());
         }
 
         mWaitForUpdatedDetails = false;
@@ -1553,13 +1515,14 @@ public class PaymentRequestImpl
                     && mPaymentUIsManager.getShippingAddressesSection() == null) {
                 ChromeActivity activity = ChromeActivity.fromWebContents(mWebContents);
                 assert activity != null;
-                createShippingSection(activity, mAutofillProfiles);
+                createShippingSection(activity, mPaymentUIsManager.getAutofillProfiles());
             }
             if (shouldShowContactSection() && mPaymentUIsManager.getContactSection() == null) {
                 ChromeActivity activity = ChromeActivity.fromWebContents(mWebContents);
                 assert activity != null;
                 mPaymentUIsManager.setContactSection(new ContactDetailsSection(activity,
-                        mAutofillProfiles, mPaymentUIsManager.getContactEditor(), mJourneyLogger));
+                        mPaymentUIsManager.getAutofillProfiles(),
+                        mPaymentUIsManager.getContactEditor(), mJourneyLogger));
             }
             mPaymentUIsManager.onSelectedPaymentMethodUpdated();
             PaymentApp paymentApp = (PaymentApp) option;
@@ -2266,7 +2229,7 @@ public class PaymentRequestImpl
         if (getClient() == null) return;
 
         mHideServerAutofillCards |= paymentApp.isServerAutofillInstrumentReplacement();
-        paymentApp.setHaveRequestedAutofillData(mHaveRequestedAutofillData);
+        paymentApp.setHaveRequestedAutofillData(mPaymentUIsManager.haveRequestedAutofillData());
         mHasEnrolledInstrument |= paymentApp.canMakePayment();
         mHasNonAutofillApp |= !paymentApp.isAutofillInstrument();
 
