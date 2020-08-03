@@ -41468,6 +41468,7 @@ from previous Chrome versions.
   <int value="-396046249" label="PhotoPickerVideoSupport:enabled"/>
   <int value="-395606844" label="enable-site-settings"/>
   <int value="-395454065" label="DisablePostScriptPrinting:disabled"/>
+  <int value="-394734604" label="FillingPasswordsFromAnyOrigin:disabled"/>
   <int value="-389664522"
       label="OmniboxUIExperimentHideSteadyStateUrlPathQueryAndRefOnInteraction:enabled"/>
   <int value="-387606010" label="ArcBootCompletedBroadcast:enabled"/>
@@ -42184,6 +42185,7 @@ from previous Chrome versions.
   <int value="393704200" label="account-consistency"/>
   <int value="398903399" label="GenericSensorExtraClasses:disabled"/>
   <int value="399039205" label="enable-webrtc-hw-vp9-encoding"/>
+  <int value="399177140" label="FillingPasswordsFromAnyOrigin:enabled"/>
   <int value="399398207"
       label="OmniboxUIExperimentVerticalMarginLimitToNonTouchOnly:enabled"/>
   <int value="400272381" label="LazyFrameLoading:disabled"/>

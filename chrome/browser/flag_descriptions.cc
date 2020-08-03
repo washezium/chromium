@@ -2713,6 +2713,13 @@ const char kExploreSitesName[] = "Explore websites";
 const char kExploreSitesDescription[] =
     "Enables portal from new tab page to explore websites.";
 
+const char kFillingPasswordsFromAnyOriginName[] =
+    "Filling passwords from any origin";
+const char kFillingPasswordsFromAnyOriginDescription[] =
+    "Enabling this flag adds a button to the password fallback sheet. The "
+    "button opens a different sheet that allows filling a password from any "
+    "origin.";
+
 const char kGamesHubName[] = "Games Hub";
 const char kGamesHubDescription[] =
     "Enables viewing and usage of the Games Hub.";

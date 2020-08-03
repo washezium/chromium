@@ -6170,6 +6170,14 @@ const FeatureEntry kFeatureEntries[] = {
      MULTI_VALUE_TYPE(kFrameThrottleFpsChoices)}
 #endif  // defined(OS_CHROMEOS)
 
+#if defined(OS_ANDROID)
+    {"filling-passwords-from-any-origin",
+     flag_descriptions::kFillingPasswordsFromAnyOriginName,
+     flag_descriptions::kFillingPasswordsFromAnyOriginDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(
+         password_manager::features::kFillingPasswordsFromAnyOrigin)},
+#endif  // OS_ANDROID
+
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the

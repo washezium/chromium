@@ -2451,6 +2451,11 @@
     "expiry_milestone": 87
   },
   {
+    "name": "filling-passwords-from-any-origin",
+    "owners": [ "fhorschig" ],
+    "expiry_milestone": 87
+  },
+  {
     "name": "focus-mode",
     "owners": [ "dfried", "pbos", "yiningwang@google.com" ],
     "expiry_milestone": 82
