@@ -181,7 +181,8 @@ void FeedStream::TriggerStreamLoad() {
 void FeedStream::InitialStreamLoadComplete(LoadStreamTask::Result result) {
   PopulateDebugStreamData(result, *profile_prefs_);
   metrics_reporter_->OnLoadStream(result.load_from_store_status,
-                                  result.final_status);
+                                  result.final_status,
+                                  std::move(result.latencies));
 
   model_loading_in_progress_ = false;
 
