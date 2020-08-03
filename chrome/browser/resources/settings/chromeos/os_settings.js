@@ -20,6 +20,7 @@ import './parental_controls_page/parental_controls_page.m.js';
 import './os_people_page/os_people_page.m.js';
 
 export {LifetimeBrowserProxy, LifetimeBrowserProxyImpl} from '../lifetime_browser_proxy.m.js';
+export {dataUsageStringToEnum, NearbyShareDataUsage} from '../nearby_share_page/types.m.js';
 export {AccountManagerBrowserProxy, AccountManagerBrowserProxyImpl} from '../people_page/account_manager_browser_proxy.m.js';
 export {ParentalControlsBrowserProxyImpl, ParentalControlsBrowserProxy} from './parental_controls_page/parental_controls_browser_proxy.m.js';
 export {CrSettingsPrefs} from '../prefs/prefs_types.m.js';
