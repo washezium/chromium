@@ -2,24 +2,35 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/performance_manager/v8_per_frame_memory_reporter_impl.h"
+#include "third_party/blink/renderer/controller/performance_manager/v8_per_frame_memory_reporter_impl.h"
 
-#include "base/containers/flat_map.h"
-#include "content/public/common/isolated_world_ids.h"
 #include "mojo/public/cpp/bindings/self_owned_receiver.h"
 #include "third_party/blink/public/platform/web_isolated_world_info.h"
 #include "third_party/blink/public/web/web_local_frame.h"
 #include "third_party/blink/public/web/web_local_frame_client.h"
+#include "third_party/blink/renderer/platform/bindings/dom_wrapper_world.h"
+#include "third_party/blink/renderer/platform/wtf/hash_map.h"
 #include "v8/include/v8.h"
 
-namespace performance_manager {
+namespace WTF {
+template <>
+struct HashTraits<::blink::mojom::blink::PerFrameV8MemoryUsageDataPtr>
+    : GenericHashTraits<::blink::mojom::blink::PerFrameV8MemoryUsageDataPtr> {
+  // The default PeekOutType is a value type that requires a copy constructor
+  // in the at() getter. Override it to a reference.
+  typedef const ::blink::mojom::blink::PerFrameV8MemoryUsageDataPtr&
+      PeekOutType;
+};
+}  // namespace WTF
+
+namespace blink {
 
 namespace {
 
 class FrameAssociatedMeasurementDelegate : public v8::MeasureMemoryDelegate {
  public:
-  using GetPerFrameV8MemoryUsageDataCallback =
-      mojom::V8PerFrameMemoryReporter::GetPerFrameV8MemoryUsageDataCallback;
+  using GetPerFrameV8MemoryUsageDataCallback = mojom::blink::
+      V8PerFrameMemoryReporter::GetPerFrameV8MemoryUsageDataCallback;
 
   explicit FrameAssociatedMeasurementDelegate(
       GetPerFrameV8MemoryUsageDataCallback&& callback)
@@ -27,7 +38,8 @@ class FrameAssociatedMeasurementDelegate : public v8::MeasureMemoryDelegate {
 
   ~FrameAssociatedMeasurementDelegate() override {
     if (callback_) {
-      std::move(callback_).Run(mojom::PerProcessV8MemoryUsageData::New());
+      std::move(callback_).Run(
+          mojom::blink::PerProcessV8MemoryUsageData::New());
     }
   }
 
@@ -41,13 +53,14 @@ class FrameAssociatedMeasurementDelegate : public v8::MeasureMemoryDelegate {
       const std::vector<std::pair<v8::Local<v8::Context>, size_t>>&
           context_sizes_in_bytes,
       size_t unattributed_size_in_bytes) override {
-    mojom::PerProcessV8MemoryUsageDataPtr result =
-        mojom::PerProcessV8MemoryUsageData::New();
+    mojom::blink::PerProcessV8MemoryUsageDataPtr result =
+        mojom::blink::PerProcessV8MemoryUsageData::New();
 
     result->unassociated_bytes_used = unattributed_size_in_bytes;
 
     // Keep track of the per-frame data throughout this loop.
-    base::flat_map<blink::WebLocalFrame*, mojom::PerFrameV8MemoryUsageDataPtr>
+    WTF::HashMap<blink::WebLocalFrame*,
+                 mojom::blink::PerFrameV8MemoryUsageDataPtr>
         frames;
     for (const auto& context_and_size : context_sizes_in_bytes) {
       const v8::Local<v8::Context>& context = context_and_size.first;
@@ -63,45 +76,45 @@ class FrameAssociatedMeasurementDelegate : public v8::MeasureMemoryDelegate {
         ++(result->num_unassociated_contexts);
         result->unassociated_context_bytes_used += size;
       } else {
-        mojom::PerFrameV8MemoryUsageData* per_frame_resources =
-            frames[frame].get();
+        mojom::blink::PerFrameV8MemoryUsageData* per_frame_resources =
+            frames.at(frame).get();
         if (!per_frame_resources) {
 #if DCHECK_IS_ON()
           // Check that the frame token didn't already occur.
           for (const auto& entry : frames) {
             // This frame was already added to the map by frames[frame] above.
-            if (frame == entry.first)
+            if (frame == entry.key)
               continue;
-            DCHECK_NE(entry.first->GetFrameToken(), frame->GetFrameToken());
+            DCHECK_NE(entry.key->GetFrameToken(), frame->GetFrameToken());
           }
 #endif
-          auto new_resources = mojom::PerFrameV8MemoryUsageData::New();
+          auto new_resources = mojom::blink::PerFrameV8MemoryUsageData::New();
           new_resources->frame_token = frame->GetFrameToken();
           per_frame_resources = new_resources.get();
-          frames[frame] = std::move(new_resources);
+          frames.Set(frame, std::move(new_resources));
         }
 
-        mojom::V8IsolatedWorldMemoryUsagePtr isolated_world_usage =
-            mojom::V8IsolatedWorldMemoryUsage::New();
+        mojom::blink::V8IsolatedWorldMemoryUsagePtr isolated_world_usage =
+            mojom::blink::V8IsolatedWorldMemoryUsage::New();
         isolated_world_usage->bytes_used = size;
         int32_t world_id = frame->GetScriptContextWorldId(context);
 
-        if (world_id != content::ISOLATED_WORLD_ID_GLOBAL) {
+        if (world_id != DOMWrapperWorld::WorldId::kMainWorldId) {
           isolated_world_usage->stable_id =
-              blink::GetIsolatedWorldStableId(context).Utf8();
+              blink::GetIsolatedWorldStableId(context);
           isolated_world_usage->human_readable_name =
-              blink::GetIsolatedWorldHumanReadableName(context).Utf8();
+              blink::GetIsolatedWorldHumanReadableName(context);
         }
 
         DCHECK(
             !base::Contains(per_frame_resources->associated_bytes, world_id));
-        per_frame_resources->associated_bytes[world_id] =
-            std::move(isolated_world_usage);
+        per_frame_resources->associated_bytes.Set(
+            world_id, std::move(isolated_world_usage));
       }
     }
     // Move the per-frame memory values to the result.
     for (auto& entry : frames)
-      result->associated_memory.push_back(std::move(entry.second));
+      result->associated_memory.push_back(std::move(entry.value));
 
     std::move(callback_).Run(std::move(result));
   }
@@ -113,7 +126,7 @@ class FrameAssociatedMeasurementDelegate : public v8::MeasureMemoryDelegate {
 
 // static
 void V8PerFrameMemoryReporterImpl::Create(
-    mojo::PendingReceiver<mojom::V8PerFrameMemoryReporter> receiver) {
+    mojo::PendingReceiver<mojom::blink::V8PerFrameMemoryReporter> receiver) {
   mojo::MakeSelfOwnedReceiver(std::make_unique<V8PerFrameMemoryReporterImpl>(),
                               std::move(receiver));
 }
@@ -122,7 +135,7 @@ void V8PerFrameMemoryReporterImpl::GetPerFrameV8MemoryUsageData(
     GetPerFrameV8MemoryUsageDataCallback callback) {
   v8::Isolate* isolate = v8::Isolate::GetCurrent();
   if (!isolate) {
-    std::move(callback).Run(mojom::PerProcessV8MemoryUsageData::New());
+    std::move(callback).Run(mojom::blink::PerProcessV8MemoryUsageData::New());
   } else {
     std::unique_ptr<FrameAssociatedMeasurementDelegate> delegate =
         std::make_unique<FrameAssociatedMeasurementDelegate>(
@@ -132,4 +145,4 @@ void V8PerFrameMemoryReporterImpl::GetPerFrameV8MemoryUsageData(
   }
 }
 
-}  // namespace performance_manager
+}  // namespace blink
