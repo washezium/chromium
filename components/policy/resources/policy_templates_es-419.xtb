@@ -172,7 +172,7 @@
       Si no se configura la política o se establece como falsa, no se usará la "Transición rápida".
       Si se configura como verdadera, la "Transición rápida" se usará cuando el punto de acceso inalámbrico lo permita.</translation>
 <translation id="1240722269871366886">Esta política permite que <ph name="PRODUCT_OS_NAME" /> sugiera emojis cuando los usuarios escriben texto con el teclado físico o el virtual.
-      Si la estableces como verdadera, se habilitará la función; los usuarios podrán cambiarla.
+      Si la estableces como verdadera, se habilitará la función y los usuarios podrán cambiarla.
       De forma predeterminada, la política se establece como falsa, los usuarios no pueden anularla y no se sugiere ningún emoji.</translation>
 <translation id="1243570869342663665">Controlar el filtro de contenido para adultos de SafeSites.</translation>
 <translation id="1257550411839719984">Establecer el directorio de descarga predeterminado</translation>

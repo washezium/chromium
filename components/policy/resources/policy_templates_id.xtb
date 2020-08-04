@@ -535,7 +535,7 @@ Jika Anda menonaktifkan kebijakan ini, scroll halaman web ke fragmen teks terten
         Dukungan bagi jenis aplikasi lain akan ditambahkan nantinya. Untuk saat ini jenis tersebut dapat ditentukan dalam kebijakan, tetapi pembatasan tersebut tidak akan berlaku.
         Terdapat dua jenis pembatasan yang tersedia: |BLOCK| dan |TIME_LIMIT|.
         |BLOCK| akan membuat aplikasi menjadi tidak tersedia bagi pengguna. Jika |daily_limit_mins| ditentukan dengan pembatasan |BLOCK|, |daily_limit_mins| akan diabaikan.
-        |TIME_LIMITS| menerapkan batas penggunaan harian dan membuat aplikasi menjadi tidak tersedia setelah batas tersebut tercapai pada hari yang sudah ditentukan. Batas penggunaan ditentukan dalam |daily_limit_mins|. Batas penggunaan disetel ulang setiap hari pada waktu UTC yang dilewati dalam |reset_at|.
+        |TIME_LIMITS| menerapkan batas penggunaan harian dan membuat aplikasi menjadi tidak tersedia setelah batas tersebut tercapai pada hari yang sudah ditentukan. Batas penggunaan ditentukan dalam |daily_limit_mins|. Batas penggunaan direset setiap hari pada waktu UTC yang dilewati dalam |reset_at|.
         Kebijakan ini hanya digunakan untuk anak-anak sebagai pengguna.
         Kebijakan ini bersifat komplementer terhadap 'UsageTimeLimit'. Pembatasan yang ditentukan dalam 'UsageTimeLimit' seperti waktu pemakaian perangkat dan waktu tidur akan diterapkan tanpa memandang 'PerAppTimeLimits'.</translation>
 <translation id="1914840757300882918">Jika kebijakan ini ditetapkan, host akan menggunakan sertifikat klien dengan CN penerbit yang diberikan untuk mengautentikasi ke RemoteAccessHostTokenValidationUrl. Tetapkan ke "*" untuk menggunakan sertifikat klien mana pun yang tersedia.
@@ -5453,7 +5453,7 @@ Pengguna tidak dapat mengubah atau mengganti setelan ini.</translation>
 
       Menyetel kebijakan ini akan mencegah penerapan perlindungan rollback untuk setidaknya jumlah milestone ini.
 
-      Menyetel kebijakan ini ke nilai yang lebih rendah akan memiliki dampak permanen: perangkat MUNGKIN tidak dapat dikembalikan ke versi sebelumnya setelah kebijakan disetel ulang ke nilai yang lebih tinggi.
+      Menyetel kebijakan ini ke nilai yang lebih rendah akan memiliki dampak permanen: perangkat MUNGKIN tidak dapat dikembalikan ke versi sebelumnya setelah kebijakan direset ke nilai yang lebih tinggi.
 
       Kemungkinan rollback aktual juga dapat bergantung pada model perangkat dan patch kerentanan kritis.</translation>
 <translation id="9123464369663964441">Izinkan pengguna menambahkan pengecualian untuk mengizinkan konten campuran</translation>
