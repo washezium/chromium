@@ -1239,6 +1239,22 @@ suite('PasswordsSection', function() {
         });
   });
 
+  test('onEditPasswordListItem', function() {
+    const expectedItem =
+        createPasswordEntry({url: 'goo.gl', username: 'bart', id: 1});
+    const passwordsSection = elementFactory.createPasswordsSection(
+        passwordManager, [expectedItem], []);
+
+    getFirstPasswordListItem(passwordsSection).$.moreActionsButton.click();
+    passwordsSection.$.passwordsListHandler.$$('#menuEditPassword').click();
+
+    return passwordManager.whenCalled('requestPlaintextPassword')
+        .then(({id, reason}) => {
+          assertEquals(1, id);
+          assertEquals('EDIT', reason);
+        });
+  });
+
   test('closingPasswordsSectionHidesUndoToast', function() {
     const passwordEntry =
         createPasswordEntry({url: 'goo.gl', username: 'bart'});
