@@ -2,20 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/test/not_implemented_network_url_loader_factory.h"
+#include "services/network/public/cpp/not_implemented_url_loader_factory.h"
 
+#include "base/logging.h"
 #include "mojo/public/cpp/bindings/remote.h"
 #include "services/network/public/mojom/url_loader.mojom.h"
 
-namespace content {
+namespace network {
 
-NotImplementedNetworkURLLoaderFactory::NotImplementedNetworkURLLoaderFactory() =
-    default;
+NotImplementedURLLoaderFactory::NotImplementedURLLoaderFactory() = default;
 
-NotImplementedNetworkURLLoaderFactory::
-    ~NotImplementedNetworkURLLoaderFactory() = default;
+NotImplementedURLLoaderFactory::~NotImplementedURLLoaderFactory() = default;
 
-void NotImplementedNetworkURLLoaderFactory::CreateLoaderAndStart(
+void NotImplementedURLLoaderFactory::CreateLoaderAndStart(
     mojo::PendingReceiver<network::mojom::URLLoader> receiver,
     int32_t routing_id,
     int32_t request_id,
@@ -23,15 +22,16 @@ void NotImplementedNetworkURLLoaderFactory::CreateLoaderAndStart(
     const network::ResourceRequest& url_request,
     mojo::PendingRemote<network::mojom::URLLoaderClient> client,
     const net::MutableNetworkTrafficAnnotationTag& traffic_annotation) {
+  NOTREACHED();
   network::URLLoaderCompletionStatus status;
   status.error_code = net::ERR_NOT_IMPLEMENTED;
   mojo::Remote<network::mojom::URLLoaderClient>(std::move(client))
       ->OnComplete(status);
 }
 
-void NotImplementedNetworkURLLoaderFactory::Clone(
+void NotImplementedURLLoaderFactory::Clone(
     mojo::PendingReceiver<network::mojom::URLLoaderFactory> receiver) {
   receivers_.Add(this, std::move(receiver));
 }
 
-}  // namespace content
+}  // namespace network

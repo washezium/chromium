@@ -2,22 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_TEST_NOT_IMPLEMENTED_NETWORK_URL_LOADER_FACTORY_H_
-#define CONTENT_TEST_NOT_IMPLEMENTED_NETWORK_URL_LOADER_FACTORY_H_
+#ifndef SERVICES_NETWORK_PUBLIC_CPP_NOT_IMPLEMENTED_URL_LOADER_FACTORY_H_
+#define SERVICES_NETWORK_PUBLIC_CPP_NOT_IMPLEMENTED_URL_LOADER_FACTORY_H_
 
+#include "base/component_export.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
 #include "mojo/public/cpp/bindings/pending_remote.h"
 #include "mojo/public/cpp/bindings/receiver_set.h"
 #include "services/network/public/mojom/url_loader_factory.mojom.h"
 
-namespace content {
+namespace network {
 
-// A mock URLLoaderFactory which just fails to create a loader.
-class NotImplementedNetworkURLLoaderFactory final
+// A URLLoaderFactory which just fails to create a loader with
+// net::ERR_NOT_IMPLEMENTED.
+class COMPONENT_EXPORT(NETWORK_CPP) NotImplementedURLLoaderFactory final
     : public network::mojom::URLLoaderFactory {
  public:
-  NotImplementedNetworkURLLoaderFactory();
-  ~NotImplementedNetworkURLLoaderFactory() override;
+  NotImplementedURLLoaderFactory();
+  ~NotImplementedURLLoaderFactory() override;
 
   // network::mojom::URLLoaderFactory implementation.
   void CreateLoaderAndStart(
@@ -36,9 +38,9 @@ class NotImplementedNetworkURLLoaderFactory final
  private:
   mojo::ReceiverSet<network::mojom::URLLoaderFactory> receivers_;
 
-  DISALLOW_COPY_AND_ASSIGN(NotImplementedNetworkURLLoaderFactory);
+  DISALLOW_COPY_AND_ASSIGN(NotImplementedURLLoaderFactory);
 };
 
-}  // namespace content
+}  // namespace network
 
-#endif  // CONTENT_TEST_NOT_IMPLEMENTED_NETWORK_URL_LOADER_FACTORY_H_
+#endif  // SERVICES_NETWORK_PUBLIC_CPP_NOT_IMPLEMENTED_URL_LOADER_FACTORY_H_
