@@ -105,7 +105,7 @@
 #   platforms while the 'future_on' is used to enumerate platforms where the
 #   feature is not yet ready for use in production environments. Any unreleased
 #   platforms is hidden from policy templates and documentation. The policy
-#   defination in the source code is generated for platforms in both lists.
+#   definition in the source code is generated for platforms in both lists.
 #
 #   The format of the 'supported_on' is '<platform>:<since_version>-<until_version>'.
 #   It means the policy is officially released on the |platform| from
@@ -15708,6 +15708,28 @@
       If this policy is left not set, the default is not allowed for enterprise-managed users and allowed for non-managed users.''',
     },
     {
+      'name': 'NearbyShareAllowed',
+      'owners': ['vecore@google.com', 'hansberry@chromium.org', 'better-together-dev@google.com'],
+      'type': 'main',
+      'schema': { 'type': 'boolean' },
+      'future_on': ['chrome_os'],
+      'supported_on': [],
+      'features': {
+        'dynamic_refresh': True,
+        'per_profile': True,
+      },
+      'example_value': True,
+      'default_for_enterprise_users': True,
+      'id': 761,
+      'caption': '''Allow Nearby Share to be enabled.''',
+      'tags': ['local-data-access', 'google-sharing'],
+      'desc': '''If this setting is enabled, users will be allowed to opt in to Nearby Share, which allows them to send and receive files from people closeby.
+
+      If this setting is disabled, users will not be allowed to opt in to Nearby Share.
+
+      If this policy is left not set, the default is allowed for both enterprise-managed users and non-managed users.''',
+    },
+    {
       'name': 'BrowserNetworkTimeQueriesEnabled',
       'owners': ['estark@chromium.org', 'mab@chromium.org'],
       'type': 'main',
@@ -23525,6 +23547,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 760,
+  'highest_id_currently_used': 761,
   'highest_atomic_group_id_currently_used': 39
 }

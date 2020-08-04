@@ -1126,6 +1126,8 @@ static_library("browser") {
     "plugins/pdf_iframe_navigation_throttle.h",
     "plugins/pdf_plugin_placeholder_observer.cc",
     "plugins/pdf_plugin_placeholder_observer.h",
+    "policy/boolean_disabling_policy_handler.cc",
+    "policy/boolean_disabling_policy_handler.h",
     "policy/browsing_history_policy_handler.cc",
     "policy/browsing_history_policy_handler.h",
     "policy/chrome_browser_policy_connector.cc",
