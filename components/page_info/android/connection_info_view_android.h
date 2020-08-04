@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_POPUP_ANDROID_H_
-#define COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_POPUP_ANDROID_H_
+#ifndef COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_VIEW_ANDROID_H_
+#define COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_VIEW_ANDROID_H_
 
 #include <jni.h>
 
@@ -23,12 +23,12 @@ class PageInfoClient;
 
 // Android implementation of the page info UI which displays detailed
 // connection and certificate information for the website.
-class ConnectionInfoPopupAndroid : public PageInfoUI {
+class ConnectionInfoViewAndroid : public PageInfoUI {
  public:
-  ConnectionInfoPopupAndroid(JNIEnv* env,
-                             jobject java_page_info,
-                             content::WebContents* web_contents);
-  ~ConnectionInfoPopupAndroid() override;
+  ConnectionInfoViewAndroid(JNIEnv* env,
+                            jobject java_page_info,
+                            content::WebContents* web_contents);
+  ~ConnectionInfoViewAndroid() override;
   void Destroy(JNIEnv* env, const base::android::JavaParamRef<jobject>& obj);
 
   // Revokes any current user exceptions for bypassing SSL error interstitials
@@ -55,7 +55,7 @@ class ConnectionInfoPopupAndroid : public PageInfoUI {
   // The java prompt implementation.
   base::android::ScopedJavaGlobalRef<jobject> popup_jobject_;
 
-  DISALLOW_COPY_AND_ASSIGN(ConnectionInfoPopupAndroid);
+  DISALLOW_COPY_AND_ASSIGN(ConnectionInfoViewAndroid);
 };
 
-#endif  // COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_POPUP_ANDROID_H_s
+#endif  // COMPONENTS_PAGE_INFO_ANDROID_CONNECTION_INFO_VIEW_ANDROID_H_s

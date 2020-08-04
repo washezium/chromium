@@ -267,8 +267,8 @@ public class PageInfoController
             mSubpage = new PageInfoSubpage(mContext);
             mSubpage.setBackButtonOnClickListener(view -> exitSubpage());
             PageInfoViewV2 view2 = (PageInfoViewV2) mView;
-            mConnectionController =
-                    new PageInfoConnectionController(this, view2.getConnectionRowView());
+            mConnectionController = new PageInfoConnectionController(
+                    this, view2.getConnectionRowView(), mWebContents, mDelegate.getVrHandler());
             mPermissionsController = new PageInfoPermissionsController(
                     this, view2.getPermissionsRowView(), mDelegate, mDisplayUrlBuilder.toString());
             mCookiesController = new PageInfoCookiesController(
@@ -426,7 +426,7 @@ public class PageInfoController
                 runAfterDismiss(() -> {
                     if (!mWebContents.isDestroyed()) {
                         recordAction(PageInfoAction.PAGE_INFO_SECURITY_DETAILS_OPENED);
-                        ConnectionInfoPopup.show(mContext, mWebContents,
+                        ConnectionInfoView.show(mContext, mWebContents,
                                 mDelegate.getModalDialogManager(), mDelegate.getVrHandler());
                     }
                 });

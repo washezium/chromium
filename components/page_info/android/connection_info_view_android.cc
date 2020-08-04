@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/page_info/android/connection_info_popup_android.h"
+#include "components/page_info/android/connection_info_view_android.h"
 
 #include "base/android/jni_android.h"
 #include "base/android/jni_array.h"
 #include "base/android/jni_string.h"
-#include "components/page_info/android/jni_headers/ConnectionInfoPopup_jni.h"
+#include "components/page_info/android/jni_headers/ConnectionInfoView_jni.h"
 #include "components/page_info/android/page_info_client.h"
 #include "components/page_info/page_info.h"
 #include "components/page_info/page_info_delegate.h"
@@ -31,7 +31,7 @@ using base::android::ScopedJavaLocalRef;
 using content::WebContents;
 
 // static
-static jlong JNI_ConnectionInfoPopup_Init(
+static jlong JNI_ConnectionInfoView_Init(
     JNIEnv* env,
     const JavaParamRef<jobject>& obj,
     const JavaParamRef<jobject>& java_web_contents) {
@@ -40,10 +40,10 @@ static jlong JNI_ConnectionInfoPopup_Init(
   DCHECK(web_contents);
 
   return reinterpret_cast<intptr_t>(
-      new ConnectionInfoPopupAndroid(env, obj, web_contents));
+      new ConnectionInfoViewAndroid(env, obj, web_contents));
 }
 
-ConnectionInfoPopupAndroid::ConnectionInfoPopupAndroid(
+ConnectionInfoViewAndroid::ConnectionInfoViewAndroid(
     JNIEnv* env,
     jobject java_page_info_pop,
     WebContents* web_contents) {
@@ -64,21 +64,21 @@ ConnectionInfoPopupAndroid::ConnectionInfoPopupAndroid(
   presenter_->InitializeUiState(this);
 }
 
-ConnectionInfoPopupAndroid::~ConnectionInfoPopupAndroid() {}
+ConnectionInfoViewAndroid::~ConnectionInfoViewAndroid() {}
 
-void ConnectionInfoPopupAndroid::Destroy(JNIEnv* env,
-                                         const JavaParamRef<jobject>& obj) {
+void ConnectionInfoViewAndroid::Destroy(JNIEnv* env,
+                                        const JavaParamRef<jobject>& obj) {
   delete this;
 }
 
-void ConnectionInfoPopupAndroid::ResetCertDecisions(
+void ConnectionInfoViewAndroid::ResetCertDecisions(
     JNIEnv* env,
     const JavaParamRef<jobject>& obj,
     const JavaParamRef<jobject>& java_web_contents) {
   presenter_->OnRevokeSSLErrorBypassButtonPressed();
 }
 
-void ConnectionInfoPopupAndroid::SetIdentityInfo(
+void ConnectionInfoViewAndroid::SetIdentityInfo(
     const IdentityInfo& identity_info) {
   JNIEnv* env = base::android::AttachCurrentThread();
 
@@ -108,14 +108,14 @@ void ConnectionInfoPopupAndroid::SetIdentityInfo(
           l10n_util::GetStringUTF16(IDS_PAGE_INFO_CERT_INFO_BUTTON);
     }
 
-    Java_ConnectionInfoPopup_addCertificateSection(
+    Java_ConnectionInfoView_addCertificateSection(
         env, popup_jobject_, icon_id, ConvertUTF8ToJavaString(env, headline),
         description, ConvertUTF16ToJavaString(env, certificate_label));
 
     if (identity_info.show_ssl_decision_revoke_button) {
       base::string16 reset_button_label = l10n_util::GetStringUTF16(
           IDS_PAGE_INFO_RESET_INVALID_CERTIFICATE_DECISIONS_BUTTON);
-      Java_ConnectionInfoPopup_addResetCertDecisionsButton(
+      Java_ConnectionInfoView_addResetCertDecisionsButton(
           env, popup_jobject_,
           ConvertUTF16ToJavaString(env, reset_button_label));
     }
@@ -127,28 +127,28 @@ void ConnectionInfoPopupAndroid::SetIdentityInfo(
 
     ScopedJavaLocalRef<jstring> description = ConvertUTF8ToJavaString(
         env, identity_info.connection_status_description);
-    Java_ConnectionInfoPopup_addDescriptionSection(env, popup_jobject_, icon_id,
-                                                   nullptr, description);
+    Java_ConnectionInfoView_addDescriptionSection(env, popup_jobject_, icon_id,
+                                                  nullptr, description);
   }
 
-  Java_ConnectionInfoPopup_addMoreInfoLink(
+  Java_ConnectionInfoView_addMoreInfoLink(
       env, popup_jobject_,
       ConvertUTF8ToJavaString(
           env, l10n_util::GetStringUTF8(IDS_PAGE_INFO_HELP_CENTER_LINK)));
-  Java_ConnectionInfoPopup_showDialog(env, popup_jobject_);
+  Java_ConnectionInfoView_onReady(env, popup_jobject_);
 }
 
-void ConnectionInfoPopupAndroid::SetCookieInfo(
+void ConnectionInfoViewAndroid::SetCookieInfo(
     const CookieInfoList& cookie_info_list) {
   NOTIMPLEMENTED();
 }
 
-void ConnectionInfoPopupAndroid::SetPageFeatureInfo(
+void ConnectionInfoViewAndroid::SetPageFeatureInfo(
     const PageFeatureInfo& info) {
   NOTIMPLEMENTED();
 }
 
-void ConnectionInfoPopupAndroid::SetPermissionInfo(
+void ConnectionInfoViewAndroid::SetPermissionInfo(
     const PermissionInfoList& permission_info_list,
     ChosenObjectInfoList chosen_object_info_list) {
   NOTIMPLEMENTED();

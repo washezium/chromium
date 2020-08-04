@@ -17,32 +17,32 @@ import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.browser.vr.VrModuleProvider;
 import org.chromium.chrome.test.ChromeActivityTestRule;
 import org.chromium.chrome.test.ChromeJUnit4ClassRunner;
-import org.chromium.components.page_info.ConnectionInfoPopup;
+import org.chromium.components.page_info.ConnectionInfoView;
 import org.chromium.content_public.browser.WebContents;
 import org.chromium.content_public.browser.test.util.TestThreadUtils;
 
 /**
- * Tests for ConnectionInfoPopup.
+ * Tests for ConnectionInfoView.
  */
 @RunWith(ChromeJUnit4ClassRunner.class)
 @CommandLineFlags.Add({ChromeSwitches.DISABLE_FIRST_RUN_EXPERIENCE})
-public class ConnectionInfoPopupTest {
+public class ConnectionInfoViewTest {
     @Rule
     public ChromeActivityTestRule<ChromeActivity> mActivityTestRule =
             new ChromeActivityTestRule<>(ChromeActivity.class);
 
     /**
-     * Tests that ConnectionInfoPopup can be instantiated and shown.
+     * Tests that ConnectionInfoView can be instantiated and shown.
      */
     @Test
     @MediumTest
-    @Feature({"ConnectionInfoPopup"})
+    @Feature({"ConnectionInfoView"})
     public void testShow() throws InterruptedException {
         mActivityTestRule.startMainActivityOnBlankPage();
         TestThreadUtils.runOnUiThreadBlocking(() -> {
             ChromeActivity context = mActivityTestRule.getActivity();
             WebContents webContents = context.getActivityTab().getWebContents();
-            ConnectionInfoPopup.show(context, webContents, context.getModalDialogManager(),
+            ConnectionInfoView.show(context, webContents, context.getModalDialogManager(),
                     VrModuleProvider.getDelegate());
         });
     }
