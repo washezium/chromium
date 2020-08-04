@@ -34,8 +34,6 @@
 #include "chrome/browser/prerender/prerender_contents.h"
 #include "chrome/browser/prerender/prerender_field_trial.h"
 #include "chrome/browser/prerender/prerender_handle.h"
-#include "chrome/browser/prerender/prerender_tab_helper.h"
-#include "chrome/browser/profiles/profile.h"
 #include "components/content_settings/core/browser/cookie_settings.h"
 #include "components/prerender/browser/prerender_histograms.h"
 #include "components/prerender/browser/prerender_history.h"
@@ -135,9 +133,9 @@ struct PrerenderManager::NavigationRecord {
 };
 
 PrerenderManager::PrerenderManager(
-    Profile* profile,
+    content::BrowserContext* browser_context,
     std::unique_ptr<PrerenderManagerDelegate> delegate)
-    : profile_(profile),
+    : browser_context_(browser_context),
       delegate_(std::move(delegate)),
       prerender_contents_factory_(PrerenderContents::CreateFactory()),
       prerender_history_(std::make_unique<PrerenderHistory>(kHistoryLength)),
@@ -164,7 +162,7 @@ PrerenderManager::~PrerenderManager() {
 void PrerenderManager::Shutdown() {
   DestroyAllContents(FINAL_STATUS_PROFILE_DESTROYED);
   on_close_web_contents_deleters_.clear();
-  profile_ = nullptr;
+  browser_context_ = nullptr;
 
   DCHECK(active_prerenders_.empty());
 }
@@ -585,8 +583,8 @@ PrerenderManager::AddPrerenderWithPreconnectFallback(
   // TODO(ppi): Check whether there are usually enough render processes
   // available on Android. If not, kill an existing renderers so that we can
   // create a new one.
-  if (content::RenderProcessHost::ShouldTryToUseExistingProcessHost(profile_,
-                                                                    url) &&
+  if (content::RenderProcessHost::ShouldTryToUseExistingProcessHost(
+          browser_context_, url) &&
       !content::RenderProcessHost::run_renderer_in_process()) {
     SkipPrerenderContentsAndMaybePreconnect(url, origin,
                                             FINAL_STATUS_TOO_MANY_PROCESSES);
@@ -783,8 +781,8 @@ std::unique_ptr<PrerenderContents> PrerenderManager::CreatePrerenderContents(
     Origin origin) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   return base::WrapUnique(prerender_contents_factory_->CreatePrerenderContents(
-      delegate_->GetPrerenderContentsDelegate(), this, profile_, url, referrer,
-      initiator_origin, origin));
+      delegate_->GetPrerenderContentsDelegate(), this, browser_context_, url,
+      referrer, initiator_origin, origin));
 }
 
 void PrerenderManager::SortActivePrerenders() {
@@ -976,12 +974,13 @@ void PrerenderManager::RecordNetworkBytesConsumed(Origin origin,
                                                   int64_t prerender_bytes) {
   if (!IsNoStatePrefetchEnabled())
     return;
-  int64_t recent_profile_bytes =
-      profile_network_bytes_ - last_recorded_profile_network_bytes_;
-  last_recorded_profile_network_bytes_ = profile_network_bytes_;
-  DCHECK_GE(recent_profile_bytes, 0);
+  int64_t recent_browser_context_bytes =
+      browser_context_network_bytes_ -
+      last_recorded_browser_context_network_bytes_;
+  last_recorded_browser_context_network_bytes_ = browser_context_network_bytes_;
+  DCHECK_GE(recent_browser_context_bytes, 0);
   histograms_->RecordNetworkBytesConsumed(origin, prerender_bytes,
-                                          recent_profile_bytes);
+                                          recent_browser_context_bytes);
 }
 
 void PrerenderManager::AddPrerenderProcessHost(
