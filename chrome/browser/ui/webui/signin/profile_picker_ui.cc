@@ -26,6 +26,10 @@ void AddStrings(content::WebUIDataSource* html_source) {
        IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_PROFILE_TYPE_CHOICE_TITLE},
       {"profileTypeChoiceSubtitle",
        IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_PROFILE_TYPE_CHOICE_SUBTITLE},
+      {"signInButtonLabel",
+       IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_SIGNIN_BUTTON_LABEL},
+      {"notNowButtonLabel",
+       IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_NOT_NOW_BUTTON_LABEL},
   };
   AddLocalizedStringsBulk(html_source, kLocalizedStrings);
 }

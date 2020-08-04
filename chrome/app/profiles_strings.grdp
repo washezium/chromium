@@ -671,5 +671,11 @@
     subtitle">
       Sign in to Sync your bookmarks, passwords, history and more on all your devices
     </message>
+    <message name="IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_SIGNIN_BUTTON_LABEL" desc="Label for a button that prompts user to sign in">
+      Turn on sync...
+    </message>
+    <message name="IDS_PROFILE_PICKER_PROFILE_CREATION_FLOW_NOT_NOW_BUTTON_LABEL" desc="Label for a button to decline a prompt to sign in">
+      Not now
+    </message>
   </if>
 </grit-part>
