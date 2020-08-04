@@ -52409,7 +52409,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="1000" label="24Hour Clock"/>
   <int value="1001" label="Change Time Zone"/>
   <int value="1101" label="Verified Access"/>
-  <int value="1102" label="Keep Wi-Fi On During Sleep"/>
+  <int value="1102" label="Keep Wi-Fi On During Sleep (Deprecated)"/>
   <int value="1103" label="Usage Stats And Crash Reports"/>
   <int value="1200" label="Add Language"/>
   <int value="1201" label="Show Input Options In Shelf"/>
