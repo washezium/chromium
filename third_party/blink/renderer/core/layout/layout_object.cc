@@ -2447,6 +2447,11 @@ void LayoutObject::StyleWillChange(StyleDifference diff,
     }
     MarkEffectiveAllowedTouchActionChanged();
   }
+  if (is_document_element && style_ && style_->Opacity() == 0.0f &&
+      new_style.Opacity() != 0.0f) {
+    if (LocalFrameView* frame_view = GetFrameView())
+      frame_view->GetPaintTimingDetector().ReportIgnoredContent();
+  }
 }
 
 void LayoutObject::ClearBaseComputedStyle() {

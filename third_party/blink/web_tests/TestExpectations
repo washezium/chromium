@@ -5996,7 +5996,6 @@ crbug.com/997669 [ Win ] http/tests/devtools/search/sources-search-scope-in-file
 crbug.com/626703 external/wpt/css/css-paint-api/custom-property-animation-on-main-thread.https.html [ Pass Failure ]
 
 crbug.com/1015130 external/wpt/largest-contentful-paint/first-paint-equals-lcp-text.html [ Failure Pass ]
-crbug.com/957674 external/wpt/largest-contentful-paint/invisible-images-composited-2.html [ Failure ]
 
 crbug.com/1000051 media/controls/volume-slider.html [ Failure Timeout Pass ]
 
