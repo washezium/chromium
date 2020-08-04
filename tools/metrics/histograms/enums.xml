@@ -15982,6 +15982,7 @@ metrics consent we also won't be able to send UMA metrics. -->
   <int value="39" label="Tab moved to drawer"/>
   <int value="40" label="Tab moved to main panel"/>
   <int value="41" label="Capture CSS Overview clicked"/>
+  <int value="42" label="Virtual authenticator environment enabled"/>
 </enum>
 
 <enum name="DevToolsBackgroundService">
