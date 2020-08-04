@@ -1704,6 +1704,9 @@ extern const char kReaderModeInCCTDescription[];
 extern const char kRecoverFromNeverSaveAndroidName[];
 extern const char kRecoverFromNeverSaveAndroidDescription[];
 
+extern const char kReengagementNotificationName[];
+extern const char kReengagementNotificationDescription[];
+
 extern const char kRelatedSearchesName[];
 extern const char kRelatedSearchesDescription[];
 
