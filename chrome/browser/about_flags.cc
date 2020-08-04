@@ -5995,7 +5995,7 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_WITH_PARAMS_VALUE_TYPE(
          blink::features::kAlignFontDisplayAutoTimeoutWithLCPGoal,
          kAlignFontDisplayAutoTimeoutWithLCPGoalVariations,
-         "AlignFontDisplayAutoTimeoutWithLCPGoalVariations")},
+         "AlignFontDisplayAutoTimeoutWithLCPGoal")},
 
 #if defined(OS_CHROMEOS)
     {"enable-palm-suppression", flag_descriptions::kEnablePalmSuppressionName,
@@ -6200,8 +6200,9 @@ class FlagsStateSingleton : public flags_ui::FlagsState::Delegate {
 
  private:
   // flags_ui::FlagsState::Delegate:
-  bool ShouldExcludeFlag(const FeatureEntry& entry) override {
-    return flags::IsFlagExpired(entry.internal_name);
+  bool ShouldExcludeFlag(const flags_ui::FlagsStorage* storage,
+                         const FeatureEntry& entry) override {
+    return flags::IsFlagExpired(storage, entry.internal_name);
   }
 
   std::unique_ptr<flags_ui::FlagsState> flags_state_;
@@ -6213,7 +6214,8 @@ bool ShouldSkipNonDeprecatedFeatureEntry(const FeatureEntry& entry) {
   return ~entry.supported_platforms & kDeprecated;
 }
 
-bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
+bool SkipConditionalFeatureEntry(const flags_ui::FlagsStorage* storage,
+                                 const FeatureEntry& entry) {
   version_info::Channel channel = chrome::GetChannel();
 #if defined(OS_CHROMEOS)
   // enable-ui-devtools is only available on for non Stable channels.
@@ -6281,7 +6283,7 @@ bool SkipConditionalFeatureEntry(const FeatureEntry& entry) {
   }
 #endif  // OS_ANDROID
 
-  if (flags::IsFlagExpired(entry.internal_name))
+  if (flags::IsFlagExpired(storage, entry.internal_name))
     return true;
 
   return false;
@@ -6331,7 +6333,10 @@ void GetFlagFeatureEntries(flags_ui::FlagsStorage* flags_storage,
                            base::ListValue* unsupported_entries) {
   FlagsStateSingleton::GetFlagsState()->GetFlagFeatureEntries(
       flags_storage, access, supported_entries, unsupported_entries,
-      base::BindRepeating(&SkipConditionalFeatureEntry));
+      base::BindRepeating(&SkipConditionalFeatureEntry,
+                          // Unretained: this callback doesn't outlive this
+                          // stack frame.
+                          base::Unretained(flags_storage)));
 }
 
 void GetFlagFeatureEntriesForDeprecatedPage(
