@@ -8,11 +8,15 @@
 
 #include "chrome/browser/password_check/android/internal/jni_headers/PasswordCheckBridge_jni.h"
 
-static jlong JNI_PasswordCheckBridge_Create(JNIEnv* env) {
-  return reinterpret_cast<intptr_t>(new PasswordCheckBridge());
+static jlong JNI_PasswordCheckBridge_Create(
+    JNIEnv* env,
+    const base::android::JavaParamRef<jobject>& java_bridge) {
+  return reinterpret_cast<intptr_t>(new PasswordCheckBridge(java_bridge));
 }
 
-PasswordCheckBridge::PasswordCheckBridge() = default;
+PasswordCheckBridge::PasswordCheckBridge(
+    const base::android::JavaParamRef<jobject>& java_bridge)
+    : java_bridge_(java_bridge) {}
 PasswordCheckBridge::~PasswordCheckBridge() = default;
 
 void PasswordCheckBridge::StartCheck(JNIEnv* env) {
@@ -41,4 +45,11 @@ void PasswordCheckBridge::GetCompromisedCredentials(
 
 void PasswordCheckBridge::Destroy(JNIEnv* env) {
   delete this;
+}
+
+void PasswordCheckBridge::OnPasswordCheckStatusChanged(
+    password_manager::PasswordCheckUIStatus status) {
+  Java_PasswordCheckBridge_onPasswordCheckStatusChanged(
+      base::android::AttachCurrentThread(), java_bridge_,
+      static_cast<int>(status));
 }
