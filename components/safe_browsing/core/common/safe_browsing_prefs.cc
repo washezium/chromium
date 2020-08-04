@@ -28,24 +28,20 @@ void RecordExtendedReportingPrefChanged(
 
   switch (location) {
     case safe_browsing::SBER_OPTIN_SITE_CHROME_SETTINGS:
-      UMA_HISTOGRAM_BOOLEAN(
-          "SafeBrowsing.Pref.Scout.SetPref.SBER2Pref.ChromeSettings",
-          pref_value);
+      UMA_HISTOGRAM_BOOLEAN("SafeBrowsing.Pref.Extended.ChromeSettings",
+                            pref_value);
       break;
     case safe_browsing::SBER_OPTIN_SITE_ANDROID_SETTINGS:
-      UMA_HISTOGRAM_BOOLEAN(
-          "SafeBrowsing.Pref.Scout.SetPref.SBER2Pref.AndroidSettings",
-          pref_value);
+      UMA_HISTOGRAM_BOOLEAN("SafeBrowsing.Pref.Extended.AndroidSettings",
+                            pref_value);
       break;
     case safe_browsing::SBER_OPTIN_SITE_DOWNLOAD_FEEDBACK_POPUP:
-      UMA_HISTOGRAM_BOOLEAN(
-          "SafeBrowsing.Pref.Scout.SetPref.SBER2Pref.DownloadPopup",
-          pref_value);
+      UMA_HISTOGRAM_BOOLEAN("SafeBrowsing.Pref.Extended.DownloadPopup",
+                            pref_value);
       break;
     case safe_browsing::SBER_OPTIN_SITE_SECURITY_INTERSTITIAL:
-      UMA_HISTOGRAM_BOOLEAN(
-          "SafeBrowsing.Pref.Scout.SetPref.SBER2Pref.SecurityInterstitial",
-          pref_value);
+      UMA_HISTOGRAM_BOOLEAN("SafeBrowsing.Pref.Extended.SecurityInterstitial",
+                            pref_value);
       break;
     default:
       NOTREACHED();
@@ -199,7 +195,7 @@ void RecordExtendedReportingMetrics(const PrefService& prefs) {
 
   // Track whether this user has ever seen a security interstitial.
   UMA_HISTOGRAM_BOOLEAN(
-      "SafeBrowsing.Pref.SawInterstitial.SBER2Pref",
+      "SafeBrowsing.Pref.SawInterstitial",
       prefs.GetBoolean(prefs::kSafeBrowsingSawInterstitialScoutReporting));
 }
 
