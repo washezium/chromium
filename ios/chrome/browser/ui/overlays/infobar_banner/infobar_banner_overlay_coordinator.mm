@@ -106,6 +106,14 @@
                                         [self finishPresentation];
                                       }];
   self.started = YES;
+
+  if (!UIAccessibilityIsVoiceOverRunning()) {
+    // Auto-dismiss the banner after timeout if VoiceOver is off (banner should
+    // persist until user explicitly swipes it away).
+    [self performSelector:@selector(dismissBannerIfReady)
+               withObject:nil
+               afterDelay:kInfobarBannerDefaultPresentationDurationInSeconds];
+  }
 }
 
 - (void)stopAnimated:(BOOL)animated {
@@ -153,6 +161,12 @@
           [self class].supportedMediatorClasses, self.request));
   DCHECK(mediator) << "None of the supported mediator classes support request.";
   return mediator;
+}
+
+// Indicate to the UI to dismiss itself if it is ready (e.g. the user is not
+// currently interaction with it).
+- (void)dismissBannerIfReady {
+  [self.bannerViewController dismissWhenInteractionIsFinished];
 }
 
 @end
