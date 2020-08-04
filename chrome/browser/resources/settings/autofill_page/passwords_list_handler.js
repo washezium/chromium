@@ -179,6 +179,7 @@ Polymer({
     e.preventDefault();
     this.$.menu.close();
     this.showPasswordEditDialog_ = true;
+    this.activePassword.hide();
   },
 
   /**
@@ -195,6 +196,7 @@ Polymer({
     this.showPasswordEditDialog_ = false;
     focusWithoutInk(assert(this.activeDialogAnchor_));
     this.activeDialogAnchor_ = null;
+    this.activePassword.hide();
     this.activePassword = null;
   },
 
