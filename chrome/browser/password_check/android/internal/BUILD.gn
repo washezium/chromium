@@ -86,19 +86,8 @@ android_library("internal_java") {
 }
 
 generate_jni("jni_headers") {
-  visibility = [ ":*" ]
+  visibility = [ "//chrome/browser" ]
   sources = [ "java/src/org/chromium/chrome/browser/password_check/PasswordCheckBridge.java" ]
-}
-
-source_set("internal") {
-  deps = [
-    ":jni_headers",
-    "//base:base",
-  ]
-  sources = [
-    "password_check_bridge.cc",
-    "password_check_bridge.h",
-  ]
 }
 
 android_resources("java_resources") {
