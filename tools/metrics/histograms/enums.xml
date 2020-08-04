@@ -28627,6 +28627,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3361" label="MainFrameCSPViaOriginPolicy"/>
   <int value="3362" label="HtmlClipboardApiRead"/>
   <int value="3363" label="HtmlClipboardApiWrite"/>
+  <int value="3364" label="CSSSystemColorComputeToSelf"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
