@@ -45259,6 +45259,7 @@ Called by update_use_counter_css.py.-->
   <int value="671" label="scrollbar-gutter"/>
   <int value="672" label="ascent-override"/>
   <int value="673" label="descent-override"/>
+  <int value="674" label="letter-spacing-override"/>
 </enum>
 
 <enum name="MappedEditingCommands">
