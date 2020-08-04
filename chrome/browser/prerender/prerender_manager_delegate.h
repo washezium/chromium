@@ -7,6 +7,7 @@
 
 #include "base/memory/scoped_refptr.h"
 #include "chrome/browser/prerender/prerender_contents_delegate.h"
+#include "components/prerender/common/prerender_origin.h"
 #include "url/gurl.h"
 
 namespace content_settings {
@@ -31,6 +32,18 @@ class PrerenderManagerDelegate {
   // Get the prerender contents delegate.
   virtual std::unique_ptr<PrerenderContentsDelegate>
   GetPrerenderContentsDelegate() = 0;
+
+  // Check whether predictive loading of web pages is enabled for |origin|.
+  virtual bool IsPredictionEnabled(Origin origin) = 0;
+
+  // Check whether predictive loading of web pages is enabled.
+  virtual bool IsPredictionEnabled() = 0;
+
+  // Check whether predictive loading of web pages is disabled due to network.
+  virtual bool IsPredictionDisabledDueToNetwork(Origin origin) = 0;
+
+  // Gets the reason why predictive loading of web pages was disabld.
+  virtual std::string GetReasonForDisablingPrediction() = 0;
 };
 
 }  // namespace prerender

@@ -266,10 +266,6 @@ class PrerenderManager : public content::RenderProcessHostObserver,
   // recorded.
   void RecordNetworkBytesConsumed(Origin origin, int64_t prerender_bytes);
 
-  // Add to the running tally of bytes transferred over the network for this
-  // profile if prerendering is currently enabled.
-  void AddProfileNetworkBytesIfEnabled(int64_t bytes);
-
   // Registers a new ProcessHost performing a prerender. Called by
   // PrerenderContents.
   void AddPrerenderProcessHost(content::RenderProcessHost* process_host);
@@ -387,15 +383,6 @@ class PrerenderManager : public content::RenderProcessHostObserver,
 
   // Time window for which we record old navigations, in milliseconds.
   static const int kNavigationRecordWindowMs = 5000;
-
-  // Returns whether prerendering is currently enabled or the reason why it is
-  // disabled.
-  chrome_browser_net::NetworkPredictionStatus GetPredictionStatus() const;
-
-  // Returns whether prerendering is currently enabled or the reason why it is
-  // disabled after taking into account the origin of the request.
-  chrome_browser_net::NetworkPredictionStatus GetPredictionStatusForOrigin(
-      Origin origin) const;
 
   // Adds a prerender for |url| from |referrer|. The |origin| specifies how the
   // prerender was added. If |bounds| is empty, then
