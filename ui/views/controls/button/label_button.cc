@@ -129,6 +129,10 @@ void LabelButton::SetEnabledTextColors(base::Optional<SkColor> color) {
   ResetColorsFromNativeTheme();
 }
 
+SkColor LabelButton::GetCurrentTextColor() const {
+  return label_->GetEnabledColor();
+}
+
 void LabelButton::SetTextShadows(const gfx::ShadowValues& shadows) {
   label_->SetShadows(shadows);
 }

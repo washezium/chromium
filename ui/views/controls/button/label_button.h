@@ -67,6 +67,9 @@ class VIEWS_EXPORT LabelButton : public Button, public NativeThemeDelegate {
   // Sets the text colors shown for the non-disabled states to |color|.
   virtual void SetEnabledTextColors(base::Optional<SkColor> color);
 
+  // Gets the current state text color.
+  SkColor GetCurrentTextColor() const;
+
   // Sets drop shadows underneath the text.
   void SetTextShadows(const gfx::ShadowValues& shadows);
 
