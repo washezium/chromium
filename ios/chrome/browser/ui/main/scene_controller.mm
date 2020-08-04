@@ -649,6 +649,11 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
   [self.historyCoordinator stop];
   self.historyCoordinator = nil;
 
+  // Force close the settings if open. This gives Settings the opportunity to
+  // unregister observers and destroy C++ objects before the application is
+  // shut down without depending on non-deterministic call to -dealloc.
+  [self settingsWasDismissed];
+
   [_mainCoordinator stop];
   _mainCoordinator = nil;
 
