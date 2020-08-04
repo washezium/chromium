@@ -41715,6 +41715,7 @@ from previous Chrome versions.
   <int value="-138773929" label="PassiveDocumentEventListeners:enabled"/>
   <int value="-138760381" label="AutofillManualFallbackAndroid:enabled"/>
   <int value="-137303226" label="enable-chromevox-developer-option"/>
+  <int value="-136485076" label="NtpModules:disabled"/>
   <int value="-135584721"
       label="OmniboxUIExperimentBoldUserTextOnSearchSuggestions:disabled"/>
   <int value="-135584175" label="EnableAggregatedMlAppRanking:enabled"/>
@@ -43285,6 +43286,7 @@ from previous Chrome versions.
   <int value="1579461102" label="MemoryCoordinator:disabled"/>
   <int value="1581002467" label="enable-explicit-dma-fences"/>
   <int value="1584039096" label="highlight-all-webviews"/>
+  <int value="1584425198" label="NtpModules:enabled"/>
   <int value="1584536816" label="LimitAltTabToActiveDesk:enabled"/>
   <int value="1586022426" label="AutofillCreditCardAssist:enabled"/>
   <int value="1587521886" label="SSLCommittedInterstitials:enabled"/>
