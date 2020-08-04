@@ -17,7 +17,7 @@ constexpr base::TimeDelta kAnimationDuration =
 // The default interval to refresh photos.
 // TODO(b/139953713): Change to a correct time interval.
 constexpr base::TimeDelta kPhotoRefreshInterval =
-    base::TimeDelta::FromSeconds(5);
+    base::TimeDelta::FromSeconds(60);
 
 // Directory name of ambient mode.
 constexpr char kAmbientModeDirectoryName[] = "ambient-mode";
