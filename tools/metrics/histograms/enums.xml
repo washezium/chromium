@@ -5775,6 +5775,15 @@ Unknown properties are collapsed to zero. -->
   <int value="30" label="ServiceWorker claim"/>
   <int value="31"
       label="IsInactiveAndDisallowReactivation() was called when in bfcache"/>
+  <int value="32" label="RenderFrameHost has inner WebContents attached"/>
+  <int value="33"
+      label="Timed out while waiting for page to acknowledge freezing"/>
+  <int value="34"
+      label="BackForwardCache is disabled due to low memory of the device"/>
+  <int value="35"
+      label="BackForwardCache is disabled through command line (may include
+             cases where the embedder disabled it due to, e.g., enterprise
+             policy)"/>
 </enum>
 
 <enum name="BackForwardCacheReloadsAfterHistoryNavigation">
