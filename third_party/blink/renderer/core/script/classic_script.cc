@@ -13,6 +13,13 @@
 
 namespace blink {
 
+ClassicScript* ClassicScript::CreateUnspecifiedScript(
+    const ScriptSourceCode& script_source_code,
+    SanitizeScriptErrors sanitize_script_errors) {
+  return MakeGarbageCollected<ClassicScript>(
+      script_source_code, KURL(), ScriptFetchOptions(), sanitize_script_errors);
+}
+
 void ClassicScript::Trace(Visitor* visitor) const {
   Script::Trace(visitor);
   visitor->Trace(script_source_code_);
@@ -22,6 +29,28 @@ void ClassicScript::RunScript(LocalFrame* frame) {
   frame->GetScriptController().ExecuteScriptInMainWorld(
       GetScriptSourceCode(), BaseURL(), sanitize_script_errors_,
       FetchOptions());
+}
+
+void ClassicScript::RunScript(LocalFrame* frame,
+                              ScriptController::ExecuteScriptPolicy policy) {
+  frame->GetScriptController().ExecuteScriptInMainWorld(
+      GetScriptSourceCode(), BaseURL(), sanitize_script_errors_, FetchOptions(),
+      policy);
+}
+
+v8::Local<v8::Value> ClassicScript::RunScriptAndReturnValue(
+    LocalFrame* frame,
+    ScriptController::ExecuteScriptPolicy policy) {
+  return frame->GetScriptController().ExecuteScriptInMainWorldAndReturnValue(
+      GetScriptSourceCode(), BaseURL(), sanitize_script_errors_, FetchOptions(),
+      policy);
+}
+
+v8::Local<v8::Value> ClassicScript::RunScriptInIsolatedWorldAndReturnValue(
+    LocalFrame* frame,
+    int32_t world_id) {
+  return frame->GetScriptController().ExecuteScriptInIsolatedWorld(
+      world_id, GetScriptSourceCode(), BaseURL(), sanitize_script_errors_);
 }
 
 void ClassicScript::RunScriptOnWorker(WorkerGlobalScope& worker_global_scope) {
