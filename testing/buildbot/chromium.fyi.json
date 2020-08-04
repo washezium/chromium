@@ -625,7 +625,8 @@
       {
         "args": [
           "--site-per-process",
-          "--git-revision=${got_revision}"
+          "--git-revision=${got_revision}",
+          "--bypass-skia-gold-functionality"
         ],
         "merge": {
           "args": [],
@@ -7180,7 +7181,8 @@
         "args": [
           "--gs-results-bucket=chromium-result-details",
           "--recover-devices",
-          "--git-revision=${got_revision}"
+          "--git-revision=${got_revision}",
+          "--bypass-skia-gold-functionality"
         ],
         "isolate_profile_data": true,
         "merge": {
@@ -7235,7 +7237,8 @@
           "--disable-features=NetworkServiceInProcess",
           "--gs-results-bucket=chromium-result-details",
           "--recover-devices",
-          "--git-revision=${got_revision}"
+          "--git-revision=${got_revision}",
+          "--bypass-skia-gold-functionality"
         ],
         "isolate_profile_data": true,
         "merge": {
@@ -12418,7 +12421,8 @@
           "--disable-features=NetworkServiceInProcess",
           "--gs-results-bucket=chromium-result-details",
           "--recover-devices",
-          "--git-revision=${got_revision}"
+          "--git-revision=${got_revision}",
+          "--bypass-skia-gold-functionality"
         ],
         "merge": {
           "args": [
@@ -65453,7 +65457,8 @@
           "--test-launcher-filter-file=../../testing/buildbot/filters/pixel_browser_tests.filter",
           "--browser-ui-tests-verify-pixels",
           "--enable-pixel-output-in-tests",
-          "--git-revision=${got_revision}"
+          "--git-revision=${got_revision}",
+          "--bypass-skia-gold-functionality"
         ],
         "experiment_percentage": 100,
         "merge": {
