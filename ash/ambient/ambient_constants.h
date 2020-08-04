@@ -12,7 +12,7 @@ namespace ash {
 // Duration of the slide show animation. Also used as |delay| in posted task to
 // download images.
 constexpr base::TimeDelta kAnimationDuration =
-    base::TimeDelta::FromMilliseconds(250);
+    base::TimeDelta::FromMilliseconds(500);
 
 // The default interval to refresh photos.
 // TODO(b/139953713): Change to a correct time interval.
