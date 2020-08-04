@@ -47306,6 +47306,7 @@ Called by update_use_counter_css.py.-->
   <int value="6" label="Unavailable, insufficient security"/>
   <int value="7" label="Unavailable, suite disabled"/>
   <int value="8" label="Further setup required"/>
+  <int value="9" label="Unavailable, top-level feature disabled"/>
 </enum>
 
 <enum name="MultiDevice_PostOOBESetupFlow_Page">
