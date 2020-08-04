@@ -67,6 +67,51 @@ TEST_F('TelemetryExtensionUIBrowserTest', 'HasChromeUntrustedIframe', () => {
   testDone();
 });
 
+// Tests that Telemetry.convert method correctly converts Mojo types into WebIDL
+// types.
+TEST_F(
+    'TelemetryExtensionUIBrowserTest', 'ConvertTelemetryMojoTypesToWebIDLTypes',
+    () => {
+      // null/undefined --> null.
+      assertEquals(telemetryProxy.convert(null), null);
+      assertEquals(telemetryProxy.convert(undefined), null);
+
+      // number/string --> number/string.
+      assertEquals(telemetryProxy.convert('simple string'), 'simple string');
+      assertEquals(telemetryProxy.convert(2020), 2020);
+
+      // {value: X} --> X if X is a number.
+      assertEquals(telemetryProxy.convert({value: 15}), 15);
+      assertEquals(telemetryProxy.convert({value: 777.555}), 777.555);
+
+      // {value: X} --> {value: X} if X is not a number.
+      assertDeepEquals(telemetryProxy.convert({value: 'ABC'}), {value: 'ABC'});
+      assertDeepEquals(
+          telemetryProxy.convert({value: {k: 'v'}}), {value: {k: 'v'}});
+
+      // omit null/undefined properties.
+      assertDeepEquals(
+          telemetryProxy.convert({a: 1, b: null, c: undefined}), {a: 1});
+      assertDeepEquals(
+          telemetryProxy.convert({a: {x: null, y: undefined, z: 'zZz'}}),
+          {a: {z: 'zZz'}});
+
+      // convert objects without properties to null.
+      assertEquals(telemetryProxy.convert({}), null);
+      assertEquals(telemetryProxy.convert({a: null, b: undefined}), null);
+      assertEquals(telemetryProxy.convert({a: {x: null, y: undefined}}), null);
+
+      assertDeepEquals(
+          telemetryProxy.convert({
+            a: 1,
+            b: null,
+            c: {x: {value: 1000}, y: 'YYY', z: {value: 'ZzZ'}}
+          }),
+          {a: 1, c: {x: 1000, y: 'YYY', z: {value: 'ZzZ'}}});
+
+      testDone();
+    });
+
 // Test cases injected into the untrusted context.
 // See implementations in untrusted_browsertest.js.
 
@@ -87,6 +132,13 @@ TEST_F(
     'TelemetryExtensionUIBrowserTest',
     'UntrustedRequestTelemetryInfoUnknownCategory', async () => {
       await runTestInUntrusted('UntrustedRequestTelemetryInfoUnknownCategory');
+      testDone();
+    });
+
+TEST_F(
+    'TelemetryExtensionUIBrowserTest', 'UntrustedRequestTelemetryInfo',
+    async () => {
+      await runTestInUntrusted('UntrustedRequestTelemetryInfo');
       testDone();
     });
 
@@ -123,18 +175,19 @@ class TestProbeService {
   probeTelemetryInfo(categories) {
     this.probeTelemetryInfoCategories = categories;
 
-    const telemetryInfo = /** @type {!chromeos.health.mojom.TelemetryInfo} */ ({
-      backlightResult: null,
-      batteryResult: null,
-      blockDeviceResult: null,
-      bluetoothResult: null,
-      cpuResult: null,
-      fanResult: null,
-      memoryResult: null,
-      statefulPartitionResult: null,
-      timezoneResult: null,
-      vpdResult: null,
-    });
+    const telemetryInfo =
+        /** @type {!chromeos.health.mojom.TelemetryInfo} */ ({
+          backlightResult: null,
+          batteryResult: null,
+          blockDeviceResult: null,
+          bluetoothResult: null,
+          cpuResult: null,
+          fanResult: null,
+          memoryResult: null,
+          statefulPartitionResult: null,
+          timezoneResult: null,
+          vpdResult: null,
+        });
     return Promise.resolve({telemetryInfo});
   }
 };
@@ -173,8 +226,8 @@ var TelemetryExtensionUIWithInterceptorBrowserTest =
 
 TEST_F(
     'TelemetryExtensionUIWithInterceptorBrowserTest',
-    'UntrustedRequestTelemetryInfo', async function() {
-      await runTestInUntrusted('UntrustedRequestTelemetryInfo');
+    'UntrustedRequestTelemetryInfoWithInterceptor', async function() {
+      await runTestInUntrusted('UntrustedRequestTelemetryInfoWithInterceptor');
 
       assertDeepEquals(this.probeService.probeTelemetryInfoCategories, [
         chromeos.health.mojom.ProbeCategoryEnum.kBattery,

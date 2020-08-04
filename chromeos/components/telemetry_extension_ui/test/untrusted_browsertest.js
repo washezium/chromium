@@ -56,8 +56,7 @@ UNTRUSTED_TEST('UntrustedRequestTelemetryInfoUnknownCategory', async () => {
   let caughtError = {};
 
   try {
-    await chromeos.telemetry.probeTelemetryInfo(
-        ['unknown-category']);
+    await chromeos.telemetry.probeTelemetryInfo(['unknown-category']);
   } catch (error) {
     caughtError = error;
   }
@@ -93,23 +92,39 @@ UNTRUSTED_TEST('UntrustedRequestAvailableRoutines', async () => {
 // Tests that TelemetryInfo can be successfully requested from
 // from chrome-untrusted://.
 UNTRUSTED_TEST('UntrustedRequestTelemetryInfo', async () => {
-  /**
-   * @type {!chromeos.health.mojom.TelemetryInfo}
-   */
   const response = await chromeos.telemetry.probeTelemetryInfo([
     'battery', 'non-removable-block-devices', 'cached-vpd-data', 'cpu',
     'timezone', 'memory', 'backlight', 'fan', 'stateful-partition', 'bluetooth'
   ]);
+
   assertDeepEquals(response, {
-    'backlightResult': null,
-    'batteryResult': null,
-    'blockDeviceResult': null,
-    'bluetoothResult': null,
-    'cpuResult': null,
-    'fanResult': null,
-    'memoryResult': null,
-    'statefulPartitionResult': null,
-    'timezoneResult': null,
-    'vpdResult': null,
+    batteryResult: {
+      batteryInfo: {
+        cycleCount: 100000000000000,
+        voltageNow: 1234567890.123456,
+        vendor: 'Google',
+        serialNumber: 'abcdef',
+        chargeFullDesign: 3000000000000000,
+        chargeFull: 9000000000000000,
+        voltageMinDesign: 1000000000.1001,
+        modelName: 'Google Battery',
+        chargeNow: 7777777777.777,
+        currentNow: 0.9999999999999,
+        technology: 'Li-ion',
+        status: 'Charging',
+        manufactureDate: '2020-07-30',
+        temperature: 7777777777777777,
+      }
+    },
   });
+});
+
+// Tests that TelemetryInfo can be successfully requested from
+// from chrome-untrusted://.
+UNTRUSTED_TEST('UntrustedRequestTelemetryInfoWithInterceptor', async () => {
+  const response = await chromeos.telemetry.probeTelemetryInfo([
+    'battery', 'non-removable-block-devices', 'cached-vpd-data', 'cpu',
+    'timezone', 'memory', 'backlight', 'fan', 'stateful-partition', 'bluetooth'
+  ]);
+  assertDeepEquals(response, {});
 });
