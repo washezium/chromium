@@ -54,39 +54,7 @@ chromeos.test_support = {};
    * DPSL Telemetry Requester.
    */
   class TelemetryRequester {
-    constructor() {
-      const categoryEnum = chromeos.health.mojom.ProbeCategoryEnum;
-
-      /**
-       * @type { !Map<!string, !chromeos.health.mojom.ProbeCategoryEnum> }
-       * @const
-       * @private
-       */
-      this.categoryToEnum_ = new Map([
-        ['battery', categoryEnum.kBattery],
-        ['non-removable-block-devices', categoryEnum.kNonRemovableBlockDevices],
-        ['cached-vpd-data', categoryEnum.kCachedVpdData],
-        ['cpu', categoryEnum.kCpu], ['timezone', categoryEnum.kTimezone],
-        ['memory', categoryEnum.kMemory],
-        ['backlight', categoryEnum.kBacklight], ['fan', categoryEnum.kFan],
-        ['stateful-partition', categoryEnum.kStatefulPartition],
-        ['bluetooth', categoryEnum.kBluetooth]
-      ]);
-    }
-
-    /**
-     * @param { !Array<!string> } categories
-     * @return { !Array<!chromeos.health.mojom.ProbeCategoryEnum> }
-     * @private
-     */
-    convertCategories(categories) {
-      return categories.map((category) => {
-        if (!this.categoryToEnum_.has(category)) {
-          throw TypeError(`Telemetry category '${category}' is unknown.`);
-        }
-        return this.categoryToEnum_.get(category);
-      });
-    }
+    constructor() {}
 
     /**
      * Requests telemetry info.
@@ -98,9 +66,12 @@ chromeos.test_support = {};
       const response =
           /** @type {dpsl_internal.ProbeTelemetryInfoResponse} */ (
               await messagePipe.sendMessage(
-                  dpsl_internal.Message.PROBE_TELEMETRY_INFO,
-                  this.convertCategories(categories)));
-      return response.telemetryInfo;
+                  dpsl_internal.Message.PROBE_TELEMETRY_INFO, categories));
+      if (response.error !== undefined) {
+        throw response.error;
+      }
+      return /** @type {!chromeos.health.mojom.TelemetryInfo} */ (
+          response.telemetryInfo);
     }
   };
 

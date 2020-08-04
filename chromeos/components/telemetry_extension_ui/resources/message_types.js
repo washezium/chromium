@@ -40,13 +40,16 @@ dpsl_internal.DiagnosticsGetAvailableRoutinesResponse;
 /**
  * Request message sent by the unprivileged context to request the privileged
  * context to probe telemetry information
- * @typedef { !Array<!chromeos.health.mojom.ProbeCategoryEnum> }
+ * @typedef { !Array<!string> }
  */
 dpsl_internal.ProbeTelemetryInfoRequest;
 
 /**
  * Response message sent by the privileged context sending telemetry
  * information.
- * @typedef {{ telemetryInfo: !chromeos.health.mojom.TelemetryInfo }}
+ * @typedef {{
+ *   telemetryInfo: (!chromeos.health.mojom.TelemetryInfo|undefined),
+ *   error: (!Error|undefined)
+ * }}
  */
 dpsl_internal.ProbeTelemetryInfoResponse;
