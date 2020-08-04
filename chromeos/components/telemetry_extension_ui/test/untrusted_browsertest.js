@@ -51,47 +51,65 @@ UNTRUSTED_TEST('UntrustedCanSpawnWorkers', async () => {
   assertEquals(response, MESSAGE);
 });
 
-// Tests that TelemetryInfo can be successfully requested from
-// from chrome-untrusted://.
-UNTRUSTED_TEST('UntrustedRequestTelemetryInfo', async () => {
-  /** @type {!ProbeTelemetryInfoResponse} */
-  const response = await requestTelemetryInfo();
-  assertDeepEquals(response, {
-    'telemetryInfo': {
-      'backlightResult': null,
-      'batteryResult': null,
-      'blockDeviceResult': null,
-      'bluetoothResult': null,
-      'cpuResult': null,
-      'fanResult': null,
-      'memoryResult': null,
-      'statefulPartitionResult': null,
-      'timezoneResult': null,
-      'vpdResult': null,
-    }
-  });
+// Tests that TelemetryInfo throws an error if category is unknown.
+UNTRUSTED_TEST('UntrustedRequestTelemetryInfoUnknownCategory', async () => {
+  let caughtError = {};
+
+  try {
+    await chromeos.telemetry.probeTelemetryInfo(
+        ['unknown-category']);
+  } catch (error) {
+    caughtError = error;
+  }
+
+  assertEquals(caughtError.name, 'TypeError');
+  assertEquals(
+      caughtError.message,
+      'Telemetry category \'unknown-category\' is unknown.');
 });
 
 // Tests that array of available routines can be successfully
 // requested from chrome-untrusted://.
 UNTRUSTED_TEST('UntrustedRequestAvailableRoutines', async () => {
-  /** @type {!DiagnosticsGetAvailableRoutinesResponse} */
-  const response = await getAvailableRoutines();
+  /** @type {!Array<!chromeos.health.mojom.DiagnosticRoutineEnum>} */
+  const response = await chromeos.diagnostics.getAvailableRoutines();
+  assertDeepEquals(response, [
+    chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryCapacity,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryHealth,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kUrandom,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kSmartctlCheck,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kAcPower,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kCpuCache,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kCpuStress,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kFloatingPointAccuracy,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kNvmeWearLevel,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kNvmeSelfTest,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kDiskRead,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kPrimeSearch,
+    chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryDischarge,
+  ]);
+});
+
+// Tests that TelemetryInfo can be successfully requested from
+// from chrome-untrusted://.
+UNTRUSTED_TEST('UntrustedRequestTelemetryInfo', async () => {
+  /**
+   * @type {!chromeos.health.mojom.TelemetryInfo}
+   */
+  const response = await chromeos.telemetry.probeTelemetryInfo([
+    'battery', 'non-removable-block-devices', 'cached-vpd-data', 'cpu',
+    'timezone', 'memory', 'backlight', 'fan', 'stateful-partition', 'bluetooth'
+  ]);
   assertDeepEquals(response, {
-    'availableRoutines': [
-      chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryCapacity,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryHealth,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kUrandom,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kSmartctlCheck,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kAcPower,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kCpuCache,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kCpuStress,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kFloatingPointAccuracy,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kNvmeWearLevel,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kNvmeSelfTest,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kDiskRead,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kPrimeSearch,
-      chromeos.health.mojom.DiagnosticRoutineEnum.kBatteryDischarge,
-    ]
+    'backlightResult': null,
+    'batteryResult': null,
+    'blockDeviceResult': null,
+    'bluetoothResult': null,
+    'cpuResult': null,
+    'fanResult': null,
+    'memoryResult': null,
+    'statefulPartitionResult': null,
+    'timezoneResult': null,
+    'vpdResult': null,
   });
 });

@@ -3,27 +3,52 @@
 // found in the LICENSE file.
 
 /**
- * Pointer to remote implementation of diagnostics service.
- * @type {!chromeos.health.mojom.DiagnosticsServiceRemote}
+ * @type { MessagePipe|null }
  */
-const diagnosticsService = chromeos.health.mojom.DiagnosticsService.getRemote();
+var untrustedMessagePipe = null;
 
-/**
- * Pointer to remote implementation of probe service.
- * @type {!chromeos.health.mojom.ProbeServiceRemote}
- */
-const probeService = chromeos.health.mojom.ProbeService.getRemote();
+document.addEventListener('DOMContentLoaded', async () => {
+  let diagnosticsService = null;
+  let probeService = null;
 
-const untrustedMessagePipe =
-  new MessagePipe('chrome-untrusted://telemetry-extension');
+  /**
+   * Lazy creates pointer to remote implementation of diagnostics service.
+   * @return {!chromeos.health.mojom.DiagnosticsServiceRemote}
+   */
+  function getOrCreateDiagnosticsService() {
+    if (diagnosticsService === null) {
+      diagnosticsService = chromeos.health.mojom.DiagnosticsService.getRemote();
+    }
+    return /** @type {!chromeos.health.mojom.DiagnosticsServiceRemote} */ (
+        diagnosticsService);
+  }
 
-untrustedMessagePipe.registerHandler(Message.DIAGNOSTICS_AVAILABLE_ROUTINES,
-  async () => {
-    return await diagnosticsService.getAvailableRoutines();
-  });
+  /**
+   * Lazy creates pointer to remote implementation of probe service.
+   * @return {!chromeos.health.mojom.ProbeServiceRemote}
+   */
+  function getOrCreateProbeService() {
+    if (probeService === null) {
+      probeService = chromeos.health.mojom.ProbeService.getRemote();
+    }
+    return /** @type {!chromeos.health.mojom.ProbeServiceRemote} */ (
+        probeService);
+  }
 
-untrustedMessagePipe.registerHandler(Message.PROBE_TELEMETRY_INFO, async () => {
-  const response = await probeService.probeTelemetryInfo(
-    [chromeos.health.mojom.ProbeCategoryEnum.kBattery]);
-  return { telemetryInfo: response.telemetryInfo };
+  const untrustedMessagePipe =
+      new MessagePipe('chrome-untrusted://telemetry-extension');
+
+  untrustedMessagePipe.registerHandler(
+      dpsl_internal.Message.DIAGNOSTICS_AVAILABLE_ROUTINES, async () => {
+        return await getOrCreateDiagnosticsService().getAvailableRoutines();
+      });
+
+  untrustedMessagePipe.registerHandler(
+      dpsl_internal.Message.PROBE_TELEMETRY_INFO, async (message) => {
+        const request =
+            /** @type { !dpsl_internal.ProbeTelemetryInfoRequest } */ (message);
+        return await getOrCreateProbeService().probeTelemetryInfo(request);
+      });
+
+  globalThis.untrustedMessagePipe = untrustedMessagePipe;
 });
