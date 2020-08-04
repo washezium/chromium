@@ -46,8 +46,8 @@ LabelButton::LabelButton(ButtonListener* listener,
   image_ = AddChildView(std::make_unique<ImageView>());
   image_->set_can_process_events_within_subtree(false);
 
-  label_ =
-      AddChildView(std::make_unique<LabelButtonLabel>(text, button_context));
+  label_ = AddChildView(
+      std::make_unique<internal::LabelButtonLabel>(text, button_context));
   label_->SetAutoColorReadabilityEnabled(false);
   label_->SetHorizontalAlignment(gfx::ALIGN_TO_HEAD);
 

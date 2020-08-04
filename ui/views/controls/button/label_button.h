@@ -207,7 +207,7 @@ class VIEWS_EXPORT LabelButton : public Button, public NativeThemeDelegate {
 
   // The image and label shown in the button.
   ImageView* image_;
-  LabelButtonLabel* label_;
+  internal::LabelButtonLabel* label_;
 
   // A separate view is necessary to hold the ink drop layer so that it can
   // be stacked below |image_| and on top of |label_|, without resorting to
