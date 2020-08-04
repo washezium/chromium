@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/views/feature_promos/feature_promo_controller.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_controller.h"
 
 #include <utility>
 
@@ -11,8 +11,8 @@
 #include "chrome/browser/feature_engagement/tracker_factory.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/ui/views/chrome_view_class_properties.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_params.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_view.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_params.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_view.h"
 #include "components/feature_engagement/public/tracker.h"
 
 FeaturePromoController::FeaturePromoController(Profile* profile)

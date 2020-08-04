@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_BUBBLE_VIEW_H_
-#define CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_BUBBLE_VIEW_H_
+#ifndef CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_BUBBLE_VIEW_H_
+#define CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_BUBBLE_VIEW_H_
 
 #include <memory>
 
 #include "base/macros.h"
 #include "base/optional.h"
 #include "base/timer/timer.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_params.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_timeout.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_params.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_timeout.h"
 #include "ui/gfx/geometry/rect.h"
 #include "ui/views/bubble/bubble_dialog_delegate_view.h"
 
@@ -63,4 +63,4 @@ class FeaturePromoBubbleView : public views::BubbleDialogDelegateView {
   DISALLOW_COPY_AND_ASSIGN(FeaturePromoBubbleView);
 };
 
-#endif  // CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_BUBBLE_VIEW_H_
+#endif  // CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_BUBBLE_VIEW_H_

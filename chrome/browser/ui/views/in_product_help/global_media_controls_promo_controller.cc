@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/views/feature_promos/global_media_controls_promo_controller.h"
+#include "chrome/browser/ui/views/in_product_help/global_media_controls_promo_controller.h"
 
 #include <memory>
 #include <utility>
@@ -10,11 +10,11 @@
 #include "base/time/time.h"
 #include "chrome/browser/ui/in_product_help/global_media_controls_in_product_help.h"
 #include "chrome/browser/ui/in_product_help/global_media_controls_in_product_help_factory.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_params.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_timeout.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_view.h"
 #include "chrome/browser/ui/views/frame/browser_view.h"
 #include "chrome/browser/ui/views/global_media_controls/media_toolbar_button_view.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_params.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_timeout.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_view.h"
 #include "chrome/browser/ui/views/toolbar/toolbar_view.h"
 #include "chrome/grit/generated_resources.h"
 

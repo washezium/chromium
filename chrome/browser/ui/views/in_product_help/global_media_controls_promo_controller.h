@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_
-#define CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_
+#ifndef CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_
+#define CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_
 
 #include "base/scoped_observer.h"
 #include "chrome/browser/ui/global_media_controls/media_toolbar_button_observer.h"
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_view.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_view.h"
 #include "ui/views/widget/widget.h"
 #include "ui/views/widget/widget_observer.h"
 
@@ -68,4 +68,4 @@ class GlobalMediaControlsPromoController : public views::WidgetObserver,
   DISALLOW_COPY_AND_ASSIGN(GlobalMediaControlsPromoController);
 };
 
-#endif  // CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_
+#endif  // CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_GLOBAL_MEDIA_CONTROLS_PROMO_CONTROLLER_H_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_REOPEN_TAB_PROMO_CONTROLLER_H_
-#define CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_REOPEN_TAB_PROMO_CONTROLLER_H_
+#ifndef CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_REOPEN_TAB_PROMO_CONTROLLER_H_
+#define CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_REOPEN_TAB_PROMO_CONTROLLER_H_
 
 #include "base/scoped_observer.h"
 #include "chrome/browser/ui/views/frame/app_menu_button_observer.h"
@@ -88,4 +88,4 @@ class ReopenTabPromoController : public AppMenuButtonObserver,
   DISALLOW_COPY_AND_ASSIGN(ReopenTabPromoController);
 };
 
-#endif  // CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_REOPEN_TAB_PROMO_CONTROLLER_H_
+#endif  // CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_REOPEN_TAB_PROMO_CONTROLLER_H_

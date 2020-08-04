@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_timeout.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_timeout.h"
 
 #include <memory>
 
-#include "chrome/browser/ui/views/feature_promos/feature_promo_bubble_view.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_bubble_view.h"
 
 FeaturePromoBubbleTimeout::FeaturePromoBubbleTimeout(
     base::TimeDelta delay_default,

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_COLORS_H_
-#define CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_COLORS_H_
+#ifndef CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_COLORS_H_
+#define CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_COLORS_H_
 
 #include "third_party/skia/include/core/SkColor.h"
 
@@ -14,4 +14,4 @@ class ThemeProvider;
 SkColor GetFeaturePromoHighlightColorForToolbar(
     const ui::ThemeProvider* theme_provider);
 
-#endif  // CHROME_BROWSER_UI_VIEWS_FEATURE_PROMOS_FEATURE_PROMO_COLORS_H_
+#endif  // CHROME_BROWSER_UI_VIEWS_IN_PRODUCT_HELP_FEATURE_PROMO_COLORS_H_
