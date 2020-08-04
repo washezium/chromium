@@ -52,7 +52,7 @@
   {
     "name": "align-font-display-auto-lcp",
     "owners": [ "xiaochengh" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 87
   },
   {
     "name": "allow-disable-mouse-acceleration",
