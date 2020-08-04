@@ -4826,7 +4826,6 @@ test("unit_tests") {
       "../browser/extensions/error_console/error_console_unittest.cc",
       "../browser/extensions/event_router_forwarder_unittest.cc",
       "../browser/extensions/extension_action_icon_factory_unittest.cc",
-      "../browser/extensions/extension_action_manager_unittest.cc",
       "../browser/extensions/extension_action_runner_unittest.cc",
       "../browser/extensions/extension_api_unittest.cc",
       "../browser/extensions/extension_api_unittest.h",

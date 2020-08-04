@@ -2,15 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/extension_action_manager.h"
+#include "extensions/browser/extension_action_manager.h"
 
 #include <memory>
 
-#include "chrome/test/base/testing_profile.h"
 #include "components/version_info/channel.h"
-#include "content/public/test/browser_task_environment.h"
 #include "extensions/browser/extension_action.h"
 #include "extensions/browser/extension_registry.h"
+#include "extensions/browser/extensions_test.h"
 #include "extensions/common/api/extension_action/action_info_test_util.h"
 #include "extensions/common/extension_builder.h"
 #include "extensions/common/features/feature_channel.h"
@@ -24,31 +23,36 @@ namespace extensions {
 // TODO(devlin): This really seems like more of an ExtensionAction test than
 // an ExtensionActionManager test.
 class ExtensionActionManagerTest
-    : public testing::TestWithParam<ActionInfo::Type> {
+    : public ExtensionsTest,
+      public testing::WithParamInterface<ActionInfo::Type> {
  public:
   ExtensionActionManagerTest();
 
  protected:
+  // ExtensionsTest:
+  void SetUp() override;
+
   ExtensionActionManager* manager() { return manager_; }
   ExtensionRegistry* registry() { return registry_; }
 
  private:
-  content::BrowserTaskEnvironment task_environment_;
   ExtensionRegistry* registry_;
   ExtensionActionManager* manager_;
 
-  // Instantiate the channel override, if any, before the profile.
+  // Note: Instantiate the channel override, if any, before the rest of the
+  // test environment gets set up in SetUp().
   std::unique_ptr<ScopedCurrentChannel> current_channel_;
-  std::unique_ptr<TestingProfile> profile_;
 
   DISALLOW_COPY_AND_ASSIGN(ExtensionActionManagerTest);
 };
 
 ExtensionActionManagerTest::ExtensionActionManagerTest()
-    : current_channel_(GetOverrideChannelForActionType(GetParam())),
-      profile_(std::make_unique<TestingProfile>()) {
-  registry_ = ExtensionRegistry::Get(profile_.get());
-  manager_ = ExtensionActionManager::Get(profile_.get());
+    : current_channel_(GetOverrideChannelForActionType(GetParam())) {}
+
+void ExtensionActionManagerTest::SetUp() {
+  ExtensionsTest::SetUp();
+  registry_ = ExtensionRegistry::Get(browser_context());
+  manager_ = ExtensionActionManager::Get(browser_context());
 }
 
 // Tests that if no icons are specified in the extension's action, values from

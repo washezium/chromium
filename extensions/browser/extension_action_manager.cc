@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/extensions/extension_action_manager.h"
+#include "extensions/browser/extension_action_manager.h"
 
 #include "base/memory/singleton.h"
-#include "chrome/browser/profiles/profile.h"
 #include "components/keyed_service/content/browser_context_dependency_manager.h"
 #include "components/keyed_service/content/browser_context_keyed_service_factory.h"
+#include "content/public/browser/browser_context.h"
 #include "extensions/browser/extension_action.h"
 #include "extensions/browser/extension_icon_image.h"
 #include "extensions/browser/extension_system.h"
@@ -36,13 +36,12 @@ class ExtensionActionManagerFactory : public BrowserContextKeyedServiceFactory {
 
   ExtensionActionManagerFactory()
       : BrowserContextKeyedServiceFactory(
-          "ExtensionActionManager",
-          BrowserContextDependencyManager::GetInstance()) {
-  }
+            "ExtensionActionManager",
+            BrowserContextDependencyManager::GetInstance()) {}
 
   KeyedService* BuildServiceInstanceFor(
-      content::BrowserContext* profile) const override {
-    return new ExtensionActionManager(static_cast<Profile*>(profile));
+      content::BrowserContext* browser_context) const override {
+    return new ExtensionActionManager(browser_context);
   }
 
   content::BrowserContext* GetBrowserContextToUse(
@@ -51,23 +50,24 @@ class ExtensionActionManagerFactory : public BrowserContextKeyedServiceFactory {
   }
 };
 
-ExtensionActionManagerFactory*
-ExtensionActionManagerFactory::GetInstance() {
+ExtensionActionManagerFactory* ExtensionActionManagerFactory::GetInstance() {
   return base::Singleton<ExtensionActionManagerFactory>::get();
 }
 
 }  // namespace
 
-ExtensionActionManager::ExtensionActionManager(Profile* profile)
-    : profile_(profile) {
-  CHECK_EQ(profile, profile->GetOriginalProfile())
-      << "Don't instantiate this with an incognito profile.";
-  extension_registry_observer_.Add(ExtensionRegistry::Get(profile_));
+ExtensionActionManager::ExtensionActionManager(
+    content::BrowserContext* browser_context)
+    : browser_context_(browser_context) {
+  CHECK(!browser_context_->IsOffTheRecord())
+      << "Don't instantiate this with an off-the-record context.";
+  extension_registry_observer_.Add(ExtensionRegistry::Get(browser_context_));
 }
 
 ExtensionActionManager::~ExtensionActionManager() {
-  // Don't assert that the ExtensionAction maps are empty because Extensions are
-  // sometimes (only in tests?) not unloaded before the Profile is destroyed.
+  // Don't assert that the ExtensionAction maps are empty because Extensions
+  // are sometimes (only in tests?) not unloaded before the associated context
+  // is destroyed.
 }
 
 ExtensionActionManager* ExtensionActionManager::Get(
@@ -96,8 +96,9 @@ ExtensionAction* ExtensionActionManager::GetExtensionAction(
   // Only create action info for enabled extensions.
   // This avoids bugs where actions are recreated just after being removed
   // in response to OnExtensionUnloaded().
-  if (!ExtensionRegistry::Get(profile_)->enabled_extensions().Contains(
-          extension.id())) {
+  if (!ExtensionRegistry::Get(browser_context_)
+           ->enabled_extensions()
+           .Contains(extension.id())) {
     return nullptr;
   }
 
@@ -105,7 +106,7 @@ ExtensionAction* ExtensionActionManager::GetExtensionAction(
 
   if (action->default_icon()) {
     action->SetDefaultIconImage(std::make_unique<IconImage>(
-        profile_, &extension, *action->default_icon(),
+        browser_context_, &extension, *action->default_icon(),
         ExtensionAction::ActionIconSize(),
         ExtensionAction::FallbackIcon().AsImageSkia(), nullptr));
   }

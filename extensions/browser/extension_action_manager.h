@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_EXTENSIONS_EXTENSION_ACTION_MANAGER_H_
-#define CHROME_BROWSER_EXTENSIONS_EXTENSION_ACTION_MANAGER_H_
+#ifndef EXTENSIONS_BROWSER_EXTENSION_ACTION_MANAGER_H_
+#define EXTENSIONS_BROWSER_EXTENSION_ACTION_MANAGER_H_
 
 #include <map>
 #include <memory>
@@ -15,7 +15,9 @@
 #include "extensions/browser/extension_registry_observer.h"
 #include "extensions/common/api/extension_action/action_info.h"
 
-class Profile;
+namespace content {
+class BrowserContext;
+}
 
 namespace extensions {
 
@@ -27,11 +29,11 @@ class ExtensionAction;
 class ExtensionActionManager : public KeyedService,
                                public ExtensionRegistryObserver {
  public:
-  explicit ExtensionActionManager(Profile* profile);
+  explicit ExtensionActionManager(content::BrowserContext* browser_context);
   ~ExtensionActionManager() override;
 
-  // Returns this profile's ExtensionActionManager.  One instance is
-  // shared between a profile and its incognito version.
+  // Returns this |browser_context|'s ExtensionActionManager. One instance is
+  // shared between a BrowserContext and its off-the-record version.
   static ExtensionActionManager* Get(content::BrowserContext* browser_context);
 
   // Returns the action associated with the extension (specified through the
@@ -47,7 +49,7 @@ class ExtensionActionManager : public KeyedService,
                            const Extension* extension,
                            UnloadedExtensionReason reason) override;
 
-  Profile* profile_;
+  content::BrowserContext* browser_context_;
 
   // Listen to extension unloaded notifications.
   ScopedObserver<ExtensionRegistry, ExtensionRegistryObserver>
@@ -63,4 +65,4 @@ class ExtensionActionManager : public KeyedService,
 
 }  // namespace extensions
 
-#endif  // CHROME_BROWSER_EXTENSIONS_EXTENSION_ACTION_MANAGER_H_
+#endif  // EXTENSIONS_BROWSER_EXTENSION_ACTION_MANAGER_H_
