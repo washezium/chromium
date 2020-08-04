@@ -63,8 +63,6 @@ These builders must pass before a CL may land that affects files outside of
 
 * [linux_chromium_tsan_rel_ng](https://ci.chromium.org/p/chromium/builders/try/linux_chromium_tsan_rel_ng) ([definition](https://cs.chromium.org/search?q=package:%5Echromium$+file:/cq.star$+-file:/beta/+-file:/stable/+linux_chromium_tsan_rel_ng)) ([matching builders](https://cs.chromium.org/search?q=+file:trybots.py+linux_chromium_tsan_rel_ng))
 
-* [mac-arm64-rel](https://ci.chromium.org/p/chromium/builders/try/mac-arm64-rel) ([definition](https://cs.chromium.org/search?q=package:%5Echromium$+file:/cq.star$+-file:/beta/+-file:/stable/+mac-arm64-rel)) ([matching builders](https://cs.chromium.org/search?q=+file:trybots.py+mac-arm64-rel))
-
 * [mac-rel](https://ci.chromium.org/p/chromium/builders/try/mac-rel) ([definition](https://cs.chromium.org/search?q=package:%5Echromium$+file:/cq.star$+-file:/beta/+-file:/stable/+mac-rel)) ([matching builders](https://cs.chromium.org/search?q=+file:trybots.py+mac-rel))
 
 * [mac_chromium_compile_dbg_ng](https://ci.chromium.org/p/chromium/builders/try/mac_chromium_compile_dbg_ng) ([definition](https://cs.chromium.org/search?q=package:%5Echromium$+file:/cq.star$+-file:/beta/+-file:/stable/+mac_chromium_compile_dbg_ng)) ([matching builders](https://cs.chromium.org/search?q=+file:trybots.py+mac_chromium_compile_dbg_ng))

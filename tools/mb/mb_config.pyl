@@ -496,7 +496,7 @@
       'ios-simulator': 'ios_simulator_debug_static_rbe_bot',
       'ios-simulator-full-configs': 'ios_simulator_debug_static_bot',
       'ios-simulator-noncq': 'ios_simulator_debug_static_rbe_bot',
-      'mac-arm64': 'mac_arm64_release_trybot',
+      'mac-arm64': 'mac_arm64_release_bot',
     },
 
     'chromium.memory': {
@@ -2098,10 +2098,6 @@
 
     'mac_arm64_release_bot': [
       'release_bot', 'arm64',
-    ],
-
-    'mac_arm64_release_trybot': [
-      'release_trybot', 'arm64',
     ],
 
 
