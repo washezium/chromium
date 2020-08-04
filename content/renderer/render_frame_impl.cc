@@ -1018,8 +1018,7 @@ void FillMiscNavigationParams(
         blink::mojom::FetchCacheMode::kDefault;
   }
 
-  navigation_params->origin_isolation_restricted =
-      commit_params.origin_isolation_restricted;
+  navigation_params->origin_isolated = commit_params.origin_isolated;
 
   navigation_params->enabled_client_hints.reserve(
       commit_params.enabled_client_hints.size());
