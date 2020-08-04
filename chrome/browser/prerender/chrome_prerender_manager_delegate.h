@@ -6,7 +6,7 @@
 #define CHROME_BROWSER_PRERENDER_CHROME_PRERENDER_MANAGER_DELEGATE_H_
 
 #include "chrome/browser/net/prediction_options.h"
-#include "chrome/browser/prerender/prerender_manager_delegate.h"
+#include "components/prerender/browser/prerender_manager_delegate.h"
 
 class Profile;
 

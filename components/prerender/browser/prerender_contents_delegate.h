@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_PRERENDER_PRERENDER_CONTENTS_DELEGATE_H_
-#define CHROME_BROWSER_PRERENDER_PRERENDER_CONTENTS_DELEGATE_H_
+#ifndef COMPONENTS_PRERENDER_BROWSER_PRERENDER_CONTENTS_DELEGATE_H_
+#define COMPONENTS_PRERENDER_BROWSER_PRERENDER_CONTENTS_DELEGATE_H_
 
 #include "components/prerender/common/prerender_types.mojom.h"
 #include "content/public/browser/render_frame_host.h"
@@ -30,4 +30,4 @@ class PrerenderContentsDelegate {
 
 }  // namespace prerender
 
-#endif  // CHROME_BROWSER_PRERENDER_PRERENDER_CONTENTS_DELEGATE_H_
+#endif  // COMPONENTS_PRERENDER_BROWSER_PRERENDER_CONTENTS_DELEGATE_H_
