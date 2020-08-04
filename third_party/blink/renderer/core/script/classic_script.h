@@ -50,7 +50,7 @@ class CORE_EXPORT ClassicScript final : public Script {
   // a tentative interface. When crbug/1111134 is done, this should be gone.
   void RunScript(LocalFrame*) override;
   void RunScript(LocalFrame*, ScriptController::ExecuteScriptPolicy);
-  void RunScriptOnWorker(WorkerGlobalScope&) override;
+  bool RunScriptOnWorker(WorkerGlobalScope&) override;
 
   // Unlike RunScript() and RunScriptOnWorker(), callers of the following
   // methods must enter a v8::HandleScope before calling.
@@ -65,6 +65,9 @@ class CORE_EXPORT ClassicScript final : public Script {
   mojom::ScriptType GetScriptType() const override {
     return mojom::ScriptType::kClassic;
   }
+
+  std::pair<size_t, size_t> GetClassicScriptSizes() const override;
+
   const ScriptSourceCode script_source_code_;
   const SanitizeScriptErrors sanitize_script_errors_;
 };

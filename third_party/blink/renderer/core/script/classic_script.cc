@@ -53,21 +53,22 @@ v8::Local<v8::Value> ClassicScript::RunScriptInIsolatedWorldAndReturnValue(
       world_id, GetScriptSourceCode(), BaseURL(), sanitize_script_errors_);
 }
 
-void ClassicScript::RunScriptOnWorker(WorkerGlobalScope& worker_global_scope) {
+bool ClassicScript::RunScriptOnWorker(WorkerGlobalScope& worker_global_scope) {
   DCHECK(worker_global_scope.IsContextThread());
 
-  WorkerReportingProxy& worker_reporting_proxy =
-      worker_global_scope.ReportingProxy();
-
-  worker_reporting_proxy.WillEvaluateClassicScript(
-      GetScriptSourceCode().Source().length(),
-      GetScriptSourceCode().CacheHandler()
-          ? GetScriptSourceCode().CacheHandler()->GetCodeCacheSize()
-          : 0);
   bool success = worker_global_scope.ScriptController()->Evaluate(
       GetScriptSourceCode(), sanitize_script_errors_, nullptr /* error_event */,
       worker_global_scope.GetV8CacheOptions());
-  worker_reporting_proxy.DidEvaluateClassicScript(success);
+  return success;
+}
+
+std::pair<size_t, size_t> ClassicScript::GetClassicScriptSizes() const {
+  size_t cached_metadata_size =
+      GetScriptSourceCode().CacheHandler()
+          ? GetScriptSourceCode().CacheHandler()->GetCodeCacheSize()
+          : 0;
+  return std::pair<size_t, size_t>(GetScriptSourceCode().Source().length(),
+                                   cached_metadata_size);
 }
 
 }  // namespace blink
