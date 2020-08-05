@@ -24,6 +24,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+
 import org.chromium.android_webview.common.DeveloperModeUtils;
 import org.chromium.android_webview.common.Flag;
 import org.chromium.android_webview.common.ProductionSupportedFlagList;
@@ -73,10 +76,6 @@ public class FlagsFragment extends DevUiBaseFragment {
         activity.setTitle("WebView Flags");
 
         ListView flagsListView = view.findViewById(R.id.flags_list);
-        TextView flagsDescriptionView = view.findViewById(R.id.flags_description);
-        flagsDescriptionView.setText("By enabling these features, you could "
-                + "lose app data or compromise your security or privacy. Enabled features apply to "
-                + "WebViews across all apps on the device.");
 
         // Restore flag overrides from the service process to repopulate the UI, if developer mode
         // is enabled.
@@ -84,7 +83,13 @@ public class FlagsFragment extends DevUiBaseFragment {
             mOverriddenFlags = DeveloperModeUtils.getFlagOverrides(mContext.getPackageName());
         }
 
-        mListAdapter = new FlagsListAdapter(sortFlagList(ProductionSupportedFlagList.sFlagList));
+        Flag[] sortedFlags = sortFlagList(ProductionSupportedFlagList.sFlagList);
+        Flag[] flagsAndWarningText = new Flag[ProductionSupportedFlagList.sFlagList.length + 1];
+        flagsAndWarningText[0] = null; // the first entry is the warning text
+        for (int i = 0; i < ProductionSupportedFlagList.sFlagList.length; i++) {
+            flagsAndWarningText[i + 1] = sortedFlags[i];
+        }
+        mListAdapter = new FlagsListAdapter(flagsAndWarningText);
         flagsListView.setAdapter(mListAdapter);
 
         Button resetFlagsButton = view.findViewById(R.id.reset_flags_button);
@@ -163,16 +168,22 @@ public class FlagsFragment extends DevUiBaseFragment {
         public void onNothingSelected(AdapterView<?> parent) {}
     }
 
+    @IntDef({LayoutType.WARNING_MESSAGE, LayoutType.TOGGLEABLE_FLAG})
+    private @interface LayoutType {
+        int WARNING_MESSAGE = 0;
+        int TOGGLEABLE_FLAG = 1;
+        int COUNT = 2;
+    }
+
     /**
      * Adapter to create rows of toggleable Flags.
      */
     private class FlagsListAdapter extends ArrayAdapter<Flag> {
-        public FlagsListAdapter(Flag[] sortedFlags) {
-            super(mContext, R.layout.toggleable_flag, sortedFlags);
+        public FlagsListAdapter(Flag[] flagsAndWarningText) {
+            super(mContext, 0, flagsAndWarningText);
         }
 
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
+        private View getToggleableFlag(@NonNull Flag flag, View view, ViewGroup parent) {
             // If the the old view is already created then reuse it, else create a new one by layout
             // inflation.
             if (view == null) {
@@ -183,7 +194,6 @@ public class FlagsFragment extends DevUiBaseFragment {
             TextView flagDescription = view.findViewById(R.id.flag_description);
             Spinner flagToggle = view.findViewById(R.id.flag_toggle);
 
-            Flag flag = getItem(position);
             String label = flag.getName();
             if (flag.getEnabledStateValue() != null) {
                 label += "=" + flag.getEnabledStateValue();
@@ -202,6 +212,43 @@ public class FlagsFragment extends DevUiBaseFragment {
             formatListEntry(view, state);
 
             return view;
+        }
+
+        private View getWarningMessage(View view, ViewGroup parent) {
+            // If the the old view is already created then reuse it, else create a new one by layout
+            // inflation.
+            if (view == null) {
+                view = getLayoutInflater().inflate(R.layout.flag_ui_warning, null);
+            }
+
+            TextView flagsDescriptionView = view.findViewById(R.id.flags_description);
+            flagsDescriptionView.setText("By enabling these features, you could "
+                    + "lose app data or compromise your security or privacy. Enabled features "
+                    + "apply to WebViews across all apps on the device.");
+
+            return view;
+        }
+
+        @Override
+        @LayoutType
+        public int getItemViewType(int position) {
+            if (getItem(position) == null) return LayoutType.WARNING_MESSAGE;
+            return LayoutType.TOGGLEABLE_FLAG;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return LayoutType.COUNT;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            Flag flag = getItem(position);
+            if (getItemViewType(position) == LayoutType.WARNING_MESSAGE) {
+                return getWarningMessage(view, parent);
+            } else {
+                return getToggleableFlag(flag, view, parent);
+            }
         }
     }
 
