@@ -3399,6 +3399,7 @@ Unknown properties are collapsed to zero. -->
   <int value="18" label="App started from Kiosk Next Home"/>
   <int value="19" label="Interaction with gamepad"/>
   <int value="20" label="App started from URL in the Omnibox"/>
+  <int value="21" label="App started from sharesheet"/>
 </enum>
 
 <enum name="ArcVideoDecodeAcceleratorResult">
