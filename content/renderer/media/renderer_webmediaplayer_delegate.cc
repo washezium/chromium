@@ -401,7 +401,11 @@ void RendererWebMediaPlayerDelegate::OnMediaDelegateExitPictureInPicture(
 
 void RendererWebMediaPlayerDelegate::OnMediaDelegateSetAudioSink(
     int player_id,
-    std::string sink_id) {}
+    std::string sink_id) {
+  Observer* observer = id_map_.Lookup(player_id);
+  if (observer)
+    observer->OnSetAudioSink(sink_id);
+}
 
 void RendererWebMediaPlayerDelegate::OnMediaDelegatePowerExperimentState(
     int player_id,

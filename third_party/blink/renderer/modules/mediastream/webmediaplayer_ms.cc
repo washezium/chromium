@@ -11,6 +11,7 @@
 
 #include "base/bind.h"
 #include "base/callback.h"
+#include "base/optional.h"
 #include "base/threading/thread_task_runner_handle.h"
 #include "build/build_config.h"
 #include "cc/layers/video_frame_provider_client_impl.h"
@@ -1079,6 +1080,11 @@ void WebMediaPlayerMS::OnEnterPictureInPicture() {
 
 void WebMediaPlayerMS::OnExitPictureInPicture() {
   client_->RequestExitPictureInPicture();
+}
+
+void WebMediaPlayerMS::OnSetAudioSink(const std::string& sink_id) {
+  SetSinkId(WebString::FromASCII(sink_id),
+            base::DoNothing::Once<base::Optional<blink::WebSetSinkIdError>>());
 }
 
 void WebMediaPlayerMS::OnVolumeMultiplierUpdate(double multiplier) {

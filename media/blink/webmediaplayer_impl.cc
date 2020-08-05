@@ -2563,6 +2563,11 @@ void WebMediaPlayerImpl::OnExitPictureInPicture() {
   client_->RequestExitPictureInPicture();
 }
 
+void WebMediaPlayerImpl::OnSetAudioSink(const std::string& sink_id) {
+  SetSinkId(WebString::FromASCII(sink_id),
+            base::DoNothing::Once<base::Optional<blink::WebSetSinkIdError>>());
+}
+
 void WebMediaPlayerImpl::OnVolumeMultiplierUpdate(double multiplier) {
   volume_multiplier_ = multiplier;
   SetVolume(volume_);
