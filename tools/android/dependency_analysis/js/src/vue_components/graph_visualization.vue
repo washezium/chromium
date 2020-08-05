@@ -42,7 +42,7 @@ const GraphVisualization = {
     graphUpdateTriggers: {
       handler: function() {
         const d3Data = this.pageModel.graphModel.getDataForD3(
-            this.displaySettingsData.nodeFilterData.nodeSet,
+            this.displaySettingsData.nodeFilterData.getSelectedNodeSet(),
             this.displaySettingsData.inboundDepth,
             this.displaySettingsData.outboundDepth,
         );
