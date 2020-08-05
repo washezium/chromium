@@ -390,6 +390,15 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
 
       {
         ThreadHeapStatsCollector::EnabledScope inner_scope(
+            stats_collector(),
+            ThreadHeapStatsCollector::kMarkFlushV8References);
+        finished = FlushV8References(deadline);
+        if (!finished)
+          break;
+      }
+
+      {
+        ThreadHeapStatsCollector::EnabledScope inner_scope(
             stats_collector(), ThreadHeapStatsCollector::kMarkBailOutObjects);
         // Items in the bailout worklist are only collection backing stores.
         // These items could take a long time to process, so we should check
@@ -403,15 +412,6 @@ bool ThreadHeap::AdvanceMarking(MarkingVisitor* visitor,
               visitor->AccountMarkedBytes(item.bailout_size);
             },
             WorklistTaskId::MutatorThread);
-        if (!finished)
-          break;
-      }
-
-      {
-        ThreadHeapStatsCollector::EnabledScope inner_scope(
-            stats_collector(),
-            ThreadHeapStatsCollector::kMarkFlushV8References);
-        finished = FlushV8References(deadline);
         if (!finished)
           break;
       }

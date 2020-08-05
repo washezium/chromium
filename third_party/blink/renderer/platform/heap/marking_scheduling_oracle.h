@@ -19,7 +19,7 @@ class PLATFORM_EXPORT MarkingSchedulingOracle {
   // Duration of one incremental marking step. Should be short enough that it
   // doesn't cause jank even though it is scheduled as a normal task.
   static constexpr base::TimeDelta kDefaultIncrementalMarkingStepDuration =
-      base::TimeDelta::FromMillisecondsD(0.5);
+      base::TimeDelta::FromMillisecondsD(0.1);
 
   // Minimum number of bytes that should be marked during an incremental
   // marking step.
