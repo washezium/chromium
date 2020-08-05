@@ -3170,6 +3170,12 @@ const char kNtpRealboxMatchOmniboxThemeDescription[] =
     "Themes the real search box in the middle of the NTP to match the omnibox. "
     "Only has an an effect if #ntp-realbox is enabled.";
 
+const char kNtpRepeatableQueriesName[] =
+    "Repeatable queries on the New Tab Page";
+const char kNtpRepeatableQueriesDescription[] =
+    "Enables surfacing repeatable queries as most visited tiles on the "
+    "New Tab Page.";
+
 const char kNtpWebUIName[] =
     "Use the WebUI new tab page when opening a new tab";
 const char kNtpWebUIDescription[] =

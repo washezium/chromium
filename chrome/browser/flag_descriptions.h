@@ -1812,6 +1812,9 @@ extern const char kNtpRealboxDescription[];
 extern const char kNtpRealboxMatchOmniboxThemeName[];
 extern const char kNtpRealboxMatchOmniboxThemeDescription[];
 
+extern const char kNtpRepeatableQueriesName[];
+extern const char kNtpRepeatableQueriesDescription[];
+
 extern const char kNtpWebUIName[];
 extern const char kNtpWebUIDescription[];
 

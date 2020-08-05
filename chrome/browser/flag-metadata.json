@@ -3102,6 +3102,11 @@
     "expiry_milestone": 86
   },
   {
+    "name": "ntp-repeatable-queries",
+    "owners": [ "aee", "mahmadi", "ramyan", "tiborg" ],
+    "expiry_milestone": 89
+  },
+  {
     "name": "ntp-webui",
     "owners": [ "aee", "mahmadi", "tiborg" ],
     "expiry_milestone": 86
