@@ -793,7 +793,7 @@ std::string InternetSection::ModifySearchResultUrl(
     return GetDetailsSubpageUrl(url_to_modify, *connected_wifi_guid_);
 
   if (IsPartOfDetailsSubpage(type, id, mojom::Subpage::kCellularDetails))
-    return GetDetailsSubpageUrl(url_to_modify, *connected_cellular_guid_);
+    return GetDetailsSubpageUrl(url_to_modify, *cellular_guid_);
 
   if (IsPartOfDetailsSubpage(type, id, mojom::Subpage::kTetherDetails))
     return GetDetailsSubpageUrl(url_to_modify, *connected_tether_guid_);
@@ -873,7 +873,7 @@ void InternetSection::OnDeviceList(
 void InternetSection::FetchActiveNetworks() {
   cros_network_config_->GetNetworkStateList(
       network_config::mojom::NetworkFilter::New(
-          network_config::mojom::FilterType::kActive,
+          network_config::mojom::FilterType::kVisible,
           network_config::mojom::NetworkType::kAll,
           network_config::mojom::kNoLimit),
       base::Bind(&InternetSection::OnActiveNetworks, base::Unretained(this)));
@@ -893,13 +893,19 @@ void InternetSection::OnActiveNetworks(
   updater.RemoveSearchTags(GetInstantTetheringConnectedSearchConcepts());
   updater.RemoveSearchTags(GetVpnConnectedSearchConcepts());
 
+  cellular_guid_.reset();
+
   connected_ethernet_guid_.reset();
   connected_wifi_guid_.reset();
-  connected_cellular_guid_.reset();
   connected_tether_guid_.reset();
   connected_vpn_guid_.reset();
 
   for (const auto& network : networks) {
+    // Special case: Some cellular search functionality is available even if the
+    // network is not connected.
+    if (network->type == NetworkType::kCellular)
+      cellular_guid_ = network->guid;
+
     if (!IsConnected(network->connection_state))
       continue;
 
@@ -917,7 +923,7 @@ void InternetSection::OnActiveNetworks(
         break;
 
       case NetworkType::kCellular:
-        connected_cellular_guid_ = network->guid;
+        // Note: GUID is set above.
         updater.AddSearchTags(GetCellularConnectedSearchConcepts());
         if (base::FeatureList::IsEnabled(features::kMeteredShowToggle))
           updater.AddSearchTags(GetCellularMeteredSearchConcepts());
