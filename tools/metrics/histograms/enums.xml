@@ -21352,6 +21352,7 @@ Called by update_document_policy_enum.py.-->
   <int value="759" label="NoteTakingAppsLockScreenAllowlist"/>
   <int value="760" label="CCTToSDialogEnabled"/>
   <int value="761" label="NearbyShareAllowed"/>
+  <int value="762" label="PerAppTimeLimitsAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
