@@ -149,6 +149,22 @@ function createSuite(themeModeDoodlesEnabled) {
     });
   });
 
+  [true, false].forEach(dark => {
+    test(`hide share button in ${dark ? 'dark' : 'light'} mode`, async () => {
+      // Arrange.
+      const doodle = createImageDoodle();
+      const imageDoodle = dark ? doodle.image.dark : doodle.image.light;
+      delete imageDoodle.shareButton;
+
+      // Act.
+      const logo = await createLogo(doodle);
+      logo.dark = dark;
+
+      // Assert.
+      assertStyle($$(logo, '#shareButton'), 'display', 'none');
+    });
+  });
+
   [null, '#ff0000'].forEach(color => {
     test(`${color || 'no'} background color shows box`, async () => {
       // Arrange.
