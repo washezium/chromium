@@ -32,6 +32,7 @@
 #include "ui/events/test/event_generator.h"
 #include "ui/views/accessibility/ax_event_manager.h"
 #include "ui/views/accessibility/ax_event_observer.h"
+#include "ui/views/accessibility/view_accessibility.h"
 #include "ui/views/widget/widget.h"
 
 #if defined(USE_AURA)
@@ -451,6 +452,14 @@ IN_PROC_BROWSER_TEST_F(OmniboxPopupContentsViewTest, EmitAccessibilityEvents) {
   EXPECT_TRUE(contains(observer.selected_option_name(), "foobarbaz.com"));
   EXPECT_TRUE(contains(observer.omnibox_value(), "FooBarBazCom"));
   EXPECT_TRUE(contains(observer.selected_option_name(), "FooBarBazCom"));
+
+  // Check that active descendant on textbox matches the selected result view.
+  ui::AXNodeData ax_node_data_omnibox;
+  omnibox_view()->GetAccessibleNodeData(&ax_node_data_omnibox);
+  OmniboxResultView* selected_result_view = GetResultViewAt(2);
+  EXPECT_EQ(ax_node_data_omnibox.GetIntAttribute(
+                ax::mojom::IntAttribute::kActivedescendantId),
+            selected_result_view->GetViewAccessibility().GetUniqueId().Get());
 }
 
 IN_PROC_BROWSER_TEST_F(OmniboxPopupContentsViewTest,
@@ -573,8 +582,6 @@ IN_PROC_BROWSER_TEST_F(OmniboxPopupContentsViewTest,
       popup_node_data_while_open.HasState(ax::mojom::State::kCollapsed));
   EXPECT_FALSE(
       popup_node_data_while_open.HasState(ax::mojom::State::kInvisible));
-  EXPECT_TRUE(popup_node_data_while_open.HasIntAttribute(
-      ax::mojom::IntAttribute::kActivedescendantId));
   EXPECT_TRUE(popup_node_data_while_open.HasIntAttribute(
       ax::mojom::IntAttribute::kPopupForId));
 }

@@ -1575,6 +1575,13 @@ void OmniboxViewViews::GetAccessibleNodeData(ui::AXNodeData* node_data) {
         popup_view_->GetViewAccessibility().GetUniqueId().Get();
     node_data->AddIntListAttribute(ax::mojom::IntListAttribute::kControlsIds,
                                    {popup_view_id});
+    OmniboxResultView* selected_result_view =
+        popup_view_->GetSelectedResultView();
+    if (selected_result_view) {
+      node_data->AddIntAttribute(
+          ax::mojom::IntAttribute::kActivedescendantId,
+          selected_result_view->GetViewAccessibility().GetUniqueId().Get());
+    }
   }
 
   base::string16::size_type entry_start;

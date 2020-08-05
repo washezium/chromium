@@ -214,6 +214,8 @@ class OmniboxViewViews : public OmniboxView,
   FRIEND_TEST_ALL_PREFIXES(
       OmniboxViewViewsRevealOnHoverAndMaybeHideOnInteractionTest,
       UnsetAlwaysShowFullURLs);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxPopupContentsViewTest,
+                           EmitAccessibilityEvents);
   // TODO(tommycli): Remove the rest of these friends after porting these
   // browser tests to unit tests.
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, CloseOmniboxPopupOnTextDrag);
