@@ -6141,6 +6141,28 @@
             ]
         }
     ],
+    "SafeBrowsingDelayedWarnings": [
+        {
+            "platforms": [
+                "android",
+                "chromeos",
+                "linux",
+                "mac",
+                "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "params": {
+                        "mouse": "true"
+                    },
+                    "enable_features": [
+                        "SafeBrowsingDelayedWarnings"
+                    ]
+                }
+            ]
+        }
+    ],
     "SafeBrowsingPasswordProtectionForSavedPasswords": [
         {
             "platforms": [
