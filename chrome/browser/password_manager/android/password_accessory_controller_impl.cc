@@ -197,6 +197,10 @@ bool PasswordAccessoryControllerImpl::ShouldAcceptFocusEvent(
 
 void PasswordAccessoryControllerImpl::OnOptionSelected(
     autofill::AccessoryAction selected_action) {
+  if (selected_action == autofill::AccessoryAction::USE_OTHER_PASSWORD) {
+    // TODO(crbug.com/1104132): Implement.
+    return;
+  }
   if (selected_action == autofill::AccessoryAction::MANAGE_PASSWORDS) {
     password_manager_launcher::ShowPasswordSettings(
         web_contents_,
@@ -261,6 +265,15 @@ void PasswordAccessoryControllerImpl::RefreshSuggestionsForField(
       info_to_add.push_back(
           TranslateCredentials(is_password_field, origin, credential));
     }
+  }
+
+  if (base::FeatureList::IsEnabled(
+          password_manager::features::kFillingPasswordsFromAnyOrigin)) {
+    base::string16 use_other_password_title = l10n_util::GetStringUTF16(
+        IDS_PASSWORD_MANAGER_ACCESSORY_USE_OTHER_PASSWORD);
+    footer_commands_to_add.push_back(
+        FooterCommand(use_other_password_title,
+                      autofill::AccessoryAction::USE_OTHER_PASSWORD));
   }
 
   if (is_password_field && is_manual_generation_available) {
