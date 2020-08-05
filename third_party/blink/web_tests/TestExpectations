@@ -6861,3 +6861,6 @@ crbug.com/1112771 external/wpt/css/css-grid/grid-definition/grid-template-column
 crbug.com/1112771 external/wpt/css/css-grid/layout-algorithm/grid-flex-track-intrinsic-sizes-001.html [ Failure ]
 crbug.com/1112771 external/wpt/webhid/idlharness.https.window.html [ Failure ]
 crbug.com/1112771 external/wpt/css/css-grid/grid-definition/grid-inline-template-columns-rows-resolved-values-001.tentative.html [ Failure ]
+
+# Sheriff 2020-08-05
+crbug.com/1113050 fast/borders/border-radius-mask-video-ratio.html [ Pass Failure ]
