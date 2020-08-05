@@ -2898,6 +2898,22 @@ TEST_F(RenderTextTest, MoveCursor_UpDown_Cache) {
                                         &expected_range);
 }
 
+TEST_F(RenderTextTest, MoveCursorWithNewline) {
+  RenderText* render_text = GetRenderText();
+  render_text->SetText(ASCIIToUTF16("a\r\nb"));
+  render_text->SetMultiline(false);
+  EXPECT_EQ(1U, render_text->GetNumLines());
+
+  EXPECT_EQ(SelectionModel(0, CURSOR_BACKWARD), render_text->selection_model());
+  render_text->MoveCursor(CHARACTER_BREAK, CURSOR_RIGHT, SELECTION_NONE);
+  EXPECT_EQ(SelectionModel(1, CURSOR_BACKWARD), render_text->selection_model());
+  render_text->MoveCursor(CHARACTER_BREAK, CURSOR_RIGHT, SELECTION_NONE);
+  EXPECT_EQ(SelectionModel(3, CURSOR_BACKWARD), render_text->selection_model());
+
+  render_text->MoveCursor(LINE_BREAK, CURSOR_RIGHT, SELECTION_NONE);
+  EXPECT_EQ(SelectionModel(4, CURSOR_FORWARD), render_text->selection_model());
+}
+
 TEST_F(RenderTextTest, GetTextDirectionInvalidation) {
   RenderText* render_text = GetRenderText();
   ASSERT_EQ(render_text->directionality_mode(), DIRECTIONALITY_FROM_TEXT);
