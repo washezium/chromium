@@ -5538,6 +5538,18 @@
 
   "ExtensionCacheSize": {},
 
+  "DeviceShowLowDiskSpaceNotification": {
+    "os": ["chromeos"],
+    "policy_pref_mapping_test": [
+      {
+        "policies": {
+          "ShowLowDiskSpaceNotification": false
+        },
+        "prefs": { "cros.device.show_low_disk_space_notification": {"value": false} }
+      }
+    ]
+  },
+
   "DeviceLoginScreenDomainAutoComplete": {},
 
   "AllowKioskAppControlChromeVersion": {},

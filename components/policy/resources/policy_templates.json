@@ -979,6 +979,7 @@
         'ExtensionCacheSize',
         'DeviceOffHours',
         'SuggestedContentEnabled',
+        'DeviceShowLowDiskSpaceNotification',
       ],
     },
     {
@@ -14230,6 +14231,28 @@
       'id': 327,
     },
     {
+      'name': 'DeviceShowLowDiskSpaceNotification',
+      'owners': ['vsavu@chromium.org'],
+      'type': 'main',
+      'schema': { 'type': 'boolean' },
+      'supported_on': ['chrome_os:86-'],
+      'features': {
+        'dynamic_refresh': True,
+        'per_profile': False,
+      },
+      'example_value': True,
+      'device_only': True,
+      'default_for_managed_devices_doc_only': False,
+      'id': 763,
+      'caption': '''Show notification when disk space is low''',
+      'tags': [],
+      'desc':
+      '''Allows enabling or disabling a notification when disk space is low. This applies to all users on the device.
+      If there is exactly one user account on a managed device, the notification is always shown, regardless of the value of this policy.
+      If there are multiple user accounts on a a managed device, the notification is only shown when this policy is set to True.
+      On unmanaged devices the notification is always shown.''',
+    },
+    {
       'name': 'NetworkThrottlingEnabled',
       'owners': ['kirtika@chromium.org', 'pmarko@chromium.org'],
       'device_only': True,
@@ -22996,6 +23019,7 @@ The recommended way to configure policy on Windows is via GPO, although provisio
     'UptimeLimit': 'uptime_limit.uptime_limit',
     'DeviceAllowRedeemChromeOsRegistrationOffers': 'allow_redeem_offers.allow_redeem_offers',
     'ExtensionCacheSize': 'extension_cache_size.extension_cache_size',
+    'DeviceShowLowDiskSpaceNotification': 'device_show_low_disk_space_notification.device_show_low_disk_space_notification',
     'DisplayRotationDefault': 'display_rotation_default.display_rotation_default',
     'DeviceQuirksDownloadEnabled': 'quirks_download_enabled.quirks_download_enabled',
     'UnaffiliatedArcAllowed': 'unaffiliated_arc_allowed.unaffiliated_arc_allowed',
@@ -23622,6 +23646,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 762,
+  'highest_id_currently_used': 763,
   'highest_atomic_group_id_currently_used': 39
 }

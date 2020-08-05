@@ -21354,6 +21354,7 @@ Called by update_document_policy_enum.py.-->
   <int value="760" label="CCTToSDialogEnabled"/>
   <int value="761" label="NearbyShareAllowed"/>
   <int value="762" label="PerAppTimeLimitsAllowlist"/>
+  <int value="763" label="DeviceShowLowDiskSpaceNotification"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
