@@ -39510,6 +39510,12 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="3" label="Holdback"/>
 </enum>
 
+<enum name="LiteVideoThrottleResult">
+  <int value="0" label="None"/>
+  <int value="1" label="Throttled without stopping"/>
+  <int value="2" label="Throttled but stopped due to rebuffer"/>
+</enum>
+
 <enum name="LiveCaptionsSessionEvent">
   <int value="0" label="Stream started"/>
   <int value="1" label="Stream finished"/>
