@@ -4,12 +4,15 @@
 
 package org.chromium.chrome.browser.payments.ui;
 
+import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.Callback;
+import org.chromium.base.metrics.RecordHistogram;
 import org.chromium.chrome.browser.ChromeActivity;
 import org.chromium.chrome.browser.autofill.PersonalDataManager;
 import org.chromium.chrome.browser.autofill.PersonalDataManager.AutofillProfile;
@@ -27,14 +30,17 @@ import org.chromium.chrome.browser.payments.SettingsAutofillAndPaymentsObserver;
 import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator;
 import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator.PaymentHandlerUiObserver;
 import org.chromium.chrome.browser.payments.handler.PaymentHandlerCoordinator.PaymentHandlerWebContentsObserver;
+import org.chromium.components.autofill.Completable;
 import org.chromium.components.autofill.EditableOption;
 import org.chromium.components.payments.CurrencyFormatter;
+import org.chromium.components.payments.JourneyLogger;
 import org.chromium.components.payments.PaymentApp;
 import org.chromium.components.payments.PaymentAppType;
 import org.chromium.components.payments.PaymentFeatureList;
 import org.chromium.components.payments.PaymentOptionsUtils;
 import org.chromium.components.payments.PaymentRequestLifecycleObserver;
 import org.chromium.components.payments.PaymentRequestParams;
+import org.chromium.components.payments.Section;
 import org.chromium.content_public.browser.WebContents;
 import org.chromium.payments.mojom.PayerDetail;
 import org.chromium.payments.mojom.PaymentCurrencyAmount;
@@ -48,6 +54,7 @@ import org.chromium.url.GURL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -64,6 +71,14 @@ import java.util.Set;
 public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Observer,
                                           PaymentRequestLifecycleObserver,
                                           PaymentHandlerUiObserver {
+    /** Limit in the number of suggested items in a section. */
+    /* package */ static final int SUGGESTIONS_LIMIT = 4;
+
+    // Reverse order of the comparator to sort in descending order of completeness scores.
+    private static final Comparator<Completable> COMPLETENESS_COMPARATOR =
+            (a, b) -> (PaymentAppComparator.compareCompletablesByCompleteness(b, a));
+    public final Comparator<PaymentApp> mPaymentAppComparator;
+
     private final boolean mIsOffTheRecord;
     private final Handler mHandler = new Handler();
     private final Queue<Runnable> mRetryQueue = new LinkedList<>();
@@ -89,6 +104,7 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
     private boolean mHaveRequestedAutofillData = true;
     private List<AutofillProfile> mAutofillProfiles;
     private Boolean mCanUserAddCreditCard;
+    private final JourneyLogger mJourneyLogger;
 
     /** The delegate of this class. */
     public interface Delegate {
@@ -160,9 +176,10 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
      * @param params The parameters of the payment request specified by the merchant.
      * @param webContents The WebContents of the merchant page.
      * @param isOffTheRecord Whether merchant page is in an isOffTheRecord tab.
+     * @param journeyLogger The logger of the user journey.
      */
     public PaymentUIsManager(Delegate delegate, PaymentRequestParams params,
-            WebContents webContents, boolean isOffTheRecord) {
+            WebContents webContents, boolean isOffTheRecord, JourneyLogger journeyLogger) {
         mDelegate = delegate;
         mParams = params;
 
@@ -172,10 +189,12 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
         // PaymentRequest card editor does not show the organization name in the dropdown with the
         // billing address labels.
         mCardEditor = new CardEditor(webContents, mAddressEditor, /*includeOrgLabel=*/false);
+        mJourneyLogger = journeyLogger;
 
         mPaymentUisShowStateReconciler = new PaymentUisShowStateReconciler();
         mCurrencyFormatterMap = new HashMap<>();
         mIsOffTheRecord = isOffTheRecord;
+        mPaymentAppComparator = new PaymentAppComparator(/*params=*/mParams);
     }
 
     /**
@@ -853,5 +872,78 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
                 if (!mRetryQueue.isEmpty()) mHandler.post(mRetryQueue.remove());
             }
         });
+    }
+
+    /** Create a shipping section for PaymentRequest UI. */
+    public void createShippingSectionForPaymentRequestUI(Context context) {
+        List<AutofillAddress> addresses = new ArrayList<>();
+
+        for (int i = 0; i < mAutofillProfiles.size(); i++) {
+            AutofillProfile profile = mAutofillProfiles.get(i);
+            mAddressEditor.addPhoneNumberIfValid(profile.getPhoneNumber());
+
+            // Only suggest addresses that have a street address.
+            if (!TextUtils.isEmpty(profile.getStreetAddress())) {
+                addresses.add(new AutofillAddress(context, profile));
+            }
+        }
+
+        // Suggest complete addresses first.
+        Collections.sort(addresses, COMPLETENESS_COMPARATOR);
+
+        // Limit the number of suggestions.
+        addresses = addresses.subList(0, Math.min(addresses.size(), SUGGESTIONS_LIMIT));
+
+        // Load the validation rules for each unique region code.
+        Set<String> uniqueCountryCodes = new HashSet<>();
+        for (int i = 0; i < addresses.size(); ++i) {
+            String countryCode = AutofillAddress.getCountryCode(addresses.get(i).getProfile());
+            if (!uniqueCountryCodes.contains(countryCode)) {
+                uniqueCountryCodes.add(countryCode);
+                PersonalDataManager.getInstance().loadRulesForAddressNormalization(countryCode);
+            }
+        }
+
+        // Automatically select the first address if one is complete and if the merchant does
+        // not require a shipping address to calculate shipping costs.
+        boolean hasCompleteShippingAddress = !addresses.isEmpty() && addresses.get(0).isComplete();
+        int firstCompleteAddressIndex = SectionInformation.NO_SELECTION;
+        if (mUiShippingOptions.getSelectedItem() != null && hasCompleteShippingAddress) {
+            firstCompleteAddressIndex = 0;
+
+            // The initial label for the selected shipping address should not include the
+            // country.
+            addresses.get(firstCompleteAddressIndex).setShippingAddressLabelWithoutCountry();
+        }
+
+        // Log the number of suggested shipping addresses and whether at least one of them is
+        // complete.
+        mJourneyLogger.setNumberOfSuggestionsShown(
+                Section.SHIPPING_ADDRESS, addresses.size(), hasCompleteShippingAddress);
+
+        int missingFields = 0;
+        if (addresses.isEmpty()) {
+            // All fields are missing.
+            missingFields = AutofillAddress.CompletionStatus.INVALID_RECIPIENT
+                    | AutofillAddress.CompletionStatus.INVALID_PHONE_NUMBER
+                    | AutofillAddress.CompletionStatus.INVALID_ADDRESS;
+        } else {
+            missingFields = addresses.get(0).getMissingFieldsOfShippingProfile();
+        }
+        if (missingFields != 0) {
+            RecordHistogram.recordSparseHistogram(
+                    "PaymentRequest.MissingShippingFields", missingFields);
+        }
+
+        mShippingAddressesSection = new SectionInformation(
+                PaymentRequestUI.DataType.SHIPPING_ADDRESSES, firstCompleteAddressIndex, addresses);
+    }
+
+    /**
+     * Rank the payment apps for PaymentRequest UI.
+     * @param paymentApps A list of payment apps to be ranked in place.
+     */
+    public void rankPaymentAppsForPaymentRequestUI(List<PaymentApp> paymentApps) {
+        Collections.sort(paymentApps, mPaymentAppComparator);
     }
 }

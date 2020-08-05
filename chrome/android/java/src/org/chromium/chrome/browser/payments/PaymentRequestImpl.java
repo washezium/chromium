@@ -49,7 +49,6 @@ import org.chromium.chrome.browser.tabmodel.TabModelObserver;
 import org.chromium.chrome.browser.tabmodel.TabModelSelector;
 import org.chromium.chrome.browser.tabmodel.TabModelSelectorObserver;
 import org.chromium.chrome.browser.ui.favicon.FaviconHelper;
-import org.chromium.components.autofill.Completable;
 import org.chromium.components.autofill.EditableOption;
 import org.chromium.components.browser_ui.bottomsheet.BottomSheetControllerProvider;
 import org.chromium.components.embedder_support.util.UrlConstants;
@@ -113,7 +112,6 @@ import org.chromium.url.Origin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -234,13 +232,7 @@ public class PaymentRequestImpl
         void onRendererClosedMojoConnection();
     }
 
-    /** Limit in the number of suggested items in a section. */
-    public static final int SUGGESTIONS_LIMIT = 4;
-
     private static final String TAG = "PaymentRequest";
-    // Reverse order of the comparator to sort in descending order of completeness scores.
-    private static final Comparator<Completable> COMPLETENESS_COMPARATOR =
-            (a, b) -> (PaymentAppComparator.compareCompletablesByCompleteness(b, a));
 
     private ComponentPaymentRequestImpl mComponentPaymentRequestImpl;
 
@@ -249,8 +241,6 @@ public class PaymentRequestImpl
     private boolean mRequestPayerName;
     private boolean mRequestPayerPhone;
     private boolean mRequestPayerEmail;
-
-    private final Comparator<PaymentApp> mPaymentAppComparator;
 
     private static PaymentRequestServiceObserverForTest sObserverForTest;
     private static boolean sIsLocalCanMakePaymentQueryQuotaEnforcedForTest;
@@ -452,8 +442,7 @@ public class PaymentRequestImpl
 
         if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
         mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
-                /*params=*/this, mWebContents, mIsOffTheRecord);
-        mPaymentAppComparator = new PaymentAppComparator(/*params=*/this);
+                /*params=*/this, mWebContents, mIsOffTheRecord, mJourneyLogger);
     }
 
     // Implement ComponentPaymentRequestDelegate:
@@ -711,7 +700,7 @@ public class PaymentRequestImpl
         }
 
         if (shouldShowShippingSection() && !mWaitForUpdatedDetails) {
-            createShippingSection(activity, mPaymentUIsManager.getAutofillProfiles());
+            mPaymentUIsManager.createShippingSectionForPaymentRequestUI(activity);
         }
 
         if (shouldShowContactSection()) {
@@ -762,73 +751,6 @@ public class PaymentRequestImpl
         }
 
         return true;
-    }
-
-    private void createShippingSection(
-            Context context, List<AutofillProfile> unmodifiableProfiles) {
-        List<AutofillAddress> addresses = new ArrayList<>();
-
-        for (int i = 0; i < unmodifiableProfiles.size(); i++) {
-            AutofillProfile profile = unmodifiableProfiles.get(i);
-            mPaymentUIsManager.getAddressEditor().addPhoneNumberIfValid(profile.getPhoneNumber());
-
-            // Only suggest addresses that have a street address.
-            if (!TextUtils.isEmpty(profile.getStreetAddress())) {
-                addresses.add(new AutofillAddress(context, profile));
-            }
-        }
-
-        // Suggest complete addresses first.
-        Collections.sort(addresses, COMPLETENESS_COMPARATOR);
-
-        // Limit the number of suggestions.
-        addresses = addresses.subList(0, Math.min(addresses.size(), SUGGESTIONS_LIMIT));
-
-        // Load the validation rules for each unique region code.
-        Set<String> uniqueCountryCodes = new HashSet<>();
-        for (int i = 0; i < addresses.size(); ++i) {
-            String countryCode = AutofillAddress.getCountryCode(addresses.get(i).getProfile());
-            if (!uniqueCountryCodes.contains(countryCode)) {
-                uniqueCountryCodes.add(countryCode);
-                PersonalDataManager.getInstance().loadRulesForAddressNormalization(countryCode);
-            }
-        }
-
-        // Automatically select the first address if one is complete and if the merchant does
-        // not require a shipping address to calculate shipping costs.
-        boolean hasCompleteShippingAddress = !addresses.isEmpty() && addresses.get(0).isComplete();
-        int firstCompleteAddressIndex = SectionInformation.NO_SELECTION;
-        if (mPaymentUIsManager.getUiShippingOptions().getSelectedItem() != null
-                && hasCompleteShippingAddress) {
-            firstCompleteAddressIndex = 0;
-
-            // The initial label for the selected shipping address should not include the
-            // country.
-            addresses.get(firstCompleteAddressIndex).setShippingAddressLabelWithoutCountry();
-        }
-
-        // Log the number of suggested shipping addresses and whether at least one of them is
-        // complete.
-        mJourneyLogger.setNumberOfSuggestionsShown(
-                Section.SHIPPING_ADDRESS, addresses.size(), hasCompleteShippingAddress);
-
-        int missingFields = 0;
-        if (addresses.isEmpty()) {
-            // All fields are missing.
-            missingFields = AutofillAddress.CompletionStatus.INVALID_RECIPIENT
-                    | AutofillAddress.CompletionStatus.INVALID_PHONE_NUMBER
-                    | AutofillAddress.CompletionStatus.INVALID_ADDRESS;
-        } else {
-            missingFields = addresses.get(0).getMissingFieldsOfShippingProfile();
-        }
-        if (missingFields != 0) {
-            RecordHistogram.recordSparseHistogram(
-                    "PaymentRequest.MissingShippingFields", missingFields);
-        }
-
-        mPaymentUIsManager.setShippingAddressesSection(
-                new SectionInformation(PaymentRequestUI.DataType.SHIPPING_ADDRESSES,
-                        firstCompleteAddressIndex, addresses));
     }
 
     // Implement ComponentPaymentRequestDelegate:
@@ -1285,7 +1207,7 @@ public class PaymentRequestImpl
         // Do not create shipping section When UI is not built yet. This happens when the show
         // promise gets resolved before all apps are ready.
         if (mPaymentUIsManager.getPaymentRequestUI() != null && shouldShowShippingSection()) {
-            createShippingSection(chromeActivity, mPaymentUIsManager.getAutofillProfiles());
+            mPaymentUIsManager.createShippingSectionForPaymentRequestUI(chromeActivity);
         }
 
         mWaitForUpdatedDetails = false;
@@ -1518,7 +1440,7 @@ public class PaymentRequestImpl
                     && mPaymentUIsManager.getShippingAddressesSection() == null) {
                 ChromeActivity activity = ChromeActivity.fromWebContents(mWebContents);
                 assert activity != null;
-                createShippingSection(activity, mPaymentUIsManager.getAutofillProfiles());
+                mPaymentUIsManager.createShippingSectionForPaymentRequestUI(activity);
             }
             if (shouldShowContactSection() && mPaymentUIsManager.getContactSection() == null) {
                 ChromeActivity activity = ChromeActivity.fromWebContents(mWebContents);
@@ -2232,7 +2154,7 @@ public class PaymentRequestImpl
             }
         }
 
-        Collections.sort(mPendingApps, mPaymentAppComparator);
+        mPaymentUIsManager.rankPaymentAppsForPaymentRequestUI(mPendingApps);
 
         // Possibly pre-select the first app on the list.
         int selection = !mPendingApps.isEmpty() && mPendingApps.get(0).canPreselect()
