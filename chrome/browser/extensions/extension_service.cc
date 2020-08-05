@@ -1279,6 +1279,8 @@ void ExtensionService::OnAllExternalProvidersReady() {
                   [](base::RepeatingClosure callback) { callback.Run(); },
                   external_updates_finished_callback_);
     updater()->CheckNow(std::move(params));
+  } else if (external_updates_finished_callback_) {
+    external_updates_finished_callback_.Run();
   }
 
   // Uninstall all the unclaimed extensions.

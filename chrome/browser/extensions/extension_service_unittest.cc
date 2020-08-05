@@ -36,6 +36,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/test/bind_test_util.h"
+#include "base/test/scoped_feature_list.h"
 #include "base/time/time.h"
 #include "base/values.h"
 #include "base/version.h"
@@ -60,6 +61,7 @@
 #include "chrome/browser/extensions/external_policy_loader.h"
 #include "chrome/browser/extensions/external_pref_loader.h"
 #include "chrome/browser/extensions/external_provider_impl.h"
+#include "chrome/browser/extensions/external_testing_loader.h"
 #include "chrome/browser/extensions/fake_safe_browsing_database_manager.h"
 #include "chrome/browser/extensions/installed_loader.h"
 #include "chrome/browser/extensions/load_error_reporter.h"
@@ -78,6 +80,7 @@
 #include "chrome/browser/ui/global_error/global_error_service.h"
 #include "chrome/browser/ui/global_error/global_error_service_factory.h"
 #include "chrome/browser/ui/global_error/global_error_waiter.h"
+#include "chrome/browser/web_applications/components/external_app_install_features.h"
 #include "chrome/common/chrome_constants.h"
 #include "chrome/common/chrome_switches.h"
 #include "chrome/common/extensions/manifest_handlers/app_launch_info.h"
@@ -298,39 +301,6 @@ void PersistExtensionWithPaths(
 
 }  // namespace
 
-// A simplified version of ExternalPrefLoader that loads the dictionary
-// from json data specified in a string.
-class ExternalTestingLoader : public ExternalLoader {
- public:
-  ExternalTestingLoader(const std::string& json_data,
-                        const base::FilePath& fake_base_path)
-      : fake_base_path_(fake_base_path) {
-    DCHECK_CURRENTLY_ON(BrowserThread::UI);
-    JSONStringValueDeserializer deserializer(json_data);
-    base::FilePath fake_json_path = fake_base_path.AppendASCII("fake.json");
-    testing_prefs_ = ExternalPrefLoader::ExtractExtensionPrefs(&deserializer,
-                                                               fake_json_path);
-  }
-
-  // ExternalLoader:
-  const base::FilePath GetBaseCrxFilePath() override { return fake_base_path_; }
-
-  void StartLoading() override {
-    DCHECK_CURRENTLY_ON(BrowserThread::UI);
-    LoadFinished(testing_prefs_->CreateDeepCopy());
-  }
-
- private:
-  friend class base::RefCountedThreadSafe<ExternalLoader>;
-
-  ~ExternalTestingLoader() override {}
-
-  base::FilePath fake_base_path_;
-  std::unique_ptr<base::DictionaryValue> testing_prefs_;
-
-  DISALLOW_COPY_AND_ASSIGN(ExternalTestingLoader);
-};
-
 class MockProviderVisitor : public ExternalProviderInterface::VisitorInterface {
  public:
   // The provider will return |fake_base_path| from
@@ -471,6 +441,7 @@ class MockProviderVisitor : public ExternalProviderInterface::VisitorInterface {
   }
 
   Profile* profile() { return profile_.get(); }
+  const ExternalProviderImpl& provider() const { return *provider_; }
 
  protected:
   std::unique_ptr<ExternalProviderImpl> provider_;
@@ -5966,6 +5937,30 @@ TEST_F(ExtensionServiceTest, ExternalPrefProvider) {
   {
     ScopedBrowserLocale guard("en-US");
     EXPECT_EQ(2, visitor.Visit(json_data));
+  }
+
+  // Test web_app_migration_flag.
+  {
+    json_data = R"(
+      {
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": {
+          "external_crx": "RandomExtension.crx",
+          "external_version": "1.0",
+          "web_app_migration_flag": "TestFeature"
+        }
+      })";
+
+    {
+      base::AutoReset<bool> testing_scope =
+          web_app::SetExternalAppInstallFeatureAlwaysEnabledForTesting();
+      EXPECT_EQ(0, visitor.Visit(json_data));
+      visitor.provider().HasExtension("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    }
+
+    {
+      EXPECT_EQ(1, visitor.Visit(json_data));
+      visitor.provider().HasExtension("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    }
   }
 
   // Test keep_if_present.

@@ -4868,6 +4868,8 @@ test("unit_tests") {
       "../browser/extensions/external_policy_loader_unittest.cc",
       "../browser/extensions/external_provider_impl_chromeos_unittest.cc",
       "../browser/extensions/external_provider_impl_unittest.cc",
+      "../browser/extensions/external_testing_loader.cc",
+      "../browser/extensions/external_testing_loader.h",
       "../browser/extensions/forced_extensions/force_installed_metrics_unittest.cc",
       "../browser/extensions/install_tracker_unittest.cc",
       "../browser/extensions/install_verifier_unittest.cc",
