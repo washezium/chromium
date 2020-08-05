@@ -268,6 +268,8 @@ bool RendererWebMediaPlayerDelegate::OnMessageReceived(
                         OnMediaDelegateEnterPictureInPicture)
     IPC_MESSAGE_HANDLER(MediaPlayerDelegateMsg_ExitPictureInPicture,
                         OnMediaDelegateExitPictureInPicture)
+    IPC_MESSAGE_HANDLER(MediaPlayerDelegateMsg_SetAudioSinkId,
+                        OnMediaDelegateSetAudioSink)
     IPC_MESSAGE_HANDLER(MediaPlayerDelegateMsg_NotifyPowerExperimentState,
                         OnMediaDelegatePowerExperimentState)
     IPC_MESSAGE_UNHANDLED(return false)
@@ -396,6 +398,10 @@ void RendererWebMediaPlayerDelegate::OnMediaDelegateExitPictureInPicture(
   if (observer)
     observer->OnExitPictureInPicture();
 }
+
+void RendererWebMediaPlayerDelegate::OnMediaDelegateSetAudioSink(
+    int player_id,
+    std::string sink_id) {}
 
 void RendererWebMediaPlayerDelegate::OnMediaDelegatePowerExperimentState(
     int player_id,

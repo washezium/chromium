@@ -4,6 +4,7 @@
 
 #include "content/browser/media/session/media_session_controller.h"
 
+#include "content/browser/frame_host/render_frame_host_impl.h"
 #include "content/browser/media/media_devices_util.h"
 #include "content/browser/media/media_web_contents_observer.h"
 #include "content/browser/media/session/media_session_impl.h"
@@ -93,7 +94,23 @@ void MediaSessionController::OnExitPictureInPicture(int player_id) {
 
 void MediaSessionController::OnSetAudioSinkId(
     int player_id,
-    const std::string& raw_device_id) {}
+    const std::string& raw_device_id) {
+  // The sink id needs to be hashed before it is suitable for use in the
+  // renderer process.
+  auto salt_and_origin = content::GetMediaDeviceSaltAndOrigin(
+      id_.render_frame_host->GetProcess()->GetID(),
+      id_.render_frame_host->GetRoutingID());
+
+  std::string hashed_sink_id = GetHMACForMediaDeviceID(
+      salt_and_origin.device_id_salt, salt_and_origin.origin, raw_device_id);
+
+  // Grant the renderer the permission to use this audio output device.
+  static_cast<RenderFrameHostImpl*>(id_.render_frame_host)
+      ->SetAudioOutputDeviceIdForGlobalMediaControls(hashed_sink_id);
+
+  id_.render_frame_host->Send(new MediaPlayerDelegateMsg_SetAudioSinkId(
+      id_.render_frame_host->GetRoutingID(), id_.delegate_id, hashed_sink_id));
+}
 
 RenderFrameHost* MediaSessionController::render_frame_host() const {
   return id_.render_frame_host;
