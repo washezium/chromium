@@ -691,6 +691,9 @@ extern const char kGpuRasterizationDescription[];
 extern const char kGooglePasswordManagerName[];
 extern const char kGooglePasswordManagerDescription[];
 
+extern const char kH264DecoderBufferIsCompleteFrameName[];
+extern const char kH264DecoderBufferIsCompleteFrameDescription[];
+
 extern const char kHandwritingGestureName[];
 extern const char kHandwritingGestureDescription[];
 
