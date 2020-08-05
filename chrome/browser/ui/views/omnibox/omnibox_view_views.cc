@@ -990,7 +990,7 @@ void OmniboxViewViews::SetAccessibilityLabel(const base::string16& display_text,
   } else {
     friendly_suggestion_text_ =
         model()->popup_model()->GetAccessibilityLabelForCurrentSelection(
-            display_text, &friendly_suggestion_text_prefix_length_);
+            display_text, true, &friendly_suggestion_text_prefix_length_);
   }
 
   if (notify_text_changed)
