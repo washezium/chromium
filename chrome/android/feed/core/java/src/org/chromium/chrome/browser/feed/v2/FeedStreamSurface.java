@@ -168,8 +168,10 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
      *  Clear all the data related to all surfaces.
      */
     public static void clearAll() {
+        FeedStreamSurface[] surfaces = null;
         if (sSurfaces != null) {
-            for (FeedStreamSurface surface : sSurfaces) {
+            surfaces = sSurfaces.toArray(new FeedStreamSurface[sSurfaces.size()]);
+            for (FeedStreamSurface surface : surfaces) {
                 surface.surfaceClosed();
             }
             sSurfaces = null;
@@ -178,6 +180,12 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         ProcessScope processScope = xSurfaceProcessScope();
         if (processScope != null) {
             processScope.resetAccount();
+        }
+
+        if (surfaces != null) {
+            for (FeedStreamSurface surface : surfaces) {
+                surface.surfaceOpened();
+            }
         }
     }
 
