@@ -45,7 +45,6 @@ constexpr int kMinAndroidFrameworkVersion = 28;  // Android P
 constexpr char const* kAppIdsWithHiddenMoreSettings[] = {
     extensions::kWebStoreAppId,
     extension_misc::kFilesManagerAppId,
-    extension_misc::kGeniusAppId,
 };
 
 constexpr char const* kAppIdsWithHiddenPinToShelf[] = {

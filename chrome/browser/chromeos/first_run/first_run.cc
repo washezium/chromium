@@ -201,12 +201,7 @@ bool ShouldLaunchHelpApp(Profile* profile) {
 }
 
 void LaunchHelpApp(Profile* profile) {
-  if (base::FeatureList::IsEnabled(chromeos::features::kHelpAppV2)) {
-    AppLauncher::LaunchHelpAfterSWALoad(profile);
-    return;
-  }
-
-  LaunchApp(profile, extension_misc::kGeniusAppId);
+  AppLauncher::LaunchHelpAfterSWALoad(profile);
 }
 
 void LaunchTutorial() {

@@ -7,7 +7,6 @@
 
 #include "base/test/metrics/histogram_tester.h"
 #include "base/test/metrics/user_action_tester.h"
-#include "base/test/scoped_feature_list.h"
 #include "chrome/browser/apps/app_service/app_launch_params.h"
 #include "chrome/browser/apps/app_service/app_service_proxy.h"
 #include "chrome/browser/apps/app_service/app_service_proxy_factory.h"
@@ -19,7 +18,6 @@
 #include "chrome/browser/web_applications/system_web_app_manager_browsertest.h"
 #include "chromeos/components/help_app_ui/url_constants.h"
 #include "chromeos/components/web_applications/test/sandboxed_web_ui_test_base.h"
-#include "chromeos/constants/chromeos_features.h"
 #include "content/public/test/browser_test.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "ui/display/screen.h"
@@ -27,15 +25,7 @@
 #include "ui/gfx/geometry/rect.h"
 #include "ui/gfx/geometry/size.h"
 
-class HelpAppIntegrationTest : public SystemWebAppIntegrationTest {
- public:
-  HelpAppIntegrationTest() {
-    scoped_feature_list_.InitWithFeatures({chromeos::features::kHelpAppV2}, {});
-  }
-
- private:
-  base::test::ScopedFeatureList scoped_feature_list_;
-};
+using HelpAppIntegrationTest = SystemWebAppIntegrationTest;
 
 // Test that the Help App installs and launches correctly. Runs some spot
 // checks on the manifest.

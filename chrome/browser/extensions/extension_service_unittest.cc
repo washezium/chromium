@@ -193,6 +193,7 @@ const char updates_from_webstore3[] = "bmfoocgfinpmkmlbjhcbofejhkhlbchk";
 const char permissions_blocklist[] = "noffkehfcaggllbcojjbopcmlhcnhcdn";
 const char cast_stable[] = "boadgeojelhgndaghljhdicfkmllpafd";
 const char cast_beta[] = "dliochdbjfkdbacpmhlcpmleaejidimm";
+const char genius_app[] = "ljoammodoonkhnehlncldjelhidljdpi";
 const char kPrefBlocklist[] = "blacklist";
 
 struct BubbleErrorsTestData {
@@ -7678,6 +7679,70 @@ TEST_F(ExtensionServiceTest, UninstallDisabledMigratedExtension) {
 
   service()->UninstallMigratedExtensionsForTest();
   EXPECT_FALSE(registry()->GetInstalledExtension(cast_stable));
+}
+
+// Tests that component extensions that have been migrated can be uninstalled.
+TEST_F(ExtensionServiceTest, UninstallMigratedComponentExtensions) {
+  InitializeEmptyExtensionServiceWithTestingPrefs();
+  ExtensionPrefs* prefs = ExtensionPrefs::Get(profile());
+  ASSERT_TRUE(prefs->ShouldInstallObsoleteComponentExtension(genius_app));
+
+  scoped_refptr<const Extension> genius_extension =
+      ExtensionBuilder("genius")
+          .SetID(genius_app)
+          .SetLocation(Manifest::INTERNAL)
+          .Build();
+  service()->AddComponentExtension(genius_extension.get());
+  ASSERT_TRUE(registry()->enabled_extensions().Contains(genius_app));
+
+  service()->UninstallMigratedExtensionsForTest();
+  EXPECT_FALSE(registry()->GetInstalledExtension(genius_app));
+  EXPECT_FALSE(prefs->ShouldInstallObsoleteComponentExtension(genius_app));
+}
+
+// Tests that component extensions that are not marked as obsolete will not be
+// uninstalled.
+TEST_F(ExtensionServiceTest, UninstallMigratedExtensionsKeepsGoodComponents) {
+  InitializeEmptyExtensionServiceWithTestingPrefs();
+  ExtensionPrefs* prefs = ExtensionPrefs::Get(profile());
+
+  scoped_refptr<const Extension> good_extension =
+      ExtensionBuilder("good")
+          .SetID(good0)
+          .SetLocation(Manifest::INTERNAL)
+          .Build();
+  service()->AddComponentExtension(good_extension.get());
+  ASSERT_TRUE(registry()->enabled_extensions().Contains(good0));
+
+  service()->UninstallMigratedExtensionsForTest();
+  // Because good0 is not a migrated component extension it should still be
+  // currently installed, and should continue to be installed in the future.
+  EXPECT_TRUE(registry()->GetInstalledExtension(good0));
+  EXPECT_TRUE(prefs->ShouldInstallObsoleteComponentExtension(good0));
+}
+
+// Tests that repeat calls to UninstallMigratedExtensions doesn't crash/fail.
+TEST_F(ExtensionServiceTest, UninstallMigratedExtensionsMultipleCalls) {
+  InitializeEmptyExtensionServiceWithTestingPrefs();
+
+  scoped_refptr<const Extension> cast_extension =
+      ExtensionBuilder("stable")
+          .SetID(cast_stable)
+          .SetLocation(Manifest::INTERNAL)
+          .Build();
+  scoped_refptr<const Extension> genius_extension =
+      ExtensionBuilder("genius")
+          .SetID(genius_app)
+          .SetLocation(Manifest::INTERNAL)
+          .Build();
+  service()->AddExtension(cast_extension.get());
+  service()->AddComponentExtension(genius_extension.get());
+
+  service()->UninstallMigratedExtensionsForTest();
+  service()->UninstallMigratedExtensionsForTest();
+  service()->UninstallMigratedExtensionsForTest();
+  EXPECT_FALSE(registry()->GetInstalledExtension(cast_stable));
+  EXPECT_FALSE(registry()->GetInstalledExtension(genius_app));
 }
 
 // Tests the case of a user installing a non-policy extension (e.g. through the
