@@ -902,6 +902,9 @@ This file contains the strings for ash.
       <message name="IDS_ASH_STYLUS_TOOLS_CREATE_NOTE_ACTION" desc="Title of the capture screen action in the stylus tools (a pop-up panel next to the status tray). Clicking this opens up an application that the user can quickly jot a note down in.">
         Create note
       </message>
+      <message name="IDS_ASH_STYLUS_TOOLS_ENTER_CAPTURE_MODE_ACTION" desc="Title of the enter capture mode action in the stylus tools (a pop-up panel next to the status tray). This enters capture mode, which allows users to take screenshots and record video. Capture mode has an UI for users to modify what gets screenshotted or recorded.">
+        Screen capture
+      </message>
       <message name="IDS_ASH_STYLUS_TOOLS_LASER_POINTER_MODE" desc="Title of the laser pointer in the palette (a pop-up panel next to the status tray). Clicking this turns the mouse into a laser pointer. Additionally, the palette tray is closed.">
         Laser pointer
       </message>
