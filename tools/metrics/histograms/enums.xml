@@ -63100,6 +63100,11 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="7" label="NO_CONTEXT_ERROR"/>
 </enum>
 
+<enum name="ServiceWorkerInternalsLinkQuery">
+  <int value="0" label="Accessed from DevTools"/>
+  <int value="1" label="Accessed from outside DevTools"/>
+</enum>
+
 <enum name="ServiceWorkerMainResourceRequestDestination">
   <obsolete>
     Not used since November 2018
