@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/prerender/prerender_link_manager.h"
+#include "components/prerender/browser/prerender_link_manager.h"
 
 #include <functional>
 #include <limits>
@@ -13,6 +13,7 @@
 
 #include "base/metrics/field_trial.h"
 #include "base/metrics/histogram_macros.h"
+#include "build/build_config.h"
 #include "components/prerender/browser/prerender_contents.h"
 #include "components/prerender/browser/prerender_handle.h"
 #include "components/prerender/browser/prerender_manager.h"
@@ -20,7 +21,6 @@
 #include "content/public/browser/render_view_host.h"
 #include "content/public/browser/session_storage_namespace.h"
 #include "content/public/common/referrer.h"
-#include "extensions/buildflags/buildflags.h"
 #include "mojo/public/cpp/bindings/associated_remote.h"
 #include "third_party/blink/public/common/associated_interfaces/associated_interface_provider.h"
 #include "third_party/blink/public/common/prerender/prerender_rel_type.h"
@@ -28,8 +28,9 @@
 #include "url/gurl.h"
 #include "url/origin.h"
 
-#if BUILDFLAG(ENABLE_EXTENSIONS)
-#include "components/guest_view/browser/guest_view_base.h"
+// TODO(crbug.com/722453): Use a dedicated build flag for GuestView.
+#if !defined(OS_ANDROID) && !defined(OS_IOS) && !defined(OS_FUCHSIA)
+#include "components/guest_view/browser/guest_view_base.h"  // nogncheck
 #endif
 
 using base::TimeDelta;
@@ -157,7 +158,8 @@ bool PrerenderLinkManager::OnAddPrerender(
     blink::mojom::PrerenderAttributesPtr attributes,
     mojo::PendingRemote<blink::mojom::PrerenderHandleClient> handle_client,
     mojo::PendingReceiver<blink::mojom::PrerenderHandle> handle) {
-#if BUILDFLAG(ENABLE_EXTENSIONS)
+// TODO(crbug.com/722453): Use a dedicated build flag for GuestView.
+#if !defined(OS_ANDROID) && !defined(OS_IOS) && !defined(OS_FUCHSIA)
   content::RenderViewHost* rvh = content::RenderViewHost::FromID(
       launcher_render_process_id, launcher_render_view_id);
   content::WebContents* web_contents =
@@ -258,8 +260,7 @@ void PrerenderLinkManager::StartPrerenders() {
   std::list<LinkPrerender*> abandoned_prerenders;
   std::list<std::list<std::unique_ptr<LinkPrerender>>::iterator>
       pending_prerenders;
-  std::multiset<std::pair<int, int> >
-      running_launcher_and_render_view_routes;
+  std::multiset<std::pair<int, int>> running_launcher_and_render_view_routes;
 
   // Scan the list, counting how many prerenders have handles (and so were added
   // to the PrerenderManager). The count is done for the system as a whole, and
@@ -406,8 +407,7 @@ void PrerenderLinkManager::Shutdown() {
 }
 
 // In practice, this is always called from PrerenderLinkManager::OnAddPrerender.
-void PrerenderLinkManager::OnPrerenderStart(
-    PrerenderHandle* prerender_handle) {
+void PrerenderLinkManager::OnPrerenderStart(PrerenderHandle* prerender_handle) {
   LinkPrerender* prerender = FindByPrerenderHandle(prerender_handle);
   if (!prerender)
     return;
@@ -433,8 +433,7 @@ void PrerenderLinkManager::OnPrerenderDomContentLoaded(
   prerender->remote_handle_client->OnPrerenderDomContentLoaded();
 }
 
-void PrerenderLinkManager::OnPrerenderStop(
-    PrerenderHandle* prerender_handle) {
+void PrerenderLinkManager::OnPrerenderStop(PrerenderHandle* prerender_handle) {
   LinkPrerender* prerender = FindByPrerenderHandle(prerender_handle);
   if (!prerender)
     return;
