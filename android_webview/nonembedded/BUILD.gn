@@ -140,6 +140,7 @@ android_resources("devui_resources") {
     "java/res_devui/layout/crashes_list_item_body.xml",
     "java/res_devui/layout/crashes_list_item_header.xml",
     "java/res_devui/layout/flag_states.xml",
+    "java/res_devui/layout/flag_ui_warning.xml",
     "java/res_devui/layout/fragment_crashes_list.xml",
     "java/res_devui/layout/fragment_flags.xml",
     "java/res_devui/layout/fragment_home.xml",
