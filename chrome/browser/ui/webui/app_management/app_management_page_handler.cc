@@ -96,11 +96,6 @@ AppManagementPageHandler::AppManagementPageHandler(
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
 
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
-
   Observe(&proxy->AppRegistryCache());
 
 #if defined(OS_CHROMEOS)
@@ -116,11 +111,6 @@ void AppManagementPageHandler::OnPinnedChanged(const std::string& app_id,
                                                bool pinned) {
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
-
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
 
   app_management::mojom::AppPtr app;
 
@@ -142,11 +132,6 @@ void AppManagementPageHandler::OnPinnedChanged(const std::string& app_id,
 void AppManagementPageHandler::GetApps(GetAppsCallback callback) {
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
-
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
 
   std::vector<app_management::mojom::AppPtr> apps;
   proxy->AppRegistryCache().ForEachApp(
@@ -194,11 +179,6 @@ void AppManagementPageHandler::SetPermission(
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
 
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
-
   proxy->SetPermission(app_id, std::move(permission));
 }
 
@@ -206,22 +186,12 @@ void AppManagementPageHandler::Uninstall(const std::string& app_id) {
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
 
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
-
   proxy->Uninstall(app_id, nullptr /* parent_window */);
 }
 
 void AppManagementPageHandler::OpenNativeSettings(const std::string& app_id) {
   apps::AppServiceProxy* proxy =
       apps::AppServiceProxyFactory::GetForProfile(profile_);
-
-  // TODO(crbug.com/826982): revisit pending decision on AppServiceProxy in
-  // incognito
-  if (!proxy)
-    return;
 
   proxy->OpenNativeSettings(app_id);
 }

@@ -204,7 +204,6 @@ void ShowHelpImpl(Browser* browser, Profile* profile, HelpSource source) {
   // OffTheRecord profile.
   apps::AppServiceProxy* proxy = apps::AppServiceProxyFactory::GetForProfile(
       profile->GetOriginalProfile());
-  DCHECK(proxy);
   proxy->Launch(chromeos::default_web_apps::kHelpAppId, ui::EventFlags::EF_NONE,
                 app_launch_source, display::kDefaultDisplayId);
 #else
