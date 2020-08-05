@@ -1848,6 +1848,10 @@ const char kPrintJobManagementAppDescription[] =
     "Enables the print management app that allows Chrome OS users to view "
     "and manage their native print jobs.";
 
+const char kPrintSaveToDriveName[] = "Print Save to Drive locally";
+const char kPrintSaveToDriveDescription[] =
+    "Modifies Print Preview Save to Drive to use locally mounted Drive";
+
 const char kPrivacyElevatedAndroidName[] =
     "Elevate Privacy in Settings on Android";
 const char kPrivacyElevatedAndroidDescription[] =
