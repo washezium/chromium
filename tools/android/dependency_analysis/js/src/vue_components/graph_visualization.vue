@@ -62,6 +62,8 @@ const GraphVisualization = {
     this.graphView = new GraphView();
     this.graphView.registerOnNodeClicked(
         node => this.$emit(CUSTOM_EVENTS.NODE_CLICKED, node));
+    this.graphView.registerOnNodeDoubleClicked(
+        node => this.$emit(CUSTOM_EVENTS.NODE_DOUBLE_CLICKED, node));
     this.graphView.registerGetNodeGroup(this.getNodeGroup);
   },
 };

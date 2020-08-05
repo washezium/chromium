@@ -12,6 +12,7 @@ const CUSTOM_EVENTS = {
   FILTER_UNCHECK_ALL: 'filter-uncheck-all',
   FILTER_SUBMITTED: 'filter-submitted',
   NODE_CLICKED: 'node-clicked',
+  NODE_DOUBLE_CLICKED: 'node-double-clicked',
 };
 
 export {

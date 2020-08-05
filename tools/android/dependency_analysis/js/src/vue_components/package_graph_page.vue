@@ -30,7 +30,8 @@
           ]"
           :page-model="pageModel"
           :display-settings-data="displaySettingsData"
-          @[CUSTOM_EVENTS.NODE_CLICKED]="graphNodeClicked"/>
+          @[CUSTOM_EVENTS.NODE_CLICKED]="graphNodeClicked"
+          @[CUSTOM_EVENTS.NODE_DOUBLE_CLICKED]="graphNodeDoubleClicked"/>
       <div id="node-details-container">
         <GraphDisplaySettings
             :display-settings-data="displaySettingsData"/>
@@ -173,6 +174,16 @@ const PackageGraphPage = {
      */
     graphNodeClicked: function(node) {
       this.pageModel.selectedNodeDetailsData.selectedNode = node;
+    },
+    /**
+     * @param {!GraphNode} node The double-clicked node.
+     */
+    graphNodeDoubleClicked: function(node) {
+      if (node.visualizationState.selectedByFilter) {
+        this.filterUncheckNode(node.id);
+      } else {
+        this.filterAddOrCheckNode(node.id);
+      }
     },
   },
 };
