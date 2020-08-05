@@ -13,6 +13,8 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +22,16 @@ import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import org.chromium.android_webview.common.DeveloperModeUtils;
 import org.chromium.android_webview.common.Flag;
@@ -34,7 +40,11 @@ import org.chromium.android_webview.common.services.IDeveloperUiService;
 import org.chromium.android_webview.common.services.ServiceNames;
 import org.chromium.base.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -57,6 +67,8 @@ public class FlagsFragment extends DevUiBaseFragment {
     private FlagsListAdapter mListAdapter;
 
     private Context mContext;
+
+    private static volatile @Nullable Runnable sFilterListener;
 
     @Override
     public void onAttach(Context context) {
@@ -94,6 +106,33 @@ public class FlagsFragment extends DevUiBaseFragment {
 
         Button resetFlagsButton = view.findViewById(R.id.reset_flags_button);
         resetFlagsButton.setOnClickListener((View flagButton) -> { resetAllFlags(); });
+
+        EditText searchBar = view.findViewById(R.id.flag_search_bar);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int start, int before, int count) {
+                mListAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence cs, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable e) {}
+        });
+    }
+
+    /**
+     * Notifies the caller when ListView filtering is complete, in response to modifying the text in
+     * {@code R.id.flag_search_bar}.
+     */
+    @VisibleForTesting
+    public static void setFilterListener(@Nullable Runnable listener) {
+        sFilterListener = listener;
+    }
+
+    private void onFilterDone() {
+        if (sFilterListener != null) sFilterListener.run();
     }
 
     /**
@@ -175,12 +214,65 @@ public class FlagsFragment extends DevUiBaseFragment {
         int COUNT = 2;
     }
 
+    private static boolean flagMatchesQuery(Flag flag, String lowerCaseQuery) {
+        assert lowerCaseQuery.equals(lowerCaseQuery.toLowerCase(Locale.getDefault()))
+            : "lowerCaseQuery should already be converted to lower case";
+
+        // If empty query, match every everything (including the warning text)
+        if (lowerCaseQuery.isEmpty()) {
+            return true;
+        }
+
+        // If the user is searching for something and flag represents the warning text, don't
+        // match the warning text
+        if (flag == null) {
+            return false;
+        }
+
+        // Match if the flag name contains the query as a substring (case-insensitive)
+        String lowerCaseName = flag.getName().toLowerCase(Locale.getDefault());
+        if (lowerCaseName.contains(lowerCaseQuery)) return true;
+
+        // Or if the flag description contains the query as a substring (case-insensitive)
+        String lowerCaseDescription = flag.getDescription().toLowerCase(Locale.getDefault());
+        if (lowerCaseDescription.contains(lowerCaseQuery)) return true;
+
+        return false;
+    }
+
     /**
      * Adapter to create rows of toggleable Flags.
      */
     private class FlagsListAdapter extends ArrayAdapter<Flag> {
+        private List<Flag> mItems;
+        private final Filter mFilter;
+
         public FlagsListAdapter(Flag[] flagsAndWarningText) {
-            super(mContext, 0, flagsAndWarningText);
+            super(mContext, 0);
+            mItems = Arrays.asList(flagsAndWarningText);
+            mFilter = new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    List<Flag> matches = new ArrayList<>();
+
+                    String lowerCaseQuery = constraint.toString().toLowerCase(Locale.getDefault());
+                    for (Flag flag : flagsAndWarningText) {
+                        if (flagMatchesQuery(flag, lowerCaseQuery)) matches.add(flag);
+                    }
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = matches;
+                    filterResults.count = matches.size();
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    mItems = (List<Flag>) results.values;
+                    notifyDataSetChanged();
+                    onFilterDone();
+                }
+            };
         }
 
         private View getToggleableFlag(@NonNull Flag flag, View view, ViewGroup parent) {
@@ -230,6 +322,16 @@ public class FlagsFragment extends DevUiBaseFragment {
         }
 
         @Override
+        public int getCount() {
+            return mItems.size();
+        }
+
+        @Override
+        public Flag getItem(int position) {
+            return mItems.get(position);
+        }
+
+        @Override
         @LayoutType
         public int getItemViewType(int position) {
             if (getItem(position) == null) return LayoutType.WARNING_MESSAGE;
@@ -249,6 +351,11 @@ public class FlagsFragment extends DevUiBaseFragment {
             } else {
                 return getToggleableFlag(flag, view, parent);
             }
+        }
+
+        @Override
+        public Filter getFilter() {
+            return mFilter;
         }
     }
 
