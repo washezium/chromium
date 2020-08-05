@@ -1307,9 +1307,6 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 
 # Fieldset in NG
 #
-crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/legend-align.html [ Failure ]
-crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/legend-auto-margins.html [ Failure ]
-crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/legend-margin-inline.html [ Failure ]
 
 ### virtual/layout_ng_fieldset/fast/forms/fieldset/
 crbug.com/875235 virtual/layout_ng_fieldset/fast/forms/fieldset/legend-small-after-margin-before-border-horizontal-mode.html [ Failure ]
