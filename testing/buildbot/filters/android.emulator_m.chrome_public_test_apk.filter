@@ -69,3 +69,6 @@
 # crbug.com/1096295
 -org.chromium.chrome.features.start_surface.StartSurfaceLayoutTest.testActivityCanBeGarbageCollectedAfterFinished
 
+# crbug.com/1112812
+-org.chromium.chrome.browser.autofill_assistant.AutofillAssistantAutostartTest.testAutostart
+-org.chromium.chrome.browser.autofill.AutofillUpstreamTest.testSaveCardInfoBarWithEmptyYear
