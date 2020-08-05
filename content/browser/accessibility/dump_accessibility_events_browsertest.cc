@@ -545,22 +545,6 @@ IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
 }
 
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
-                       AccessibilityEventsAriaHiddenDescendants) {
-  RunEventTest(FILE_PATH_LITERAL("aria-hidden-descendants.html"));
-}
-
-IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
-                       AccessibilityEventsAriaHiddenDescendantsAlreadyIgnored) {
-  RunEventTest(
-      FILE_PATH_LITERAL("aria-hidden-descendants-already-ignored.html"));
-}
-
-IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
-                       AccessibilityEventsCSSDisplayDescendants) {
-  RunEventTest(FILE_PATH_LITERAL("css-display-descendants.html"));
-}
-
-IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
                        AccessibilityEventsCSSFlexTextUpdate) {
   RunEventTest(FILE_PATH_LITERAL("css-flex-text-update.html"));
 }
@@ -568,11 +552,6 @@ IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
                        AccessibilityEventsCSSVisibility) {
   RunEventTest(FILE_PATH_LITERAL("css-visibility.html"));
-}
-
-IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
-                       AccessibilityEventsCSSVisibilityDescendants) {
-  RunEventTest(FILE_PATH_LITERAL("css-visibility-descendants.html"));
 }
 
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityEventsTest,
