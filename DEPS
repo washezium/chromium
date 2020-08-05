@@ -302,11 +302,11 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling feed
   # and whatever else without interference from each other.
-  'spv_tools_revision': 'c6e6597c4f51be9b72eac6fc083383942cdbcd99',
+  'spv_tools_revision': '8bc27a1cfbc19a9fb0cf244fab693ad8909659e5',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling feed
   # and whatever else without interference from each other.
-  'spv_headers_revision': '979924c8bc839e4cb1b69d03d48398551f369ce7',
+  'spv_headers_revision': '3fdabd0da2932c276b25b9b4a988ba134eba1aa6',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling feed
   # and whatever else without interference from each other.
@@ -357,7 +357,7 @@ vars = {
   'ukey2_revision': '0275885d8e6038c39b8a8ca55e75d1d4d1727f47',
   # the commit queue can handle CLs rolling feed
   # and whatever else without interference from each other.
-  'tint_revision': '88f0ae369fef96b6118e1c99a8e97f9ff0a79e8f',
+  'tint_revision': 'f18d737b4e9318a1817126852edb6cc596ff1f5e',
 
   # TODO(crbug.com/941824): The values below need to be kept in sync
   # between //DEPS and //buildtools/DEPS, so if you're updating one,
