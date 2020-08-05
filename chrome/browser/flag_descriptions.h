@@ -2242,11 +2242,6 @@ extern const char kEnableZeroStateSuggestionsDescription[];
 extern const char kEnableSuggestedFilesName[];
 extern const char kEnableSuggestedFilesDescription[];
 
-#if BUILDFLAG(ENABLE_TAB_SEARCH)
-extern const char kEnableTabSearchName[];
-extern const char kEnableTabSearchDescription[];
-#endif  // BUILDFLAG(ENABLE_TAB_SEARCH)
-
 extern const char kEnterpriseReportingInChromeOSName[];
 extern const char kEnterpriseReportingInChromeOSDescription[];
 
