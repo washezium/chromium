@@ -90,6 +90,16 @@ void SystemProxyManager::StopObservingPrimaryProfilePrefs() {
   profile_pref_change_registrar_->RemoveAll();
   profile_pref_change_registrar_.reset();
 }
+void SystemProxyManager::ClearUserCredentials() {
+  if (!system_proxy_enabled_) {
+    return;
+  }
+
+  system_proxy::ClearUserCredentialsRequest request;
+  chromeos::SystemProxyClient::Get()->ClearUserCredentials(
+      request, base::BindOnce(&SystemProxyManager::OnClearUserCredentials,
+                              weak_factory_.GetWeakPtr()));
+}
 
 void SystemProxyManager::OnSystemProxySettingsPolicyChanged() {
   chromeos::CrosSettingsProvider::TrustedStatus status =
@@ -176,6 +186,10 @@ void SystemProxyManager::SendKerberosAuthenticationDetails() {
                               weak_factory_.GetWeakPtr()));
 }
 
+void SystemProxyManager::SetSystemProxyEnabledForTest(bool enabled) {
+  system_proxy_enabled_ = enabled;
+}
+
 void SystemProxyManager::SetSystemServicesProxyUrlForTest(
     const std::string& local_proxy_url) {
   system_proxy_enabled_ = true;
@@ -195,6 +209,15 @@ void SystemProxyManager::OnDaemonShutDown(
     const system_proxy::ShutDownResponse& response) {
   if (response.has_error_message() && !response.error_message().empty()) {
     NET_LOG(ERROR) << "Failed to shutdown system proxy: " << kSystemProxyService
+                   << ", error: " << response.error_message();
+  }
+}
+
+void SystemProxyManager::OnClearUserCredentials(
+    const system_proxy::ClearUserCredentialsResponse& response) {
+  if (response.has_error_message() && !response.error_message().empty()) {
+    NET_LOG(ERROR) << "Failed to clear user credentials: "
+                   << kSystemProxyService
                    << ", error: " << response.error_message();
   }
 }

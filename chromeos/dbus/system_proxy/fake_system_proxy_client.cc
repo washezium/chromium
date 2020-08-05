@@ -31,6 +31,15 @@ void FakeSystemProxyClient::ShutDownDaemon(ShutDownDaemonCallback callback) {
       FROM_HERE, base::BindOnce(std::move(callback), response));
 }
 
+void FakeSystemProxyClient::ClearUserCredentials(
+    const system_proxy::ClearUserCredentialsRequest& request,
+    ClearUserCredentialsCallback callback) {
+  ++clear_user_credentials_call_count_;
+  system_proxy::ClearUserCredentialsResponse response;
+  base::ThreadTaskRunnerHandle::Get()->PostTask(
+      FROM_HERE, base::BindOnce(std::move(callback), response));
+}
+
 void FakeSystemProxyClient::SetWorkerActiveSignalCallback(
     WorkerActiveCallback callback) {
   worker_active_callback_ = callback;
@@ -54,6 +63,10 @@ int FakeSystemProxyClient::GetSetAuthenticationDetailsCallCount() const {
 
 int FakeSystemProxyClient::GetShutDownCallCount() const {
   return shut_down_call_count_;
+}
+
+int FakeSystemProxyClient::GetClearUserCredentialsCount() const {
+  return clear_user_credentials_call_count_;
 }
 
 system_proxy::SetAuthenticationDetailsRequest
