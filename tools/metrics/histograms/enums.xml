@@ -63167,6 +63167,7 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="32" label="BACKGROUND_FETCH_SUCCESS"/>
   <int value="33" label="PERIODIC_SYNC"/>
   <int value="34" label="CONTENT_DELETE"/>
+  <int value="35" label="PUSH_SUBSCRIPTION_CHANGE"/>
 </enum>
 
 <enum name="ServiceWorkerOfflineCapability">
