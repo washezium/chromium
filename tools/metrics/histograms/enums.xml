@@ -7751,6 +7751,11 @@ Called by update_bad_message_reasons.py.-->
   <int value="1" label="Using native notifications"/>
 </enum>
 
+<enum name="BooleanNavigated">
+  <int value="0" label="Navigation did not occur"/>
+  <int value="1" label="Navigation occurred"/>
+</enum>
+
 <enum name="BooleanNavPreloadFinishedFirst">
   <int value="0" label="Worker preparation finished first"/>
   <int value="1" label="Navigation preload response arrived first"/>
