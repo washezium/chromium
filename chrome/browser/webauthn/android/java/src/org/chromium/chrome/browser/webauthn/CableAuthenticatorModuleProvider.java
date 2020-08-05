@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.modules.cablev2_authenticator;
+package org.chromium.chrome.browser.webauthn;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.chromium.base.annotations.NativeMethods;
+import org.chromium.chrome.modules.cablev2_authenticator.Cablev2AuthenticatorModule;
+
 /**
  * Provides a UI that attempts to install the caBLEv2 Authenticator module. If already installed, or
  * successfully installed, it replaces itself in the back-stack with the authenticator UI.
@@ -27,6 +30,11 @@ import androidx.fragment.app.FragmentTransaction;
  * settings UI, while {@link ModuleInstallUi} assumes that the UI does in a {@link Tab}.
  */
 public class CableAuthenticatorModuleProvider extends Fragment {
+    // NETWORK_CONTEXT_KEY is the key under which a pointer to a NetworkContext
+    // is passed (as a long) in the arguments {@link Bundle} to the {@link
+    // Fragment} in the module.
+    private static final String NETWORK_CONTEXT_KEY =
+            "org.chromium.chrome.modules.cablev2_authenticator.NetworkContext";
     private TextView mStatus;
 
     @Override
@@ -71,9 +79,27 @@ public class CableAuthenticatorModuleProvider extends Fragment {
 
         FragmentTransaction transaction =
                 getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(getId(), Cablev2AuthenticatorModule.getImpl().getFragment());
+        Fragment fragment = Cablev2AuthenticatorModule.getImpl().getFragment();
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            arguments = new Bundle();
+        }
+        arguments.putLong(NETWORK_CONTEXT_KEY,
+                CableAuthenticatorModuleProviderJni.get().getSystemNetworkContext());
+        fragment.setArguments(arguments);
+        transaction.replace(getId(), fragment);
         // This fragment is deliberately not added to the back-stack here so
         // that it appears to have been "replaced" by the authenticator UI.
         transaction.commit();
+    }
+
+    @NativeMethods
+    interface Natives {
+        // getSystemNetworkContext returns a pointer, encoded in a long, to the
+        // global NetworkContext for system services that hangs off
+        // |g_browser|. This is needed because //chrome/browser, being a
+        // static_library, cannot be depended on by another component thus we
+        // pass this value into the feature module.
+        long getSystemNetworkContext();
     }
 }

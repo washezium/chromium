@@ -2901,6 +2901,7 @@ static_library("browser") {
       "updates/update_notification_client.h",
       "updates/update_notification_service_bridge_android.cc",
       "updates/update_notification_service_bridge_android.h",
+      "webauthn/android/cable_module_android.cc",
     ]
     public_deps += [
       "//chrome/android/features/dev_ui:buildflags",
