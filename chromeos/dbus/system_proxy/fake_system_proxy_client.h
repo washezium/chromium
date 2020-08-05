@@ -24,13 +24,14 @@ class COMPONENT_EXPORT(CHROMEOS_DBUS) FakeSystemProxyClient
   void SetAuthenticationDetails(
       const system_proxy::SetAuthenticationDetailsRequest& request,
       SetAuthenticationDetailsCallback callback) override;
-  void ShutDownDaemon(ShutDownDaemonCallback callback) override;
   void SetWorkerActiveSignalCallback(WorkerActiveCallback callback) override;
   void SetAuthenticationRequiredSignalCallback(
       AuthenticationRequiredCallback callback) override;
   void ClearUserCredentials(
       const system_proxy::ClearUserCredentialsRequest& request,
       ClearUserCredentialsCallback callback) override;
+  void ShutDownProcess(const system_proxy::ShutDownRequest& request,
+                       ShutDownProcessCallback callback) override;
 
   void ConnectToWorkerSignals() override;
 

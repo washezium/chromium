@@ -125,8 +125,11 @@ void SystemProxyManager::OnSystemProxySettingsPolicyChanged() {
     // daemon and tell it to exit.
     // TODO(crbug.com/1055245,acostinas): Do not send shut-down command if
     // System-proxy is inactive.
-    chromeos::SystemProxyClient::Get()->ShutDownDaemon(base::BindOnce(
-        &SystemProxyManager::OnDaemonShutDown, weak_factory_.GetWeakPtr()));
+    system_proxy::ShutDownRequest request;
+    request.set_traffic_type(system_proxy::TrafficOrigin::ALL);
+    chromeos::SystemProxyClient::Get()->ShutDownProcess(
+        request, base::BindOnce(&SystemProxyManager::OnShutDownProcess,
+                                weak_factory_.GetWeakPtr()));
     system_services_address_.clear();
     return;
   }
@@ -205,10 +208,11 @@ void SystemProxyManager::OnSetAuthenticationDetails(
   }
 }
 
-void SystemProxyManager::OnDaemonShutDown(
+void SystemProxyManager::OnShutDownProcess(
     const system_proxy::ShutDownResponse& response) {
   if (response.has_error_message() && !response.error_message().empty()) {
-    NET_LOG(ERROR) << "Failed to shutdown system proxy: " << kSystemProxyService
+    NET_LOG(ERROR) << "Failed to shutdown system proxy process: "
+                   << kSystemProxyService
                    << ", error: " << response.error_message();
   }
 }

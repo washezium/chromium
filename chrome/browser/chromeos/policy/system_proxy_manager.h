@@ -62,7 +62,7 @@ class SystemProxyManager {
  private:
   void OnSetAuthenticationDetails(
       const system_proxy::SetAuthenticationDetailsResponse& response);
-  void OnDaemonShutDown(const system_proxy::ShutDownResponse& response);
+  void OnShutDownProcess(const system_proxy::ShutDownResponse& response);
   void OnClearUserCredentials(
       const system_proxy::ClearUserCredentialsResponse& response);
 
