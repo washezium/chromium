@@ -3866,6 +3866,13 @@ const char kEnableSuggestedFilesDescription[] =
     "Enable Suggested Files feature in Launcher, which will show file "
     "suggestions in the suggestion chips when the launcher is opened";
 
+#if BUILDFLAG(ENABLE_TAB_SEARCH)
+const char kEnableTabSearchName[] = "Enable Tab Search";
+const char kEnableTabSearchDescription[] =
+    "Enable the Tab Search feature in Top Chrome UI, which will show a popup"
+    "bubble that allows users to search over their currently open tabs.";
+#endif  // BUILDFLAG(ENABLE_TAB_SEARCH)
+
 const char kEnterpriseReportingInChromeOSName[] =
     "Enterprise cloud reporting in Chrome OS";
 const char kEnterpriseReportingInChromeOSDescription[] =
