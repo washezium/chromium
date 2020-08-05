@@ -32,7 +32,6 @@ import org.chromium.chrome.browser.payments.minimal.MinimalUICoordinator;
 import org.chromium.chrome.browser.payments.ui.ContactDetailsSection;
 import org.chromium.chrome.browser.payments.ui.LineItem;
 import org.chromium.chrome.browser.payments.ui.PaymentInformation;
-import org.chromium.chrome.browser.payments.ui.PaymentRequestSection.OptionSection.FocusChangedObserver;
 import org.chromium.chrome.browser.payments.ui.PaymentRequestUI;
 import org.chromium.chrome.browser.payments.ui.PaymentRequestUI.SelectionResult;
 import org.chromium.chrome.browser.payments.ui.PaymentUIsManager;
@@ -127,7 +126,7 @@ public class PaymentRequestImpl
                    PaymentAppFactoryDelegate, PaymentAppFactoryParams,
                    PaymentRequestUpdateEventListener, PaymentApp.AbortCallback,
                    PaymentApp.InstrumentDetailsCallback,
-                   PaymentResponseHelper.PaymentResponseRequesterDelegate, FocusChangedObserver,
+                   PaymentResponseHelper.PaymentResponseRequesterDelegate,
                    NormalizedAddressRequestDelegate, PaymentDetailsConverter.MethodChecker,
                    PaymentUIsManager.Delegate {
     /**
@@ -737,8 +736,7 @@ public class PaymentRequestImpl
 
         // Add the callback to change the label of shipping addresses depending on the focus.
         if (mRequestShipping) {
-            mPaymentUIsManager.getPaymentRequestUI().setShippingAddressSectionFocusChangedObserver(
-                    this);
+            mPaymentUIsManager.setShippingAddressSectionFocusChangedObserverForPaymentRequestUI();
         }
 
         mPaymentUIsManager.getAddressEditor().setEditorDialog(
@@ -1374,24 +1372,7 @@ public class PaymentRequestImpl
     @Override
     public void getSectionInformation(@PaymentRequestUI.DataType final int optionType,
             final Callback<SectionInformation> callback) {
-        SectionInformation result = null;
-        switch (optionType) {
-            case PaymentRequestUI.DataType.SHIPPING_ADDRESSES:
-                result = mPaymentUIsManager.getShippingAddressesSection();
-                break;
-            case PaymentRequestUI.DataType.SHIPPING_OPTIONS:
-                result = mPaymentUIsManager.getUiShippingOptions();
-                break;
-            case PaymentRequestUI.DataType.CONTACT_DETAILS:
-                result = mPaymentUIsManager.getContactSection();
-                break;
-            case PaymentRequestUI.DataType.PAYMENT_METHODS:
-                result = mPaymentUIsManager.getPaymentMethodsSection();
-                break;
-            default:
-                assert false;
-        }
-        mHandler.post(callback.bind(result));
+        mPaymentUIsManager.getSectionInformation(optionType, callback);
     }
 
     @Override
@@ -1473,53 +1454,14 @@ public class PaymentRequestImpl
     @PaymentRequestUI.SelectionResult
     public int onSectionEditOption(@PaymentRequestUI.DataType int optionType, EditableOption option,
             Callback<PaymentInformation> callback) {
-        if (optionType == PaymentRequestUI.DataType.SHIPPING_ADDRESSES) {
-            // Log the edit of a shipping address.
-            mJourneyLogger.incrementSelectionEdits(Section.SHIPPING_ADDRESS);
-            mPaymentUIsManager.editAddress((AutofillAddress) option);
-            mPaymentUIsManager.setPaymentInformationCallback(callback);
-
-            return PaymentRequestUI.SelectionResult.ASYNCHRONOUS_VALIDATION;
-        }
-
-        if (optionType == PaymentRequestUI.DataType.CONTACT_DETAILS) {
-            mJourneyLogger.incrementSelectionEdits(Section.CONTACT_INFO);
-            mPaymentUIsManager.editContactOnPaymentRequestUI((AutofillContact) option);
-            return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
-        }
-
-        if (optionType == PaymentRequestUI.DataType.PAYMENT_METHODS) {
-            mPaymentUIsManager.editCard((AutofillPaymentInstrument) option);
-            return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
-        }
-
-        assert false;
-        return PaymentRequestUI.SelectionResult.NONE;
+        return mPaymentUIsManager.onSectionEditOption(optionType, option, callback);
     }
 
     @Override
     @PaymentRequestUI.SelectionResult
     public int onSectionAddOption(
             @PaymentRequestUI.DataType int optionType, Callback<PaymentInformation> callback) {
-        if (optionType == PaymentRequestUI.DataType.SHIPPING_ADDRESSES) {
-            mPaymentUIsManager.editAddress(null);
-            mPaymentUIsManager.setPaymentInformationCallback(callback);
-            // Log the add of shipping address.
-            mJourneyLogger.incrementSelectionAdds(Section.SHIPPING_ADDRESS);
-            return PaymentRequestUI.SelectionResult.ASYNCHRONOUS_VALIDATION;
-        } else if (optionType == PaymentRequestUI.DataType.CONTACT_DETAILS) {
-            mPaymentUIsManager.editContactOnPaymentRequestUI(null);
-            // Log the add of contact info.
-            mJourneyLogger.incrementSelectionAdds(Section.CONTACT_INFO);
-            return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
-        } else if (optionType == PaymentRequestUI.DataType.PAYMENT_METHODS) {
-            mPaymentUIsManager.editCard(null);
-            // Log the add of credit card.
-            mJourneyLogger.incrementSelectionAdds(Section.PAYMENT_METHOD);
-            return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
-        }
-
-        return PaymentRequestUI.SelectionResult.NONE;
+        return mPaymentUIsManager.onSectionAddOption(optionType, callback);
     }
 
     @Override
@@ -2339,28 +2281,6 @@ public class PaymentRequestImpl
             mPaymentUIsManager.getPaymentRequestUI().onPayButtonProcessingCancelled();
             PaymentDetailsUpdateServiceHelper.getInstance().reset();
         }
-    }
-
-    @Override
-    public void onFocusChanged(@PaymentRequestUI.DataType int dataType, boolean willFocus) {
-        assert dataType == PaymentRequestUI.DataType.SHIPPING_ADDRESSES;
-
-        if (mPaymentUIsManager.getShippingAddressesSection().getSelectedItem() == null) return;
-
-        AutofillAddress selectedAddress =
-                (AutofillAddress) mPaymentUIsManager.getShippingAddressesSection()
-                        .getSelectedItem();
-
-        // The label should only include the country if the view is focused.
-        if (willFocus) {
-            selectedAddress.setShippingAddressLabelWithCountry();
-        } else {
-            selectedAddress.setShippingAddressLabelWithoutCountry();
-        }
-
-        mPaymentUIsManager.getPaymentRequestUI().updateSection(
-                PaymentRequestUI.DataType.SHIPPING_ADDRESSES,
-                mPaymentUIsManager.getShippingAddressesSection());
     }
 
     @Override
