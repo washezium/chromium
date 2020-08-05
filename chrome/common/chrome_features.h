@@ -342,6 +342,9 @@ COMPONENT_EXPORT(CHROME_FEATURES)
 extern const base::Feature kParentAccessCode;
 
 COMPONENT_EXPORT(CHROME_FEATURES)
+extern const base::Feature kParentAccessCodeForOnlineLogin;
+
+COMPONENT_EXPORT(CHROME_FEATURES)
 extern const base::Feature kParentAccessCodeForTimeChange;
 
 COMPONENT_EXPORT(CHROME_FEATURES)
@@ -517,6 +520,11 @@ extern const base::Feature kWriteBasicSystemProfileToPersistentHistogramsFile;
 #if defined(OS_CHROMEOS)
 COMPONENT_EXPORT(CHROME_FEATURES)
 extern const base::Feature kWebTimeLimits;
+#endif  // defined(OS_CHROMEOS)
+
+#if defined(OS_CHROMEOS)
+COMPONENT_EXPORT(CHROME_FEATURES)
+bool IsParentAccessCodeForOnlineLoginEnabled();
 #endif  // defined(OS_CHROMEOS)
 
 bool PrefServiceEnabled();
