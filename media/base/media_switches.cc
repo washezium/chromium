@@ -245,7 +245,7 @@ const base::Feature kResumeBackgroundVideo {
 // When enabled, MediaCapabilities will check with GPU Video Accelerator
 // Factories to determine isPowerEfficient = true/false.
 const base::Feature kMediaCapabilitiesQueryGpuFactories{
-    "MediaCapabilitiesQueryGpuFactories", base::FEATURE_DISABLED_BY_DEFAULT};
+    "MediaCapabilitiesQueryGpuFactories", base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Enable Media Capabilities with finch-parameters.
 const base::Feature kMediaCapabilitiesWithParameters{
