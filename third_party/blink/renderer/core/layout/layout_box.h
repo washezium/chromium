@@ -1626,6 +1626,15 @@ class CORE_EXPORT LayoutBox : public LayoutBoxModelObject {
         rare_data->has_previous_content_box_rect_ = false;
     }
 
+    // Called from LayoutShiftTracker when we attach this LayoutBox to a node
+    // for which we saved these values when the node was detached from its
+    // original LayoutBox.
+    void SetPreviousGeometryForLayoutShiftTracking(
+        const PhysicalOffset& paint_offset,
+        const LayoutSize& size,
+        bool has_overflow_clip,
+        const PhysicalRect& layout_overflow_rect);
+
    protected:
     friend class LayoutBox;
     MutableForPainting(const LayoutBox& box)

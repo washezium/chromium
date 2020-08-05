@@ -6761,6 +6761,30 @@ void LayoutBox::MutableForPainting::SavePreviousOverflowData() {
       GetLayoutBox().PhysicalSelfVisualOverflowRect();
 }
 
+void LayoutBox::MutableForPainting::SetPreviousGeometryForLayoutShiftTracking(
+    const PhysicalOffset& paint_offset,
+    const LayoutSize& size,
+    bool has_overflow_clip,
+    const PhysicalRect& layout_overflow_rect) {
+  FirstFragment().SetPaintOffset(paint_offset);
+  GetLayoutBox().previous_size_ = size;
+  if (has_overflow_clip)
+    return;
+  if (PhysicalRect(PhysicalOffset(), size).Contains(layout_overflow_rect))
+    return;
+
+  if (!GetLayoutBox().overflow_)
+    GetLayoutBox().overflow_ = std::make_unique<BoxOverflowModel>();
+  auto& previous_overflow = GetLayoutBox().overflow_->previous_overflow_data;
+  if (!previous_overflow)
+    previous_overflow.emplace();
+  previous_overflow->previous_physical_layout_overflow_rect =
+      layout_overflow_rect;
+  // previous_physical_self_visual_overflow_rect doesn't matter because it is
+  // used for paint invalidation and we always do full paint invalidation on
+  // reattachment.
+}
+
 RasterEffectOutset LayoutBox::VisualRectOutsetForRasterEffects() const {
   // If the box has subpixel visual effect outsets, as the visual effect may be
   // painted along the pixel-snapped border box, the pixels on the anti-aliased
