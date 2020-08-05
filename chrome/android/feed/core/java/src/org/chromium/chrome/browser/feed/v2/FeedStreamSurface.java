@@ -21,6 +21,7 @@ import org.chromium.base.Log;
 import org.chromium.base.annotations.CalledByNative;
 import org.chromium.base.annotations.JNINamespace;
 import org.chromium.base.annotations.NativeMethods;
+import org.chromium.base.task.PostTask;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.AppHooks;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
@@ -52,6 +53,7 @@ import org.chromium.components.feed.proto.FeedUiProto.ZeroStateSlice;
 import org.chromium.components.signin.base.CoreAccountInfo;
 import org.chromium.components.signin.identitymanager.ConsentLevel;
 import org.chromium.content_public.browser.LoadUrlParams;
+import org.chromium.content_public.browser.UiThreadTaskTraits;
 import org.chromium.content_public.common.Referrer;
 import org.chromium.network.mojom.ReferrerPolicy;
 import org.chromium.ui.base.PageTransition;
@@ -380,7 +382,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
      * Attempts to load more content if it can be triggered.
      * @return true if loading more content can be triggered.
      */
-    public boolean maybeLoadMore() {
+    boolean maybeLoadMore() {
         // Checks if loading more can be triggered.
         boolean canLoadMore = false;
         LinearLayoutManager layoutManager = (LinearLayoutManager) mRootView.getLayoutManager();
@@ -396,8 +398,14 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         // Starts to load more content if not yet.
         if (!mIsLoadingMoreContent) {
             mIsLoadingMoreContent = true;
-            FeedStreamSurfaceJni.get().loadMore(mNativeFeedStreamSurface, FeedStreamSurface.this,
-                    (Boolean success) -> { mIsLoadingMoreContent = false; });
+            // The native loadMore() call may immediately result in onStreamUpdated(), which can
+            // result in a crash if maybeLoadMore() is being called in response to certain events.
+            // Use postTask to avoid this.
+            PostTask.postTask(UiThreadTaskTraits.DEFAULT,
+                    ()
+                            -> FeedStreamSurfaceJni.get().loadMore(mNativeFeedStreamSurface,
+                                    FeedStreamSurface.this,
+                                    (Boolean success) -> { mIsLoadingMoreContent = false; }));
         }
 
         return true;
