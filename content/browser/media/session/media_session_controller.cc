@@ -4,10 +4,14 @@
 
 #include "content/browser/media/session/media_session_controller.h"
 
+#include "content/browser/media/media_devices_util.h"
+#include "content/browser/media/media_web_contents_observer.h"
 #include "content/browser/media/session/media_session_impl.h"
 #include "content/common/media/media_player_delegate_messages.h"
 #include "content/public/browser/browser_thread.h"
+#include "content/public/browser/media_device_id.h"
 #include "content/public/browser/render_frame_host.h"
+#include "content/public/browser/render_process_host.h"
 #include "content/public/browser/web_contents.h"
 #include "media/base/media_content_type.h"
 
@@ -86,6 +90,10 @@ void MediaSessionController::OnExitPictureInPicture(int player_id) {
   id_.render_frame_host->Send(new MediaPlayerDelegateMsg_ExitPictureInPicture(
       id_.render_frame_host->GetRoutingID(), id_.delegate_id));
 }
+
+void MediaSessionController::OnSetAudioSinkId(
+    int player_id,
+    const std::string& raw_device_id) {}
 
 RenderFrameHost* MediaSessionController::render_frame_host() const {
   return id_.render_frame_host;
