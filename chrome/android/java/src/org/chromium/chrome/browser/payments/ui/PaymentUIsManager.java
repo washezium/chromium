@@ -22,6 +22,7 @@ import org.chromium.chrome.browser.payments.AutofillAddress;
 import org.chromium.chrome.browser.payments.AutofillContact;
 import org.chromium.chrome.browser.payments.AutofillPaymentAppCreator;
 import org.chromium.chrome.browser.payments.AutofillPaymentAppFactory;
+import org.chromium.chrome.browser.payments.AutofillPaymentInstrument;
 import org.chromium.chrome.browser.payments.CardEditor;
 import org.chromium.chrome.browser.payments.ContactEditor;
 import org.chromium.chrome.browser.payments.PaymentRequestImpl;
@@ -780,9 +781,9 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
 
     /**
      * Edit the contact information on the PaymentRequest UI.
-     * @param toEdit The information to edit.
+     * @param toEdit The information to edit, allowed to be null.
      **/
-    public void editContactOnPaymentRequestUI(final AutofillContact toEdit) {
+    public void editContactOnPaymentRequestUI(@Nullable final AutofillContact toEdit) {
         mContactEditor.edit(toEdit, new Callback<AutofillContact>() {
             @Override
             public void onResult(AutofillContact editedContact) {
@@ -821,9 +822,9 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
 
     /**
      * Edit the address on the PaymentRequest UI.
-     * @param toEdit The address to edit.
+     * @param toEdit The address to be updated with, allowed to be null.
      */
-    public void editAddress(final AutofillAddress toEdit) {
+    public void editAddress(@Nullable final AutofillAddress toEdit) {
         mAddressEditor.edit(toEdit, new Callback<AutofillAddress>() {
             @Override
             public void onResult(AutofillAddress editedAddress) {
@@ -945,5 +946,46 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
      */
     public void rankPaymentAppsForPaymentRequestUI(List<PaymentApp> paymentApps) {
         Collections.sort(paymentApps, mPaymentAppComparator);
+    }
+
+    /**
+     * Edit the credit cards on the PaymentRequest UI.
+     * @param toEdit The AutofillPaymentInstrument whose credit card is to replace those on the UI,
+     *         allowed to be null.
+     */
+    public void editCard(@Nullable final AutofillPaymentInstrument toEdit) {
+        if (toEdit != null) {
+            // Log the edit of a credit card.
+            mJourneyLogger.incrementSelectionEdits(Section.PAYMENT_METHOD);
+        }
+        mCardEditor.edit(toEdit, new Callback<AutofillPaymentInstrument>() {
+            @Override
+            public void onResult(AutofillPaymentInstrument editedCard) {
+                if (mPaymentRequestUI == null) return;
+
+                if (editedCard != null) {
+                    // A partial or complete card came back from the editor (could have been from
+                    // adding/editing or cancelling out of the edit flow).
+                    if (!editedCard.isComplete()) {
+                        // If the card is not complete, unselect it (editor can return incomplete
+                        // information when cancelled).
+                        mPaymentMethodsSection.setSelectedItemIndex(
+                                SectionInformation.NO_SELECTION);
+                    } else if (toEdit == null) {
+                        // Card is complete and we were in the "Add flow": add an item to the list.
+                        mPaymentMethodsSection.addAndSelectItem(editedCard);
+                    }
+                    // If card is complete and (toEdit != null), no action needed: the card was
+                    // already selected in the UI.
+                }
+                // If |editedCard| is null, the user has cancelled out of the "Add flow". No action
+                // to take (if another card was selected prior to the add flow, it will stay
+                // selected).
+
+                updateAppModifiedTotals();
+                mPaymentRequestUI.updateSection(
+                        PaymentRequestUI.DataType.PAYMENT_METHODS, mPaymentMethodsSection);
+            }
+        });
     }
 }

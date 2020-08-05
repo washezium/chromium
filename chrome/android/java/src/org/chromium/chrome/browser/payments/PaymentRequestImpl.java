@@ -1455,7 +1455,7 @@ public class PaymentRequestImpl
                 AutofillPaymentInstrument card = (AutofillPaymentInstrument) paymentApp;
 
                 if (!card.isComplete()) {
-                    editCard(card);
+                    mPaymentUIsManager.editCard(card);
                     return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
                 }
             }
@@ -1489,7 +1489,7 @@ public class PaymentRequestImpl
         }
 
         if (optionType == PaymentRequestUI.DataType.PAYMENT_METHODS) {
-            editCard((AutofillPaymentInstrument) option);
+            mPaymentUIsManager.editCard((AutofillPaymentInstrument) option);
             return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
         }
 
@@ -1513,7 +1513,7 @@ public class PaymentRequestImpl
             mJourneyLogger.incrementSelectionAdds(Section.CONTACT_INFO);
             return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
         } else if (optionType == PaymentRequestUI.DataType.PAYMENT_METHODS) {
-            editCard(null);
+            mPaymentUIsManager.editCard(null);
             // Log the add of credit card.
             mJourneyLogger.incrementSelectionAdds(Section.PAYMENT_METHOD);
             return PaymentRequestUI.SelectionResult.EDITOR_LAUNCH;
@@ -1530,43 +1530,6 @@ public class PaymentRequestImpl
     @Override
     public boolean shouldShowContactSection() {
         return mPaymentUIsManager.shouldShowContactSection();
-    }
-
-    private void editCard(final AutofillPaymentInstrument toEdit) {
-        if (toEdit != null) {
-            // Log the edit of a credit card.
-            mJourneyLogger.incrementSelectionEdits(Section.PAYMENT_METHOD);
-        }
-        mPaymentUIsManager.getCardEditor().edit(toEdit, new Callback<AutofillPaymentInstrument>() {
-            @Override
-            public void onResult(AutofillPaymentInstrument editedCard) {
-                if (mPaymentUIsManager.getPaymentRequestUI() == null) return;
-
-                if (editedCard != null) {
-                    // A partial or complete card came back from the editor (could have been from
-                    // adding/editing or cancelling out of the edit flow).
-                    if (!editedCard.isComplete()) {
-                        // If the card is not complete, unselect it (editor can return incomplete
-                        // information when cancelled).
-                        mPaymentUIsManager.getPaymentMethodsSection().setSelectedItemIndex(
-                                SectionInformation.NO_SELECTION);
-                    } else if (toEdit == null) {
-                        // Card is complete and we were in the "Add flow": add an item to the list.
-                        mPaymentUIsManager.getPaymentMethodsSection().addAndSelectItem(editedCard);
-                    }
-                    // If card is complete and (toEdit != null), no action needed: the card was
-                    // already selected in the UI.
-                }
-                // If |editedCard| is null, the user has cancelled out of the "Add flow". No action
-                // to take (if another card was selected prior to the add flow, it will stay
-                // selected).
-
-                mPaymentUIsManager.updateAppModifiedTotals();
-                mPaymentUIsManager.getPaymentRequestUI().updateSection(
-                        PaymentRequestUI.DataType.PAYMENT_METHODS,
-                        mPaymentUIsManager.getPaymentMethodsSection());
-            }
-        });
     }
 
     @Override
