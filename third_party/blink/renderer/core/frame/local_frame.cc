@@ -857,6 +857,53 @@ bool LocalFrame::BubbleLogicalScrollFromChildFrame(
                                           owner_element);
 }
 
+mojom::blink::SuddenTerminationDisablerType
+SuddenTerminationDisablerTypeForEventType(const AtomicString& event_type) {
+  if (event_type == event_type_names::kUnload) {
+    return mojom::blink::SuddenTerminationDisablerType::kUnloadHandler;
+  }
+  if (event_type == event_type_names::kBeforeunload) {
+    return mojom::blink::SuddenTerminationDisablerType::kBeforeUnloadHandler;
+  }
+  if (event_type == event_type_names::kPagehide) {
+    return mojom::blink::SuddenTerminationDisablerType::kPageHideHandler;
+  }
+  if (event_type == event_type_names::kVisibilitychange) {
+    return mojom::blink::SuddenTerminationDisablerType::
+        kVisibilityChangeHandler;
+  }
+  NOTREACHED();
+  return mojom::blink::SuddenTerminationDisablerType::kUnloadHandler;
+}
+
+void LocalFrame::UpdateSuddenTerminationStatus(
+    bool added_listener,
+    mojom::blink::SuddenTerminationDisablerType disabler_type) {
+  Platform::Current()->SuddenTerminationChanged(!added_listener);
+  GetLocalFrameHostRemote().SuddenTerminationDisablerChanged(added_listener,
+                                                             disabler_type);
+}
+
+void LocalFrame::AddedSuddenTerminationDisablerListener(
+    const EventTarget& event_target,
+    const AtomicString& event_type) {
+  if (event_target.NumberOfEventListeners(event_type) == 1) {
+    // The first handler of this type was added.
+    UpdateSuddenTerminationStatus(
+        true, SuddenTerminationDisablerTypeForEventType(event_type));
+  }
+}
+
+void LocalFrame::RemovedSuddenTerminationDisablerListener(
+    const EventTarget& event_target,
+    const AtomicString& event_type) {
+  if (event_target.NumberOfEventListeners(event_type) == 0) {
+    // The last handler of this type was removed.
+    UpdateSuddenTerminationStatus(
+        false, SuddenTerminationDisablerTypeForEventType(event_type));
+  }
+}
+
 void LocalFrame::DidFocus() {
   GetLocalFrameHostRemote().DidFocusFrame();
 }
