@@ -15,7 +15,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/task/post_task.h"
 #include "build/build_config.h"
-#include "chrome/browser/prerender/prerender_contents_delegate.h"
+#include "components/prerender/browser/prerender_contents_delegate.h"
 #include "components/prerender/browser/prerender_manager.h"
 #include "components/prerender/common/prerender_final_status.h"
 #include "components/prerender/common/prerender_util.h"
