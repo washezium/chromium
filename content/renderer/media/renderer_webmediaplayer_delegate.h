@@ -72,6 +72,8 @@ class CONTENT_EXPORT RendererWebMediaPlayerDelegate
       const media_session::MediaPosition& position) override;
   void DidPictureInPictureAvailabilityChange(int delegate_id,
                                              bool available) override;
+  void DidAudioOutputSinkChange(int delegate_id,
+                                const std::string& hashed_device_id) override;
   void DidBufferUnderflow(int player_id) override;
 
   // content::RenderFrameObserver overrides.

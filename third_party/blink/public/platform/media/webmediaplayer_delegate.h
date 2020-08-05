@@ -131,6 +131,11 @@ class BLINK_PLATFORM_EXPORT WebMediaPlayerDelegate {
   virtual void DidPictureInPictureAvailabilityChange(int delegate_id,
                                                      bool available) = 0;
 
+  // Notify that the audio output sink has changed
+  virtual void DidAudioOutputSinkChange(
+      int delegate_id,
+      const std::string& hashed_device_id) = 0;
+
   // Notify that a buffer underflow event happened for the media player.
   virtual void DidBufferUnderflow(int player_id) = 0;
 

@@ -222,11 +222,14 @@ void RendererWebMediaPlayerDelegate::DidPictureInPictureAvailabilityChange(
       routing_id(), delegate_id, available));
 }
 
+void RendererWebMediaPlayerDelegate::DidAudioOutputSinkChange(
+    int delegate_id,
+    const std::string& hashed_device_id) {}
+
 void RendererWebMediaPlayerDelegate::DidBufferUnderflow(int player_id) {
   Send(new MediaPlayerDelegateHostMsg_OnBufferUnderflow(routing_id(),
                                                         player_id));
 }
-
 void RendererWebMediaPlayerDelegate::WasHidden() {
   RecordAction(base::UserMetricsAction("Media.Hidden"));
 
