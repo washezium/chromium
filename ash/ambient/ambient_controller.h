@@ -44,7 +44,7 @@ class ASH_EXPORT AmbientController
       public chromeos::PowerManagerClient::Observer {
  public:
   static constexpr base::TimeDelta kAutoShowWaitTimeInterval =
-      base::TimeDelta::FromSeconds(15);
+      base::TimeDelta::FromSeconds(7);
 
   static void RegisterProfilePrefs(PrefRegistrySimple* registry);
 
