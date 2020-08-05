@@ -793,7 +793,6 @@
           "--gs-results-bucket=chromium-result-details",
           "--recover-devices",
           "--git-revision=${got_revision}",
-          "--bypass-skia-gold-functionality",
           "--exclude-annotation",
           "Feature=RenderTest"
         ],
@@ -850,7 +849,6 @@
           "--gs-results-bucket=chromium-result-details",
           "--recover-devices",
           "--git-revision=${got_revision}",
-          "--bypass-skia-gold-functionality",
           "--exclude-annotation",
           "Feature=RenderTest"
         ],
