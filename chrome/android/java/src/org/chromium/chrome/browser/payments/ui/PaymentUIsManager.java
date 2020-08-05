@@ -1089,4 +1089,38 @@ public class PaymentUIsManager implements SettingsAutofillAndPaymentsObserver.Ob
     public void setShippingAddressSectionFocusChangedObserverForPaymentRequestUI() {
         mPaymentRequestUI.setShippingAddressSectionFocusChangedObserver(this);
     }
+
+    /**
+     * @return true when there is exactly one available payment app which can provide all requested
+     * information including shipping address and payer's contact information whenever needed.
+     */
+    public boolean onlySingleAppCanProvideAllRequiredInformation() {
+        assert mPaymentMethodsSection != null;
+
+        if (!PaymentOptionsUtils.requestAnyInformation(mParams.getPaymentOptions())) {
+            return mPaymentMethodsSection.getSize() == 1
+                    && !((PaymentApp) mPaymentMethodsSection.getItem(0)).isAutofillInstrument();
+        }
+
+        boolean anAppCanProvideAllInfo = false;
+        int sectionSize = mPaymentMethodsSection.getSize();
+        for (int i = 0; i < sectionSize; i++) {
+            PaymentApp app = (PaymentApp) mPaymentMethodsSection.getItem(i);
+            if ((!PaymentOptionsUtils.requestShipping(mParams.getPaymentOptions())
+                        || app.handlesShippingAddress())
+                    && (!PaymentOptionsUtils.requestPayerName(mParams.getPaymentOptions())
+                            || app.handlesPayerName())
+                    && (!PaymentOptionsUtils.requestPayerPhone(mParams.getPaymentOptions())
+                            || app.handlesPayerPhone())
+                    && (!PaymentOptionsUtils.requestPayerEmail(mParams.getPaymentOptions())
+                            || app.handlesPayerEmail())) {
+                // There is more than one available app that can provide all merchant requested
+                // information information.
+                if (anAppCanProvideAllInfo) return false;
+
+                anAppCanProvideAllInfo = true;
+            }
+        }
+        return anAppCanProvideAllInfo;
+    }
 }

@@ -616,43 +616,12 @@ public class PaymentRequestImpl
                 && (mURLPaymentMethodIdentifiersSupported
                         || mSkipUiForNonUrlPaymentMethodIdentifiers)
                 && mPaymentUIsManager.getPaymentMethodsSection().getSize() >= 1
-                && onlySingleAppCanProvideAllRequiredInformation()
+                && mPaymentUIsManager.onlySingleAppCanProvideAllRequiredInformation()
                 // Skip to payment app only if it can be pre-selected.
                 && selectedApp != null
                 // Skip to payment app only if user gesture is provided when it is required to
                 // skip-UI.
                 && (mIsUserGestureShow || !selectedApp.isUserGestureRequiredToSkipUi());
-    }
-
-    /**
-     * @return true when there is exactly one available payment app which can provide all requested
-     * information including shipping address and payer's contact information whenever needed.
-     */
-    private boolean onlySingleAppCanProvideAllRequiredInformation() {
-        assert mPaymentUIsManager.getPaymentMethodsSection() != null;
-
-        if (!mRequestShipping && !mRequestPayerName && !mRequestPayerPhone && !mRequestPayerEmail) {
-            return mPaymentUIsManager.getPaymentMethodsSection().getSize() == 1
-                    && !((PaymentApp) mPaymentUIsManager.getPaymentMethodsSection().getItem(0))
-                                .isAutofillInstrument();
-        }
-
-        boolean anAppCanProvideAllInfo = false;
-        int sectionSize = mPaymentUIsManager.getPaymentMethodsSection().getSize();
-        for (int i = 0; i < sectionSize; i++) {
-            PaymentApp app = (PaymentApp) mPaymentUIsManager.getPaymentMethodsSection().getItem(i);
-            if ((!mRequestShipping || app.handlesShippingAddress())
-                    && (!mRequestPayerName || app.handlesPayerName())
-                    && (!mRequestPayerPhone || app.handlesPayerPhone())
-                    && (!mRequestPayerEmail || app.handlesPayerEmail())) {
-                // There is more than one available app that can provide all merchant requested
-                // information information.
-                if (anAppCanProvideAllInfo) return false;
-
-                anAppCanProvideAllInfo = true;
-            }
-        }
-        return anAppCanProvideAllInfo;
     }
 
     /** @return Whether the UI was built. */
