@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/prerender/prerender_processor_impl.h"
+#include "components/prerender/browser/prerender_processor_impl.h"
 
 #include "components/prerender/browser/prerender_link_manager.h"
 #include "content/public/browser/child_process_security_policy.h"

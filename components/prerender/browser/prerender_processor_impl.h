@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_PRERENDER_PRERENDER_PROCESSOR_IMPL_H_
-#define CHROME_BROWSER_PRERENDER_PRERENDER_PROCESSOR_IMPL_H_
+#ifndef COMPONENTS_PRERENDER_BROWSER_PRERENDER_PROCESSOR_IMPL_H_
+#define COMPONENTS_PRERENDER_BROWSER_PRERENDER_PROCESSOR_IMPL_H_
 
-#include "chrome/browser/prerender/prerender_processor_impl_delegate.h"
+#include "components/prerender/browser/prerender_processor_impl_delegate.h"
 #include "third_party/blink/public/mojom/prerender/prerender.mojom.h"
 
 namespace content {
@@ -41,4 +41,4 @@ class PrerenderProcessorImpl : public blink::mojom::PrerenderProcessor {
 
 }  // namespace prerender
 
-#endif  // CHROME_BROWSER_PRERENDER_PRERENDER_PROCESSOR_IMPL_H_
+#endif  // COMPONENTS_PRERENDER_BROWSER_PRERENDER_PROCESSOR_IMPL_H_
