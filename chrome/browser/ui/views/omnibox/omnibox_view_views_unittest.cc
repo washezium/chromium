@@ -831,6 +831,30 @@ TEST_F(OmniboxViewViewsTest, OverflowingAutocompleteText) {
   EXPECT_FALSE(omnibox_view()->IsSelectAll());
 }
 
+TEST_F(OmniboxViewViewsTest, ElideAnimationDoesntStartIfNoVisibleChange) {
+  SetUpSimplifiedDomainTest();
+  gfx::RenderText* render_text = omnibox_view()->GetRenderText();
+  OmniboxViewViews::ElideAnimation elide_animation(omnibox_view(), render_text);
+  // Before any animation runs, the elide from rectangle is considered to be
+  // render_text's DisplayRect, so set it manually to be the current URL length.
+  gfx::Rect full_url_bounds;
+  for (auto rect : render_text->GetSubstringBounds(
+           gfx::Range(0, omnibox_view()->GetOmniboxTextLength()))) {
+    full_url_bounds.Union(rect);
+  }
+  render_text->SetDisplayRect(full_url_bounds);
+  // Start the animation, and have it animate to the current state.
+  elide_animation.Start(
+      gfx::Range(0,
+                 omnibox_view()->GetOmniboxTextLength()), /* elide_to_bounds */
+      0,                                                  /* delay_ms */
+      {gfx::Range(0, 0)}, /* ranges_surrounding_simplified_domain */
+      SK_ColorBLACK,      /* starting_color */
+      SK_ColorBLACK);     /* ending_color */
+  // Animation shouldn't have been started.
+  EXPECT_FALSE(elide_animation.IsAnimating());
+}
+
 class OmniboxViewViewsClipboardTest
     : public OmniboxViewViewsTest,
       public ::testing::WithParamInterface<ui::TextEditCommand> {
@@ -2141,6 +2165,11 @@ TEST_P(OmniboxViewViewsRevealOnHoverAndMaybeHideOnInteractionTest,
       omnibox_view()->GetHoverElideOrUnelideAnimationForTesting();
   ASSERT_TRUE(elide_animation);
   EXPECT_TRUE(elide_animation->IsAnimating());
+  // Advance the animation, so the visible URL changes.
+  gfx::AnimationContainerElement* elide_as_element =
+      elide_animation->GetAnimationForTesting();
+  elide_as_element->SetStartTime(base::TimeTicks());
+  elide_as_element->Step(base::TimeTicks() + base::TimeDelta::FromSeconds(1));
   omnibox_view()->OnMouseExited(CreateMouseEvent(ui::ET_MOUSE_MOVED, {0, 0}));
   elide_animation = omnibox_view()->GetHoverElideOrUnelideAnimationForTesting();
   ASSERT_TRUE(elide_animation);

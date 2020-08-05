@@ -225,6 +225,10 @@ void OmniboxViewViews::ElideAnimation::Start(
   elide_to_rect_.set_y(elide_from_rect_.y());
   elide_to_rect_.set_height(elide_from_rect_.height());
 
+  // There is nothing to animate in this case, so return without starting.
+  if (elide_from_rect_ == elide_to_rect_ && starting_color_ == ending_color_)
+    return;
+
   starting_display_offset_ = render_text_->GetUpdatedDisplayOffset().x();
   // Shift the text to where |elide_to_bounds| starts, relative to the current
   // display rect.
