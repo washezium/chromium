@@ -932,8 +932,8 @@ extern const char
 extern const char
     kOmniboxUIHideSteadyStateUrlPathQueryAndRefOnInteractionDescription[];
 
-extern const char kOmniboxUIElideToRegistrableDomainName[];
-extern const char kOmniboxUIElideToRegistrableDomainDescription[];
+extern const char kOmniboxUIMaybeElideToRegistrableDomainName[];
+extern const char kOmniboxUIMaybeElideToRegistrableDomainDescription[];
 
 extern const char kOmniboxMaxZeroSuggestMatchesName[];
 extern const char kOmniboxMaxZeroSuggestMatchesDescription[];

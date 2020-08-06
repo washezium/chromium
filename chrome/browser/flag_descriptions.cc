@@ -1601,11 +1601,13 @@ const char
         "In the omnibox, hide the path, query and ref from steady state "
         "displayed URLs when the user interacts with the page.";
 
-const char kOmniboxUIElideToRegistrableDomainName[] =
-    "Omnibox UI Hide Steady-State URL Subdomains Beyond Registrable Domain";
-const char kOmniboxUIElideToRegistrableDomainDescription[] =
-    "In the omnibox, hide subdomains as well as path, query and ref from "
-    "steady state displayed URLs. Has no effect unless at least one of "
+const char kOmniboxUIMaybeElideToRegistrableDomainName[] =
+    "Omnibox UI Sometimes Hide Steady-State URL Subdomains Beyond Registrable "
+    "Domain";
+const char kOmniboxUIMaybeElideToRegistrableDomainDescription[] =
+    "In the omnibox, occasionally hide subdomains as well as path, query and "
+    "ref from steady state displayed URLs, depending on heuristics. Has no "
+    "effect unless at least one of "
     "#omnibox-ui-reveal-steady-state-url-path-query-and-ref-on-hover or "
     "#omnibox-ui-hide-steady-state-url-path-query-and-ref-on-interaction is "
     "enabled.";

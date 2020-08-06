@@ -3818,10 +3818,10 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kMemlogStackModeDescription, kOsAll,
      MULTI_VALUE_TYPE(kMemlogStackModeChoices)},
 
-    {"omnibox-ui-elide-to-registrable-domain",
-     flag_descriptions::kOmniboxUIElideToRegistrableDomainName,
-     flag_descriptions::kOmniboxUIElideToRegistrableDomainDescription,
-     kOsDesktop, FEATURE_VALUE_TYPE(omnibox::kElideToRegistrableDomain)},
+    {"omnibox-ui-sometimes-elide-to-registrable-domain",
+     flag_descriptions::kOmniboxUIMaybeElideToRegistrableDomainName,
+     flag_descriptions::kOmniboxUIMaybeElideToRegistrableDomainDescription,
+     kOsDesktop, FEATURE_VALUE_TYPE(omnibox::kMaybeElideToRegistrableDomain)},
 
     {"omnibox-ui-reveal-steady-state-url-path-query-and-ref-on-hover",
      flag_descriptions::

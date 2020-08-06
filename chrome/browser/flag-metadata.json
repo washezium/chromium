@@ -3392,11 +3392,6 @@
     "expiry_milestone": 92
   },
   {
-    "name": "omnibox-ui-elide-to-registrable-domain",
-    "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
-    "expiry_milestone": 89
-  },
-  {
     "name": "omnibox-ui-hide-steady-state-url-path-query-and-ref-on-interaction",
     "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
     "expiry_milestone": 89
@@ -3408,6 +3403,11 @@
   },
   {
     "name": "omnibox-ui-reveal-steady-state-url-path-query-and-ref-on-hover",
+    "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
+    "expiry_milestone": 89
+  },
+  {
+    "name": "omnibox-ui-sometimes-elide-to-registrable-domain",
     "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
     "expiry_milestone": 89
   },
