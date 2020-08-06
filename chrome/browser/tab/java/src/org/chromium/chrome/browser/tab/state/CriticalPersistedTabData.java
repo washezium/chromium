@@ -33,6 +33,10 @@ public class CriticalPersistedTabData extends PersistedTabData {
     private static final int UNSPECIFIED_THEME_COLOR = Color.TRANSPARENT;
     private static final long INVALID_TIMESTAMP = -1;
 
+    /**
+     * Title of the ContentViews webpage.
+     */
+    private String mTitle;
     private int mParentId;
     private int mRootId;
     private long mTimestampMillis;
@@ -295,6 +299,20 @@ public class CriticalPersistedTabData extends PersistedTabData {
 
     @Override
     public void destroy() {}
+
+    /**
+     * @return title of the {@link Tab}
+     */
+    public String getTitle() {
+        return mTitle;
+    }
+
+    /**
+     * @param title of the {@link Tab} to set
+     */
+    public void setTitle(String title) {
+        mTitle = title;
+    }
 
     /**
      * @return identifier for the {@link Tab}
