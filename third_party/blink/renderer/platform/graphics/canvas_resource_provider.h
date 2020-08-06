@@ -263,7 +263,7 @@ class PLATFORM_EXPORT CanvasResourceProvider
   virtual sk_sp<SkSurface> CreateSkSurface() const = 0;
   virtual scoped_refptr<CanvasResource> CreateResource();
   virtual bool UseOopRasterization() { return false; }
-  bool use_hardware_decode_cache() const {
+  bool UseHardwareDecodeCache() const {
     return IsAccelerated() && context_provider_wrapper_;
   }
   // Notifies before any drawing will be done on the resource used by this

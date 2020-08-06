@@ -1122,7 +1122,7 @@ CanvasResourceProvider::GetOrCreateCanvasImageProvider() {
       cache_f16 = ImageDecodeCacheF16();
     canvas_image_provider_ = std::make_unique<CanvasImageProvider>(
         ImageDecodeCacheRGBA8(), cache_f16, gfx::ColorSpace::CreateSRGB(),
-        color_params_.GetSkColorType(), use_hardware_decode_cache(),
+        color_params_.GetSkColorType(), UseHardwareDecodeCache(),
         UseOopRasterization());
   }
   return canvas_image_provider_.get();
@@ -1299,7 +1299,7 @@ scoped_refptr<CanvasResource> CanvasResourceProvider::CreateResource() {
 }
 
 cc::ImageDecodeCache* CanvasResourceProvider::ImageDecodeCacheRGBA8() {
-  if (use_hardware_decode_cache()) {
+  if (UseHardwareDecodeCache()) {
     return context_provider_wrapper_->ContextProvider()->ImageDecodeCache(
         kN32_SkColorType);
   }
@@ -1308,7 +1308,7 @@ cc::ImageDecodeCache* CanvasResourceProvider::ImageDecodeCacheRGBA8() {
 }
 
 cc::ImageDecodeCache* CanvasResourceProvider::ImageDecodeCacheF16() {
-  if (use_hardware_decode_cache()) {
+  if (UseHardwareDecodeCache()) {
     return context_provider_wrapper_->ContextProvider()->ImageDecodeCache(
         kRGBA_F16_SkColorType);
   }
