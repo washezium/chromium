@@ -6192,7 +6192,13 @@ const FeatureEntry kFeatureEntries[] = {
     {"content-settings-redesign",
      flag_descriptions::kContentSettingsRedesignName,
      flag_descriptions::kContentSettingsRedesignDescription, kOsDesktop,
-     FEATURE_VALUE_TYPE(features::kContentSettingsRedesign)}
+     FEATURE_VALUE_TYPE(features::kContentSettingsRedesign)},
+
+#if BUILDFLAG(ENABLE_TAB_SEARCH)
+    {"enable-tab-search", flag_descriptions::kEnableTabSearchName,
+     flag_descriptions::kEnableTabSearchDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(features::kTabSearch)},
+#endif  // BUILDFLAG(ENABLE_TAB_SEARCH)
 
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag

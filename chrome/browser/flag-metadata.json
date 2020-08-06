@@ -2144,6 +2144,11 @@
     "expiry_milestone": 86
   },
   {
+    "name": "enable-tab-search",
+    "owners": [ "tluk@google.com", "robliao@google.com" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "enable-tab-switcher-on-return",
     "owners": [ "memex-team@google.com" ],
     "expiry_milestone": 86
