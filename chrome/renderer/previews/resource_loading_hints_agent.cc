@@ -121,4 +121,14 @@ void ResourceLoadingHintsAgent::SetCompressPublicImagesHints(
       std::move(images_hints));
 }
 
+void ResourceLoadingHintsAgent::NotifyHttpsImageCompressionFetchFailed(
+    base::TimeDelta retry_after) {
+  if (!subresource_redirect_service_remote_) {
+    render_frame()->GetRemoteAssociatedInterfaces()->GetInterface(
+        &subresource_redirect_service_remote_);
+  }
+  subresource_redirect_service_remote_->NotifyCompressedImageFetchFailed(
+      retry_after);
+}
+
 }  // namespace previews

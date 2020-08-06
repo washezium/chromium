@@ -1684,6 +1684,8 @@ static_library("browser") {
     "subresource_filter/subresource_filter_profile_context.h",
     "subresource_filter/subresource_filter_profile_context_factory.cc",
     "subresource_filter/subresource_filter_profile_context_factory.h",
+    "subresource_redirect/https_image_compression_bypass_decider.cc",
+    "subresource_redirect/https_image_compression_bypass_decider.h",
     "subresource_redirect/https_image_compression_infobar_decider.cc",
     "subresource_redirect/https_image_compression_infobar_decider.h",
     "subresource_redirect/subresource_redirect_observer.cc",

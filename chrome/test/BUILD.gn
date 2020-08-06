@@ -3398,6 +3398,7 @@ test("unit_tests") {
     "../browser/resource_coordinator/tab_load_tracker_unittest.cc",
     "../browser/resources_util_unittest.cc",
     "../browser/search/contextual_search_policy_handler_android_unittest.cc",
+    "../browser/subresource_redirect/https_image_compression_bypass_decider_unittest.cc",
     "../browser/subresource_redirect/https_image_compression_infobar_decider_unittest.cc",
     "../browser/tab/state/tab_state_db_factory_unittest.cc",
     "../browser/tab/state/tab_state_db_unittest.cc",
