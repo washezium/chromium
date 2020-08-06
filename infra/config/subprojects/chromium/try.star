@@ -50,14 +50,17 @@ try_.blink_builder(
 
 try_.chromium_builder(
     name = "android-official",
+    cores = 32,
 )
 
 try_.chromium_builder(
     name = "fuchsia-official",
+    cores = 32,
 )
 
 try_.chromium_builder(
     name = "linux-official",
+    cores = 32,
 )
 
 try_.chromium_builder(
