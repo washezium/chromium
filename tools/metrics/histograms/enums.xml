@@ -61854,6 +61854,23 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="12" label="WHITELISTED_BY_POLICY"/>
 </enum>
 
+<enum name="SBClientDetectionPreClassificationCheckResult">
+  <int value="0" label="PROXY_FETCH"/>
+  <int value="1" label="PRIVATE_IP"/>
+  <int value="2" label="OFF_THE_RECORD"/>
+  <int value="3" label="MATCH_CSD_WHITELIST"/>
+  <int value="4" label="TOO_MANY_REPORTS"/>
+  <int value="5" label="UNSUPPORTED_MIME_TYPE"/>
+  <int value="6" label="NO_DATABASE_MANAGER"/>
+  <int value="7" label="KILLSWITCH"/>
+  <int value="8" label="CANCEL"/>
+  <int value="9" label="RESULT_FROM_CACHE"/>
+  <int value="10" label="DEPRECATED: NOT_HTTP_URL"/>
+  <int value="11" label="SCHEME_NOT_SUPPORTED"/>
+  <int value="12" label="WHITELISTED_BY_POLICY"/>
+  <int value="13" label="CLASSIFY"/>
+</enum>
+
 <enum name="SBClientDownloadCheckDownloadStats">
   <int value="0" label="INVALID_URL"/>
   <int value="1" label="SB_DISABLED"/>
