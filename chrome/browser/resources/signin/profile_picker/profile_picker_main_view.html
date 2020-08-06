@@ -18,12 +18,12 @@
   }
 
   #leftBanner {
-    background: url(left_banner_image.svg);
+    background: url(images/left_banner_image.svg);
     left: 0;
   }
 
   #rightBanner {
-    background: url(right_banner_image.svg);
+    background: url(images/right_banner_image.svg);
     right: 0;
   }
 
@@ -129,6 +129,14 @@
   }
 
   @media (prefers-color-scheme: dark) {
+    #leftBanner {
+      background: url(images/dark_mode_left_banner_image.svg);
+    }
+
+    #rightBanner {
+      background: url(images/dark_mode_right_banner_image.svg);
+    }
+
     .profiles-container::-webkit-scrollbar-thumb {
       background: var(--google-grey-800);
     }
