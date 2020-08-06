@@ -128,7 +128,7 @@ try_.chromium_android_builder(
     name = "android-marshmallow-x86-rel",
     goma_jobs = goma.jobs.J150,
     tryjob = try_.job(
-        experiment_percentage = 2,
+        experiment_percentage = 5,
     ),
 )
 
