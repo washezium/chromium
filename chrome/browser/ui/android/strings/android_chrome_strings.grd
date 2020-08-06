@@ -910,19 +910,34 @@ Your Google account may have other forms of browsing history like searches and a
         Enhanced Protection is on
       </message>
       <message name="IDS_SAFETY_CHECK_SAFE_BROWSING_DISABLED_BY_ADMIN" desc="Text to display when Safe Browsing is disabled by admin.">
-        Your administrator has turned off Safe Browsing
+        Turned off by your administrator
+      </message>
+      <message name="IDS_SAFETY_CHECK_PASSWORDS_SAFE" desc="Text to display when no passwords are compromised.">
+        No compromised passwords found
       </message>
       <message name="IDS_SAFETY_CHECK_PASSWORDS_NO_PASSWORDS" desc="Text to display when no passwords are saved.">
         No saved passwords
       </message>
+      <message name="IDS_SAFETY_CHECK_PASSWORDS_ERROR" desc="Text to display when the password check has an unknown error.">
+        Chrome can’t check your passwords
+      </message>
+      <message name="IDS_SAFETY_CHECK_PASSWORDS_ERROR_OFFLINE" desc="Text to display when the password check has an unknown error.">
+        Offline. Chrome can’t check your passwords.
+      </message>
+      <message name="IDS_SAFETY_CHECK_PASSWORDS_ERROR_SIGNED_OUT" desc="Text to display when the password check is unable to run because the usere is signed out.">
+        Sign in to your Google account to check your passwords
+      </message>
+      <message name="IDS_SAFETY_CHECK_PASSWORDS_ERROR_QUOTA_LIMIT" desc="Text to display when the password check hits the daily quota limit.">
+        Chrome couldn’t check all passwords
+      </message>
       <message name="IDS_SAFETY_CHECK_UPDATES_UPDATED" desc="Text to display when the updates check confirms that the latest version is already installed.">
-        You are running the latest version of Chrome
+        Chrome is up to date
       </message>
       <message name="IDS_SAFETY_CHECK_UPDATES_OUTDATED" desc="Text to display when the updates check detects a new version.">
-        A newer version of Chrome is available. Tap this element to go to the Play Store.
+        Chrome is out of date
       </message>
       <message name="IDS_SAFETY_CHECK_UPDATES_OFFLINE" desc="Text to display when the updates check failed because of no connectivity.">
-        Chrome can't check for updates. Try checking your internet connection.
+        Offline. Chrome can’t check for updates.
       </message>
       <message name="IDS_SAFETY_CHECK_UPDATES_ERROR" desc="Text to display when the updates check failed for some reason.">
         Chrome can’t check for updates
