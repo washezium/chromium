@@ -1,14 +1,20 @@
 <style>
   cr-button {
-    --text-color: inherit;
     background-color: rgb(248, 249, 250);
     border: none;
     border-radius: inherit;
     box-shadow: none;
+    color: var(--cr-primary-text-color);
     flex-direction: column;
     height: inherit;
     padding: 0;
     width: inherit;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    cr-button {
+      background-color: var(--google-grey-800);
+    }
   }
 
   :host-context(.focus-outline-visible) cr-button:focus {
