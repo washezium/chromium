@@ -73,6 +73,8 @@ static_library("content") {
       "payment_response_helper.h",
       "secure_payment_confirmation_controller.cc",
       "secure_payment_confirmation_controller.h",
+      "secure_payment_confirmation_model.cc",
+      "secure_payment_confirmation_model.h",
       "secure_payment_confirmation_payment_request_delegate.cc",
       "secure_payment_confirmation_payment_request_delegate.h",
     ]
@@ -150,6 +152,7 @@ source_set("unit_tests") {
       "payment_request_spec_unittest.cc",
       "payment_request_state_unittest.cc",
       "payment_response_helper_unittest.cc",
+      "secure_payment_confirmation_model_unittest.cc",
       "service_worker_payment_app_unittest.cc",
     ]
   }
