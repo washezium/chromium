@@ -299,8 +299,6 @@ class MODULES_EXPORT CanvasRenderingContext2D final
   std::mt19937 random_generator_;
   std::bernoulli_distribution bernoulli_distribution_;
 
-  IdentifiabilityStudyHelper identifiability_study_helper_;
-
   ukm::UkmRecorder* ukm_recorder_;
   ukm::SourceId ukm_source_id_;
 };

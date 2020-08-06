@@ -28,10 +28,20 @@ namespace blink {
 // **Don't renumber after the privacy budget study has started to ensure
 // consistency.**
 enum class CanvasOps {
+  // BaseRenderingContext2D methods.
+  kSetStrokeStyle,
+  kSetFillStyle,
+  kCreateLinearGradient,
+  kCreateRadialGradient,
+  kCreatePattern,
+  kSetTextAlign,
+  kSetTextBaseline,
   // CanvasRenderingContext2D / OffscreenCanvasRenderingContext2D methods.
   kSetFont,
   kFillText,
   kStrokeText,
+  // CanvasGradient methods.
+  kAddColorStop,
 };
 
 // A helper class to simplify maintaining the current text digest for the canvas

@@ -173,8 +173,6 @@ class MODULES_EXPORT OffscreenCanvasRenderingContext2D final
 
   std::mt19937 random_generator_;
   std::bernoulli_distribution bernoulli_distribution_;
-
-  IdentifiabilityStudyHelper identifiability_study_helper_;
 };
 
 }  // namespace blink

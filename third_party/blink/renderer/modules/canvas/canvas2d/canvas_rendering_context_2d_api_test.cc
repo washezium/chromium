@@ -436,7 +436,7 @@ TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_Font) {
   CreateContext(kNonOpaque);
 
   Context2D()->setFont("Arial");
-  EXPECT_EQ(INT64_C(4563319004259876694),
+  EXPECT_EQ(INT64_C(4260982106376580867),
             Context2D()->IdentifiableTextToken().ToUkmMetricValue());
 
   EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
@@ -448,7 +448,7 @@ TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_StrokeText) {
   CreateContext(kNonOpaque);
 
   Context2D()->strokeText("Sensitive message", 1.0, 1.0);
-  EXPECT_EQ(INT64_C(3275140278163321081),
+  EXPECT_EQ(INT64_C(-2943272460643878232),
             Context2D()->IdentifiableTextToken().ToUkmMetricValue());
 
   EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
@@ -460,7 +460,82 @@ TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_FillText) {
   CreateContext(kNonOpaque);
 
   Context2D()->fillText("Sensitive message", 1.0, 1.0);
-  EXPECT_EQ(INT64_C(2373674598473852376),
+  EXPECT_EQ(INT64_C(8733208206881150098),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
+  EXPECT_TRUE(Context2D()->IdentifiabilityEncounteredSensitiveOps());
+}
+
+TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_TextAlign) {
+  StudyParticipationRaii study_participation_raii;
+  CreateContext(kNonOpaque);
+
+  Context2D()->setTextAlign("center");
+  EXPECT_EQ(INT64_C(-4778938416456134710),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSensitiveOps());
+}
+
+TEST_F(CanvasRenderingContext2DAPITest,
+       IdentifiabilityStudyDigest_TextBaseline) {
+  StudyParticipationRaii study_participation_raii;
+  CreateContext(kNonOpaque);
+
+  Context2D()->setTextBaseline("top");
+  EXPECT_EQ(INT64_C(-3065573128425485855),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSensitiveOps());
+}
+
+TEST_F(CanvasRenderingContext2DAPITest,
+       IdentifiabilityStudyDigest_StrokeStyle) {
+  StudyParticipationRaii study_participation_raii;
+  CreateContext(kNonOpaque);
+
+  StringOrCanvasGradientOrCanvasPattern style;
+  style.SetString("blue");
+  Context2D()->setStrokeStyle(style);
+  EXPECT_EQ(INT64_C(2059186787917525779),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSensitiveOps());
+}
+
+TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_FillStyle) {
+  StudyParticipationRaii study_participation_raii;
+  CreateContext(kNonOpaque);
+
+  StringOrCanvasGradientOrCanvasPattern style;
+  style.SetString("blue");
+  Context2D()->setFillStyle(style);
+  EXPECT_EQ(INT64_C(-6322980727372024031),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
+  EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSensitiveOps());
+}
+
+TEST_F(CanvasRenderingContext2DAPITest, IdentifiabilityStudyDigest_Combo) {
+  StudyParticipationRaii study_participation_raii;
+  CreateContext(kNonOpaque);
+
+  Context2D()->fillText("Sensitive message", 1.0, 1.0);
+  EXPECT_EQ(INT64_C(8733208206881150098),
+            Context2D()->IdentifiableTextToken().ToUkmMetricValue());
+  Context2D()->setFont("Helvetica");
+  Context2D()->setTextBaseline("bottom");
+  Context2D()->setTextAlign("right");
+  StringOrCanvasGradientOrCanvasPattern style;
+  style.SetString("red");
+  Context2D()->setFillStyle(style);
+  Context2D()->fillText("Bye", 4.0, 3.0);
+  EXPECT_EQ(INT64_C(2368400155273386771),
             Context2D()->IdentifiableTextToken().ToUkmMetricValue());
 
   EXPECT_FALSE(Context2D()->IdentifiabilityEncounteredSkippedOps());
