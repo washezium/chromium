@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/ambient/fake_ambient_backend_controller_impl.h"
+#include "ash/public/cpp/ambient/fake_ambient_backend_controller_impl.h"
 
 #include <utility>
 
@@ -18,6 +18,41 @@ constexpr AmbientModeTopicSource kTopicSource =
     AmbientModeTopicSource::kGooglePhotos;
 
 constexpr char kFakeUrl[] = "chrome://ambient";
+
+AmbientSettings CreateFakeSettings() {
+  AmbientSettings settings;
+  settings.topic_source = kTopicSource;
+
+  ArtSetting art_setting0;
+  art_setting0.album_id = "0";
+  art_setting0.enabled = true;
+  art_setting0.title = "art0";
+  settings.art_settings.emplace_back(art_setting0);
+
+  ArtSetting art_setting1;
+  art_setting1.album_id = "1";
+  art_setting1.enabled = false;
+  art_setting1.title = "art1";
+  settings.art_settings.emplace_back(art_setting1);
+
+  settings.selected_album_ids = {"1"};
+  return settings;
+}
+
+PersonalAlbums CreateFakeAlbums() {
+  PersonalAlbums albums;
+  PersonalAlbum album0;
+  album0.album_id = "0";
+  album0.album_name = "album0";
+  albums.albums.emplace_back(std::move(album0));
+
+  PersonalAlbum album1;
+  album1.album_id = "1";
+  album1.album_name = "album1";
+  albums.albums.emplace_back(std::move(album1));
+
+  return albums;
+}
 
 }  // namespace
 
@@ -45,11 +80,9 @@ void FakeAmbientBackendControllerImpl::FetchScreenUpdateInfo(
 
 void FakeAmbientBackendControllerImpl::GetSettings(
     GetSettingsCallback callback) {
-  AmbientSettings settings;
-  settings.topic_source = kTopicSource;
   // Pretend to respond asynchronously.
   base::SequencedTaskRunnerHandle::Get()->PostTask(
-      FROM_HERE, base::BindOnce(std::move(callback), settings));
+      FROM_HERE, base::BindOnce(std::move(callback), CreateFakeSettings()));
 }
 
 void FakeAmbientBackendControllerImpl::UpdateSettings(
@@ -76,14 +109,20 @@ void FakeAmbientBackendControllerImpl::FetchPersonalAlbums(
     int num_albums,
     const std::string& resume_token,
     OnPersonalAlbumsFetchedCallback callback) {
-  PersonalAlbums albums;
-  PersonalAlbum album;
-  album.album_id = "0";
-  album.album_name = "test";
-  albums.albums.emplace_back(std::move(album));
   // Pretend to respond asynchronously.
   base::SequencedTaskRunnerHandle::Get()->PostTask(
-      FROM_HERE, base::BindOnce(std::move(callback), std::move(albums)));
+      FROM_HERE, base::BindOnce(std::move(callback), CreateFakeAlbums()));
+}
+
+void FakeAmbientBackendControllerImpl::FetchSettingsAndAlbums(
+    int banner_width,
+    int banner_height,
+    int num_albums,
+    OnSettingsAndAlbumsFetchedCallback callback) {
+  // Pretend to respond asynchronously.
+  base::SequencedTaskRunnerHandle::Get()->PostTask(
+      FROM_HERE, base::BindOnce(std::move(callback), CreateFakeSettings(),
+                                CreateFakeAlbums()));
 }
 
 void FakeAmbientBackendControllerImpl::SetPhotoRefreshInterval(

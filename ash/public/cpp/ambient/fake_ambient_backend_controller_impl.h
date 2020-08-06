@@ -2,17 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ASH_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_
-#define ASH_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_
+#ifndef ASH_PUBLIC_CPP_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_
+#define ASH_PUBLIC_CPP_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_
 
-#include "ash/ash_export.h"
 #include "ash/public/cpp/ambient/ambient_backend_controller.h"
-#include "base/memory/weak_ptr.h"
+#include "ash/public/cpp/ash_public_export.h"
 
 namespace ash {
 
 // A fake implementation of AmbientBackendController.
-class ASH_EXPORT FakeAmbientBackendControllerImpl
+class ASH_PUBLIC_EXPORT FakeAmbientBackendControllerImpl
     : public AmbientBackendController {
  public:
   FakeAmbientBackendControllerImpl();
@@ -33,12 +32,14 @@ class ASH_EXPORT FakeAmbientBackendControllerImpl
                            int num_albums,
                            const std::string& resume_token,
                            OnPersonalAlbumsFetchedCallback callback) override;
+  void FetchSettingsAndAlbums(
+      int banner_width,
+      int banner_height,
+      int num_albums,
+      OnSettingsAndAlbumsFetchedCallback callback) override;
   void SetPhotoRefreshInterval(base::TimeDelta interval) override;
-
- private:
-  base::WeakPtrFactory<FakeAmbientBackendControllerImpl> weak_factory_{this};
 };
 
 }  // namespace ash
 
-#endif  // ASH_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_
+#endif  // ASH_PUBLIC_CPP_AMBIENT_FAKE_AMBIENT_BACKEND_CONTROLLER_IMPL_H_

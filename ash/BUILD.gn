@@ -182,8 +182,6 @@ component("ash") {
     "ambient/ambient_view_delegate_impl.cc",
     "ambient/ambient_view_delegate_impl.h",
     "ambient/autotest_ambient_api.cc",
-    "ambient/fake_ambient_backend_controller_impl.cc",
-    "ambient/fake_ambient_backend_controller_impl.h",
     "ambient/model/ambient_backend_model.cc",
     "ambient/model/ambient_backend_model.h",
     "ambient/model/ambient_backend_model_observer.h",

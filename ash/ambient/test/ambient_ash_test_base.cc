@@ -10,11 +10,11 @@
 
 #include "ash/ambient/ambient_constants.h"
 #include "ash/ambient/ambient_photo_controller.h"
-#include "ash/ambient/fake_ambient_backend_controller_impl.h"
 #include "ash/ambient/ui/ambient_background_image_view.h"
 #include "ash/ambient/ui/ambient_container_view.h"
 #include "ash/ambient/ui/photo_view.h"
 #include "ash/assistant/ui/assistant_view_ids.h"
+#include "ash/public/cpp/ambient/fake_ambient_backend_controller_impl.h"
 #include "ash/shell.h"
 #include "base/callback.h"
 #include "base/memory/ptr_util.h"
