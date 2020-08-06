@@ -6,7 +6,7 @@
 // This test ensures that composited animations are still interpolated even when
 // the 'layout-animations' feature is disabled.
 
-Header("Feature-Policy: layout-animations 'none'");
+Header("Document-Policy: layout-animations=?0");
 ?>
 <!DOCTYPE html>
 <script src="../resources/testharness.js"></script>

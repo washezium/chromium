@@ -16830,6 +16830,7 @@ Called by update_document_policy_enum.py.-->
   <int value="5" label="UnoptimizedLossyImages"/>
   <int value="6" label="OversizedImages"/>
   <int value="7" label="UnsizedMedia"/>
+  <int value="8" label="LayoutAnimations"/>
 </enum>
 
 <enum name="DocumentScanSaneBackend">
