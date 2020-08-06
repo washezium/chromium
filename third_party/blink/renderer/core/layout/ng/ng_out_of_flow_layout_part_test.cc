@@ -238,5 +238,84 @@ TEST_F(NGOutOfFlowLayoutPartTest, PositionedFragmentationWithOverflow) {
   EXPECT_EQ(expectation, dump);
 }
 
+// Tests that new column fragments are added correctly if a positioned node
+// fragments beyond the last fragmentainer in a context.
+TEST_F(NGOutOfFlowLayoutPartTest, PositionedFragmentationWithNewColumns) {
+  SetBodyInnerHTML(
+      R"HTML(
+      <style>
+        #multicol {
+          column-count:2; column-fill:auto; column-gap:16px; height:40px;
+        }
+        .rel {
+          position: relative; width:30px;
+        }
+        .abs {
+          position:absolute; width:5px; height:120px;
+        }
+      </style>
+      <div id="container">
+        <div id="multicol">
+          <div class="rel">
+            <div class="abs"></div>
+          </div>
+        </div>
+      </div>
+      )HTML");
+  String dump = DumpFragmentTree(GetElementById("container"));
+
+  String expectation = R"DUMP(.:: LayoutNG Physical Fragment Tree ::.
+  offset:unplaced size:1000x40
+    offset:0,0 size:1000x40
+      offset:0,0 size:492x40
+        offset:0,0 size:30x0
+        offset:0,0 size:5x40
+      offset:508,0 size:492x40
+        offset:0,0 size:5x40
+      offset:1016,0 size:492x40
+        offset:0,0 size:5x40
+)DUMP";
+  EXPECT_EQ(expectation, dump);
+}
+
+// Tests that empty column fragments are added if an OOF element begins layout
+// in a fragmentainer that is more than one index beyond the last existing
+// column fragmentainer.
+TEST_F(NGOutOfFlowLayoutPartTest, PositionedFragmentationWithNewEmptyColumns) {
+  SetBodyInnerHTML(
+      R"HTML(
+      <style>
+        #multicol {
+          column-count:2; column-fill:auto; column-gap:16px; height:40px;
+        }
+        .rel {
+          position: relative; width:30px;
+        }
+        .abs {
+          position:absolute; top:80px; width:5px; height:120px;
+        }
+      </style>
+      <div id="container">
+        <div id="multicol">
+          <div class="rel">
+            <div class="abs"></div>
+          </div>
+        </div>
+      </div>
+      )HTML");
+  String dump = DumpFragmentTree(GetElementById("container"));
+
+  // TODO(bebeaudr): The OOF fragment should start at a column fragment with
+  // index 2, and there should be an empty column fragment at index 1.
+  String expectation = R"DUMP(.:: LayoutNG Physical Fragment Tree ::.
+  offset:unplaced size:1000x40
+    offset:0,0 size:1000x40
+      offset:0,0 size:492x40
+        offset:0,0 size:30x0
+        offset:0,80 size:5x120
+)DUMP";
+  EXPECT_EQ(expectation, dump);
+}
+
 }  // namespace
 }  // namespace blink
