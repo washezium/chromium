@@ -214,8 +214,16 @@ class MODULES_EXPORT CanvasRenderingContext2D final
 
   CanvasColorParams ColorParamsForTest() const { return ColorParams(); }
 
-  IdentifiableToken IdentifiableTextToken() override {
+  IdentifiableToken IdentifiableTextToken() const override {
     return identifiability_study_helper_.GetToken();
+  }
+
+  bool IdentifiabilityEncounteredSkippedOps() const override {
+    return identifiability_study_helper_.encountered_skipped_ops();
+  }
+
+  bool IdentifiabilityEncounteredSensitiveOps() const override {
+    return identifiability_study_helper_.encountered_sensitive_ops();
   }
 
  protected:

@@ -1344,9 +1344,10 @@ void CanvasResourceProvider::OnDestroyResource() {
   --num_inflight_resources_;
 }
 
-uint64_t CanvasResourceProvider::GetIdentifiabilityDigest() {
+const IdentifiabilityPaintOpDigest&
+CanvasResourceProvider::GetIdentifiablityPaintOpDigest() {
   FlushCanvas();
-  return identifiability_paint_op_digest_.digest();
+  return identifiability_paint_op_digest_;
 }
 
 scoped_refptr<CanvasResource> CanvasResourceProvider::NewOrRecycledResource() {

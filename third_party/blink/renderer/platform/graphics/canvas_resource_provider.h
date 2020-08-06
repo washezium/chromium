@@ -215,9 +215,14 @@ class PLATFORM_EXPORT CanvasResourceProvider
 
   void OnDestroyResource();
 
-  // Returns the identifiability digest computed from the set of PaintOps
-  // flushed from FlushCanvas().
-  uint64_t GetIdentifiabilityDigest();
+  // Gets an immutable reference to the IdentifiabilityPaintOpDigest, which
+  // contains the current PaintOp digest, and taint bits (encountered
+  // partially-digested images, encountered skipped ops).
+  //
+  // The digest is updated based on the results of every FlushCanvas(); this
+  // method also calls FlushCanvas() to ensure that all operations are accounted
+  // for in the digest.
+  const IdentifiabilityPaintOpDigest& GetIdentifiablityPaintOpDigest();
 
  protected:
   class CanvasImageProvider;
