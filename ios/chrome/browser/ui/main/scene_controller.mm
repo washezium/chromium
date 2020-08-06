@@ -1100,7 +1100,28 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
   Browser* browser = self.mainInterface.browser;
   self.settingsNavigationController =
       [SettingsNavigationController savePasswordsControllerForBrowser:browser
-                                                             delegate:self];
+                                                             delegate:self
+                                      startPasswordCheckAutomatically:NO];
+  [baseViewController presentViewController:self.settingsNavigationController
+                                   animated:YES
+                                 completion:nil];
+}
+
+- (void)showSavedPasswordsSettingsAndStartPasswordCheckFromViewController:
+    (UIViewController*)baseViewController {
+  DCHECK(!self.signinCoordinator);
+  [self dismissModalDialogs];
+  if (self.settingsNavigationController) {
+    [self.settingsNavigationController
+        showSavedPasswordsSettingsAndStartPasswordCheckFromViewController:
+            baseViewController];
+    return;
+  }
+  Browser* browser = self.mainInterface.browser;
+  self.settingsNavigationController =
+      [SettingsNavigationController savePasswordsControllerForBrowser:browser
+                                                             delegate:self
+                                      startPasswordCheckAutomatically:YES];
   [baseViewController presentViewController:self.settingsNavigationController
                                    animated:YES
                                  completion:nil];
