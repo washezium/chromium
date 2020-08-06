@@ -6841,3 +6841,6 @@ crbug.com/1112771 external/wpt/css/css-grid/grid-definition/grid-inline-template
 # Sheriff 2020-08-05
 crbug.com/1113050 fast/borders/border-radius-mask-video-ratio.html [ Pass Failure ]
 crbug.com/1113127 fast/canvas/downsample-quality.html [ Pass Failure Crash ]
+
+# Sheriff 2020-08-06
+crbug.com/1113791 [ Win ] media/video-zoom.html [ Pass Failure ]
