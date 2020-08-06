@@ -7,6 +7,8 @@
     <div id="page-controls">
       <GraphFilterInput
           :node-ids="pageModel.getNodeIds()"
+          :nodes-already-in-filter="
+            displaySettingsData.nodeFilterData.filterList"
           :shorten-name="filterShortenName"
           @[CUSTOM_EVENTS.FILTER_SUBMITTED]="filterAddOrCheckNode"/>
       <GraphFilterItems
