@@ -323,9 +323,13 @@ public class TabListMediatorUnitTest {
                 mTabContentManager::getTabThumbnailWithCallback, mTitleProvider,
                 mTabListFaviconProvider, false, null, mGridCardOnClickListenerProvider, null,
                 getClass().getSimpleName(), UiType.CLOSABLE);
-        mMediator.initWithNative(mProfile);
         mMediator.registerOrientationListener(mGridLayoutManager);
         TrackerFactory.setTrackerForTests(mTracker);
+
+        // TabModelObserver is registered when native is ready.
+        assertThat(mTabModelObserverCaptor.getAllValues().isEmpty(), equalTo(true));
+        mMediator.initWithNative(mProfile);
+        assertThat(mTabModelObserverCaptor.getAllValues().isEmpty(), equalTo(false));
     }
 
     @After

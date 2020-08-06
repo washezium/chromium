@@ -567,8 +567,6 @@ class TabListMediator {
             }
         };
 
-        mTabModelSelector.getTabModelFilterProvider().addTabModelFilterObserver(mTabModelObserver);
-
         if (mTabModelSelector.getTabModelFilterProvider().getCurrentTabModelFilter()
                         instanceof TabGroupModelFilter) {
             mTabGroupObserver = new EmptyTabGroupModelFilterObserver() {
@@ -766,6 +764,8 @@ class TabListMediator {
 
     public void initWithNative(Profile profile) {
         mTabListFaviconProvider.initWithNative(profile);
+        mTabModelSelector.getTabModelFilterProvider().addTabModelFilterObserver(mTabModelObserver);
+
         if (TabUiFeatureUtilities.isTabGroupsAndroidContinuationEnabled()) {
             mTabGroupTitleEditor = new TabGroupTitleEditor(mTabModelSelector) {
                 @Override

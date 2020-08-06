@@ -1988,6 +1988,24 @@ public class StartSurfaceLayoutTest {
         verifyTabSwitcherCardCount(cta, 3);
     }
 
+    @Test
+    @MediumTest
+    // clang-format off
+    @EnableFeatures({ChromeFeatureList.INSTANT_START})
+    // TODO(crbug.com/1112557): Remove this test when critical tests in StartSurfaceLayoutTest are
+    // running with InstantStart on.
+    public void testSetup_WithInstantStart() throws Exception {
+        // clang-format on
+        ChromeTabbedActivity cta = mActivityTestRule.getActivity();
+        enterTabSwitcher(cta);
+        verifyTabSwitcherCardCount(cta, 1);
+
+        // Verify TabModelObserver is correctly setup by checking if tab switcher changes with tab
+        // closure.
+        closeFirstTabInTabSwitcher();
+        verifyTabSwitcherCardCount(cta, 0);
+    }
+
     private void enterTabGroupManualSelection(ChromeTabbedActivity cta) {
         MenuUtils.invokeCustomMenuActionSync(
                 InstrumentationRegistry.getInstrumentation(), cta, R.id.menu_group_tabs);
