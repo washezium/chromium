@@ -43,6 +43,7 @@
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_metrics_recorder.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_view_controller.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_view_controller_audience.h"
+#import "ios/chrome/browser/ui/content_suggestions/discover_feed_delegate.h"
 #import "ios/chrome/browser/ui/content_suggestions/discover_feed_header_changing.h"
 #import "ios/chrome/browser/ui/content_suggestions/discover_feed_menu_commands.h"
 #import "ios/chrome/browser/ui/content_suggestions/ntp_home_constant.h"
@@ -71,6 +72,7 @@
 @interface ContentSuggestionsCoordinator () <
     ContentSuggestionsMenuProvider,
     ContentSuggestionsViewControllerAudience,
+    DiscoverFeedDelegate,
     DiscoverFeedMenuCommands,
     OverscrollActionsControllerDelegate,
     ThemeChangeDelegate,
@@ -178,19 +180,7 @@
       ReadingListModelFactory::GetForBrowserState(
           self.browser->GetBrowserState());
 
-  self.discoverFeedViewController = ios::GetChromeBrowserProvider()
-                                        ->GetDiscoverFeedProvider()
-                                        ->NewFeedViewController(self.browser);
-
-  // TODO(crbug.com/1085419): Once the CollectionView is cleanly exposed, remove
-  // this loop.
-  for (UIView* view in self.discoverFeedViewController.view.subviews) {
-    if ([view isKindOfClass:[UICollectionView class]]) {
-      UICollectionView* feedView = static_cast<UICollectionView*>(view);
-      feedView.bounces = false;
-      feedView.alwaysBounceVertical = false;
-    }
-  }
+  self.discoverFeedViewController = [self discoverFeed];
 
   self.contentSuggestionsMediator = [[ContentSuggestionsMediator alloc]
       initWithContentService:contentSuggestionsService
@@ -204,6 +194,7 @@
   self.contentSuggestionsMediator.headerProvider = self.headerController;
   self.contentSuggestionsMediator.contentArticlesExpanded =
       self.contentSuggestionsVisible;
+  self.contentSuggestionsMediator.discoverFeedDelegate = self;
 
   self.headerController.promoCanShow =
       [self.contentSuggestionsMediator notificationPromo]->CanShow();
@@ -429,6 +420,17 @@
   [self.alertCoordinator start];
 }
 
+#pragma mark - DiscoverFeedDelegate
+
+- (void)recreateDiscoverFeedViewController {
+  DCHECK(IsDiscoverFeedEnabled());
+
+  // Create and set a new DiscoverFeed since that its model has changed.
+  self.discoverFeedViewController = [self discoverFeed];
+  self.contentSuggestionsMediator.discoverFeed =
+      self.discoverFeedViewController;
+}
+
 #pragma mark - Public methods
 
 - (UIView*)view {
@@ -497,6 +499,29 @@
       [UIContextMenuConfiguration configurationWithIdentifier:nil
                                               previewProvider:nil
                                                actionProvider:actionProvider];
+}
+
+#pragma mark - Helpers
+
+// Creates, configures and returns a DiscoverFeed ViewController.
+- (UIViewController*)discoverFeed {
+  if (!IsDiscoverFeedEnabled())
+    return nil;
+
+  UIViewController* discoverFeed = ios::GetChromeBrowserProvider()
+                                       ->GetDiscoverFeedProvider()
+                                       ->NewFeedViewController(self.browser);
+  // TODO(crbug.com/1085419): Once the CollectionView is cleanly exposed, remove
+  // this loop.
+  for (UIView* view in discoverFeed.view.subviews) {
+    if ([view isKindOfClass:[UICollectionView class]]) {
+      UICollectionView* feedView = static_cast<UICollectionView*>(view);
+      feedView.bounces = NO;
+      feedView.alwaysBounceVertical = NO;
+      feedView.scrollEnabled = NO;
+    }
+  }
+  return discoverFeed;
 }
 
 @end

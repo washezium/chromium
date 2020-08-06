@@ -31,6 +31,7 @@ class MostVisitedSites;
 @protocol ContentSuggestionsGestureCommands;
 @protocol ContentSuggestionsHeaderProvider;
 @class ContentSuggestionIdentifier;
+@protocol DiscoverFeedDelegate;
 class GURL;
 class LargeIconCache;
 class NotificationPromoWhatsNew;
@@ -73,7 +74,10 @@ class ReadingListModel;
 @property(nonatomic, assign) BOOL readingListNeedsReload;
 
 // ViewController created by the Discover provider containing the Discover feed.
-@property(nonatomic, strong) UIViewController* discoverFeed;
+@property(nonatomic, weak) UIViewController* discoverFeed;
+
+// Delegate used to communicate to communicate events to the DiscoverFeed.
+@property(nonatomic, weak) id<DiscoverFeedDelegate> discoverFeedDelegate;
 
 // Disconnects the mediator.
 - (void)disconnect;
