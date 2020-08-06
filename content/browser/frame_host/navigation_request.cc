@@ -122,6 +122,7 @@
 #include "third_party/blink/public/mojom/web_feature/web_feature.mojom.h"
 #include "third_party/blink/public/platform/resource_request_blocked_reason.h"
 #include "third_party/blink/public/platform/web_mixed_content_context_type.h"
+#include "url/origin.h"
 #include "url/url_constants.h"
 
 namespace content {
@@ -4182,6 +4183,14 @@ void NavigationRequest::ReadyToCommitNavigation(CommitPageType type) {
                        : empty_csp);
     commit_params_->ip_address_space = ip_address_space;
     client_security_state_->ip_address_space = ip_address_space;
+
+    // TODO(crbug.com/986744): Check whether this is the correct way of
+    // detecting a secure context, amend if not. The current origin being
+    // trustworthy is a necessary condition for secure contexts, but it might
+    // not be sufficient.
+    client_security_state_->is_web_secure_context =
+        network::IsOriginPotentiallyTrustworthy(
+            url::Origin::Create(common_params_->url));
   }
 
   if (appcache_handle_) {
