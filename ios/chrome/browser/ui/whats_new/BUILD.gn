@@ -18,6 +18,7 @@ source_set("whats_new") {
     "//ios/chrome/browser/ui/coordinators:chrome_coordinators",
     "//ios/chrome/browser/ui/whats_new/resources",
     "//ios/chrome/common/ui/confirmation_alert",
+    "//ios/chrome/common/ui/elements:popover_label_view_controller",
     "//ui/base",
   ]
 }
