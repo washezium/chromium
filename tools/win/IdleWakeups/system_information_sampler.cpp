@@ -283,27 +283,31 @@ std::unique_ptr<ProcessDataSnapshot> SystemInformationSampler::TakeSnapshot() {
     auto pi = reinterpret_cast<const SYSTEM_PROCESS_INFORMATION*>(
         data_buffer.data() + offset);
 
-    // Validate that |pi| and any additional SYSTEM_THREAD_INFORMATION structs
-    // that it may have are all within the buffer boundary.
-    if (offset + sizeof(SYSTEM_PROCESS_INFORMATION) +
-            (pi->NumberOfThreads - 1) * sizeof(SYSTEM_THREAD_INFORMATION) >
-        data_buffer.size()) {
-      break;
-    }
-
-    if (pi->ImageName.Buffer) {
-      // Validate that the image name is within the buffer boundary.
-      // ImageName.Length seems to be in bytes rather than characters.
-      size_t image_name_offset =
-          reinterpret_cast<BYTE*>(pi->ImageName.Buffer) - data_buffer.data();
-      if (image_name_offset + pi->ImageName.Length > data_buffer.size())
+    // Skip processes that report zero threads (e.g., the "Secure System"
+    // process, which does not disclose its thread count).
+    if (pi->NumberOfThreads > 0) {
+      // Validate that |pi| and any additional SYSTEM_THREAD_INFORMATION structs
+      // that it may have are all within the buffer boundary.
+      if (offset + sizeof(SYSTEM_PROCESS_INFORMATION) +
+              (pi->NumberOfThreads - 1) * sizeof(SYSTEM_THREAD_INFORMATION) >
+          data_buffer.size()) {
         break;
+      }
 
-      // If |pi| is the targeted process, add its data to the snapshot.
-      if (wcsncmp(target_process_name_filter(), pi->ImageName.Buffer,
-                  lstrlen(target_process_name_filter())) == 0) {
-        snapshot->processes.insert(
-            std::make_pair(pi->ProcessId, GetProcessData(pi)));
+      if (pi->ImageName.Buffer) {
+        // Validate that the image name is within the buffer boundary.
+        // ImageName.Length seems to be in bytes rather than characters.
+        size_t image_name_offset =
+            reinterpret_cast<BYTE*>(pi->ImageName.Buffer) - data_buffer.data();
+        if (image_name_offset + pi->ImageName.Length > data_buffer.size())
+          break;
+
+        // If |pi| is the targeted process, add its data to the snapshot.
+        if (wcsncmp(target_process_name_filter(), pi->ImageName.Buffer,
+                    lstrlen(target_process_name_filter())) == 0) {
+          snapshot->processes.insert(
+              std::make_pair(pi->ProcessId, GetProcessData(pi)));
+        }
       }
     }
 
