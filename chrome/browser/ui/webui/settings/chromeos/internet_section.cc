@@ -874,7 +874,7 @@ void InternetSection::OnDeviceList(
 void InternetSection::FetchNetworkList() {
   cros_network_config_->GetNetworkStateList(
       network_config::mojom::NetworkFilter::New(
-          network_config::mojom::FilterType::kAll,
+          network_config::mojom::FilterType::kVisible,
           network_config::mojom::NetworkType::kAll,
           network_config::mojom::kNoLimit),
       base::Bind(&InternetSection::OnNetworkList, base::Unretained(this)));
