@@ -6195,12 +6195,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kH264DecoderBufferIsCompleteFrameDescription, kOsAll,
      FEATURE_VALUE_TYPE(media::kH264DecoderBufferIsCompleteFrame)},
 
-#if BUILDFLAG(ENABLE_TAB_SEARCH)
-    {"enable-tab-search", flag_descriptions::kEnableTabSearchName,
-     flag_descriptions::kEnableTabSearchDescription, kOsCrOS,
-     FEATURE_VALUE_TYPE(features::kTabSearch)}
-#endif  // BUILDFLAG(ENABLE_TAB_SEARCH)
-
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the
