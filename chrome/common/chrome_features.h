@@ -186,6 +186,11 @@ extern const base::Feature kEnableAmbientAuthenticationInGuestSession;
 COMPONENT_EXPORT(CHROME_FEATURES)
 extern const base::Feature kEnableAmbientAuthenticationInIncognito;
 
+#if defined(OS_WIN)
+COMPONENT_EXPORT(CHROME_FEATURES)
+extern const base::Feature kEnableIncognitoShortcutOnDesktop;
+#endif
+
 #if defined(OS_CHROMEOS)
 COMPONENT_EXPORT(CHROME_FEATURES)
 extern const base::Feature kEnterpriseReportingInChromeOS;

@@ -3298,6 +3298,11 @@ const char kElasticOverscrollWinDescription[] =
     "Enables Elastic Overscrolling for Windows on touchscreens and precision "
     "touchpads.";
 
+extern const char kEnableIncognitoShortcutOnDesktopName[] =
+    "Enable Incognito Desktop Shortcut";
+extern const char kEnableIncognitoShortcutOnDesktopDescription[] =
+    "Enables users to create a desktop shortcut for incognito mode.";
+
 const char kEnableMediaFoundationVideoCaptureName[] =
     "MediaFoundation Video Capture";
 const char kEnableMediaFoundationVideoCaptureDescription[] =

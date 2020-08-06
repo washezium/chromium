@@ -307,6 +307,12 @@ const base::Feature kEnableAmbientAuthenticationInGuestSession{
     "EnableAmbientAuthenticationInGuestSession",
     base::FEATURE_DISABLED_BY_DEFAULT};
 
+#if defined(OS_WIN)
+// Enables users to create a desktop shortcut for incognito mode.
+const base::Feature kEnableIncognitoShortcutOnDesktop{
+    "EnableIncognitoShortcutOnDesktop", base::FEATURE_DISABLED_BY_DEFAULT};
+#endif
+
 #if defined(OS_CHROMEOS)
 // Upload enterprise cloud reporting from Chrome OS.
 const base::Feature kEnterpriseReportingInChromeOS{

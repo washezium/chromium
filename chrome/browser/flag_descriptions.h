@@ -1890,6 +1890,9 @@ extern const char kD3D11VideoDecoderDescription[];
 extern const char kElasticOverscrollWinName[];
 extern const char kElasticOverscrollWinDescription[];
 
+extern const char kEnableIncognitoShortcutOnDesktopName[];
+extern const char kEnableIncognitoShortcutOnDesktopDescription[];
+
 extern const char kEnableMediaFoundationVideoCaptureName[];
 extern const char kEnableMediaFoundationVideoCaptureDescription[];
 

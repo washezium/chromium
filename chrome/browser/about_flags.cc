@@ -6177,6 +6177,13 @@ const FeatureEntry kFeatureEntries[] = {
          password_manager::features::kFillingPasswordsFromAnyOrigin)},
 #endif  // OS_ANDROID
 
+#if defined(OS_WIN)
+    {"enable-incognito-shortcut-on-desktop",
+     flag_descriptions::kEnableIncognitoShortcutOnDesktopName,
+     flag_descriptions::kEnableIncognitoShortcutOnDesktopDescription, kOsWin,
+     FEATURE_VALUE_TYPE(features::kEnableIncognitoShortcutOnDesktop)},
+#endif  // defined(OS_WIN)
+
     {"h264-decoder-is-buffer-complete-frame",
      flag_descriptions::kH264DecoderBufferIsCompleteFrameName,
      flag_descriptions::kH264DecoderBufferIsCompleteFrameDescription, kOsAll,

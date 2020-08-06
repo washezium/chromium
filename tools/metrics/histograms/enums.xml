@@ -41470,6 +41470,7 @@ from previous Chrome versions.
       label="AutofillSaveCreditCardUsesImprovedMessaging:disabled"/>
   <int value="-449465495" label="disable-browser-task-scheduler"/>
   <int value="-446560063" label="finch-seed-min-update-period"/>
+  <int value="-446220201" label="EnableIncognitoShortcutOnDesktop:enabled"/>
   <int value="-444867364" label="Metal:enabled"/>
   <int value="-442352394" label="IframeOneGoogleBar:disabled"/>
   <int value="-438379844" label="SwapSideVolumeButtonsForOrientation:enabled"/>
@@ -42272,6 +42273,7 @@ from previous Chrome versions.
       label="HappinessTrackingSurveysForDesktopMigration:disabled"/>
   <int value="436682243" label="TabGroupsAndroid:disabled"/>
   <int value="439525862" label="GlobalMediaControlsForCast:disabled"/>
+  <int value="444411390" label="enable-incognito-shortcut-on-desktop"/>
   <int value="444754854" label="LegacyTLSWarnings:disabled"/>
   <int value="446316019" label="enable-threaded-compositing"/>
   <int value="448463569" label="NewShortcutMapping:disabled"/>
@@ -43060,6 +43062,7 @@ from previous Chrome versions.
   <int value="1283960113" label="disable-fixed-position-compositing"/>
   <int value="1284910808" label="disable-checker-imaging"/>
   <int value="1285905715" label="WebXRHitTest:enabled"/>
+  <int value="1287625114" label="EnableIncognitoShortcutOnDesktop:disabled"/>
   <int value="1289433604" label="RecoverFromNeverSaveAndroid:enabled"/>
   <int value="1289495171" label="AssistantBetterOnboarding:disabled"/>
   <int value="1291257442" label="TabsInCBD:disabled"/>
