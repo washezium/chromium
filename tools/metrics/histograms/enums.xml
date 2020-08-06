@@ -61431,6 +61431,13 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="4" label="NOT_SUPPORTED"/>
 </enum>
 
+<enum name="SafetyCheckChromeCleanerStatus">
+  <int value="0" label="HIDDEN"/>
+  <int value="1" label="CHECKING"/>
+  <int value="2" label="INFECTED"/>
+  <int value="3" label="REBOOT_REQUIRED"/>
+</enum>
+
 <enum name="SafetyCheckExtensionsStatus">
   <int value="0" label="CHECKING"/>
   <int value="1" label="ERROR"/>
