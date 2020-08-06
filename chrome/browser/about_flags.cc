@@ -6182,6 +6182,11 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kH264DecoderBufferIsCompleteFrameDescription, kOsAll,
      FEATURE_VALUE_TYPE(media::kH264DecoderBufferIsCompleteFrame)},
 
+    {"content-settings-redesign",
+     flag_descriptions::kContentSettingsRedesignName,
+     flag_descriptions::kContentSettingsRedesignDescription, kOsDesktop,
+     FEATURE_VALUE_TYPE(features::kContentSettingsRedesign)}
+
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the

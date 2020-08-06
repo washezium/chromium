@@ -126,6 +126,9 @@ const base::Feature kClickToOpenPDFPlaceholder{
 const base::Feature kClientStorageAccessContextAuditing{
     "ClientStorageAccessContextAuditing", base::FEATURE_DISABLED_BY_DEFAULT};
 
+const base::Feature kContentSettingsRedesign{"ContentSettingsRedesign",
+                                             base::FEATURE_DISABLED_BY_DEFAULT};
+
 #if defined(OS_MAC)
 const base::Feature kImmersiveFullscreen{"ImmersiveFullscreen",
                                          base::FEATURE_DISABLED_BY_DEFAULT};

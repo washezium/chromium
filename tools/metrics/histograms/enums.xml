@@ -40409,6 +40409,7 @@ from previous Chrome versions.
       label="DisplayPersistenceToggleInPermissionPrompts:disabled"/>
   <int value="-1541362086" label="NearbySharing:disabled"/>
   <int value="-1541187160" label="UsernameFirstFlow:disabled"/>
+  <int value="-1539513973" label="ContentSettingsRedesign:disabled"/>
   <int value="-1538492024" label="OmniboxReverseAnswers:enabled"/>
   <int value="-1537773844"
       label="ContextualSuggestionsAlternateCardLayout:disabled"/>
@@ -41663,6 +41664,7 @@ from previous Chrome versions.
   <int value="-231426350" label="AutofillEnableToolbarStatusChip:enabled"/>
   <int value="-230824955" label="NTPMostLikelyFaviconsFromServer:enabled"/>
   <int value="-225505731" label="CCTModule:enabled"/>
+  <int value="-225228149" label="ContentSettingsRedesign:enabled"/>
   <int value="-222296540" label="VirtualKeyboardBorderedKey:disabled"/>
   <int value="-220599034" label="UsePdfCompositorServiceForPrint:enabled"/>
   <int value="-217885320" label="CdmFactoryDaemon:disabled"/>
