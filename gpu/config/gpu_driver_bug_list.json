@@ -3628,7 +3628,7 @@
         "value2": "20.19.15.4380"
       },
       "features": [
-        "use_single_video_decoder_texture"
+        "disable_dxgi_zero_copy_video"
       ]
     },
     {
@@ -3652,7 +3652,7 @@
         "value2": "10.18.15.4293"
       },
       "features": [
-        "use_single_video_decoder_texture"
+        "disable_dxgi_zero_copy_video"
       ]
     },
     {
