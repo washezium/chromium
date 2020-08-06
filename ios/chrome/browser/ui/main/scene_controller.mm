@@ -2072,11 +2072,11 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
   for (UIOpenURLContext* context : URLContexts) {
     URLOpenerParams* options =
         [[URLOpenerParams alloc] initWithUIOpenURLContext:context];
+    NSSet* URLContextSet = [NSSet setWithObject:context];
     if (!ios::GetChromeBrowserProvider()
              ->GetChromeIdentityService()
-             ->HandleApplicationOpenURL([UIApplication sharedApplication],
-                                        context.URL,
-                                        [options toLaunchOptions])) {
+             ->HandleSessionOpenURLContexts(self.sceneState.scene,
+                                            URLContextSet)) {
       [URLsToOpen addObject:options];
     }
   }
