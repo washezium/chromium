@@ -1798,8 +1798,11 @@ To change this setting, <ph name="BEGIN_LINK">&lt;resetlink&gt;</ph>reset sync<p
       <message name="IDS_DOWNLOAD_SCHEDULED_ON_WIFI" desc="Label describing that the download was scheduled to start on Wi-Fi.">
         Download will start on Wi-Fi.
       </message>
-      <message name="IDS_DOWNLOAD_SCHEDULED_ON_DATE" desc="Label describing that the download was scheduled to start at a later date or time.">
-        Download will start on <ph name="date">%1$s<ex>Feb 28</ex></ph>.
+      <message name="IDS_DOWNLOAD_SCHEDULED_ON_DATE" desc="Label describing that the download was scheduled to start at a later date.">
+        Download will start on <ph name="date">%1$s<ex>Feb 28 2020</ex></ph>.
+      </message>
+      <message name="IDS_DOWNLOAD_SCHEDULED_ON_TIME" desc="Label describing that the download was scheduled to start at a later time.">
+        Download will start at <ph name="time">%1$s<ex>8:30PM</ex></ph>.
       </message>
 
       <!-- Inline Update Infobar -->
