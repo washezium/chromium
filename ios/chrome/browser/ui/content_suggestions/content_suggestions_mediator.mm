@@ -30,6 +30,7 @@
 #import "ios/chrome/browser/ui/content_suggestions/cells/suggested_content.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_category_wrapper.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_commands.h"
+#import "ios/chrome/browser/ui/content_suggestions/content_suggestions_consumer.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_data_sink.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_favicon_mediator.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_feature.h"
@@ -85,8 +86,8 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 // Whether the contents section should be hidden completely.
 // Don't use PrefBackedBoolean or PrefMember as this value needs to be checked
 // when the Preference is updated.
-@property(nullable, nonatomic, assign)
-    const PrefService::Preference* contentArticlesEnabled;
+@property(nonatomic, assign)
+    const PrefService::Preference* contentSuggestionsEnabled;
 // Most visited items from the MostVisitedSites service currently displayed.
 @property(nonatomic, strong)
     NSMutableArray<ContentSuggestionsMostVisitedItem*>* mostVisitedItems;
@@ -155,7 +156,7 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
               discoverFeed:(UIViewController*)discoverFeed {
   self = [super init];
   if (self) {
-    _contentArticlesEnabled =
+    _contentSuggestionsEnabled =
         prefService->FindPreference(prefs::kArticlesForYouEnabled);
     _suggestionBridge =
         std::make_unique<ContentSuggestionsServiceBridge>(self, contentService);
@@ -214,6 +215,13 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 
 - (void)reloadAllData {
   [self.dataSink reloadAllData];
+}
+
+- (void)setConsumer:(id<ContentSuggestionsConsumer>)consumer {
+  _consumer = consumer;
+  [self.consumer
+      setContentSuggestionsEnabled:self.contentSuggestionsEnabled->GetValue()
+                                       ->GetBool()];
 }
 
 - (void)blockMostVisitedURL:(GURL)URL {
@@ -275,7 +283,7 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
   // TODO(crbug.com/1105624): Observe the kArticlesForYouEnabled Pref in order
   // to hide the DiscoverFeed section if the finch flag is enabled.
   if (IsDiscoverFeedEnabled() &&
-      self.contentArticlesEnabled->GetValue()->GetBool()) {
+      self.contentSuggestionsEnabled->GetValue()->GetBool()) {
     [sectionsInfo addObject:self.discoverSectionInfo];
   }
 
@@ -473,6 +481,9 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
       [self.dataSink section:sectionInfo isLoading:NO];
     }
   }
+  [self.consumer
+      setContentSuggestionsEnabled:self.contentSuggestionsEnabled->GetValue()
+                                       ->GetBool()];
 }
 
 - (void)contentSuggestionsService:
@@ -687,13 +698,13 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 
 // ntp_snippets doesn't differentiate between disabled vs collapsed, so if
 // the status is |CATEGORY_EXPLICITLY_DISABLED|, check the value of
-// |contentArticlesEnabled|.
+// |contentSuggestionsEnabled|.
 - (BOOL)isCategoryInitOrAvailable:(ntp_snippets::Category)category {
   ntp_snippets::CategoryStatus status =
       self.contentService->GetCategoryStatus(category);
   if (category.IsKnownCategory(ntp_snippets::KnownCategories::ARTICLES) &&
       status == ntp_snippets::CategoryStatus::CATEGORY_EXPLICITLY_DISABLED)
-    return self.contentArticlesEnabled->GetValue()->GetBool();
+    return self.contentSuggestionsEnabled->GetValue()->GetBool();
   else
     return IsCategoryStatusInitOrAvailable(
         self.contentService->GetCategoryStatus(category));
@@ -701,13 +712,13 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 
 // ntp_snippets doesn't differentiate between disabled vs collapsed, so if
 // the status is |CATEGORY_EXPLICITLY_DISABLED|, check the value of
-// |contentArticlesEnabled|.
+// |contentSuggestionsEnabled|.
 - (BOOL)isCategoryAvailable:(ntp_snippets::Category)category {
   ntp_snippets::CategoryStatus status =
       self.contentService->GetCategoryStatus(category);
   if (category.IsKnownCategory(ntp_snippets::KnownCategories::ARTICLES) &&
       status == ntp_snippets::CategoryStatus::CATEGORY_EXPLICITLY_DISABLED) {
-    return self.contentArticlesEnabled->GetValue()->GetBool();
+    return self.contentSuggestionsEnabled->GetValue()->GetBool();
   } else {
     return IsCategoryStatusAvailable(
         self.contentService->GetCategoryStatus(category));

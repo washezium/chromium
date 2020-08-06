@@ -28,6 +28,7 @@ class MostVisitedSites;
 }
 
 @protocol ContentSuggestionsCommands;
+@protocol ContentSuggestionsConsumer;
 @protocol ContentSuggestionsGestureCommands;
 @protocol ContentSuggestionsHeaderProvider;
 @class ContentSuggestionIdentifier;
@@ -78,6 +79,9 @@ class ReadingListModel;
 
 // Delegate used to communicate to communicate events to the DiscoverFeed.
 @property(nonatomic, weak) id<DiscoverFeedDelegate> discoverFeedDelegate;
+
+// The consumer for this mediator.
+@property(nonatomic, weak) id<ContentSuggestionsConsumer> consumer;
 
 // Disconnects the mediator.
 - (void)disconnect;

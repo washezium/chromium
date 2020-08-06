@@ -4,10 +4,12 @@
 
 source_set("content_suggestions") {
   sources = [
+    "content_suggestions_action_handler.h",
     "content_suggestions_alert_factory.h",
     "content_suggestions_alert_factory.mm",
     "content_suggestions_category_wrapper.h",
     "content_suggestions_category_wrapper.mm",
+    "content_suggestions_consumer.h",
     "content_suggestions_coordinator.h",
     "content_suggestions_coordinator.mm",
     "content_suggestions_favicon_mediator.h",
@@ -105,11 +107,13 @@ source_set("constants") {
 
 source_set("content_suggestions_ui") {
   sources = [
+    "content_suggestions_action_handler.h",
     "content_suggestions_collection_controlling.h",
     "content_suggestions_collection_synchronizing.h",
     "content_suggestions_collection_updater.h",
     "content_suggestions_collection_updater.mm",
     "content_suggestions_commands.h",
+    "content_suggestions_consumer.h",
     "content_suggestions_data_sink.h",
     "content_suggestions_data_source.h",
     "content_suggestions_header_controlling.h",
@@ -143,6 +147,7 @@ source_set("content_suggestions_ui") {
     "resources:ntp_search_icon",
     "//base",
     "//components/strings",
+    "//ios/chrome/browser",
     "//ios/chrome/browser/ui:feature_flags",
     "//ios/chrome/browser/ui/collection_view",
     "//ios/chrome/browser/ui/commands",
@@ -162,6 +167,8 @@ source_set("content_suggestions_ui") {
     "//ios/chrome/common/ui/colors",
     "//ios/chrome/common/ui/favicon",
     "//ios/chrome/common/ui/util",
+    "//ios/public/provider/chrome/browser",
+    "//ios/public/provider/chrome/browser/discover_feed",
     "//ios/web/common",
     "//ui/base",
   ]

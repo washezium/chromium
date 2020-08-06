@@ -47,6 +47,8 @@ class DiscoverFeedProvider {
   // Methods to register or remove observers.
   virtual void AddObserver(Observer* observer);
   virtual void RemoveObserver(Observer* observer);
+  // Loads and appends the next set of articles in the feed.
+  virtual void LoadMoreFeedArticles();
 };
 
 #endif  // IOS_PUBLIC_PROVIDER_CHROME_BROWSER_DISCOVER_FEED_DISCOVER_FEED_PROVIDER_H_

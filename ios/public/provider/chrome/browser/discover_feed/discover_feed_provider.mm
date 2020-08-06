@@ -24,3 +24,4 @@ void DiscoverFeedProvider::RefreshFeedWithCompletion(
 
 void DiscoverFeedProvider::AddObserver(Observer* observer) {}
 void DiscoverFeedProvider::RemoveObserver(Observer* observer) {}
+void DiscoverFeedProvider::LoadMoreFeedArticles() {}
