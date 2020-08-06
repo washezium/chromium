@@ -100,9 +100,6 @@
 #include "third_party/blink/public/mojom/digital_goods/digital_goods.mojom.h"
 #include "third_party/blink/public/mojom/installedapp/installed_app_provider.mojom.h"
 #include "third_party/blink/public/mojom/webshare/webshare.mojom.h"
-#if defined(ENABLE_SPATIAL_NAVIGATION_HOST)
-#include "third_party/blink/public/mojom/page/spatial_navigation.mojom.h"
-#endif
 #else
 #include "chrome/browser/accessibility/caption_host_impl.h"
 #include "chrome/browser/badging/badge_manager.h"
@@ -449,10 +446,6 @@ void PopulateChromeFrameBinders(
 #endif  // BUILDFLAG(ENABLE_UNHANDLED_TAP)
 #endif  // BUILDFLAG(BUILD_CONTEXTUAL_SEARCH)
 
-#if defined(ENABLE_SPATIAL_NAVIGATION_HOST)
-  map->Add<blink::mojom::SpatialNavigationHost>(base::BindRepeating(
-      &ForwardToJavaWebContents<blink::mojom::SpatialNavigationHost>));
-#endif
 #else
   map->Add<blink::mojom::BadgeService>(
       base::BindRepeating(&badging::BadgeManager::BindFrameReceiver));

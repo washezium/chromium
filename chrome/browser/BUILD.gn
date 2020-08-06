@@ -5712,17 +5712,9 @@ static_library("browser") {
     deps += [ "//device/udev_linux" ]
   }
 
-  if (is_android && notouch_build) {
-    configs += [ ":notouch_config" ]
-  }
-
   if (tpm_fallback) {
     defines += [ "TPM_FALLBACK" ]
   }
-}
-
-config("notouch_config") {
-  defines = [ "ENABLE_SPATIAL_NAVIGATION_HOST" ]
 }
 
 if (is_android) {
