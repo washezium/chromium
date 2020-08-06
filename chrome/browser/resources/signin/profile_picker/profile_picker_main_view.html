@@ -1,4 +1,4 @@
-<style include="profile-picker-shared ">
+<style include="profile-picker-shared">
   :host {
     --avatar-icon-size: 74px;
     --banner-img-height: 628px;
@@ -101,6 +101,7 @@
   .footer {
     bottom: 0;
     display: flex;
+    font-size: var(--text-font-size);
     margin-bottom: 40px;
     position: absolute;
     width: 100%;
@@ -148,6 +149,7 @@
     cr-icon-button[iron-icon='profiles:add'] {
       --cr-icon-button-fill-color: var(--google-grey-refresh-500);
       --cr-icon-button-stroke-color: rgb(48, 48, 50);
+      color: var(--google-grey-refresh-500);
     }
 
     .footer > * {
@@ -174,10 +176,12 @@
       </profile-card>
     </template>
     <div id="addProfile" class="profile-item">
-      <!-- TODO(msalama): Add title, aria-label once strings are ready-->
+      <div class="profile-card-info">$i18n{addSpaceButton}</div>
       <cr-icon-button iron-icon="profiles:add"
-          on-click="onAddProfileClick_">
+          on-click="onAddProfileClick_" aria-label$="$i18n{addSpaceButton}">
       </cr-icon-button>
+      <!-- Empty div to maintain alignment with other profile cards. -->
+      <div class="profile-card-info"></div>
     </div>
   </div>
 </div>

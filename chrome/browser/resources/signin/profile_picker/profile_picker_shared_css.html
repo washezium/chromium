@@ -1,5 +1,9 @@
 <template>
   <style>
+    :host {
+      --text-font-size: 1.16em;
+    }
+
     html {
       font-family: roboto;
     }
@@ -12,7 +16,21 @@
 
     h3 {
       color: var(--cr-secondary-text-color);
+      font-size: var(--text-font-size);
       font-weight: normal;
+    }
+
+    .profile-card-info {
+      color: var(--cr-primary-text-color);
+      font-size: var(--text-font-size);
+      font-weight: 500;
+      height: 20px;
+      overflow: hidden;
+      padding: 16px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 130px;
     }
   </style>
 </template>
