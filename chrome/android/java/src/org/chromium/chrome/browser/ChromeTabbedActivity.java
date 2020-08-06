@@ -1111,13 +1111,14 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
             if (getSavedInstanceState() == null && intent != null) {
                 if (!mIntentHandler.shouldIgnoreIntent(intent)) {
                     mIntentWithEffect = mIntentHandler.onNewIntent(intent);
-                    mIntentWithEffectSupplier.set(mIntentWithEffect);
                 }
 
                 if (isMainIntentFromLauncher(intent)) {
                     logMainIntentBehavior(intent);
                 }
             }
+
+            mIntentWithEffectSupplier.set(mIntentWithEffect);
 
             // If we have tabs to reparent and getSavedInstanceState() is non-null, then the tabs
             // are coming from night mode tab reparenting. In this case, reparenting happens
