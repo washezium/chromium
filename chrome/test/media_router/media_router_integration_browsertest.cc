@@ -510,7 +510,7 @@ IN_PROC_BROWSER_TEST_F(MediaRouterIntegrationBrowserTest,
 #endif
 // Tests that failed route creation of local file does not enter fullscreen.
 IN_PROC_BROWSER_TEST_F(MediaRouterIntegrationBrowserTest,
-                       OpenLocalMediaFileCastFailNoFullscreen) {
+                       MAYBE_OpenLocalMediaFileCastFailNoFullscreen) {
   // Start at a new tab, the file should open in the same tab.
   ui_test_utils::NavigateToURL(browser(), GURL(chrome::kChromeUINewTabURL));
   // Make sure there is 1 tab.
