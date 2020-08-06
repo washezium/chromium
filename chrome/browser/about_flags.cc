@@ -70,7 +70,6 @@
 #include "components/browser_sync/browser_sync_switches.h"
 #include "components/browsing_data/core/features.h"
 #include "components/cloud_devices/common/cloud_devices_switches.h"
-#include "components/content_settings/core/common/features.h"
 #include "components/contextual_search/core/browser/public.h"
 #include "components/data_reduction_proxy/core/common/data_reduction_proxy_features.h"
 #include "components/data_reduction_proxy/core/common/data_reduction_proxy_switches.h"
@@ -5582,18 +5581,6 @@ const FeatureEntry kFeatureEntries[] = {
      kOsWin | kOsMac | kOsLinux,
      FEATURE_VALUE_TYPE(
          password_manager::features::kEnablePasswordsAccountStorage)},
-
-    {"improved-cookie-controls", flag_descriptions::kImprovedCookieControlsName,
-     flag_descriptions::kImprovedCookieControlsDescription, kOsAll,
-     FEATURE_VALUE_TYPE(content_settings::kImprovedCookieControls)},
-
-    {"improved-cookie-controls-for-third-party-cookie-blocking",
-     flag_descriptions::kImprovedCookieControlsForThirdPartyCookieBlockingName,
-     flag_descriptions::
-         kImprovedCookieControlsForThirdPartyCookieBlockingDescription,
-     kOsAll,
-     FEATURE_VALUE_TYPE(
-         content_settings::kImprovedCookieControlsForThirdPartyCookieBlocking)},
 
     {"autofill-always-return-cloud-tokenized-card",
      flag_descriptions::kAutofillAlwaysReturnCloudTokenizedCardName,
