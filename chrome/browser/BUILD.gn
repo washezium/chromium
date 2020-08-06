@@ -5867,6 +5867,7 @@ grit("resources") {
       "//chrome/browser/resources/chromeos/crostini_upgrader:polymer3_elements",
       "//chrome/browser/resources/chromeos/edu_login:polymer3_elements",
       "//chrome/browser/resources/chromeos/emulator:polymer3_elements",
+      "//chrome/browser/resources/chromeos/gaia_action_buttons:web_components",
       "//chrome/browser/resources/chromeos/set_time_dialog:polymer3_elements",
       "//chrome/browser/resources/chromeos/smb_shares:polymer3_elements",
       "//chrome/browser/supervised_user:supervised_user_unscaled_resources",
