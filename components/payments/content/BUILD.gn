@@ -4,7 +4,7 @@
 
 import("//build/config/jumbo.gni")
 
-jumbo_static_library("content") {
+static_library("content") {
   sources = [
     "autofill_payment_app.cc",
     "autofill_payment_app.h",
@@ -80,7 +80,7 @@ jumbo_static_library("content") {
 }
 
 # Files used by content and utility.
-jumbo_static_library("content_common") {
+static_library("content_common") {
   sources = [
     "web_app_manifest.cc",
     "web_app_manifest.h",
@@ -92,7 +92,7 @@ jumbo_static_library("content_common") {
   ]
 }
 
-jumbo_static_library("utils") {
+static_library("utils") {
   sources = [
     "developer_console_logger.cc",
     "developer_console_logger.h",
@@ -133,7 +133,7 @@ jumbo_static_library("utils") {
   ]
 }
 
-jumbo_source_set("unit_tests") {
+source_set("unit_tests") {
   testonly = true
   sources = [
     "payment_method_manifest_table_unittest.cc",
