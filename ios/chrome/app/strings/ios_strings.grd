@@ -707,6 +707,9 @@ Because your account is managed by <ph name="HOSTED_DOMAIN">$1<ex>google.com</ex
       <message name="IDS_IOS_DISCOVER_FEED_TITLE" desc="The title in the Discover feed menu.">
         Discover
       </message>
+      <message name="IDS_IOS_DISCOVER_FEED_TITLE_OFF_LABEL" desc="The 'Off' label appended to the title in the Discover feed menu.">
+        Off
+      </message>
       <message name="IDS_IOS_DISCOVER_FEED_MENU_LEARN_MORE_ITEM" desc="The 'Learn More' action for the Discover feed header menu.">
         Learn More
       </message>
