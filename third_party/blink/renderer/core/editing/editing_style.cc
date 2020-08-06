@@ -1499,8 +1499,10 @@ static void RemovePropertiesInStyle(
     CSSPropertyValueSet* style) {
   unsigned property_count = style->PropertyCount();
   Vector<const CSSProperty*> properties_to_remove(property_count);
-  for (unsigned i = 0; i < property_count; ++i)
-    properties_to_remove[i] = &style->PropertyAt(i).Property();
+  for (unsigned i = 0; i < property_count; ++i) {
+    // TODO(crbug.com/980160): Remove access to static Variable instance.
+    properties_to_remove[i] = &CSSProperty::Get(style->PropertyAt(i).Id());
+  }
 
   style_to_remove_properties_from->RemovePropertiesInSet(
       properties_to_remove.data(), properties_to_remove.size());

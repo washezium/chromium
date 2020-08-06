@@ -115,7 +115,9 @@ StringKeyframeVector ProcessKeyframesRule(
     keyframe->SetEasing(default_timing_function);
     const CSSPropertyValueSet& properties = style_keyframe->Properties();
     for (unsigned j = 0; j < properties.PropertyCount(); j++) {
-      const CSSProperty& property = properties.PropertyAt(j).Property();
+      // TODO(crbug.com/980160): Remove access to static Variable instance.
+      const CSSProperty& property =
+          CSSProperty::Get(properties.PropertyAt(j).Id());
       specified_properties_for_use_counter.insert(&property);
       if (property.PropertyID() == CSSPropertyID::kAnimationTimingFunction) {
         const CSSValue& value = properties.PropertyAt(j).Value();

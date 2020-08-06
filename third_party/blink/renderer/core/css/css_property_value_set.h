@@ -61,8 +61,6 @@ class CORE_EXPORT CSSPropertyValueSet
     CSSPropertyID Id() const {
       return static_cast<CSSPropertyID>(PropertyMetadata().PropertyID());
     }
-    // TODO(crbug.com/980160): Remove this function.
-    const CSSProperty& Property() const { return CSSProperty::Get(Id()); }
     CSSPropertyID ShorthandID() const {
       return PropertyMetadata().ShorthandID();
     }
@@ -71,6 +69,10 @@ class CORE_EXPORT CSSPropertyValueSet
 
     bool IsImportant() const { return PropertyMetadata().important_; }
     bool IsImplicit() const { return PropertyMetadata().implicit_; }
+    bool IsAffectedByAll() const {
+      return Id() != CSSPropertyID::kVariable &&
+             CSSProperty::Get(Id()).IsAffectedByAll();
+    }
 
     const CSSValue& Value() const { return PropertyValue(); }
 
