@@ -56,6 +56,8 @@ os_settings_namespace_rewrites = settings_namespace_rewrites +
                                    "settings.Router|Router",
                                    "settings.routes|routes",
                                    "settings.SmartLockSignInEnabledState|SmartLockSignInEnabledState",
+                                   "settings.TimeZoneAutoDetectMethod|TimeZoneAutoDetectMethod",
+                                   "settings.TimeZoneBrowserProxyImpl|TimeZoneBrowserProxyImpl",
                                    "settings.ValidateKerberosConfigResult|ValidateKerberosConfigResult",
                                    "settings.WallpaperBrowserProxy|WallpaperBrowserProxy",
                                  ]
