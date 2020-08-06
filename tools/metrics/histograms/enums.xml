@@ -41457,6 +41457,7 @@ from previous Chrome versions.
   <int value="-460702745" label="ExportTaggedPDF:disabled"/>
   <int value="-460313418" label="ProgressBarThrottle:enabled"/>
   <int value="-460081932" label="CustomFeedbackUi:disabled"/>
+  <int value="-459318667" label="AccessiblePDFForm:enabled"/>
   <int value="-457292000" label="HappinessTrackingSurveysForDesktop:enabled"/>
   <int value="-457174225" label="Av1Decoder:enabled"/>
   <int value="-456321929" label="ForceEnableSystemAec:disabled"/>
@@ -42511,6 +42512,7 @@ from previous Chrome versions.
   <int value="701766325" label="PerNavigationMojoInterface:enabled"/>
   <int value="703469777" label="AndroidNightModeTabReparenting:enabled"/>
   <int value="705407202" label="AutofillSaveCardImprovedUserConsent:disabled"/>
+  <int value="705411729" label="AccessiblePDFForm:disabled"/>
   <int value="705712478" label="EnablePalmOnToolTypePalm:disabled"/>
   <int value="705713283" label="EasyUnlockPromotions:disabled"/>
   <int value="705946076"

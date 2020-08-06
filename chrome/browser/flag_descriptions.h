@@ -58,6 +58,11 @@ extern const char kAccessibilityExposeARIAAnnotationsDescription[];
 extern const char kAccessibilityExposeDisplayNoneName[];
 extern const char kAccessibilityExposeDisplayNoneDescription[];
 
+#if BUILDFLAG(ENABLE_PLUGINS)
+extern const char kAccessiblePDFFormName[];
+extern const char kAccessiblePDFFormDescription[];
+#endif  // BUILDFLAG(ENABLE_PLUGINS)
+
 extern const char kAccountIdMigrationName[];
 extern const char kAccountIdMigrationDescription[];
 

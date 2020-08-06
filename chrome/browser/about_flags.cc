@@ -4204,6 +4204,10 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(features::kSplitPartiallyOccludedQuads)},
 
 #if BUILDFLAG(ENABLE_PDF)
+    {"accessible-pdf-form", flag_descriptions::kAccessiblePDFFormName,
+     flag_descriptions::kAccessiblePDFFormDescription, kOsDesktop,
+     FEATURE_VALUE_TYPE(chrome_pdf::features::kAccessiblePDFForm)},
+
     {"pdf-form-save", flag_descriptions::kPdfFormSaveName,
      flag_descriptions::kPdfFormSaveDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(chrome_pdf::features::kSaveEditedPDFForm)},

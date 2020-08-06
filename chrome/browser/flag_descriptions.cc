@@ -34,6 +34,12 @@ const char kAccessibilityExposeDisplayNoneDescription[] =
     "Expose 'display: none' nodes that have an HTML ID to the browser process "
     "accessibility tree.";
 
+#if BUILDFLAG(ENABLE_PLUGINS)
+const char kAccessiblePDFFormName[] = "Accessible PDF Forms";
+const char kAccessiblePDFFormDescription[] =
+    "Enables accessibility support for PDF forms.";
+#endif  // BUILDFLAG(ENABLE_PLUGINS)
+
 const char kAccountIdMigrationName[] = "Account ID migration";
 const char kAccountIdMigrationDescription[] =
     "Migrate to use Gaia ID instead of the email as the account identifer for "
