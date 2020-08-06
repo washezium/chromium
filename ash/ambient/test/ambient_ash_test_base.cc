@@ -149,11 +149,21 @@ void AmbientAshTestBase::SimulateSystemResumeAndWait() {
   base::RunLoop().RunUntilIdle();
 }
 
-void AmbientAshTestBase::SetScreenDimmedAndWait(bool is_screen_dimmed) {
+void AmbientAshTestBase::SetScreenIdleStateAndWait(bool is_screen_dimmed,
+                                                   bool is_off) {
   power_manager::ScreenIdleState screen_idle_state;
   screen_idle_state.set_dimmed(is_screen_dimmed);
+  screen_idle_state.set_off(is_off);
   chromeos::FakePowerManagerClient::Get()->SendScreenIdleStateChanged(
       screen_idle_state);
+  base::RunLoop().RunUntilIdle();
+}
+
+void AmbientAshTestBase::SetScreenBrightnessAndWait(double percent) {
+  power_manager::BacklightBrightnessChange change;
+  change.set_percent(percent);
+
+  chromeos::FakePowerManagerClient::Get()->SendScreenBrightnessChanged(change);
   base::RunLoop().RunUntilIdle();
 }
 
