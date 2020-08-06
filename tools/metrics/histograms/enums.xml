@@ -21356,6 +21356,7 @@ Called by update_document_policy_enum.py.-->
   <int value="761" label="NearbyShareAllowed"/>
   <int value="762" label="PerAppTimeLimitsAllowlist"/>
   <int value="763" label="DeviceShowLowDiskSpaceNotification"/>
+  <int value="764" label="DeviceUserAllowlist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
