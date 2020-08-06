@@ -16828,7 +16828,7 @@ metrics consent we also won't be able to send UMA metrics. -->
 <!-- Generated from third_party/blink/public/mojom/feature_policy/document_policy_feature.mojom.
 Called by update_document_policy_enum.py.-->
 
-  <int value="0" label="NotFound"/>
+  <int value="0" label="Default"/>
   <int value="1" label="FontDisplay"/>
   <int value="2" label="UnoptimizedLosslessImages"/>
   <int value="3" label="ForceLoadAtTop"/>
