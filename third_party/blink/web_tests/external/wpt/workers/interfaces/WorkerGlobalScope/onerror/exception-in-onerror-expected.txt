@@ -1,0 +1,19 @@
+This is a testharness.js-based test.
+PASS Throw in worker initialization: classic: listener
+PASS Throw in worker initialization: classic: handler
+FAIL Throw in setTimeout(function): classic: listener assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in setTimeout(function): classic: handler assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+PASS Throw in setTimeout(string): classic: listener
+PASS Throw in setTimeout(string): classic: handler
+FAIL Throw in message handler: classic: listener assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in message handler: classic: handler assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in worker initialization: module: listener assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in worker initialization: module: handler assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in setTimeout(function): module: listener assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in setTimeout(function): module: handler assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+PASS Throw in setTimeout(string): module: listener
+PASS Throw in setTimeout(string): module: handler
+FAIL Throw in message handler: module: listener assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+FAIL Throw in message handler: module: handler assert_unreached: Worker.onerror not fired for: Throw in error handler Reached unreachable code
+Harness: the test ran to completion.
+
