@@ -75,9 +75,8 @@ public class CriticalPersistedTabData extends PersistedTabData {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     CriticalPersistedTabData(Tab tab, int parentId, int rootId, long timestampMillis,
             WebContentsState webContentsState, int contentStateVersion, String openerAppId,
-            int themeColor, int launchTypeAtCreation,
-            PersistedTabDataStorage persistedTabDataStorage, String persistedTabDataId) {
-        super(tab, persistedTabDataStorage, persistedTabDataId);
+            int themeColor, int launchTypeAtCreation) {
+        this(tab);
         mParentId = parentId;
         mRootId = rootId;
         mTimestampMillis = timestampMillis;
@@ -136,16 +135,13 @@ public class CriticalPersistedTabData extends PersistedTabData {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     public static CriticalPersistedTabData build(Tab tab) {
-        PersistedTabDataConfiguration config = PersistedTabDataConfiguration.get(
-                CriticalPersistedTabData.class, tab.isIncognito());
         // CriticalPersistedTabData is initialized with default values
         CriticalPersistedTabData criticalPersistedTabData =
                 new CriticalPersistedTabData(tab, Tab.INVALID_TAB_ID, tab.getId(),
                         INVALID_TIMESTAMP, null, -1, "", UNSPECIFIED_THEME_COLOR,
                         tab.getLaunchTypeAtInitialTabCreation() == null
                                 ? TabLaunchType.FROM_LINK
-                                : tab.getLaunchTypeAtInitialTabCreation(),
-                        config.storage, config.id);
+                                : tab.getLaunchTypeAtInitialTabCreation());
         return criticalPersistedTabData;
     }
 
@@ -268,7 +264,7 @@ public class CriticalPersistedTabData extends PersistedTabData {
                 .setParentId(mParentId)
                 .setRootId(mRootId)
                 .setTimestampMillis(mTimestampMillis)
-                .setWebContentsStateBytes(ByteString.copyFrom(mWebContentsState.buffer()))
+                .setWebContentsStateBytes(ByteString.copyFrom(mWebContentsState.buffer().array()))
                 .setContentStateVersion(mContentStateVersion)
                 .setOpenerAppId(mOpenerAppId)
                 .setThemeColor(mThemeColor)
@@ -277,12 +273,24 @@ public class CriticalPersistedTabData extends PersistedTabData {
                 .toByteArray();
     }
 
+    // TODO(crbug.com/1113814) remove save() override
     @Override
     public void save() {
         mTab.setIsTabStateDirty(true);
         // super.save() will be called when we start saving serialized CriticalPersistedTabData
         // files. The first part of the migraiton is to move Tab fields to CriticalPersistedTabData
         // without saving (i.e. as a regular UserData object).
+    }
+
+    /**
+     * Used in tests when we need to save a CriticalPersistedTabData object.
+     * Ultimately will be deprecated by this.save() - for now this.save()
+     * is not saving while fields are being migrated to CriticalPersistedTabData
+     * TODO(crbug.com/1113813) Remove saveForTesting()
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    protected void saveForTesting() {
+        super.save();
     }
 
     @Override
