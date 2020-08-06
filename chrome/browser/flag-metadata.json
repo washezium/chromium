@@ -4442,13 +4442,8 @@
     "expiry_milestone": 86
   },
   {
-    "name": "webpage-default-zoom-from-dynamic-type",
-    "owners": [ "rkgibson", "bling-flags" ],
-    "expiry_milestone": 87
-  },
-  {
     "name": "webpage-text-accessibility",
-    "owners": [ "rkgibson", "bling-flags" ],
+    "owners": [ "rkgibson" ],
     "expiry_milestone": 86
   },
   {
