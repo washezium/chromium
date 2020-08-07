@@ -271,6 +271,7 @@ crbug.com/936084 external/wpt/css/css-sizing/max-content-input-001.html [ Failur
 crbug.com/1102803 external/wpt/svg/extensibility/foreignObject/isolation-with-svg.html [ Failure ]
 
 # Display locking failures
+crbug.com/1113838 external/wpt/css/css-contain/content-visibility/content-visibility-074.html [ Failure ]
 
 crbug.com/849459 fragmentation/repeating-thead-under-repeating-thead.html [ Failure ]
 
