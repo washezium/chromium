@@ -70,6 +70,7 @@ class PasswordCheckManager
       password_manager::BulkLeakCheckServiceInterface::State state) override;
   void OnCredentialDone(const password_manager::LeakCheckCredential& credential,
                         password_manager::IsLeaked is_leaked) override;
+  void OnBulkCheckServiceShutDown() override;
 
   // Converts the state retrieved from the check service into a state that
   // can be used by the UI to display appropriate messages.

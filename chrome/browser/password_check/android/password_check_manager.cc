@@ -90,6 +90,11 @@ void PasswordCheckManager::OnCredentialDone(
   // TODO(crbug.com/1102025): implement this.
 }
 
+void PasswordCheckManager::OnBulkCheckServiceShutDown() {
+  observed_bulk_leak_check_service_.Remove(
+      BulkLeakCheckServiceFactory::GetForProfile(profile_));
+}
+
 PasswordCheckUIStatus PasswordCheckManager::GetUIStatus(State state) const {
   switch (state) {
     case State::kIdle:
