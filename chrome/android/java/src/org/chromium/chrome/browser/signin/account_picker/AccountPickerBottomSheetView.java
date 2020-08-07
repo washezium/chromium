@@ -109,6 +109,19 @@ class AccountPickerBottomSheetView implements BottomSheetContent {
         mContinueAsButton.setText(continueAsButtonText);
     }
 
+    /**
+     * Sets up the sign-in in progress view.
+     */
+    void setUpSignInInProgressView() {
+        // TODO(https://crbug.com/1102784):
+        //  - Setup the sign-in string |Signing in...|
+        //  - Add signing in progress spinner
+        mContentView.findViewById(R.id.account_picker_bottom_sheet_subtitle)
+                .setVisibility(View.GONE);
+        mSelectedAccountView.setVisibility(View.GONE);
+        mContinueAsButton.setVisibility(View.GONE);
+    }
+
     @Override
     public View getContentView() {
         return mContentView;
