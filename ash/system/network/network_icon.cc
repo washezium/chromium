@@ -165,28 +165,13 @@ ImageType ImageTypeForNetworkType(NetworkType network_type) {
   return NONE;
 }
 
-gfx::Size GetSizeForIconType(IconType icon_type) {
-  int size = kMenuIconSize;
-  if (IsTrayIcon(icon_type)) {
-    size = kUnifiedTrayIconSize;
-  } else if (icon_type == ICON_TYPE_DEFAULT_VIEW) {
-    size = kUnifiedFeaturePodVectorIconSize;
-  }
-  return gfx::Size(size, size);
-}
-
-int GetPaddingForIconType(IconType icon_type) {
-  if (IsTrayIcon(icon_type))
-    return kUnifiedTrayNetworkIconPadding;
-  return kTrayNetworkIconPadding;
-}
-
 gfx::ImageSkia GetImageForIndex(ImageType image_type,
                                 IconType icon_type,
                                 int index) {
   return gfx::CanvasImageSource::MakeImageSkia<SignalStrengthImageSource>(
       image_type, GetDefaultColorForIconType(icon_type),
-      GetSizeForIconType(icon_type), index, GetPaddingForIconType(icon_type));
+      gfx::Size(kUnifiedTrayIconSize, kUnifiedTrayIconSize), index,
+      kUnifiedTrayNetworkIconPadding);
 }
 
 gfx::ImageSkia* ConnectingWirelessImage(ImageType image_type,
@@ -519,8 +504,7 @@ gfx::ImageSkia GetImageForVPN(const NetworkStateProperties* vpn,
 
 gfx::ImageSkia GetImageForWiFiEnabledState(bool enabled, IconType icon_type) {
   if (!enabled) {
-    return gfx::CreateVectorIcon(kUnifiedMenuWifiOffIcon,
-                                 GetSizeForIconType(icon_type).width(),
+    return gfx::CreateVectorIcon(kUnifiedMenuWifiOffIcon, kUnifiedTrayIconSize,
                                  GetDefaultColorForIconType(icon_type));
   }
 
