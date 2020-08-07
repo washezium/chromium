@@ -2678,7 +2678,7 @@ TEST_P(OmniboxViewViewsHideOnInteractionTest, GradientMask) {
       elide_animation->GetAnimationForTesting();
   elide_as_element->SetStartTime(base::TimeTicks());
   uint32_t step = 1;
-  int max_gradient_width = OmniboxViewViews::kSmoothingGradientMaxWidth;
+  int max_gradient_width = OmniboxViewViews::kSmoothingGradientMaxWidth - 1;
   while (omnibox_view()->elide_animation_smoothing_rect_right_.width() <
          max_gradient_width) {
     elide_as_element->Step(base::TimeTicks() +
@@ -2713,13 +2713,15 @@ TEST_P(OmniboxViewViewsHideOnInteractionTest, GradientMask) {
   int offset = elide_animation->GetCurrentOffsetForTesting();
   gfx::Rect display_rect = render_text->display_rect();
   // Check the expected size and positions for both gradients.
-  EXPECT_EQ(omnibox_view()->elide_animation_smoothing_rect_left_.width(),
-            simplified_rect.x() + offset);
+  EXPECT_TRUE(omnibox_view()->elide_animation_smoothing_rect_left_.width() ==
+                  simplified_rect.x() + offset - 1 ||
+              omnibox_view()->elide_animation_smoothing_rect_left_.width() ==
+                  0);
   EXPECT_EQ(omnibox_view()->elide_animation_smoothing_rect_left_.x(),
             display_rect.x());
   EXPECT_EQ(omnibox_view()->elide_animation_smoothing_rect_right_.width(),
-            display_rect.right() - (simplified_rect.right() + offset));
-  EXPECT_EQ(omnibox_view()->elide_animation_smoothing_rect_right_.x(),
+            display_rect.right() - (simplified_rect.right() + offset) - 1);
+  EXPECT_EQ(omnibox_view()->elide_animation_smoothing_rect_right_.x() - 1,
             simplified_rect.right() + offset);
 }
 
