@@ -1630,7 +1630,9 @@ NSString* const kBrowserViewControllerSnackbarCategory =
         // change on rotation.
         [_toolbarUIUpdater updateState];
       }
-                      completion:nil];
+      completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.fullscreenController->ResizeViewport();
+      }];
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)flag
