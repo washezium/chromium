@@ -2,21 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
-#define CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
+#ifndef COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
+#define COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
 
 #include <string>
 
 #include "components/optimization_guide/optimization_guide_decider.h"
 #include "components/optimization_guide/optimization_guide_enums.h"
+#include "components/optimization_guide/proto/common_types.pb.h"
 #include "components/optimization_guide/proto/models.pb.h"
+
+namespace optimization_guide {
 
 // Returns the string than can be used to record histograms for the optimization
 // target. If adding a histogram to use the string or adding an optimization
 // target, update the OptimizationGuide.OptimizationTargets histogram suffixes
 // in histograms.xml.
 std::string GetStringNameForOptimizationTarget(
-    optimization_guide::proto::OptimizationTarget optimization_target);
+    proto::OptimizationTarget optimization_target);
 
 // Returns false if the host is an IP address, localhosts, or an invalid
 // host that is not supported by the remote optimization guide.
@@ -25,6 +28,13 @@ bool IsHostValidToFetchFromRemoteOptimizationGuide(const std::string& host);
 // Returns the OptimizationGuideDecision from |optimization_type_decision|.
 optimization_guide::OptimizationGuideDecision
 GetOptimizationGuideDecisionFromOptimizationTypeDecision(
-    optimization_guide::OptimizationTypeDecision optimization_type_decision);
+    OptimizationTypeDecision optimization_type_decision);
 
-#endif  // CHROME_BROWSER_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
+// Returns the set of active field trials that are allowed to be sent to the
+// remote Optimization Guide Service.
+google::protobuf::RepeatedPtrField<proto::FieldTrial>
+GetActiveFieldTrialsAllowedForFetch();
+
+}  // namespace optimization_guide
+
+#endif  // COMPONENTS_OPTIMIZATION_GUIDE_OPTIMIZATION_GUIDE_UTIL_H_
