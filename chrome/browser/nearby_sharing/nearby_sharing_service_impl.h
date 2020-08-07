@@ -135,6 +135,10 @@ class NearbySharingServiceImpl
   void InvalidateReceiveSurfaceState();
   void InvalidateAdvertisingState();
   void StopAdvertising();
+
+  StatusCodes ReceivePayloads(const ShareTarget& share_target);
+  StatusCodes SendPayloads(const ShareTarget& share_target);
+
   void WriteResponse(
       NearbyConnection& connection,
       sharing::nearby::ConnectionResponseFrame::Status reponse_status);
@@ -167,6 +171,8 @@ class NearbySharingServiceImpl
       const ShareTarget& share_target);
   void ClearOutgoingShareTargetInfoMap();
   void SetAttachmentPayloadId(const Attachment& attachment, int64_t payload_id);
+  base::Optional<int64_t> GetAttachmentPayloadId(
+      const base::UnguessableToken& attachment_id);
 
   PrefService* prefs_;
   Profile* profile_;
