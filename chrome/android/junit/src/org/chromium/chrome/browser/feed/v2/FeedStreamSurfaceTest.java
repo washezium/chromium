@@ -423,7 +423,7 @@ public class FeedStreamSurfaceTest {
         when(mPageNavigationDelegate.openUrl(anyInt(), any())).thenReturn(new MockTab(1, false));
         mFeedStreamSurface.navigateNewTab(TEST_URL);
         verify(mPageNavigationDelegate)
-                .openUrl(ArgumentMatchers.eq(WindowOpenDisposition.NEW_FOREGROUND_TAB), any());
+                .openUrl(ArgumentMatchers.eq(WindowOpenDisposition.NEW_BACKGROUND_TAB), any());
         assertEquals(1, actionOpenedSnippetDelta.getDelta());
     }
 

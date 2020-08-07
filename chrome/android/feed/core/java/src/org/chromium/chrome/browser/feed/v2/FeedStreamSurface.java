@@ -32,6 +32,7 @@ import org.chromium.chrome.browser.offlinepages.OfflinePageBridge;
 import org.chromium.chrome.browser.offlinepages.RequestCoordinatorBridge;
 import org.chromium.chrome.browser.profiles.Profile;
 import org.chromium.chrome.browser.signin.IdentityServicesProvider;
+import org.chromium.chrome.browser.suggestions.NavigationRecorder;
 import org.chromium.chrome.browser.suggestions.SuggestionsConfig;
 import org.chromium.chrome.browser.tab.EmptyTabObserver;
 import org.chromium.chrome.browser.tab.Tab;
@@ -597,7 +598,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
                 FeedStreamSurface.this, getSliceIdFromView(actionSourceView));
         NewTabPageUma.recordAction(NewTabPageUma.ACTION_OPENED_SNIPPET);
 
-        openUrl(url, WindowOpenDisposition.NEW_FOREGROUND_TAB);
+        openUrl(url, WindowOpenDisposition.NEW_BACKGROUND_TAB);
 
         // Attempts to load more content if needed.
         maybeLoadMore();
@@ -815,6 +816,8 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
         if (tab != null) {
             tab.addObserver(new FeedTabNavigationObserver(inNewTab));
+            NavigationRecorder.record(tab,
+                    visitData -> FeedServiceBridge.reportOpenVisitComplete(visitData.duration));
         }
     }
 
