@@ -914,7 +914,6 @@ crbug.com/591099 [ Mac ] fast/multicol/file-upload-as-multicol.html [ Failure ]
 # LayoutNG failures that needs to be triaged
 crbug.com/591099 virtual/text-antialias/selection/selection-rect-line-height-too-small.html [ Failure ]
 crbug.com/591099 external/wpt/css/css-text/hyphens/hyphens-out-of-flow-002.html [ Failure ]
-crbug.com/591099 external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-vertical.html [ Failure ]
 crbug.com/591099 fast/css-intrinsic-dimensions/width-avoid-floats.html [ Failure ]
 crbug.com/591099 fast/selectors/shadow-host-div-with-span.html [ Failure ]
 crbug.com/591099 fast/selectors/shadow-host-div-with-text.html [ Failure ]
@@ -1296,9 +1295,13 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 # Fieldset in NG
 #
 
-## Fieldseet in NG - Passing reference tests
-crbug.com/875235 virtual/layout_ng_block_frag/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-vertical.html [ Pass ]
-crbug.com/875235 virtual/layout_ng_fieldset/external/wpt/html/rendering/non-replaced-elements/the-fieldset-and-legend-elements/fieldset-vertical.html [ Pass ]
+# A simpified Layout issue
+crbug.com/875235 external/wpt/inert/inert-retargeting-iframe.tentative.html [ Crash Pass ]
+crbug.com/875235 external/wpt/inert/inert-retargeting.tentative.html [ Crash Pass ]
+# Size containment
+crbug.com/875235 external/wpt/css/css-sizing/contain-intrinsic-size/contain-intrinsic-size-014.html [ Failure ]
+# Mask paiting area
+crbug.com/875235 paint/masks/fieldset-mask.html [ Failure ]
 
 
 # ====== LayoutNG-only failures until here ======
