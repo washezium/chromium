@@ -2361,6 +2361,8 @@ if (!is_android) {
         "../browser/chromeos/login/test/enrollment_helper_mixin.h",
         "../browser/chromeos/login/test/enrollment_ui_mixin.cc",
         "../browser/chromeos/login/test/enrollment_ui_mixin.h",
+        "../browser/chromeos/login/test/fake_eula_mixin.cc",
+        "../browser/chromeos/login/test/fake_eula_mixin.h",
         "../browser/chromeos/login/test/fake_gaia_mixin.cc",
         "../browser/chromeos/login/test/fake_gaia_mixin.h",
         "../browser/chromeos/login/test/guest_session_mixin.cc",
