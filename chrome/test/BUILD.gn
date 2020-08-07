@@ -758,6 +758,7 @@ if (!is_android) {
     data_deps = [
       "//chrome:browser_tests_pak",
       "//chrome/browser/resources/media/mei_preload:component",
+      "//chrome/test/data/webui:modulize",
 
       # TODO(thakis): Why do these need copying in browser_tests?
       # content_browsertests uses the non-copied files instead.
@@ -805,6 +806,7 @@ if (!is_android) {
       "//third_party/simplejson/",
       "//third_party/tlslite/",
       "//ui/webui/resources/",
+      "$root_gen_dir/chrome/test/data/webui/test_util.m.js",
     ]
     data += js2gtest_js_libraries
     data += metric_integration_jsdeps
