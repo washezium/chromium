@@ -3817,6 +3817,7 @@ static_library("browser") {
   }
 
   if (is_chromeos) {
+    assert(enable_native_notifications)
     sources += [
       "apps/app_service/arc_activity_adaptive_icon_impl.cc",
       "apps/app_service/arc_activity_adaptive_icon_impl.h",
@@ -3929,6 +3930,9 @@ static_library("browser") {
       "notifications/chrome_ash_message_center_client.h",
       "notifications/extension_notifier_controller.cc",
       "notifications/extension_notifier_controller.h",
+      "notifications/notification_platform_bridge_chromeos.cc",
+      "notifications/notification_platform_bridge_chromeos.h",
+      "notifications/notification_platform_bridge_delegate.h",
       "notifications/notifier_controller.h",
       "notifications/web_page_notifier_controller.cc",
       "notifications/web_page_notifier_controller.h",
@@ -4005,13 +4009,6 @@ static_library("browser") {
       "//ui/ozone",
     ]
     allow_circular_includes_from += [ "//chrome/browser/chromeos" ]
-
-    if (enable_native_notifications) {
-      sources += [
-        "notifications/notification_platform_bridge_chromeos.cc",
-        "notifications/notification_platform_bridge_chromeos.h",
-      ]
-    }
   } else {  # Non - ChromeOS.
     sources += [
       "fullscreen.h",
