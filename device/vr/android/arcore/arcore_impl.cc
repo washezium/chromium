@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/vr/arcore_device/arcore_impl.h"
+#include "device/vr/android/arcore/arcore_impl.h"
 
 #include "base/android/jni_android.h"
 #include "base/bind.h"
@@ -10,11 +10,10 @@
 #include "base/optional.h"
 #include "base/trace_event/trace_event.h"
 #include "base/util/type_safety/pass_key.h"
-#include "chrome/browser/android/vr/arcore_device/arcore_plane_manager.h"
-#include "chrome/browser/android/vr/arcore_device/type_converters.h"
+#include "device/vr/android/arcore/arcore_plane_manager.h"
+#include "device/vr/android/arcore/type_converters.h"
 #include "device/vr/public/mojom/pose.h"
 #include "device/vr/public/mojom/vr_service.mojom.h"
-#include "third_party/skia/include/core/SkMatrix44.h"
 #include "ui/display/display.h"
 #include "ui/gfx/geometry/point3_f.h"
 #include "ui/gfx/geometry/point_f.h"
@@ -587,7 +586,7 @@ bool ArCoreImpl::ConfigureCamera(ArSession* ar_session) const {
   return true;
 }
 
-void ArCoreImpl::SetCameraTexture(GLuint camera_texture_id) {
+void ArCoreImpl::SetCameraTexture(uint32_t camera_texture_id) {
   DCHECK(IsOnGlThread());
   DCHECK(arcore_session_.is_valid());
   ArSession_setCameraTextureName(arcore_session_.get(), camera_texture_id);

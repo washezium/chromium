@@ -2,18 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ARCORE_IMPL_H_
-#define CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ARCORE_IMPL_H_
+#ifndef DEVICE_VR_ANDROID_ARCORE_ARCORE_IMPL_H_
+#define DEVICE_VR_ANDROID_ARCORE_ARCORE_IMPL_H_
 
+#include "base/component_export.h"
 #include "base/macros.h"
 #include "base/optional.h"
 #include "base/time/time.h"
 #include "base/util/type_safety/id_type.h"
-#include "chrome/browser/android/vr/arcore_device/arcore.h"
-#include "chrome/browser/android/vr/arcore_device/arcore_anchor_manager.h"
-#include "chrome/browser/android/vr/arcore_device/arcore_plane_manager.h"
-#include "chrome/browser/android/vr/arcore_device/arcore_sdk.h"
-#include "chrome/browser/android/vr/arcore_device/scoped_arcore_objects.h"
+#include "device/vr/android/arcore/arcore.h"
+#include "device/vr/android/arcore/arcore_anchor_manager.h"
+#include "device/vr/android/arcore/arcore_plane_manager.h"
+#include "device/vr/android/arcore/arcore_sdk.h"
+#include "device/vr/android/arcore/scoped_arcore_objects.h"
 #include "device/vr/public/mojom/vr_service.mojom.h"
 
 namespace device {
@@ -109,7 +110,7 @@ class ArCoreImpl : public ArCore {
       base::android::ScopedJavaLocalRef<jobject> application_context) override;
   void SetDisplayGeometry(const gfx::Size& frame_size,
                           display::Display::Rotation display_rotation) override;
-  void SetCameraTexture(GLuint camera_texture_id) override;
+  void SetCameraTexture(uint32_t camera_texture_id) override;
   std::vector<float> TransformDisplayUvCoords(
       const base::span<const float> uvs) override;
   gfx::Transform GetProjectionMatrix(float near, float far) override;
@@ -286,11 +287,14 @@ class ArCoreImpl : public ArCore {
   DISALLOW_COPY_AND_ASSIGN(ArCoreImpl);
 };
 
-class ArCoreImplFactory : public ArCoreFactory {
+// TODO(https://crbug.com/843374): Once the arcore_device class is moved,
+// determine if this is still necessary or if we should have some other form of
+// factory that can abstract this.
+class COMPONENT_EXPORT(VR_ARCORE) ArCoreImplFactory : public ArCoreFactory {
  public:
   std::unique_ptr<ArCore> Create() override;
 };
 
 }  // namespace device
 
-#endif  // CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ARCORE_IMPL_H_
+#endif  // DEVICE_VR_ANDROID_ARCORE_ARCORE_IMPL_H_

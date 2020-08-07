@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/vr/arcore_device/arcore_plane_manager.h"
+#include "device/vr/android/arcore/arcore_plane_manager.h"
 
 #include "base/stl_util.h"
-#include "chrome/browser/android/vr/arcore_device/type_converters.h"
+#include "device/vr/android/arcore/type_converters.h"
 
 namespace device {
 
@@ -191,11 +191,11 @@ void ArCorePlaneManager::Update(ArFrame* ar_frame) {
   // Shrink |plane_address_to_id_|, removing all planes that are no longer
   // tracked or were subsumed - if they do not show up in
   // |new_plane_id_to_plane_info| map, they are no longer tracked.
-  plane_address_to_id_.EraseIf([&new_plane_id_to_plane_info](
-                                   const auto& plane_address_and_id) {
-    return !base::Contains(new_plane_id_to_plane_info,
-                           plane_address_and_id.second);
-  });
+  plane_address_to_id_.EraseIf(
+      [&new_plane_id_to_plane_info](const auto& plane_address_and_id) {
+        return !base::Contains(new_plane_id_to_plane_info,
+                               plane_address_and_id.second);
+      });
   plane_id_to_plane_info_.swap(new_plane_id_to_plane_info);
   updated_plane_ids_.swap(updated_plane_ids);
 }

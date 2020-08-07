@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ADDRESS_TO_ID_MAP_H_
-#define CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ADDRESS_TO_ID_MAP_H_
+#ifndef DEVICE_VR_ANDROID_ARCORE_ADDRESS_TO_ID_MAP_H_
+#define DEVICE_VR_ANDROID_ARCORE_ADDRESS_TO_ID_MAP_H_
 
 #include "base/check.h"
 #include "base/optional.h"
@@ -80,4 +80,4 @@ class AddressToIdMap {
 
 }  // namespace device
 
-#endif  // CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_ADDRESS_TO_ID_MAP_H_
+#endif  // DEVICE_VR_ANDROID_ARCORE_ADDRESS_TO_ID_MAP_H_

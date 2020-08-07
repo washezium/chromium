@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_SCOPED_ARCORE_OBJECTS_H_
-#define CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_SCOPED_ARCORE_OBJECTS_H_
+#ifndef DEVICE_VR_ANDROID_ARCORE_SCOPED_ARCORE_OBJECTS_H_
+#define DEVICE_VR_ANDROID_ARCORE_SCOPED_ARCORE_OBJECTS_H_
 
 #include "base/scoped_generic.h"
-#include "chrome/browser/android/vr/arcore_device/arcore_sdk.h"
+#include "device/vr/android/arcore/arcore_sdk.h"
 
 namespace device {
 namespace internal {
@@ -102,4 +102,4 @@ using ScopedArCoreObject = base::ScopedGeneric<T, ScopedGenericArObject<T>>;
 }  // namespace internal
 }  // namespace device
 
-#endif  // CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_SCOPED_ARCORE_OBJECTS_H_
+#endif  // DEVICE_VR_ANDROID_ARCORE_SCOPED_ARCORE_OBJECTS_H_

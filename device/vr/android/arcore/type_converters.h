@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_TYPE_CONVERTERS_H_
-#define CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_TYPE_CONVERTERS_H_
+#ifndef DEVICE_VR_ANDROID_ARCORE_TYPE_CONVERTERS_H_
+#define DEVICE_VR_ANDROID_ARCORE_TYPE_CONVERTERS_H_
 
-#include "chrome/browser/android/vr/arcore_device/arcore_sdk.h"
+#include "device/vr/android/arcore/arcore_sdk.h"
 #include "device/vr/public/mojom/vr_service.mojom.h"
 #include "ui/gfx/transform.h"
 
@@ -28,4 +28,4 @@ struct TypeConverter<gfx::Transform, device::mojom::Pose> {
 
 }  // namespace mojo
 
-#endif  // CHROME_BROWSER_ANDROID_VR_ARCORE_DEVICE_TYPE_CONVERTERS_H_
+#endif  // DEVICE_VR_ANDROID_ARCORE_TYPE_CONVERTERS_H_

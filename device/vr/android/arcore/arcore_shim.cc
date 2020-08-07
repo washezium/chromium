@@ -2,13 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/vr/arcore_device/arcore_sdk.h"
+#include "device/vr/android/arcore/arcore_shim.h"
 
 #include <dlfcn.h>
 
 #include "base/android/android_hardware_buffer_compat.h"
 #include "base/android/build_info.h"
 #include "base/logging.h"
+#include "device/vr/android/arcore/arcore_sdk.h"
 
 namespace {
 

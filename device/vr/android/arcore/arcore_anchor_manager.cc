@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/android/vr/arcore_device/arcore_anchor_manager.h"
+#include "device/vr/android/arcore/arcore_anchor_manager.h"
 
-#include "chrome/browser/android/vr/arcore_device/type_converters.h"
+#include "device/vr/android/arcore/type_converters.h"
 
 namespace device {
 
