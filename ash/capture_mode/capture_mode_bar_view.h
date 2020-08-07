@@ -20,6 +20,24 @@ class CaptureModeSourceView;
 class CaptureModeTypeView;
 
 // A view that acts as the content view of the capture mode bar widget.
+// It has a set of buttons to toggle between image and video capture, and
+// another set of buttons to toggle between fullscreen, region, and window
+// capture sources. The structure looks like this:
+//
+//   +--------------------------------------------------------+
+//   |  +----------------+  |                       |         |
+//   |  |  +---+  +---+  |  |  +---+  +---+  +---+  |  +---+  |
+//   |  |  |   |  |   |  |  |  |   |  |   |  |   |  |  |   |  |
+//   |  |  +---+  +---+  |  |  +---+  +---+  +---+  |  +---+  |
+//   |  +----------------+  |  ^                 ^  |  ^      |
+//   +--^----------------------|-----------------|-----|------+
+//   ^  |                      +-----------------+     |
+//   |  |                      |                       CaptureModeCloseButton
+//   |  |                      CaptureModeSourceView
+//   |  CaptureModeTypeView
+//   |
+//   CaptureModeBarView
+//
 class ASH_EXPORT CaptureModeBarView : public views::View,
                                       public views::ButtonListener {
  public:
