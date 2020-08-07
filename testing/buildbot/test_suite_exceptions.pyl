@@ -397,16 +397,6 @@
           '--additional-driver-flag=--enable-blink-features=LayoutNGFragmentItem',
         ],
       },
-      'mac10.10-blink-rel-dummy': {
-        'swarming': {
-          'shards': 20,
-        },
-      },
-      'mac10.11-blink-rel-dummy': {
-        'swarming': {
-          'shards': 20,
-        },
-      },
       'mac10.12-blink-rel-dummy': {
         'swarming': {
           'shards': 20,
