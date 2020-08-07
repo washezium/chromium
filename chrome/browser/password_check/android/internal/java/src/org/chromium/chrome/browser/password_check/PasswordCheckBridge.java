@@ -99,6 +99,14 @@ class PasswordCheckBridge {
     }
 
     /**
+     * @return The timestamp of the last completed check.
+     */
+    long getCheckTimestamp() {
+        // TODO(crbug.com/1102025): Add method to retrieve the timestamp.
+        return 0L;
+    }
+
+    /**
      * This can return 0 if the compromised credentials haven't been fetched from the database yet.
      * @return The number of compromised credentials found in the last run password check.
      */

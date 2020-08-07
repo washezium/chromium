@@ -103,8 +103,7 @@ class PasswordCheckMediator
         Integer compromisedCredentialCount = null;
         if (status == PasswordCheckUIStatus.IDLE) {
             compromisedCredentialCount = getPasswordCheck().getCompromisedCredentialsCount();
-            // TODO(crbug.com/1109691): Retrieve the timestamp of the last check from the bridge.
-            checkTimestamp = 0L;
+            checkTimestamp = getPasswordCheck().getCheckTimestamp();
         }
         header.set(CHECK_TIMESTAMP, checkTimestamp);
         header.set(COMPROMISED_CREDENTIALS_COUNT, compromisedCredentialCount);
