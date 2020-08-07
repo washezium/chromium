@@ -2290,6 +2290,51 @@ TEST_P(OmniboxViewViewsRevealOnHoverAndMaybeHideOnInteractionTest,
   EXPECT_TRUE(elide_animation->IsAnimating());
 }
 
+// Tests that in the hide-on-interaction field trial, the omnibox is reset to
+// the local bounds on tab change when the new text is not eligible for
+// simplified domain elision.
+TEST_P(OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+       TabChangeWhenNotEligibleForEliding) {
+  SetUpSimplifiedDomainTest();
+
+  content::MockNavigationHandle navigation;
+  navigation.set_is_same_document(false);
+  omnibox_view()->DidFinishNavigation(&navigation);
+  ASSERT_NO_FATAL_FAILURE(ExpectUnelidedFromSimplifiedDomain(
+      omnibox_view()->GetRenderText(),
+      gfx::Range(kSimplifiedDomainDisplayUrlScheme.size(),
+                 kSimplifiedDomainDisplayUrl.size())));
+
+  // Simulate a user interaction and advance through the animation to elide the
+  // URL.
+  omnibox_view()->DidGetUserInteraction(blink::WebKeyboardEvent());
+  OmniboxViewViews::ElideAnimation* elide_animation =
+      omnibox_view()->GetElideAfterInteractionAnimationForTesting();
+  gfx::AnimationContainerElement* elide_as_element =
+      elide_animation->GetAnimationForTesting();
+  elide_as_element->SetStartTime(base::TimeTicks());
+  elide_as_element->Step(base::TimeTicks() + base::TimeDelta::FromSeconds(1));
+  ASSERT_NO_FATAL_FAILURE(ExpectElidedToSimplifiedDomain(
+      omnibox_view(), kSimplifiedDomainDisplayUrlScheme,
+      kSimplifiedDomainDisplayUrlSubdomain,
+      kSimplifiedDomainDisplayUrlHostnameAndScheme,
+      kSimplifiedDomainDisplayUrlPath, ShouldElideToRegistrableDomain()));
+
+  // Change the tab and set state such that the current text is not eligible for
+  // simplified domain eliding. The omnibox should take up the full local bounds
+  // and be reset to tail-eliding behavior, just as if the above simplified
+  // domain elision had not happened.
+  omnibox_view()->model()->SetInputInProgress(true);
+  std::unique_ptr<content::WebContents> web_contents =
+      content::WebContentsTester::CreateTestWebContents(profile(), nullptr);
+  omnibox_view()->SaveStateToTab(web_contents.get());
+  omnibox_view()->OnTabChanged(web_contents.get());
+
+  EXPECT_EQ(gfx::ELIDE_TAIL, omnibox_view()->GetRenderText()->elide_behavior());
+  EXPECT_EQ(kSimplifiedDomainDisplayUrl,
+            omnibox_view()->GetRenderText()->GetDisplayText());
+}
+
 // Tests that in the hide-on-interaction field trial, when the path changes
 // while being elided, the animation is stopped.
 TEST_P(OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
