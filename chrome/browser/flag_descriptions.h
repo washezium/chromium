@@ -1464,6 +1464,9 @@ extern const char kAndroidAutofillAccessibilityDescription[];
 extern const char kAndroidDefaultBrowserPromoName[];
 extern const char kAndroidDefaultBrowserPromoDescription[];
 
+extern const char kAndroidManagedByMenuItemName[];
+extern const char kAndroidManagedByMenuItemDescription[];
+
 extern const char kAndroidMultipleDisplayName[];
 extern const char kAndroidMultipleDisplayDescription[];
 

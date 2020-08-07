@@ -779,6 +779,7 @@ junit_binary("chrome_junit_tests") {
     "//chrome/browser/browser_controls/android:junit",
     "//chrome/browser/download/android:java",
     "//chrome/browser/download/android:junit_tests",
+    "//chrome/browser/enterprise/util:java",
     "//chrome/browser/flags:flags_junit_tests",
     "//chrome/browser/flags:java",
     "//chrome/browser/fullscreen/android:java",

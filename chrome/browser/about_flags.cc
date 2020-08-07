@@ -6003,6 +6003,11 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kAndroidDefaultBrowserPromoDescription, kOsAndroid,
      FEATURE_VALUE_TYPE(chrome::android::kAndroidDefaultBrowserPromo)},
 
+    {"android-managed-by-menu-item",
+     flag_descriptions::kAndroidManagedByMenuItemName,
+     flag_descriptions::kAndroidManagedByMenuItemDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(chrome::android::kAndroidManagedByMenuItem)},
+
     {"android-multiple-display", flag_descriptions::kAndroidMultipleDisplayName,
      flag_descriptions::kAndroidMultipleDisplayDescription, kOsAndroid,
      FEATURE_VALUE_TYPE(chrome::android::kAndroidMultipleDisplay)},

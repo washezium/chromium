@@ -2538,6 +2538,11 @@ const char kAndroidDefaultBrowserPromoName[] = "Default Browser Promo";
 const char kAndroidDefaultBrowserPromoDescription[] =
     "Shows a promo dialog to set Chrome as the default browser";
 
+const char kAndroidManagedByMenuItemName[] = "Managed by menu item";
+const char kAndroidManagedByMenuItemDescription[] =
+    "whether policies have been applied to this browser at the profile or "
+    "machine level.";
+
 const char kAndroidMultipleDisplayName[] = "Multiple Display";
 const char kAndroidMultipleDisplayDescription[] =
     "When enabled, tabs can be moved to the secondary display.";
