@@ -162,7 +162,7 @@ CredentialView& CredentialView::operator=(CredentialView&& credential) =
 CredentialView::~CredentialView() = default;
 
 CredentialWithPassword::CredentialWithPassword(const CredentialView& credential)
-    : CredentialView(std::move(credential)) {}
+    : CredentialView(credential) {}
 CredentialWithPassword::~CredentialWithPassword() = default;
 CredentialWithPassword::CredentialWithPassword(
     const CredentialWithPassword& other) = default;

@@ -4942,6 +4942,11 @@ Keep your key file in a safe place. You will need it to create new versions of y
           Manage passwords
         </message>
       </if>
+      <if expr="is_android">
+        <message name="IDS_SETTINGS_PASSWORDS_ANDROID_APP" desc="Label for the app a password is for when displaying a credential and the real app display name could not be obtained.">
+          App (<ph name="ANDROID_PACKAGE_NAME">$1<ex>com.netflix.mediaclient</ex></ph>)
+        </message>
+      </if>
       <!-- Password manager onboarding strings -->
       <message name="IDS_PASSWORD_MANAGER_ONBOARDING_TITLE_A" desc="The title shown in the password manager onboarding dialog.">
         Save your passwords?

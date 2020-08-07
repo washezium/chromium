@@ -77,11 +77,12 @@ class PasswordCheckBridge {
         mPasswordCheckObserver.onPasswordCheckStatusChanged(state);
     }
 
+    @CalledByNative
     private static void insertCredential(CompromisedCredential[] credentials, int index,
-            String originUrl, String username, String password, boolean phished,
+            String displayOrigin, String displayUsername, String password, boolean phished,
             boolean hasScript) {
-        credentials[index] =
-                new CompromisedCredential(originUrl, username, password, phished, hasScript);
+        credentials[index] = new CompromisedCredential(
+                displayOrigin, displayUsername, password, phished, hasScript);
     }
 
     /**
