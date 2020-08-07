@@ -83,8 +83,6 @@ class Cursor;
 
 namespace blink {
 
-enum class GlobalObjectReusePolicy;
-
 class CORE_EXPORT EmptyChromeClient : public ChromeClient {
  public:
   ~EmptyChromeClient() override = default;
@@ -248,7 +246,7 @@ class CORE_EXPORT EmptyLocalFrameClient : public LocalFrameClient {
   void DispatchDidReceiveTitle(const String&) override {}
   void DispatchDidCommitLoad(HistoryItem*,
                              WebHistoryCommitType,
-                             GlobalObjectReusePolicy) override {}
+                             bool) override {}
   void DispatchDidFailLoad(const ResourceError&,
                            WebHistoryCommitType) override {}
   void DispatchDidFinishDocumentLoad() override {}
