@@ -69,6 +69,7 @@
 #include "third_party/blink/public/mojom/ukm/ukm.mojom-blink.h"
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/public/platform/task_type.h"
+#include "third_party/blink/public/platform/web_battery_savings.h"
 #include "third_party/blink/public/platform/web_content_settings_client.h"
 #include "third_party/blink/public/platform/web_theme_engine.h"
 #include "third_party/blink/public/web/web_print_page_description.h"
@@ -7011,6 +7012,32 @@ void Document::ColorSchemeMetaChanged() {
     }
   }
   GetStyleEngine().SetColorSchemeFromMeta(color_scheme);
+}
+
+void Document::BatterySavingsMetaChanged() {
+  if (!RuntimeEnabledFeatures::BatterySavingsMetaEnabled())
+    return;
+
+  if (!IsInMainFrame())
+    return;
+
+  auto* root_element = documentElement();
+  if (!root_element)
+    return;
+  for (HTMLMetaElement& meta_element :
+       Traversal<HTMLMetaElement>::DescendantsOf(*root_element)) {
+    if (EqualIgnoringASCIICase(meta_element.GetName(), "battery-savings")) {
+      SpaceSplitString split_content(
+          AtomicString(meta_element.Content().GetString().LowerASCII()));
+      WebBatterySavingsFlags savings = 0;
+      if (split_content.Contains("allow-reduced-framerate"))
+        savings |= kAllowReducedFrameRate;
+      if (split_content.Contains("allow-reduced-script-speed"))
+        savings |= kAllowReducedScriptSpeed;
+      GetPage()->GetChromeClient().BatterySavingsChanged(*GetFrame(), savings);
+      return;
+    }
+  }
 }
 
 static HTMLLinkElement* GetLinkElement(const Document* doc,

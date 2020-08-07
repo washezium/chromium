@@ -217,6 +217,8 @@ class CORE_EXPORT EmptyChromeClient : public ChromeClient {
   void SetCursorForPlugin(const ui::Cursor&, LocalFrame*) override {}
   void InstallSupplements(LocalFrame&) override {}
   void MainFrameScrollOffsetChanged(LocalFrame& main_frame) const override {}
+  void BatterySavingsChanged(LocalFrame& main_frame,
+                             WebBatterySavingsFlags savings) override {}
 };
 
 class CORE_EXPORT EmptyLocalFrameClient : public LocalFrameClient {
