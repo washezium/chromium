@@ -4028,7 +4028,6 @@ test("unit_tests") {
       "//chrome/android/features/media_router:java",
       "//chrome/browser/optimization_guide/android:native_j_unittests_jni_headers",
       "//chrome/browser/optimization_guide/android:native_java_unittests",
-      "//chrome/browser/password_check/android:unit_tests",
       "//chrome/browser/thumbnail:unit_tests",
       "//chrome/browser/updates:unit_tests",
       "//chrome/services/media_gallery_util:unit_tests",
