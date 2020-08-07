@@ -68800,6 +68800,17 @@ would be helpful to identify which type is being sent.
   </int>
 </enum>
 
+<enum name="TabSearchCloseActions">
+  <int value="0" label="User did not close via Tab Search UI">
+    The UI was dismissed via interactions outside what is offered by the Tab
+    Search UI.
+  </int>
+  <int value="1" label="User switched to an open tab">
+    The Tab Search UI was dismissed as a result of the user opting to switch to
+    a currently open tab.
+  </int>
+</enum>
+
 <enum name="TabStatus">
   <int value="0" label="Memory resident"/>
   <int value="1" label="Evicted and reloaded"/>
