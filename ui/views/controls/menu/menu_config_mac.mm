@@ -7,7 +7,6 @@
 #import <AppKit/AppKit.h>
 
 #include "base/mac/mac_util.h"
-#include "ui/gfx/platform_font_mac.h"
 
 namespace {
 
@@ -43,8 +42,7 @@ void InitMaterialMenuConfig(views::MenuConfig* config) {
 namespace views {
 
 void MenuConfig::Init() {
-  font_list = gfx::FontList(gfx::Font(
-      new gfx::PlatformFontMac(gfx::PlatformFontMac::SystemFontType::kMenu)));
+  font_list = gfx::FontList(gfx::Font([NSFont menuFontOfSize:0.0]));
   check_selected_combobox_item = true;
   arrow_key_selection_wraps = false;
   use_mnemonics = false;
