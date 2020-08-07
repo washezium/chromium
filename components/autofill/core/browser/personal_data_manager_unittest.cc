@@ -1678,8 +1678,11 @@ TEST_F(PersonalDataManagerTest, SaveImportedProfileWithVerifiedData) {
   const std::vector<AutofillProfile*>& results = personal_data_->GetProfiles();
   ASSERT_EQ(1U, results.size());
   AutofillProfile expected(new_verified_profile);
-  expected.SetRawInfo(NAME_FULL,
-                      base::ASCIIToUTF16("Marion Mitchell Morrison"));
+  // The full name was missing in |profile| and was formatted from its
+  // components.
+  expected.SetRawInfoWithVerificationStatus(
+      NAME_FULL, base::ASCIIToUTF16("Marion Mitchell Morrison"),
+      structured_address::VerificationStatus::kFormatted);
   expected.SetRawInfo(PHONE_HOME_WHOLE_NUMBER,
                       base::ASCIIToUTF16("+1 234-567-8910"));
   EXPECT_EQ(0, expected.Compare(*results[0]))
@@ -5880,7 +5883,6 @@ TEST_F(
   // will be ignored when the profile is written to the DB.
   server_profiles.back().SetRawInfo(NAME_FULL, base::ASCIIToUTF16("John Doe"));
   server_profiles.back().set_use_count(100);
-
   // Add a similar server profile.
   server_profiles.push_back(
       AutofillProfile(AutofillProfile::SERVER_PROFILE, kServerAddressId2));
