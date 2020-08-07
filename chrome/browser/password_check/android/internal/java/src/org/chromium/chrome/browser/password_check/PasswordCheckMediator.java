@@ -6,9 +6,14 @@ package org.chromium.chrome.browser.password_check;
 
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_TIMESTAMP;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.COMPROMISED_CREDENTIALS_COUNT;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.UNKNOWN_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
+
+import android.util.Pair;
 
 import org.chromium.base.Consumer;
 import org.chromium.ui.modelutil.ListModel;
@@ -40,7 +45,9 @@ class PasswordCheckMediator
 
         items.add(new ListItem(PasswordCheckProperties.ItemType.HEADER,
                 new PropertyModel.Builder(PasswordCheckProperties.HeaderProperties.ALL_KEYS)
+                        .with(CHECK_PROGRESS, UNKNOWN_PROGRESS)
                         .with(CHECK_STATUS, PasswordCheckUIStatus.RUNNING)
+                        .with(CHECK_TIMESTAMP, null)
                         .with(COMPROMISED_CREDENTIALS_COUNT, null)
                         .build()));
         getPasswordCheck().addObserver(this, true);
@@ -80,9 +87,30 @@ class PasswordCheckMediator
 
         PropertyModel header = items.get(0).model;
         header.set(CHECK_STATUS, status);
-        // TODO(crbug.com/1109691): Retrieve the number of compromised credentials from the
-        // bridge.
-        header.set(COMPROMISED_CREDENTIALS_COUNT, 0);
+        header.set(
+                CHECK_PROGRESS, status == PasswordCheckUIStatus.RUNNING ? UNKNOWN_PROGRESS : null);
+        Long checkTimestamp = null;
+        Integer compromisedCredentialCount = null;
+        if (status == PasswordCheckUIStatus.IDLE) {
+            compromisedCredentialCount = getPasswordCheck().getCompromisedCredentialsCount();
+            // TODO(crbug.com/1109691): Retrieve the timestamp of the last check from the bridge.
+            checkTimestamp = 0L;
+        }
+        header.set(CHECK_TIMESTAMP, checkTimestamp);
+        header.set(COMPROMISED_CREDENTIALS_COUNT, compromisedCredentialCount);
+    }
+
+    void onPasswordCheckProgressChanged(Pair<Integer, Integer> progress) {
+        ListModel<ListItem> items = mModel.get(ITEMS);
+        assert items.size() >= 1;
+        assert progress.first >= 0;
+        assert progress.second >= progress.first;
+
+        PropertyModel header = items.get(0).model;
+        header.set(CHECK_STATUS, PasswordCheckUIStatus.RUNNING);
+        header.set(CHECK_PROGRESS, progress);
+        header.set(CHECK_TIMESTAMP, null);
+        header.set(COMPROMISED_CREDENTIALS_COUNT, null);
     }
 
     @Override

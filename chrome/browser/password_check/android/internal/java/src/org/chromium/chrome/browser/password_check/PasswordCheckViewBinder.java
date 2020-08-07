@@ -6,7 +6,9 @@ package org.chromium.chrome.browser.password_check;
 
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_TIMESTAMP;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.COMPROMISED_CREDENTIALS_COUNT;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
 import static org.chromium.components.embedder_support.util.UrlUtilities.stripScheme;
@@ -157,12 +159,18 @@ class PasswordCheckViewBinder {
         @PasswordCheckUIStatus
         int status = model.get(CHECK_STATUS);
         Integer compromisedCredentialsCount = model.get(COMPROMISED_CREDENTIALS_COUNT);
-        if (key == CHECK_STATUS) {
+        if (key == CHECK_PROGRESS) {
+            // TODO(crbug.com/1109691): Set text based on progress.
+        } else if (key == CHECK_STATUS) {
             // TODO(crbug.com/1109691): Set text and illustration based on status.
             updateActionButton(view, status);
             updateStatusIcon(view, status, compromisedCredentialsCount);
         } else if (key == COMPROMISED_CREDENTIALS_COUNT) {
+            // TODO(crbug.com/1109691): Set text and illustration based on compromised credential
+            // count.
             updateStatusIcon(view, status, compromisedCredentialsCount);
+        } else if (key == CHECK_TIMESTAMP) {
+            // TODO(crbug.com/1109691): Set text description based on timestamp.
         } else {
             assert false : "Unhandled update to property:" + key;
         }
@@ -177,7 +185,7 @@ class PasswordCheckViewBinder {
             restartButton.setClickable(true);
             restartButton.setOnClickListener(unusedView
                     -> {
-                            // TODO(crbug.com/1092444): Add call to restart the check.
+                            // TODO(crbug.com/1109691): Add call to restart the check.
                     });
         } else {
             restartButton.setVisibility(View.GONE);
