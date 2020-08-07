@@ -6856,7 +6856,7 @@ the Bookmarks menu.">
         Send feedback
       </message>
       <!-- Killed Tab Strings -->
-      <if expr="chromeos">
+      <if expr="chromeos or lacros">
         <message name="IDS_KILLED_TAB_BY_OOM_MESSAGE" desc="The message displayed on the killed tab page when the page was killed by an out of memory error.">
           Either Chrome ran out of memory or the process for the webpage was terminated for some other reason.  To continue, reload or go to another page.
         </message>
