@@ -273,6 +273,7 @@ class FeedStream : public FeedStreamApi,
   void InitialStreamLoadComplete(LoadStreamTask::Result result);
   void LoadMoreComplete(LoadMoreTask::Result result);
   void BackgroundRefreshComplete(LoadStreamTask::Result result);
+  void UploadActionsComplete(UploadActionsTask::Result result);
 
   void ClearAll();
 
