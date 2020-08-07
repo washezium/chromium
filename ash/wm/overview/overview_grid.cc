@@ -9,6 +9,7 @@
 #include <memory>
 #include <utility>
 
+#include "ash/frame_throttler/frame_throttling_controller.h"
 #include "ash/metrics/histogram_macros.h"
 #include "ash/public/cpp/ash_features.h"
 #include "ash/public/cpp/metrics_util.h"
@@ -547,6 +548,8 @@ void OverviewGrid::AddItem(aura::Window* window,
   window_list_.insert(
       window_list_.begin() + index,
       std::make_unique<OverviewItem>(window, overview_session_, this));
+
+  UpdateFrameThrottling();
   auto* item = window_list_[index].get();
   item->PrepareForOverview();
 
@@ -609,6 +612,8 @@ void OverviewGrid::RemoveItem(OverviewItem* overview_item,
   std::unique_ptr<OverviewItem> tmp = std::move(*iter);
   window_list_.erase(std::next(iter).base());
   tmp.reset();
+
+  UpdateFrameThrottling();
 
   if (!item_destroying)
     return;
@@ -1966,4 +1971,12 @@ void OverviewGrid::UpdateCannotSnapWarningVisibility() {
     overview_mode_item->UpdateCannotSnapWarningVisibility();
 }
 
+void OverviewGrid::UpdateFrameThrottling() {
+  std::vector<aura::Window*> windows_to_throttle(window_list_.size(), nullptr);
+  std::transform(
+      window_list_.begin(), window_list_.end(), windows_to_throttle.begin(),
+      [](std::unique_ptr<OverviewItem>& item) { return item->GetWindow(); });
+  Shell::Get()->frame_throttling_controller()->StartThrottling(
+      windows_to_throttle);
+}
 }  // namespace ash
