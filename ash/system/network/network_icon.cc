@@ -25,6 +25,7 @@
 #include "components/onc/onc_constants.h"
 #include "components/vector_icons/vector_icons.h"
 #include "ui/base/l10n/l10n_util.h"
+#include "ui/gfx/image/image_skia.h"
 #include "ui/gfx/image/image_skia_operations.h"
 #include "ui/gfx/image/image_skia_source.h"
 #include "ui/gfx/paint_vector_icon.h"
@@ -500,6 +501,11 @@ gfx::ImageSkia GetImageForVPN(const NetworkStateProperties* vpn,
   if (animating)
     *animating = false;
   return icon->image();
+}
+
+gfx::ImageSkia GetImageForWiFiNoConnections(IconType icon_type) {
+  return gfx::CreateVectorIcon(kUnifiedMenuWifiNoConnectionIcon,
+                               GetDefaultColorForIconType(icon_type));
 }
 
 gfx::ImageSkia GetImageForWiFiEnabledState(bool enabled, IconType icon_type) {
