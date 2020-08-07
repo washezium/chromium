@@ -1600,6 +1600,7 @@ NSString* const kBrowserViewControllerSnackbarCategory =
   // Update the tab strip visibility.
   if (self.tabStripView) {
     [self showTabStripView:self.tabStripView];
+    [self.tabStripView layoutSubviews];
     [self.tabStripCoordinator hideTabStrip:![self canShowTabStrip]];
     _fakeStatusBarView.hidden = ![self canShowTabStrip];
     [self addConstraintsToPrimaryToolbar];
@@ -1623,6 +1624,8 @@ NSString* const kBrowserViewControllerSnackbarCategory =
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
   [self dismissPopups];
 
+  __weak BrowserViewController* weakSelf = self;
+
   [coordinator
       animateAlongsideTransition:^(
           id<UIViewControllerTransitionCoordinatorContext> context) {
@@ -1631,7 +1634,11 @@ NSString* const kBrowserViewControllerSnackbarCategory =
         [_toolbarUIUpdater updateState];
       }
       completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.fullscreenController->ResizeViewport();
+        BrowserViewController* strongSelf = weakSelf;
+        weakSelf.fullscreenController->ResizeViewport();
+        if (strongSelf.tabStripView) {
+          [strongSelf.tabStripCoordinator tabStripSizeDidChange];
+        }
       }];
 }
 
