@@ -61131,6 +61131,9 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
 </enum>
 
 <enum name="RoamingUserDataDirectoryDeletionResult">
+  <obsolete>
+    Removed in 2020-08 (M86).
+  </obsolete>
   <int value="0" label="Error">
     An unexpected error occurred during processing.
   </int>

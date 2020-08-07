@@ -3643,7 +3643,6 @@ test("unit_tests") {
       "../browser/chrome_browser_main_win_unittest.cc",
       "../browser/notifications/win/fake_notification_image_retainer.cc",
       "../browser/notifications/win/fake_notification_image_retainer.h",
-      "../browser/sync/roaming_profile_directory_deleter_win_unittest.cc",
       "../browser/ui/views/try_chrome_dialog_win/button_layout_unittest.cc",
     ]
     if (enable_widevine) {

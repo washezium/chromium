@@ -4132,8 +4132,6 @@ static_library("browser") {
       "profiles/profile_shortcut_manager_win.h",
       "shell_integration_win.cc",
       "shell_integration_win.h",
-      "sync/roaming_profile_directory_deleter_win.cc",
-      "sync/roaming_profile_directory_deleter_win.h",
       "task_manager/sampling/shared_sampler_win.cc",
       "task_manager/sampling/shared_sampler_win_defines.h",
       "taskbar/taskbar_decorator_win.cc",
