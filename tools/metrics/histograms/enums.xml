@@ -37199,6 +37199,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="3" label="Open in New Incognito Tab"/>
   <int value="4" label="Open in New Window"/>
   <int value="5" label="Remove"/>
+  <int value="6" label="Edit"/>
 </enum>
 
 <enum name="IOSMenuScenario">
