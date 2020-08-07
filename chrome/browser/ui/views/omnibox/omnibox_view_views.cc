@@ -246,6 +246,10 @@ void OmniboxViewViews::ElideAnimation::Start(
 }
 
 void OmniboxViewViews::ElideAnimation::Stop() {
+  // Reset the smoothing rectangles whenever the animation stops to prevent
+  // stale rectangles from showing at the start of the next animation.
+  view_->elide_animation_smoothing_rect_left_ = gfx::Rect();
+  view_->elide_animation_smoothing_rect_right_ = gfx::Rect();
   if (animation_)
     animation_->Stop();
 }
