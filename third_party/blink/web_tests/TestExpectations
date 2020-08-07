@@ -1406,9 +1406,6 @@ crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-ac
 crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-window-getTables.html [ Skip ]
 crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-window-getTables-large-fonts.html [ Skip ]
 crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-window-blob.html [ Skip ]
-crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-workers-enumeration.html [ Skip ]
-crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-workers-getTables.html [ Skip ]
-crbug.com/1043295 [ Fuchsia ] virtual/font-access/http/tests/font-access/font-access-workers-blob.html [ Skip ]
 crbug.com/1087671 [ Mac ] virtual/font-access/http/tests/font-access/font-access-window-getTables-large-fonts.html [ Skip ]
 
 # ====== Style team owned tests from here ======

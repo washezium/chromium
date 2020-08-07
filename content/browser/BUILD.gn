@@ -889,6 +889,8 @@ source_set("browser") {
     "find_in_page_client.h",
     "find_request_manager.cc",
     "find_request_manager.h",
+    "font_access/font_access_manager_impl.cc",
+    "font_access/font_access_manager_impl.h",
     "font_list_async.cc",
     "frame_host/ancestor_throttle.cc",
     "frame_host/ancestor_throttle.h",
