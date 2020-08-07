@@ -91,7 +91,7 @@ enum SyncState {
 class PasswordManagerClient {
  public:
   using CredentialsCallback =
-      base::Callback<void(const autofill::PasswordForm*)>;
+      base::OnceCallback<void(const autofill::PasswordForm*)>;
   using ReauthSucceeded = util::StrongAlias<class ReauthSucceededTag, bool>;
 
   PasswordManagerClient() {}
@@ -171,7 +171,7 @@ class PasswordManagerClient {
   virtual bool PromptUserToChooseCredentials(
       std::vector<std::unique_ptr<autofill::PasswordForm>> local_forms,
       const url::Origin& origin,
-      const CredentialsCallback& callback) = 0;
+      CredentialsCallback callback) = 0;
 
   // Indicates if re-auth with the device is needed before filling passwords.
   // Currently only used by iOS.
