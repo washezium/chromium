@@ -256,4 +256,26 @@ TEST_F(SandboxMacTest, FontLoadingTest) {
   ASSERT_TRUE(base::DeleteFile(temp_file_path));
 }
 
+MULTIPROCESS_TEST_MAIN(BuiltinAvailable) {
+  CheckCreateSeatbeltServer();
+
+  if (__builtin_available(macOS 10.10, *)) {
+    // Can't negate a __builtin_available condition. But success!
+  } else {
+    return 10;
+  }
+
+  if (__builtin_available(macOS 10.13, *)) {
+    // Can't negate a __builtin_available condition. But success!
+  } else {
+    return 13;
+  }
+
+  return 0;
+}
+
+TEST_F(SandboxMacTest, BuiltinAvailable) {
+  ExecuteInAllSandboxTypes("BuiltinAvailable", {});
+}
+
 }  // namespace content
