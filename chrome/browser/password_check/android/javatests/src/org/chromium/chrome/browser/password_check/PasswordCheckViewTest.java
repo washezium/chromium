@@ -15,12 +15,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_CONFIRMATION_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_ORIGIN;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_TIMESTAMP;
@@ -51,6 +55,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.filters.MediumTest;
@@ -443,6 +448,22 @@ public class PasswordCheckViewTest {
         assertThat(PasswordCheckViewBinder.getTimestamp(res, DAY_TO_MS), is("1 day ago"));
         assertThat(PasswordCheckViewBinder.getTimestamp(res, 2 * DAY_TO_MS), is("2 days ago"));
         assertThat(PasswordCheckViewBinder.getTimestamp(res, 315 * DAY_TO_MS), is("315 days ago"));
+    }
+
+    @Test
+    @MediumTest
+    public void testConfirmingDeletionDialogTriggersHandler() {
+        PasswordCheckDeletionDialogFragment.Handler mockHandler =
+                mock(PasswordCheckDeletionDialogFragment.Handler.class);
+        mModel.set(DELETION_ORIGIN, ANA.getOriginUrl());
+        runOnUiThreadBlocking(() -> mModel.set(DELETION_CONFIRMATION_HANDLER, mockHandler));
+
+        onView(withText(R.string.password_check_delete_credential_dialog_confirm))
+                .inRoot(withDecorView(
+                        not(is(mPasswordCheckView.getActivity().getWindow().getDecorView()))))
+                .perform(click());
+
+        verify(mockHandler).onClick(any(), eq(AlertDialog.BUTTON_POSITIVE));
     }
 
     private MVCListAdapter.ListItem buildHeader(@PasswordCheckUIStatus int status,

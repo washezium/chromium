@@ -6,6 +6,8 @@ package org.chromium.chrome.browser.password_check;
 
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_CONFIRMATION_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_ORIGIN;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_TIMESTAMP;
@@ -60,6 +62,11 @@ class PasswordCheckViewBinder {
                             PasswordCheckProperties::getItemType,
                             PasswordCheckViewBinder::connectPropertyModel),
                     PasswordCheckViewBinder::createViewHolder));
+        } else if (propertyKey == DELETION_CONFIRMATION_HANDLER) {
+            view.showDialogFragment(new PasswordCheckDeletionDialogFragment(
+                    model.get(DELETION_CONFIRMATION_HANDLER), model.get(DELETION_ORIGIN)));
+        } else if (propertyKey == DELETION_ORIGIN) {
+            // Binding not necessary (only used indirectly).
         } else {
             assert false : "Unhandled update to property:" + propertyKey;
         }
