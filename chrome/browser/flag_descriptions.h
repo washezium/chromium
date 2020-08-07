@@ -2295,6 +2295,9 @@ extern const char kExperimentalAccessibilityCursorColorsDescription[];
 extern const char kFilesNGName[];
 extern const char kFilesNGDescription[];
 
+extern const char kFilesSWAName[];
+extern const char kFilesSWADescription[];
+
 extern const char kFilesTransferDetailsName[];
 extern const char kFilesTransferDetailsDescription[];
 

@@ -3955,6 +3955,10 @@ const char kFilesNGName[] = "Enable Files App. NG.";
 const char kFilesNGDescription[] =
     "Enable the next generation UI style of the file manager.";
 
+const char kFilesSWAName[] = "Enable Files App SWA.";
+const char kFilesSWADescription[] =
+    "Enable the SWA version of the file manager.";
+
 const char kFilesTransferDetailsName[] = "Enable Files Transfer Details.";
 const char kFilesTransferDetailsDescription[] =
     "Enable transfer details like remaining time in the progress center panel.";
