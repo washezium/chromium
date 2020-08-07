@@ -49,8 +49,11 @@ class PasswordCheckProperties {
     static class HeaderProperties {
         static final PropertyModel.WritableIntPropertyKey CHECK_STATUS =
                 new PropertyModel.WritableIntPropertyKey("check_status");
+        static final PropertyModel
+                .WritableObjectPropertyKey<Integer> COMPROMISED_CREDENTIALS_COUNT =
+                new PropertyModel.WritableObjectPropertyKey<>("compromised_credentials_count");
 
-        static final PropertyKey[] ALL_KEYS = {CHECK_STATUS};
+        static final PropertyKey[] ALL_KEYS = {CHECK_STATUS, COMPROMISED_CREDENTIALS_COUNT};
 
         private HeaderProperties() {}
     }

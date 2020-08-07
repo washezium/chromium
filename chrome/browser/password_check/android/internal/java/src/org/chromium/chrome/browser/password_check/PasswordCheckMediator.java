@@ -7,6 +7,7 @@ package org.chromium.chrome.browser.password_check;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.COMPROMISED_CREDENTIALS_COUNT;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
 
 import org.chromium.base.Consumer;
@@ -34,6 +35,14 @@ class PasswordCheckMediator
     void initialize(PropertyModel model, PasswordCheckComponentUi.Delegate delegate) {
         mModel = model;
         mDelegate = delegate;
+        ListModel<ListItem> items = mModel.get(ITEMS);
+        assert items.size() == 0;
+
+        items.add(new ListItem(PasswordCheckProperties.ItemType.HEADER,
+                new PropertyModel.Builder(PasswordCheckProperties.HeaderProperties.ALL_KEYS)
+                        .with(CHECK_STATUS, PasswordCheckUIStatus.RUNNING)
+                        .with(COMPROMISED_CREDENTIALS_COUNT, null)
+                        .build()));
         getPasswordCheck().addObserver(this, true);
     }
 
@@ -67,14 +76,13 @@ class PasswordCheckMediator
     @Override
     public void onPasswordCheckStatusChanged(@PasswordCheckUIStatus int status) {
         ListModel<ListItem> items = mModel.get(ITEMS);
-        if (items.size() == 0) {
-            items.add(new ListItem(PasswordCheckProperties.ItemType.HEADER,
-                    new PropertyModel.Builder(PasswordCheckProperties.HeaderProperties.ALL_KEYS)
-                            .with(CHECK_STATUS, status)
-                            .build()));
-        } else {
-            items.get(0).model.set(CHECK_STATUS, status);
-        }
+        assert items.size() >= 1;
+
+        PropertyModel header = items.get(0).model;
+        header.set(CHECK_STATUS, status);
+        // TODO(crbug.com/1109691): Retrieve the number of compromised credentials from the
+        // bridge.
+        header.set(COMPROMISED_CREDENTIALS_COUNT, 0);
     }
 
     @Override

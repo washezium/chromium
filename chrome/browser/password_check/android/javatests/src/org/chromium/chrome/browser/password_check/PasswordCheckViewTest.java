@@ -11,8 +11,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
@@ -20,16 +22,26 @@ import static org.mockito.Mockito.verify;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.COMPROMISED_CREDENTIALS_COUNT;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.ERROR_OFFLINE;
+import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.IDLE;
+import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.RUNNING;
 import static org.chromium.content_public.browser.test.util.CriteriaHelper.pollUiThread;
 import static org.chromium.content_public.browser.test.util.TestThreadUtils.runOnUiThreadBlocking;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.filters.MediumTest;
 
@@ -100,10 +112,10 @@ public class PasswordCheckViewTest {
     @MediumTest
     public void testDisplaysHeaderAndCredential() {
         runOnUiThreadBlocking(() -> {
-            mModel.get(ITEMS).add(buildHeader(PasswordCheckUIStatus.IDLE));
+            mModel.get(ITEMS).add(buildHeader(RUNNING));
             mModel.get(ITEMS).add(buildCredentialItem(ANA));
         });
-        pollUiThread(() -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(2)));
+        waitForListViewToHaveLength(2);
         // Has a change passwords button.
         assertNotNull(getCredentialChangeButtonAt(1));
         assertThat(getCredentialChangeButtonAt(1).getVisibility(), is(View.VISIBLE));
@@ -119,20 +131,53 @@ public class PasswordCheckViewTest {
 
     @Test
     @MediumTest
+    public void testStatusDisplaysIconOnIdleNoLeaks() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(IDLE, 0)); });
+        waitForListViewToHaveLength(1);
+        assertDisplaysIcon(R.drawable.ic_check_circle_filled_green_24dp);
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusDisplaysIconOnIdleWithLeaks() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(IDLE, 2)); });
+        waitForListViewToHaveLength(1);
+        assertDisplaysIcon(org.chromium.chrome.R.drawable.ic_warning_red_24dp);
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusDisplaysIconOnError() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(ERROR_OFFLINE)); });
+        waitForListViewToHaveLength(1);
+        assertDisplaysIcon(org.chromium.chrome.R.drawable.ic_error_grey800_24dp_filled);
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusDisplaysProgressBarOnRunning() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(RUNNING)); });
+        waitForListViewToHaveLength(1);
+        assertThat(getHeaderIcon().getVisibility(), is(View.GONE));
+        assertThat(getHeaderProgressBar().getVisibility(), is(View.VISIBLE));
+    }
+
+    @Test
+    @MediumTest
     public void testStatusDisplaysRestartAction() {
-        runOnUiThreadBlocking(
-                () -> { mModel.get(ITEMS).add(buildHeader(PasswordCheckUIStatus.IDLE)); });
-        pollUiThread(() -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(1)));
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(IDLE, 0)); });
+        waitForListViewToHaveLength(1);
         assertThat(getActionButton().getVisibility(), is(View.VISIBLE));
+        assertTrue(getActionButton().isClickable());
     }
 
     @Test
     @MediumTest
     public void testStatusNotDisplaysRestartAction() {
-        runOnUiThreadBlocking(
-                () -> { mModel.get(ITEMS).add(buildHeader(PasswordCheckUIStatus.RUNNING)); });
-        pollUiThread(() -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(1)));
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(RUNNING)); });
+        waitForListViewToHaveLength(1);
         assertThat(getActionButton().getVisibility(), is(View.GONE));
+        assertFalse(getActionButton().isClickable());
     }
 
     @Test
@@ -142,7 +187,7 @@ public class PasswordCheckViewTest {
             mModel.get(ITEMS).add(buildCredentialItem(PHISHED));
             mModel.get(ITEMS).add(buildCredentialItem(LEAKED));
         });
-        pollUiThread(() -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(2)));
+        waitForListViewToHaveLength(2);
 
         // The phished credential is rendered first:
         assertThat(getCredentialOriginAt(0).getText(), is(PHISHED.getOriginUrl()));
@@ -214,7 +259,7 @@ public class PasswordCheckViewTest {
     @MediumTest
     public void testClickingDeleteInMoreMenuTriggersHandler() {
         runOnUiThreadBlocking(() -> mModel.get(ITEMS).add(buildCredentialItem(ANA)));
-        pollUiThread(() -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(1)));
+        waitForListViewToHaveLength(1);
 
         TouchCommon.singleClickView(getCredentialMoreButtonAt(0));
 
@@ -227,9 +272,15 @@ public class PasswordCheckViewTest {
     }
 
     private MVCListAdapter.ListItem buildHeader(@PasswordCheckUIStatus int status) {
+        return buildHeader(status, null);
+    }
+
+    private MVCListAdapter.ListItem buildHeader(
+            @PasswordCheckUIStatus int status, Integer compromisedCredentialsCount) {
         return new MVCListAdapter.ListItem(PasswordCheckProperties.ItemType.HEADER,
                 new PropertyModel.Builder(HeaderProperties.ALL_KEYS)
                         .with(CHECK_STATUS, status)
+                        .with(COMPROMISED_CREDENTIALS_COUNT, compromisedCredentialsCount)
                         .build());
     }
 
@@ -251,8 +302,33 @@ public class PasswordCheckViewTest {
         mTestRule.startSettingsActivity(fragmentArgs);
     }
 
+    private void waitForListViewToHaveLength(int length) {
+        pollUiThread(
+                () -> Criteria.checkThat(getPasswordCheckViewList().getChildCount(), is(length)));
+    }
+
+    private void assertDisplaysIcon(int resourceId) {
+        assertThat(getHeaderIcon().getVisibility(), is(View.VISIBLE));
+        assertThat(getHeaderProgressBar().getVisibility(), is(View.GONE));
+        Drawable icon = getHeaderIcon().getDrawable();
+        int widthPx = icon.getIntrinsicWidth();
+        int heightPx = icon.getIntrinsicHeight();
+        assertTrue(getBitmap(
+                AppCompatResources.getDrawable(mPasswordCheckView.getContext(), resourceId),
+                widthPx, heightPx)
+                           .sameAs(getBitmap(icon, widthPx, heightPx)));
+    }
+
     private View getStatus() {
         return mPasswordCheckView.getListView().getChildAt(0);
+    }
+
+    private ImageView getHeaderIcon() {
+        return getStatus().findViewById(R.id.check_status_icon);
+    }
+
+    private ProgressBar getHeaderProgressBar() {
+        return getStatus().findViewById(R.id.check_status_progress);
     }
 
     private ImageButton getActionButton() {
@@ -302,5 +378,13 @@ public class PasswordCheckViewTest {
     private static <T> T waitForEvent(T mock) {
         return verify(mock,
                 timeout(ScalableTimeout.scaleTimeout(CriteriaHelper.DEFAULT_MAX_TIME_TO_POLL)));
+    }
+
+    private Bitmap getBitmap(Drawable drawable, int widthPx, int heightPx) {
+        Bitmap bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, widthPx, heightPx);
+        drawable.draw(canvas);
+        return bitmap;
     }
 }

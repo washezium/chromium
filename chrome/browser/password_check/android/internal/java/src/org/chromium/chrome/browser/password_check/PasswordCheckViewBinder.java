@@ -7,6 +7,7 @@ package org.chromium.chrome.browser.password_check;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_STATUS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.COMPROMISED_CREDENTIALS_COUNT;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
 import static org.chromium.components.embedder_support.util.UrlUtilities.stripScheme;
 
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.chromium.chrome.browser.password_check.PasswordCheckProperties.ItemType;
@@ -152,28 +154,77 @@ class PasswordCheckViewBinder {
      * @param key   The {@link PropertyKey} which changed.
      */
     private static void bindHeaderView(PropertyModel model, View view, PropertyKey key) {
+        @PasswordCheckUIStatus
+        int status = model.get(CHECK_STATUS);
+        Integer compromisedCredentialsCount = model.get(COMPROMISED_CREDENTIALS_COUNT);
         if (key == CHECK_STATUS) {
-            // TODO(crbug.com/1101256): Set text and illustration based on status.
-            @PasswordCheckUIStatus
-            int status = model.get(CHECK_STATUS);
-            ImageButton restartButton = view.findViewById(R.id.check_status_restart_button);
-            if (status != PasswordCheckUIStatus.RUNNING) {
-                restartButton.setVisibility(View.VISIBLE);
-                restartButton.setClickable(true);
-                restartButton.setOnClickListener(unusedView
-                        -> {
-                                // TODO(crbug.com/1092444): Add call to restart the check.
-                        });
-            } else {
-                restartButton.setVisibility(View.GONE);
-                restartButton.setClickable(false);
-            }
+            // TODO(crbug.com/1109691): Set text and illustration based on status.
+            updateActionButton(view, status);
+            updateStatusIcon(view, status, compromisedCredentialsCount);
+        } else if (key == COMPROMISED_CREDENTIALS_COUNT) {
+            updateStatusIcon(view, status, compromisedCredentialsCount);
         } else {
             assert false : "Unhandled update to property:" + key;
         }
     }
 
     private PasswordCheckViewBinder() {}
+
+    private static void updateActionButton(View view, @PasswordCheckUIStatus int status) {
+        ImageButton restartButton = view.findViewById(R.id.check_status_restart_button);
+        if (status != PasswordCheckUIStatus.RUNNING) {
+            restartButton.setVisibility(View.VISIBLE);
+            restartButton.setClickable(true);
+            restartButton.setOnClickListener(unusedView
+                    -> {
+                            // TODO(crbug.com/1092444): Add call to restart the check.
+                    });
+        } else {
+            restartButton.setVisibility(View.GONE);
+            restartButton.setClickable(false);
+        }
+    }
+
+    private static void updateStatusIcon(
+            View view, @PasswordCheckUIStatus int status, Integer compromisedCredentialsCount) {
+        if (status == PasswordCheckUIStatus.IDLE && compromisedCredentialsCount == null) return;
+        ImageView statusIcon = view.findViewById(R.id.check_status_icon);
+        statusIcon.setImageResource(getIconResource(status, compromisedCredentialsCount));
+        statusIcon.setVisibility(getIconVisibility(status));
+        view.findViewById(R.id.check_status_progress)
+                .setVisibility(getProgressBarVisibility(status));
+    }
+
+    private static int getIconResource(
+            @PasswordCheckUIStatus int status, Integer compromisedCredentialsCount) {
+        switch (status) {
+            case PasswordCheckUIStatus.IDLE:
+                assert compromisedCredentialsCount != null;
+                return compromisedCredentialsCount == 0
+                        ? R.drawable.ic_check_circle_filled_green_24dp
+                        : org.chromium.chrome.R.drawable.ic_warning_red_24dp;
+            case PasswordCheckUIStatus.RUNNING:
+                return 0;
+            case PasswordCheckUIStatus.ERROR_OFFLINE:
+            case PasswordCheckUIStatus.ERROR_NO_PASSWORDS:
+            case PasswordCheckUIStatus.ERROR_SIGNED_OUT:
+            case PasswordCheckUIStatus.ERROR_QUOTA_LIMIT:
+            case PasswordCheckUIStatus.ERROR_QUOTA_LIMIT_ACCOUNT_CHECK:
+            case PasswordCheckUIStatus.ERROR_UNKNOWN:
+                return org.chromium.chrome.R.drawable.ic_error_grey800_24dp_filled;
+            default:
+                assert false : "Unhandled check status " + status + "on icon update";
+        }
+        return 0;
+    }
+
+    private static int getIconVisibility(@PasswordCheckUIStatus int status) {
+        return status == PasswordCheckUIStatus.RUNNING ? View.GONE : View.VISIBLE;
+    }
+
+    private static int getProgressBarVisibility(@PasswordCheckUIStatus int status) {
+        return status == PasswordCheckUIStatus.RUNNING ? View.VISIBLE : View.GONE;
+    }
 
     private static ListMenu createCredentialMenu(Context context, CompromisedCredential credential,
             PasswordCheckCoordinator.CredentialEventHandler credentialHandler) {
