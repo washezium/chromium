@@ -4095,6 +4095,13 @@ static_library("ui") {
     if (is_chrome_branded) {
       deps += [ "//chrome/browser/ui/media_router/internal/vector_icons" ]
     }
+
+    if (enable_tab_search) {
+      sources += [
+        "views/tabs/tab_search_button.cc",
+        "views/tabs/tab_search_button.h",
+      ]
+    }
   }
 
   if (use_aura) {
