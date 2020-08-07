@@ -350,6 +350,18 @@ void AVIFImageDecoder::DecodeToYUV() {
     SetFailed();
     return;
   }
+  // Frame bit depth must be equal to container bit depth.
+  if (image->depth != bit_depth_) {
+    DVLOG(1) << "Frame bit depth must be equal to container bit depth";
+    SetFailed();
+    return;
+  }
+  // Frame YUV format must be equal to container YUV format.
+  if (image->yuvFormat != avif_yuv_format_) {
+    DVLOG(1) << "Frame YUV format must be equal to container YUV format";
+    SetFailed();
+    return;
+  }
   DCHECK(!image->alphaPlane);
   static_assert(SkYUVAIndex::kY_Index == static_cast<int>(AVIF_CHAN_Y), "");
   static_assert(SkYUVAIndex::kU_Index == static_cast<int>(AVIF_CHAN_U), "");
@@ -502,6 +514,12 @@ void AVIFImageDecoder::Decode(size_t index) {
     SetFailed();
     return;
   }
+  // Frame YUV format must be equal to container YUV format.
+  if (image->yuvFormat != avif_yuv_format_) {
+    DVLOG(1) << "Frame YUV format must be equal to container YUV format";
+    SetFailed();
+    return;
+  }
 
   ImageFrame& buffer = frame_buffer_cache_[index];
   DCHECK_EQ(buffer.GetStatus(), ImageFrame::kFrameEmpty);
@@ -613,9 +631,9 @@ bool AVIFImageDecoder::MaybeCreateDemuxer() {
       ImageIsHighBitDepth() &&
       high_bit_depth_decoding_option_ == kHighBitDepthToHalfFloat;
 
-  const avifPixelFormat yuv_format = container->yuvFormat;
+  avif_yuv_format_ = container->yuvFormat;
   avifPixelFormatInfo format_info;
-  avifGetPixelFormatInfo(yuv_format, &format_info);
+  avifGetPixelFormatInfo(container->yuvFormat, &format_info);
   chroma_shift_x_ = format_info.chromaShiftX;
   chroma_shift_y_ = format_info.chromaShiftY;
 
@@ -668,7 +686,7 @@ bool AVIFImageDecoder::MaybeCreateDemuxer() {
   //   method does not have an 'index' parameter.)
   // * If ColorTransform() returns a non-null pointer, the decoder has to do a
   //   color space conversion, so we don't decode to YUV.
-  allow_decode_to_yuv_ = yuv_format != AVIF_PIXEL_FORMAT_YUV400 &&
+  allow_decode_to_yuv_ = avif_yuv_format_ != AVIF_PIXEL_FORMAT_YUV400 &&
                          !decoder_->alphaPresent && decoded_frame_count_ == 1 &&
                          GetColorSpace(container).ToSkYUVColorSpace(
                              container->depth, &yuv_color_space_.emplace()) &&
