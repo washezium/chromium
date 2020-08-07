@@ -280,6 +280,52 @@ class FormDataImporterTest : public FormDataImporterTestBase,
 };
 
 // ImportAddressProfiles tests.
+TEST_F(FormDataImporterTest, ImportStructuredNameAddressProfile) {
+  base::test::ScopedFeatureList structured_addresses_feature;
+  structured_addresses_feature.InitAndEnableFeature(
+      features::kAutofillEnableSupportForMoreStructureInNames);
+
+  FormData form;
+  form.url = GURL("https://wwww.foo.com");
+
+  FormFieldData field;
+  test::CreateTestFormField("Name:", "name", "Pablo Diego Ruiz y Picasso",
+                            "text", &field);
+  form.fields.push_back(field);
+  test::CreateTestFormField("Email:", "email", "theprez@gmail.com", "text",
+                            &field);
+  form.fields.push_back(field);
+  test::CreateTestFormField("Address:", "address1", "21 Laussat St", "text",
+                            &field);
+  form.fields.push_back(field);
+  test::CreateTestFormField("City:", "city", "San Francisco", "text", &field);
+  form.fields.push_back(field);
+  test::CreateTestFormField("State:", "state", "California", "text", &field);
+  form.fields.push_back(field);
+  test::CreateTestFormField("Zip:", "zip", "94102", "text", &field);
+  form.fields.push_back(field);
+  FormStructure form_structure(form);
+  form_structure.DetermineHeuristicTypes();
+  ImportAddressProfiles(/*extraction_successful=*/true, form_structure);
+
+  const std::vector<AutofillProfile*>& results =
+      personal_data_manager_->GetProfiles();
+  ASSERT_EQ(1U, results.size());
+
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_FULL),
+            base::ASCIIToUTF16("Pablo Diego Ruiz y Picasso"));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_FIRST),
+            base::ASCIIToUTF16("Pablo Diego"));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_MIDDLE), base::ASCIIToUTF16(""));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_LAST),
+            base::ASCIIToUTF16("Ruiz y Picasso"));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_LAST_FIRST),
+            base::ASCIIToUTF16("Ruiz"));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_LAST_CONJUNCTION),
+            base::ASCIIToUTF16("y"));
+  EXPECT_EQ(results[0]->GetRawInfo(NAME_LAST_SECOND),
+            base::ASCIIToUTF16("Picasso"));
+}
 
 TEST_F(FormDataImporterTest, ImportAddressProfiles) {
   FormData form;
