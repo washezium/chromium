@@ -179,6 +179,9 @@ source_set("blink_unittests_sources") {
       "oom_intervention_impl_test.cc",
       "user_level_memory_pressure_signal_generator_test.cc",
     ]
+  } else {
+    sources +=
+        [ "performance_manager/v8_per_frame_memory_reporter_impl_test.cc" ]
   }
 
   if (is_linux || is_chromeos || is_android || is_mac || is_win) {
