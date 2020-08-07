@@ -28786,7 +28786,8 @@ Called by update_feature_policy_enum.py.-->
   <int value="0" label="Engaged - scrolled an inch or interacted"/>
   <int value="1" label="Engaged Simple - scrolled any amount or interacted"/>
   <int value="2" label="Interacted - opened page or used menu"/>
-  <int value="3" label="Scrolled - scrolled any amount"/>
+  <int value="3" label="DEPRECATED: Scrolled - scrolled any amount"/>
+  <int value="4" label="Scrolled - scrolled any amount"/>
 </enum>
 
 <enum name="FeedHostMismatch">
