@@ -347,6 +347,39 @@ public class PasswordCheckViewTest {
 
     @Test
     @MediumTest
+    public void testStatusDysplaysSubtitleOnIdleNoLeaks() {
+        Long checkTimestamp = System.currentTimeMillis();
+        runOnUiThreadBlocking(
+                () -> { mModel.get(ITEMS).add(buildHeader(IDLE, 0, checkTimestamp)); });
+        waitForListViewToHaveLength(1);
+        assertThat(getHeaderSubtitle().getText(),
+                is(getString(R.string.password_check_status_subtitle_no_findings)));
+        assertThat(getHeaderSubtitle().getVisibility(), is(View.VISIBLE));
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusDysplaysSubtitleOnIdleWithLeaks() {
+        Long checkTimestamp = System.currentTimeMillis();
+        runOnUiThreadBlocking(
+                () -> { mModel.get(ITEMS).add(buildHeader(IDLE, LEAKS_COUNT, checkTimestamp)); });
+        waitForListViewToHaveLength(1);
+        assertThat(getHeaderSubtitle().getText(),
+                is(getString(
+                        R.string.password_check_status_subtitle_found_compromised_credentials)));
+        assertThat(getHeaderSubtitle().getVisibility(), is(View.VISIBLE));
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusNotDysplaysSubtitle() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(ERROR_UNKNOWN)); });
+        waitForListViewToHaveLength(1);
+        assertThat(getHeaderSubtitle().getVisibility(), is(View.GONE));
+    }
+
+    @Test
+    @MediumTest
     public void testCrendentialDisplaysNameOriginAndReason() {
         runOnUiThreadBlocking(() -> {
             mModel.get(ITEMS).add(buildCredentialItem(PHISHED));
@@ -557,6 +590,10 @@ public class PasswordCheckViewTest {
 
     private TextView getHeaderMessage() {
         return getStatus().findViewById(R.id.check_status_message);
+    }
+
+    private TextView getHeaderSubtitle() {
+        return getStatus().findViewById(R.id.check_status_subtitle);
     }
 
     private ImageButton getActionButton() {
