@@ -590,95 +590,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>  # DIFF-ANCHOR: 9fe4b527
     </activity-alias>  # DIFF-ANCHOR: 7c349c4f
-    <activity-alias  # DIFF-ANCHOR: 9da0e5b6
-        android:exported="true"
-        android:name="com.google.android.apps.chrome.IntentDispatcher"
-        android:targetActivity="org.chromium.chrome.browser.document.ChromeLauncherActivity">
-      <intent-filter>  # DIFF-ANCHOR: a5330430
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
-      </intent-filter>  # DIFF-ANCHOR: a5330430
-      <intent-filter>  # DIFF-ANCHOR: 436dfef3
-        <action android:name="android.intent.action.MEDIA_SEARCH"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>  # DIFF-ANCHOR: 436dfef3
-      <intent-filter>  # DIFF-ANCHOR: 8f70c92f
-        <action android:name="android.intent.action.SEARCH"/>
-      </intent-filter>  # DIFF-ANCHOR: 8f70c92f
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:host="*"/>
-        <data android:mimeType="*/*"/>
-        <data android:pathPattern="/.*\\.mht"/>
-        <data android:pathPattern="/.*\\.mhtml"/>
-        <data android:scheme="content"/>
-        <data android:scheme="file"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:host="*"/>
-        <data android:pathPattern="/.*\\.mht"/>
-        <data android:pathPattern="/.*\\.mhtml"/>
-        <data android:scheme="content"/>
-        <data android:scheme="file"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:mimeType="application/xhtml+xml"/>
-        <data android:mimeType="text/html"/>
-        <data android:mimeType="text/plain"/>
-        <data android:scheme="about"/>
-        <data android:scheme="content"/>
-        <data android:scheme="googlechrome"/>
-        <data android:scheme="http"/>
-        <data android:scheme="https"/>
-        <data android:scheme="javascript"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:scheme="about"/>
-        <data android:scheme="googlechrome"/>
-        <data android:scheme="http"/>
-        <data android:scheme="https"/>
-        <data android:scheme="javascript"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:mimeType="message/rfc822"/>
-        <data android:scheme="content"/>
-        <data android:scheme="file"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:mimeType="multipart/related"/>
-        <data android:scheme="content"/>
-        <data android:scheme="file"/>
-      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
-      <intent-filter>  # DIFF-ANCHOR: 7a3b3be8
-        <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <data android:scheme="http"/>
-        <data android:scheme="https"/>
-      </intent-filter>  # DIFF-ANCHOR: 7a3b3be8
-      <intent-filter>  # DIFF-ANCHOR: 2a3a3c3d
-        <action android:name="android.speech.action.VOICE_SEARCH_RESULTS"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>  # DIFF-ANCHOR: 2a3a3c3d
-      <intent-filter>  # DIFF-ANCHOR: 83919a44
-        <action android:name="com.sec.android.airview.HOVER"/>
-      </intent-filter>  # DIFF-ANCHOR: 83919a44
-      <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
-    </activity-alias>  # DIFF-ANCHOR: 9da0e5b6
     <activity-alias  # DIFF-ANCHOR: 5042984f
         android:exported="true"
         android:name="com.google.android.apps.chrome.Main"
@@ -723,6 +634,134 @@
         <data android:scheme="file"/>
       </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
     </activity-alias>  # DIFF-ANCHOR: b4a6221b
+    <activity-alias  # DIFF-ANCHOR: 9da0e5b6
+        android:exported="true"
+        android:name="com.google.android.apps.chrome.IntentDispatcher"
+        android:targetActivity="org.chromium.chrome.browser.document.ChromeLauncherActivity">
+      <intent-filter tools:ignore="AppLinkUrlError">  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="application/xhtml+xml"/>
+        <data android:mimeType="text/html"/>
+        <data android:mimeType="text/plain"/>
+        <data android:scheme="about"/>
+        <data android:scheme="content"/>
+        <data android:scheme="googlechrome"/>
+        <data android:scheme="http"/>
+        <data android:scheme="https"/>
+        <data android:scheme="javascript"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: a5330430
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
+      </intent-filter>  # DIFF-ANCHOR: a5330430
+      <intent-filter>  # DIFF-ANCHOR: 436dfef3
+        <action android:name="android.intent.action.MEDIA_SEARCH"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>  # DIFF-ANCHOR: 436dfef3
+      <intent-filter>  # DIFF-ANCHOR: 8f70c92f
+        <action android:name="android.intent.action.SEARCH"/>
+      </intent-filter>  # DIFF-ANCHOR: 8f70c92f
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:host="*"/>
+        <data android:mimeType="*/*"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\.mht"/>
+        <data android:pathPattern="/.*\\.mhtml"/>
+        <data android:scheme="file"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:host="*"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\..*\\.mht"/>
+        <data android:pathPattern="/.*\\..*\\.mhtml"/>
+        <data android:pathPattern="/.*\\.mht"/>
+        <data android:pathPattern="/.*\\.mhtml"/>
+        <data android:scheme="file"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="multipart/related"/>
+        <data android:scheme="file"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:scheme="about"/>
+        <data android:scheme="googlechrome"/>
+        <data android:scheme="http"/>
+        <data android:scheme="https"/>
+        <data android:scheme="javascript"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="message/rfc822"/>
+        <data android:scheme="content"/>
+        <data android:scheme="file"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="multipart/related"/>
+        <data android:scheme="content"/>
+      </intent-filter>  # DIFF-ANCHOR: 13c9b0a8
+      <intent-filter>  # DIFF-ANCHOR: 7a3b3be8
+        <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:scheme="http"/>
+        <data android:scheme="https"/>
+      </intent-filter>  # DIFF-ANCHOR: 7a3b3be8
+      <intent-filter>  # DIFF-ANCHOR: 2a3a3c3d
+        <action android:name="android.speech.action.VOICE_SEARCH_RESULTS"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>  # DIFF-ANCHOR: 2a3a3c3d
+      <intent-filter>  # DIFF-ANCHOR: 83919a44
+        <action android:name="com.sec.android.airview.HOVER"/>
+      </intent-filter>  # DIFF-ANCHOR: 83919a44
+      <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
+    </activity-alias>  # DIFF-ANCHOR: 9da0e5b6
     <meta-data android:name="android.allow_multiple_resumed_activities" android:value="true"/>
     <meta-data android:name="android.content.APP_RESTRICTIONS" android:resource="@xml/app_restrictions"/>
     <meta-data android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME" android:value="org.chromium.chrome.browser.media.router.caf.CastOptionsProvider"/>
