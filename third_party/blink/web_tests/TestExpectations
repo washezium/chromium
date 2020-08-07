@@ -1123,6 +1123,7 @@ crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/remove-colum
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/static-becomes-relpos-has-abspos.html [ Crash Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/event-offset-in-nested.html [ Failure ]
 crbug.com/875235 virtual/layout_ng_block_frag/fast/multicol/fieldset-as-multicol.html [ Failure ]
+crbug.com/829028 virtual/layout_ng_block_frag/fast/multicol/file-upload-as-multicol.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/float-after-break-after.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/float-avoidance.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/float-margin-at-row-boundary.html [ Failure ]
@@ -1501,7 +1502,6 @@ crbug.com/1053725 [ Mac ] virtual/web-components-v0-disabled/fast/dom/title-text
 # Needs triage:
 crbug.com/1053725 [ Mac ] fast/css/button-height.html [ Skip ]
 crbug.com/1053725 [ Mac ] fast/css-grid-layout/preferred-width-computed-after-layout.html [ Skip ]
-crbug.com/1053725 [ Mac ] fast/css/text-overflow-ellipsis-button.html [ Skip ]
 crbug.com/1053725 [ Mac ] editing/selection/replaced-boundaries-3.html [ Skip ]
 
 
@@ -4355,6 +4355,7 @@ crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/co
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/display-grid.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/display-inline-grid.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/grid-box-sizing-001.html [ Failure ]
+crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/grid-button-001.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/grid-container-ignores-first-letter-001.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/grid-container-scrollbar-001.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/grid-model/grid-container-scrollbar-vertical-lr-001.html [ Failure ]

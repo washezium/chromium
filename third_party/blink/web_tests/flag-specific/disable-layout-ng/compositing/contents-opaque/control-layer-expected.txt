@@ -1,13 +1,13 @@
 {
   "layers": [
     {
-      "name": "Scrolling background of LayoutView #document",
+      "name": "Scrolling Contents Layer",
       "bounds": [800, 600],
       "contentsOpaque": true,
       "backgroundColor": "#FFFFFF"
     },
     {
-      "name": "LayoutNGButton INPUT id='control' class='composited'",
+      "name": "LayoutButton INPUT id='control' class='composited'",
       "bounds": [127, 22],
       "backgroundColor": "#EFEFEF",
       "transform": 1
