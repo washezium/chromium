@@ -145,6 +145,7 @@ class NearbySharingServiceImpl
   void Fail(const ShareTarget& share_target, TransferMetadata::Status status);
   void OnIncomingTransferUpdate(const ShareTarget& share_target,
                                 TransferMetadata metadata);
+  void CloseConnection(const ShareTarget& share_target);
   void ReceiveIntroduction(ShareTarget share_target,
                            base::Optional<std::string> token);
   void OnReceivedIntroduction(

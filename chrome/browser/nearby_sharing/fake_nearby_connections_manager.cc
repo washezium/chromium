@@ -107,7 +107,6 @@ FakeNearbyConnectionsManager::GetRawAuthenticationToken(
 
 void FakeNearbyConnectionsManager::UpgradeBandwidth(
     const std::string& endpoint_id) {
-  // TODO(alexchau): Implement.
   upgrade_bandwidth_endpoint_ids_.insert(endpoint_id);
 }
 

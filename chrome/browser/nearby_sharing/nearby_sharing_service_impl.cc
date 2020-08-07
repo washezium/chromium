@@ -32,6 +32,8 @@ namespace {
 constexpr base::TimeDelta kReadFramesTimeout = base::TimeDelta::FromSeconds(15);
 constexpr base::TimeDelta kReadResponseFrameTimeout =
     base::TimeDelta::FromSeconds(60);
+constexpr base::TimeDelta kIncomingRejectionDelay =
+    base::TimeDelta::FromSeconds(2);
 
 std::string ReceiveSurfaceStateToString(
     NearbySharingService::ReceiveSurfaceState state) {
@@ -310,6 +312,32 @@ void NearbySharingServiceImpl::Accept(
 void NearbySharingServiceImpl::Reject(
     const ShareTarget& share_target,
     StatusCodesCallback status_codes_callback) {
+  NearbyConnection* connection = GetIncomingConnection(share_target);
+  if (!connection) {
+    NS_LOG(WARNING) << __func__ << ": Reject invoked for unknown share target";
+    std::move(status_codes_callback).Run(StatusCodes::kOutOfOrderApiCall);
+    return;
+  }
+
+  base::SequencedTaskRunnerHandle::Get()->PostDelayedTask(
+      FROM_HERE,
+      base::BindOnce(&NearbySharingServiceImpl::CloseConnection,
+                     weak_ptr_factory_.GetWeakPtr(), share_target),
+      kIncomingRejectionDelay);
+
+  connection->RegisterForDisconnection(
+      base::BindOnce(&NearbySharingServiceImpl::UnregisterShareTarget,
+                     weak_ptr_factory_.GetWeakPtr(), share_target));
+
+  WriteResponse(*connection, sharing::nearby::ConnectionResponseFrame::REJECT);
+  NS_LOG(VERBOSE) << __func__
+                  << ": Successfully wrote a rejection response frame";
+
+  OnIncomingTransferUpdate(share_target,
+                           TransferMetadataBuilder()
+                               .set_status(TransferMetadata::Status::kRejected)
+                               .build());
+
   std::move(status_codes_callback).Run(StatusCodes::kOk);
 }
 
@@ -834,6 +862,17 @@ void NearbySharingServiceImpl::Fail(const ShareTarget& share_target,
     OnIncomingTransferUpdate(
         share_target, TransferMetadataBuilder().set_status(status).build());
   }
+}
+
+void NearbySharingServiceImpl::CloseConnection(
+    const ShareTarget& share_target) {
+  NearbyConnection* connection = GetIncomingConnection(share_target);
+  if (!connection) {
+    NS_LOG(WARNING) << __func__ << ": Invalid connection for target - "
+                    << share_target.device_name;
+    return;
+  }
+  connection->Close();
 }
 
 void NearbySharingServiceImpl::ReceiveIntroduction(
