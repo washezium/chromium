@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef DEVICE_GAMEPAD_GAMEPAD_PLATFORM_DATA_FETCHER_WIN_H_
-#define DEVICE_GAMEPAD_GAMEPAD_PLATFORM_DATA_FETCHER_WIN_H_
+#ifndef DEVICE_GAMEPAD_XINPUT_DATA_FETCHER_WIN_H_
+#define DEVICE_GAMEPAD_XINPUT_DATA_FETCHER_WIN_H_
 
 #include <memory>
 
@@ -46,14 +46,14 @@ struct XInputStateEx {
   XInputGamepadEx Gamepad;
 };
 
-class GamepadPlatformDataFetcherWin : public GamepadDataFetcher {
+class XInputDataFetcherWin : public GamepadDataFetcher {
  public:
-  typedef GamepadDataFetcherFactoryImpl<GamepadPlatformDataFetcherWin,
+  typedef GamepadDataFetcherFactoryImpl<XInputDataFetcherWin,
                                         GAMEPAD_SOURCE_WIN_XINPUT>
       Factory;
 
-  GamepadPlatformDataFetcherWin();
-  ~GamepadPlatformDataFetcherWin() override;
+  XInputDataFetcherWin();
+  ~XInputDataFetcherWin() override;
 
   GamepadSource source() override;
 
@@ -106,9 +106,9 @@ class GamepadPlatformDataFetcherWin : public GamepadDataFetcher {
   bool xinput_connected_[XUSER_MAX_COUNT];
   std::unique_ptr<XInputHapticGamepadWin> haptics_[XUSER_MAX_COUNT];
 
-  DISALLOW_COPY_AND_ASSIGN(GamepadPlatformDataFetcherWin);
+  DISALLOW_COPY_AND_ASSIGN(XInputDataFetcherWin);
 };
 
 }  // namespace device
 
-#endif  // DEVICE_GAMEPAD_GAMEPAD_PLATFORM_DATA_FETCHER_WIN_H_
+#endif  // DEVICE_GAMEPAD_XINPUT_DATA_FETCHER_WIN_H_

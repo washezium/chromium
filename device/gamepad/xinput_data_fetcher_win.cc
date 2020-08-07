@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "device/gamepad/gamepad_platform_data_fetcher_win.h"
+#include "device/gamepad/xinput_data_fetcher_win.h"
 
 #include <stddef.h>
 #include <string.h>
@@ -85,26 +85,25 @@ const base::FilePath::CharType* XInputDllFileName() {
 
 }  // namespace
 
-GamepadPlatformDataFetcherWin::GamepadPlatformDataFetcherWin()
-    : xinput_available_(false) {}
+XInputDataFetcherWin::XInputDataFetcherWin() : xinput_available_(false) {}
 
-GamepadPlatformDataFetcherWin::~GamepadPlatformDataFetcherWin() {
+XInputDataFetcherWin::~XInputDataFetcherWin() {
   for (auto& haptic_gamepad : haptics_) {
     if (haptic_gamepad)
       haptic_gamepad->Shutdown();
   }
 }
 
-GamepadSource GamepadPlatformDataFetcherWin::source() {
+GamepadSource XInputDataFetcherWin::source() {
   return Factory::static_source();
 }
 
-void GamepadPlatformDataFetcherWin::OnAddedToProvider() {
+void XInputDataFetcherWin::OnAddedToProvider() {
   xinput_dll_ = base::ScopedNativeLibrary(base::FilePath(XInputDllFileName()));
   xinput_available_ = GetXInputDllFunctions();
 }
 
-void GamepadPlatformDataFetcherWin::EnumerateDevices() {
+void XInputDataFetcherWin::EnumerateDevices() {
   TRACE_EVENT0("GAMEPAD", "EnumerateDevices");
 
   if (xinput_available_) {
@@ -149,7 +148,7 @@ void GamepadPlatformDataFetcherWin::EnumerateDevices() {
   }
 }
 
-void GamepadPlatformDataFetcherWin::GetGamepadData(bool devices_changed_hint) {
+void XInputDataFetcherWin::GetGamepadData(bool devices_changed_hint) {
   TRACE_EVENT0("GAMEPAD", "GetGamepadData");
 
   if (!xinput_available_)
@@ -171,7 +170,7 @@ void GamepadPlatformDataFetcherWin::GetGamepadData(bool devices_changed_hint) {
   }
 }
 
-void GamepadPlatformDataFetcherWin::GetXInputPadData(int i) {
+void XInputDataFetcherWin::GetXInputPadData(int i) {
   PadState* pad_state = GetPadState(i);
   if (!pad_state)
     return;
@@ -245,7 +244,7 @@ void GamepadPlatformDataFetcherWin::GetXInputPadData(int i) {
   }
 }
 
-void GamepadPlatformDataFetcherWin::PlayEffect(
+void XInputDataFetcherWin::PlayEffect(
     int pad_id,
     mojom::GamepadHapticEffectType type,
     mojom::GamepadEffectParametersPtr params,
@@ -270,7 +269,7 @@ void GamepadPlatformDataFetcherWin::PlayEffect(
                                std::move(callback_runner));
 }
 
-void GamepadPlatformDataFetcherWin::ResetVibration(
+void XInputDataFetcherWin::ResetVibration(
     int pad_id,
     mojom::GamepadHapticsManager::ResetVibrationActuatorCallback callback,
     scoped_refptr<base::SequencedTaskRunner> callback_runner) {
@@ -293,7 +292,7 @@ void GamepadPlatformDataFetcherWin::ResetVibration(
                                    std::move(callback_runner));
 }
 
-bool GamepadPlatformDataFetcherWin::GetXInputDllFunctions() {
+bool XInputDataFetcherWin::GetXInputDllFunctions() {
   xinput_get_capabilities_ = nullptr;
   xinput_get_state_ = nullptr;
   xinput_get_state_ex_ = nullptr;
