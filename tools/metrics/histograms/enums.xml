@@ -21366,6 +21366,8 @@ Called by update_document_policy_enum.py.-->
   <int value="763" label="DeviceShowLowDiskSpaceNotification"/>
   <int value="764" label="DeviceUserAllowlist"/>
   <int value="765" label="UsbDetachableAllowlist"/>
+  <int value="766" label="InsecurePrivateNetworkRequestsAllowed"/>
+  <int value="767" label="InsecurePrivateNetworkRequestsAllowedForUrls"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
@@ -55956,6 +55958,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="37" label="ActiveDirectoryManagement"/>
   <int value="38" label="LegacySameSiteCookieBehaviorSettings"/>
   <int value="39" label="SensorsSettings"/>
+  <int value="40" label="PrivateNetworkRequestSettings"/>
 </enum>
 
 <enum name="PolicyLoadStatus">
