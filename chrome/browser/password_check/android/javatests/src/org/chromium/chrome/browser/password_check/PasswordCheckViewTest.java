@@ -149,6 +149,34 @@ public class PasswordCheckViewTest {
 
     @Test
     @MediumTest
+    public void testStatusIllustrationPositive() {
+        Long checkTimestamp = System.currentTimeMillis();
+        runOnUiThreadBlocking(
+                () -> { mModel.get(ITEMS).add(buildHeader(IDLE, 0, checkTimestamp)); });
+        waitForListViewToHaveLength(1);
+        assertIllustration(R.drawable.password_check_positive);
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusIllustrationWarning() {
+        Long checkTimestamp = System.currentTimeMillis();
+        runOnUiThreadBlocking(
+                () -> { mModel.get(ITEMS).add(buildHeader(IDLE, LEAKS_COUNT, checkTimestamp)); });
+        waitForListViewToHaveLength(1);
+        assertIllustration(R.drawable.password_checkup_warning);
+    }
+
+    @Test
+    @MediumTest
+    public void testStatusIllustrationNeutral() {
+        runOnUiThreadBlocking(() -> { mModel.get(ITEMS).add(buildHeader(ERROR_OFFLINE)); });
+        waitForListViewToHaveLength(1);
+        assertIllustration(R.drawable.password_check_neutral);
+    }
+
+    @Test
+    @MediumTest
     public void testStatusDisplaysIconOnIdleNoLeaks() {
         Long checkTimestamp = System.currentTimeMillis();
         runOnUiThreadBlocking(
@@ -476,6 +504,18 @@ public class PasswordCheckViewTest {
                 AppCompatResources.getDrawable(mPasswordCheckView.getContext(), resourceId),
                 widthPx, heightPx)
                            .sameAs(getBitmap(icon, widthPx, heightPx)));
+    }
+
+    private void assertIllustration(int resourceId) {
+        Drawable illustration =
+                ((ImageView) getStatus().findViewById(R.id.check_status_illustration))
+                        .getDrawable();
+        int widthPx = illustration.getIntrinsicWidth();
+        int heightPx = illustration.getIntrinsicHeight();
+        assertTrue(getBitmap(
+                AppCompatResources.getDrawable(mPasswordCheckView.getContext(), resourceId),
+                widthPx, heightPx)
+                           .sameAs(getBitmap(illustration, widthPx, heightPx)));
     }
 
     private View getStatus() {

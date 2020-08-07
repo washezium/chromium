@@ -171,15 +171,15 @@ class PasswordCheckViewBinder {
         if (key == CHECK_PROGRESS) {
             updateStatusText(view, status, compromisedCredentialsCount, checkTimestamp, progress);
         } else if (key == CHECK_STATUS) {
-            // TODO(crbug.com/1109691): Set illustration based on status.
             updateActionButton(view, status);
             updateStatusIcon(view, status, compromisedCredentialsCount);
+            updateStatusIllustration(view, status, compromisedCredentialsCount);
             updateStatusText(view, status, compromisedCredentialsCount, checkTimestamp, progress);
         } else if (key == CHECK_TIMESTAMP) {
             updateStatusText(view, status, compromisedCredentialsCount, checkTimestamp, progress);
         } else if (key == COMPROMISED_CREDENTIALS_COUNT) {
-            // TODO(crbug.com/1109691): Set illustration based on compromised credentials count.
             updateStatusIcon(view, status, compromisedCredentialsCount);
+            updateStatusIllustration(view, status, compromisedCredentialsCount);
             updateStatusText(view, status, compromisedCredentialsCount, checkTimestamp, progress);
         } else {
             assert false : "Unhandled update to property:" + key;
@@ -358,6 +358,36 @@ class PasswordCheckViewBinder {
 
     private static int getStatusDescriptionVisibility(@PasswordCheckUIStatus int status) {
         return status == PasswordCheckUIStatus.IDLE ? View.VISIBLE : View.GONE;
+    }
+
+    private static void updateStatusIllustration(
+            View view, @PasswordCheckUIStatus int status, Integer compromisedCredentialsCount) {
+        // TODO(crbug.com/1114051): Set default values for header properties.
+        if (status == PasswordCheckUIStatus.IDLE && compromisedCredentialsCount == null) return;
+        ImageView statusIllustration = view.findViewById(R.id.check_status_illustration);
+        statusIllustration.setImageResource(
+                getIllustrationResource(status, compromisedCredentialsCount));
+    }
+
+    private static int getIllustrationResource(
+            @PasswordCheckUIStatus int status, Integer compromisedCredentialsCount) {
+        switch (status) {
+            case PasswordCheckUIStatus.IDLE:
+                assert compromisedCredentialsCount != null;
+                return compromisedCredentialsCount == 0 ? R.drawable.password_check_positive
+                                                        : R.drawable.password_checkup_warning;
+            case PasswordCheckUIStatus.RUNNING:
+            case PasswordCheckUIStatus.ERROR_OFFLINE:
+            case PasswordCheckUIStatus.ERROR_NO_PASSWORDS:
+            case PasswordCheckUIStatus.ERROR_SIGNED_OUT:
+            case PasswordCheckUIStatus.ERROR_QUOTA_LIMIT:
+            case PasswordCheckUIStatus.ERROR_QUOTA_LIMIT_ACCOUNT_CHECK:
+            case PasswordCheckUIStatus.ERROR_UNKNOWN:
+                return R.drawable.password_check_neutral;
+            default:
+                assert false : "Unhandled check status " + status + "on illustration update";
+        }
+        return 0;
     }
 
     private static ListMenu createCredentialMenu(Context context, CompromisedCredential credential,
