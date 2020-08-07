@@ -22,7 +22,6 @@ import sys
 import io
 import re
 
-
 TrafficAnnotation = namedtuple(
     "TrafficAnnotation",
     ["unique_id", "description", "trigger", "data", "settings", "policy"])
@@ -33,6 +32,7 @@ class Placeholder(str, enum.Enum):
   SENDER = "sender"
   ANNOTATION = "annotation"
   ANNOTATION_BOLD = "annotation_bold"
+
 
 PLACEHOLDER_STYLES = {
     Placeholder.GROUP: {
@@ -195,7 +195,9 @@ class XMLParser:
                                              "NA")
 
     return {
-      "type": Placeholder.ANNOTATION, "traffic_annotation": traffic_annotation}
+        "type": Placeholder.ANNOTATION,
+        "traffic_annotation": traffic_annotation
+    }
 
   def build_placeholders(self):
     """
