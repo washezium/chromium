@@ -1765,7 +1765,7 @@ void DocumentLoader::CommitNavigation() {
   WillCommitNavigation();
 
   DocumentInit init = DocumentInit::Create()
-                          .WithDocumentLoader(this, owner_document)
+                          .WithWindow(frame_->DomWindow(), owner_document)
                           .WithURL(Url())
                           .WithTypeFrom(MimeType())
                           .WithSrcdocDocument(loading_srcdoc_)
