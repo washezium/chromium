@@ -58,6 +58,7 @@ class IOSChromePasswordManagerClient
   void PromptUserToMovePasswordToAccount(
       std::unique_ptr<password_manager::PasswordFormManagerForUI> form_to_move)
       override;
+  bool RequiresReauthToFill() override;
   bool ShowOnboarding(
       std::unique_ptr<password_manager::PasswordFormManagerForUI> form_to_save)
       override;

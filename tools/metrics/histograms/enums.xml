@@ -54326,6 +54326,9 @@ Called by update_net_trust_anchors.py.-->
   <int value="6" label="Fill On Select">
     User is browsing with the Fill On Select feature enabled.
   </int>
+  <int value="7" label="Reauth required">
+    Re-authenticaion for filling passwords is required.
+  </int>
 </enum>
 
 <enum name="PasswordManagerHttpCredentialType">
