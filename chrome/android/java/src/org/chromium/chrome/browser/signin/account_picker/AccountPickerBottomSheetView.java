@@ -122,7 +122,7 @@ class AccountPickerBottomSheetView implements BottomSheetContent {
 
     @Override
     public int getVerticalScrollOffset() {
-        return mAccountListView.computeVerticalScrollOffset();
+        return 0;
     }
 
     @Override
