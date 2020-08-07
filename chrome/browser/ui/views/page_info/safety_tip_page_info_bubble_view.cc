@@ -180,7 +180,7 @@ SafetyTipPageInfoBubbleView::SafetyTipPageInfoBubbleView(
   info_button_ = button_layout->AddView(std::move(info_link));
 
   // Leave site button.
-  auto leave_button = views::MdTextButton::Create(
+  auto leave_button = std::make_unique<views::MdTextButton>(
       this,
       l10n_util::GetStringUTF16(GetSafetyTipLeaveButtonId(safety_tip_status)));
   leave_button->SetProminent(true);
