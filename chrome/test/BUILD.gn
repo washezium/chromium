@@ -2341,6 +2341,7 @@ if (!is_android) {
         "../browser/chromeos/login/screens/terms_of_service_screen_browsertest.cc",
         "../browser/chromeos/login/screens/update_required_screen_browsertest.cc",
         "../browser/chromeos/login/screens/update_screen_browsertest.cc",
+        "../browser/chromeos/login/screens/user_creation_screen_browsertest.cc",
         "../browser/chromeos/login/screens/user_selection_screen_browsertest.cc",
         "../browser/chromeos/login/screens/welcome_screen_browsertest.cc",
         "../browser/chromeos/login/screens/wrong_hwid_screen_browsertest.cc",
