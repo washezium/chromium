@@ -6176,8 +6176,8 @@ the Bookmarks menu.">
         <message name="IDS_FEEDBACK_USER_EMAIL_LABEL" desc="Label showing the e-mail address that will be reported">
           Email
         </message>
-        <message name="IDS_FEEDBACK_ANONYMOUS_EMAIL_OPTION" desc="Option in the drop down menu to let the user send the feedback report anonymously.">
-          Report anonymously
+        <message name="IDS_FEEDBACK_ANONYMOUS_EMAIL_OPTION" desc="Option in the drop down menu to let the user send the feedback report without attaching their email.">
+          Do not include email address
         </message>
         <message name="IDS_FEEDBACK_SCREENSHOT_LABEL" desc="Label for the screenshot field if current screenshots are being shown">
           Include this screenshot and titles of open tabs
