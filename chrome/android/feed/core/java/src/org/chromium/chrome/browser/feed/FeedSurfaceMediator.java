@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.chromium.base.MemoryPressureListener;
 import org.chromium.base.memory.MemoryPressureCallback;
@@ -205,6 +206,9 @@ public class FeedSurfaceMediator
 
             @Override
             public void onAddFinished() {
+                // After first batch of articles are loaded, set recyclerView back to
+                // non-transparent.
+                stream.getView().getBackground().setAlpha(255);
                 if (mContentFirstAvailableTimeMs == 0) {
                     mContentFirstAvailableTimeMs = SystemClock.elapsedRealtime();
                     if (mHasPendingUmaRecording) {
@@ -213,6 +217,24 @@ public class FeedSurfaceMediator
                     }
                 }
                 mIsLoadingFeed = false;
+            }
+
+            @Override
+            public void onAddStarting() {
+                if (!mCoordinator.isPlaceholderShownInV1()) {
+                    return;
+                }
+                // If the placeholder is shown, set sign-in box visible back.
+                RecyclerView recyclerView = (RecyclerView) stream.getView();
+                if (recyclerView != null) {
+                    View signInView = recyclerView.findViewById(R.id.signin_promo_view_container);
+                    if (signInView != null) {
+                        signInView.setAlpha(0f);
+                        signInView.setVisibility(View.VISIBLE);
+                        signInView.animate().alpha(1f).setDuration(
+                                recyclerView.getItemAnimator().getAddDuration());
+                    }
+                }
             }
         };
         stream.addOnContentChangedListener(mStreamContentChangedListener);
