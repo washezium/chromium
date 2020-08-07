@@ -1178,6 +1178,10 @@ by a child template that "extends" this file.
         <meta-data android:name="org.chromium.content.browser.REMOTE_MEDIA_PLAYERS"
             android:value="org.chromium.chrome.browser.media.remote.DefaultMediaRouteController"/>
 
+        <!-- Downloads Google Sans from GMS Core -->
+        <meta-data android:name="preloaded_fonts"
+            android:resource="@array/preloaded_google_sans_fonts" />
+
         {% endblock %}
         {% block extra_application_definitions_for_test %}
         {% endblock %}
