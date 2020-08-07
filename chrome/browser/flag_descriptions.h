@@ -2623,6 +2623,11 @@ extern const char kWebUITabStripName[];
 extern const char kWebUITabStripDescription[];
 #endif  // BUILDFLAG(ENABLE_WEBUI_TAB_STRIP)
 
+#if BUILDFLAG(ENABLE_WEBUI_TAB_STRIP) && defined(OS_CHROMEOS)
+extern const char kWebUITabStripTabDragIntegrationName[];
+extern const char kWebUITabStripTabDragIntegrationDescription[];
+#endif  // BUILDFLAG(ENABLE_WEBUI_TAB_STRIP) && defined(OS_CHROMEOS)
+
 #if defined(TOOLKIT_VIEWS) || defined(OS_ANDROID)
 
 extern const char kAutofillCreditCardUploadName[];

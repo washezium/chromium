@@ -4464,7 +4464,12 @@
   {
     "name": "webui-tab-strip",
     "owners": [ "collinbaker", "johntlee" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 89
+  },
+  {
+    "name": "webui-tab-strip-tab-drag-integration",
+    "owners": [ "collinbaker", "johntlee" ],
+    "expiry_milestone": 89
   },
   {
     "name": "webxr-incubations",

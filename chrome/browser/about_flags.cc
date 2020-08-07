@@ -2462,6 +2462,15 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kWebUITabStripDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kWebUITabStrip)},
 #endif  // BUILDFLAG(ENABLE_WEBUI_TAB_STRIP)
+#if BUILDFLAG(ENABLE_WEBUI_TAB_STRIP) && defined(OS_CHROMEOS)
+    {
+        "webui-tab-strip-tab-drag-integration",
+        flag_descriptions::kWebUITabStripTabDragIntegrationName,
+        flag_descriptions::kWebUITabStripTabDragIntegrationDescription,
+        kOsCrOS,
+        FEATURE_VALUE_TYPE(ash::features::kWebUITabStripTabDragIntegration),
+    },
+#endif  // BUILDFLAG(ENABLE_WEBUI_TAB_STRIP) && defined(OS_CHROMEOS)
     {"focus-mode", flag_descriptions::kFocusMode,
      flag_descriptions::kFocusModeDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kFocusMode)},
