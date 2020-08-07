@@ -1818,10 +1818,8 @@ void DocumentLoader::CommitNavigation() {
     document->SetBaseURLOverride(archive_->MainResource()->Url());
   }
 
-  if (commit_reason_ == CommitReason::kXSLT) {
-    DocumentXSLT::From(*document).SetTransformSourceDocument(
-        previous_window->document());
-  }
+  if (commit_reason_ == CommitReason::kXSLT)
+    DocumentXSLT::SetHasTransformSource(*document);
 
   DidInstallNewDocument(document);
 
