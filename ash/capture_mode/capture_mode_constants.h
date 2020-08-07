@@ -23,6 +23,10 @@ constexpr float kInkDropHighlightVisibleOpacity = 0.3f;
 
 constexpr SkColor kInkDropBaseColor = SK_ColorWHITE;
 
+// The spacing used by the BoxLayout manager to space out child views in the
+// CaptureModeBarView.
+constexpr int kBetweenChildSpacing = 16;
+
 }  // namespace capture_mode
 
 }  // namespace ash
