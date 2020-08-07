@@ -1316,6 +1316,11 @@ const char kLiteVideoDescription[] =
     "Enable the LiteVideo optimization to throttle media requests to "
     "reduce data usage";
 
+const char kLiteVideoDownlinkBandwidthKbpsName[] =
+    "Lite Video: Adjust throttling downlink (in Kbps).";
+const char kLiteVideoDownlinkBandwidthKbpsDescription[] =
+    "Specify the throttling bandwidth to be used";
+
 const char kLiteVideoForceOverrideDecisionName[] = "Force LiteVideos decision";
 const char kLiteVideoForceOverrideDecisionDescription[] =
     "Force the LiteVideo decision to be allowed on every navigation.";

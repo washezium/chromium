@@ -774,6 +774,9 @@ extern const char kLegacyTLSWarningsDescription[];
 extern const char kLiteVideoName[];
 extern const char kLiteVideoDescription[];
 
+extern const char kLiteVideoDownlinkBandwidthKbpsName[];
+extern const char kLiteVideoDownlinkBandwidthKbpsDescription[];
+
 extern const char kLiteVideoForceOverrideDecisionName[];
 extern const char kLiteVideoForceOverrideDecisionDescription[];
 
