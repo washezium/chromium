@@ -4275,11 +4275,6 @@ const char kVirtualKeyboardDescription[] =
     "Always show virtual keyboard regardless of having a physical keyboard "
     "present";
 
-const char kZeroStateFilesName[] = "Enable Launcher Zero State Files";
-const char kZeroStateFilesDescription[] =
-    "Enables zero state file recommendations in the Launcher, which appear when"
-    "the search box is active and no query has been entered.";
-
 const char kZeroCopyVideoCaptureName[] = "Enable Zero-Copy Video Capture";
 const char kZeroCopyVideoCaptureDescription[] =
     "Camera produces a gpu friendly buffer on capture and, if there is, "

@@ -4502,10 +4502,5 @@
       "chromeos-gfx-video@google.com"
     ],
     "expiry_milestone": 90
-  },
-  {
-    "name": "zero-state-files",
-    "owners": [ "tby", "jiameng" ],
-    "expiry_milestone": 82
   }
 ]

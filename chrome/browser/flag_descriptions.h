@@ -2494,9 +2494,6 @@ extern const char kVirtualKeyboardDescription[];
 extern const char kZeroCopyVideoCaptureName[];
 extern const char kZeroCopyVideoCaptureDescription[];
 
-extern const char kZeroStateFilesName[];
-extern const char kZeroStateFilesDescription[];
-
 // Prefer keeping this section sorted to adding new declarations down here.
 
 #endif  // #if defined(OS_CHROMEOS)
