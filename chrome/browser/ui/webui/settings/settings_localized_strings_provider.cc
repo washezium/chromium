@@ -1193,8 +1193,6 @@ void AddPeopleStrings(content::WebUIDataSource* html_source, Profile* profile) {
 void AddPrintingStrings(content::WebUIDataSource* html_source) {
   static constexpr webui::LocalizedString kLocalizedStrings[] = {
     {"printingPageTitle", IDS_SETTINGS_PRINTING},
-    {"printingCloudPrintLearnMoreLabel",
-     IDS_SETTINGS_PRINTING_CLOUD_PRINT_LEARN_MORE_LABEL},
     {"printingNotificationsLabel", IDS_SETTINGS_PRINTING_NOTIFICATIONS_LABEL},
     {"printingManageCloudPrintDevices",
      IDS_SETTINGS_PRINTING_MANAGE_CLOUD_PRINT_DEVICES},
@@ -1206,8 +1204,6 @@ void AddPrintingStrings(content::WebUIDataSource* html_source) {
   AddLocalizedStringsBulk(html_source, kLocalizedStrings);
 
   html_source->AddString("devicesUrl", chrome::kChromeUIDevicesURL);
-  html_source->AddString("printingCloudPrintLearnMoreUrl",
-                         chrome::kCloudPrintLearnMoreURL);
 }
 
 void AddPrivacyStrings(content::WebUIDataSource* html_source,
