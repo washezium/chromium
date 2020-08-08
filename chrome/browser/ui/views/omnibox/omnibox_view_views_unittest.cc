@@ -2975,3 +2975,40 @@ TEST_P(OmniboxViewViewsRevealOnHoverTest, AfterBlur) {
   ASSERT_TRUE(elide_animation);
   EXPECT_TRUE(elide_animation->IsAnimating());
 }
+
+// Tests that registrable domain elision properly handles the case when the
+// registrable domain appears as a subdomain, e.g. test.com.test.com.
+TEST_P(OmniboxViewViewsRevealOnHoverTest, RegistrableDomainRepeated) {
+  // This test only applies when the URL is elided to the registrable domain.
+  if (!ShouldElideToRegistrableDomain())
+    return;
+
+  const base::string16 kRepeatedRegistrableDomainUrl =
+      base::ASCIIToUTF16("https://example.com.example.com/foo");
+  gfx::Range registrable_domain_and_path_range(
+      20 /* "https://www.example.com." */,
+      kRepeatedRegistrableDomainUrl.size());
+
+  location_bar_model()->set_url(GURL(kRepeatedRegistrableDomainUrl));
+  location_bar_model()->set_url_for_display(kRepeatedRegistrableDomainUrl);
+  omnibox_view()->model()->ResetDisplayTexts();
+  omnibox_view()->RevertAll();
+  // Call OnThemeChanged() to create the animations.
+  omnibox_view()->OnThemeChanged();
+
+  ASSERT_NO_FATAL_FAILURE(ExpectElidedToSimplifiedDomain(
+      omnibox_view(), base::ASCIIToUTF16("https://"),
+      base::ASCIIToUTF16("example.com."),
+      base::ASCIIToUTF16("https://example.com.example.com"),
+      base::ASCIIToUTF16("/foo"), ShouldElideToRegistrableDomain()));
+
+  // Check that the domain is elided up to the second instance of "example.com",
+  // not the first.
+  gfx::Rect registrable_domain_and_path;
+  for (const auto& rect : omnibox_view()->GetRenderText()->GetSubstringBounds(
+           registrable_domain_and_path_range)) {
+    registrable_domain_and_path.Union(rect);
+  }
+  EXPECT_EQ(omnibox_view()->GetRenderText()->display_rect().x(),
+            registrable_domain_and_path.x());
+}
