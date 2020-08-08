@@ -53,7 +53,7 @@ public class CachedFeatureFlags {
             put(ChromeFeatureList.HOMEPAGE_LOCATION_POLICY, false);
             put(ChromeFeatureList.SERVICE_MANAGER_FOR_DOWNLOAD, false);
             put(ChromeFeatureList.SERVICE_MANAGER_FOR_BACKGROUND_PREFETCH, false);
-            put(ChromeFeatureList.INTEREST_FEED_CONTENT_SUGGESTIONS, false);
+            put(ChromeFeatureList.INTEREST_FEED_CONTENT_SUGGESTIONS, true);
             put(ChromeFeatureList.CHROME_DUET, false);
             put(ChromeFeatureList.COMMAND_LINE_ON_NON_ROOTED, false);
             put(ChromeFeatureList.CHROME_DUET_ADAPTIVE, true);
