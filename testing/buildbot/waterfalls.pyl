@@ -530,6 +530,16 @@
         },
         'os_type': 'android',
       },
+      'android-bfcache-rel': {
+        'mixins': [
+          'lollipop',
+          'hammerhead',
+        ],
+        'os_type': 'android',
+        'test_suites': {
+          'gtest_tests': 'bfcache_android_gtests',
+        }
+      },
       'android-cronet-arm-dbg': {
         'mixins': [
           'lollipop',
@@ -820,16 +830,6 @@
         },
         'use_swarming': True,
         'os_type': 'android',
-      },
-      'android-bfcache-rel': {
-        'mixins': [
-          'lollipop',
-          'hammerhead',
-        ],
-        'os_type': 'android',
-        'test_suites': {
-          'gtest_tests': 'bfcache_android_gtests',
-        }
       },
       'android-marshmallow-x86-fyi-rel': {
         'mixins': [
@@ -2188,15 +2188,6 @@
         'additional_compile_targets': [
           'chrome',
         ],
-      },
-      'linux-bfcache-rel': {
-        'mixins': [
-          'linux-xenial',
-        ],
-        'test_suites': {
-          'gtest_tests': 'bfcache_linux_gtests',
-          'isolated_scripts': 'chromium_webkit_isolated_scripts',
-        },
       },
       'linux-blink-animation-use-time-delta': {
         'mixins': [
@@ -4204,6 +4195,15 @@
         'additional_compile_targets': [
           'all',
         ],
+      },
+      'linux-bfcache-rel': {
+        'mixins': [
+          'linux-xenial',
+        ],
+        'test_suites': {
+          'gtest_tests': 'bfcache_linux_gtests',
+          'isolated_scripts': 'chromium_webkit_isolated_scripts',
+        },
       },
       'linux-blink-cors-rel': {
         'mixins': [
