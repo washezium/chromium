@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_H_
-#define CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_H_
+#ifndef COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_H_
+#define COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_H_
 
 #include <memory>
 
 #include "base/callback_forward.h"
 #include "base/macros.h"
-#include "chrome/browser/ui/android/infobars/chrome_confirm_infobar.h"
+#include "components/infobars/android/confirm_infobar.h"
 
 namespace content {
 class WebContents;
@@ -19,17 +19,22 @@ namespace url {
 class Origin;
 }  // namespace url
 
+namespace sms {
+
 class SmsInfoBarDelegate;
 
-class SmsInfoBar : public ChromeConfirmInfoBar {
+class SmsInfoBar : public infobars::ConfirmInfoBar {
  public:
   SmsInfoBar(content::WebContents* web_contents,
+             const ResourceIdMapper& resource_mapper,
              std::unique_ptr<SmsInfoBarDelegate> delegate);
   ~SmsInfoBar() override;
 
   // Creates an SMS receiver infobar and delegate and adds it to
   // |infobar_service|.
   static void Create(content::WebContents* web_contents,
+                     infobars::InfoBarManager* manager,
+                     const ResourceIdMapper& resource_mapper,
                      const url::Origin& origin,
                      const std::string& one_time_code,
                      base::OnceCallback<void()> on_confirm,
@@ -45,4 +50,6 @@ class SmsInfoBar : public ChromeConfirmInfoBar {
   DISALLOW_COPY_AND_ASSIGN(SmsInfoBar);
 };
 
-#endif  // CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_H_
+}  // namespace sms
+
+#endif  // COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_H_

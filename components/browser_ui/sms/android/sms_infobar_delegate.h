@@ -2,17 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_DELEGATE_H_
-#define CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_DELEGATE_H_
+#ifndef COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_DELEGATE_H_
+#define COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_DELEGATE_H_
 
 #include "base/callback.h"
 #include "base/macros.h"
 #include "components/infobars/core/confirm_infobar_delegate.h"
 #include "url/origin.h"
 
+namespace sms {
+
 // This class configures an infobar shown when an SMS is received and the user
-// is asked for confirmation that it should be shared with the site. Upon
-// confirmation, the infobar calls back its caller.
+// is asked for confirmation that it should be shared with the site (WebOTP).
 class SmsInfoBarDelegate : public ConfirmInfoBarDelegate {
  public:
   SmsInfoBarDelegate(const url::Origin& origin,
@@ -40,4 +41,6 @@ class SmsInfoBarDelegate : public ConfirmInfoBarDelegate {
   DISALLOW_COPY_AND_ASSIGN(SmsInfoBarDelegate);
 };
 
-#endif  // CHROME_BROWSER_UI_ANDROID_SMS_SMS_INFOBAR_DELEGATE_H_
+}  // namespace sms
+
+#endif  // COMPONENTS_BROWSER_UI_SMS_ANDROID_SMS_INFOBAR_DELEGATE_H_

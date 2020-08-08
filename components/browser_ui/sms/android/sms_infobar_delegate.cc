@@ -2,19 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/android/sms/sms_infobar_delegate.h"
+#include "components/browser_ui/sms/android/sms_infobar_delegate.h"
 
 #include "base/check_op.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
-#include "chrome/app/vector_icons/vector_icons.h"
-#include "chrome/browser/android/android_theme_resources.h"
-#include "chrome/grit/generated_resources.h"
 #include "components/infobars/core/infobar.h"
+#include "components/resources/android/theme_resources.h"
+#include "components/strings/grit/components_strings.h"
 #include "components/url_formatter/elide_url.h"
 #include "content/public/browser/web_contents.h"
 #include "ui/base/l10n/l10n_util.h"
 #include "url/origin.h"
+
+namespace sms {
 
 SmsInfoBarDelegate::SmsInfoBarDelegate(const url::Origin& origin,
                                        const std::string& one_time_code,
@@ -65,3 +66,5 @@ void SmsInfoBarDelegate::InfoBarDismissed() {
 base::string16 SmsInfoBarDelegate::GetTitle() const {
   return l10n_util::GetStringUTF16(IDS_SMS_INFOBAR_TITLE);
 }
+
+}  // namespace sms

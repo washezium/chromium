@@ -10632,20 +10632,6 @@ Please help our engineers fix this problem. Tell us what happened right before y
       Open now
     </message>
 
-
-    <!-- SMS strings -->
-    <message name="IDS_SMS_INFOBAR_TITLE" desc="Title shown when Chrome is waiting for an SMS on the user's behalf">
-      Verify your phone number
-    </message>
-
-    <message name="IDS_SMS_INFOBAR_STATUS_SMS_RECEIVED" desc="Message shown when Chrome has received an SMS on the user's behalf">
-      <ph name="ONE_TIME_CODE">$1<ex>123</ex></ph> is your code for <ph name="ORIGIN">$2<ex>example.com</ex></ph>
-    </message>
-
-    <message name="IDS_SMS_INFOBAR_BUTTON_OK" desc="Text for the button shown when Chrome has received an SMS on the user's behalf">
-      Verify
-    </message>
-
     <!-- App uninstall prompt title -->
     <message name="IDS_PROMPT_APP_UNINSTALL_TITLE" desc="Title text for uninstalling an app.">
       Uninstall "<ph name="APP_NAME">$1<ex>Gmail Checker</ex></ph>"?

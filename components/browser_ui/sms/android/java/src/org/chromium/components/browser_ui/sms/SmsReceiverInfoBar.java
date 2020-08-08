@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.sms;
+package org.chromium.components.browser_ui.sms;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import androidx.annotation.VisibleForTesting;
 
 import org.chromium.base.Log;
 import org.chromium.base.annotations.CalledByNative;
-import org.chromium.chrome.R;
+import org.chromium.components.browser_ui.styles.R;
 import org.chromium.components.infobars.ConfirmInfoBar;
 import org.chromium.components.infobars.InfoBarControlLayout;
 import org.chromium.components.infobars.InfoBarLayout;
@@ -32,7 +32,7 @@ public class SmsReceiverInfoBar extends ConfirmInfoBar {
 
     @VisibleForTesting
     @CalledByNative
-    static SmsReceiverInfoBar create(WindowAndroid windowAndroid, int iconId, String title,
+    public static SmsReceiverInfoBar create(WindowAndroid windowAndroid, int iconId, String title,
             String message, String okButtonLabel) {
         if (DEBUG) Log.d(TAG, "SmsReceiverInfoBar.create()");
         return new SmsReceiverInfoBar(windowAndroid, iconId, title, message, okButtonLabel);

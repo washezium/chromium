@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.sms;
+package org.chromium.components.browser_ui.sms;
 
 import androidx.annotation.IntDef;
 
@@ -14,7 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Helper Class for Sms Receiver UMA Collection.
  */
-final class SmsReceiverUma {
+public final class SmsReceiverUma {
     // Note: these values must match the SMSReceiverInfobar enum in enums.xml.
     // Only add new values at the end, right before NUM_ENTRIES.
     @IntDef({InfobarAction.SHOWN, InfobarAction.KEYBOARD_DISMISSED})
