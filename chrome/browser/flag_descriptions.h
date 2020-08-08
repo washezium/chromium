@@ -1091,6 +1091,9 @@ extern const char kPrintSaveToDriveDescription[];
 extern const char kPrivacyElevatedAndroidName[];
 extern const char kPrivacyElevatedAndroidDescription[];
 
+extern const char kPrivacyReorderedAndroidName[];
+extern const char kPrivacyReorderedAndroidDescription[];
+
 extern const char kPrivacySettingsRedesignName[];
 extern const char kPrivacySettingsRedesignDescription[];
 

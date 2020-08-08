@@ -5309,6 +5309,11 @@ const FeatureEntry kFeatureEntries[] = {
     {"privacy-elevated-android", flag_descriptions::kPrivacyElevatedAndroidName,
      flag_descriptions::kPrivacyElevatedAndroidDescription, kOsAndroid,
      FEATURE_VALUE_TYPE(features::kPrivacyElevatedAndroid)},
+
+    {"privacy-reordered-android",
+     flag_descriptions::kPrivacyReorderedAndroidName,
+     flag_descriptions::kPrivacyReorderedAndroidDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(features::kPrivacyReorderedAndroid)},
 #endif
 
     {"privacy-settings-redesign",
