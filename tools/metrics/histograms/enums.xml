@@ -76419,6 +76419,11 @@ Called by update_scheduler_enums.py.-->
   <int value="3" label="cross-origin (others)"/>
 </enum>
 
+<enum name="WorkerType">
+  <int value="0" label="SharedWorker"/>
+  <int value="1" label="ServiceWorker"/>
+</enum>
+
 <enum name="WrenchMenuAction">
   <int value="0" label="New tab"/>
   <int value="1" label="New window"/>
