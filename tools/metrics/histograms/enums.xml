@@ -37131,6 +37131,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
 <enum name="IOSActivityScenario">
   <int value="0" label="Tab Share Button"/>
   <int value="1" label="QR Code Image"/>
+  <int value="2" label="History Entry"/>
 </enum>
 
 <enum name="IOSContentSizeCategory">
@@ -37244,6 +37245,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="4" label="Open in New Window"/>
   <int value="5" label="Remove"/>
   <int value="6" label="Edit"/>
+  <int value="7" label="Share"/>
 </enum>
 
 <enum name="IOSMenuScenario">
