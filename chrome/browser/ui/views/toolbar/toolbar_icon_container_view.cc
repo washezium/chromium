@@ -6,7 +6,6 @@
 
 #include <memory>
 
-#include "base/bind_helpers.h"
 #include "base/stl_util.h"
 #include "chrome/browser/themes/theme_properties.h"
 #include "chrome/browser/ui/layout_constants.h"
@@ -101,10 +100,12 @@ void ToolbarIconContainerView::ObserveButton(views::Button* button) {
   // We don't care about the main button being highlighted.
   if (button != main_button_) {
     subscriptions_.push_back(
-        button->AddHighlightedChangedCallback(base::DoNothing()));
+        button->AddHighlightedChangedCallback(base::BindRepeating(
+            &ToolbarIconContainerView::OnButtonHighlightedChanged,
+            base::Unretained(this), base::Unretained(button))));
   }
-  subscriptions_.push_back(button->AddStateChangedCallback(base::DoNothing()));
-  button->AddButtonObserver(this);
+  subscriptions_.push_back(button->AddStateChangedCallback(base::BindRepeating(
+      &ToolbarIconContainerView::UpdateHighlight, base::Unretained(this))));
   button->AddObserver(this);
 }
 
@@ -130,22 +131,6 @@ SkColor ToolbarIconContainerView::GetIconColor() const {
 
 bool ToolbarIconContainerView::IsHighlighted() {
   return ShouldDisplayHighlight();
-}
-
-void ToolbarIconContainerView::OnHighlightChanged(
-    views::Button* observed_button,
-    bool highlighted) {
-  // We don't care about the main button being highlighted.
-  if (observed_button == main_button_)
-    return;
-
-  OnButtonHighlightedChanged(observed_button);
-}
-
-void ToolbarIconContainerView::OnStateChanged(
-    views::Button* observed_button,
-    views::Button::ButtonState old_state) {
-  UpdateHighlight();
 }
 
 void ToolbarIconContainerView::OnViewFocused(views::View* observed_view) {
