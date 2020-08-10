@@ -1252,7 +1252,13 @@ TEST_F(PageInfoTest, TimeOpenMetrics) {
 
 // Tests that metrics are recorded on a PageInfo for pages with
 // various Safety Tip statuses.
-TEST_F(PageInfoTest, SafetyTipMetrics) {
+// See https://crbug.com/1114659 for why the test is disabled on Android.
+#if defined(OS_ANDROID)
+#define MAYBE_SafetyTipMetrics DISABLED_SafetyTipMetrics
+#else
+#define MAYBE_SafetyTipMetrics SafetyTipMetrics
+#endif
+TEST_F(PageInfoTest, MAYBE_SafetyTipMetrics) {
   base::test::ScopedFeatureList scoped_feature_list;
   scoped_feature_list.InitAndEnableFeature(
       security_state::features::kSafetyTipUI);
