@@ -3529,6 +3529,21 @@
             ]
         }
     ],
+    "IOSLookalikeUrlInterstitial": [
+        {
+            "platforms": [
+                "ios"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "IOSLookalikeUrlNavigationSuggestionsUI"
+                    ]
+                }
+            ]
+        }
+    ],
     "IOSPageInfoRefactoring": [
         {
             "platforms": [
