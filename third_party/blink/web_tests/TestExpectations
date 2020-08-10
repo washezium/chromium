@@ -1,4 +1,4 @@
-# tags: [ Android Fuchsia IOS IOS12.2 IOS13.0 Linux Mac Mac10.10 Mac10.11 Mac10.12
+# tags: [ Android Fuchsia IOS IOS12.2 IOS13.0 Linux Mac Mac10.10 Mac10.11 Mac10.12 Retina
 #         Mac10.13 Mac10.14 Mac10.15 Win Win7 Win10 ]
 # tags: [ Release Debug ]
 # results: [ Timeout Crash Pass Failure Skip ]
@@ -840,16 +840,19 @@ crbug.com/1067242 [ Mac10.10 ] external/wpt/css/css-text-decor/text-underline-po
 crbug.com/1067242 [ Mac10.11 ] external/wpt/css/css-text-decor/text-underline-position-from-font-variable.html [ Failure ]
 crbug.com/1067242 [ Mac10.12 ] external/wpt/css/css-text-decor/text-underline-position-from-font-variable.html [ Failure ]
 crbug.com/1067242 [ Mac10.13 ] external/wpt/css/css-text-decor/text-underline-position-from-font-variable.html [ Failure ]
+crbug.com/1067242 [ Retina ] external/wpt/css/css-text-decor/text-underline-position-from-font-variable.html [ Failure ]
 crbug.com/785230 [ Win7 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
 crbug.com/785230 [ Mac10.10 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
 crbug.com/785230 [ Mac10.11 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
 crbug.com/785230 [ Mac10.12 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
 crbug.com/785230 [ Mac10.13 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
+crbug.com/785230 [ Retina ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
 crbug.com/785230 [ Win7 ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
 crbug.com/785230 [ Mac10.10 ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
 crbug.com/785230 [ Mac10.11 ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
 crbug.com/785230 [ Mac10.12 ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
 crbug.com/785230 [ Mac10.13 ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
+crbug.com/785230 [ Retina ] external/wpt/css/css-text-decor/text-decoration-thickness-from-font-variable.html [ Failure ]
 # Windows 10 bots are not on high enough a Windows version to render variable fonts in DirectWrite
 crbug.com/1068947 [ Win10 ] external/wpt/css/css-text-decor/text-underline-position-from-font-variable.html [ Failure ]
 crbug.com/1068947 [ Win10 ] external/wpt/css/css-text-decor/text-decoration-thickness-fixed.html [ Failure ]
@@ -1409,14 +1412,17 @@ crbug.com/753671 [ Mac10.12 ] external/wpt/css/css-content/quotes-006.html [ Fai
 crbug.com/753671 [ Mac10.13 ] external/wpt/css/css-content/quotes-006.html [ Failure ]
 crbug.com/753671 [ Mac10.14 ] external/wpt/css/css-content/quotes-006.html [ Failure ]
 crbug.com/753671 [ Mac10.15 ] external/wpt/css/css-content/quotes-006.html [ Failure ]
+crbug.com/753671 [ Retina ] external/wpt/css/css-content/quotes-006.html [ Failure ]
 crbug.com/753671 [ Mac10.12 ] external/wpt/css/css-content/quotes-007.html [ Failure ]
 crbug.com/753671 [ Mac10.13 ] external/wpt/css/css-content/quotes-007.html [ Failure ]
 crbug.com/753671 [ Mac10.14 ] external/wpt/css/css-content/quotes-007.html [ Failure ]
+crbug.com/753671 [ Retina ] external/wpt/css/css-content/quotes-007.html [ Failure ]
 crbug.com/753671 [ Mac ] external/wpt/css/css-content/quotes-009.html [ Failure ]
 crbug.com/753671 [ Mac10.11 ] external/wpt/css/css-content/quotes-012.html [ Failure ]
 crbug.com/753671 [ Mac10.12 ] external/wpt/css/css-content/quotes-012.html [ Failure ]
 crbug.com/753671 [ Mac10.13 ] external/wpt/css/css-content/quotes-012.html [ Failure ]
 crbug.com/753671 [ Mac10.14 ] external/wpt/css/css-content/quotes-012.html [ Failure ]
+crbug.com/753671 [ Retina ] external/wpt/css/css-content/quotes-012.html [ Failure ]
 crbug.com/753671 external/wpt/css/css-content/quotes-013.html [ Failure ]
 crbug.com/753671 [ Mac ] external/wpt/css/css-content/quotes-014.html [ Failure ]
 crbug.com/753671 [ Mac10.15 ] external/wpt/css/css-content/quotes-020.html [ Failure ]
@@ -2062,6 +2068,7 @@ crbug.com/1058772 [ Win ] external/wpt/css/css-fonts/test-synthetic-italic-3.htm
 crbug.com/752449 [ Mac10.12 ] external/wpt/css/css-fonts/matching/fixed-stretch-style-over-weight.html [ Failure ]
 crbug.com/752449 [ Mac10.13 ] external/wpt/css/css-fonts/matching/fixed-stretch-style-over-weight.html [ Failure ]
 crbug.com/752449 [ Mac10.14 ] external/wpt/css/css-fonts/matching/fixed-stretch-style-over-weight.html [ Failure ]
+crbug.com/752449 [ Retina ] external/wpt/css/css-fonts/matching/fixed-stretch-style-over-weight.html [ Failure ]
 crbug.com/752449 [ Mac10.12 ] external/wpt/css/css-fonts/matching/stretch-distance-over-weight-distance.html [ Failure ]
 crbug.com/752449 [ Mac10.12 ] external/wpt/css/css-fonts/matching/style-ranges-over-weight-direction.html [ Failure ]
 crbug.com/796619 [ Win10 ] external/wpt/css/css-fonts/matching/fixed-stretch-style-over-weight.html [ Failure ]
@@ -2797,6 +2804,7 @@ crbug.com/626703 [ Mac10.10 ] wpt_internal/display-lock/css-content-visibility/c
 crbug.com/626703 [ Mac10.10 ] wpt_internal/storage/estimate-usage-details-filesystem.https.tentative.any.worker.html [ Timeout ]
 crbug.com/626703 [ Mac10.10 ] external/wpt/wasm/jsapi/idlharness.any.worker.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.10 ] virtual/omt-worker-fetch/external/wpt/service-workers/service-worker/ServiceWorkerGlobalScope/extendable-message-event.https.html [ Failure Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/webrtc/RTCRtpSender-replaceTrack.https.html [ Timeout ]
 crbug.com/626703 [ Linux ] external/wpt/workers/Worker-replace-self.any.html [ Timeout ]
 crbug.com/626703 [ Mac ] external/wpt/workers/Worker-replace-self.any.html [ Timeout ]
 crbug.com/626703 [ Win ] external/wpt/workers/Worker-replace-self.any.html [ Timeout ]
@@ -2981,6 +2989,7 @@ crbug.com/626703 [ Win7 ] external/wpt/pointerevents/pointerevent_touch-action-p
 crbug.com/626703 [ Mac ] external/wpt/css/css-fonts/standard-font-family.html [ Failure ]
 crbug.com/626703 [ Mac10.13 ] external/wpt/screen-capture/getdisplaymedia.https.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.14 ] external/wpt/screen-capture/getdisplaymedia.https.html [ Failure Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/screen-capture/getdisplaymedia.https.html [ Timeout ]
 crbug.com/626703 external/wpt/streams/readable-byte-streams/construct-byob-request.any.sharedworker.html [ Timeout ]
 crbug.com/626703 [ Mac ] external/wpt/html/infrastructure/safe-passing-of-structured-data/shared-array-buffers/window-iframe-messagechannel.https.html [ Timeout ]
 crbug.com/626703 [ Win ] external/wpt/html/infrastructure/safe-passing-of-structured-data/shared-array-buffers/window-iframe-messagechannel.https.html [ Timeout ]
@@ -3019,6 +3028,7 @@ crbug.com/626703 [ Mac ] external/wpt/shadow-dom/directionality-002.tentative.ht
 crbug.com/626703 [ Win ] external/wpt/shadow-dom/directionality-002.tentative.html [ Failure ]
 crbug.com/626703 [ Mac10.13 ] external/wpt/webaudio/the-audio-api/the-mediastreamaudiosourcenode-interface/mediastreamaudiosourcenode-routing.html [ Timeout ]
 crbug.com/626703 [ Mac10.14 ] external/wpt/webaudio/the-audio-api/the-mediastreamaudiosourcenode-interface/mediastreamaudiosourcenode-routing.html [ Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/webaudio/the-audio-api/the-mediastreamaudiosourcenode-interface/mediastreamaudiosourcenode-routing.html [ Timeout ]
 crbug.com/626703 [ Win7 ] external/wpt/IndexedDB/structured-clone.any.html [ Timeout ]
 crbug.com/626703 [ Win7 ] external/wpt/pointerevents/pointerevent_touch-action-svg-none-test_touch.html [ Timeout ]
 crbug.com/626703 [ Win7 ] external/wpt/pointerevents/extension/pointerevent_touch-action-pan-right-css_touch.html [ Timeout ]
@@ -3034,6 +3044,7 @@ crbug.com/626703 [ Mac ] external/wpt/css/css-fonts/font-family-name-025.html [ 
 crbug.com/626703 [ Mac10.11 ] external/wpt/shape-detection/detection-HTMLVideoElement-invalid-state.html [ Timeout ]
 crbug.com/626703 [ Mac ] external/wpt/html/semantics/embedded-content/media-elements/track/track-element/track-mode.html [ Pass Timeout ]
 crbug.com/1004760 [ Mac ] external/wpt/html/semantics/embedded-content/media-elements/ready-states/autoplay-hidden.optional.html [ Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/html/browsers/the-window-object/apis-for-creating-and-navigating-browsing-contexts-by-name/open-features-tokenization-top-left.html [ Timeout ]
 crbug.com/626703 external/wpt/mediacapture-streams/MediaStream-MediaElement-srcObject.https.html [ Timeout ]
 crbug.com/699040 external/wpt/svg/text/reftests/text-xml-space-001.svg [ Failure ]
 crbug.com/626703 [ Linux ] external/wpt/css/css-sizing/slice-intrinsic-size.html [ Failure ]
@@ -3042,8 +3053,10 @@ crbug.com/626703 [ Win ] external/wpt/css/css-sizing/slice-intrinsic-size.html [
 crbug.com/626703 [ Linux ] external/wpt/css/css-sizing/clone-intrinsic-size.html [ Failure ]
 crbug.com/626703 [ Mac ] external/wpt/css/css-sizing/clone-intrinsic-size.html [ Failure ]
 crbug.com/626703 [ Win ] external/wpt/css/css-sizing/clone-intrinsic-size.html [ Failure ]
+crbug.com/626703 [ Retina ] external/wpt/html/browsers/the-window-object/apis-for-creating-and-navigating-browsing-contexts-by-name/open-features-tokenization-screenx-screeny.html [ Timeout ]
 crbug.com/626703 [ Mac10.12 ] external/wpt/preload/download-resources.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.13 ] external/wpt/preload/download-resources.html [ Failure Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/preload/download-resources.html [ Failure Timeout ]
 crbug.com/626703 [ Mac10.10 ] external/wpt/preload/download-resources.html [ Failure Timeout ]
 crbug.com/626703 external/wpt/css/css-writing-modes/text-combine-upright-digits-001-manual.html [ Skip ]
 crbug.com/626703 external/wpt/css/css-writing-modes/text-combine-upright-all-001-manual.html [ Skip ]
@@ -3059,6 +3072,7 @@ virtual/css-modules/external/wpt/html/semantics/scripting-1/the-script-element/c
 crbug.com/626703 external/wpt/css/css-writing-modes/text-combine-upright-digits-004-manual.html [ Skip ]
 crbug.com/626703 external/wpt/html/semantics/scripting-1/the-script-element/json-module/parse-error.tentative.html [ Timeout ]
 crbug.com/626703 [ Mac10.13 ] external/wpt/preload/onload-event.html [ Failure Timeout ]
+crbug.com/626703 [ Retina ] external/wpt/preload/onload-event.html [ Timeout ]
 crbug.com/626703 external/wpt/html/rendering/widgets/button-layout/anonymous-button-content-box.html [ Failure ]
 crbug.com/626703 external/wpt/html/rendering/widgets/button-layout/inline-level.html [ Failure ]
 crbug.com/626703 external/wpt/css/css-values/ch-unit-017.html [ Failure ]
@@ -5507,6 +5521,10 @@ crbug.com/766357 [ Win ] virtual/threaded-prefer-compositing/fast/scrolling/whee
 # ecosystem-infra sheriff 2018-11-02, 2019-03-18
 crbug.com/901271 external/wpt/dom/events/Event-dispatch-on-disabled-elements.html [ Pass Failure Timeout ]
 
+#Sheriff 2018-11-06
+crbug.com/902645 [ Retina ] transforms/3d/point-mapping/3d-point-mapping-3.html [ Failure Pass ]
+crbug.com/902645 [ Retina ] transforms/3d/point-mapping/3d-point-mapping-origins.html [ Failure Pass ]
+
 # Test is flaky under load
 crbug.com/904389 http/tests/preload/delaying_onload_link_preload_after_discovery.html [ Failure Pass ]
 
@@ -6182,6 +6200,7 @@ crbug.com/1034789 virtual/threaded/fast/scroll-snap/snap-to-target-on-layout-cha
 # Sheriff 2019-12-23
 crbug.com/1036626 http/tests/devtools/tracing/tracing-record-input-events.js [ Pass Failure ]
 crbug.com/1034789 [ Mac10.13 ] virtual/threaded/fast/scroll-snap/snap-to-area-with-fractional-offset.html [ Pass Timeout ]
+crbug.com/1034789 [ Retina ] virtual/threaded/fast/scroll-snap/snap-to-area-with-fractional-offset.html [ Pass Timeout ]
 
 # Sheriff 2019-12-27
 crbug.com/1038091 virtual/gpu-rasterization/images/jpeg-yuv-image-decoding.html [ Pass Failure ]
@@ -6513,6 +6532,7 @@ crbug.com/1057020 [ Fuchsia ] http/tests/streams/chromium/get-reader-byob.html [
 
 # Sheriff 2020-03-05
 crbug.com/1058073 [ Mac10.14 ] accessibility/content-changed-notification-causes-crash.html [ Pass Failure ]
+crbug.com/1058073 [ Retina ] accessibility/content-changed-notification-causes-crash.html [ Pass Failure ]
 
 # Sheriff 2020-03-06
 crbug.com/1059262 http/tests/worklet/webexposed/global-interface-listing-paint-worklet.html [ Pass Failure ]
