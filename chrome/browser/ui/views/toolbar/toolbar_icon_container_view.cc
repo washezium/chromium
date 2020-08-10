@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include "base/bind_helpers.h"
 #include "base/stl_util.h"
 #include "chrome/browser/themes/theme_properties.h"
 #include "chrome/browser/ui/layout_constants.h"
@@ -97,6 +98,12 @@ void ToolbarIconContainerView::AddMainButton(views::Button* main_button) {
 }
 
 void ToolbarIconContainerView::ObserveButton(views::Button* button) {
+  // We don't care about the main button being highlighted.
+  if (button != main_button_) {
+    subscriptions_.push_back(
+        button->AddHighlightedChangedCallback(base::DoNothing()));
+  }
+  subscriptions_.push_back(button->AddStateChangedCallback(base::DoNothing()));
   button->AddButtonObserver(this);
   button->AddObserver(this);
 }
@@ -132,12 +139,7 @@ void ToolbarIconContainerView::OnHighlightChanged(
   if (observed_button == main_button_)
     return;
 
-  if (highlighted)
-    highlighted_buttons_.insert(observed_button);
-  else
-    highlighted_buttons_.erase(observed_button);
-
-  UpdateHighlight();
+  OnButtonHighlightedChanged(observed_button);
 }
 
 void ToolbarIconContainerView::OnStateChanged(
@@ -244,4 +246,14 @@ void ToolbarIconContainerView::SetHighlightBorder() {
   } else {
     SetBorder(nullptr);
   }
+}
+
+void ToolbarIconContainerView::OnButtonHighlightedChanged(
+    views::Button* button) {
+  if (button->GetHighlighted())
+    highlighted_buttons_.insert(button);
+  else
+    highlighted_buttons_.erase(button);
+
+  UpdateHighlight();
 }

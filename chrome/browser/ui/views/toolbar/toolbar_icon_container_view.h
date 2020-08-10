@@ -5,6 +5,8 @@
 #ifndef CHROME_BROWSER_UI_VIEWS_TOOLBAR_TOOLBAR_ICON_CONTAINER_VIEW_H_
 #define CHROME_BROWSER_UI_VIEWS_TOOLBAR_TOOLBAR_ICON_CONTAINER_VIEW_H_
 
+#include <list>
+
 #include "base/observer_list.h"
 #include "ui/gfx/animation/animation_delegate.h"
 #include "ui/views/controls/button/button.h"
@@ -91,6 +93,9 @@ class ToolbarIconContainerView : public views::View,
   void UpdateHighlight();
   void SetHighlightBorder();
 
+  // Called by |button| when its ink drop highlighted state changes.
+  void OnButtonHighlightedChanged(views::Button* button);
+
   // Determine whether the container shows its highlight border.
   const bool uses_highlight_;
 
@@ -112,6 +117,8 @@ class ToolbarIconContainerView : public views::View,
 
   // Tracks when the widget is restored and resets the layout.
   std::unique_ptr<WidgetRestoreObserver> restore_observer_;
+
+  std::list<views::PropertyChangedSubscription> subscriptions_;
 
   base::ObserverList<Observer> observers_;
 };
