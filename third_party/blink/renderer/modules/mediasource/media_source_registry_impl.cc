@@ -28,51 +28,56 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "third_party/blink/renderer/modules/mediasource/media_source_registry.h"
+#include "third_party/blink/renderer/modules/mediasource/media_source_registry_impl.h"
 
 #include "third_party/blink/renderer/modules/mediasource/media_source_impl.h"
 #include "third_party/blink/renderer/platform/weborigin/kurl.h"
 
 namespace blink {
 
-MediaSourceRegistry& MediaSourceRegistry::Registry() {
+// static
+MediaSourceRegistryImpl& MediaSourceRegistryImpl::EnsureRegistry() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(MediaSourceRegistry, instance, ());
+  DEFINE_STATIC_LOCAL(MediaSourceRegistryImpl, instance, ());
   return instance;
 }
 
-void MediaSourceRegistry::RegisterURL(SecurityOrigin*,
-                                      const KURL& url,
-                                      URLRegistrable* registrable) {
-  DCHECK_EQ(&registrable->Registry(), this);
+void MediaSourceRegistryImpl::RegisterURL(SecurityOrigin*,
+                                          const KURL& url,
+                                          URLRegistrable* registrable) {
   DCHECK(IsMainThread());
+  DCHECK_EQ(&registrable->Registry(), this);
 
-  MediaSourceImpl* source = static_cast<MediaSourceImpl*>(registrable);
-  source->AddedToRegistry();
-  media_sources_->Set(url.GetString(), source);
+  DVLOG(1) << __func__ << " url=" << url;
+
+  scoped_refptr<MediaSourceAttachment> attachment =
+      base::AdoptRef(static_cast<MediaSourceAttachment*>(registrable));
+  media_sources_.Set(url.GetString(), std::move(attachment));
 }
 
-void MediaSourceRegistry::UnregisterURL(const KURL& url) {
+void MediaSourceRegistryImpl::UnregisterURL(const KURL& url) {
+  DVLOG(1) << __func__ << " url=" << url;
   DCHECK(IsMainThread());
-  HeapHashMap<String, Member<MediaSourceImpl>>::iterator iter =
-      media_sources_->find(url.GetString());
-  if (iter == media_sources_->end())
+
+  auto iter = media_sources_.find(url.GetString());
+  if (iter == media_sources_.end())
     return;
 
-  MediaSourceImpl* source = iter->value;
-  media_sources_->erase(iter);
-  source->RemovedFromRegistry();
+  scoped_refptr<MediaSourceAttachment> attachment = iter->value;
+  attachment->Unregister();
+  media_sources_.erase(iter);
 }
 
-URLRegistrable* MediaSourceRegistry::Lookup(const String& url) {
+scoped_refptr<MediaSourceAttachment> MediaSourceRegistryImpl::LookupMediaSource(
+    const String& url) {
   DCHECK(IsMainThread());
-  return url.IsNull() ? nullptr : media_sources_->at(url);
+  return url.IsNull() ? scoped_refptr<MediaSourceAttachment>()
+                      : media_sources_.at(url);
 }
 
-MediaSourceRegistry::MediaSourceRegistry()
-    : media_sources_(MakeGarbageCollected<
-                     HeapHashMap<String, Member<MediaSourceImpl>>>()) {
-  MediaSource::SetRegistry(this);
+MediaSourceRegistryImpl::MediaSourceRegistryImpl() {
+  DCHECK(IsMainThread());
+  MediaSourceAttachment::SetRegistry(this);
 }
 
 }  // namespace blink
