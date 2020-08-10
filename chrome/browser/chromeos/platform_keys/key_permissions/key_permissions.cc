@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/platform_keys/key_permissions.h"
+#include "chrome/browser/chromeos/platform_keys/key_permissions/key_permissions.h"
 
 #include <utility>
 
@@ -23,9 +23,9 @@
 #include "extensions/browser/state_store.h"
 
 namespace chromeos {
+namespace platform_keys {
 
 namespace {
-
 // The key at which platform key specific data is stored in each extension's
 // state store.
 //
@@ -190,8 +190,7 @@ KeyPermissions::PermissionsForExtension::PermissionsForExtension(
     KeyEntriesFromState(*state_store_value);
 }
 
-KeyPermissions::PermissionsForExtension::~PermissionsForExtension() {
-}
+KeyPermissions::PermissionsForExtension::~PermissionsForExtension() {}
 
 bool KeyPermissions::PermissionsForExtension::CanUseKeyForSigning(
     const std::string& public_key_spki_der,
@@ -410,8 +409,7 @@ KeyPermissions::KeyPermissions(bool profile_is_managed,
   DCHECK(!profile_is_managed_ || profile_policies_);
 }
 
-KeyPermissions::~KeyPermissions() {
-}
+KeyPermissions::~KeyPermissions() {}
 
 void KeyPermissions::GetPermissionsForExtension(
     const std::string& extension_id,
@@ -519,4 +517,5 @@ void KeyPermissions::SetPlatformKeysOfExtension(
       extension_id, kStateStorePlatformKeys, std::move(value));
 }
 
+}  // namespace platform_keys
 }  // namespace chromeos

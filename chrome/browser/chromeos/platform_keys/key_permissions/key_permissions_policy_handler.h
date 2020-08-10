@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_POLICY_HANDLER_H_
-#define CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_POLICY_HANDLER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_POLICY_HANDLER_H_
+#define CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_POLICY_HANDLER_H_
 
 #include "base/macros.h"
 #include "components/policy/core/browser/configuration_policy_handler.h"
@@ -13,6 +13,7 @@ class Schema;
 }
 
 namespace chromeos {
+namespace platform_keys {
 
 class KeyPermissionsPolicyHandler
     : public policy::SchemaValidatingPolicyHandler {
@@ -27,6 +28,7 @@ class KeyPermissionsPolicyHandler
   DISALLOW_COPY_AND_ASSIGN(KeyPermissionsPolicyHandler);
 };
 
+}  // namespace platform_keys
 }  // namespace chromeos
 
-#endif  // CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_POLICY_HANDLER_H_
+#endif  // CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_POLICY_HANDLER_H_

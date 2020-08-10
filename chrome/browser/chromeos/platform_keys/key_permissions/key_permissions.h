@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_H_
-#define CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_H_
+#ifndef CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_H_
+#define CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_H_
 
 #include <memory>
 #include <string>
@@ -32,6 +32,7 @@ class PrefRegistrySyncable;
 }
 
 namespace chromeos {
+namespace platform_keys {
 
 // This class manages permissions for extensions to use private keys through
 // chrome.platformKeys or chrome.enterprise.platformKeys .
@@ -234,6 +235,7 @@ class KeyPermissions {
   DISALLOW_COPY_AND_ASSIGN(KeyPermissions);
 };
 
+}  // namespace platform_keys
 }  // namespace chromeos
 
-#endif  // CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_H_
+#endif  // CHROME_BROWSER_CHROMEOS_PLATFORM_KEYS_KEY_PERMISSIONS_KEY_PERMISSIONS_H_
