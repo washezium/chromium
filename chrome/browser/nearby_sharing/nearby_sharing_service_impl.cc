@@ -568,9 +568,10 @@ void NearbySharingServiceImpl::OnOutgoingAdvertisementDecoded(
   // Once get the advertisement, first thing to do is to decrypt its device name
   // based on its visibility and create a ShareTarget to represent this remote
   // device.
-  base::Optional<ShareTarget> share_target =
-      CreateShareTarget(endpoint_id, std::move(advertisement), base::nullopt,
-                        /*is_incoming=*/false);
+  // TODO(nmusgrave): Use valid certificate from certificate manager.
+  base::Optional<ShareTarget> share_target = CreateShareTarget(
+      endpoint_id, std::move(advertisement), /*certificate=*/base::nullopt,
+      /*is_incoming=*/false);
   if (!share_target) {
     NS_LOG(VERBOSE) << __func__
                     << ": Failed to convert advertisement to share target from "

@@ -185,8 +185,13 @@ const char kServiceId[] = "NearbySharing";
 const char kDeviceName[] = "test_device_name";
 const char kEndpointId[] = "test_endpoint_id";
 
+const std::vector<uint8_t> kValidV1EndpointInfo = {
+    0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
+    0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
+
 sharing::mojom::FramePtr GetValidIntroductionFrame() {
   std::vector<sharing::mojom::TextMetadataPtr> mojo_text_metadatas;
+  // TODO(himanshujaju) - Parameterise number of text and file metadatas.
   for (int i = 1; i <= 3; i++) {
     mojo_text_metadatas.push_back(sharing::mojom::TextMetadata::New(
         "title " + base::NumberToString(i),
@@ -204,18 +209,14 @@ sharing::mojom::FramePtr GetValidIntroductionFrame() {
   return mojo_frame;
 }
 
-// Length sharing::Advertisement::kSaltSize
-const uint8_t kSalt[] = {0x0c, 0x08};
-// Length sharing::Advertisement::kMetadataEncryptionKeyHashByteSize
-const uint8_t kMetadataEncryptionKeyHashByte[] = {0x07, 0x01, 0x08, 0x08, 0x04,
-                                                  0x09, 0x06, 0x00, 0x0b, 0x0f,
-                                                  0x0c, 0x09, 0x03, 0x0d};
-const int kEndpointInfoSize =
-    1 + sharing::Advertisement::kSaltSize +
-    sharing::Advertisement::kMetadataEncryptionKeyHashByteSize;
-const uint8_t kEndpointInfo[] = {0x00, 0x0c, 0x08, 0x07, 0x01, 0x08,
-                                 0x08, 0x04, 0x09, 0x06, 0x00, 0x0b,
-                                 0x0f, 0x0c, 0x09, 0x03, 0x0d};
+sharing::mojom::FramePtr GetEmptyIntroductionFrame() {
+  sharing::mojom::V1FramePtr mojo_v1frame = sharing::mojom::V1Frame::New();
+  mojo_v1frame->set_introduction(sharing::mojom::IntroductionFrame::New());
+
+  sharing::mojom::FramePtr mojo_frame = sharing::mojom::Frame::New();
+  mojo_frame->set_v1(std::move(mojo_v1frame));
+  return mojo_frame;
+}
 
 class NearbySharingServiceImplTest : public testing::Test {
  public:
@@ -245,6 +246,10 @@ class NearbySharingServiceImplTest : public testing::Test {
 
     service_ = CreateService("name");
     SetFakeFastInitiationManagerFactory(/*should_succeed_on_start=*/true);
+
+    EXPECT_CALL(mock_nearby_process_manager(),
+                GetOrStartNearbySharingDecoder(testing::_))
+        .WillRepeatedly(testing::Return(&mock_decoder_));
   }
 
   void TearDown() override { profile_manager_.DeleteAllTestingProfiles(); }
@@ -311,10 +316,7 @@ class NearbySharingServiceImplTest : public testing::Test {
     EXPECT_TRUE(fake_nearby_connections_manager_->IsAdvertising());
   }
 
-  void SetUpCertificateManager(
-      const std::vector<uint8_t>& expected_encrypted_metadata,
-      const std::vector<uint8_t>& expected_salt,
-      bool return_empty_certificate) {
+  void SetUpCertificateManager(bool return_empty_certificate) {
     EXPECT_CALL(certificate_manager(), GetDecryptedPublicCertificate(
                                            testing::_, testing::_, testing::_))
         .WillOnce(testing::Invoke([=](base::span<const uint8_t>
@@ -322,60 +324,71 @@ class NearbySharingServiceImplTest : public testing::Test {
                                       base::span<const uint8_t> input_salt,
                                       MockNearbyShareCertificateManager::
                                           CertDecryptedCallback callback) {
-          EXPECT_TRUE(std::equal(expected_salt.begin(), expected_salt.end(),
-                                 input_salt.begin(), input_salt.end()));
-          EXPECT_TRUE(std::equal(expected_encrypted_metadata.begin(),
-                                 expected_encrypted_metadata.end(),
+          std::vector<uint8_t> encrypted_metadata =
+              GetNearbyShareTestEncryptedMetadata();
+          std::vector<uint8_t> salt = GetNearbyShareTestSalt();
+
+          EXPECT_TRUE(std::equal(salt.begin(), salt.end(), input_salt.begin(),
+                                 input_salt.end()));
+          EXPECT_TRUE(std::equal(encrypted_metadata.begin(),
+                                 encrypted_metadata.end(),
                                  input_encrypted_metadata_key.begin(),
                                  input_encrypted_metadata_key.end()));
 
-          if (return_empty_certificate)
+          if (return_empty_certificate) {
             std::move(callback).Run(base::nullopt);
-          else
-            std::move(callback).Run(
-                NearbyShareDecryptedPublicCertificate::DecryptPublicCertificate(
-                    GetNearbyShareTestPublicCertificate(),
-                    GetNearbyShareTestEncryptedMetadataKey()));
+            return;
+          }
+
+          std::move(callback).Run(
+              NearbyShareDecryptedPublicCertificate::DecryptPublicCertificate(
+                  GetNearbyShareTestPublicCertificate(),
+                  GetNearbyShareTestEncryptedMetadataKey()));
         }));
   }
 
-  ShareTarget SetUpIncomingConnection(
-      FakeNearbyConnection& connection,
-      NiceMock<MockTransferUpdateCallback>& callback) {
-    NiceMock<MockNearbySharingDecoder> mock_decoder;
-    EXPECT_CALL(mock_nearby_process_manager(),
-                GetOrStartNearbySharingDecoder(testing::_))
-        .WillRepeatedly(testing::Return(&mock_decoder));
-
-    std::vector<uint8_t> encrypted_metadata =
-        GetNearbyShareTestEncryptedMetadata();
-    std::vector<uint8_t> salt = GetNearbyShareTestSalt();
-    std::vector<uint8_t> v1EndpointInfo = {
-        0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
-        0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-    EXPECT_CALL(mock_decoder,
-                DecodeAdvertisement(testing::Eq(v1EndpointInfo), testing::_))
+  void SetUpAdvertisementDecoder(const std::vector<uint8_t>& endpoint_info,
+                                 bool return_empty_advertisement) {
+    EXPECT_CALL(mock_decoder_,
+                DecodeAdvertisement(testing::Eq(endpoint_info), testing::_))
         .WillOnce(testing::Invoke(
-            [&](const std::vector<uint8_t>& data,
+            [=](const std::vector<uint8_t>& data,
                 MockNearbySharingDecoder::DecodeAdvertisementCallback
                     callback) {
+              if (return_empty_advertisement) {
+                std::move(callback).Run(nullptr);
+                return;
+              }
+
               sharing::mojom::AdvertisementPtr advertisement =
-                  sharing::mojom::Advertisement::New(salt, encrypted_metadata,
-                                                     kDeviceName);
+                  sharing::mojom::Advertisement::New(
+                      GetNearbyShareTestSalt(),
+                      GetNearbyShareTestEncryptedMetadata(), kDeviceName);
               std::move(callback).Run(std::move(advertisement));
             }));
+  }
 
+  void SetUpIntroductionFrameDecoder(bool return_empty_introduction_frame) {
     std::string intro = "introduction_frame";
     std::vector<uint8_t> bytes(intro.begin(), intro.end());
-    EXPECT_CALL(mock_decoder, DecodeFrame(testing::Eq(bytes), testing::_))
+    EXPECT_CALL(mock_decoder_, DecodeFrame(testing::Eq(bytes), testing::_))
         .WillOnce(testing::Invoke(
-            [&](const std::vector<uint8_t>& data,
+            [=](const std::vector<uint8_t>& data,
                 MockNearbySharingDecoder::DecodeFrameCallback callback) {
-              std::move(callback).Run(GetValidIntroductionFrame());
+              std::move(callback).Run(return_empty_introduction_frame
+                                          ? GetEmptyIntroductionFrame()
+                                          : GetValidIntroductionFrame());
             }));
+    connection_.AppendReadableData(bytes);
+  }
+
+  ShareTarget SetUpIncomingConnection(
+      NiceMock<MockTransferUpdateCallback>& callback) {
+    SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                              /*return_empty_advertisement=*/false);
+    SetUpIntroductionFrameDecoder(/*return_empty_introduction_frame=*/false);
 
     ShareTarget share_target;
-    connection.AppendReadableData(bytes);
     ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
     SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
     base::RunLoop run_loop;
@@ -388,11 +401,11 @@ class NearbySharingServiceImplTest : public testing::Test {
           run_loop.Quit();
         }));
 
-    SetUpCertificateManager(encrypted_metadata, salt,
-                            /*return_empty_certificate=*/false);
+    SetUpCertificateManager(/*return_empty_certificate=*/false);
     SetUpReceiveSurface(callback);
 
-    service_->OnIncomingConnection(kEndpointId, v1EndpointInfo, &connection);
+    service_->OnIncomingConnection(kEndpointId, kValidV1EndpointInfo,
+                                   &connection_);
     run_loop.Run();
 
     return share_target;
@@ -417,6 +430,8 @@ class NearbySharingServiceImplTest : public testing::Test {
   std::unique_ptr<net::test::MockNetworkChangeNotifier> network_notifier_ =
       net::test::MockNetworkChangeNotifier::Create();
   NiceMock<MockNearbyShareCertificateManager>* certificate_manager_ = nullptr;
+  NiceMock<MockNearbySharingDecoder> mock_decoder_;
+  FakeNearbyConnection connection_;
 };
 
 struct ValidSendSurfaceTestData {
@@ -697,28 +712,8 @@ TEST_F(NearbySharingServiceImplTest,
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
 
   // Ensure decoder parses a valid endpoint advertisement.
-  NiceMock<MockNearbySharingDecoder> mock_decoder;
-  std::vector<uint8_t> endpoint_info(kEndpointInfo,
-                                     kEndpointInfo + kEndpointInfoSize);
-  std::vector<uint8_t> metadata_encryption_key(
-      kMetadataEncryptionKeyHashByte,
-      kMetadataEncryptionKeyHashByte +
-          sharing::Advertisement::kMetadataEncryptionKeyHashByteSize);
-  std::vector<uint8_t> salt(kSalt, kSalt + sharing::Advertisement::kSaltSize);
-  EXPECT_CALL(mock_decoder,
-              DecodeAdvertisement(testing::Eq(endpoint_info), testing::_))
-      .WillOnce(testing::Invoke(
-          [&salt, &metadata_encryption_key](
-              const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeAdvertisementCallback callback) {
-            sharing::mojom::AdvertisementPtr mojo_adv =
-                sharing::mojom::Advertisement::New(
-                    salt, metadata_encryption_key, kDeviceName);
-            std::move(callback).Run(std::move(mojo_adv));
-          }));
-  EXPECT_CALL(mock_nearby_process_manager(),
-              GetOrStartNearbySharingDecoder(testing::_))
-      .WillRepeatedly(testing::Return(&mock_decoder));
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
 
   // Start discovering, to ensure a discovery listener is registered.
   base::RunLoop run_loop;
@@ -739,7 +734,7 @@ TEST_F(NearbySharingServiceImplTest,
   fake_nearby_connections_manager_->OnEndpointFound(
       kEndpointId,
       location::nearby::connections::mojom::DiscoveredEndpointInfo::New(
-          endpoint_info, kServiceId));
+          kValidV1EndpointInfo, kServiceId));
   run_loop.Run();
 
   // Register another send surface, which will automatically catch up discovered
@@ -1265,40 +1260,20 @@ TEST_F(NearbySharingServiceImplTest, UnregisterReceiveSurfaceNeverRegistered) {
 
 TEST_F(NearbySharingServiceImplTest,
        IncomingConnection_ClosedReadingIntroduction) {
-  NiceMock<MockNearbySharingDecoder> mock_decoder;
-  EXPECT_CALL(mock_nearby_process_manager(),
-              GetOrStartNearbySharingDecoder(testing::_))
-      .WillRepeatedly(testing::Return(&mock_decoder));
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
 
-  std::vector<uint8_t> encrypted_metadata =
-      GetNearbyShareTestEncryptedMetadata();
-  std::vector<uint8_t> salt = GetNearbyShareTestSalt();
-  std::vector<uint8_t> v1EndpointInfo = {
-      0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
-      0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  EXPECT_CALL(mock_decoder,
-              DecodeAdvertisement(testing::Eq(v1EndpointInfo), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeAdvertisementCallback callback) {
-            sharing::mojom::AdvertisementPtr advertisement =
-                sharing::mojom::Advertisement::New(salt, encrypted_metadata,
-                                                   kDeviceName);
-            std::move(callback).Run(std::move(advertisement));
-          }));
-
-  FakeNearbyConnection connection;
   ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
   NiceMock<MockTransferUpdateCallback> callback;
   EXPECT_CALL(callback, OnTransferUpdate(testing::_, testing::_)).Times(0);
 
-  SetUpCertificateManager(encrypted_metadata, salt,
-                          /*return_empty_certificate=*/true);
+  SetUpCertificateManager(/*return_empty_certificate=*/true);
   SetUpReceiveSurface(callback);
 
-  service_->OnIncomingConnection(kEndpointId, v1EndpointInfo, &connection);
-  connection.Close();
+  service_->OnIncomingConnection(kEndpointId, kValidV1EndpointInfo,
+                                 &connection_);
+  connection_.Close();
 
   // Introduction is ignored without any side effect.
 
@@ -1308,46 +1283,10 @@ TEST_F(NearbySharingServiceImplTest,
 
 TEST_F(NearbySharingServiceImplTest,
        IncomingConnection_EmptyIntroductionFrame) {
-  NiceMock<MockNearbySharingDecoder> mock_decoder;
-  EXPECT_CALL(mock_nearby_process_manager(),
-              GetOrStartNearbySharingDecoder(testing::_))
-      .WillRepeatedly(testing::Return(&mock_decoder));
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
+  SetUpIntroductionFrameDecoder(/*return_empty_introduction_frame=*/true);
 
-  std::vector<uint8_t> encrypted_metadata =
-      GetNearbyShareTestEncryptedMetadata();
-  std::vector<uint8_t> salt = GetNearbyShareTestSalt();
-  std::vector<uint8_t> v1EndpointInfo = {
-      0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
-      0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  EXPECT_CALL(mock_decoder,
-              DecodeAdvertisement(testing::Eq(v1EndpointInfo), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeAdvertisementCallback callback) {
-            sharing::mojom::AdvertisementPtr advertisement =
-                sharing::mojom::Advertisement::New(salt, encrypted_metadata,
-                                                   kDeviceName);
-            std::move(callback).Run(std::move(advertisement));
-          }));
-
-  std::string intro = "introduction_frame";
-  std::vector<uint8_t> bytes(intro.begin(), intro.end());
-  EXPECT_CALL(mock_decoder, DecodeFrame(testing::Eq(bytes), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeFrameCallback callback) {
-            sharing::mojom::V1FramePtr mojo_v1frame =
-                sharing::mojom::V1Frame::New();
-            mojo_v1frame->set_introduction(
-                sharing::mojom::IntroductionFrame::New());
-
-            sharing::mojom::FramePtr mojo_frame = sharing::mojom::Frame::New();
-            mojo_frame->set_v1(std::move(mojo_v1frame));
-            std::move(callback).Run(std::move(mojo_frame));
-          }));
-
-  FakeNearbyConnection connection;
-  connection.AppendReadableData(bytes);
   ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
   NiceMock<MockTransferUpdateCallback> callback;
@@ -1371,15 +1310,15 @@ TEST_F(NearbySharingServiceImplTest,
         run_loop.Quit();
       }));
 
-  SetUpCertificateManager(encrypted_metadata, salt,
-                          /*return_empty_certificate=*/false);
+  SetUpCertificateManager(/*return_empty_certificate=*/false);
   SetUpReceiveSurface(callback);
 
-  service_->OnIncomingConnection(kEndpointId, v1EndpointInfo, &connection);
+  service_->OnIncomingConnection(kEndpointId, kValidV1EndpointInfo,
+                                 &connection_);
   run_loop.Run();
 
-  // Check data written to connection.
-  std::vector<uint8_t> data = connection.GetWrittenData();
+  // Check data written to connection_.
+  std::vector<uint8_t> data = connection_.GetWrittenData();
   sharing::nearby::Frame frame;
   frame.ParseFromArray(data.data(), data.size());
 
@@ -1395,39 +1334,10 @@ TEST_F(NearbySharingServiceImplTest,
 
 TEST_F(NearbySharingServiceImplTest,
        IncomingConnection_ValidIntroductionFrame_InvalidCertificate) {
-  NiceMock<MockNearbySharingDecoder> mock_decoder;
-  EXPECT_CALL(mock_nearby_process_manager(),
-              GetOrStartNearbySharingDecoder(testing::_))
-      .WillRepeatedly(testing::Return(&mock_decoder));
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
+  SetUpIntroductionFrameDecoder(/*return_empty_introduction_frame=*/false);
 
-  std::vector<uint8_t> encrypted_metadata =
-      GetNearbyShareTestEncryptedMetadata();
-  std::vector<uint8_t> salt = GetNearbyShareTestSalt();
-  std::vector<uint8_t> v1EndpointInfo = {
-      0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
-      0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  EXPECT_CALL(mock_decoder,
-              DecodeAdvertisement(testing::Eq(v1EndpointInfo), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeAdvertisementCallback callback) {
-            sharing::mojom::AdvertisementPtr advertisement =
-                sharing::mojom::Advertisement::New(salt, encrypted_metadata,
-                                                   kDeviceName);
-            std::move(callback).Run(std::move(advertisement));
-          }));
-
-  std::string intro = "introduction_frame";
-  std::vector<uint8_t> bytes(intro.begin(), intro.end());
-  EXPECT_CALL(mock_decoder, DecodeFrame(testing::Eq(bytes), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeFrameCallback callback) {
-            std::move(callback).Run(GetValidIntroductionFrame());
-          }));
-
-  FakeNearbyConnection connection;
-  connection.AppendReadableData(bytes);
   ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
   NiceMock<MockTransferUpdateCallback> callback;
@@ -1452,11 +1362,11 @@ TEST_F(NearbySharingServiceImplTest,
         run_loop.Quit();
       }));
 
-  SetUpCertificateManager(encrypted_metadata, salt,
-                          /*return_empty_certificate=*/true);
+  SetUpCertificateManager(/*return_empty_certificate=*/true);
   SetUpReceiveSurface(callback);
 
-  service_->OnIncomingConnection(kEndpointId, v1EndpointInfo, &connection);
+  service_->OnIncomingConnection(kEndpointId, kValidV1EndpointInfo,
+                                 &connection_);
   run_loop.Run();
 
   // To avoid UAF in OnIncomingTransferUpdate().
@@ -1465,9 +1375,8 @@ TEST_F(NearbySharingServiceImplTest,
 
 TEST_F(NearbySharingServiceImplTest,
        IncomingConnection_ClosedWaitingLocalConfirmation) {
-  FakeNearbyConnection connection;
   NiceMock<MockTransferUpdateCallback> callback;
-  ShareTarget share_target = SetUpIncomingConnection(connection, callback);
+  ShareTarget share_target = SetUpIncomingConnection(callback);
 
   base::RunLoop run_loop_2;
   EXPECT_CALL(callback, OnTransferUpdate(testing::_, testing::_))
@@ -1477,7 +1386,7 @@ TEST_F(NearbySharingServiceImplTest,
         run_loop_2.Quit();
       }));
 
-  connection.Close();
+  connection_.Close();
   run_loop_2.Run();
 
   // To avoid UAF in OnIncomingTransferUpdate().
@@ -1486,39 +1395,10 @@ TEST_F(NearbySharingServiceImplTest,
 
 TEST_F(NearbySharingServiceImplTest,
        IncomingConnection_ValidIntroductionFrame_ValidCertificate) {
-  NiceMock<MockNearbySharingDecoder> mock_decoder;
-  EXPECT_CALL(mock_nearby_process_manager(),
-              GetOrStartNearbySharingDecoder(testing::_))
-      .WillRepeatedly(testing::Return(&mock_decoder));
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
+  SetUpIntroductionFrameDecoder(/*return_empty_introduction_frame=*/false);
 
-  std::vector<uint8_t> encrypted_metadata =
-      GetNearbyShareTestEncryptedMetadata();
-  std::vector<uint8_t> salt = GetNearbyShareTestSalt();
-  std::vector<uint8_t> v1EndpointInfo = {
-      0, 0, 0, 0,  0,   0,   0,   0,   0,  0,   0,  0,  0,   0,
-      0, 0, 0, 10, 100, 101, 118, 105, 99, 101, 78, 97, 109, 101};
-  EXPECT_CALL(mock_decoder,
-              DecodeAdvertisement(testing::Eq(v1EndpointInfo), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeAdvertisementCallback callback) {
-            sharing::mojom::AdvertisementPtr advertisement =
-                sharing::mojom::Advertisement::New(salt, encrypted_metadata,
-                                                   kDeviceName);
-            std::move(callback).Run(std::move(advertisement));
-          }));
-
-  std::string intro = "introduction_frame";
-  std::vector<uint8_t> bytes(intro.begin(), intro.end());
-  EXPECT_CALL(mock_decoder, DecodeFrame(testing::Eq(bytes), testing::_))
-      .WillOnce(testing::Invoke(
-          [&](const std::vector<uint8_t>& data,
-              MockNearbySharingDecoder::DecodeFrameCallback callback) {
-            std::move(callback).Run(GetValidIntroductionFrame());
-          }));
-
-  FakeNearbyConnection connection;
-  connection.AppendReadableData(bytes);
   ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
   NiceMock<MockTransferUpdateCallback> callback;
@@ -1544,11 +1424,11 @@ TEST_F(NearbySharingServiceImplTest,
         run_loop.Quit();
       }));
 
-  SetUpCertificateManager(encrypted_metadata, salt,
-                          /*return_empty_certificate=*/false);
+  SetUpCertificateManager(/*return_empty_certificate=*/false);
   SetUpReceiveSurface(callback);
 
-  service_->OnIncomingConnection(kEndpointId, v1EndpointInfo, &connection);
+  service_->OnIncomingConnection(kEndpointId, kValidV1EndpointInfo,
+                                 &connection_);
   run_loop.Run();
 
   // To avoid UAF in OnIncomingTransferUpdate().
@@ -1571,9 +1451,8 @@ TEST_F(NearbySharingServiceImplTest, AcceptInvalidShareTarget) {
 }
 
 TEST_F(NearbySharingServiceImplTest, AcceptValidShareTarget) {
-  FakeNearbyConnection connection;
   NiceMock<MockTransferUpdateCallback> callback;
-  ShareTarget share_target = SetUpIncomingConnection(connection, callback);
+  ShareTarget share_target = SetUpIncomingConnection(callback);
 
   base::RunLoop run_loop_accept;
   EXPECT_CALL(callback, OnTransferUpdate(testing::_, testing::_))
@@ -1595,8 +1474,8 @@ TEST_F(NearbySharingServiceImplTest, AcceptValidShareTarget) {
 
   EXPECT_TRUE(
       fake_nearby_connections_manager_->DidUpgradeBandwidth(kEndpointId));
-  // Check data written to connection.
-  std::vector<uint8_t> data = connection.GetWrittenData();
+  // Check data written to connection_.
+  std::vector<uint8_t> data = connection_.GetWrittenData();
   sharing::nearby::Frame frame;
   frame.ParseFromArray(data.data(), data.size());
 
@@ -1625,9 +1504,8 @@ TEST_F(NearbySharingServiceImplTest, RejectInvalidShareTarget) {
 }
 
 TEST_F(NearbySharingServiceImplTest, RejectValidShareTarget) {
-  FakeNearbyConnection connection;
   NiceMock<MockTransferUpdateCallback> callback;
-  ShareTarget share_target = SetUpIncomingConnection(connection, callback);
+  ShareTarget share_target = SetUpIncomingConnection(callback);
 
   base::RunLoop run_loop_reject;
   EXPECT_CALL(callback, OnTransferUpdate(testing::_, testing::_))
@@ -1646,8 +1524,8 @@ TEST_F(NearbySharingServiceImplTest, RejectValidShareTarget) {
 
   run_loop_reject.Run();
 
-  // Check data written to connection.
-  std::vector<uint8_t> data = connection.GetWrittenData();
+  // Check data written to connection_.
+  std::vector<uint8_t> data = connection_.GetWrittenData();
   sharing::nearby::Frame frame;
   frame.ParseFromArray(data.data(), data.size());
 
