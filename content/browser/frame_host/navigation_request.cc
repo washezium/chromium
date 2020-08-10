@@ -1693,6 +1693,21 @@ NavigationRequest::TakeClientSecurityState() {
   return std::move(client_security_state_);
 }
 
+void NavigationRequest::SetRequiredCSP(
+    network::mojom::ContentSecurityPolicyPtr csp) {
+  DCHECK(!required_csp_);
+  required_csp_ = std::move(csp);
+  if (required_csp_) {
+    const std::string& header_value = required_csp_->header->header_value;
+    DCHECK(net::HttpUtil::IsValidHeaderValue(header_value));
+    SetRequestHeader("Sec-Required-CSP", header_value);
+  }
+}
+
+network::mojom::ContentSecurityPolicyPtr NavigationRequest::TakeRequiredCSP() {
+  return std::move(required_csp_);
+}
+
 void NavigationRequest::CreateCoepReporter(
     StoragePartition* storage_partition) {
   const auto& coep = client_security_state_->cross_origin_embedder_policy;
