@@ -2,8 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.toolbar;
+package org.chromium.chrome.browser.toolbar.menu_button;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -22,7 +23,6 @@ import org.chromium.base.test.BaseRobolectricTestRunner;
 import org.chromium.chrome.browser.browser_controls.BrowserStateBrowserControlsVisibilityDelegate;
 import org.chromium.chrome.browser.omaha.UpdateMenuItemHelper;
 import org.chromium.chrome.browser.omnibox.LocationBar;
-import org.chromium.chrome.browser.toolbar.top.TopToolbarCoordinator;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuButtonHelper;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuCoordinator;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuHandler;
@@ -33,15 +33,13 @@ import org.chromium.ui.util.TokenHolder;
  * Unit tests for ToolbarAppMenuManager.
  */
 @RunWith(BaseRobolectricTestRunner.class)
-public class ToolbarAppMenuManagerTest {
+public class MenuButtonCoordinatorTest {
     @Mock
     private BrowserStateBrowserControlsVisibilityDelegate mControlsVisibilityDelegate;
     @Mock
     private Activity mActivity;
     @Mock
-    private TopToolbarCoordinator mToolbar;
-    @Mock
-    private ToolbarAppMenuManager.SetFocusFunction mFocusFunction;
+    private MenuButtonCoordinator.SetFocusFunction mFocusFunction;
     @Mock
     private AppMenuCoordinator mAppMenuCoordinator;
     @Mock
@@ -59,7 +57,7 @@ public class ToolbarAppMenuManagerTest {
 
     private UpdateMenuItemHelper.MenuUiState mMenuUiState;
     private ObservableSupplierImpl<AppMenuCoordinator> mAppMenuSupplier;
-    private ToolbarAppMenuManager mToolbarAppMenuManager;
+    private MenuButtonCoordinator mMenuButtonCoordinator;
 
     @Before
     public void setUp() {
@@ -69,21 +67,20 @@ public class ToolbarAppMenuManagerTest {
         doReturn(mAppMenuPropertiesDelegate)
                 .when(mAppMenuCoordinator)
                 .getAppMenuPropertiesDelegate();
-        doReturn(mMenuButton).when(mToolbar).getMenuButtonWrapper();
         UpdateMenuItemHelper.setInstanceForTesting(mUpdateMenuItemHelper);
         mAppMenuSupplier = new ObservableSupplierImpl<>();
         mMenuUiState = new UpdateMenuItemHelper.MenuUiState();
         doReturn(mMenuUiState).when(mUpdateMenuItemHelper).getUiState();
 
-        mToolbarAppMenuManager =
-                new ToolbarAppMenuManager(mAppMenuSupplier, mControlsVisibilityDelegate, mActivity,
-                        mToolbar, mFocusFunction, mRequestRenderRunnable, true, () -> false);
+        mMenuButtonCoordinator =
+                new MenuButtonCoordinator(mAppMenuSupplier, mControlsVisibilityDelegate, mActivity,
+                        mFocusFunction, mRequestRenderRunnable, true, () -> false, mMenuButton);
     }
 
     @Test
     public void testInitialization() {
         mAppMenuSupplier.set(mAppMenuCoordinator);
-        verify(mAppMenuHandler).addObserver(mToolbarAppMenuManager);
+        verify(mAppMenuHandler).addObserver(mMenuButtonCoordinator);
         verify(mAppMenuHandler).createAppMenuButtonHelper();
     }
 
@@ -94,14 +91,13 @@ public class ToolbarAppMenuManagerTest {
                 .when(mControlsVisibilityDelegate)
                 .showControlsPersistentAndClearOldToken(TokenHolder.INVALID_TOKEN);
         doReturn(true).when(mMenuButton).isShowingAppMenuUpdateBadge();
-        doReturn(true).when(mToolbar).isShowingAppMenuUpdateBadge();
-        mToolbarAppMenuManager.onMenuVisibilityChanged(true);
+        mMenuButtonCoordinator.onMenuVisibilityChanged(true);
 
         verify(mFocusFunction).setFocus(false, LocationBar.OmniboxFocusReason.UNFOCUS);
-        verify(mToolbar).removeAppMenuUpdateBadge(true);
+        verify(mMenuButton).removeAppMenuUpdateBadge(true);
         verify(mUpdateMenuItemHelper).onMenuButtonClicked();
 
-        mToolbarAppMenuManager.onMenuVisibilityChanged(false);
+        mMenuButtonCoordinator.onMenuVisibilityChanged(false);
         verify(mControlsVisibilityDelegate).releasePersistentShowingToken(42);
     }
 
@@ -113,10 +109,10 @@ public class ToolbarAppMenuManagerTest {
                 .when(mControlsVisibilityDelegate)
                 .showControlsPersistentAndClearOldToken(TokenHolder.INVALID_TOKEN);
 
-        mToolbarAppMenuManager.onMenuHighlightChanged(true);
+        mMenuButtonCoordinator.onMenuHighlightChanged(true);
         verify(mMenuButton).setMenuButtonHighlight(true);
 
-        mToolbarAppMenuManager.onMenuHighlightChanged(false);
+        mMenuButtonCoordinator.onMenuHighlightChanged(false);
         verify(mMenuButton).setMenuButtonHighlight(false);
         verify(mControlsVisibilityDelegate).releasePersistentShowingToken(42);
     }
@@ -126,52 +122,71 @@ public class ToolbarAppMenuManagerTest {
         mAppMenuSupplier.set(mAppMenuCoordinator);
 
         doReturn(true).when(mActivity).isDestroyed();
-        mToolbarAppMenuManager.updateStateChanged();
+        mMenuButtonCoordinator.updateStateChanged();
 
-        verify(mToolbar, never()).showAppMenuUpdateBadge();
+        verify(mMenuButton, never()).showAppMenuUpdateBadgeIfAvailable(anyBoolean());
         verify(mRequestRenderRunnable, never()).run();
-        verify(mToolbar, never()).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, never()).removeAppMenuUpdateBadge(false);
 
         doReturn(false).when(mActivity).isDestroyed();
-        mToolbarAppMenuManager.updateStateChanged();
+        mMenuButtonCoordinator.updateStateChanged();
 
-        verify(mToolbar, never()).showAppMenuUpdateBadge();
+        verify(mMenuButton, never()).showAppMenuUpdateBadgeIfAvailable(anyBoolean());
         verify(mRequestRenderRunnable, never()).run();
-        verify(mToolbar, times(1)).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, times(1)).removeAppMenuUpdateBadge(false);
 
         mMenuUiState.buttonState = new UpdateMenuItemHelper.MenuButtonState();
-        mToolbarAppMenuManager.updateStateChanged();
+        mMenuButtonCoordinator.updateStateChanged();
 
-        verify(mToolbar).showAppMenuUpdateBadge();
+        verify(mMenuButton).showAppMenuUpdateBadgeIfAvailable(true);
         verify(mRequestRenderRunnable).run();
-        verify(mToolbar, times(1)).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, times(1)).removeAppMenuUpdateBadge(false);
     }
 
     @Test
     public void testAppMenuUpdateBadge_activityShouldNotShow() {
-        ToolbarAppMenuManager newManager =
-                new ToolbarAppMenuManager(mAppMenuSupplier, mControlsVisibilityDelegate, mActivity,
-                        mToolbar, mFocusFunction, mRequestRenderRunnable, false, () -> false);
+        MenuButtonCoordinator newCoordinator =
+                new MenuButtonCoordinator(mAppMenuSupplier, mControlsVisibilityDelegate, mActivity,
+                        mFocusFunction, mRequestRenderRunnable, false, () -> false, mMenuButton);
 
         doReturn(true).when(mActivity).isDestroyed();
-        newManager.updateStateChanged();
+        newCoordinator.updateStateChanged();
 
-        verify(mToolbar, never()).showAppMenuUpdateBadge();
+        verify(mMenuButton, never()).showAppMenuUpdateBadgeIfAvailable(anyBoolean());
         verify(mRequestRenderRunnable, never()).run();
-        verify(mToolbar, never()).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, never()).removeAppMenuUpdateBadge(false);
 
         doReturn(false).when(mActivity).isDestroyed();
-        newManager.updateStateChanged();
+        newCoordinator.updateStateChanged();
 
-        verify(mToolbar, never()).showAppMenuUpdateBadge();
+        verify(mMenuButton, never()).showAppMenuUpdateBadgeIfAvailable(anyBoolean());
         verify(mRequestRenderRunnable, never()).run();
-        verify(mToolbar, never()).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, never()).removeAppMenuUpdateBadge(false);
 
         mMenuUiState.buttonState = new UpdateMenuItemHelper.MenuButtonState();
-        newManager.updateStateChanged();
+        newCoordinator.updateStateChanged();
 
-        verify(mToolbar, never()).showAppMenuUpdateBadge();
+        verify(mMenuButton, never()).showAppMenuUpdateBadgeIfAvailable(anyBoolean());
         verify(mRequestRenderRunnable, never()).run();
-        verify(mToolbar, never()).removeAppMenuUpdateBadge(false);
+        verify(mMenuButton, never()).removeAppMenuUpdateBadge(false);
+    }
+
+    @Test
+    public void testDestroyIsSafe() {
+        mMenuButtonCoordinator.destroy();
+        // It should be crash-safe to call public methods, but the results aren't meaningful.
+        mMenuButtonCoordinator.getMenuButtonHelperSupplier();
+        mMenuButtonCoordinator.onMenuHighlightChanged(true);
+        mMenuButtonCoordinator.onMenuVisibilityChanged(false);
+        mMenuButtonCoordinator.onNativeInitialized();
+        mMenuButtonCoordinator.setAppMenuUpdateBadgeSuppressed(true);
+        mMenuButtonCoordinator.updateReloadingState(true);
+        mMenuButtonCoordinator.updateStateChanged();
+    }
+
+    @Test
+    public void testDisableDestroysButton() {
+        mMenuButtonCoordinator.disableMenuButton();
+        verify(mMenuButton).destroy();
     }
 }

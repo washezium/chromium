@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.toolbar;
+package org.chromium.chrome.browser.toolbar.menu_button;
 
 import android.app.Activity;
 
@@ -12,24 +12,26 @@ import androidx.annotation.VisibleForTesting;
 import org.chromium.base.Callback;
 import org.chromium.base.metrics.RecordUserAction;
 import org.chromium.base.supplier.ObservableSupplier;
+import org.chromium.base.supplier.ObservableSupplierImpl;
 import org.chromium.base.supplier.Supplier;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.browser_controls.BrowserStateBrowserControlsVisibilityDelegate;
 import org.chromium.chrome.browser.omaha.UpdateMenuItemHelper;
 import org.chromium.chrome.browser.omnibox.LocationBar;
-import org.chromium.chrome.browser.toolbar.top.TopToolbarCoordinator;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuButtonHelper;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuCoordinator;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuHandler;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuObserver;
 import org.chromium.chrome.browser.ui.appmenu.AppMenuPropertiesDelegate;
+import org.chromium.ui.UiUtils;
 import org.chromium.ui.util.TokenHolder;
 
 /**
- * Handles app menu logic for the toolbar, e.g. showing/hiding the app update badge.
+ * Root component for the app menu button on the toolbar. Owns the MenuButton view and handles
+ * changes to its visual state, e.g. showing/hiding the app update badge.
  */
-class ToolbarAppMenuManager implements AppMenuObserver {
-    interface SetFocusFunction {
+public class MenuButtonCoordinator implements AppMenuObserver {
+    public interface SetFocusFunction {
         void setFocus(boolean focus, int reason);
     }
 
@@ -37,17 +39,18 @@ class ToolbarAppMenuManager implements AppMenuObserver {
     private Callback<AppMenuCoordinator> mAppMenuCoordinatorSupplierObserver;
     private @Nullable AppMenuPropertiesDelegate mAppMenuPropertiesDelegate;
     private AppMenuButtonHelper mAppMenuButtonHelper;
+    private ObservableSupplierImpl<AppMenuButtonHelper> mAppMenuButtonHelperSupplier;
     private AppMenuHandler mAppMenuHandler;
     private final BrowserStateBrowserControlsVisibilityDelegate mControlsVisibilityDelegate;
     private final Activity mActivity;
     private int mFullscreenMenuToken = TokenHolder.INVALID_TOKEN;
     private int mFullscreenHighlightToken = TokenHolder.INVALID_TOKEN;
-    private final TopToolbarCoordinator mToolbar;
     private final SetFocusFunction mSetUrlBarFocusFunction;
     private Runnable mRequestRenderRunnable;
     private Runnable mUpdateStateChangedListener;
     private final boolean mShouldShowAppUpdateBadge;
     private Supplier<Boolean> mIsInOverviewModeSupplier;
+    private MenuButton mMenuButton;
 
     /**
      *
@@ -56,21 +59,21 @@ class ToolbarAppMenuManager implements AppMenuObserver {
      * @param controlsVisibilityDelegate Delegate for forcing persistent display of browser
      *         controls.
      * @param activity Activity in which this object lives.
-     * @param toolbar Toolbar object that hosts the app menu button.
      * @param setUrlBarFocusFunction Function that allows setting focus on the url bar.
      * @param requestRenderRunnable Runnable that requests a re-rendering of the compositor view
      *         containing the app menu button.
      * @param shouldShowAppUpdateBadge Whether the app menu update badge should be shown if there is
      *         a pending update.
+     * @param isInOverviewModeSupplier Supplier of overview mode state.
+     * @param menuButton View that presents the MenuButton.
      */
-    public ToolbarAppMenuManager(ObservableSupplier<AppMenuCoordinator> appMenuCoordinatorSupplier,
+    public MenuButtonCoordinator(ObservableSupplier<AppMenuCoordinator> appMenuCoordinatorSupplier,
             BrowserStateBrowserControlsVisibilityDelegate controlsVisibilityDelegate,
-            Activity activity, TopToolbarCoordinator toolbar,
-            SetFocusFunction setUrlBarFocusFunction, Runnable requestRenderRunnable,
-            boolean shouldShowAppUpdateBadge, Supplier<Boolean> isInOverviewModeSupplier) {
+            Activity activity, SetFocusFunction setUrlBarFocusFunction,
+            Runnable requestRenderRunnable, boolean shouldShowAppUpdateBadge,
+            Supplier<Boolean> isInOverviewModeSupplier, MenuButton menuButton) {
         mControlsVisibilityDelegate = controlsVisibilityDelegate;
         mActivity = activity;
-        mToolbar = toolbar;
         mSetUrlBarFocusFunction = setUrlBarFocusFunction;
         mAppMenuCoordinatorSupplier = appMenuCoordinatorSupplier;
         mAppMenuCoordinatorSupplierObserver = this::onAppMenuInitialized;
@@ -78,12 +81,31 @@ class ToolbarAppMenuManager implements AppMenuObserver {
         mRequestRenderRunnable = requestRenderRunnable;
         mShouldShowAppUpdateBadge = shouldShowAppUpdateBadge;
         mIsInOverviewModeSupplier = isInOverviewModeSupplier;
+        mMenuButton = menuButton;
+        mAppMenuButtonHelperSupplier = new ObservableSupplierImpl<>();
     }
 
+    /**
+     * Update the state of AppMenu components that need to know if the current page is loading, e.g.
+     * the stop/reload button.
+     * @param isLoading Whether the current page is loading.
+     */
     public void updateReloadingState(boolean isLoading) {
-        if (mAppMenuPropertiesDelegate == null || mAppMenuHandler == null) return;
+        if (mMenuButton == null || mAppMenuPropertiesDelegate == null || mAppMenuHandler == null) {
+            return;
+        }
         mAppMenuPropertiesDelegate.loadingStateChanged(isLoading);
         mAppMenuHandler.menuItemContentChanged(R.id.icon_row_menu_id);
+    }
+
+    /**
+     * Disables the menu button, removing it from the view hierarchy and destroying it.
+     */
+    public void disableMenuButton() {
+        if (mMenuButton != null) {
+            UiUtils.removeViewFromParent(mMenuButton);
+            destroy();
+        }
     }
 
     public void destroy() {
@@ -96,6 +118,36 @@ class ToolbarAppMenuManager implements AppMenuObserver {
             UpdateMenuItemHelper.getInstance().unregisterObserver(mUpdateStateChangedListener);
             mUpdateStateChangedListener = null;
         }
+
+        if (mMenuButton != null) {
+            mMenuButton.destroy();
+            mMenuButton = null;
+        }
+    }
+
+    /**
+     * Signal to MenuButtonCoordinator that native is initialized and it's safe to access
+     * dependencies that require native, e.g. the UpdateMenuItemHelper.
+     */
+    public void onNativeInitialized() {
+        if (mShouldShowAppUpdateBadge) {
+            mUpdateStateChangedListener = this::updateStateChanged;
+            UpdateMenuItemHelper.getInstance().registerObserver(mUpdateStateChangedListener);
+        }
+    }
+
+    @Nullable
+    public ObservableSupplier<AppMenuButtonHelper> getMenuButtonHelperSupplier() {
+        return mAppMenuButtonHelperSupplier;
+    }
+
+    /**
+     * Suppress or un-suppress display of the "update available" badge.
+     * @param isSuppressed
+     */
+    public void setAppMenuUpdateBadgeSuppressed(boolean isSuppressed) {
+        if (mMenuButton == null) return;
+        mMenuButton.setAppMenuUpdateBadgeSuppressed(isSuppressed);
     }
 
     @Override
@@ -107,7 +159,7 @@ class ToolbarAppMenuManager implements AppMenuObserver {
 
             if (!mIsInOverviewModeSupplier.get() && isShowingAppMenuUpdateBadge()) {
                 // The app menu badge should be removed the first time the menu is opened.
-                mToolbar.removeAppMenuUpdateBadge(true);
+                mMenuButton.removeAppMenuUpdateBadge(true);
                 mRequestRenderRunnable.run();
             }
 
@@ -118,16 +170,14 @@ class ToolbarAppMenuManager implements AppMenuObserver {
             mControlsVisibilityDelegate.releasePersistentShowingToken(mFullscreenMenuToken);
         }
 
-        MenuButton menuButton = getMenuButtonWrapper();
-        if (isVisible && menuButton != null && menuButton.isShowingAppMenuUpdateBadge()) {
+        if (isVisible && mMenuButton != null && mMenuButton.isShowingAppMenuUpdateBadge()) {
             UpdateMenuItemHelper.getInstance().onMenuButtonClicked();
         }
     }
 
     @Override
     public void onMenuHighlightChanged(boolean isHighlighting) {
-        final MenuButton menuButton = getMenuButtonWrapper();
-        if (menuButton != null) menuButton.setMenuButtonHighlight(isHighlighting);
+        if (mMenuButton != null) mMenuButton.setMenuButtonHighlight(isHighlighting);
 
         if (isHighlighting) {
             mFullscreenHighlightToken =
@@ -136,18 +186,6 @@ class ToolbarAppMenuManager implements AppMenuObserver {
         } else {
             mControlsVisibilityDelegate.releasePersistentShowingToken(mFullscreenHighlightToken);
         }
-    }
-
-    void onNativeInitialized() {
-        if (mShouldShowAppUpdateBadge) {
-            mUpdateStateChangedListener = this::updateStateChanged;
-            UpdateMenuItemHelper.getInstance().registerObserver(mUpdateStateChangedListener);
-        }
-    }
-
-    @Nullable
-    AppMenuButtonHelper getMenuButtonHelper() {
-        return mAppMenuButtonHelper;
     }
 
     /**
@@ -162,11 +200,13 @@ class ToolbarAppMenuManager implements AppMenuObserver {
         mAppMenuHandler = appMenuHandler;
         mAppMenuHandler.addObserver(this);
         mAppMenuButtonHelper = mAppMenuHandler.createAppMenuButtonHelper();
-        mAppMenuButtonHelper.setOnAppMenuShownListener(() -> {
-            RecordUserAction.record("MobileToolbarShowMenu");
-            mToolbar.onMenuShown();
-        });
-        mToolbar.setAppMenuButtonHelper(mAppMenuButtonHelper);
+        mAppMenuButtonHelper.setOnAppMenuShownListener(
+                () -> { RecordUserAction.record("MobileToolbarShowMenu"); });
+        if (mMenuButton != null) {
+            mMenuButton.setAppMenuButtonHelper(mAppMenuButtonHelper);
+        }
+
+        mAppMenuButtonHelperSupplier.set(mAppMenuButtonHelper);
         mAppMenuPropertiesDelegate = appMenuCoordinator.getAppMenuPropertiesDelegate();
 
         // TODO(pnoland, https://crbug.com/1084528): replace this with a one shot supplier so we can
@@ -176,31 +216,27 @@ class ToolbarAppMenuManager implements AppMenuObserver {
         mAppMenuCoordinatorSupplierObserver = null;
     }
 
-    @Nullable
-    private MenuButton getMenuButtonWrapper() {
-        return mToolbar.getMenuButtonWrapper();
-    }
-
     /**
      * @return Whether the badge is showing (either in the toolbar).
      */
     private boolean isShowingAppMenuUpdateBadge() {
-        return mToolbar.isShowingAppMenuUpdateBadge();
+        return mMenuButton != null && mMenuButton.isShowingAppMenuUpdateBadge();
     }
 
     @VisibleForTesting
     void updateStateChanged() {
-        if (mActivity.isFinishing() || mActivity.isDestroyed() || !mShouldShowAppUpdateBadge) {
+        if (mMenuButton == null || mActivity.isFinishing() || mActivity.isDestroyed()
+                || !mShouldShowAppUpdateBadge) {
             return;
         }
 
         UpdateMenuItemHelper.MenuButtonState buttonState =
                 UpdateMenuItemHelper.getInstance().getUiState().buttonState;
         if (buttonState != null) {
-            mToolbar.showAppMenuUpdateBadge();
+            mMenuButton.showAppMenuUpdateBadgeIfAvailable(true);
             mRequestRenderRunnable.run();
         } else {
-            mToolbar.removeAppMenuUpdateBadge(false);
+            mMenuButton.removeAppMenuUpdateBadge(false);
         }
     }
 }
