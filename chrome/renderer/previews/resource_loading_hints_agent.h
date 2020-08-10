@@ -11,6 +11,7 @@
 #include "base/macros.h"
 #include "base/optional.h"
 #include "chrome/common/subresource_redirect_service.mojom.h"
+#include "chrome/renderer/lite_video/lite_video_hint_agent.h"
 #include "chrome/renderer/subresource_redirect/subresource_redirect_hints_agent.h"
 #include "content/public/renderer/render_frame_observer.h"
 #include "content/public/renderer/render_frame_observer_tracker.h"
@@ -64,6 +65,8 @@ class ResourceLoadingHintsAgent
                                    resource_loading_hints) override;
   void SetCompressPublicImagesHints(
       blink::mojom::CompressPublicImagesHintsPtr images_hints) override;
+  void SetLiteVideoHint(
+      blink::mojom::LiteVideoHintPtr lite_video_hint) override;
 
   void SetReceiver(
       mojo::PendingAssociatedReceiver<
