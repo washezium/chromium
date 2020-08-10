@@ -161,6 +161,15 @@ class CrostiniManagerTest : public testing::Test {
     std::move(closure).Run();
   }
 
+  void EnsureTerminaInstalled() {
+    base::RunLoop run_loop;
+    crostini_manager()->InstallTermina(
+        base::BindOnce([](base::OnceClosure callback,
+                          CrostiniResult) { std::move(callback).Run(); },
+                       run_loop.QuitClosure()));
+    run_loop.Run();
+  }
+
   CrostiniManagerTest()
       : task_environment_(content::BrowserTaskEnvironment::REAL_IO_THREAD),
         local_state_(std::make_unique<ScopedTestingLocalState>(
@@ -433,6 +442,7 @@ TEST_F(CrostiniManagerTest, StartTerminaVmMountError) {
   response.set_mount_result(vm_tools::concierge::StartVmResponse::FAILURE);
   fake_concierge_client_->set_start_vm_response(response);
 
+  EnsureTerminaInstalled();
   crostini_manager()->StartTerminaVm(
       kVmName, disk_path, 0,
       base::BindOnce(&ExpectFailure, run_loop()->QuitClosure()));
@@ -452,6 +462,7 @@ TEST_F(CrostiniManagerTest, StartTerminaVmMountErrorThenSuccess) {
       vm_tools::concierge::StartVmResponse::PARTIAL_DATA_LOSS);
   fake_concierge_client_->set_start_vm_response(response);
 
+  EnsureTerminaInstalled();
   crostini_manager()->StartTerminaVm(
       kVmName, disk_path, 0,
       base::BindOnce(&ExpectSuccess, run_loop()->QuitClosure()));
@@ -465,6 +476,7 @@ TEST_F(CrostiniManagerTest, StartTerminaVmSuccess) {
   base::HistogramTester histogram_tester{};
   const base::FilePath& disk_path = base::FilePath(kVmName);
 
+  EnsureTerminaInstalled();
   crostini_manager()->StartTerminaVm(
       kVmName, disk_path, 0,
       base::BindOnce(&ExpectSuccess, run_loop()->QuitClosure()));
@@ -478,6 +490,7 @@ TEST_F(CrostiniManagerTest, OnStartTremplinRecordsRunningVm) {
   const std::string owner_id = CryptohomeIdForProfile(profile());
 
   // Start the Vm.
+  EnsureTerminaInstalled();
   crostini_manager()->StartTerminaVm(
       kVmName, disk_path, 0,
       base::BindOnce(&ExpectSuccess, run_loop()->QuitClosure()));
