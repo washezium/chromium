@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import org.chromium.components.autofill.EditableOption;
+import org.chromium.content_public.browser.RenderFrameHost;
+import org.chromium.content_public.browser.WebContentsStatics;
 import org.chromium.mojo.system.MojoException;
 import org.chromium.payments.mojom.PaymentDetails;
 import org.chromium.payments.mojom.PaymentItem;
@@ -28,8 +30,10 @@ import java.util.List;
 public class ComponentPaymentRequestImpl implements PaymentRequest {
     private static NativeObserverForTest sNativeObserverForTest;
     private final BrowserPaymentRequestFactory mBrowserPaymentRequestFactory;
+    private final RenderFrameHost mRenderFrameHost;
     private BrowserPaymentRequest mBrowserPaymentRequest;
     private PaymentRequestClient mClient;
+    private boolean mIsOffTheRecord;
     private PaymentRequestLifecycleObserver mPaymentRequestLifecycleObserver;
 
     /** The factory that creates an instance of {@link BrowserPaymentRequest}. */
@@ -39,9 +43,13 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
          * instance of {@link ComponentPaymentRequestImpl}.
          * @param componentPaymentRequestImpl The ComponentPaymentRequestImpl to work together with
          *         the BrowserPaymentRequest instance.
+         * @param isOffTheRecord Whether the merchant page is in a OffTheRecord (e.g., incognito,
+         *         guest mode) Tab.
+         * @param journeyLogger The logger that records the user journey of PaymentRequest.
          */
         BrowserPaymentRequest createBrowserPaymentRequest(
-                ComponentPaymentRequestImpl componentPaymentRequestImpl);
+                ComponentPaymentRequestImpl componentPaymentRequestImpl, boolean isOffTheRecord,
+                JourneyLogger journeyLogger);
     }
 
     /**
@@ -66,11 +74,17 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
 
     /**
      * Build an instance of the PaymentRequest implementation.
+     * @param renderFrameHost The RenderFrameHost of the merchant page.
+     * @param isOffTheRecord Whether the merchant page is in a OffTheRecord (e.g., incognito, guest
+     *         mode) Tab.
      * @param browserPaymentRequestFactory The factory that generates an instance of
      *         BrowserPaymentRequest to work with this ComponentPaymentRequestImpl instance.
      */
-    public ComponentPaymentRequestImpl(BrowserPaymentRequestFactory browserPaymentRequestFactory) {
+    public ComponentPaymentRequestImpl(RenderFrameHost renderFrameHost, boolean isOffTheRecord,
+            BrowserPaymentRequestFactory browserPaymentRequestFactory) {
         mBrowserPaymentRequestFactory = browserPaymentRequestFactory;
+        mIsOffTheRecord = isOffTheRecord;
+        mRenderFrameHost = renderFrameHost;
     }
 
     /**
@@ -92,7 +106,10 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
     @Override
     public void init(PaymentRequestClient client, PaymentMethodData[] methodData,
             PaymentDetails details, PaymentOptions options, boolean googlePayBridgeEligible) {
-        mBrowserPaymentRequest = mBrowserPaymentRequestFactory.createBrowserPaymentRequest(this);
+        JourneyLogger journeyLogger = new JourneyLogger(
+                mIsOffTheRecord, WebContentsStatics.fromRenderFrameHost(mRenderFrameHost));
+        mBrowserPaymentRequest = mBrowserPaymentRequestFactory.createBrowserPaymentRequest(
+                this, mIsOffTheRecord, journeyLogger);
         assert mBrowserPaymentRequest != null;
         if (mClient != null) {
             mBrowserPaymentRequest.getJourneyLogger().setAborted(
@@ -103,8 +120,7 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
         }
 
         if (client == null) {
-            mBrowserPaymentRequest.getJourneyLogger().setAborted(
-                    AbortReason.INVALID_DATA_FROM_RENDERER);
+            journeyLogger.setAborted(AbortReason.INVALID_DATA_FROM_RENDERER);
             mBrowserPaymentRequest.disconnectFromClientWithDebugMessage(ErrorStrings.INVALID_STATE);
             return;
         }

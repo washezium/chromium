@@ -116,7 +116,8 @@ public class PaymentRequestFactory implements InterfaceFactory<PaymentRequest> {
         }
 
         @Override
-        public boolean isOffTheRecord(@Nullable ChromeActivity activity) {
+        public boolean isOffTheRecord(WebContents webContents) {
+            ChromeActivity activity = ChromeActivity.fromWebContents(webContents);
             return activity != null && activity.getCurrentTabModel().getProfile().isOffTheRecord();
         }
 
@@ -186,8 +187,11 @@ public class PaymentRequestFactory implements InterfaceFactory<PaymentRequest> {
             delegate = new PaymentRequestDelegateImpl(mRenderFrameHost);
         }
 
-        return new ComponentPaymentRequestImpl((componentPaymentRequest)
-                                                       -> new PaymentRequestImpl(mRenderFrameHost,
-                                                               componentPaymentRequest, delegate));
+        WebContents webContents = WebContentsStatics.fromRenderFrameHost(mRenderFrameHost);
+        return new ComponentPaymentRequestImpl(mRenderFrameHost,
+                delegate.isOffTheRecord(webContents),
+                (componentPaymentRequest, isOffTheRecord, journeyLogger)
+                        -> new PaymentRequestImpl(mRenderFrameHost, componentPaymentRequest,
+                                isOffTheRecord, journeyLogger, delegate));
     }
 }

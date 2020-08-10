@@ -135,9 +135,9 @@ public class PaymentRequestImpl
      */
     public interface Delegate {
         /**
-         * Returns whether the ChromeActivity is currently showing an OffTheRecord tab.
+         * Returns whether the WebContents is currently showing an off-the-record tab.
          */
-        boolean isOffTheRecord(ChromeActivity activity);
+        boolean isOffTheRecord(WebContents webContents);
         /**
          * Returns a non-null string if there is an invalid SSL certificate on the currently
          * loaded page.
@@ -412,9 +412,14 @@ public class PaymentRequestImpl
      *
      * @param renderFrameHost The host of the frame that has invoked the PaymentRequest API.
      * @param componentPaymentRequestImpl The component side of the PaymentRequest implementation.
+     * @param isOffTheRecord Whether the merchant page is shown in an off-the-record tab.
+     * @param journeyLogger The JourneyLogger that records the user journey of using the
+     *         PaymentRequest service.
+     * @param delegate The delegate of this class.
      */
     public PaymentRequestImpl(RenderFrameHost renderFrameHost,
-            ComponentPaymentRequestImpl componentPaymentRequestImpl, Delegate delegate) {
+            ComponentPaymentRequestImpl componentPaymentRequestImpl, boolean isOffTheRecord,
+            JourneyLogger journeyLogger, Delegate delegate) {
         assert renderFrameHost != null;
         assert componentPaymentRequestImpl != null;
         assert delegate != null;
@@ -422,23 +427,16 @@ public class PaymentRequestImpl
         mRenderFrameHost = renderFrameHost;
         mDelegate = delegate;
         mWebContents = WebContentsStatics.fromRenderFrameHost(renderFrameHost);
-
         mPaymentRequestOrigin =
                 UrlFormatter.formatUrlForSecurityDisplay(mRenderFrameHost.getLastCommittedURL());
         mPaymentRequestSecurityOrigin = mRenderFrameHost.getLastCommittedOrigin();
         mTopLevelOrigin =
                 UrlFormatter.formatUrlForSecurityDisplay(mWebContents.getLastCommittedUrl());
-
         mMerchantName = mWebContents.getTitle();
-
         mCertificateChain = CertificateChainHelper.getCertificateChain(mWebContents);
-
-        mIsOffTheRecord = mDelegate.isOffTheRecord(ChromeActivity.fromWebContents(mWebContents));
-
-        mJourneyLogger = new JourneyLogger(mIsOffTheRecord, mWebContents);
-
+        mIsOffTheRecord = isOffTheRecord;
+        mJourneyLogger = journeyLogger;
         mSkipUiForNonUrlPaymentMethodIdentifiers = mDelegate.skipUiForBasicCard();
-
         if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
         mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
                 /*params=*/this, mWebContents, mIsOffTheRecord, mJourneyLogger);
