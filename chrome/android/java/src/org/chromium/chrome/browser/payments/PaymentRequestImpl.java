@@ -133,7 +133,8 @@ public class PaymentRequestImpl
      */
     public interface Delegate {
         /**
-         * Returns whether the WebContents is currently showing an off-the-record tab.
+         * Returns whether the WebContents is currently showing an off-the-record tab. Return true
+         * if the tab profile is not accessible from the WebContents.
          */
         boolean isOffTheRecord(WebContents webContents);
         /**
