@@ -21,7 +21,6 @@
 #import "ios/chrome/browser/ui/recent_tabs/recent_tabs_mediator.h"
 #import "ios/chrome/browser/ui/recent_tabs/recent_tabs_presentation_delegate.h"
 #import "ios/chrome/browser/ui/recent_tabs/recent_tabs_table_view_controller.h"
-#import "ios/chrome/browser/ui/tab_grid/tab_grid_adaptor.h"
 #import "ios/chrome/browser/ui/tab_grid/tab_grid_mediator.h"
 #import "ios/chrome/browser/ui/tab_grid/tab_grid_paging.h"
 #import "ios/chrome/browser/ui/tab_grid/tab_grid_view_controller.h"
@@ -29,6 +28,7 @@
 #include "ios/chrome/browser/ui/ui_feature_flags.h"
 #import "ios/chrome/browser/ui/util/uikit_ui_util.h"
 #import "ios/chrome/browser/url_loading/url_loading_params.h"
+#import "ios/chrome/browser/web_state_list/tab_insertion_browser_agent.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
@@ -43,8 +43,6 @@
 // Commad dispatcher used while this coordinator's view controller is active.
 // (for compatibility with the TabSwitcher protocol).
 @property(nonatomic, strong) CommandDispatcher* dispatcher;
-// Object that internally backs the public  TabSwitcher
-@property(nonatomic, strong) TabGridAdaptor* adaptor;
 // Container view controller for the BVC to live in; this class's view
 // controller will present this.
 @property(nonatomic, strong) BVCContainerViewController* bvcContainer;
@@ -91,10 +89,6 @@
 }
 
 #pragma mark - Public
-
-- (id<TabSwitcher>)tabSwitcher {
-  return self.adaptor;
-}
 
 - (Browser*)regularBrowser {
   // Ensure browser which is actually used by the mediator is returned, as it
@@ -147,9 +141,6 @@
   baseViewController.tabPresentationDelegate = self;
   _baseViewController = baseViewController;
 
-  self.adaptor = [[TabGridAdaptor alloc] init];
-  self.adaptor.tabGridViewController = self.baseViewController;
-
   self.regularTabsMediator = [[TabGridMediator alloc]
       initWithConsumer:baseViewController.regularTabsConsumer];
   ChromeBrowserState* regularBrowserState =
@@ -166,7 +157,6 @@
   self.incognitoTabsMediator = [[TabGridMediator alloc]
       initWithConsumer:baseViewController.incognitoTabsConsumer];
   self.incognitoTabsMediator.browser = _incognitoBrowser;
-  self.adaptor.incognitoMediator = self.incognitoTabsMediator;
   baseViewController.regularTabsDelegate = self.regularTabsMediator;
   baseViewController.incognitoTabsDelegate = self.incognitoTabsMediator;
   baseViewController.regularTabsDragDropHandler = self.regularTabsMediator;
@@ -261,11 +251,7 @@
 }
 
 - (void)showTabSwitcher:(id<TabSwitcher>)tabSwitcher {
-  DCHECK(tabSwitcher);
   DCHECK_EQ([tabSwitcher viewController], self.baseViewController);
-  // It's also expected that |tabSwitcher| will be |self.tabSwitcher|, but that
-  // may not be worth a DCHECK?
-
   BOOL animated = !self.animationsDisabledForTesting;
 
   // If a BVC is currently being presented, dismiss it.  This will trigger any
@@ -323,8 +309,7 @@
   // on top of the tab switcher) transition has completed.
   // Finally, the launch mask view should be removed.
   ProceduralBlock extendedCompletion = ^{
-    [self.tabSwitcher.delegate
-        tabSwitcherDismissTransitionDidEnd:self.tabSwitcher];
+    [self.delegate tabSwitcherDismissTransitionDidEnd:self];
     if (!GetFirstResponder()) {
       // It is possible to already have a first responder (for example the
       // omnibox). In that case, we don't want to mark BVC as first responder.
@@ -339,7 +324,7 @@
   self.baseViewController.childViewControllerForStatusBarStyle =
       self.bvcContainer.currentBVC;
 
-  [self.adaptor.tabGridViewController contentWillDisappearAnimated:animated];
+  [self.baseViewController contentWillDisappearAnimated:animated];
 
   self.transitionHandler = [[TabGridTransitionHandler alloc]
       initWithLayoutProvider:self.baseViewController];
@@ -371,11 +356,11 @@
       // Defensively early return instead of continuing.
       return;
   }
-  // Trigger the transition through the TabSwitcher delegate. This will in turn
-  // call back into this coordinator via the ViewControllerSwapping protocol.
-  [self.tabSwitcher.delegate tabSwitcher:self.tabSwitcher
-                 shouldFinishWithBrowser:activeBrowser
-                            focusOmnibox:focusOmnibox];
+  // Trigger the transition through the delegate. This will in turn call back
+  // into this coordinator via the ViewControllerSwapping protocol.
+  [self.delegate tabSwitcher:self
+      shouldFinishWithBrowser:activeBrowser
+                 focusOmnibox:focusOmnibox];
 }
 
 #pragma mark - RecentTabsPresentationDelegate
@@ -399,23 +384,56 @@
 }
 
 - (void)showActiveRegularTabFromRecentTabs {
-  [self.tabSwitcher.delegate tabSwitcher:self.tabSwitcher
-                 shouldFinishWithBrowser:self.regularBrowser
-                            focusOmnibox:NO];
+  [self.delegate tabSwitcher:self
+      shouldFinishWithBrowser:self.regularBrowser
+                 focusOmnibox:NO];
 }
 
 #pragma mark - HistoryPresentationDelegate
 
 - (void)showActiveRegularTabFromHistory {
-  [self.tabSwitcher.delegate tabSwitcher:self.tabSwitcher
-                 shouldFinishWithBrowser:self.regularBrowser
-                            focusOmnibox:NO];
+  [self.delegate tabSwitcher:self
+      shouldFinishWithBrowser:self.regularBrowser
+                 focusOmnibox:NO];
 }
 
 - (void)showActiveIncognitoTabFromHistory {
-  [self.tabSwitcher.delegate tabSwitcher:self.tabSwitcher
-                 shouldFinishWithBrowser:self.incognitoBrowser
-                            focusOmnibox:NO];
+  [self.delegate tabSwitcher:self
+      shouldFinishWithBrowser:self.incognitoBrowser
+                 focusOmnibox:NO];
+}
+
+#pragma mark - TabSwitcher
+
+- (void)restoreInternalStateWithMainBrowser:(Browser*)mainBrowser
+                                 otrBrowser:(Browser*)otrBrowser
+                              activeBrowser:(Browser*)activeBrowser {
+  // The only action here is to signal to the tab grid which panel should be
+  // active.
+  if (activeBrowser == otrBrowser) {
+    self.baseViewController.activePage = TabGridPageIncognitoTabs;
+  } else {
+    self.baseViewController.activePage = TabGridPageRegularTabs;
+  }
+}
+
+- (void)dismissWithNewTabAnimationToBrowser:(Browser*)browser
+                          withUrlLoadParams:(const UrlLoadParams&)urlLoadParams
+                                    atIndex:(int)position {
+  int tabIndex = std::min(position, browser->GetWebStateList()->count());
+
+  TabInsertionBrowserAgent::FromBrowser(browser)->InsertWebState(
+      urlLoadParams.web_params, nil, false, tabIndex, false);
+
+  // Tell the delegate to display the tab.
+  [self.delegate tabSwitcher:self
+      shouldFinishWithBrowser:browser
+                 focusOmnibox:NO];
+}
+
+- (void)setOtrBrowser:(Browser*)browser {
+  DCHECK(self.incognitoTabsMediator);
+  self.incognitoTabsMediator.browser = browser;
 }
 
 @end
