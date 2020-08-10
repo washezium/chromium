@@ -4344,6 +4344,11 @@
     "expiry_milestone": -1
   },
   {
+    "name": "use-chime-android-sdk",
+    "owners": [ "xingliu" ],
+    "expiry_milestone": 89
+  },
+  {
     "name": "use-custom-messages-domain",
     "owners": [ "azeemarshad", "jonmann", "vecore" ],
     // This flag is used for QA and development.
