@@ -1150,7 +1150,7 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
             TraceEvent.begin("ChromeTabbedActivity.initializeState");
 
             super.initializeState();
-
+            Log.i(TAG, "#initializeState");
             Intent intent = getIntent();
 
             boolean hadCipherData =
