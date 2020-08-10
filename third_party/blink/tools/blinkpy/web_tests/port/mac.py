@@ -35,9 +35,8 @@ _log = logging.getLogger(__name__)
 
 
 class MacPort(base.Port):
-    SUPPORTED_VERSIONS = ('mac10.10', 'mac10.11', 'mac10.12', 'mac10.13',
-                          'mac10.14', 'mac10.15', 'mac10.16', 'mac11.0',
-                          'retina')
+    SUPPORTED_VERSIONS = ('mac10.12', 'mac10.13', 'mac10.14', 'mac10.15',
+                          'mac10.16', 'mac11.0')
     port_name = 'mac'
 
     # FIXME: We treat Retina (High-DPI) devices as if they are running a
@@ -55,9 +54,6 @@ class MacPort(base.Port):
     FALLBACK_PATHS['mac10.14'] = ['mac-mac10.14'] + FALLBACK_PATHS['mac10.15']
     FALLBACK_PATHS['mac10.13'] = ['mac-mac10.13'] + FALLBACK_PATHS['mac10.14']
     FALLBACK_PATHS['mac10.12'] = ['mac-mac10.12'] + FALLBACK_PATHS['mac10.13']
-    FALLBACK_PATHS['mac10.11'] = ['mac-mac10.11'] + FALLBACK_PATHS['mac10.12']
-    FALLBACK_PATHS['mac10.10'] = ['mac-mac10.10'] + FALLBACK_PATHS['mac10.11']
-    FALLBACK_PATHS['retina'] = ['mac-retina'] + FALLBACK_PATHS['mac10.13']
 
     CONTENT_SHELL_NAME = 'Content Shell'
 
@@ -75,6 +71,11 @@ class MacPort(base.Port):
     def __init__(self, host, port_name, **kwargs):
         super(MacPort, self).__init__(host, port_name, **kwargs)
         self._version = port_name[port_name.index('mac-') + len('mac-'):]
+        # TODO(crbug.com/1114885): This is to workaround the failure of
+        # blink_python_tests on mac10.10 and 10.11 waterfall bots. Remove this
+        # when we remove the step from the bots.
+        if self._version == 'mac10.10' or self._version == 'mac10.11':
+            self._version = 'mac10.12'
         assert self._version in self.SUPPORTED_VERSIONS
 
     def check_build(self, needs_http, printer):
