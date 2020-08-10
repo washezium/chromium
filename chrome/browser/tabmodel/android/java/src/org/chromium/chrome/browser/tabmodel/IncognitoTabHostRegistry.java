@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.chrome.browser.incognito;
+package org.chromium.chrome.browser.tabmodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.List;
  * incognito tabs are included in such operations as removing all incognito tabs.
  */
 public class IncognitoTabHostRegistry {
-
     private static IncognitoTabHostRegistry sInstance;
 
     public static IncognitoTabHostRegistry getInstance() {
@@ -35,7 +34,7 @@ public class IncognitoTabHostRegistry {
         mHosts.remove(host);
     }
 
-    List<IncognitoTabHost> getHosts() {
+    public List<IncognitoTabHost> getHosts() {
         return mHosts;
     }
 }

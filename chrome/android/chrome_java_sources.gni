@@ -809,8 +809,6 @@ chrome_java_sources = [
   "java/src/org/chromium/chrome/browser/identity_disc/IdentityDiscController.java",
   "java/src/org/chromium/chrome/browser/incognito/IncognitoNotificationManager.java",
   "java/src/org/chromium/chrome/browser/incognito/IncognitoNotificationService.java",
-  "java/src/org/chromium/chrome/browser/incognito/IncognitoTabHost.java",
-  "java/src/org/chromium/chrome/browser/incognito/IncognitoTabHostRegistry.java",
   "java/src/org/chromium/chrome/browser/incognito/IncognitoTabLauncher.java",
   "java/src/org/chromium/chrome/browser/incognito/IncognitoTabSnapshotController.java",
   "java/src/org/chromium/chrome/browser/incognito/IncognitoUtils.java",
