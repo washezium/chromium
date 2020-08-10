@@ -171,13 +171,12 @@ Element* OriginatingElement(Element* owning_element) {
 
 AtomicString GetCSSTransitionCSSPropertyName(const Animation* animation) {
   CSSPropertyID property_id =
-      To<CSSTransition>(animation)->TransitionCSSProperty().PropertyID();
+      To<CSSTransition>(animation)->TransitionCSSPropertyName().Id();
   if (property_id == CSSPropertyID::kVariable ||
       property_id == CSSPropertyID::kInvalid)
     return AtomicString();
   return To<CSSTransition>(animation)
-      ->TransitionCSSProperty()
-      .GetCSSPropertyName()
+      ->TransitionCSSPropertyName()
       .ToAtomicString();
 }
 }  // namespace
