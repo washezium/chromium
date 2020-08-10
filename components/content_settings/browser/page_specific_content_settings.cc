@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 
 #include <list>
 #include <vector>
@@ -61,7 +61,7 @@ bool ShouldSendUpdatedContentSettingsRulesToRenderer(
 void MaybeSendRendererContentSettingsRules(
     content::RenderFrameHost* rfh,
     const HostContentSettingsMap* map,
-    TabSpecificContentSettings::Delegate* delegate) {
+    PageSpecificContentSettings::Delegate* delegate) {
   DCHECK_EQ(rfh, rfh->GetMainFrame());
   // Only send a message to the renderer if it is initialised and not dead.
   // Otherwise, the IPC messages will be queued in the browser process,
@@ -75,7 +75,7 @@ void MaybeSendRendererContentSettingsRules(
   delegate->SetContentSettingRules(process, rules);
 }
 
-bool WillNavigationCreateNewTabSpecificContentSettingsOnCommit(
+bool WillNavigationCreateNewPageSpecificContentSettingsOnCommit(
     content::NavigationHandle* navigation_handle) {
   return navigation_handle->IsInMainFrame() &&
          !navigation_handle->IsSameDocument() &&
@@ -84,67 +84,68 @@ bool WillNavigationCreateNewTabSpecificContentSettingsOnCommit(
 
 }  // namespace
 
-TabSpecificContentSettings::SiteDataObserver::SiteDataObserver(
+PageSpecificContentSettings::SiteDataObserver::SiteDataObserver(
     content::WebContents* web_contents)
     : web_contents_(web_contents) {
   // Make sure the handler was attached to the WebContents as some UT might skip
   // this.
   auto* handler =
-      TabSpecificContentSettings::WebContentsHandler::FromWebContents(
+      PageSpecificContentSettings::WebContentsHandler::FromWebContents(
           web_contents_);
   if (handler)
     handler->AddSiteDataObserver(this);
 }
 
-TabSpecificContentSettings::SiteDataObserver::~SiteDataObserver() {
+PageSpecificContentSettings::SiteDataObserver::~SiteDataObserver() {
   if (!web_contents_)
     return;
   auto* handler =
-      TabSpecificContentSettings::WebContentsHandler::FromWebContents(
+      PageSpecificContentSettings::WebContentsHandler::FromWebContents(
           web_contents_);
   if (handler)
     handler->RemoveSiteDataObserver(this);
 }
 
-void TabSpecificContentSettings::SiteDataObserver::WebContentsDestroyed() {
+void PageSpecificContentSettings::SiteDataObserver::WebContentsDestroyed() {
   web_contents_ = nullptr;
 }
 
 // static
-void TabSpecificContentSettings::WebContentsHandler::CreateForWebContents(
+void PageSpecificContentSettings::WebContentsHandler::CreateForWebContents(
     content::WebContents* web_contents,
     std::unique_ptr<Delegate> delegate) {
   DCHECK(web_contents);
-  if (TabSpecificContentSettings::WebContentsHandler::FromWebContents(
+  if (PageSpecificContentSettings::WebContentsHandler::FromWebContents(
           web_contents)) {
     return;
   }
 
   web_contents->SetUserData(
-      TabSpecificContentSettings::WebContentsHandler::UserDataKey(),
-      base::WrapUnique(new TabSpecificContentSettings::WebContentsHandler(
+      PageSpecificContentSettings::WebContentsHandler::UserDataKey(),
+      base::WrapUnique(new PageSpecificContentSettings::WebContentsHandler(
           web_contents, std::move(delegate))));
 }
 
-TabSpecificContentSettings::WebContentsHandler::WebContentsHandler(
+PageSpecificContentSettings::WebContentsHandler::WebContentsHandler(
     content::WebContents* web_contents,
     std::unique_ptr<Delegate> delegate)
     : WebContentsObserver(web_contents),
       delegate_(std::move(delegate)),
       map_(delegate_->GetSettingsMap()) {
-  DCHECK(!TabSpecificContentSettings::GetForCurrentDocument(
+  DCHECK(!PageSpecificContentSettings::GetForCurrentDocument(
       web_contents->GetMainFrame()));
   content::SetRenderDocumentHostUserData(
-      web_contents->GetMainFrame(), TabSpecificContentSettings::UserDataKey(),
-      base::WrapUnique(new TabSpecificContentSettings(*this, delegate_.get())));
+      web_contents->GetMainFrame(), PageSpecificContentSettings::UserDataKey(),
+      base::WrapUnique(
+          new PageSpecificContentSettings(*this, delegate_.get())));
 }
 
-TabSpecificContentSettings::WebContentsHandler::~WebContentsHandler() {
+PageSpecificContentSettings::WebContentsHandler::~WebContentsHandler() {
   for (SiteDataObserver& observer : observer_list_)
     observer.WebContentsDestroyed();
 }
 
-void TabSpecificContentSettings::WebContentsHandler::
+void PageSpecificContentSettings::WebContentsHandler::
     TransferNavigationContentSettingsToCommittedDocument(
         const InflightNavigationContentSettings& navigation_settings,
         content::RenderFrameHost* rfh) {
@@ -158,7 +159,7 @@ void TabSpecificContentSettings::WebContentsHandler::
   }
 }
 
-void TabSpecificContentSettings::WebContentsHandler::OnCookiesAccessed(
+void PageSpecificContentSettings::WebContentsHandler::OnCookiesAccessed(
     content::NavigationHandle* navigation,
     const content::CookieAccessDetails& details) {
   auto it = inflight_navigation_settings_.find(navigation);
@@ -167,23 +168,23 @@ void TabSpecificContentSettings::WebContentsHandler::OnCookiesAccessed(
     return;
   }
   // TODO(carlscab): We should be able to
-  // DHECK(!WillNavigationCreateNewTabSpecificContentSettingsOnCommit) here, but
-  // there is still code that starts a navigation before attaching the tab
+  // DHECK(!WillNavigationCreateNewPageSpecificContentSettingsOnCommit) here,
+  // but there is still code that starts a navigation before attaching the tab
   // helpers in DevConsole related code. So we miss the DidStartNavigation event
   // for those navigations. (https://crbug.com/1095576)
   OnCookiesAccessed(web_contents()->GetMainFrame(), details);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::OnCookiesAccessed(
+void PageSpecificContentSettings::WebContentsHandler::OnCookiesAccessed(
     content::RenderFrameHost* rfh,
     const content::CookieAccessDetails& details) {
   auto* tscs =
-      TabSpecificContentSettings::GetForCurrentDocument(rfh->GetMainFrame());
+      PageSpecificContentSettings::GetForCurrentDocument(rfh->GetMainFrame());
   if (tscs)
     tscs->OnCookiesAccessed(details);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::OnServiceWorkerAccessed(
+void PageSpecificContentSettings::WebContentsHandler::OnServiceWorkerAccessed(
     content::NavigationHandle* navigation,
     const GURL& scope,
     content::AllowServiceWorkerResult allowed) {
@@ -196,24 +197,24 @@ void TabSpecificContentSettings::WebContentsHandler::OnServiceWorkerAccessed(
     return;
   }
   // TODO(carlscab): We should be able to
-  // DHECK(!WillNavigationCreateNewTabSpecificContentSettingsOnCommit) here, but
-  // there is still code that starts a navigation before attaching the tab
+  // DHECK(!WillNavigationCreateNewPageSpecificContentSettingsOnCommit) here,
+  // but there is still code that starts a navigation before attaching the tab
   // helpers in DevConsole related code. So we miss the DidStartNavigation event
   // for those navigations.
   OnServiceWorkerAccessed(web_contents()->GetMainFrame(), scope, allowed);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::OnServiceWorkerAccessed(
+void PageSpecificContentSettings::WebContentsHandler::OnServiceWorkerAccessed(
     content::RenderFrameHost* frame,
     const GURL& scope,
     content::AllowServiceWorkerResult allowed) {
   auto* tscs =
-      TabSpecificContentSettings::GetForCurrentDocument(frame->GetMainFrame());
+      PageSpecificContentSettings::GetForCurrentDocument(frame->GetMainFrame());
   if (tscs)
     tscs->OnServiceWorkerAccessed(scope, allowed);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::
+void PageSpecificContentSettings::WebContentsHandler::
     RenderFrameForInterstitialPageCreated(
         content::RenderFrameHost* render_frame_host) {
   // We want to tell the renderer-side code to ignore content settings for this
@@ -225,9 +226,9 @@ void TabSpecificContentSettings::WebContentsHandler::
   content_settings_agent->SetAsInterstitial();
 }
 
-void TabSpecificContentSettings::WebContentsHandler::DidStartNavigation(
+void PageSpecificContentSettings::WebContentsHandler::DidStartNavigation(
     content::NavigationHandle* navigation_handle) {
-  if (!WillNavigationCreateNewTabSpecificContentSettingsOnCommit(
+  if (!WillNavigationCreateNewPageSpecificContentSettingsOnCommit(
           navigation_handle)) {
     return;
   }
@@ -236,9 +237,9 @@ void TabSpecificContentSettings::WebContentsHandler::DidStartNavigation(
       std::make_pair(navigation_handle, InflightNavigationContentSettings()));
 }
 
-void TabSpecificContentSettings::WebContentsHandler::ReadyToCommitNavigation(
+void PageSpecificContentSettings::WebContentsHandler::ReadyToCommitNavigation(
     content::NavigationHandle* navigation_handle) {
-  if (!WillNavigationCreateNewTabSpecificContentSettingsOnCommit(
+  if (!WillNavigationCreateNewPageSpecificContentSettingsOnCommit(
           navigation_handle)) {
     return;
   }
@@ -251,9 +252,9 @@ void TabSpecificContentSettings::WebContentsHandler::ReadyToCommitNavigation(
       delegate_.get());
 }
 
-void TabSpecificContentSettings::WebContentsHandler::DidFinishNavigation(
+void PageSpecificContentSettings::WebContentsHandler::DidFinishNavigation(
     content::NavigationHandle* navigation_handle) {
-  if (!WillNavigationCreateNewTabSpecificContentSettingsOnCommit(
+  if (!WillNavigationCreateNewPageSpecificContentSettingsOnCommit(
           navigation_handle)) {
     return;
   }
@@ -264,13 +265,13 @@ void TabSpecificContentSettings::WebContentsHandler::DidFinishNavigation(
   }
 
   auto tscs =
-      base::WrapUnique(new TabSpecificContentSettings(*this, delegate_.get()));
+      base::WrapUnique(new PageSpecificContentSettings(*this, delegate_.get()));
 
   // TODO(carlscab): This sort of internal. Maybe add a
   // RenderDocumentHostUserData::Create(RenderFrameHost* rfh, Params...)
   content::SetRenderDocumentHostUserData(
       navigation_handle->GetRenderFrameHost(),
-      TabSpecificContentSettings::UserDataKey(), std::move(tscs));
+      PageSpecificContentSettings::UserDataKey(), std::move(tscs));
 
   auto it = inflight_navigation_settings_.find(navigation_handle);
   if (it != inflight_navigation_settings_.end()) {
@@ -282,54 +283,55 @@ void TabSpecificContentSettings::WebContentsHandler::DidFinishNavigation(
   delegate_->UpdateLocationBar();
 }
 
-void TabSpecificContentSettings::WebContentsHandler::AppCacheAccessed(
+void PageSpecificContentSettings::WebContentsHandler::AppCacheAccessed(
     const GURL& manifest_url,
     bool blocked_by_policy) {
-  auto* tscs = TabSpecificContentSettings::GetForCurrentDocument(
+  auto* tscs = PageSpecificContentSettings::GetForCurrentDocument(
       web_contents()->GetMainFrame());
   if (tscs)
     tscs->AppCacheAccessed(manifest_url, blocked_by_policy);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::AddSiteDataObserver(
+void PageSpecificContentSettings::WebContentsHandler::AddSiteDataObserver(
     SiteDataObserver* observer) {
   observer_list_.AddObserver(observer);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::RemoveSiteDataObserver(
+void PageSpecificContentSettings::WebContentsHandler::RemoveSiteDataObserver(
     SiteDataObserver* observer) {
   observer_list_.RemoveObserver(observer);
 }
 
-void TabSpecificContentSettings::WebContentsHandler::NotifySiteDataObservers() {
+void PageSpecificContentSettings::WebContentsHandler::
+    NotifySiteDataObservers() {
   for (SiteDataObserver& observer : observer_list_)
     observer.OnSiteDataAccessed();
 }
 
-TabSpecificContentSettings::WebContentsHandler::
+PageSpecificContentSettings::WebContentsHandler::
     InflightNavigationContentSettings::InflightNavigationContentSettings() =
         default;
-TabSpecificContentSettings::WebContentsHandler::
+PageSpecificContentSettings::WebContentsHandler::
     InflightNavigationContentSettings::InflightNavigationContentSettings(
         const InflightNavigationContentSettings&) = default;
-TabSpecificContentSettings::WebContentsHandler::
+PageSpecificContentSettings::WebContentsHandler::
     InflightNavigationContentSettings::InflightNavigationContentSettings(
         InflightNavigationContentSettings&&) = default;
 
-TabSpecificContentSettings::WebContentsHandler::
+PageSpecificContentSettings::WebContentsHandler::
     InflightNavigationContentSettings::~InflightNavigationContentSettings() =
         default;
 
-TabSpecificContentSettings::WebContentsHandler::
+PageSpecificContentSettings::WebContentsHandler::
     InflightNavigationContentSettings&
-    TabSpecificContentSettings::WebContentsHandler::
+    PageSpecificContentSettings::WebContentsHandler::
         InflightNavigationContentSettings::operator=(
             InflightNavigationContentSettings&&) = default;
 
-WEB_CONTENTS_USER_DATA_KEY_IMPL(TabSpecificContentSettings::WebContentsHandler)
+WEB_CONTENTS_USER_DATA_KEY_IMPL(PageSpecificContentSettings::WebContentsHandler)
 
-TabSpecificContentSettings::TabSpecificContentSettings(
-    TabSpecificContentSettings::WebContentsHandler& handler,
+PageSpecificContentSettings::PageSpecificContentSettings(
+    PageSpecificContentSettings::WebContentsHandler& handler,
     Delegate* delegate)
     : handler_(handler),
       main_frame_(handler_.web_contents()->GetMainFrame()),
@@ -357,30 +359,30 @@ TabSpecificContentSettings::TabSpecificContentSettings(
   observer_.Add(map_);
 }
 
-TabSpecificContentSettings::~TabSpecificContentSettings() = default;
+PageSpecificContentSettings::~PageSpecificContentSettings() = default;
 
 // static
-void TabSpecificContentSettings::CreateForWebContents(
+void PageSpecificContentSettings::CreateForWebContents(
     content::WebContents* web_contents,
     std::unique_ptr<Delegate> delegate) {
-  TabSpecificContentSettings::WebContentsHandler::CreateForWebContents(
+  PageSpecificContentSettings::WebContentsHandler::CreateForWebContents(
       web_contents, std::move(delegate));
 }
 
 // static
-void TabSpecificContentSettings::DeleteForWebContentsForTest(
+void PageSpecificContentSettings::DeleteForWebContentsForTest(
     content::WebContents* web_contents) {
   if (web_contents->GetMainFrame()) {
-    TabSpecificContentSettings::DeleteForCurrentDocument(
+    PageSpecificContentSettings::DeleteForCurrentDocument(
         web_contents->GetMainFrame());
   }
 
   web_contents->RemoveUserData(
-      TabSpecificContentSettings::WebContentsHandler::UserDataKey());
+      PageSpecificContentSettings::WebContentsHandler::UserDataKey());
 }
 
 // static
-TabSpecificContentSettings* TabSpecificContentSettings::GetForFrame(
+PageSpecificContentSettings* PageSpecificContentSettings::GetForFrame(
     int render_process_id,
     int render_frame_id) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -389,74 +391,74 @@ TabSpecificContentSettings* TabSpecificContentSettings::GetForFrame(
 }
 
 // static
-TabSpecificContentSettings* TabSpecificContentSettings::GetForFrame(
+PageSpecificContentSettings* PageSpecificContentSettings::GetForFrame(
     content::RenderFrameHost* rfh) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  return rfh ? TabSpecificContentSettings::GetForCurrentDocument(
+  return rfh ? PageSpecificContentSettings::GetForCurrentDocument(
                    rfh->GetMainFrame())
              : nullptr;
 }
 
 // static
-TabSpecificContentSettings::Delegate*
-TabSpecificContentSettings::GetDelegateForWebContents(
+PageSpecificContentSettings::Delegate*
+PageSpecificContentSettings::GetDelegateForWebContents(
     content::WebContents* web_contents) {
   auto* handler =
-      TabSpecificContentSettings::WebContentsHandler::FromWebContents(
+      PageSpecificContentSettings::WebContentsHandler::FromWebContents(
           web_contents);
   return handler ? handler->delegate() : nullptr;
 }
 
 // static
-void TabSpecificContentSettings::WebDatabaseAccessed(int render_process_id,
-                                                     int render_frame_id,
-                                                     const GURL& url,
-                                                     bool blocked_by_policy) {
+void PageSpecificContentSettings::WebDatabaseAccessed(int render_process_id,
+                                                      int render_frame_id,
+                                                      const GURL& url,
+                                                      bool blocked_by_policy) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  TabSpecificContentSettings* settings =
+  PageSpecificContentSettings* settings =
       GetForFrame(render_process_id, render_frame_id);
   if (settings)
     settings->OnWebDatabaseAccessed(url, blocked_by_policy);
 }
 
 // static
-void TabSpecificContentSettings::IndexedDBAccessed(int render_process_id,
-                                                   int render_frame_id,
-                                                   const GURL& url,
-                                                   bool blocked_by_policy) {
+void PageSpecificContentSettings::IndexedDBAccessed(int render_process_id,
+                                                    int render_frame_id,
+                                                    const GURL& url,
+                                                    bool blocked_by_policy) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  TabSpecificContentSettings* settings =
+  PageSpecificContentSettings* settings =
       GetForFrame(render_process_id, render_frame_id);
   if (settings)
     settings->OnIndexedDBAccessed(url, blocked_by_policy);
 }
 
 // static
-void TabSpecificContentSettings::CacheStorageAccessed(int render_process_id,
-                                                      int render_frame_id,
-                                                      const GURL& url,
-                                                      bool blocked_by_policy) {
+void PageSpecificContentSettings::CacheStorageAccessed(int render_process_id,
+                                                       int render_frame_id,
+                                                       const GURL& url,
+                                                       bool blocked_by_policy) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  TabSpecificContentSettings* settings =
+  PageSpecificContentSettings* settings =
       GetForFrame(render_process_id, render_frame_id);
   if (settings)
     settings->OnCacheStorageAccessed(url, blocked_by_policy);
 }
 
 // static
-void TabSpecificContentSettings::FileSystemAccessed(int render_process_id,
-                                                    int render_frame_id,
-                                                    const GURL& url,
-                                                    bool blocked_by_policy) {
+void PageSpecificContentSettings::FileSystemAccessed(int render_process_id,
+                                                     int render_frame_id,
+                                                     const GURL& url,
+                                                     bool blocked_by_policy) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  TabSpecificContentSettings* settings =
+  PageSpecificContentSettings* settings =
       GetForFrame(render_process_id, render_frame_id);
   if (settings)
     settings->OnFileSystemAccessed(url, blocked_by_policy);
 }
 
 // static
-void TabSpecificContentSettings::SharedWorkerAccessed(
+void PageSpecificContentSettings::SharedWorkerAccessed(
     int render_process_id,
     int render_frame_id,
     const GURL& worker_url,
@@ -464,7 +466,7 @@ void TabSpecificContentSettings::SharedWorkerAccessed(
     const url::Origin& constructor_origin,
     bool blocked_by_policy) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
-  TabSpecificContentSettings* settings =
+  PageSpecificContentSettings* settings =
       GetForFrame(render_process_id, render_frame_id);
   if (settings)
     settings->OnSharedWorkerAccessed(worker_url, name, constructor_origin,
@@ -473,13 +475,13 @@ void TabSpecificContentSettings::SharedWorkerAccessed(
 
 // static
 content::WebContentsObserver*
-TabSpecificContentSettings::GetWebContentsObserverForTest(
+PageSpecificContentSettings::GetWebContentsObserverForTest(
     content::WebContents* web_contents) {
-  return TabSpecificContentSettings::WebContentsHandler::FromWebContents(
+  return PageSpecificContentSettings::WebContentsHandler::FromWebContents(
       web_contents);
 }
 
-bool TabSpecificContentSettings::IsContentBlocked(
+bool PageSpecificContentSettings::IsContentBlocked(
     ContentSettingsType content_type) const {
   DCHECK_NE(ContentSettingsType::GEOLOCATION, content_type)
       << "Geolocation settings handled by ContentSettingGeolocationImageModel";
@@ -511,7 +513,7 @@ bool TabSpecificContentSettings::IsContentBlocked(
   return false;
 }
 
-bool TabSpecificContentSettings::IsContentAllowed(
+bool PageSpecificContentSettings::IsContentAllowed(
     ContentSettingsType content_type) const {
   DCHECK_NE(ContentSettingsType::AUTOMATIC_DOWNLOADS, content_type)
       << "Automatic downloads handled by DownloadRequestLimiter";
@@ -535,7 +537,7 @@ bool TabSpecificContentSettings::IsContentAllowed(
   return false;
 }
 
-void TabSpecificContentSettings::OnContentBlocked(ContentSettingsType type) {
+void PageSpecificContentSettings::OnContentBlocked(ContentSettingsType type) {
   DCHECK(type != ContentSettingsType::GEOLOCATION)
       << "Geolocation settings handled by OnGeolocationPermissionSet";
   DCHECK(type != ContentSettingsType::MEDIASTREAM_MIC &&
@@ -553,7 +555,7 @@ void TabSpecificContentSettings::OnContentBlocked(ContentSettingsType type) {
   }
 }
 
-void TabSpecificContentSettings::OnContentAllowed(ContentSettingsType type) {
+void PageSpecificContentSettings::OnContentAllowed(ContentSettingsType type) {
   DCHECK(type != ContentSettingsType::GEOLOCATION)
       << "Geolocation settings handled by OnGeolocationPermissionSet";
   DCHECK(type != ContentSettingsType::MEDIASTREAM_MIC &&
@@ -597,9 +599,9 @@ void TabSpecificContentSettings::OnContentAllowed(ContentSettingsType type) {
     delegate_->UpdateLocationBar();
 }
 
-void TabSpecificContentSettings::OnDomStorageAccessed(const GURL& url,
-                                                      bool local,
-                                                      bool blocked_by_policy) {
+void PageSpecificContentSettings::OnDomStorageAccessed(const GURL& url,
+                                                       bool local,
+                                                       bool blocked_by_policy) {
   browsing_data::LocalSharedObjectsContainer& container =
       blocked_by_policy ? blocked_local_shared_objects_
                         : allowed_local_shared_objects_;
@@ -615,7 +617,7 @@ void TabSpecificContentSettings::OnDomStorageAccessed(const GURL& url,
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnCookiesAccessed(
+void PageSpecificContentSettings::OnCookiesAccessed(
     const content::CookieAccessDetails& details) {
   if (details.cookie_list.empty())
     return;
@@ -631,8 +633,8 @@ void TabSpecificContentSettings::OnCookiesAccessed(
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnIndexedDBAccessed(const GURL& url,
-                                                     bool blocked_by_policy) {
+void PageSpecificContentSettings::OnIndexedDBAccessed(const GURL& url,
+                                                      bool blocked_by_policy) {
   if (blocked_by_policy) {
     blocked_local_shared_objects_.indexed_dbs()->Add(url::Origin::Create(url));
     OnContentBlocked(ContentSettingsType::COOKIES);
@@ -644,7 +646,7 @@ void TabSpecificContentSettings::OnIndexedDBAccessed(const GURL& url,
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnCacheStorageAccessed(
+void PageSpecificContentSettings::OnCacheStorageAccessed(
     const GURL& url,
     bool blocked_by_policy) {
   if (blocked_by_policy) {
@@ -660,7 +662,7 @@ void TabSpecificContentSettings::OnCacheStorageAccessed(
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnServiceWorkerAccessed(
+void PageSpecificContentSettings::OnServiceWorkerAccessed(
     const GURL& scope,
     content::AllowServiceWorkerResult allowed) {
   DCHECK(scope.is_valid());
@@ -684,7 +686,7 @@ void TabSpecificContentSettings::OnServiceWorkerAccessed(
   }
 }
 
-void TabSpecificContentSettings::OnSharedWorkerAccessed(
+void PageSpecificContentSettings::OnSharedWorkerAccessed(
     const GURL& worker_url,
     const std::string& name,
     const url::Origin& constructor_origin,
@@ -701,8 +703,9 @@ void TabSpecificContentSettings::OnSharedWorkerAccessed(
   }
 }
 
-void TabSpecificContentSettings::OnWebDatabaseAccessed(const GURL& url,
-                                                       bool blocked_by_policy) {
+void PageSpecificContentSettings::OnWebDatabaseAccessed(
+    const GURL& url,
+    bool blocked_by_policy) {
   if (blocked_by_policy) {
     blocked_local_shared_objects_.databases()->Add(url::Origin::Create(url));
     OnContentBlocked(ContentSettingsType::COOKIES);
@@ -714,8 +717,8 @@ void TabSpecificContentSettings::OnWebDatabaseAccessed(const GURL& url,
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnFileSystemAccessed(const GURL& url,
-                                                      bool blocked_by_policy) {
+void PageSpecificContentSettings::OnFileSystemAccessed(const GURL& url,
+                                                       bool blocked_by_policy) {
   // Note that all sandboxed file system access is recorded here as
   // kTemporary; the distinction between temporary (default) and persistent
   // storage is not made in the UI that presents this data.
@@ -730,7 +733,7 @@ void TabSpecificContentSettings::OnFileSystemAccessed(const GURL& url,
   handler_.NotifySiteDataObservers();
 }
 
-void TabSpecificContentSettings::OnGeolocationPermissionSet(
+void PageSpecificContentSettings::OnGeolocationPermissionSet(
     const GURL& requesting_origin,
     bool allowed) {
   geolocation_usages_state_->OnPermissionSet(requesting_origin, allowed);
@@ -738,7 +741,7 @@ void TabSpecificContentSettings::OnGeolocationPermissionSet(
 }
 
 #if defined(OS_ANDROID) || defined(OS_CHROMEOS)
-void TabSpecificContentSettings::OnProtectedMediaIdentifierPermissionSet(
+void PageSpecificContentSettings::OnProtectedMediaIdentifierPermissionSet(
     const GURL& requesting_origin,
     bool allowed) {
   if (allowed) {
@@ -749,12 +752,12 @@ void TabSpecificContentSettings::OnProtectedMediaIdentifierPermissionSet(
 }
 #endif
 
-TabSpecificContentSettings::MicrophoneCameraState
-TabSpecificContentSettings::GetMicrophoneCameraState() const {
+PageSpecificContentSettings::MicrophoneCameraState
+PageSpecificContentSettings::GetMicrophoneCameraState() const {
   return microphone_camera_state_ | delegate_->GetMicrophoneCameraState();
 }
 
-bool TabSpecificContentSettings::IsMicrophoneCameraStateChanged() const {
+bool PageSpecificContentSettings::IsMicrophoneCameraStateChanged() const {
   if ((microphone_camera_state_ & MICROPHONE_ACCESSED) &&
       ((microphone_camera_state_ & MICROPHONE_BLOCKED)
            ? !IsContentBlocked(ContentSettingsType::MEDIASTREAM_MIC)
@@ -772,7 +775,7 @@ bool TabSpecificContentSettings::IsMicrophoneCameraStateChanged() const {
       media_stream_selected_video_device());
 }
 
-void TabSpecificContentSettings::OnMediaStreamPermissionSet(
+void PageSpecificContentSettings::OnMediaStreamPermissionSet(
     const GURL& request_origin,
     MicrophoneCameraState new_microphone_camera_state,
     const std::string& media_stream_selected_audio_device,
@@ -807,34 +810,34 @@ void TabSpecificContentSettings::OnMediaStreamPermissionSet(
   }
 }
 
-void TabSpecificContentSettings::OnMidiSysExAccessed(
+void PageSpecificContentSettings::OnMidiSysExAccessed(
     const GURL& requesting_origin) {
   midi_usages_state_->OnPermissionSet(requesting_origin, true);
   OnContentAllowed(ContentSettingsType::MIDI_SYSEX);
 }
 
-void TabSpecificContentSettings::OnMidiSysExAccessBlocked(
+void PageSpecificContentSettings::OnMidiSysExAccessBlocked(
     const GURL& requesting_origin) {
   midi_usages_state_->OnPermissionSet(requesting_origin, false);
   OnContentBlocked(ContentSettingsType::MIDI_SYSEX);
 }
 
-void TabSpecificContentSettings::FlashDownloadBlocked() {
+void PageSpecificContentSettings::FlashDownloadBlocked() {
   OnContentBlocked(ContentSettingsType::PLUGINS);
 }
 
-void TabSpecificContentSettings::ClearPopupsBlocked() {
+void PageSpecificContentSettings::ClearPopupsBlocked() {
   ContentSettingsStatus& status =
       content_settings_status_[ContentSettingsType::POPUPS];
   status.blocked = false;
   delegate_->UpdateLocationBar();
 }
 
-void TabSpecificContentSettings::OnAudioBlocked() {
+void PageSpecificContentSettings::OnAudioBlocked() {
   OnContentBlocked(ContentSettingsType::SOUND);
 }
 
-void TabSpecificContentSettings::SetPepperBrokerAllowed(bool allowed) {
+void PageSpecificContentSettings::SetPepperBrokerAllowed(bool allowed) {
   if (allowed) {
     OnContentAllowed(ContentSettingsType::PPAPI_BROKER);
   } else {
@@ -842,7 +845,7 @@ void TabSpecificContentSettings::SetPepperBrokerAllowed(bool allowed) {
   }
 }
 
-void TabSpecificContentSettings::OnContentSettingChanged(
+void PageSpecificContentSettings::OnContentSettingChanged(
     const ContentSettingsPattern& primary_pattern,
     const ContentSettingsPattern& secondary_pattern,
     ContentSettingsType content_type,
@@ -915,8 +918,8 @@ void TabSpecificContentSettings::OnContentSettingChanged(
   MaybeSendRendererContentSettingsRules(main_frame_, map_, delegate_);
 }
 
-void TabSpecificContentSettings::AppCacheAccessed(const GURL& manifest_url,
-                                                  bool blocked_by_policy) {
+void PageSpecificContentSettings::AppCacheAccessed(const GURL& manifest_url,
+                                                   bool blocked_by_policy) {
   if (blocked_by_policy) {
     blocked_local_shared_objects_.appcaches()->Add(
         url::Origin::Create(manifest_url));
@@ -928,11 +931,11 @@ void TabSpecificContentSettings::AppCacheAccessed(const GURL& manifest_url,
   }
 }
 
-void TabSpecificContentSettings::ClearContentSettingsChangedViaPageInfo() {
+void PageSpecificContentSettings::ClearContentSettingsChangedViaPageInfo() {
   content_settings_changed_via_page_info_.clear();
 }
 
-void TabSpecificContentSettings::BlockAllContentForTesting() {
+void PageSpecificContentSettings::BlockAllContentForTesting() {
   content_settings::ContentSettingsRegistry* registry =
       content_settings::ContentSettingsRegistry::GetInstance();
   for (const content_settings::ContentSettingsInfo* info : *registry) {
@@ -945,30 +948,30 @@ void TabSpecificContentSettings::BlockAllContentForTesting() {
   }
 
   // Geolocation and media must be blocked separately, as the generic
-  // TabSpecificContentSettings::OnContentBlocked does not apply to them.
+  // PageSpecificContentSettings::OnContentBlocked does not apply to them.
   OnGeolocationPermissionSet(main_frame_->GetLastCommittedURL(), false);
   MicrophoneCameraStateFlags media_blocked =
       static_cast<MicrophoneCameraStateFlags>(
-          TabSpecificContentSettings::MICROPHONE_ACCESSED |
-          TabSpecificContentSettings::MICROPHONE_BLOCKED |
-          TabSpecificContentSettings::CAMERA_ACCESSED |
-          TabSpecificContentSettings::CAMERA_BLOCKED);
+          PageSpecificContentSettings::MICROPHONE_ACCESSED |
+          PageSpecificContentSettings::MICROPHONE_BLOCKED |
+          PageSpecificContentSettings::CAMERA_ACCESSED |
+          PageSpecificContentSettings::CAMERA_BLOCKED);
   OnMediaStreamPermissionSet(main_frame_->GetLastCommittedURL(), media_blocked,
                              std::string(), std::string(), std::string(),
                              std::string());
 }
 
-void TabSpecificContentSettings::ContentSettingChangedViaPageInfo(
+void PageSpecificContentSettings::ContentSettingChangedViaPageInfo(
     ContentSettingsType type) {
   content_settings_changed_via_page_info_.insert(type);
 }
 
-bool TabSpecificContentSettings::HasContentSettingChangedViaPageInfo(
+bool PageSpecificContentSettings::HasContentSettingChangedViaPageInfo(
     ContentSettingsType type) const {
   return content_settings_changed_via_page_info_.find(type) !=
          content_settings_changed_via_page_info_.end();
 }
 
-RENDER_DOCUMENT_HOST_USER_DATA_KEY_IMPL(TabSpecificContentSettings)
+RENDER_DOCUMENT_HOST_USER_DATA_KEY_IMPL(PageSpecificContentSettings)
 
 }  // namespace content_settings

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_CONTENT_SETTINGS_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_H_
-#define COMPONENTS_CONTENT_SETTINGS_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_H_
+#ifndef COMPONENTS_CONTENT_SETTINGS_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_H_
+#define COMPONENTS_CONTENT_SETTINGS_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_H_
 
 #include <stdint.h>
 
@@ -42,7 +42,7 @@ class ContentSettingsUsagesState;
 
 namespace content_settings {
 
-// TODO(msramek): Media is storing their state in TabSpecificContentSettings:
+// TODO(msramek): Media is storing their state in PageSpecificContentSettings:
 // |microphone_camera_state_| without being tied to a single content setting.
 // This state is not ideal, potential solution is to save this information via
 // content::WebContentsUserData
@@ -59,17 +59,15 @@ namespace content_settings {
 // keep references to objects of this class.
 //
 // When a page enters the back-forward cache its associated
-// TabSpecificContentSettings are not cleared and will be restored along with
+// PageSpecificContentSettings are not cleared and will be restored along with
 // the document when navigating back. These stored instances still listen to
 // content settings updates and keep their internal state up to date.
 //
 // Events tied to a main frame navigation will be associated with the newly
 // loaded page once the navigation commits or discarded if it does not.
-//
-// TODO(carlscab): Rename this class to PageSpecificContentSettings
-class TabSpecificContentSettings
+class PageSpecificContentSettings
     : public content_settings::Observer,
-      public content::RenderDocumentHostUserData<TabSpecificContentSettings> {
+      public content::RenderDocumentHostUserData<PageSpecificContentSettings> {
  public:
   // Fields describing the current mic/camera state. If a page has attempted to
   // access a device, the XXX_ACCESSED bit will be set. If access was blocked,
@@ -138,7 +136,7 @@ class TabSpecificContentSettings
 
   // Classes that want to be notified about site data events must implement
   // this abstract class and add themselves as observer to the
-  // |TabSpecificContentSettings|.
+  // |PageSpecificContentSettings|.
   class SiteDataObserver {
    public:
     explicit SiteDataObserver(content::WebContents* web_contents);
@@ -159,26 +157,27 @@ class TabSpecificContentSettings
     DISALLOW_COPY_AND_ASSIGN(SiteDataObserver);
   };
 
-  ~TabSpecificContentSettings() override;
+  ~PageSpecificContentSettings() override;
 
   static void CreateForWebContents(content::WebContents* web_contents,
                                    std::unique_ptr<Delegate> delegate);
   static void DeleteForWebContentsForTest(content::WebContents* web_contents);
 
   // Returns the object given a RenderFrameHost ids. Returns nullptr if the
-  // frame no longer exist or there are no TabSpecificContentSettings attached
+  // frame no longer exist or there are no PageSpecificContentSettings attached
   // to the document.
-  static TabSpecificContentSettings* GetForFrame(int render_process_id,
-                                                 int render_frame_id);
+  static PageSpecificContentSettings* GetForFrame(int render_process_id,
+                                                  int render_frame_id);
   // Returns the object given a RenderFrameHost. Returns nullptr if the frame
-  // is nullptr or there are no TabSpecificContentSettings attached to the
+  // is nullptr or there are no PageSpecificContentSettings attached to the
   // document.
-  static TabSpecificContentSettings* GetForFrame(content::RenderFrameHost* rfh);
+  static PageSpecificContentSettings* GetForFrame(
+      content::RenderFrameHost* rfh);
 
   // Returns the Delegate that was associated to |web_contents| in
   // CreateForWebContents. Null if CreateForWebContents was not called for
   // |web_contents|.
-  static TabSpecificContentSettings::Delegate* GetDelegateForWebContents(
+  static PageSpecificContentSettings::Delegate* GetDelegateForWebContents(
       content::WebContents* web_contents);
 
   // Called when a specific Web database in the current page was accessed. If
@@ -228,10 +227,10 @@ class TabSpecificContentSettings
   static content::WebContentsObserver* GetWebContentsObserverForTest(
       content::WebContents* web_contents);
 
-  // Returns a WeakPtr to this instance. Given that TabSpecificContentSettings
+  // Returns a WeakPtr to this instance. Given that PageSpecificContentSettings
   // instances are tied to a page it is generally unsafe to store these
   // references, instead a WeakPtr should be used instead.
-  base::WeakPtr<TabSpecificContentSettings> AsWeakPtr() {
+  base::WeakPtr<PageSpecificContentSettings> AsWeakPtr() {
     return weak_factory_.GetWeakPtr();
   }
 
@@ -379,10 +378,10 @@ class TabSpecificContentSettings
   bool HasContentSettingChangedViaPageInfo(ContentSettingsType type) const;
 
  private:
-  friend class content::RenderDocumentHostUserData<TabSpecificContentSettings>;
+  friend class content::RenderDocumentHostUserData<PageSpecificContentSettings>;
 
   // This class attaches to WebContents to listen to events and route them to
-  // appropriate TabSpecificContentSettings, store navigation related events
+  // appropriate PageSpecificContentSettings, store navigation related events
   // until the navigation finishes and then transferring the
   // navigation-associated state to the newly-created page.
   class WebContentsHandler
@@ -488,8 +487,8 @@ class TabSpecificContentSettings
     WEB_CONTENTS_USER_DATA_KEY_DECL();
   };
 
-  explicit TabSpecificContentSettings(
-      TabSpecificContentSettings::WebContentsHandler& handler,
+  explicit PageSpecificContentSettings(
+      PageSpecificContentSettings::WebContentsHandler& handler,
       Delegate* delegate);
 
   void AppCacheAccessed(const GURL& manifest_url, bool blocked_by_policy);
@@ -564,11 +563,11 @@ class TabSpecificContentSettings
 
   RENDER_DOCUMENT_HOST_USER_DATA_KEY_DECL();
 
-  base::WeakPtrFactory<TabSpecificContentSettings> weak_factory_{this};
+  base::WeakPtrFactory<PageSpecificContentSettings> weak_factory_{this};
 
-  DISALLOW_COPY_AND_ASSIGN(TabSpecificContentSettings);
+  DISALLOW_COPY_AND_ASSIGN(PageSpecificContentSettings);
 };
 
 }  // namespace content_settings
 
-#endif  // COMPONENTS_CONTENT_SETTINGS_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_H_
+#endif  // COMPONENTS_CONTENT_SETTINGS_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_H_

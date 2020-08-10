@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 
 #include "base/macros.h"
 #include "base/optional.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
-#include "components/content_settings/browser/test_tab_specific_content_settings_delegate.h"
+#include "components/content_settings/browser/test_page_specific_content_settings_delegate.h"
 #include "components/content_settings/core/browser/host_content_settings_map.h"
 #include "components/security_state/core/security_state.h"
 #include "components/sync_preferences/testing_pref_service_syncable.h"
@@ -26,7 +26,7 @@ namespace content_settings {
 namespace {
 
 class MockSiteDataObserver
-    : public TabSpecificContentSettings::SiteDataObserver {
+    : public PageSpecificContentSettings::SiteDataObserver {
  public:
   explicit MockSiteDataObserver(content::WebContents* web_contents)
       : SiteDataObserver(web_contents) {}
@@ -41,7 +41,7 @@ class MockSiteDataObserver
 
 }  // namespace
 
-class TabSpecificContentSettingsTest
+class PageSpecificContentSettingsTest
     : public content::RenderViewHostTestHarness {
  public:
   void SetUp() override {
@@ -49,9 +49,9 @@ class TabSpecificContentSettingsTest
     HostContentSettingsMap::RegisterProfilePrefs(prefs_.registry());
     settings_map_ = base::MakeRefCounted<HostContentSettingsMap>(
         &prefs_, false, false, false, false);
-    TabSpecificContentSettings::CreateForWebContents(
+    PageSpecificContentSettings::CreateForWebContents(
         web_contents(),
-        std::make_unique<TestTabSpecificContentSettingsDelegate>(
+        std::make_unique<TestPageSpecificContentSettingsDelegate>(
             &prefs_, settings_map_.get()));
   }
 
@@ -63,7 +63,7 @@ class TabSpecificContentSettingsTest
   HostContentSettingsMap* settings_map() { return settings_map_.get(); }
 
   content::WebContentsObserver* GetHandle() {
-    return TabSpecificContentSettings::GetWebContentsObserverForTest(
+    return PageSpecificContentSettings::GetWebContentsObserverForTest(
         web_contents());
   }
 
@@ -72,10 +72,10 @@ class TabSpecificContentSettingsTest
   scoped_refptr<HostContentSettingsMap> settings_map_;
 };
 
-TEST_F(TabSpecificContentSettingsTest, BlockedContent) {
+TEST_F(PageSpecificContentSettingsTest, BlockedContent) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   // Check that after initializing, nothing is blocked.
 #if !defined(OS_ANDROID)
@@ -107,17 +107,17 @@ TEST_F(TabSpecificContentSettingsTest, BlockedContent) {
                                   {*cookie1},
                                   false});
   content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 #if !defined(OS_ANDROID)
   content_settings->OnContentBlocked(ContentSettingsType::IMAGES);
 #endif
   content_settings->OnContentBlocked(ContentSettingsType::POPUPS);
-  TabSpecificContentSettings::MicrophoneCameraState
+  PageSpecificContentSettings::MicrophoneCameraState
       blocked_microphone_camera_state =
-          TabSpecificContentSettings::MICROPHONE_ACCESSED |
-          TabSpecificContentSettings::MICROPHONE_BLOCKED |
-          TabSpecificContentSettings::CAMERA_ACCESSED |
-          TabSpecificContentSettings::CAMERA_BLOCKED;
+          PageSpecificContentSettings::MICROPHONE_ACCESSED |
+          PageSpecificContentSettings::MICROPHONE_BLOCKED |
+          PageSpecificContentSettings::CAMERA_ACCESSED |
+          PageSpecificContentSettings::CAMERA_BLOCKED;
   content_settings->OnMediaStreamPermissionSet(
       GURL("http://google.com"), blocked_microphone_camera_state, std::string(),
       std::string(), std::string(), std::string());
@@ -168,12 +168,12 @@ TEST_F(TabSpecificContentSettingsTest, BlockedContent) {
       simulator->GetNavigationHandle(), GURL("http://google.com"),
       content::AllowServiceWorkerResult::FromPolicy(true, false));
   content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
   EXPECT_FALSE(
       content_settings->IsContentBlocked(ContentSettingsType::JAVASCRIPT));
   simulator->Commit();
   content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   // Block a javascript when page starts to start ServiceWorker.
   GetHandle()->OnServiceWorkerAccessed(
@@ -185,7 +185,7 @@ TEST_F(TabSpecificContentSettingsTest, BlockedContent) {
   // Reset blocked content settings.
   NavigateAndCommit(GURL("http://google.com"));
   content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 #if !defined(OS_ANDROID)
   EXPECT_FALSE(content_settings->IsContentBlocked(ContentSettingsType::IMAGES));
   EXPECT_FALSE(
@@ -202,10 +202,10 @@ TEST_F(TabSpecificContentSettingsTest, BlockedContent) {
       ContentSettingsType::MEDIASTREAM_CAMERA));
 }
 
-TEST_F(TabSpecificContentSettingsTest, BlockedFileSystems) {
+TEST_F(PageSpecificContentSettingsTest, BlockedFileSystems) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   // Access a file system.
   content_settings->OnFileSystemAccessed(GURL("http://google.com"), false);
@@ -217,10 +217,10 @@ TEST_F(TabSpecificContentSettingsTest, BlockedFileSystems) {
   EXPECT_TRUE(content_settings->IsContentBlocked(ContentSettingsType::COOKIES));
 }
 
-TEST_F(TabSpecificContentSettingsTest, AllowedContent) {
+TEST_F(PageSpecificContentSettingsTest, AllowedContent) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   // Test default settings.
   ASSERT_FALSE(content_settings->IsContentAllowed(ContentSettingsType::IMAGES));
@@ -262,10 +262,10 @@ TEST_F(TabSpecificContentSettingsTest, AllowedContent) {
   ASSERT_TRUE(content_settings->IsContentBlocked(ContentSettingsType::COOKIES));
 }
 
-TEST_F(TabSpecificContentSettingsTest, EmptyCookieList) {
+TEST_F(PageSpecificContentSettingsTest, EmptyCookieList) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   ASSERT_FALSE(
       content_settings->IsContentAllowed(ContentSettingsType::COOKIES));
@@ -281,10 +281,10 @@ TEST_F(TabSpecificContentSettingsTest, EmptyCookieList) {
       content_settings->IsContentBlocked(ContentSettingsType::COOKIES));
 }
 
-TEST_F(TabSpecificContentSettingsTest, SiteDataObserver) {
+TEST_F(PageSpecificContentSettingsTest, SiteDataObserver) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
   MockSiteDataObserver mock_observer(web_contents());
   EXPECT_CALL(mock_observer, OnSiteDataAccessed()).Times(6);
 
@@ -322,10 +322,10 @@ TEST_F(TabSpecificContentSettingsTest, SiteDataObserver) {
                                           blocked_by_policy);
 }
 
-TEST_F(TabSpecificContentSettingsTest, LocalSharedObjectsContainer) {
+TEST_F(PageSpecificContentSettingsTest, LocalSharedObjectsContainer) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
   bool blocked_by_policy = false;
   auto cookie = net::CanonicalCookie::Create(GURL("http://google.com"), "k=v",
                                              base::Time::Now(),
@@ -359,10 +359,10 @@ TEST_F(TabSpecificContentSettingsTest, LocalSharedObjectsContainer) {
   EXPECT_EQ(4u, objects.GetDomainCount());
 }
 
-TEST_F(TabSpecificContentSettingsTest, LocalSharedObjectsContainerCookie) {
+TEST_F(PageSpecificContentSettingsTest, LocalSharedObjectsContainerCookie) {
   NavigateAndCommit(GURL("http://google.com"));
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
   bool blocked_by_policy = false;
   auto cookie1 = net::CanonicalCookie::Create(GURL("http://google.com"), "k1=v",
                                               base::Time::Now(),
@@ -399,11 +399,12 @@ TEST_F(TabSpecificContentSettingsTest, LocalSharedObjectsContainerCookie) {
   EXPECT_EQ(1u, objects.GetDomainCount());
 }
 
-TEST_F(TabSpecificContentSettingsTest, IndicatorChangedOnContentSettingChange) {
+TEST_F(PageSpecificContentSettingsTest,
+       IndicatorChangedOnContentSettingChange) {
   NavigateAndCommit(GURL("http://google.com"));
 
-  TabSpecificContentSettings* content_settings =
-      TabSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
+  PageSpecificContentSettings* content_settings =
+      PageSpecificContentSettings::GetForFrame(web_contents()->GetMainFrame());
 
   // First trigger OnContentBlocked.
   EXPECT_FALSE(content_settings->IsContentBlocked(

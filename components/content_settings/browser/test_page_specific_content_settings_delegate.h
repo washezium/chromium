@@ -2,22 +2,22 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
-#define COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#ifndef COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#define COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
 
 #include "base/memory/scoped_refptr.h"
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 
 namespace content_settings {
 
-class TestTabSpecificContentSettingsDelegate
-    : public TabSpecificContentSettings::Delegate {
+class TestPageSpecificContentSettingsDelegate
+    : public PageSpecificContentSettings::Delegate {
  public:
-  TestTabSpecificContentSettingsDelegate(PrefService* prefs,
-                                         HostContentSettingsMap* settings_map);
-  ~TestTabSpecificContentSettingsDelegate() override;
+  TestPageSpecificContentSettingsDelegate(PrefService* prefs,
+                                          HostContentSettingsMap* settings_map);
+  ~TestPageSpecificContentSettingsDelegate() override;
 
-  // TabSpecificContentSettings::Delegate:
+  // PageSpecificContentSettings::Delegate:
   void UpdateLocationBar() override;
   void SetContentSettingRules(
       content::RenderProcessHost* process,
@@ -30,10 +30,11 @@ class TestTabSpecificContentSettingsDelegate
   browsing_data::CookieHelper::IsDeletionDisabledCallback
   GetIsDeletionDisabledCallback() override;
   bool IsMicrophoneCameraStateChanged(
-      TabSpecificContentSettings::MicrophoneCameraState microphone_camera_state,
+      PageSpecificContentSettings::MicrophoneCameraState
+          microphone_camera_state,
       const std::string& media_stream_selected_audio_device,
       const std::string& media_stream_selected_video_device) override;
-  TabSpecificContentSettings::MicrophoneCameraState GetMicrophoneCameraState()
+  PageSpecificContentSettings::MicrophoneCameraState GetMicrophoneCameraState()
       override;
   void OnContentBlocked(ContentSettingsType type) override;
   void OnCookieAccessAllowed(const net::CookieList& accessed_cookies) override;
@@ -45,4 +46,4 @@ class TestTabSpecificContentSettingsDelegate
 
 }  // namespace content_settings
 
-#endif  // COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#endif  // COMPONENTS_CONTENT_SETTINGS_BROWSER_TEST_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_

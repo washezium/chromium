@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/content_settings/tab_specific_content_settings_delegate.h"
+#include "chrome/browser/content_settings/page_specific_content_settings_delegate.h"
 
 #include "build/build_config.h"
 #include "chrome/browser/browsing_data/browsing_data_file_system_util.h"
@@ -17,7 +17,7 @@
 #include "chrome/common/pref_names.h"
 #include "chrome/common/render_messages.h"
 #include "chrome/common/renderer_configuration.mojom.h"
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 #include "components/permissions/permission_decision_auto_blocker.h"
 #include "components/prefs/pref_service.h"
 #include "content/public/browser/navigation_handle.h"
@@ -28,30 +28,30 @@
 #include "chrome/browser/browsing_data/access_context_audit_service_factory.h"
 #endif  // !defined(OS_ANDROID)
 
-using content_settings::TabSpecificContentSettings;
+using content_settings::PageSpecificContentSettings;
 
 namespace chrome {
 
-TabSpecificContentSettingsDelegate::TabSpecificContentSettingsDelegate(
+PageSpecificContentSettingsDelegate::PageSpecificContentSettingsDelegate(
     content::WebContents* web_contents)
     : WebContentsObserver(web_contents) {}
 
-TabSpecificContentSettingsDelegate::~TabSpecificContentSettingsDelegate() =
+PageSpecificContentSettingsDelegate::~PageSpecificContentSettingsDelegate() =
     default;
 
 // static
-TabSpecificContentSettingsDelegate*
-TabSpecificContentSettingsDelegate::FromWebContents(
+PageSpecificContentSettingsDelegate*
+PageSpecificContentSettingsDelegate::FromWebContents(
     content::WebContents* web_contents) {
-  return static_cast<TabSpecificContentSettingsDelegate*>(
-      TabSpecificContentSettings::GetDelegateForWebContents(web_contents));
+  return static_cast<PageSpecificContentSettingsDelegate*>(
+      PageSpecificContentSettings::GetDelegateForWebContents(web_contents));
 }
 
-void TabSpecificContentSettingsDelegate::UpdateLocationBar() {
+void PageSpecificContentSettingsDelegate::UpdateLocationBar() {
   content_settings::UpdateLocationBarUiForWebContents(web_contents());
 }
 
-void TabSpecificContentSettingsDelegate::SetContentSettingRules(
+void PageSpecificContentSettingsDelegate::SetContentSettingRules(
     content::RenderProcessHost* process,
     const RendererContentSettingRules& rules) {
   // |channel| may be null in tests.
@@ -64,7 +64,7 @@ void TabSpecificContentSettingsDelegate::SetContentSettingRules(
   rc_interface->SetContentSettingRules(rules);
 }
 
-PrefService* TabSpecificContentSettingsDelegate::GetPrefs() {
+PrefService* PageSpecificContentSettingsDelegate::GetPrefs() {
   Profile* profile =
       Profile::FromBrowserContext(web_contents()->GetBrowserContext());
   if (!profile)
@@ -73,12 +73,12 @@ PrefService* TabSpecificContentSettingsDelegate::GetPrefs() {
   return profile->GetPrefs();
 }
 
-HostContentSettingsMap* TabSpecificContentSettingsDelegate::GetSettingsMap() {
+HostContentSettingsMap* PageSpecificContentSettingsDelegate::GetSettingsMap() {
   return HostContentSettingsMapFactory::GetForProfile(
       Profile::FromBrowserContext(web_contents()->GetBrowserContext()));
 }
 
-ContentSetting TabSpecificContentSettingsDelegate::GetEmbargoSetting(
+ContentSetting PageSpecificContentSettingsDelegate::GetEmbargoSetting(
     const GURL& request_origin,
     ContentSettingsType permission) {
   return PermissionDecisionAutoBlockerFactory::GetForProfile(
@@ -88,18 +88,18 @@ ContentSetting TabSpecificContentSettingsDelegate::GetEmbargoSetting(
 }
 
 std::vector<storage::FileSystemType>
-TabSpecificContentSettingsDelegate::GetAdditionalFileSystemTypes() {
+PageSpecificContentSettingsDelegate::GetAdditionalFileSystemTypes() {
   return browsing_data_file_system_util::GetAdditionalFileSystemTypes();
 }
 
 browsing_data::CookieHelper::IsDeletionDisabledCallback
-TabSpecificContentSettingsDelegate::GetIsDeletionDisabledCallback() {
+PageSpecificContentSettingsDelegate::GetIsDeletionDisabledCallback() {
   return CookiesTreeModel::GetCookieDeletionDisabledCallback(
       Profile::FromBrowserContext(web_contents()->GetBrowserContext()));
 }
 
-bool TabSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
-    TabSpecificContentSettings::MicrophoneCameraState microphone_camera_state,
+bool PageSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
+    PageSpecificContentSettings::MicrophoneCameraState microphone_camera_state,
     const std::string& media_stream_selected_audio_device,
     const std::string& media_stream_selected_video_device) {
   PrefService* prefs = GetPrefs();
@@ -108,13 +108,14 @@ bool TabSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
           ->GetMediaStreamCaptureIndicator();
 
   if ((microphone_camera_state &
-       TabSpecificContentSettings::MICROPHONE_ACCESSED) &&
+       PageSpecificContentSettings::MICROPHONE_ACCESSED) &&
       prefs->GetString(prefs::kDefaultAudioCaptureDevice) !=
           media_stream_selected_audio_device &&
       media_indicator->IsCapturingAudio(web_contents()))
     return true;
 
-  if ((microphone_camera_state & TabSpecificContentSettings::CAMERA_ACCESSED) &&
+  if ((microphone_camera_state &
+       PageSpecificContentSettings::CAMERA_ACCESSED) &&
       prefs->GetString(prefs::kDefaultVideoCaptureDevice) !=
           media_stream_selected_video_device &&
       media_indicator->IsCapturingVideo(web_contents()))
@@ -123,10 +124,10 @@ bool TabSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
   return false;
 }
 
-TabSpecificContentSettings::MicrophoneCameraState
-TabSpecificContentSettingsDelegate::GetMicrophoneCameraState() {
-  TabSpecificContentSettings::MicrophoneCameraState state =
-      TabSpecificContentSettings::MICROPHONE_CAMERA_NOT_ACCESSED;
+PageSpecificContentSettings::MicrophoneCameraState
+PageSpecificContentSettingsDelegate::GetMicrophoneCameraState() {
+  PageSpecificContentSettings::MicrophoneCameraState state =
+      PageSpecificContentSettings::MICROPHONE_CAMERA_NOT_ACCESSED;
 
   // Include capture devices in the state if there are still consumers of the
   // approved media stream.
@@ -134,14 +135,14 @@ TabSpecificContentSettingsDelegate::GetMicrophoneCameraState() {
       MediaCaptureDevicesDispatcher::GetInstance()
           ->GetMediaStreamCaptureIndicator();
   if (media_indicator->IsCapturingAudio(web_contents()))
-    state |= TabSpecificContentSettings::MICROPHONE_ACCESSED;
+    state |= PageSpecificContentSettings::MICROPHONE_ACCESSED;
   if (media_indicator->IsCapturingVideo(web_contents()))
-    state |= TabSpecificContentSettings::CAMERA_ACCESSED;
+    state |= PageSpecificContentSettings::CAMERA_ACCESSED;
 
   return state;
 }
 
-void TabSpecificContentSettingsDelegate::OnContentBlocked(
+void PageSpecificContentSettingsDelegate::OnContentBlocked(
     ContentSettingsType type) {
   if (type == ContentSettingsType::PLUGINS) {
     content_settings::RecordPluginsAction(
@@ -152,7 +153,7 @@ void TabSpecificContentSettingsDelegate::OnContentBlocked(
   }
 }
 
-void TabSpecificContentSettingsDelegate::OnCookieAccessAllowed(
+void PageSpecificContentSettingsDelegate::OnCookieAccessAllowed(
     const net::CookieList& accessed_cookies) {
 #if !defined(OS_ANDROID)
   auto* access_context_audit_service =
@@ -165,7 +166,7 @@ void TabSpecificContentSettingsDelegate::OnCookieAccessAllowed(
 #endif  // !defined(OS_ANDROID)
 }
 
-void TabSpecificContentSettingsDelegate::DidFinishNavigation(
+void PageSpecificContentSettingsDelegate::DidFinishNavigation(
     content::NavigationHandle* navigation_handle) {
   if (!navigation_handle->IsInMainFrame() ||
       !navigation_handle->HasCommitted() ||

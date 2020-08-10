@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "weblayer/browser/tab_specific_content_settings_delegate.h"
+#include "weblayer/browser/page_specific_content_settings_delegate.h"
 
 #include "base/bind_helpers.h"
 #include "components/content_settings/core/common/content_settings.h"
@@ -25,15 +25,15 @@ void SetContentSettingRules(content::RenderProcessHost* process,
 
 }  // namespace
 
-TabSpecificContentSettingsDelegate::TabSpecificContentSettingsDelegate(
+PageSpecificContentSettingsDelegate::PageSpecificContentSettingsDelegate(
     content::WebContents* web_contents)
     : web_contents_(web_contents) {}
 
-TabSpecificContentSettingsDelegate::~TabSpecificContentSettingsDelegate() =
+PageSpecificContentSettingsDelegate::~PageSpecificContentSettingsDelegate() =
     default;
 
 // static
-void TabSpecificContentSettingsDelegate::UpdateRendererContentSettingRules(
+void PageSpecificContentSettingsDelegate::UpdateRendererContentSettingRules(
     content::RenderProcessHost* process) {
   RendererContentSettingRules rules;
   GetRendererContentSettingRules(
@@ -43,25 +43,25 @@ void TabSpecificContentSettingsDelegate::UpdateRendererContentSettingRules(
   weblayer::SetContentSettingRules(process, rules);
 }
 
-void TabSpecificContentSettingsDelegate::UpdateLocationBar() {}
+void PageSpecificContentSettingsDelegate::UpdateLocationBar() {}
 
-void TabSpecificContentSettingsDelegate::SetContentSettingRules(
+void PageSpecificContentSettingsDelegate::SetContentSettingRules(
     content::RenderProcessHost* process,
     const RendererContentSettingRules& rules) {
   weblayer::SetContentSettingRules(process, rules);
 }
 
-PrefService* TabSpecificContentSettingsDelegate::GetPrefs() {
+PrefService* PageSpecificContentSettingsDelegate::GetPrefs() {
   return static_cast<BrowserContextImpl*>(web_contents_->GetBrowserContext())
       ->pref_service();
 }
 
-HostContentSettingsMap* TabSpecificContentSettingsDelegate::GetSettingsMap() {
+HostContentSettingsMap* PageSpecificContentSettingsDelegate::GetSettingsMap() {
   return HostContentSettingsMapFactory::GetForBrowserContext(
       web_contents_->GetBrowserContext());
 }
 
-ContentSetting TabSpecificContentSettingsDelegate::GetEmbargoSetting(
+ContentSetting PageSpecificContentSettingsDelegate::GetEmbargoSetting(
     const GURL& request_origin,
     ContentSettingsType permission) {
   return PermissionDecisionAutoBlockerFactory::GetForBrowserContext(
@@ -71,33 +71,33 @@ ContentSetting TabSpecificContentSettingsDelegate::GetEmbargoSetting(
 }
 
 std::vector<storage::FileSystemType>
-TabSpecificContentSettingsDelegate::GetAdditionalFileSystemTypes() {
+PageSpecificContentSettingsDelegate::GetAdditionalFileSystemTypes() {
   return {};
 }
 
 browsing_data::CookieHelper::IsDeletionDisabledCallback
-TabSpecificContentSettingsDelegate::GetIsDeletionDisabledCallback() {
+PageSpecificContentSettingsDelegate::GetIsDeletionDisabledCallback() {
   return base::NullCallback();
 }
 
-bool TabSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
-    content_settings::TabSpecificContentSettings::MicrophoneCameraState
+bool PageSpecificContentSettingsDelegate::IsMicrophoneCameraStateChanged(
+    content_settings::PageSpecificContentSettings::MicrophoneCameraState
         microphone_camera_state,
     const std::string& media_stream_selected_audio_device,
     const std::string& media_stream_selected_video_device) {
   return false;
 }
 
-content_settings::TabSpecificContentSettings::MicrophoneCameraState
-TabSpecificContentSettingsDelegate::GetMicrophoneCameraState() {
-  return content_settings::TabSpecificContentSettings::
+content_settings::PageSpecificContentSettings::MicrophoneCameraState
+PageSpecificContentSettingsDelegate::GetMicrophoneCameraState() {
+  return content_settings::PageSpecificContentSettings::
       MICROPHONE_CAMERA_NOT_ACCESSED;
 }
 
-void TabSpecificContentSettingsDelegate::OnContentBlocked(
+void PageSpecificContentSettingsDelegate::OnContentBlocked(
     ContentSettingsType type) {}
 
-void TabSpecificContentSettingsDelegate::OnCookieAccessAllowed(
+void PageSpecificContentSettingsDelegate::OnCookieAccessAllowed(
     const net::CookieList& accessed_cookies) {}
 
 }  // namespace weblayer

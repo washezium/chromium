@@ -2,30 +2,30 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef WEBLAYER_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
-#define WEBLAYER_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#ifndef WEBLAYER_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#define WEBLAYER_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
 
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 
 namespace weblayer {
 
-// Called by TabSpecificContentSettings to handle WebLayer specific logic.
-class TabSpecificContentSettingsDelegate
-    : public content_settings::TabSpecificContentSettings::Delegate {
+// Called by PageSpecificContentSettings to handle WebLayer specific logic.
+class PageSpecificContentSettingsDelegate
+    : public content_settings::PageSpecificContentSettings::Delegate {
  public:
-  explicit TabSpecificContentSettingsDelegate(
+  explicit PageSpecificContentSettingsDelegate(
       content::WebContents* web_contents);
-  ~TabSpecificContentSettingsDelegate() override;
-  TabSpecificContentSettingsDelegate(
-      const TabSpecificContentSettingsDelegate&) = delete;
-  TabSpecificContentSettingsDelegate& operator=(
-      const TabSpecificContentSettingsDelegate&) = delete;
+  ~PageSpecificContentSettingsDelegate() override;
+  PageSpecificContentSettingsDelegate(
+      const PageSpecificContentSettingsDelegate&) = delete;
+  PageSpecificContentSettingsDelegate& operator=(
+      const PageSpecificContentSettingsDelegate&) = delete;
 
   static void UpdateRendererContentSettingRules(
       content::RenderProcessHost* process);
 
  private:
-  // TabSpecificContentSettings::Delegate:
+  // PageSpecificContentSettings::Delegate:
   void UpdateLocationBar() override;
   void SetContentSettingRules(
       content::RenderProcessHost* process,
@@ -38,11 +38,11 @@ class TabSpecificContentSettingsDelegate
   browsing_data::CookieHelper::IsDeletionDisabledCallback
   GetIsDeletionDisabledCallback() override;
   bool IsMicrophoneCameraStateChanged(
-      content_settings::TabSpecificContentSettings::MicrophoneCameraState
+      content_settings::PageSpecificContentSettings::MicrophoneCameraState
           microphone_camera_state,
       const std::string& media_stream_selected_audio_device,
       const std::string& media_stream_selected_video_device) override;
-  content_settings::TabSpecificContentSettings::MicrophoneCameraState
+  content_settings::PageSpecificContentSettings::MicrophoneCameraState
   GetMicrophoneCameraState() override;
   void OnContentBlocked(ContentSettingsType type) override;
   void OnCookieAccessAllowed(const net::CookieList& accessed_cookies) override;
@@ -52,4 +52,4 @@ class TabSpecificContentSettingsDelegate
 
 }  // namespace weblayer
 
-#endif  // WEBLAYER_BROWSER_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#endif  // WEBLAYER_BROWSER_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_

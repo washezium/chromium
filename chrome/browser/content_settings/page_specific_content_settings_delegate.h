@@ -2,27 +2,27 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CONTENT_SETTINGS_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
-#define CHROME_BROWSER_CONTENT_SETTINGS_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#ifndef CHROME_BROWSER_CONTENT_SETTINGS_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#define CHROME_BROWSER_CONTENT_SETTINGS_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
 
 #include "chrome/common/custom_handlers/protocol_handler.h"
-#include "components/content_settings/browser/tab_specific_content_settings.h"
+#include "components/content_settings/browser/page_specific_content_settings.h"
 
 namespace chrome {
 
-class TabSpecificContentSettingsDelegate
-    : public content_settings::TabSpecificContentSettings::Delegate,
+class PageSpecificContentSettingsDelegate
+    : public content_settings::PageSpecificContentSettings::Delegate,
       public content::WebContentsObserver {
  public:
-  explicit TabSpecificContentSettingsDelegate(
+  explicit PageSpecificContentSettingsDelegate(
       content::WebContents* web_contents);
-  ~TabSpecificContentSettingsDelegate() override;
-  TabSpecificContentSettingsDelegate(
-      const TabSpecificContentSettingsDelegate&) = delete;
-  TabSpecificContentSettingsDelegate& operator=(
-      const TabSpecificContentSettingsDelegate&) = delete;
+  ~PageSpecificContentSettingsDelegate() override;
+  PageSpecificContentSettingsDelegate(
+      const PageSpecificContentSettingsDelegate&) = delete;
+  PageSpecificContentSettingsDelegate& operator=(
+      const PageSpecificContentSettingsDelegate&) = delete;
 
-  static TabSpecificContentSettingsDelegate* FromWebContents(
+  static PageSpecificContentSettingsDelegate* FromWebContents(
       content::WebContents* web_contents);
 
   // Call to indicate that there is a protocol handler pending user approval.
@@ -59,7 +59,7 @@ class TabSpecificContentSettingsDelegate
   }
 
  private:
-  // TabSpecificContentSettings::Delegate:
+  // PageSpecificContentSettings::Delegate:
   void UpdateLocationBar() override;
   void SetContentSettingRules(
       content::RenderProcessHost* process,
@@ -72,11 +72,11 @@ class TabSpecificContentSettingsDelegate
   browsing_data::CookieHelper::IsDeletionDisabledCallback
   GetIsDeletionDisabledCallback() override;
   bool IsMicrophoneCameraStateChanged(
-      content_settings::TabSpecificContentSettings::MicrophoneCameraState
+      content_settings::PageSpecificContentSettings::MicrophoneCameraState
           microphone_camera_state,
       const std::string& media_stream_selected_audio_device,
       const std::string& media_stream_selected_video_device) override;
-  content_settings::TabSpecificContentSettings::MicrophoneCameraState
+  content_settings::PageSpecificContentSettings::MicrophoneCameraState
   GetMicrophoneCameraState() override;
   void OnContentBlocked(ContentSettingsType type) override;
   void OnCookieAccessAllowed(const net::CookieList& accessed_cookies) override;
@@ -105,4 +105,4 @@ class TabSpecificContentSettingsDelegate
 
 }  // namespace chrome
 
-#endif  // CHROME_BROWSER_CONTENT_SETTINGS_TAB_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
+#endif  // CHROME_BROWSER_CONTENT_SETTINGS_PAGE_SPECIFIC_CONTENT_SETTINGS_DELEGATE_H_
