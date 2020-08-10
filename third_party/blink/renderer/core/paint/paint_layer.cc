@@ -2460,10 +2460,11 @@ PaintLayer* PaintLayer::HitTestChildren(
 void PaintLayer::UpdateFilterReferenceBox() {
   if (!HasFilterThatMovesPixels())
     return;
-  FloatRect reference_box =
-      FloatRect(PhysicalBoundingBoxIncludingStackingChildren(
-          PhysicalOffset(),
-          PaintLayer::kIncludeTransformsAndCompositedChildLayers));
+  PhysicalRect result = LocalBoundingBox();
+  ExpandRectForStackingChildren(
+      *this, result, PaintLayer::kIncludeTransformsAndCompositedChildLayers);
+  FloatRect reference_box = FloatRect(result);
+
   float zoom = GetLayoutObject().StyleRef().EffectiveZoom();
   if (zoom != 1)
     reference_box.Scale(1 / zoom);
@@ -2675,16 +2676,6 @@ void PaintLayer::ExpandRectForStackingChildren(
     result.Unite(child_layer->BoundingBoxForCompositingInternal(
         composited_layer, this, options));
   }
-}
-
-PhysicalRect PaintLayer::PhysicalBoundingBoxIncludingStackingChildren(
-    const PhysicalOffset& offset_from_root,
-    CalculateBoundsOptions options) const {
-  PhysicalRect result = LocalBoundingBox();
-  ExpandRectForStackingChildren(*this, result, options);
-
-  result.Move(offset_from_root);
-  return result;
 }
 
 PhysicalRect PaintLayer::BoundingBoxForCompositing() const {
