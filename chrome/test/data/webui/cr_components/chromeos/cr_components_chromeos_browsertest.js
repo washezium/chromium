@@ -9,6 +9,13 @@ GEN_INCLUDE(['//chrome/test/data/webui/polymer_browser_test_base.js']);
 
 GEN('#include "content/public/test/browser_test.h"');
 
+// Tests are flaky on ChromeOS, debug (crbug.com/1114675).
+GEN('#if defined(OS_CHROMEOS) && !defined(NDEBUG)');
+GEN('#define MAYBE_All DISABLED_All');
+GEN('#else');
+GEN('#define MAYBE_All All');
+GEN('#endif');
+
 // Polymer 2 test list format:
 //
 // ['ModuleNameTest', 'module.js',
@@ -48,5 +55,5 @@ function registerTest(testName, module, deps) {
     }
   };
 
-  TEST_F(className, 'All', () => mocha.run());
+  TEST_F(className, 'MAYBE_All', () => mocha.run());
 }
