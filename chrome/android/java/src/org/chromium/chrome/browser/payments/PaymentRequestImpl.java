@@ -53,9 +53,9 @@ import org.chromium.components.browser_ui.bottomsheet.BottomSheetControllerProvi
 import org.chromium.components.embedder_support.util.UrlConstants;
 import org.chromium.components.page_info.CertificateChainHelper;
 import org.chromium.components.payments.AbortReason;
+import org.chromium.components.payments.BrowserPaymentRequest;
 import org.chromium.components.payments.CanMakePaymentQuery;
 import org.chromium.components.payments.ComponentPaymentRequestImpl;
-import org.chromium.components.payments.ComponentPaymentRequestImpl.ComponentPaymentRequestDelegate;
 import org.chromium.components.payments.CurrencyFormatter;
 import org.chromium.components.payments.ErrorMessageUtil;
 import org.chromium.components.payments.ErrorStrings;
@@ -121,10 +121,9 @@ import java.util.Set;
  * living in {@link ComponentPaymentRequestImpl}.
  */
 public class PaymentRequestImpl
-        implements ComponentPaymentRequestDelegate, PaymentRequestUI.Client,
-                   PaymentAppFactoryDelegate, PaymentAppFactoryParams,
-                   PaymentRequestUpdateEventListener, PaymentApp.AbortCallback,
-                   PaymentApp.InstrumentDetailsCallback,
+        implements BrowserPaymentRequest, PaymentRequestUI.Client, PaymentAppFactoryDelegate,
+                   PaymentAppFactoryParams, PaymentRequestUpdateEventListener,
+                   PaymentApp.AbortCallback, PaymentApp.InstrumentDetailsCallback,
                    PaymentResponseHelper.PaymentResponseRequesterDelegate,
                    NormalizedAddressRequestDelegate, PaymentDetailsConverter.MethodChecker,
                    PaymentUIsManager.Delegate {
@@ -231,23 +230,15 @@ public class PaymentRequestImpl
     }
 
     private static final String TAG = "PaymentRequest";
-
-    private ComponentPaymentRequestImpl mComponentPaymentRequestImpl;
-
-    private PaymentOptions mPaymentOptions;
-    private boolean mRequestShipping;
-    private boolean mRequestPayerName;
-    private boolean mRequestPayerPhone;
-    private boolean mRequestPayerEmail;
-
     private static PaymentRequestServiceObserverForTest sObserverForTest;
     private static boolean sIsLocalCanMakePaymentQueryQuotaEnforcedForTest;
-
     /**
      * Hold the currently showing PaymentRequest. Used to prevent showing more than one
      * PaymentRequest UI per browser process.
      */
     private static PaymentRequestImpl sShowingPaymentRequest;
+
+    private final ComponentPaymentRequestImpl mComponentPaymentRequestImpl;
 
     /** Monitors changes in the TabModelSelector. */
     private final TabModelSelectorObserver mSelectorObserver = new EmptyTabModelSelectorObserver() {
@@ -291,6 +282,14 @@ public class PaymentRequestImpl
     private final JourneyLogger mJourneyLogger;
     private final boolean mIsOffTheRecord;
 
+    private final PaymentUIsManager mPaymentUIsManager;
+
+    private PaymentOptions mPaymentOptions;
+    private boolean mRequestShipping;
+    private boolean mRequestPayerName;
+    private boolean mRequestPayerPhone;
+    private boolean mRequestPayerEmail;
+
     private boolean mIsCanMakePaymentResponsePending;
     private boolean mIsHasEnrolledInstrumentResponsePending;
     private boolean mHasEnrolledInstrumentUsesPerMethodQuota;
@@ -328,7 +327,6 @@ public class PaymentRequestImpl
     private int mShippingType;
     private boolean mIsFinishedQueryingPaymentApps;
     private List<PaymentApp> mPendingApps = new ArrayList<>();
-    private final PaymentUIsManager mPaymentUIsManager;
     private MinimalUICoordinator mMinimalUi;
     private PaymentApp mInvokedPaymentApp;
     private boolean mHideServerAutofillCards;
@@ -413,9 +411,13 @@ public class PaymentRequestImpl
      * Builds the PaymentRequest service implementation.
      *
      * @param renderFrameHost The host of the frame that has invoked the PaymentRequest API.
+     * @param componentPaymentRequestImpl The component side of the PaymentRequest implementation.
      */
-    public PaymentRequestImpl(RenderFrameHost renderFrameHost, Delegate delegate) {
+    public PaymentRequestImpl(RenderFrameHost renderFrameHost,
+            ComponentPaymentRequestImpl componentPaymentRequestImpl, Delegate delegate) {
         assert renderFrameHost != null;
+        assert componentPaymentRequestImpl != null;
+        assert delegate != null;
 
         mRenderFrameHost = renderFrameHost;
         mDelegate = delegate;
@@ -440,18 +442,10 @@ public class PaymentRequestImpl
         if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
         mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
                 /*params=*/this, mWebContents, mIsOffTheRecord, mJourneyLogger);
-    }
-
-    // Implement ComponentPaymentRequestDelegate:
-    @Override
-    public void setComponentPaymentRequestImpl(
-            ComponentPaymentRequestImpl componentPaymentRequestImpl) {
-        assert mComponentPaymentRequestImpl == null;
-        assert componentPaymentRequestImpl != null;
         mComponentPaymentRequestImpl = componentPaymentRequestImpl;
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called by the merchant website to initialize the payment request data.
      */
@@ -712,7 +706,7 @@ public class PaymentRequestImpl
         return true;
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called by the merchant website to show the payment request to the user.
      */
@@ -1089,7 +1083,7 @@ public class PaymentRequestImpl
                 && mInvokedPaymentApp.isValidForPaymentMethodData(methodName, null);
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called by merchant to update the shipping options and line items after the user has selected
      * their shipping address or shipping option.
@@ -1193,7 +1187,7 @@ public class PaymentRequestImpl
         }
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called when the merchant received a new shipping address, shipping option, or payment method
      * info, but did not update the payment details in response.
@@ -1545,7 +1539,7 @@ public class PaymentRequestImpl
         disconnectFromClientWithDebugMessage(ErrorStrings.USER_CANCELLED);
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     // This method is not supposed to be used outside this class and
     // ComponentPaymentRequestImpl.
     @Override
@@ -1564,7 +1558,7 @@ public class PaymentRequestImpl
         }
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called by the merchant website to abort the payment.
      */
@@ -1597,7 +1591,7 @@ public class PaymentRequestImpl
         }
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called when the merchant website has processed the payment.
      */
@@ -1639,7 +1633,7 @@ public class PaymentRequestImpl
         closeUIAndDestroyNativeObjects();
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     @Override
     public void retry(PaymentValidationErrors errors) {
         if (getClient() == null) return;
@@ -1731,7 +1725,7 @@ public class PaymentRequestImpl
         settingsLauncher.launchSettingsActivity(context);
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /** Called by the merchant website to check if the user has complete payment apps. */
     @Override
     public void canMakePayment() {
@@ -1768,7 +1762,7 @@ public class PaymentRequestImpl
         }
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /** Called by the merchant website to check if the user has complete payment instruments. */
     @Override
     public void hasEnrolledInstrument(boolean perMethodQuota) {
@@ -1830,7 +1824,7 @@ public class PaymentRequestImpl
                 || sIsLocalCanMakePaymentQueryQuotaEnforcedForTest;
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called when the renderer closes the Mojo connection.
      */
@@ -1846,7 +1840,7 @@ public class PaymentRequestImpl
         }
     }
 
-    // Implement ComponentPaymentRequestDelegate:
+    // Implement BrowserPaymentRequest:
     /**
      * Called when the Mojo connection encounters an error.
      */

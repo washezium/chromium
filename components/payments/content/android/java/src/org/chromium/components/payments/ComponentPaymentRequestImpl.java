@@ -10,6 +10,7 @@ import androidx.annotation.VisibleForTesting;
 import org.chromium.components.autofill.EditableOption;
 import org.chromium.mojo.system.MojoException;
 import org.chromium.payments.mojom.PaymentDetails;
+import org.chromium.payments.mojom.PaymentItem;
 import org.chromium.payments.mojom.PaymentMethodData;
 import org.chromium.payments.mojom.PaymentOptions;
 import org.chromium.payments.mojom.PaymentRequest;
@@ -25,45 +26,22 @@ import java.util.List;
  * org.chromium.chrome.browser.payments.PaymentRequestImpl.
  */
 public class ComponentPaymentRequestImpl implements PaymentRequest {
-    private final ComponentPaymentRequestDelegate mDelegate;
     private static NativeObserverForTest sNativeObserverForTest;
+    private final BrowserPaymentRequestFactory mBrowserPaymentRequestFactory;
+    private BrowserPaymentRequest mBrowserPaymentRequest;
     private PaymentRequestClient mClient;
     private PaymentRequestLifecycleObserver mPaymentRequestLifecycleObserver;
 
-    /**
-     * The delegate of {@link ComponentPaymentRequestImpl}.
-     */
-    public interface ComponentPaymentRequestDelegate {
-        // The implementation of the same methods in {@link PaymentRequest).
-        void init(PaymentMethodData[] methodData, PaymentDetails details, PaymentOptions options,
-                boolean googlePayBridgeEligible);
-        void show(boolean isUserGesture, boolean waitForUpdatedDetails);
-        void updateWith(PaymentDetails details);
-        void onPaymentDetailsNotUpdated();
-        void abort();
-        void complete(int result);
-        void retry(PaymentValidationErrors errors);
-        void hasEnrolledInstrument(boolean perMethodQuota);
-        void canMakePayment();
-        void close();
-        void onConnectionError(MojoException e);
-
+    /** The factory that creates an instance of {@link BrowserPaymentRequest}. */
+    public interface BrowserPaymentRequestFactory {
         /**
-         * Set a weak reference to the client of this delegate.
-         * @param componentPaymentRequestImpl The client of this delegate.
+         * Create an instance of {@link BrowserPaymentRequest}, and have it working together with an
+         * instance of {@link ComponentPaymentRequestImpl}.
+         * @param componentPaymentRequestImpl The ComponentPaymentRequestImpl to work together with
+         *         the BrowserPaymentRequest instance.
          */
-        void setComponentPaymentRequestImpl(
+        BrowserPaymentRequest createBrowserPaymentRequest(
                 ComponentPaymentRequestImpl componentPaymentRequestImpl);
-
-        /**
-         * @return The JourneyLogger of PaymentRequestImpl.
-         */
-        JourneyLogger getJourneyLogger();
-
-        /**
-         * Delegate to the same method of PaymentRequestImpl.
-         */
-        void disconnectFromClientWithDebugMessage(String debugMessage);
     }
 
     /**
@@ -78,8 +56,7 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
         void onCanMakePaymentReturned();
         void onHasEnrolledInstrumentCalled();
         void onHasEnrolledInstrumentReturned();
-        void onAppListReady(@Nullable List<EditableOption> paymentApps,
-                org.chromium.payments.mojom.PaymentItem total);
+        void onAppListReady(@Nullable List<EditableOption> paymentApps, PaymentItem total);
         void onNotSupportedError();
         void onConnectionTerminated();
         void onAbortCalled();
@@ -89,11 +66,11 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
 
     /**
      * Build an instance of the PaymentRequest implementation.
-     * @param delegate A delegate of the instance.
+     * @param browserPaymentRequestFactory The factory that generates an instance of
+     *         BrowserPaymentRequest to work with this ComponentPaymentRequestImpl instance.
      */
-    public ComponentPaymentRequestImpl(ComponentPaymentRequestDelegate delegate) {
-        mDelegate = delegate;
-        mDelegate.setComponentPaymentRequestImpl(this);
+    public ComponentPaymentRequestImpl(BrowserPaymentRequestFactory browserPaymentRequestFactory) {
+        mBrowserPaymentRequestFactory = browserPaymentRequestFactory;
     }
 
     /**
@@ -115,75 +92,76 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
     @Override
     public void init(PaymentRequestClient client, PaymentMethodData[] methodData,
             PaymentDetails details, PaymentOptions options, boolean googlePayBridgeEligible) {
+        mBrowserPaymentRequest = mBrowserPaymentRequestFactory.createBrowserPaymentRequest(this);
+        assert mBrowserPaymentRequest != null;
         if (mClient != null) {
-            mDelegate.getJourneyLogger().setAborted(
-                    org.chromium.components.payments.AbortReason.INVALID_DATA_FROM_RENDERER);
-            mDelegate.disconnectFromClientWithDebugMessage(
-                    org.chromium.components.payments.ErrorStrings.ATTEMPTED_INITIALIZATION_TWICE);
+            mBrowserPaymentRequest.getJourneyLogger().setAborted(
+                    AbortReason.INVALID_DATA_FROM_RENDERER);
+            mBrowserPaymentRequest.disconnectFromClientWithDebugMessage(
+                    ErrorStrings.ATTEMPTED_INITIALIZATION_TWICE);
             return;
         }
 
         if (client == null) {
-            mDelegate.getJourneyLogger().setAborted(
-                    org.chromium.components.payments.AbortReason.INVALID_DATA_FROM_RENDERER);
-            mDelegate.disconnectFromClientWithDebugMessage(
-                    org.chromium.components.payments.ErrorStrings.INVALID_STATE);
+            mBrowserPaymentRequest.getJourneyLogger().setAborted(
+                    AbortReason.INVALID_DATA_FROM_RENDERER);
+            mBrowserPaymentRequest.disconnectFromClientWithDebugMessage(ErrorStrings.INVALID_STATE);
             return;
         }
 
         mClient = client;
 
-        mDelegate.init(methodData, details, options, googlePayBridgeEligible);
+        mBrowserPaymentRequest.init(methodData, details, options, googlePayBridgeEligible);
     }
 
     @Override
     public void show(boolean isUserGesture, boolean waitForUpdatedDetails) {
-        mDelegate.show(isUserGesture, waitForUpdatedDetails);
+        mBrowserPaymentRequest.show(isUserGesture, waitForUpdatedDetails);
     }
 
     @Override
     public void updateWith(PaymentDetails details) {
-        mDelegate.updateWith(details);
+        mBrowserPaymentRequest.updateWith(details);
     }
 
     @Override
     public void onPaymentDetailsNotUpdated() {
-        mDelegate.onPaymentDetailsNotUpdated();
+        mBrowserPaymentRequest.onPaymentDetailsNotUpdated();
     }
 
     @Override
     public void abort() {
-        mDelegate.abort();
+        mBrowserPaymentRequest.abort();
     }
 
     @Override
     public void complete(int result) {
-        mDelegate.complete(result);
+        mBrowserPaymentRequest.complete(result);
     }
 
     @Override
     public void retry(PaymentValidationErrors errors) {
-        mDelegate.retry(errors);
+        mBrowserPaymentRequest.retry(errors);
     }
 
     @Override
     public void canMakePayment() {
-        mDelegate.canMakePayment();
+        mBrowserPaymentRequest.canMakePayment();
     }
 
     @Override
     public void hasEnrolledInstrument(boolean perMethodQuota) {
-        mDelegate.hasEnrolledInstrument(perMethodQuota);
+        mBrowserPaymentRequest.hasEnrolledInstrument(perMethodQuota);
     }
 
     @Override
     public void close() {
-        mDelegate.close();
+        mBrowserPaymentRequest.close();
     }
 
     @Override
     public void onConnectionError(MojoException e) {
-        mDelegate.onConnectionError(e);
+        mBrowserPaymentRequest.onConnectionError(e);
     }
 
     /**

@@ -186,6 +186,8 @@ public class PaymentRequestFactory implements InterfaceFactory<PaymentRequest> {
             delegate = new PaymentRequestDelegateImpl(mRenderFrameHost);
         }
 
-        return new ComponentPaymentRequestImpl(new PaymentRequestImpl(mRenderFrameHost, delegate));
+        return new ComponentPaymentRequestImpl((componentPaymentRequest)
+                                                       -> new PaymentRequestImpl(mRenderFrameHost,
+                                                               componentPaymentRequest, delegate));
     }
 }
