@@ -744,7 +744,7 @@ void InspectorCSSAgent::ResourceContentLoaded(
 
 void InspectorCSSAgent::CompleteEnabled() {
   instrumenting_agents_->AddInspectorCSSAgent(this);
-  dom_agent_->SetDOMListener(this);
+  dom_agent_->AddDOMListener(this);
   HeapVector<Member<Document>> documents = dom_agent_->Documents();
   for (Document* document : documents) {
     UpdateActiveStyleSheets(document);
@@ -775,7 +775,7 @@ void InspectorCSSAgent::TriggerFontsUpdatedForDocument(Document* document) {
 
 Response InspectorCSSAgent::disable() {
   Reset();
-  dom_agent_->SetDOMListener(nullptr);
+  dom_agent_->RemoveDOMListener(this);
   instrumenting_agents_->RemoveInspectorCSSAgent(this);
   enable_completed_ = false;
   enable_requested_.Set(false);
