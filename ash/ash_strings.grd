@@ -1011,6 +1011,10 @@ This file contains the strings for ash.
         Collapse status area
       </message>
 
+      <message name="IDS_ASH_STATUS_AREA_STOP_RECORDING_BUTTON_ACCESSIBLE_NAME" desc="The accessible name for the capture mode recording button in the system tray.">
+        Stop screen recording
+      </message>
+
       <!-- Overview Mode -->
       <message name="IDS_ASH_OVERVIEW_BUTTON_ACCESSIBLE_NAME" desc="The accessible name for the Overview button in the system tray.">
         Toggle window overview
