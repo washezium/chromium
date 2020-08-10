@@ -52,7 +52,6 @@
 #include "services/network/public/cpp/features.h"
 #include "services/network/public/cpp/network_switches.h"
 #include "third_party/blink/public/common/client_hints/client_hints.h"
-#include "ui/base/ui_base_features.h"
 
 namespace {
 
@@ -265,23 +264,7 @@ class ClientHintsBrowserTest : public policy::PolicyTest,
   }
 
   void SetUp() override {
-    auto enabled_features = EnabledFeatures();
-#if defined(USE_X11) && defined(USE_OZONE)
-    // The ClientHintsBrowserTest overrides features during SetUp call that
-    // results in UseOzonePlatform disabled (though, it was enabled in the
-    // beginning). Thus, make sure that we preserve this feature flag. PS:
-    // original feature list is restored right before BrowserMain and normal
-    // flow continues (UseOzonePlatform feature is there as well).
-    // TODO(https://crbug.com/1096425): remove this once USE_X11 goes away.
-    if (features::IsUsingOzonePlatform()) {
-      std::vector<base::FeatureList::FeatureOverrideInfo> overrides;
-      overrides.push_back(
-          {std::cref(features::kUseOzonePlatform),
-           base::FeatureList::OverrideState::OVERRIDE_ENABLE_FEATURE});
-      enabled_features->RegisterExtraFeatureOverrides(overrides);
-    }
-#endif
-    scoped_feature_list_.InitWithFeatureList(std::move(enabled_features));
+    scoped_feature_list_.InitWithFeatureList(EnabledFeatures());
     InProcessBrowserTest::SetUp();
   }
 
