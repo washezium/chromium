@@ -50106,7 +50106,7 @@ Called by update_net_trust_anchors.py.-->
 </enum>
 
 <enum name="NetworkServiceError">
-  <int value="0" label="UNKNOWN"/>
+  <int value="0" label="NONE"/>
   <int value="1" label="AAA_FAILED"/>
   <int value="2" label="ACTIVATION_FAILED"/>
   <int value="3" label="BAD_PASSPHRASE"/>
@@ -50127,6 +50127,10 @@ Called by update_net_trust_anchors.py.-->
   <int value="18" label="OUT_OF_RANGE"/>
   <int value="19" label="PPP_AUTH_FAILED"/>
   <int value="20" label="PIN_MISSING"/>
+  <int value="21" label="UNKNOWN"/>
+  <int value="22" label="NOT_ASSOCIATED"/>
+  <int value="23" label="NOT_AUTHENTICATED"/>
+  <int value="24" label="TOO_MANY_STAS"/>
 </enum>
 
 <enum name="NetworkStatus">
