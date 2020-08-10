@@ -35,8 +35,7 @@ _log = logging.getLogger(__name__)
 
 
 class MacPort(base.Port):
-    SUPPORTED_VERSIONS = ('mac10.10', 'mac10.11', 'mac10.12', 'mac10.13',
-                          'mac10.14', 'mac10.15', 'retina')
+    SUPPORTED_VERSIONS = ('mac10.12', 'mac10.13', 'mac10.14', 'mac10.15')
     port_name = 'mac'
 
     # FIXME: We treat Retina (High-DPI) devices as if they are running a
@@ -52,9 +51,6 @@ class MacPort(base.Port):
     FALLBACK_PATHS['mac10.14'] = ['mac-mac10.14'] + FALLBACK_PATHS['mac10.15']
     FALLBACK_PATHS['mac10.13'] = ['mac-mac10.13'] + FALLBACK_PATHS['mac10.14']
     FALLBACK_PATHS['mac10.12'] = ['mac-mac10.12'] + FALLBACK_PATHS['mac10.13']
-    FALLBACK_PATHS['mac10.11'] = ['mac-mac10.11'] + FALLBACK_PATHS['mac10.12']
-    FALLBACK_PATHS['mac10.10'] = ['mac-mac10.10'] + FALLBACK_PATHS['mac10.11']
-    FALLBACK_PATHS['retina'] = ['mac-retina'] + FALLBACK_PATHS['mac10.13']
 
     CONTENT_SHELL_NAME = 'Content Shell'
 
