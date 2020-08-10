@@ -455,6 +455,8 @@ AncestorThrottle::EvaluateCSPEmbeddedEnforcement() {
   if (AllowsBlanketEnforcementOfRequiredCSP(
           frame->GetParent()->GetLastCommittedOrigin(),
           navigation_handle()->GetURL(), allow_csp_from)) {
+    // Enforce the required csps on the frame by passing them down to blink
+    request->ForceCSPForResponse(request->required_csp()->header->header_value);
     return CheckResult::PROCEED;
   }
 

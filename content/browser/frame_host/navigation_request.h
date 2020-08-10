@@ -351,6 +351,8 @@ class CONTENT_EXPORT NavigationRequest
   // The NavigationRequest can be deleted while BeginNavigation() is called.
   void BeginNavigation();
 
+  void ForceCSPForResponse(const std::string& csp);
+
   const mojom::CommonNavigationParams& common_params() const {
     return *common_params_;
   }

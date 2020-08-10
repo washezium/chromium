@@ -991,6 +991,12 @@ void FrameLoader::CommitNavigation(
       navigation_params->origin_policy, last_origin_window_csp_.Release(),
       commit_reason);
 
+  for (auto& csp : navigation_params->forced_content_security_policies) {
+    content_security_policy->AddPolicyFromHeaderValue(
+        csp, network::mojom::ContentSecurityPolicyType::kEnforce,
+        network::mojom::ContentSecurityPolicySource::kHTTP);
+  }
+
   base::Optional<Document::UnloadEventTiming> unload_timing;
   FrameSwapScope frame_swap_scope(frame_owner);
   {

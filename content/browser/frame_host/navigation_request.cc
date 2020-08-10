@@ -937,7 +937,8 @@ std::unique_ptr<NavigationRequest> NavigationRequest::CreateRendererInitiated(
           false /* origin_isolated */,
           std::vector<
               network::mojom::WebClientHintsType>() /* enabled_client_hints */,
-          false /* is_cross_browsing_instance */);
+          false /* is_cross_browsing_instance */,
+          std::vector<std::string>() /* forced_content_security_policies */);
 
   // CreateRendererInitiated() should only be triggered when the navigation is
   // initiated by a frame in the same process.
@@ -1027,10 +1028,9 @@ std::unique_ptr<NavigationRequest> NavigationRequest::CreateForCommit(
           std::vector<std::string>() /* force_enabled_origin_trials */,
           false /* origin_isolated */,
           std::vector<
-              network::mojom::WebClientHintsType>() /* enabled_client_hints
-                                                     */
-          ,
-          false /* is_cross_browsing_instance */
+              network::mojom::WebClientHintsType>() /* enabled_client_hints */,
+          false /* is_cross_browsing_instance */,
+          std::vector<std::string>() /* forced_content_security_policies */
       );
   mojom::BeginNavigationParamsPtr begin_params =
       mojom::BeginNavigationParams::New();
@@ -4745,6 +4745,10 @@ void NavigationRequest::SetIsOverridingUserAgent(bool override_ua) {
 
 bool NavigationRequest::GetIsOverridingUserAgent() {
   return entry_overrides_ua_;
+}
+
+void NavigationRequest::ForceCSPForResponse(const std::string& csp) {
+  commit_params_->forced_content_security_policies.push_back(csp);
 }
 
 // static
