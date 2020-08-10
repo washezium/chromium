@@ -20,4 +20,15 @@ LoginPalette CreateDefaultLoginPalette() {
        .pin_backspace_icon_color = gfx::kGoogleGrey200});
 }
 
+LoginPalette CreateInSessionAuthPalette() {
+  return LoginPalette(
+      {.password_text_color = SK_ColorDKGRAY,
+       .password_placeholder_text_color = SK_ColorDKGRAY,
+       .password_background_color = SK_ColorTRANSPARENT,
+       .button_enabled_color = SK_ColorDKGRAY,
+       .pin_ink_drop_highlight_color = SkColorSetA(SK_ColorDKGRAY, 0x0A),
+       .pin_ink_drop_ripple_color = SkColorSetA(SK_ColorDKGRAY, 0x0F),
+       .pin_backspace_icon_color = SK_ColorDKGRAY});
+}
+
 }  // namespace ash

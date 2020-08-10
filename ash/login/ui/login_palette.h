@@ -24,7 +24,11 @@ struct LoginPalette {
   SkColor pin_backspace_icon_color;
 };
 
+// For login screen and lock screen.
 ASH_EXPORT LoginPalette CreateDefaultLoginPalette();
+
+// For in-session auth dialog.
+ASH_EXPORT LoginPalette CreateInSessionAuthPalette();
 
 }  // namespace ash
 
