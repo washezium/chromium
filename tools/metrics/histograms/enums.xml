@@ -28693,6 +28693,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3367" label="ConversionRegistration"/>
   <int value="3368" label="WebSharePolicyAllow"/>
   <int value="3369" label="WebSharePolicyDisallow"/>
+  <int value="3370" label="FormAssociatedCustomElement"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
