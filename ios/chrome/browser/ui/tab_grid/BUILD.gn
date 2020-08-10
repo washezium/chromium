@@ -67,8 +67,6 @@ source_set("tab_grid_ui_constants") {
 
 source_set("tab_grid_ui") {
   sources = [
-    "legacy_tab_grid_transition_handler.h",
-    "legacy_tab_grid_transition_handler.mm",
     "tab_grid_bottom_toolbar.h",
     "tab_grid_bottom_toolbar.mm",
     "tab_grid_empty_state_view.h",
