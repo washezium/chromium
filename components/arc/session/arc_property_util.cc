@@ -52,10 +52,6 @@ constexpr char kDalvikVmIsaArm64[] = "ro.dalvik.vm.isa.arm64=x86_64";
 // Maximum length of an Android property value.
 constexpr int kAndroidMaxPropertyLength = 91;
 
-// The following 4 functions as well as the constants above are the _exact_ copy
-// of the ones in platform2/arc/setup/arc_setup_util.cc. After modifying code in
-// Chromium, make sure to reflect the changes to the platform2 side.
-
 bool FindProperty(const std::string& line_prefix_to_find,
                   std::string* out_prop,
                   const std::string& line) {
@@ -155,6 +151,12 @@ std::string ComputeOEMKey(brillo::CrosConfigInterface* config,
   return board;
 }
 
+bool IsComment(const std::string& line) {
+  return base::StartsWith(
+      base::TrimWhitespaceASCII(line, base::TrimPositions::TRIM_LEADING), "#",
+      base::CompareCase::SENSITIVE);
+}
+
 bool ExpandPropertyContents(const std::string& content,
                             brillo::CrosConfigInterface* config,
                             std::string* expanded_content,
@@ -165,6 +167,16 @@ bool ExpandPropertyContents(const std::string& content,
 
   std::string new_properties;
   for (std::string line : lines) {
+    // Chrome only expands ro. properties at runtime.
+    if (!base::StartsWith(line, "ro.", base::CompareCase::SENSITIVE)) {
+      if (!IsComment(line) && line.find('{') != std::string::npos) {
+        // The non-ro property has substitution(s).
+        LOG(ERROR) << "Found substitution(s) in a non-ro property: " << line;
+        return false;
+      }
+      continue;
+    }
+
     // First expand {property} substitutions in the string.  The insertions
     // may contain substitutions of their own, so we need to repeat until
     // nothing more is found.
