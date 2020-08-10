@@ -297,6 +297,8 @@ public class AccountPickerBottomSheetTest {
             return !bottomSheetView.findViewById(R.id.account_picker_continue_as_button).isShown();
         });
         verify(mAccountPickerDelegateMock).signIn(PROFILE_DATA1.getAccountName());
+        onView(withText(R.string.signin_account_picker_bottom_sheet_signin_title))
+                .check(matches(isDisplayed()));
         onView(withId(R.id.account_picker_bottom_sheet_subtitle))
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.account_picker_account_list)).check(matches(not(isDisplayed())));
