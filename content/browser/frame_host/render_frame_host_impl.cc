@@ -4540,6 +4540,17 @@ void RenderFrameHostImpl::DidChangeOpener(
       opener_frame_token.value_or(base::UnguessableToken()), GetSiteInstance());
 }
 
+void RenderFrameHostImpl::DidChangeCSPAttribute(
+    const base::UnguessableToken& child_frame_token,
+    network::mojom::ContentSecurityPolicyPtr parsed_csp_attribute) {
+  auto* child =
+      FindAndVerifyChild(child_frame_token, bad_message::RFH_CSP_ATTRIBUTE);
+  if (!child)
+    return;
+
+  child->frame_tree_node()->set_csp_attribute(std::move(parsed_csp_attribute));
+}
+
 void RenderFrameHostImpl::DidChangeFramePolicy(
     const base::UnguessableToken& child_frame_token,
     const blink::FramePolicy& frame_policy) {

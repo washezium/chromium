@@ -1616,6 +1616,9 @@ class CONTENT_EXPORT RenderFrameHostImpl
       blink::mojom::FrameOwnerPropertiesPtr frame_owner_properties) override;
   void DidChangeOpener(
       const base::Optional<base::UnguessableToken>& opener_frame) override;
+  void DidChangeCSPAttribute(
+      const base::UnguessableToken& child_frame_token,
+      network::mojom::ContentSecurityPolicyPtr parsed_csp_attribute) override;
   void DidChangeFramePolicy(const base::UnguessableToken& child_frame_token,
                             const blink::FramePolicy& frame_policy) override;
   void CapturePaintPreviewOfSubframe(

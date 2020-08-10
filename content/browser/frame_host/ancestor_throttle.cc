@@ -403,10 +403,12 @@ AncestorThrottle::EvaluateCSPEmbeddedEnforcement() {
   RenderFrameHostImpl* frame = static_cast<RenderFrameHostImpl*>(
       navigation_handle()->GetRenderFrameHost());
 
-  const std::string& required_csp =
-      frame->frame_tree_node()->frame_owner_properties().required_csp;
+  // TODO(antoniosartori): Take a snapshot of required_csp at the beginning of
+  // the navigation, since it could have been changed in the meantime.
+  const network::mojom::ContentSecurityPolicy* required_csp =
+      frame->frame_tree_node()->csp_attribute();
 
-  if (required_csp.empty())
+  if (!required_csp)
     return CheckResult::PROCEED;
 
   const network::mojom::AllowCSPFromHeaderValuePtr& allow_csp_from =
@@ -447,7 +449,8 @@ AncestorThrottle::EvaluateCSPEmbeddedEnforcement() {
           "frame neither accepts that policy using the Allow-CSP-From header "
           "nor delivers a Content Security Policy which is at least as strong "
           "as that one.",
-          sanitized_blocked_url.c_str(), required_csp.c_str()));
+          sanitized_blocked_url.c_str(),
+          required_csp->header->header_value.c_str()));
 
   return CheckResult::BLOCK;
 }

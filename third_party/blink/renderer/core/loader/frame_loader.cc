@@ -1547,7 +1547,8 @@ void FrameLoader::ModifyRequestForCSP(
     const FetchClientSettingsObject* fetch_client_settings_object,
     LocalDOMWindow* window_for_logging,
     mojom::RequestContextFrameType frame_type) const {
-  if (!RequiredCSP().IsEmpty()) {
+  if (!base::FeatureList::IsEnabled(network::features::kOutOfBlinkCSPEE) &&
+      !RequiredCSP().IsEmpty()) {
     DCHECK(
         ContentSecurityPolicy::IsValidCSPAttr(RequiredCSP().GetString(), ""));
     resource_request.SetHttpHeaderField(http_names::kSecRequiredCSP,
