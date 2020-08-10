@@ -164,73 +164,7 @@ public class PaymentRequestImpl
         String getTwaPackageName(@Nullable ChromeActivity activity);
     }
 
-    /**
-     * A test-only observer for the PaymentRequest service implementation.
-     */
-    public interface PaymentRequestServiceObserverForTest {
-        /**
-         * Called after an instance of PaymentRequestImpl has been created.
-         *
-         * @param paymentRequest The newly created instance of PaymentRequestImpl.
-         */
-        void onPaymentRequestCreated(PaymentRequestImpl paymentRequest);
-
-        /**
-         * Called when an abort request was denied.
-         */
-        void onPaymentRequestServiceUnableToAbort();
-
-        /**
-         * Called when the controller is notified of billing address change, but does not alter the
-         * editor UI.
-         */
-        void onPaymentRequestServiceBillingAddressChangeProcessed();
-
-        /**
-         * Called when the controller is notified of an expiration month change.
-         */
-        void onPaymentRequestServiceExpirationMonthChange();
-
-        /**
-         * Called when a show request failed. This can happen when:
-         * <ul>
-         *   <li>The merchant requests only unsupported payment methods.</li>
-         *   <li>The merchant requests only payment methods that don't have corresponding apps and
-         *   are not able to add a credit card from PaymentRequest UI.</li>
-         * </ul>
-         */
-        void onPaymentRequestServiceShowFailed();
-
-        /**
-         * Called when the canMakePayment() request has been responded to.
-         */
-        void onPaymentRequestServiceCanMakePaymentQueryResponded();
-
-        /**
-         * Called when the hasEnrolledInstrument() request has been responded to.
-         */
-        void onPaymentRequestServiceHasEnrolledInstrumentQueryResponded();
-
-        /**
-         * Called when the payment response is ready.
-         */
-        void onPaymentResponseReady();
-
-        /**
-         * Called when the browser acknowledges the renderer's complete call, which indicates that
-         * the browser UI has closed.
-         */
-        void onCompleteReplied();
-
-        /**
-         * Called when the renderer is closing the mojo connection (e.g. upon show promise
-         * rejection).
-         */
-        void onRendererClosedMojoConnection();
-    }
-
     private static final String TAG = "PaymentRequest";
-    private static PaymentRequestServiceObserverForTest sObserverForTest;
     private static boolean sIsLocalCanMakePaymentQueryQuotaEnforcedForTest;
     /**
      * Hold the currently showing PaymentRequest. Used to prevent showing more than one
@@ -402,12 +336,6 @@ public class PaymentRequestImpl
     private SkipToGPayHelper mSkipToGPayHelper;
 
     /**
-     * When true skip UI is available for non-url based payment method identifiers (e.g.
-     * basic-card).
-     */
-    private boolean mSkipUiForNonUrlPaymentMethodIdentifiers;
-
-    /**
      * Builds the PaymentRequest service implementation.
      *
      * @param renderFrameHost The host of the frame that has invoked the PaymentRequest API.
@@ -436,8 +364,6 @@ public class PaymentRequestImpl
         mCertificateChain = CertificateChainHelper.getCertificateChain(mWebContents);
         mIsOffTheRecord = isOffTheRecord;
         mJourneyLogger = journeyLogger;
-        mSkipUiForNonUrlPaymentMethodIdentifiers = mDelegate.skipUiForBasicCard();
-        if (sObserverForTest != null) sObserverForTest.onPaymentRequestCreated(this);
         mPaymentUIsManager = new PaymentUIsManager(/*delegate=*/this,
                 /*params=*/this, mWebContents, mIsOffTheRecord, mJourneyLogger);
         mComponentPaymentRequestImpl = componentPaymentRequestImpl;
@@ -598,7 +524,7 @@ public class PaymentRequestImpl
                 // This excludes AutofillPaymentInstrument as its UI is rendered inline in
                 // the payment request UI, thus can't be skipped.
                 && (mURLPaymentMethodIdentifiersSupported
-                        || mSkipUiForNonUrlPaymentMethodIdentifiers)
+                        || mComponentPaymentRequestImpl.skipUiForNonUrlPaymentMethodIdentifiers())
                 && mPaymentUIsManager.getPaymentMethodsSection().getSize() >= 1
                 && mPaymentUIsManager.onlySingleAppCanProvideAllRequiredInformation()
                 // Skip to payment app only if it can be pre-selected.
@@ -629,7 +555,10 @@ public class PaymentRequestImpl
         if (!mDelegate.isWebContentsActive(activity)) {
             mJourneyLogger.setNotShown(NotShownReason.OTHER);
             disconnectFromClientWithDebugMessage(ErrorStrings.CANNOT_SHOW_IN_BACKGROUND_TAB);
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return false;
         }
 
@@ -643,8 +572,9 @@ public class PaymentRequestImpl
             if (mOverviewModeBehavior.overviewVisible()) {
                 mJourneyLogger.setNotShown(NotShownReason.OTHER);
                 disconnectFromClientWithDebugMessage(ErrorStrings.TAB_OVERVIEW_MODE);
-                if (sObserverForTest != null) {
-                    sObserverForTest.onPaymentRequestServiceShowFailed();
+                if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                    ComponentPaymentRequestImpl.getObserverForTest()
+                            .onPaymentRequestServiceShowFailed();
                 }
                 return false;
             }
@@ -728,7 +658,10 @@ public class PaymentRequestImpl
             mJourneyLogger.setNotShown(NotShownReason.CONCURRENT_REQUESTS);
             disconnectFromClientWithDebugMessage(
                     ErrorStrings.ANOTHER_UI_SHOWING, PaymentErrorReason.ALREADY_SHOWING);
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return;
         }
 
@@ -744,7 +677,10 @@ public class PaymentRequestImpl
         if (chromeActivity == null) {
             mJourneyLogger.setNotShown(NotShownReason.OTHER);
             disconnectFromClientWithDebugMessage(ErrorStrings.ACTIVITY_NOT_FOUND);
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return;
         }
 
@@ -1582,7 +1518,10 @@ public class PaymentRequestImpl
             mJourneyLogger.setAborted(AbortReason.ABORTED_BY_MERCHANT);
             closeUIAndDestroyNativeObjects();
         } else {
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceUnableToAbort();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceUnableToAbort();
+            }
         }
         if (ComponentPaymentRequestImpl.getNativeObserverForTest() != null) {
             ComponentPaymentRequestImpl.getNativeObserverForTest().onAbortCalled();
@@ -1752,8 +1691,9 @@ public class PaymentRequestImpl
 
         mJourneyLogger.setCanMakePaymentValue(response || mIsOffTheRecord);
 
-        if (sObserverForTest != null) {
-            sObserverForTest.onPaymentRequestServiceCanMakePaymentQueryResponded();
+        if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+            ComponentPaymentRequestImpl.getObserverForTest()
+                    .onPaymentRequestServiceCanMakePaymentQueryResponded();
         }
         if (ComponentPaymentRequestImpl.getNativeObserverForTest() != null) {
             ComponentPaymentRequestImpl.getNativeObserverForTest().onCanMakePaymentReturned();
@@ -1800,8 +1740,9 @@ public class PaymentRequestImpl
 
         mJourneyLogger.setHasEnrolledInstrumentValue(response || mIsOffTheRecord);
 
-        if (sObserverForTest != null) {
-            sObserverForTest.onPaymentRequestServiceHasEnrolledInstrumentQueryResponded();
+        if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+            ComponentPaymentRequestImpl.getObserverForTest()
+                    .onPaymentRequestServiceHasEnrolledInstrumentQueryResponded();
         }
         if (ComponentPaymentRequestImpl.getNativeObserverForTest() != null) {
             ComponentPaymentRequestImpl.getNativeObserverForTest()
@@ -1831,7 +1772,9 @@ public class PaymentRequestImpl
         if (getClient() == null) return;
         closeClient();
         mJourneyLogger.setAborted(AbortReason.MOJO_RENDERER_CLOSING);
-        if (sObserverForTest != null) sObserverForTest.onRendererClosedMojoConnection();
+        if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+            ComponentPaymentRequestImpl.getObserverForTest().onRendererClosedMojoConnection();
+        }
         closeUIAndDestroyNativeObjects();
         if (ComponentPaymentRequestImpl.getNativeObserverForTest() != null) {
             ComponentPaymentRequestImpl.getNativeObserverForTest().onConnectionTerminated();
@@ -2048,7 +1991,10 @@ public class PaymentRequestImpl
         if (chromeActivity == null) {
             mJourneyLogger.setNotShown(NotShownReason.OTHER);
             disconnectFromClientWithDebugMessage(ErrorStrings.ACTIVITY_NOT_FOUND);
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return;
         }
 
@@ -2154,7 +2100,10 @@ public class PaymentRequestImpl
                                                 : " " + mRejectShowErrorMessage),
                         PaymentErrorReason.NOT_SUPPORTED);
             }
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return true;
         }
 
@@ -2178,7 +2127,9 @@ public class PaymentRequestImpl
             return false;
         }
 
-        if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+        if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+            ComponentPaymentRequestImpl.getObserverForTest().onPaymentRequestServiceShowFailed();
+        }
         mRejectShowErrorMessage = ErrorStrings.STRICT_BASIC_CARD_SHOW_REJECT;
         disconnectFromClientWithDebugMessage(
                 ErrorMessageUtil.getNotSupportedErrorMessage(mMethodData.keySet()) + " "
@@ -2231,7 +2182,9 @@ public class PaymentRequestImpl
         if (client == null) return;
         client.onPaymentResponse(response);
         mPaymentResponseHelper = null;
-        if (sObserverForTest != null) sObserverForTest.onPaymentResponseReady();
+        if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+            ComponentPaymentRequestImpl.getObserverForTest().onPaymentResponseReady();
+        }
     }
 
     /** Called if unable to retrieve payment details. */
@@ -2267,7 +2220,10 @@ public class PaymentRequestImpl
         if (chromeActivity == null) {
             mJourneyLogger.setAborted(AbortReason.OTHER);
             disconnectFromClientWithDebugMessage(ErrorStrings.ACTIVITY_NOT_FOUND);
-            if (sObserverForTest != null) sObserverForTest.onPaymentRequestServiceShowFailed();
+            if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                ComponentPaymentRequestImpl.getObserverForTest()
+                        .onPaymentRequestServiceShowFailed();
+            }
             return;
         }
 
@@ -2311,7 +2267,9 @@ public class PaymentRequestImpl
             mPaymentUIsManager.getPaymentRequestUI().close();
             PaymentRequestClient client = getClient();
             if (client != null) {
-                if (sObserverForTest != null) sObserverForTest.onCompleteReplied();
+                if (ComponentPaymentRequestImpl.getObserverForTest() != null) {
+                    ComponentPaymentRequestImpl.getObserverForTest().onCompleteReplied();
+                }
                 client.onComplete();
                 closeClient();
             }
@@ -2407,19 +2365,8 @@ public class PaymentRequestImpl
     }
 
     @VisibleForTesting
-    public static void setObserverForTest(PaymentRequestServiceObserverForTest observerForTest) {
-        sObserverForTest = observerForTest;
-        PaymentUIsManager.setObserverForTest(sObserverForTest);
-    }
-
-    @VisibleForTesting
     public static void setIsLocalCanMakePaymentQueryQuotaEnforcedForTest() {
         sIsLocalCanMakePaymentQueryQuotaEnforcedForTest = true;
-    }
-
-    @VisibleForTesting
-    /* package */ void setSkipUIForNonURLPaymentMethodIdentifiersForTest() {
-        mSkipUiForNonUrlPaymentMethodIdentifiers = true;
     }
 
     @Nullable

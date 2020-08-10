@@ -28,9 +28,11 @@ import java.util.List;
  * org.chromium.chrome.browser.payments.PaymentRequestImpl.
  */
 public class ComponentPaymentRequestImpl implements PaymentRequest {
+    private static PaymentRequestServiceObserverForTest sObserverForTest;
     private static NativeObserverForTest sNativeObserverForTest;
     private final BrowserPaymentRequestFactory mBrowserPaymentRequestFactory;
     private final RenderFrameHost mRenderFrameHost;
+    private boolean mSkipUiForNonUrlPaymentMethodIdentifiers;
     private BrowserPaymentRequest mBrowserPaymentRequest;
     private PaymentRequestClient mClient;
     private boolean mIsOffTheRecord;
@@ -73,18 +75,100 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
     }
 
     /**
+     * A test-only observer for the PaymentRequest service implementation.
+     */
+    public interface PaymentRequestServiceObserverForTest {
+        /**
+         * Called after an instance of {@link ComponentPaymentRequestImpl} has been created.
+         *
+         * @param componentPaymentRequest The newly created instance of ComponentPaymentRequestImpl.
+         */
+        void onPaymentRequestCreated(ComponentPaymentRequestImpl componentPaymentRequest);
+
+        /**
+         * Called when an abort request was denied.
+         */
+        void onPaymentRequestServiceUnableToAbort();
+
+        /**
+         * Called when the controller is notified of billing address change, but does not alter the
+         * editor UI.
+         */
+        void onPaymentRequestServiceBillingAddressChangeProcessed();
+
+        /**
+         * Called when the controller is notified of an expiration month change.
+         */
+        void onPaymentRequestServiceExpirationMonthChange();
+
+        /**
+         * Called when a show request failed. This can happen when:
+         * <ul>
+         *   <li>The merchant requests only unsupported payment methods.</li>
+         *   <li>The merchant requests only payment methods that don't have corresponding apps and
+         *   are not able to add a credit card from PaymentRequest UI.</li>
+         * </ul>
+         */
+        void onPaymentRequestServiceShowFailed();
+
+        /**
+         * Called when the canMakePayment() request has been responded to.
+         */
+        void onPaymentRequestServiceCanMakePaymentQueryResponded();
+
+        /**
+         * Called when the hasEnrolledInstrument() request has been responded to.
+         */
+        void onPaymentRequestServiceHasEnrolledInstrumentQueryResponded();
+
+        /**
+         * Called when the payment response is ready.
+         */
+        void onPaymentResponseReady();
+
+        /**
+         * Called when the browser acknowledges the renderer's complete call, which indicates that
+         * the browser UI has closed.
+         */
+        void onCompleteReplied();
+
+        /**
+         * Called when the renderer is closing the mojo connection (e.g. upon show promise
+         * rejection).
+         */
+        void onRendererClosedMojoConnection();
+    }
+
+    /**
      * Build an instance of the PaymentRequest implementation.
      * @param renderFrameHost The RenderFrameHost of the merchant page.
      * @param isOffTheRecord Whether the merchant page is in a OffTheRecord (e.g., incognito, guest
      *         mode) Tab.
+     * @param skipUiForBasicCard True if the PaymentRequest UI should be skipped when the request
+     *         only supports basic-card methods.
      * @param browserPaymentRequestFactory The factory that generates an instance of
      *         BrowserPaymentRequest to work with this ComponentPaymentRequestImpl instance.
      */
-    public ComponentPaymentRequestImpl(RenderFrameHost renderFrameHost, boolean isOffTheRecord,
+    public static ComponentPaymentRequestImpl create(RenderFrameHost renderFrameHost,
+            boolean isOffTheRecord, boolean skipUiForBasicCard,
             BrowserPaymentRequestFactory browserPaymentRequestFactory) {
+        ComponentPaymentRequestImpl instance = new ComponentPaymentRequestImpl(
+                renderFrameHost, isOffTheRecord, skipUiForBasicCard, browserPaymentRequestFactory);
+        instance.onCreated();
+        return instance;
+    }
+
+    private ComponentPaymentRequestImpl(RenderFrameHost renderFrameHost, boolean isOffTheRecord,
+            boolean skipUiForBasicCard, BrowserPaymentRequestFactory browserPaymentRequestFactory) {
         mBrowserPaymentRequestFactory = browserPaymentRequestFactory;
         mIsOffTheRecord = isOffTheRecord;
+        mSkipUiForNonUrlPaymentMethodIdentifiers = skipUiForBasicCard;
         mRenderFrameHost = renderFrameHost;
+    }
+
+    private void onCreated() {
+        if (sObserverForTest == null) return;
+        sObserverForTest.onPaymentRequestCreated(this);
     }
 
     /**
@@ -210,5 +294,31 @@ public class ComponentPaymentRequestImpl implements PaymentRequest {
     /** @return The observer for the PaymentRequest lifecycle. */
     public PaymentRequestLifecycleObserver getPaymentRequestLifecycleObserver() {
         return mPaymentRequestLifecycleObserver;
+    }
+
+    /** @return An observer for the payment request service, if any; otherwise, null. */
+    @Nullable
+    public static PaymentRequestServiceObserverForTest getObserverForTest() {
+        return sObserverForTest;
+    }
+
+    /** Set an observer for the payment request service, cannot be null. */
+    @VisibleForTesting
+    public static void setObserverForTest(PaymentRequestServiceObserverForTest observerForTest) {
+        assert observerForTest != null;
+        sObserverForTest = observerForTest;
+    }
+
+    /**
+     * @return True when skip UI is available for non-url based payment method identifiers (e.g.
+     * basic-card).
+     */
+    public boolean skipUiForNonUrlPaymentMethodIdentifiers() {
+        return mSkipUiForNonUrlPaymentMethodIdentifiers;
+    }
+
+    @VisibleForTesting
+    public void setSkipUiForNonUrlPaymentMethodIdentifiersForTest() {
+        mSkipUiForNonUrlPaymentMethodIdentifiers = true;
     }
 }
