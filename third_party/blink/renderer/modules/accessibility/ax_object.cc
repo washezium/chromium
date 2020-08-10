@@ -1720,7 +1720,7 @@ bool AXObject::CanSetFocusAttribute() const {
   // TODO(accessibility) Focusable: scrollable with the keyboard.
   // Keyboard-focusable scroll containers feature:
   // https://www.chromestatus.com/feature/5231964663578624
-  // When adding here, remove similar check from ::NameFromContents().
+  // When adding here, remove similar check from ::SupportsNameFromContents().
   // if (RuntimeEnabledFeatures::KeyboardFocusableScrollersEnabled() &&
   //     IsUserScrollable()) {
   //   return true;
@@ -3942,7 +3942,7 @@ bool AXObject::NameFromSelectedOption(bool recursive) const {
   }
 }
 
-bool AXObject::NameFromContents(bool recursive) const {
+bool AXObject::SupportsNameFromContents(bool recursive) const {
   // ARIA 1.1, section 5.2.7.5.
   bool result = false;
 
