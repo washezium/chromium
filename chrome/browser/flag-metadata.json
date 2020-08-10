@@ -2832,7 +2832,7 @@
   {
     "name": "ios-lookalike-url-navigation-suggestions-ui",
     "owners": [ "livvielin", "bling-flags" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 89
   },
   {
     "name": "ios-synthetic-crash-reports",
@@ -4097,7 +4097,7 @@
   {
     "name": "ssl-committed-interstitials",
     "owners": [ "livvielin" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 87
   },
   {
     "name": "stop-in-background",
