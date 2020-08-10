@@ -38977,6 +38977,13 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="4" label="Blocklisted due to reloads/back-forwards"/>
 </enum>
 
+<enum name="LiteVideoDecision">
+  <int value="0" label="None"/>
+  <int value="1" label="Allowed"/>
+  <int value="2" label="Not Allowed"/>
+  <int value="3" label="Holdback"/>
+</enum>
+
 <enum name="LiveCaptionsSessionEvent">
   <int value="0" label="Stream started"/>
   <int value="1" label="Stream finished"/>
