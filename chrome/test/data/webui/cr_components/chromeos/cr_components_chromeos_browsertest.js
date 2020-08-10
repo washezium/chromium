@@ -21,9 +21,13 @@ GEN('#endif');
 // ['ModuleNameTest', 'module.js',
 //   [<module.js dependency source list>]
 // ]
+// clang-format off
 [
   ['CrPolicyNetworkBehaviorMojo', 'cr_policy_network_behavior_mojo_tests.js',
     ['../../cr_elements/cr_policy_strings.js']
+  ],
+  ['CrPolicyNetworkIndicatorMojo', 'cr_policy_network_indicator_mojo_tests.js',
+    [ '../../cr_elements/cr_policy_strings.js' ]
   ],
   ['NetworkConfig', 'network_config_test.js',
     [
@@ -34,12 +38,8 @@ GEN('#endif');
       '../../chromeos/fake_network_config_mojom.js',
     ]
   ],
-  ['PolicyNetworkIndicatorMojo', 'cr_policy_network_indicator_mojo_tests.js',
-    [
-      '../../cr_elements/cr_policy_strings.js',
-    ]
-  ],
 ].forEach(test => registerTest(...test));
+// clang-format on
 
 function registerTest(testName, module, deps) {
   const className = `CrComponents${testName}Test`;
