@@ -3675,6 +3675,11 @@
     "expiry_milestone": 82
   },
   {
+    "name": "promo-browser-commands",
+    "owners": ["mahmadi", "chrome-desktop-ntp" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "pull-to-refresh",
     "owners": [ "afakhry" ],
     "expiry_milestone": 83

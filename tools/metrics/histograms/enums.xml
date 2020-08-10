@@ -40453,6 +40453,7 @@ from previous Chrome versions.
   <int value="-1557527869" label="LoadingWithMojo:disabled"/>
   <int value="-1555510175" label="PasswordImport:enabled"/>
   <int value="-1553477903" label="ash-disable-text-filtering-in-overview-mode"/>
+  <int value="-1553280810" label="PromoBrowserCommands:enabled"/>
   <int value="-1552898031" label="SingleTabMode:enabled"/>
   <int value="-1550760918" label="PipRoundedCorners:disabled"/>
   <int value="-1550541457" label="DisplayIdentification:disabled"/>
@@ -41489,6 +41490,7 @@ from previous Chrome versions.
   <int value="-491546546" label="MeteredShowToggle:enabled"/>
   <int value="-491131428" label="OmniboxNewAnswerLayout:disabled"/>
   <int value="-488779992" label="blink-settings"/>
+  <int value="-488744544" label="PromoBrowserCommands:disabled"/>
   <int value="-488449930" label="SafetyCheckAndroid:enabled"/>
   <int value="-482494879"
       label="OmniboxHistoryQuickProviderAllowMidwordContinuations:disabled"/>

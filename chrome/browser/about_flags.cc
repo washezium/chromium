@@ -1385,6 +1385,13 @@ const FeatureEntry::FeatureVariation kMarkHttpAsFeatureVariations[] = {
     {"(mark with a grey triangle icon)", kMarkHttpAsDangerWarning,
      base::size(kMarkHttpAsDangerWarning), nullptr}};
 
+const FeatureEntry::FeatureParam kPromoBrowserCommandUnknownCommandParam[] = {
+    {features::kPromoBrowserCommandIdParam, "0"}};
+const FeatureEntry::FeatureVariation kPromoBrowserCommandsVariations[] = {
+    {"- Unknown Command", kPromoBrowserCommandUnknownCommandParam,
+     base::size(kPromoBrowserCommandUnknownCommandParam),
+     "t4237555" /* variation_id */}};
+
 #if defined(OS_ANDROID)
 const FeatureEntry::FeatureParam kTranslateForceTriggerOnEnglishHeuristic[] = {
     {language::kOverrideModelKey, language::kOverrideModelHeuristicValue},
@@ -4050,6 +4057,11 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kProminentDarkModeActiveTabTitleDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kProminentDarkModeActiveTabTitle)},
 
+    {"promo-browser-commands", flag_descriptions::kPromoBrowserCommandsName,
+     flag_descriptions::kPromoBrowserCommandsDescription, kOsAll,
+     FEATURE_WITH_PARAMS_VALUE_TYPE(features::kPromoBrowserCommands,
+                                    kPromoBrowserCommandsVariations,
+                                    "PromoBrowserCommands")},
 #if defined(OS_ANDROID)
     {"enable-reader-mode-in-cct", flag_descriptions::kReaderModeInCCTName,
      flag_descriptions::kReaderModeInCCTDescription, kOsAndroid,

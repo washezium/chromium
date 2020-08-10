@@ -1103,6 +1103,9 @@ extern const char kSafetyCheckAndroidDescription[];
 extern const char kProminentDarkModeActiveTabTitleName[];
 extern const char kProminentDarkModeActiveTabTitleDescription[];
 
+extern const char kPromoBrowserCommandsName[];
+extern const char kPromoBrowserCommandsDescription[];
+
 extern const char kPullToRefreshName[];
 extern const char kPullToRefreshDescription[];
 extern const char kPullToRefreshEnabledTouchscreen[];
