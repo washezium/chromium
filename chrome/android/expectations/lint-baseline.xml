@@ -359,17 +359,6 @@
 
     <issue
         id="WrongConstant"
-        message="Must be one of: Type.NO_ADJUSTMENT, Type.FRAMERATE_ADJUSTMENT"
-        errorLine1="        return -1;"
-        errorLine2="               ~~">
-        <location
-            file="media/base/android/java/src/org/chromium/media/MediaCodecUtil.java"
-            line="556"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="WrongConstant"
         message="Must be one of: MediaSessionActionSource.MEDIA_NOTIFICATION, MediaSessionActionSource.MEDIA_SESSION, MediaSessionActionSource.HEADSET_UNPLUG"
         errorLine1="        return MediaSessionUma.MediaSessionActionSource.NUM_ENTRIES;"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -580,33 +569,11 @@
     <issue
         id="VisibleForTests"
         message="This method should only be accessed from tests or within private scope"
-        errorLine1="        setKeyboardDelegate(createKeyboardVisibilityDelegate());"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/base/ActivityWindowAndroid.java"
-            line="58"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        setAndroidPermissionDelegate(createAndroidPermissionDelegate());"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/base/ActivityWindowAndroid.java"
-            line="59"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
         errorLine1="                                || !WebsitePreferenceBridgeJni.get().isContentSettingsPatternValid("
         errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="components/browser_ui/site_settings/android/java/src/org/chromium/components/browser_ui/site_settings/AddExceptionPreference.java"
-            line="189"
+            line="187"
             column="70"/>
     </issue>
 
@@ -1002,7 +969,7 @@
         errorLine2="                          ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="237"
+            line="240"
             column="27"/>
     </issue>
 
@@ -1013,7 +980,7 @@
         errorLine2="                              ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="238"
+            line="241"
             column="31"/>
     </issue>
 
@@ -1024,7 +991,7 @@
         errorLine2="                              ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="239"
+            line="242"
             column="31"/>
     </issue>
 
@@ -1035,7 +1002,7 @@
         errorLine2="                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="469"
+            line="475"
             column="30"/>
     </issue>
 
@@ -1046,7 +1013,7 @@
         errorLine2="                                                ~~~~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="558"
+            line="564"
             column="49"/>
     </issue>
 
@@ -1057,7 +1024,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="559"
+            line="565"
             column="40"/>
     </issue>
 
@@ -1068,7 +1035,7 @@
         errorLine2="                                                                  ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="574"
+            line="580"
             column="67"/>
     </issue>
 
@@ -1079,7 +1046,7 @@
         errorLine2="                        ~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="612"
+            line="618"
             column="25"/>
     </issue>
 
@@ -1090,7 +1057,7 @@
         errorLine2="                                                                        ~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="629"
+            line="635"
             column="73"/>
     </issue>
 
@@ -1101,7 +1068,7 @@
         errorLine2="                                                                      ~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="650"
+            line="656"
             column="71"/>
     </issue>
 
@@ -1112,7 +1079,7 @@
         errorLine2="                                                   ~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="668"
+            line="674"
             column="52"/>
     </issue>
 
@@ -1123,7 +1090,7 @@
         errorLine2="                       ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="687"
+            line="693"
             column="24"/>
     </issue>
 
@@ -1134,7 +1101,7 @@
         errorLine2="                              ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="688"
+            line="694"
             column="31"/>
     </issue>
 
@@ -1145,7 +1112,7 @@
         errorLine2="                              ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="689"
+            line="695"
             column="31"/>
     </issue>
 
@@ -1156,7 +1123,7 @@
         errorLine2="                                                                     ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="698"
+            line="704"
             column="70"/>
     </issue>
 
@@ -1167,7 +1134,7 @@
         errorLine2="                                          ~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="703"
+            line="709"
             column="43"/>
     </issue>
 
@@ -1178,7 +1145,7 @@
         errorLine2="                                               ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="705"
+            line="711"
             column="48"/>
     </issue>
 
@@ -1189,7 +1156,7 @@
         errorLine2="                           ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="728"
+            line="734"
             column="28"/>
     </issue>
 
@@ -1200,7 +1167,7 @@
         errorLine2="                                                        ~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="846"
+            line="852"
             column="57"/>
     </issue>
 
@@ -1211,7 +1178,7 @@
         errorLine2="                                    ~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="933"
+            line="940"
             column="37"/>
     </issue>
 
@@ -1222,7 +1189,7 @@
         errorLine2="                              ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="934"
+            line="941"
             column="31"/>
     </issue>
 
@@ -1233,7 +1200,7 @@
         errorLine2="                                   ~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="955"
+            line="962"
             column="36"/>
     </issue>
 
@@ -1244,7 +1211,7 @@
         errorLine2="                       ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="970"
+            line="977"
             column="24"/>
     </issue>
 
@@ -1255,7 +1222,7 @@
         errorLine2="                               ~~~~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="972"
+            line="979"
             column="32"/>
     </issue>
 
@@ -1266,7 +1233,7 @@
         errorLine2="                                                                ~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="972"
+            line="979"
             column="65"/>
     </issue>
 
@@ -1277,7 +1244,7 @@
         errorLine2="                                                                                  ~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="1150"
+            line="1157"
             column="83"/>
     </issue>
 
@@ -1288,7 +1255,7 @@
         errorLine2="                           ~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/AutocompleteMediator.java"
-            line="1151"
+            line="1158"
             column="28"/>
     </issue>
 
@@ -2707,7 +2674,7 @@
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/bookmarks/BookmarkPromoHeader.java"
-            line="239"
+            line="237"
             column="40"/>
     </issue>
 
@@ -3374,171 +3341,6 @@
     <issue
         id="VisibleForTests"
         message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setAdapter(adapter);"
-        errorLine2="               ~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="46"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setInitialSelection(initialSelection);"
-        errorLine2="               ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="50"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.show();"
-        errorLine2="               ~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="57"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setOnDismissListener(listener);"
-        errorLine2="               ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="66"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setRtl(isRtl);"
-        errorLine2="               ~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="74"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.disableHideOnOutsideTap();"
-        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="82"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setContentDescriptionForAccessibility(description);"
-        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="91"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setOnItemClickListener(clickListener);"
-        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="100"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.postShow();"
-        errorLine2="               ~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="108"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.dismiss();"
-        errorLine2="               ~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="115"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        return mPopup.getListView();"
-        errorLine2="                      ~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="122"
-            column="23"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        return mPopup.isShowing();"
-        errorLine2="                      ~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="129"
-            column="23"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mPopup.setFooterView(footerItem);"
-        errorLine2="               ~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindow.java"
-            line="136"
-            column="16"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        implements AnchoredPopupWindow.LayoutObserver, DropdownPopupWindowInterface {"
-        errorLine2="                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindowImpl.java"
-            line="32"
-            column="56"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="class DropdownPopupWindowJellyBean implements DropdownPopupWindowInterface {"
-        errorLine2="                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="ui/android/java/src/org/chromium/ui/DropdownPopupWindowJellyBean.java"
-            line="33"
-            column="47"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
         errorLine1="        mLastProcessedSuggestionURL = suggestion.getUrl();"
         errorLine2="                                                 ~~~~~~">
         <location
@@ -3671,28 +3473,6 @@
     <issue
         id="VisibleForTests"
         message="This method should only be accessed from tests or within private scope"
-        errorLine1="        setKeyboardDelegate(new ActivityKeyboardVisibilityDelegate(getActivity()));"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="weblayer/browser/java/org/chromium/weblayer_private/FragmentWindowAndroid.java"
-            line="37"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        setAndroidPermissionDelegate(new FragmentAndroidPermissionDelegate(mFragment));"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="weblayer/browser/java/org/chromium/weblayer_private/FragmentWindowAndroid.java"
-            line="38"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
         errorLine1="                    ? UrlUtilities.urlsMatchIgnoringFragments(speculatedUrl, url)"
         errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -3710,28 +3490,6 @@
             file="chrome/browser/image_fetcher/android/java/src/org/chromium/chrome/browser/image_fetcher/ImageFetcherBridge.java"
             line="92"
             column="42"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="    public static final int COMPOSITION_KEY_CODE = ImeAdapter.COMPOSITION_KEY_CODE;"
-        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="content/public/android/java/src/org/chromium/content/browser/input/ImeAdapterImpl.java"
-            line="96"
-            column="63"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            mCursorAnchorInfoController.setInputMethodManagerWrapper(immw);"
-        errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="content/public/android/java/src/org/chromium/content/browser/input/ImeAdapterImpl.java"
-            line="350"
-            column="41"/>
     </issue>
 
     <issue
@@ -3886,83 +3644,6 @@
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/LocationBarTablet.java"
             line="237"
             column="64"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            LocationProviderAdapter.onNewLocationAvailable(location);"
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderAndroid.java"
-            line="62"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            LocationProviderAdapter.newErrorAvailable("
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderAndroid.java"
-            line="114"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            LocationProviderAdapter.onNewLocationAvailable(location);"
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderAndroid.java"
-            line="144"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            LocationProviderAdapter.onNewLocationAvailable(location);"
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderGmsCore.java"
-            line="92"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            LocationProviderAdapter.newErrorAvailable("
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderGmsCore.java"
-            line="104"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        LocationProviderAdapter.newErrorAvailable("
-        errorLine2="                                ~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderGmsCore.java"
-            line="116"
-            column="33"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        LocationProviderAdapter.onNewLocationAvailable(location);"
-        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="services/device/geolocation/android/java/src/org/chromium/device/geolocation/LocationProviderGmsCore.java"
-            line="150"
-            column="33"/>
     </issue>
 
     <issue
@@ -4434,7 +4115,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~">
         <location
             file="chrome/android/java/src/org/chromium/chrome/browser/ntp/RecentTabsManager.java"
-            line="382"
+            line="381"
             column="46"/>
     </issue>
 
@@ -4799,39 +4480,6 @@
             file="chrome/android/java/src/org/chromium/chrome/browser/omnibox/suggestions/tail/TailSuggestionProcessor.java"
             line="60"
             column="55"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mImeAdapter.finishComposingText();"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="content/public/android/java/src/org/chromium/content/browser/input/ThreadedInputConnection.java"
-            line="583"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            mFactory.setTriggerDelayedOnCreateInputConnection(false);"
-        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="content/public/android/java/src/org/chromium/content/browser/input/ThreadedInputConnectionProxyView.java"
-            line="95"
-            column="22"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="            mFactory.setTriggerDelayedOnCreateInputConnection(true);"
-        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="content/public/android/java/src/org/chromium/content/browser/input/ThreadedInputConnectionProxyView.java"
-            line="97"
-            column="22"/>
     </issue>
 
     <issue
@@ -5453,39 +5101,6 @@
     <issue
         id="VisibleForTests"
         message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mVrBrowsingEnabled = mDelegate.isVrBrowsingEnabled();"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="chrome/android/features/vr/java/src/org/chromium/chrome/browser/vr/VrShell.java"
-            line="173"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        mVrBrowsingEnabled = mDelegate.isVrBrowsingEnabled();"
-        errorLine2="                                       ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="chrome/android/features/vr/java/src/org/chromium/chrome/browser/vr/VrShell.java"
-            line="173"
-            column="40"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
-        errorLine1="        setAndroidPermissionDelegate(new ActivityAndroidPermissionDelegate());"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="chrome/android/features/vr/java/src/org/chromium/chrome/browser/vr/VrWindowAndroid.java"
-            line="37"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="VisibleForTests"
-        message="This method should only be accessed from tests or within private scope"
         errorLine1="        mWebApkUpdateManager.get().updateIfNeeded(storage, mActivity.getIntentDataProvider());"
         errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -5589,7 +5204,7 @@
         errorLine2="                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="components/browser_ui/site_settings/android/java/src/org/chromium/components/browser_ui/site_settings/WebsitePreferenceBridge.java"
-            line="156"
+            line="155"
             column="18"/>
     </issue>
 
@@ -5600,7 +5215,7 @@
         errorLine2="                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="components/browser_ui/site_settings/android/java/src/org/chromium/components/browser_ui/site_settings/WebsitePreferenceBridge.java"
-            line="181"
+            line="180"
             column="30"/>
     </issue>
 
@@ -5611,7 +5226,7 @@
         errorLine2="                 ^">
         <location
             file="components/browser_ui/site_settings/android/java/src/org/chromium/components/browser_ui/site_settings/WebsitePreferenceBridge.java"
-            line="236"
+            line="235"
             column="18"/>
     </issue>
 
