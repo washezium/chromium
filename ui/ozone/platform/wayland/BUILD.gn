@@ -34,6 +34,10 @@ source_set("wayland") {
     "gpu/wayland_buffer_manager_gpu.h",
     "gpu/wayland_canvas_surface.cc",
     "gpu/wayland_canvas_surface.h",
+    "gpu/wayland_overlay_candidates.cc",
+    "gpu/wayland_overlay_candidates.h",
+    "gpu/wayland_overlay_manager.cc",
+    "gpu/wayland_overlay_manager.h",
     "gpu/wayland_surface_factory.cc",
     "gpu/wayland_surface_factory.h",
     "gpu/wayland_surface_gpu.h",
@@ -313,6 +317,7 @@ source_set("wayland_unittests") {
   testonly = true
 
   sources = [
+    "gpu/wayland_overlay_manager_unittest.cc",
     "host/wayland_connection_unittest.cc",
     "host/wayland_data_device_unittest.cc",
     "host/wayland_data_drag_controller_unittest.cc",
