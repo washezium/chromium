@@ -70249,6 +70249,13 @@ Full version information for the fingerprint enum values:
   <int value="3" label="False to True"/>
 </enum>
 
+<enum name="TrustedWebActivityQualityEnforcementViolationType">
+  <int value="0" label="Error 404"/>
+  <int value="1" label="Error 5xx"/>
+  <int value="2" label="Page unavailable offline"/>
+  <int value="3" label="Digital assetlinks verification failure"/>
+</enum>
+
 <enum name="TunnelRedirectHistogramValue">
   <obsolete>
     Removed in Chrome 76.
