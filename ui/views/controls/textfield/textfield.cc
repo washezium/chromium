@@ -764,8 +764,9 @@ bool Textfield::OnMousePressed(const ui::MouseEvent& event) {
 
   return selection_controller_.OnMousePressed(
       event, handled,
-      had_focus ? SelectionController::FOCUSED
-                : SelectionController::UNFOCUSED);
+      had_focus
+          ? SelectionController::InitialFocusStateOnMousePress::kFocused
+          : SelectionController::InitialFocusStateOnMousePress::kUnFocused);
 }
 
 bool Textfield::OnMouseDragged(const ui::MouseEvent& event) {
