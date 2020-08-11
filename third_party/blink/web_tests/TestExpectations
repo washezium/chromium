@@ -1283,8 +1283,6 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 
 # Size containment
 crbug.com/875235 external/wpt/css/css-sizing/contain-intrinsic-size/contain-intrinsic-size-014.html [ Failure ]
-# Mask paiting area
-crbug.com/875235 paint/masks/fieldset-mask.html [ Failure ]
 
 
 # ====== LayoutNG-only failures until here ======
