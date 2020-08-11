@@ -86,11 +86,6 @@ EXPIRY_MILESTONE_RE = re.compile(r'M[0-9]{2,3}\Z')
 
 _ELEMENT_NODE = xml.dom.minidom.Node.ELEMENT_NODE
 
-# List of fields that need to copied by copy.copy to suffixed histogram.
-# Other fields may be copied by reference.
-_HISTOGRAM_COPY_FIELDS = [
-    'fieldtrial_groups', 'fieldtrial_names', 'fieldtrial_labels']
-
 
 class Error(Exception):
   pass
@@ -713,14 +708,6 @@ def _UpdateHistogramsWithSuffixes(tree, histograms):
           suffix_label = suffix_labels.get(suffix_name, '')
 
           histogram_entry = histograms[new_histogram_name]
-          for field_name in _HISTOGRAM_COPY_FIELDS:
-            histogram_entry.setdefault(field_name, [])
-
-          # TODO(yiyaoliu): Rename these to be consistent with the new naming.
-          # It is kept unchanged for now to be it's used by dashboards.
-          histogram_entry['fieldtrial_groups'].append(suffix_name)
-          histogram_entry['fieldtrial_names'].append(name)
-          histogram_entry['fieldtrial_labels'].append(suffix_label)
 
           # If no owners are added for this histogram-suffixes, it inherits the
           # owners of its parents.
