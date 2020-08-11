@@ -652,6 +652,11 @@
     "expiry_milestone": 89
   },
   {
+    "name": "cpu-affinity-restrict-to-little-cores",
+    "owners": [ "eseckler", "skyostil" ],
+    "expiry_milestone": 92
+  },
+  {
     "name": "credit-card-scanner",
     "owners": [ "gambard", "javierrobles", "bling-flags" ],
     "expiry_milestone": 86

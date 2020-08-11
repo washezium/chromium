@@ -6281,6 +6281,14 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(features::kTabSearch)},
 #endif  // BUILDFLAG(ENABLE_TAB_SEARCH)
 
+#if defined(OS_ANDROID)
+    {"cpu-affinity-restrict-to-little-cores",
+     flag_descriptions::kCpuAffinityRestrictToLittleCoresName,
+     flag_descriptions::kCpuAffinityRestrictToLittleCoresDescription,
+     kOsAndroid,
+     FEATURE_VALUE_TYPE(features::kCpuAffinityRestrictToLittleCores)},
+#endif  // OS_ANDROID
+
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the
