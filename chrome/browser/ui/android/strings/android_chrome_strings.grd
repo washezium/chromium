@@ -971,6 +971,9 @@ Your Google account may have other forms of browsing history like searches and a
       <message name="IDS_PREFS_SAFE_BROWSING_SUMMARY" desc="Summary for the Safe Browsing preferences.">
         <ph name="SAFE_BROWSING_MODE">%1$s<ex>Enhanced protection</ex></ph> is on
       </message>
+      <message name="IDS_PREFS_SAFE_BROWSING_NO_PROTECTION_SUMMARY" desc="Summary for the Safe Browsing preferences when Safe Browsing is off.">
+        Safe Browsing is off
+      </message>
       <message name="IDS_PREFS_SECTION_SAFE_BROWSING_TITLE" desc="Title for the Safe Browsing section. [CHAR-LIMIT=32]">
         Safe Browsing
       </message>
