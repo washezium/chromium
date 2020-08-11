@@ -2703,6 +2703,8 @@ PhysicalRect PaintLayer::BoundingBoxForCompositingInternal(
     const PaintLayer& composited_layer,
     const PaintLayer* stacking_parent,
     CalculateBoundsOptions options) const {
+  DCHECK_GE(GetLayoutObject().GetDocument().Lifecycle().GetState(),
+            DocumentLifecycle::kInPrePaint);
   if (!IsSelfPaintingLayer())
     return PhysicalRect();
 
@@ -2731,8 +2733,17 @@ PhysicalRect PaintLayer::BoundingBoxForCompositingInternal(
 
   // If there is a clip applied by an ancestor to this PaintLayer but below or
   // equal to |ancestorLayer|, apply that clip.
-  PhysicalRect result = Clipper(GeometryMapperOption::kDoNotUseGeometryMapper)
-                            .LocalClipRect(composited_layer);
+  //
+  // There are two callsites to BoundingBoxForCompositingInternal: one in
+  // pre-paint for filter bouonding boxes, and one in compositing. The former
+  // can't use GeometryMapper yet because of circularity between
+  // LocalBorderBoxProperties and filters being set on the property trees.
+  PhysicalRect result =
+      Clipper((GetLayoutObject().GetDocument().Lifecycle().GetState() ==
+               DocumentLifecycle::kInCompositingAssignmentsUpdate)
+                  ? GeometryMapperOption::kUseGeometryMapper
+                  : GeometryMapperOption::kDoNotUseGeometryMapper)
+          .LocalClipRect(composited_layer);
 
   result.Intersect(LocalBoundingBox());
 
