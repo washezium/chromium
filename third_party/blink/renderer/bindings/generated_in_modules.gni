@@ -1711,6 +1711,8 @@ generated_interface_sources_in_modules = [
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_picture_in_picture_event.h",
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_picture_in_picture_window.cc",
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_picture_in_picture_window.h",
+  "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_plane.cc",
+  "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_plane.h",
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_plugin.cc",
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_plugin.h",
   "$root_gen_dir/third_party/blink/renderer/bindings/modules/v8/v8_plugin_array.cc",
