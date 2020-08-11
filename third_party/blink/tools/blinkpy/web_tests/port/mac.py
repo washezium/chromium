@@ -39,13 +39,6 @@ class MacPort(base.Port):
                           'mac10.16', 'mac11.0')
     port_name = 'mac'
 
-    # FIXME: We treat Retina (High-DPI) devices as if they are running a
-    # different operating system version. This is lame and should be fixed.
-    # Note that the retina versions fallback to the non-retina versions and so
-    # no baselines are shared between retina versions; this keeps the fallback
-    # graph as a tree and maximizes the number of baselines we can share that
-    # way. We also currently only support Retina on 10.13.
-
     FALLBACK_PATHS = {}
 
     FALLBACK_PATHS['mac11.0'] = ['mac']
@@ -63,8 +56,6 @@ class MacPort(base.Port):
     def determine_full_port_name(cls, host, options, port_name):
         if port_name.endswith('mac'):
             version = host.platform.os_version
-            if host.platform.is_highdpi():
-                version = 'retina'
             return port_name + '-' + version
         return port_name
 
