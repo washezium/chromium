@@ -5824,6 +5824,10 @@ const FeatureEntry kFeatureEntries[] = {
     {"os-settings-polymer3", flag_descriptions::kOsSettingsPolymer3Name,
      flag_descriptions::kOsSettingsPolymer3Description, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kOsSettingsPolymer3)},
+    {"release-notes-notification",
+     flag_descriptions::kReleaseNotesNotificationName,
+     flag_descriptions::kReleaseNotesNotificationDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::features::kReleaseNotesNotification)},
 #endif  // defined(OS_CHROMEOS)
 
     {"passive-mixed-content-warning",

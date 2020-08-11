@@ -4148,6 +4148,10 @@ const char kReleaseNotesDescription[] =
     "Creates release notes app in settings menu that shows a webview "
     "describing new OS features.";
 
+const char kReleaseNotesNotificationName[] = "Release Notes Notification";
+const char kReleaseNotesNotificationDescription[] =
+    "Enables the release notes notification and suggestion chip";
+
 const char kScanningUIName[] = "Scanning UI";
 const char kScanningUIDescription[] =
     "An experimental UI that allows users to interact with a connected "
