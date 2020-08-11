@@ -703,26 +703,15 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
     column_size.block_size = new_column_block_size;
   } while (true);
 
-  bool is_empty = false;
-
-  // If there was no content inside to process, we don't want the resulting
-  // empty column fragment.
-  if (new_columns.size() == 1u) {
-    const NGPhysicalBoxFragment& column = new_columns[0].Fragment();
-
-    if (column.Children().size() == 0) {
-      // No content. Keep the trailing margin from any previous column spanner.
-      is_empty = true;
-
-      // TODO(mstensho): It's wrong to keep the empty fragment, just so that
-      // out-of-flow descendants get propagated correctly. Find some other way
-      // of propagating them.
-      if (!column.HasOutOfFlowPositionedDescendants())
-        return result;
-    }
-  }
-
   intrinsic_block_size_ = column_block_offset + column_size.block_size;
+
+  // If we just have one empty fragmentainer, we need to keep the trailing
+  // margin from any previous column spanner, and also make sure that we don't
+  // incorrectly consider this to be a class A breakpoint. A fragmentainer may
+  // end up empty if there's no in-flow content at all inside the multicol
+  // container, or if the multicol container starts with a spanner.
+  bool is_empty =
+      new_columns.size() == 1 && new_columns[0].Fragment().Children().empty();
 
   if (!is_empty) {
     has_processed_first_child_ = true;

@@ -1096,7 +1096,6 @@ crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/composited-opacity-2
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/composited-with-overflow-in-next-column.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/doubly-nested-with-top-padding-crossing-row-boundaries.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/change-second-row-height.html [ Failure ]
-crbug.com/1105758 virtual/layout_ng_block_frag/fast/multicol/dynamic/insert-spanner-before-content.html [ Crash ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/insert-spanner-into-stf-constrained-width.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/insert-spanner-into-stf-unconstrained-width.html [ Failure ]
 crbug.com/591099 virtual/layout_ng_block_frag/fast/multicol/dynamic/relpos-becomes-static-has-abspos.html [ Failure ]
