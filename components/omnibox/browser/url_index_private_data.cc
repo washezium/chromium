@@ -221,10 +221,26 @@ ScoredHistoryMatches URLIndexPrivateData::HistoryItemsForTerms(
   }
   // Select and sort only the top |max_matches| results.
   if (scored_items.size() > max_matches) {
-    std::partial_sort(scored_items.begin(), scored_items.begin() + max_matches,
-                      scored_items.end(),
-                      ScoredHistoryMatch::MatchScoreGreater);
-    scored_items.resize(max_matches);
+    // Sort the top |max_matches| * 2 matches which is cheaper than sorting all
+    // matches yet likely sufficient to contain |max_matches| unique matches
+    // most of the time.
+    auto first_pass_size = std::min(scored_items.size(), max_matches * 2);
+    std::partial_sort(
+        scored_items.begin(), scored_items.begin() + first_pass_size,
+        scored_items.end(), ScoredHistoryMatch::MatchScoreGreater);
+    scored_items.resize(first_pass_size);
+
+    // Filter unique matches to maximize the use of the |max_matches| capacity.
+    std::set<HistoryID> seen_history_ids;
+    base::EraseIf(scored_items, [&](const auto& scored_item) {
+      HistoryID scored_item_id = scored_item.url_info.id();
+      bool duplicate = seen_history_ids.count(scored_item_id);
+      seen_history_ids.insert(scored_item_id);
+      return duplicate;
+    });
+    if (scored_items.size() > max_matches)
+      scored_items.resize(max_matches);
+
   } else {
     std::sort(scored_items.begin(), scored_items.end(),
               ScoredHistoryMatch::MatchScoreGreater);

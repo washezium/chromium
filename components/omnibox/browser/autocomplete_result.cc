@@ -657,6 +657,7 @@ GURL AutocompleteResult::ComputeAlternateNavUrl(
              : GURL();
 }
 
+// static
 void AutocompleteResult::DeduplicateMatches(ACMatches* matches) {
   // Group matches by stripped URL and whether it's a calculator suggestion.
   std::unordered_map<std::pair<GURL, bool>, std::vector<ACMatches::iterator>,

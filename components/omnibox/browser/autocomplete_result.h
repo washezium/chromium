@@ -162,6 +162,7 @@ class AutocompleteResult {
   size_t EstimateMemoryUsage() const;
 
   // Get a list of comparators used for deduping for the matches in this result.
+  // This is only used for logging.
   std::vector<MatchDedupComparator> GetMatchDedupComparators() const;
 
   // Gets the header string associated with |suggestion_group_id|. Returns an
