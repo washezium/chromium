@@ -544,7 +544,19 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
   // (colum balancing). Keep them in this list, and add them to the fragment
   // builder when we have the final column fragments. Or clear the list and
   // retry otherwise.
-  NGContainerFragmentBuilder::ChildrenVector new_columns;
+  struct ResultWithOffset {
+    scoped_refptr<const NGLayoutResult> result;
+    LogicalOffset offset;
+
+    ResultWithOffset(scoped_refptr<const NGLayoutResult> result,
+                     LogicalOffset offset)
+        : result(result), offset(offset) {}
+
+    const NGPhysicalBoxFragment& Fragment() const {
+      return To<NGPhysicalBoxFragment>(result->PhysicalFragment());
+    }
+  };
+  Vector<ResultWithOffset, 16> new_columns;
 
   scoped_refptr<const NGLayoutResult> result;
 
@@ -584,7 +596,7 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
       // Add the new column fragment to the list, but don't commit anything to
       // the fragment builder until we know whether these are the final columns.
       LogicalOffset logical_offset(column_inline_offset, column_block_offset);
-      new_columns.emplace_back(logical_offset, &result->PhysicalFragment());
+      new_columns.emplace_back(result, logical_offset);
 
       LayoutUnit space_shortage = result->MinimalSpaceShortage();
       if (space_shortage > LayoutUnit()) {
@@ -599,8 +611,6 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
 
       if (result->ColumnSpanner())
         break;
-
-      Node().AddColumnResult(result, column_break_token.get());
 
       column_break_token = To<NGBlockBreakToken>(column.BreakToken());
 
@@ -698,8 +708,7 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
   // If there was no content inside to process, we don't want the resulting
   // empty column fragment.
   if (new_columns.size() == 1u) {
-    const NGPhysicalBoxFragment& column =
-        *To<NGPhysicalBoxFragment>(new_columns[0].fragment.get());
+    const NGPhysicalBoxFragment& column = new_columns[0].Fragment();
 
     if (column.Children().size() == 0) {
       // No content. Keep the trailing margin from any previous column spanner.
@@ -725,9 +734,12 @@ scoped_refptr<const NGLayoutResult> NGColumnLayoutAlgorithm::LayoutRow(
   }
 
   // Commit all column fragments to the fragment builder.
-  for (auto column : new_columns) {
-    container_builder_.AddChild(To<NGPhysicalBoxFragment>(*column.fragment),
-                                column.offset);
+  const NGBlockBreakToken* incoming_column_token = next_column_token;
+  for (auto result_with_offset : new_columns) {
+    const NGPhysicalBoxFragment& fragment = result_with_offset.Fragment();
+    container_builder_.AddChild(fragment, result_with_offset.offset);
+    Node().AddColumnResult(result_with_offset.result, incoming_column_token);
+    incoming_column_token = To<NGBlockBreakToken>(fragment.BreakToken());
   }
 
   return result;
