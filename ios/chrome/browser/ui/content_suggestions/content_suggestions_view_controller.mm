@@ -74,6 +74,10 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
 // The FeedView CollectionView contained by discoverFeedVC.
 @property(nonatomic, strong) UICollectionView* feedView;
 
+// Navigation offset applied to the layout height to maintain the scroll
+// position, since the feed height is dynamic.
+@property(nonatomic) CGFloat offset;
+
 @end
 
 @implementation ContentSuggestionsViewController
@@ -90,8 +94,11 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithStyle:(CollectionViewControllerStyle)style {
-  UICollectionViewLayout* layout = [[ContentSuggestionsLayout alloc] init];
+- (instancetype)initWithStyle:(CollectionViewControllerStyle)style
+                       offset:(CGFloat)offset {
+  _offset = offset;
+  UICollectionViewLayout* layout =
+      [[ContentSuggestionsLayout alloc] initWithOffset:offset];
   self = [super initWithLayout:layout style:style];
   if (self) {
     _collectionUpdater = [[ContentSuggestionsCollectionUpdater alloc] init];
@@ -290,6 +297,13 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
   // Resize the collection as it might have been rotated while not being
   // presented (e.g. rotation on stack view).
   [self updateConstraints];
+  // Remove forced height if it was already applied, since the scroll position
+  // was already maintained.
+  if (self.offset > 0) {
+    ContentSuggestionsLayout* layout = static_cast<ContentSuggestionsLayout*>(
+        self.collectionView.collectionViewLayout);
+    layout.offset = 0;
+  }
 }
 
 - (void)viewDidLayoutSubviews {
