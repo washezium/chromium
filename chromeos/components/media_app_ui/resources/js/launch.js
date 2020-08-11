@@ -321,20 +321,6 @@ async function saveBlobToFile(handle, data) {
 }
 
 /**
- * Loads a single file into the guest.
- * @param {{file: !File, handle: !FileSystemFileHandle}} fileHandle
- * @returns {!Promise<undefined>}
- */
-async function loadSingleFile(fileHandle) {
-  /** @type {!FileDescriptor} */
-  const fd = {token: -1, file: fileHandle.file, handle: fileHandle.handle};
-  currentFiles.length = 0;
-  currentFiles.push(fd);
-  entryIndex = 0;
-  await sendFilesToGuest();
-}
-
-/**
  * Warns if a given exception is "uncommon". That is, one that the guest might
  * not provide UX for and should be dumped to console to give additional
  * context.
