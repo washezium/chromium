@@ -13,6 +13,7 @@
  *     file: ?File,
  *     handle: !FileSystemFileHandle,
  *     lastError: (string|undefined),
+ *     inCurrentDirectory: (boolean|undefined),
  * }}
  */
 let FileDescriptor;
@@ -363,6 +364,25 @@ async function sendFilesToGuest() {
 }
 
 /**
+ * Converts a file descriptor from `currentFiles` into a `FileContext` used by
+ * the LoadFilesMessage. Closure forgets that some fields may be missing without
+ * naming the type explicitly on the signature here.
+ * @param {!FileDescriptor} fd
+ * @return {!FileContext}
+ */
+function fileDescriptorToFileContext(fd) {
+  // TODO(b/163285796): Properly detect files that can't be renamed/deleted.
+  return {
+    token: fd.token,
+    file: fd.file,
+    name: fd.handle.name,
+    error: fd.lastError || '',
+    canDelete: fd.inCurrentDirectory || false,
+    canRename: fd.inCurrentDirectory || false,
+  };
+}
+
+/**
  * Loads the provided file list into the guest without making any file writable.
  * Note: code paths can defer loads i.e. `launchWithDirectory()` increment
  * `globalLaunchNumber` to ensure their deferred load is still relevant when it
@@ -395,12 +415,7 @@ async function sendSnapshotToGuest(
   const loadFilesMessage = {
     writableFileIndex: focusIndex,
     // Handle can't be passed through a message pipe.
-    files: snapshot.map(fd => ({
-                          token: fd.token,
-                          file: fd.file,
-                          name: fd.handle.name,
-                          error: fd.lastError,
-                        }))
+    files: snapshot.map(fileDescriptorToFileContext)
   };
   // Clear handles to the open files in the privileged context so they are
   // refreshed on a navigation request. The refcount to the File will be alive
@@ -582,6 +597,7 @@ async function processOtherFilesInDirectory(
         token: generateToken(entry.handle),
         file: entry.file,
         handle: entry.handle,
+        inCurrentDirectory: true,
       });
     }
   }
@@ -663,6 +679,7 @@ function setCurrentDirectory(directory, focusFile) {
     token: generateToken(focusFile.handle),
     file: focusFile.file,
     handle: focusFile.handle,
+    inCurrentDirectory: true,
   });
   currentDirectoryHandle = directory;
   entryIndex = 0;
@@ -710,6 +727,7 @@ async function launchWithMultipleSelection(directory, handles) {
         token: generateToken(fileHandle),
         file: null,  // Just let sendSnapshotToGuest() "refresh" it.
         handle: fileHandle,
+        // TODO(b/163285659): Enable delete/rename for multi-select files.
       });
     }
   }
