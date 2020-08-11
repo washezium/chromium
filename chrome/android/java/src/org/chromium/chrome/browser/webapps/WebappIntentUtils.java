@@ -70,18 +70,8 @@ public class WebappIntentUtils {
         return isLongColorValid(longColor) ? Integer.valueOf((int) longColor) : null;
     }
 
-    /**
-     * Extracts id from homescreen shortcut intent.
-     */
-    public static String getIdForHomescreenShortcut(Intent intent) {
+    public static String getId(Intent intent) {
         return IntentUtils.safeGetStringExtra(intent, ShortcutHelper.EXTRA_ID);
-    }
-
-    /**
-     * Generates id for the passed-in WebAPK package name.
-     */
-    public static String getIdForWebApkPackage(String packageName) {
-        return WebApkConstants.WEBAPK_ID_PREFIX + packageName;
     }
 
     public static String getUrl(Intent intent) {

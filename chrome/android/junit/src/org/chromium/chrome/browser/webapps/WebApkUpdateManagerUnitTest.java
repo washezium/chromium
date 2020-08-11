@@ -261,8 +261,7 @@ public class WebApkUpdateManagerUnitTest {
     }
 
     private void registerStorageForWebApkPackage(String webApkPackageName) {
-        WebappRegistry.getInstance().register(
-                WebappIntentUtils.getIdForWebApkPackage(webApkPackageName),
+        WebappRegistry.getInstance().register(WebappRegistry.webApkIdForPackage(webApkPackageName),
                 new WebappRegistry.FetchWebappDataStorageCallback() {
                     @Override
                     public void onWebappDataStorageRetrieved(WebappDataStorage storage) {}
@@ -271,7 +270,7 @@ public class WebApkUpdateManagerUnitTest {
 
     private static WebappDataStorage getStorage(String packageName) {
         return WebappRegistry.getInstance().getWebappDataStorage(
-                WebappIntentUtils.getIdForWebApkPackage(packageName));
+                WebappRegistry.webApkIdForPackage(packageName));
     }
 
     /**

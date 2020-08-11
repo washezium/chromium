@@ -186,13 +186,10 @@ public class WebappLauncherActivity extends Activity {
      */
     private static LaunchData extractLaunchData(Intent intent) {
         String webApkPackageName = WebappIntentUtils.getWebApkPackageName(intent);
-        boolean isForWebApk = !TextUtils.isEmpty(webApkPackageName);
-        boolean isSplashProvidedByWebApk = isForWebApk
+        boolean isSplashProvidedByWebApk = !TextUtils.isEmpty(webApkPackageName)
                 && IntentUtils.safeGetBooleanExtra(intent, EXTRA_SPLASH_PROVIDED_BY_WEBAPK, false);
-        String id = isForWebApk ? WebappIntentUtils.getIdForWebApkPackage(webApkPackageName)
-                                : WebappIntentUtils.getIdForHomescreenShortcut(intent);
-        return new LaunchData(
-                id, WebappIntentUtils.getUrl(intent), webApkPackageName, isSplashProvidedByWebApk);
+        return new LaunchData(WebappIntentUtils.getId(intent), WebappIntentUtils.getUrl(intent),
+                webApkPackageName, isSplashProvidedByWebApk);
     }
 
     /**

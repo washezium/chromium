@@ -84,7 +84,7 @@ public class WebApkInstaller {
 
                 // Stores the source info of WebAPK in WebappDataStorage.
                 WebappRegistry.getInstance().register(
-                        WebappIntentUtils.getIdForWebApkPackage(packageName),
+                        WebappRegistry.webApkIdForPackage(packageName),
                         new WebappRegistry.FetchWebappDataStorageCallback() {
                             @Override
                             public void onWebappDataStorageRetrieved(WebappDataStorage storage) {
