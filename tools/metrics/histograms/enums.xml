@@ -37172,6 +37172,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="0" label="Tab Share Button"/>
   <int value="1" label="QR Code Image"/>
   <int value="2" label="History Entry"/>
+  <int value="3" label="Reading List Entry"/>
 </enum>
 
 <enum name="IOSContentSizeCategory">
