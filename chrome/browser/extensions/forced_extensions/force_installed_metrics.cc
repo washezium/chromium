@@ -198,6 +198,13 @@ void ForceInstalledMetrics::ReportMetrics() {
             installation.copying_started_time.value() -
                 installation.verification_started_time.value());
       }
+      if (installation.unpacking_started_time) {
+        DCHECK(installation.copying_started_time);
+        base::UmaHistogramLongTimes(
+            "Extensions.ForceInstalledTime.CopyingStartTo.UnpackingStart",
+            installation.unpacking_started_time.value() -
+                installation.copying_started_time.value());
+      }
     }
   }
   if (missing_forced_extensions.empty()) {

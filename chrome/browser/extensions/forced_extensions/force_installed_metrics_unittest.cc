@@ -113,6 +113,9 @@ constexpr char kCRXDownloadTimeStats[] =
     "CRXDownloadComplete";
 constexpr char kVerificationTimeStats[] =
     "Extensions.ForceInstalledTime.VerificationStartTo.CopyingStart";
+constexpr char kCopyingTimeStats[] =
+    "Extensions.ForceInstalledTime.CopyingStartTo.UnpackingStart";
+
 }  // namespace
 
 namespace extensions {
@@ -205,6 +208,17 @@ class ForceInstalledMetricsTest : public testing::Test,
     install_stage_tracker_->ReportDownloadingStage(
         kExtensionId2,
         ExtensionDownloaderDelegate::Stage::DOWNLOADING_MANIFEST);
+  }
+
+  void ReportInstallationStarted() {
+    install_stage_tracker_->ReportDownloadingStage(
+        kExtensionId1, ExtensionDownloaderDelegate::Stage::MANIFEST_LOADED);
+    install_stage_tracker_->ReportDownloadingStage(
+        kExtensionId1, ExtensionDownloaderDelegate::Stage::DOWNLOADING_CRX);
+    install_stage_tracker_->ReportDownloadingStage(
+        kExtensionId1, ExtensionDownloaderDelegate::Stage::FINISHED);
+    install_stage_tracker_->ReportInstallationStage(
+        kExtensionId1, InstallStageTracker::Stage::INSTALLING);
   }
 
   // ForceInstalledTracker::Observer overrides:
@@ -339,14 +353,7 @@ TEST_F(ForceInstalledMetricsTest, ExtensionsManifestDownloadTime) {
 TEST_F(ForceInstalledMetricsTest, ExtensionsCrxDownloadTime) {
   SetupForceList();
   ReportDownloadingManifestStage();
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::MANIFEST_LOADED);
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::DOWNLOADING_CRX);
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::FINISHED);
-  install_stage_tracker_->ReportInstallationStage(
-      kExtensionId1, InstallStageTracker::Stage::INSTALLING);
+  ReportInstallationStarted();
   install_stage_tracker_->ReportFailure(
       kExtensionId2, InstallStageTracker::FailureReason::MANIFEST_INVALID);
   // ForceInstalledMetrics shuts down timer because all extension are either
@@ -374,29 +381,25 @@ TEST_F(ForceInstalledMetricsTest,
   histogram_tester_.ExpectTotalCount(kCRXDownloadTimeStats, 0);
 }
 
-// TODO(crbug/1108765): Add fame timer to verify that the times are recorded
+// TODO(crbug/1108765): Add fake timer to verify that the times are recorded
 // correctly.
-TEST_F(ForceInstalledMetricsTest, ExtensionsVerificationTime) {
+TEST_F(ForceInstalledMetricsTest, ExtensionsReportInstallationStageTimes) {
   SetupForceList();
   ReportDownloadingManifestStage();
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::MANIFEST_LOADED);
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::DOWNLOADING_CRX);
-  install_stage_tracker_->ReportDownloadingStage(
-      kExtensionId1, ExtensionDownloaderDelegate::Stage::FINISHED);
-  install_stage_tracker_->ReportInstallationStage(
-      kExtensionId1, InstallStageTracker::Stage::INSTALLING);
+  ReportInstallationStarted();
   install_stage_tracker_->ReportCRXInstallationStage(
       kExtensionId1, InstallationStage::kVerification);
   install_stage_tracker_->ReportCRXInstallationStage(
       kExtensionId1, InstallationStage::kCopying);
+  install_stage_tracker_->ReportCRXInstallationStage(
+      kExtensionId1, InstallationStage::kUnpacking);
   install_stage_tracker_->ReportFailure(
       kExtensionId2, InstallStageTracker::FailureReason::MANIFEST_INVALID);
   // ForceInstalledMetrics shuts down timer because all extension are either
   // loaded or failed.
   EXPECT_FALSE(fake_timer_->IsRunning());
   histogram_tester_.ExpectTotalCount(kVerificationTimeStats, 1);
+  histogram_tester_.ExpectTotalCount(kCopyingTimeStats, 1);
 }
 
 // Reporting disable reason for the force installed extensions which are

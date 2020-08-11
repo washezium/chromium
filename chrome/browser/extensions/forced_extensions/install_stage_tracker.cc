@@ -169,14 +169,15 @@ void InstallStageTracker::ReportDownloadingStage(
     ExtensionDownloaderDelegate::Stage stage) {
   InstallationData& data = installation_data_map_[id];
   data.downloading_stage = stage;
+  const base::TimeTicks current_time = base::TimeTicks::Now();
   if (stage == ExtensionDownloaderDelegate::Stage::DOWNLOADING_MANIFEST)
-    data.download_manifest_started_time = base::Time::Now();
+    data.download_manifest_started_time = current_time;
   else if (stage == ExtensionDownloaderDelegate::Stage::MANIFEST_LOADED)
-    data.download_manifest_finish_time = base::Time::Now();
+    data.download_manifest_finish_time = current_time;
   else if (stage == ExtensionDownloaderDelegate::Stage::DOWNLOADING_CRX)
-    data.download_CRX_started_time = base::Time::Now();
+    data.download_CRX_started_time = current_time;
   else if (stage == ExtensionDownloaderDelegate::Stage::FINISHED)
-    data.download_CRX_finish_time = base::Time::Now();
+    data.download_CRX_finish_time = current_time;
 
   for (auto& observer : observers_) {
     observer.OnExtensionDownloadingStageChanged(id, stage);
@@ -189,10 +190,14 @@ void InstallStageTracker::ReportCRXInstallationStage(const ExtensionId& id,
   DCHECK(!id.empty());
   InstallationData& data = installation_data_map_[id];
   data.installation_stage = stage;
+  const base::TimeTicks current_time = base::TimeTicks::Now();
   if (stage == InstallationStage::kVerification)
-    data.verification_started_time = base::Time::Now();
+    data.verification_started_time = current_time;
   else if (stage == InstallationStage::kCopying)
-    data.copying_started_time = base::Time::Now();
+    data.copying_started_time = current_time;
+  else if (stage == InstallationStage::kUnpacking)
+    data.unpacking_started_time = current_time;
+
   for (auto& observer : observers_) {
     observer.OnExtensionDataChangedForTesting(id, browser_context_, data);
   }
