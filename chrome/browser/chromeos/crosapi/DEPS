@@ -3,7 +3,7 @@ specific_include_rules = {
     # For window parenting.
     "+ash/shell.h",
   ],
-  "select_file_crosapi\.cc": [
+  "select_file_ash\.cc": [
     # For window parenting.
     "+ash/shell.h",
     "+ash/wm/desks/desks_util.h",
