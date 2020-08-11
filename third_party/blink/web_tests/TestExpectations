@@ -1281,9 +1281,6 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 # Fieldset in NG
 #
 
-# A simpified Layout issue
-crbug.com/875235 external/wpt/inert/inert-retargeting-iframe.tentative.html [ Crash Pass ]
-crbug.com/875235 external/wpt/inert/inert-retargeting.tentative.html [ Crash Pass ]
 # Size containment
 crbug.com/875235 external/wpt/css/css-sizing/contain-intrinsic-size/contain-intrinsic-size-014.html [ Failure ]
 # Mask paiting area
