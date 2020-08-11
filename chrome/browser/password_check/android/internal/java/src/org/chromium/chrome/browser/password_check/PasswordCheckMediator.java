@@ -144,6 +144,11 @@ class PasswordCheckMediator
     }
 
     @Override
+    public void onEdit(CompromisedCredential credential) {
+        // TODO(crbug.com/1114720): Implement.
+    }
+
+    @Override
     public void onRemove(CompromisedCredential credential) {
         mModel.set(DELETION_ORIGIN, credential.getOriginUrl());
         mModel.set(

@@ -438,11 +438,15 @@ class PasswordCheckViewBinder {
     private static ListMenu createCredentialMenu(Context context, CompromisedCredential credential,
             PasswordCheckCoordinator.CredentialEventHandler credentialHandler) {
         MVCListAdapter.ModelList menuItems = new MVCListAdapter.ModelList();
+        menuItems.add(BasicListMenu.buildMenuListItem(
+                R.string.password_check_credential_menu_item_edit_button_caption, 0, 0, true));
         menuItems.add(
                 BasicListMenu.buildMenuListItem(org.chromium.chrome.R.string.remove, 0, 0, true));
         ListMenu.Delegate delegate = (listModel) -> {
             int textId = listModel.get(ListMenuItemProperties.TITLE_ID);
-            if (textId == org.chromium.chrome.R.string.remove) {
+            if (textId == R.string.password_check_credential_menu_item_edit_button_caption) {
+                credentialHandler.onEdit(credential);
+            } else if (textId == org.chromium.chrome.R.string.remove) {
                 credentialHandler.onRemove(credential);
             } else {
                 assert false : "No action defined for " + context.getString(textId);

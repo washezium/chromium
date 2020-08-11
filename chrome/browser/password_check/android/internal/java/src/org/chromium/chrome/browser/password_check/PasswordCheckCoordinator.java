@@ -48,6 +48,12 @@ class PasswordCheckCoordinator implements PasswordCheckComponentUi, LifecycleObs
      */
     interface CredentialEventHandler {
         /**
+         * Edits the given Credential in the password store.
+         * @param credential A {@link CompromisedCredential} to be edited.
+         */
+        void onEdit(CompromisedCredential credential);
+
+        /**
          * Removes the given Credential from the password store.
          * @param credential A {@link CompromisedCredential} to be removed.
          */
