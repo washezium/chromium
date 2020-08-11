@@ -475,16 +475,6 @@ void RenderWidget::UpdateVisualProperties(
     browser_controls_params_ = visual_properties.browser_controls_params;
   }
 
-  if (!AutoResizeMode()) {
-    if (visual_properties.is_fullscreen_granted != is_fullscreen_granted_) {
-      is_fullscreen_granted_ = visual_properties.is_fullscreen_granted;
-      if (is_fullscreen_granted_)
-        GetWebWidget()->DidEnterFullscreen();
-      else
-        GetWebWidget()->DidExitFullscreen();
-    }
-  }
-
   gfx::Size old_visible_viewport_size = visible_viewport_size_;
 
   if (device_emulator_) {
@@ -520,7 +510,8 @@ void RenderWidget::UpdateVisualProperties(
       // TODO(danakj): Does the browser actually change DSF inside a web test??
       // TODO(danakj): Isn't the display mode check redundant with the
       // fullscreen one?
-      if (visual_properties.is_fullscreen_granted != is_fullscreen_granted_ ||
+      if (visual_properties.is_fullscreen_granted !=
+              IsFullscreenGrantedForFrame() ||
           visual_properties.screen_info.device_scale_factor !=
               screen_info_.device_scale_factor)
         ignore_resize_ipc = false;
@@ -1796,6 +1787,12 @@ bool RenderWidget::AutoResizeMode() {
   if (!delegate_)
     return false;
   return delegate_->AutoResizeMode();
+}
+
+bool RenderWidget::IsFullscreenGrantedForFrame() {
+  if (!for_frame())
+    return false;
+  return GetFrameWidget()->IsFullscreenGranted();
 }
 
 }  // namespace content

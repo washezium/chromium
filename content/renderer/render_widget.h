@@ -221,7 +221,6 @@ class CONTENT_EXPORT RenderWidget
   blink::WebInputMethodController* GetInputMethodController() const;
 
   const gfx::Size& size() const { return size_; }
-  bool is_fullscreen_granted() const { return is_fullscreen_granted_; }
   bool is_hidden() const { return is_hidden_; }
   const gfx::Size& visible_viewport_size() const {
     return visible_viewport_size_;
@@ -387,6 +386,9 @@ class CONTENT_EXPORT RenderWidget
   using PresentationTimeCallback =
       base::OnceCallback<void(const gfx::PresentationFeedback&)>;
   virtual void RequestPresentation(PresentationTimeCallback callback);
+
+  // Determines if fullscreen is granted for the frame.
+  bool IsFullscreenGrantedForFrame();
 
  protected:
   // blink::WebWidgetClient
@@ -579,9 +581,6 @@ class CONTENT_EXPORT RenderWidget
 
   // Indicates that we are never visible, so never produce graphical output.
   const bool never_composited_;
-
-  // Indicates whether tab-initiated fullscreen was granted.
-  bool is_fullscreen_granted_ = false;
 
   // True once Close() is called, during the self-destruction process, and to
   // verify destruction always goes through Close().

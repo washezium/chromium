@@ -275,14 +275,6 @@ void WebFrameWidgetImpl::UpdateMainFrameLayoutSize() {
   view->SetLayoutSize(layout_size);
 }
 
-void WebFrameWidgetImpl::DidEnterFullscreen() {
-  View()->DidEnterFullscreen();
-}
-
-void WebFrameWidgetImpl::DidExitFullscreen() {
-  View()->DidExitFullscreen();
-}
-
 void WebFrameWidgetImpl::SetSuppressFrameRequestsWorkaroundFor704763Only(
     bool suppress_frame_requests) {
   GetPage()->Animator().SetSuppressFrameRequestsWorkaroundFor704763Only(

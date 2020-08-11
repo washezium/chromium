@@ -619,6 +619,16 @@ void WebFrameWidgetBase::UpdateVisualProperties(
         visual_properties.capture_sequence_number));
   }
 
+  if (!View()->AutoResizeMode()) {
+    if (visual_properties.is_fullscreen_granted != is_fullscreen_granted_) {
+      is_fullscreen_granted_ = visual_properties.is_fullscreen_granted;
+      if (is_fullscreen_granted_)
+        View()->DidEnterFullscreen();
+      else
+        View()->DidExitFullscreen();
+    }
+  }
+
   Client()->UpdateVisualProperties(visual_properties);
 }
 
@@ -987,6 +997,10 @@ WebFrameWidgetBase::GetSynchronousCompositorRegistry() {
 void WebFrameWidgetBase::ApplyVisualProperties(
     const VisualProperties& visual_properties) {
   widget_base_->UpdateVisualProperties(visual_properties);
+}
+
+bool WebFrameWidgetBase::IsFullscreenGranted() {
+  return is_fullscreen_granted_;
 }
 
 void WebFrameWidgetBase::AutoscrollStart(const gfx::PointF& position) {

@@ -302,6 +302,7 @@ class CORE_EXPORT WebFrameWidgetBase
 #endif
   void ApplyVisualProperties(
       const VisualProperties& visual_properties) override;
+  bool IsFullscreenGranted() override;
 
   // WidgetBaseClient methods.
   void RecordDispatchRafAlignedInputTime(
@@ -609,6 +610,9 @@ class CORE_EXPORT WebFrameWidgetBase
 
   base::Optional<gfx::Point> host_context_menu_location_;
   uint32_t last_capture_sequence_number_ = 0u;
+
+  // Indicates whether tab-initiated fullscreen was granted.
+  bool is_fullscreen_granted_ = false;
 
   friend class WebViewImpl;
   friend class ReportTimeSwapPromise;

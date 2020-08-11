@@ -56,14 +56,6 @@ void WebViewFrameWidget::Resize(const WebSize& size) {
   web_view_->Resize(size);
 }
 
-void WebViewFrameWidget::DidEnterFullscreen() {
-  web_view_->DidEnterFullscreen();
-}
-
-void WebViewFrameWidget::DidExitFullscreen() {
-  web_view_->DidExitFullscreen();
-}
-
 void WebViewFrameWidget::SetSuppressFrameRequestsWorkaroundFor704763Only(
     bool suppress_frame_requests) {
   web_view_->SetSuppressFrameRequestsWorkaroundFor704763Only(
