@@ -683,6 +683,12 @@ RenderFrameHostImpl* RenderFrameHostManager::GetFrameHostForNavigation(
   scoped_refptr<SiteInstance> dest_site_instance =
       GetSiteInstanceForNavigationRequest(request);
 
+  // A subframe should always be in the same BrowsingInstance as the parent
+  // (see also https://crbug.com/1107269).
+  RenderFrameHostImpl* parent = frame_tree_node_->parent();
+  DCHECK(!parent ||
+         dest_site_instance->IsRelatedSiteInstance(parent->GetSiteInstance()));
+
   // The SiteInstance determines whether to switch RenderFrameHost or not.
   bool use_current_rfh = current_site_instance == dest_site_instance;
 
