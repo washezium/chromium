@@ -1949,6 +1949,9 @@
 
     'gpu_angle_end2end_gtests': {
       'angle_end2end_tests': {
+        'android_args': [
+          '--shard-timeout=180'
+        ],
         'desktop_args': [
           '--use-gpu-in-tests',
         ],
