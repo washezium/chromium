@@ -218,7 +218,7 @@
     },
     {
       name: "AzimuthAltitude",
-      status: "experimental",
+      status: "stable",
     },
     {
       name: "BackForwardCache",
