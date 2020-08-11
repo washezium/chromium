@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_DROP_HANDLER_H_
-#define UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_DROP_HANDLER_H_
+#ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_
+#define UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_
 
 #include <memory>
 
 #include "ui/gfx/native_widget_types.h"
-#include "ui/platform_window/platform_window_handler/wm_platform_export.h"
+#include "ui/platform_window/handlers/wm_platform_export.h"
 
 namespace gfx {
 class PointF;
@@ -61,4 +61,4 @@ WM_PLATFORM_EXPORT WmDropHandler* GetWmDropHandler(
 
 }  // namespace ui
 
-#endif  // UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_DROP_HANDLER_H_
+#endif  // UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_

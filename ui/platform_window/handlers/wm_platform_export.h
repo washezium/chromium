@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_PLATFORM_EXPORT_H_
-#define UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_PLATFORM_EXPORT_H_
+#ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_PLATFORM_EXPORT_H_
+#define UI_PLATFORM_WINDOW_HANDLERS_WM_PLATFORM_EXPORT_H_
 
 // Defines WM_PLATFORM_EXPORT so that functionality implemented by the
 // wm_platform module can be exported to consumers.
@@ -29,4 +29,4 @@
 #define WM_PLATFORM_EXPORT
 #endif
 
-#endif  // UI_PLATFORM_WINDOW_PLATFORM_WINDOW_HANDLER_WM_PLATFORM_EXPORT_H_
+#endif  // UI_PLATFORM_WINDOW_HANDLERS_WM_PLATFORM_EXPORT_H_

@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-component("platform_window_handler") {
+component("handlers") {
   output_name = "platform_window_handler_libs"
 
   sources = [
