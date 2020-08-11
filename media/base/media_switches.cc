@@ -584,7 +584,7 @@ const base::Feature kUsePooledSharedImageVideoProvider{
     "UsePooledSharedImageVideoProvider", base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Used to enable/disable zero copy video path on webview for MCVD.
-const base::Feature kWebViewZeroCopyVideo{"EnableZeroCopyVideoOnWebview",
+const base::Feature kWebViewZeroCopyVideo{"WebViewZeroCopyVideo",
                                           base::FEATURE_DISABLED_BY_DEFAULT};
 #endif  // defined(OS_ANDROID)
 
