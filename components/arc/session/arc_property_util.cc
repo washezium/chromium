@@ -41,6 +41,8 @@ constexpr char kOEMKey1PropertyPrefix[] = "ro.oem.key1=";
 constexpr char kPAIRegionsPropertyName[] = "pai-regions";
 
 // Properties related to dynamically adding native bridge 64 bit support.
+// Note that "%s" is lated replaced with a partition name which is either an
+// empty string or a string that ends with '.' e.g. "system_ext.".
 constexpr char kAbilistPropertyPrefixTemplate[] = "ro.%sproduct.cpu.abilist=";
 constexpr char kAbilistPropertyExpected[] = "x86_64,x86,armeabi-v7a,armeabi";
 constexpr char kAbilistPropertyReplacement[] =
@@ -222,8 +224,10 @@ bool ExpandPropertyContents(const std::string& content,
     } while (inserted);
 
     if (add_native_bridge_64bit_support) {
-      // Special-case ro.<partition>.product.cpu.abilist and
-      // ro.<partition>.product.cpu.abilist64 to add ARM64.
+      // Special-case ro.<partition>product.cpu.abilist and
+      // ro.<partition>product.cpu.abilist64 to add ARM64.
+      // Note that <partition> is either an empty string or a string that ends
+      // with '.' e.g. "system_ext.".
       std::string prefix = base::StringPrintf(kAbilistPropertyPrefixTemplate,
                                               partition_name.c_str());
       std::string value;
@@ -353,7 +357,7 @@ bool ExpandPropertyContentsForTesting(const std::string& content,
                                       std::string* expanded_content) {
   return ExpandPropertyContents(content, config, expanded_content,
                                 /*add_native_bridge_64bit_support=*/false,
-                                false, "");
+                                false, std::string());
 }
 
 bool TruncateAndroidPropertyForTesting(const std::string& line,
@@ -366,7 +370,7 @@ bool ExpandPropertyFileForTesting(const base::FilePath& input,
                                   CrosConfig* config) {
   return ExpandPropertyFile(input, output, config, /*append=*/false,
                             /*add_native_bridge_64bit_support=*/false, false,
-                            "");
+                            std::string());
 }
 
 bool ExpandPropertyFiles(const base::FilePath& source_path,
