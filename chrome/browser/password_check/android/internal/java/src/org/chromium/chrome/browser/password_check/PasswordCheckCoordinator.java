@@ -90,6 +90,12 @@ class PasswordCheckCoordinator implements PasswordCheckComponentUi, LifecycleObs
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void stopCheck() {
+        PasswordCheck check = PasswordCheckFactory.getPasswordCheckInstance();
+        if (check != null) check.stopCheck();
+    }
+
     // TODO(crbug.com/1101256): Move to view code.
     @Override
     public boolean handleHelp(MenuItem item) {
