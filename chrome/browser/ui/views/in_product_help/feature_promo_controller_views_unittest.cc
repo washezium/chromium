@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/views/in_product_help/feature_promo_controller.h"
+#include "chrome/browser/ui/views/in_product_help/feature_promo_controller_views.h"
 
 #include "base/bind.h"
 #include "base/feature_list.h"
@@ -34,7 +34,7 @@ base::Feature kTestIPHFeature{"TestIPHFeature",
                               base::FEATURE_ENABLED_BY_DEFAULT};
 }  // namespace
 
-class FeaturePromoControllerTest : public TestWithBrowserView {
+class FeaturePromoControllerViewsTest : public TestWithBrowserView {
  public:
   void SetUp() override {
     TestWithBrowserView::SetUp();
@@ -51,7 +51,7 @@ class FeaturePromoControllerTest : public TestWithBrowserView {
         TestWithBrowserView::GetTestingFactories();
     factories.emplace_back(
         feature_engagement::TrackerFactory::GetInstance(),
-        base::BindRepeating(FeaturePromoControllerTest::MakeTestTracker));
+        base::BindRepeating(FeaturePromoControllerViewsTest::MakeTestTracker));
     return factories;
   }
 
@@ -68,7 +68,7 @@ class FeaturePromoControllerTest : public TestWithBrowserView {
     return params;
   }
 
-  FeaturePromoController* controller_;
+  FeaturePromoControllerViews* controller_;
   NiceMock<feature_engagement::test::MockTracker>* mock_tracker_;
 
  private:
@@ -87,7 +87,7 @@ class FeaturePromoControllerTest : public TestWithBrowserView {
   }
 };
 
-TEST_F(FeaturePromoControllerTest, AsksBackendToShowPromo) {
+TEST_F(FeaturePromoControllerViewsTest, AsksBackendToShowPromo) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(false));
@@ -97,7 +97,7 @@ TEST_F(FeaturePromoControllerTest, AsksBackendToShowPromo) {
   EXPECT_FALSE(controller_->promo_bubble_for_testing());
 }
 
-TEST_F(FeaturePromoControllerTest, ShowsBubble) {
+TEST_F(FeaturePromoControllerViewsTest, ShowsBubble) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(true));
@@ -107,7 +107,7 @@ TEST_F(FeaturePromoControllerTest, ShowsBubble) {
   EXPECT_TRUE(controller_->promo_bubble_for_testing());
 }
 
-TEST_F(FeaturePromoControllerTest, PromoEndsWhenRequested) {
+TEST_F(FeaturePromoControllerViewsTest, PromoEndsWhenRequested) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(true));
@@ -132,7 +132,7 @@ TEST_F(FeaturePromoControllerTest, PromoEndsWhenRequested) {
   widget_observer.Wait();
 }
 
-TEST_F(FeaturePromoControllerTest, PromoEndsOnBubbleClosure) {
+TEST_F(FeaturePromoControllerViewsTest, PromoEndsOnBubbleClosure) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(true));
@@ -156,7 +156,7 @@ TEST_F(FeaturePromoControllerTest, PromoEndsOnBubbleClosure) {
   EXPECT_FALSE(controller_->promo_bubble_for_testing());
 }
 
-TEST_F(FeaturePromoControllerTest, ContinuedPromoDefersBackendDismissed) {
+TEST_F(FeaturePromoControllerViewsTest, ContinuedPromoDefersBackendDismissed) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(true));
@@ -189,7 +189,8 @@ TEST_F(FeaturePromoControllerTest, ContinuedPromoDefersBackendDismissed) {
   promo_handle.reset();
 }
 
-TEST_F(FeaturePromoControllerTest, PropertySetOnAnchorViewWhileBubbleOpen) {
+TEST_F(FeaturePromoControllerViewsTest,
+       PropertySetOnAnchorViewWhileBubbleOpen) {
   EXPECT_CALL(*mock_tracker_, ShouldTriggerHelpUI(Ref(kTestIPHFeature)))
       .Times(1)
       .WillOnce(Return(true));
