@@ -40484,6 +40484,7 @@ from previous Chrome versions.
   <int value="-1567727398" label="DesktopPWAsWithoutExtensions:disabled"/>
   <int value="-1564232131"
       label="OmniboxOnDeviceHeadProviderNonIncognito:enabled"/>
+  <int value="-1562065709" label="ForceEnableDevicesPage:enabled"/>
   <int value="-1561360053" label="LauncherSettingsSearch:disabled"/>
   <int value="-1561252720" label="AutofillCreditCardUploadFeedback:disabled"/>
   <int value="-1560729847" label="AutofillCacheQueryResponses:enabled"/>
@@ -43277,6 +43278,7 @@ from previous Chrome versions.
   <int value="1393722373" label="SaveEditedPDFForm:disabled"/>
   <int value="1397069250" label="NetworkService:disabled"/>
   <int value="1398148960" label="LanguageSettingsUpdate:disabled"/>
+  <int value="1398333721" label="ForceEnableDevicesPage:disabled"/>
   <int value="1399950951" label="AutofillTokenPrefixMatching:disabled"/>
   <int value="1403195370" label="ArcCupsApi:enabled"/>
   <int value="1405459667" label="enable-fast-text-autosizing"/>

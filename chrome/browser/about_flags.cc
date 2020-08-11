@@ -2777,6 +2777,10 @@ const FeatureEntry kFeatureEntries[] = {
      ENABLE_DISABLE_VALUE_TYPE(switches::kEnableDeviceDiscoveryNotifications,
                                switches::kDisableDeviceDiscoveryNotifications)},
 #endif  // BUILDFLAG(ENABLE_SERVICE_DISCOVERY)
+    {"force-enable-devices-page",
+     flag_descriptions::kForceEnableDevicesPageName,
+     flag_descriptions::kForceEnableDevicesPageDescription, kOsDesktop,
+     FEATURE_VALUE_TYPE(features::kForceEnableDevicesPage)},
 #if defined(OS_WIN) || defined(OS_LINUX) || defined(OS_CHROMEOS)
     {"enable-webgl2-compute-context",
      flag_descriptions::kWebGL2ComputeContextName,
