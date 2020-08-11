@@ -30,6 +30,14 @@
 #error "This file requires ARC support."
 #endif
 
+namespace {
+// The banner dismissal timeout for all Infobar Messages Overlays in M85. This
+// is temporary since M85 does not have support for high-priority banner
+// dismissal timeouts.
+const NSTimeInterval kInfobarBannerTemporaryPresentationDurationInSeconds =
+    11.0;
+}  // namespace
+
 @interface InfobarBannerOverlayCoordinator () <InfobarBannerPositioner>
 // The list of supported mediator classes.
 @property(class, nonatomic, readonly) NSArray<Class>* supportedMediatorClasses;
@@ -112,7 +120,7 @@
     // persist until user explicitly swipes it away).
     [self performSelector:@selector(dismissBannerIfReady)
                withObject:nil
-               afterDelay:kInfobarBannerDefaultPresentationDurationInSeconds];
+               afterDelay:kInfobarBannerTemporaryPresentationDurationInSeconds];
   }
 }
 
