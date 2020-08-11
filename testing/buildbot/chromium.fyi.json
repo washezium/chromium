@@ -9835,6 +9835,13 @@
       },
       {
         "isolate_profile_data": true,
+        "name": "password_manager_junit_tests",
+        "swarming": {},
+        "test": "password_manager_junit_tests",
+        "test_id_prefix": "ninja://chrome/browser/password_manager/android:password_manager_junit_tests/"
+      },
+      {
+        "isolate_profile_data": true,
         "name": "services_junit_tests",
         "swarming": {},
         "test": "services_junit_tests",
