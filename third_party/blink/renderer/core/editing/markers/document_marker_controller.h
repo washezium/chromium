@@ -91,6 +91,8 @@ class CORE_EXPORT DocumentMarkerController final
   void RemoveSuggestionMarkerByType(
       const EphemeralRangeInFlatTree& range,
       const SuggestionMarker::SuggestionType& type);
+  void RemoveSuggestionMarkerByType(
+      const SuggestionMarker::SuggestionType& type);
   // Removes suggestion marker with |RemoveOnFinishComposing::kRemove|.
   void RemoveSuggestionMarkerInRangeOnFinish(const EphemeralRangeInFlatTree&);
   void RepaintMarkers(

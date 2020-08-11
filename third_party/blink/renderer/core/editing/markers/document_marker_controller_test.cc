@@ -382,7 +382,7 @@ TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerByTag) {
   EXPECT_EQ(0u, MarkerController().Markers().size());
 }
 
-TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerByType) {
+TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerByTypeWithRange) {
   SetBodyContent("<div contenteditable>foo</div>");
   Element* div = GetDocument().QuerySelector("div");
   Node* text = div->firstChild();
@@ -394,6 +394,34 @@ TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerByType) {
   MarkerController().RemoveSuggestionMarkerByType(
       ToEphemeralRangeInFlatTree(range), marker->GetSuggestionType());
   EXPECT_EQ(0u, MarkerController().Markers().size());
+}
+
+TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerByType) {
+  SetBodyContent("<div contenteditable>123 456</div>");
+  Element* div = GetDocument().QuerySelector("div");
+  Node* text = div->firstChild();
+
+  // Add an autocorrect marker on "123"
+  MarkerController().AddSuggestionMarker(
+      EphemeralRange(Position(text, 0), Position(text, 3)),
+      SuggestionMarkerProperties::Builder()
+          .SetType(SuggestionMarker::SuggestionType::kAutocorrect)
+          .Build());
+  // Add a misspelling suggestion marker on "123"
+  MarkerController().AddSuggestionMarker(
+      EphemeralRange(Position(text, 0), Position(text, 3)),
+      SuggestionMarkerProperties::Builder()
+          .SetType(SuggestionMarker::SuggestionType::kMisspelling)
+          .Build());
+
+  EXPECT_EQ(2u, MarkerController().Markers().size());
+  MarkerController().RemoveSuggestionMarkerByType(
+      SuggestionMarker::SuggestionType::kAutocorrect);
+
+  EXPECT_EQ(1u, MarkerController().Markers().size());
+  EXPECT_EQ(SuggestionMarker::SuggestionType::kMisspelling,
+            To<SuggestionMarker>(MarkerController().Markers()[0].Get())
+                ->GetSuggestionType());
 }
 
 TEST_F(DocumentMarkerControllerTest, RemoveSuggestionMarkerInRangeOnFinish) {

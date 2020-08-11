@@ -1779,6 +1779,8 @@ WebTextInputType InputMethodController::TextInputType() const {
 
 void InputMethodController::WillChangeFocus() {
   FinishComposingText(kKeepSelection);
+  GetDocument().Markers().RemoveSuggestionMarkerByType(
+      SuggestionMarker::SuggestionType::kAutocorrect);
 }
 
 void InputMethodController::Trace(Visitor* visitor) const {

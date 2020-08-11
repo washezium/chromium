@@ -922,6 +922,25 @@ void DocumentMarkerController::RemoveSuggestionMarkerByType(
   }
 }
 
+void DocumentMarkerController::RemoveSuggestionMarkerByType(
+    const SuggestionMarker::SuggestionType& type) {
+  if (!PossiblyHasMarkers(DocumentMarker::kSuggestion))
+    return;
+  DCHECK(!markers_.IsEmpty());
+
+  for (const auto& node_markers : markers_) {
+    MarkerLists* markers = node_markers.value;
+    DocumentMarkerList* const list =
+        ListForType(markers, DocumentMarker::kSuggestion);
+    if (!list)
+      continue;
+    if (To<SuggestionMarkerListImpl>(list)->RemoveMarkerByType(type)) {
+      InvalidatePaintForNode(*node_markers.key);
+      return;
+    }
+  }
+}
+
 void DocumentMarkerController::RemoveSuggestionMarkerByTag(const Text& text,
                                                            int32_t marker_tag) {
   MarkerLists* markers = markers_.at(&text);
