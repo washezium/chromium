@@ -970,6 +970,7 @@
       'mac_upload_clang': 'release_bot',
       'mac-coverage-rel': 'gpu_tests_release_trybot_deterministic_mac_code_coverage',
       'mac-rel': 'gpu_tests_release_trybot_deterministic_mac',
+      'mac-arm64-rel': 'mac_arm64_release_trybot',
     },
 
     'tryserver.chromium.perf': {
@@ -2089,6 +2090,10 @@
 
     'mac_arm64_release_bot': [
       'release_bot', 'arm64',
+    ],
+
+    'mac_arm64_release_trybot': [
+      'release_trybot', 'arm64',
     ],
 
 
