@@ -332,8 +332,8 @@ const char kAutoScreenBrightnessName[] = "Auto Screen Brightness model";
 const char kAutoScreenBrightnessDescription[] =
     "Uses Auto Screen Brightness ML model (if it exists) to adjust screen "
     "brightness based on ambient light. If disabled, screen brightness "
-    "will be controlled by the heuristic method from power (and only on "
-    "devices that have ambient light sensors).";
+    "will be controlled by the heuristic model provided by powerd (and only "
+    "on devices that have ambient light sensors).";
 
 const char kAvatarToolbarButtonName[] = "Avatar Toolbar Button";
 const char kAvatarToolbarButtonDescription[] =
