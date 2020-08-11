@@ -108,10 +108,9 @@ public class FieldTrials {
      */
     public void applyFieldTrials() {
         CommandLine commandLine = CommandLine.getInstance();
-        String forceFieldTrials =
-                commandLine.getSwitchValue(BaseSwitches.FORCE_FIELD_TRIALS_SWITCH);
+        String forceFieldTrials = commandLine.getSwitchValue(BaseSwitches.FORCE_FIELD_TRIALS);
         String forceFieldTrialParams =
-                commandLine.getSwitchValue(BaseSwitches.FORCE_FIELD_TRIAL_PARAMS_SWITCH);
+                commandLine.getSwitchValue(BaseSwitches.FORCE_FIELD_TRIAL_PARAMS);
         String enableFeatures = commandLine.getSwitchValue(BaseSwitches.ENABLE_FEATURES);
 
         Set<String> enableFeaturesSet = new HashSet<>();
@@ -145,9 +144,9 @@ public class FieldTrials {
         } catch (Exception e) {
             assert false : e.toString() + "\n"
                     + "The format of field trials parameters declared isn't correct:"
-                    + BaseSwitches.FORCE_FIELD_TRIALS_SWITCH + "=" + forceFieldTrials + ", "
-                    + BaseSwitches.FORCE_FIELD_TRIAL_PARAMS_SWITCH + "=" + forceFieldTrialParams
-                    + ", " + BaseSwitches.ENABLE_FEATURES + "=" + enableFeatures + ".";
+                    + BaseSwitches.FORCE_FIELD_TRIALS + "=" + forceFieldTrials + ", "
+                    + BaseSwitches.FORCE_FIELD_TRIAL_PARAMS + "=" + forceFieldTrialParams + ", "
+                    + BaseSwitches.ENABLE_FEATURES + "=" + enableFeatures + ".";
         }
     }
 
