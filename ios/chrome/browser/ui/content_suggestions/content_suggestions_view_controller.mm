@@ -71,6 +71,8 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
 
 // The DiscoverFeedVC that might be displayed by this VC.
 @property(nonatomic, weak) UIViewController* discoverFeedVC;
+// The FeedView CollectionView contained by discoverFeedVC.
+@property(nonatomic, strong) UICollectionView* feedView;
 
 @end
 
@@ -396,15 +398,40 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
   if ([self.collectionUpdater
           isDiscoverItem:[self.collectionViewModel
                              itemTypeForIndexPath:indexPath]]) {
+    // TODO(crbug.com/1114792): Remove DiscoverItem logic once we stop
+    // containing the DiscoverFeed inside a cell.
     ContentSuggestionsDiscoverItem* discoverFeedItem =
         static_cast<ContentSuggestionsDiscoverItem*>(item);
-    self.discoverFeedVC = discoverFeedItem.discoverFeed;
-    if (self.discoverFeedVC) {
-      [self addChildViewController:self.discoverFeedVC];
-      UICollectionViewCell* cell = [super collectionView:collectionView
-                                  cellForItemAtIndexPath:indexPath];
-      [self.discoverFeedVC didMoveToParentViewController:self];
-      return cell;
+    UIViewController* newFeedViewController = discoverFeedItem.discoverFeed;
+
+    if (newFeedViewController != self.discoverFeedVC) {
+      // If previous VC is not nil, remove it from the view hierarchy.
+      if (self.discoverFeedVC) {
+        [self.discoverFeedVC willMoveToParentViewController:nil];
+        [self.discoverFeedVC.view removeFromSuperview];
+        [self.discoverFeedVC removeFromParentViewController];
+      }
+
+      // If new VC is not nil, add it to the view hierarchy.
+      if (newFeedViewController) {
+        [self addChildViewController:newFeedViewController];
+        UICollectionViewCell* cell = [super collectionView:collectionView
+                                    cellForItemAtIndexPath:indexPath];
+        [newFeedViewController didMoveToParentViewController:self];
+
+        // Observe its CollectionView for contentSize changes.
+        for (UIView* view in newFeedViewController.view.subviews) {
+          if ([view isKindOfClass:[UICollectionView class]]) {
+            self.feedView = static_cast<UICollectionView*>(view);
+          }
+        }
+        [self.feedView addObserver:self
+                        forKeyPath:@"contentSize"
+                           options:0
+                           context:nil];
+        self.discoverFeedVC = newFeedViewController;
+        return cell;
+      }
     }
   }
 
@@ -729,6 +756,26 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
   return YES;
 }
 
+#pragma mark - ContentSuggestionsConsumer
+
+- (void)setContentSuggestionsEnabled:(BOOL)enabled {
+  _contentSuggestionsEnabled = enabled;
+}
+
+#pragma mark - NSKeyValueObserving
+
+// TODO(crbug.com/1114792): Remove once we stop containing the DiscoverFeed
+// inside a cell.
+- (void)observeValueForKeyPath:(NSString*)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary*)change
+                       context:(void*)context {
+  if (object == self.feedView && [keyPath isEqualToString:@"contentSize"]) {
+    // Reload the CollectionView data to adjust to the new Feed height.
+    [self.collectionView reloadData];
+  }
+}
+
 #pragma mark - Private
 
 - (void)handleLongPress:(UILongPressGestureRecognizer*)gestureRecognizer {
@@ -817,12 +864,6 @@ NSString* const kContentSuggestionsMostVisitedAccessibilityIdentifierPrefix =
 // Opens top-level feed menu when pressing |menuButton|.
 - (void)openDiscoverFeedMenu:(id)menuButton {
   [self.discoverFeedMenuHandler openDiscoverFeedMenu:menuButton];
-}
-
-#pragma mark - ContentSuggestionsConsumer
-
-- (void)setContentSuggestionsEnabled:(BOOL)enabled {
-  _contentSuggestionsEnabled = enabled;
 }
 
 @end
