@@ -1273,13 +1273,6 @@ virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/inline-re
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/cascade/* [ Skip ]
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/text/* [ Skip ]
 
-# Fieldset in NG
-#
-
-# Size containment
-crbug.com/875235 external/wpt/css/css-sizing/contain-intrinsic-size/contain-intrinsic-size-014.html [ Failure ]
-
-
 # ====== LayoutNG-only failures until here ======
 
 # ====== MathMLCore-only tests from here ======
