@@ -1201,6 +1201,7 @@
         }
       },
       'content_shell_crash_test': {},
+      'extension_docserver_python_unittests': {},
       'flatbuffers_unittests': {},
       'grit_python_unittests': {},
       'metrics_python_tests': {},

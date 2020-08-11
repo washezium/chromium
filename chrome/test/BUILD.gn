@@ -53,6 +53,10 @@ if (is_android) {
 # into the build.
 group("test") {
   testonly = true
+
+  if (enable_extensions) {
+    deps = [ "//chrome/common/extensions/docs/server2:extension_docserver_python_unittests" ]
+  }
 }
 
 group("policy_testserver_pyproto") {
