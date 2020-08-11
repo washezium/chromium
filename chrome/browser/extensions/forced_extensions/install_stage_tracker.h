@@ -19,6 +19,12 @@
 #include "extensions/browser/updater/safe_manifest_parser.h"
 #include "extensions/common/extension_id.h"
 
+#if defined(OS_CHROMEOS)
+#include "components/user_manager/user_manager.h"
+#endif  // defined(OS_CHROMEOS)
+
+class Profile;
+
 namespace content {
 class BrowserContext;
 }  // namespace content
@@ -258,6 +264,17 @@ class InstallStageTracker : public KeyedService {
     kMaxValue = kBandwidthLimit,
   };
 
+#if defined(OS_CHROMEOS)
+  // Contains information about the current user.
+  struct UserInfo {
+    UserInfo(const UserInfo&);
+    UserInfo(user_manager::UserType user_type, bool is_new_user);
+
+    user_manager::UserType user_type = user_manager::USER_TYPE_REGULAR;
+    bool is_new_user = false;
+  };
+#endif  // defined(OS_CHROMEOS)
+
   // Contains information about extension installation: failure reason, if any
   // reported, specific details in case of CRX install error, current
   // installation stage if known.
@@ -353,6 +370,13 @@ class InstallStageTracker : public KeyedService {
 
   // Convenience function to get the InstallStageTracker for a BrowserContext.
   static InstallStageTracker* Get(content::BrowserContext* context);
+
+#if defined(OS_CHROMEOS)
+  // Returns user type of the user associated with the |profile| and whether the
+  // user is new or not. This method should be used only if there is a user
+  // associated with the profile.
+  static UserInfo GetUserInfo(Profile* profile);
+#endif  // defined(OS_CHROMEOS)
 
   void ReportInfoOnNoUpdatesFailure(const ExtensionId& id,
                                     const std::string& info);

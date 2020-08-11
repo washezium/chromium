@@ -6,9 +6,21 @@
 
 #include "base/check_op.h"
 #include "chrome/browser/extensions/forced_extensions/install_stage_tracker_factory.h"
+#include "chrome/browser/profiles/profile.h"
 #include "net/base/net_errors.h"
 
+#if defined(OS_CHROMEOS)
+#include "chrome/browser/chromeos/profiles/profile_helper.h"
+#endif  // defined(OS_CHROMEOS)
+
 namespace extensions {
+
+#if defined(OS_CHROMEOS)
+InstallStageTracker::UserInfo::UserInfo(const UserInfo&) = default;
+InstallStageTracker::UserInfo::UserInfo(user_manager::UserType user_type,
+                                        bool is_new_user)
+    : user_type(user_type), is_new_user(is_new_user) {}
+#endif  // defined(OS_CHROMEOS)
 
 // InstallStageTracker::InstallationData implementation.
 
@@ -96,6 +108,19 @@ InstallStageTracker* InstallStageTracker::Get(
     content::BrowserContext* context) {
   return InstallStageTrackerFactory::GetForBrowserContext(context);
 }
+
+#if defined(OS_CHROMEOS)
+InstallStageTracker::UserInfo InstallStageTracker::GetUserInfo(
+    Profile* profile) {
+  const user_manager::User* user =
+      chromeos::ProfileHelper::Get()->GetUserByProfile(profile);
+  DCHECK(user);
+  bool is_new_user = user_manager::UserManager::Get()->IsCurrentUserNew() ||
+                     profile->IsNewProfile();
+  UserInfo current_user(user->GetType(), is_new_user);
+  return current_user;
+}
+#endif  // defined(OS_CHROMEOS)
 
 void InstallStageTracker::ReportInfoOnNoUpdatesFailure(
     const ExtensionId& id,

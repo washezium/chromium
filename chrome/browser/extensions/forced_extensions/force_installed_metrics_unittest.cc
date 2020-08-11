@@ -710,7 +710,7 @@ TEST_F(ForceInstalledMetricsTest, ReportManagedGuestSessionOnExtensionFailure) {
   EXPECT_FALSE(fake_timer_->IsRunning());
   histogram_tester_.ExpectBucketCount(
       kFailureSessionStats,
-      ForceInstalledMetrics::SessionType::SESSION_TYPE_PUBLIC_ACCOUNT, 2);
+      ForceInstalledMetrics::UserType::USER_TYPE_PUBLIC_ACCOUNT, 2);
 }
 
 TEST_F(ForceInstalledMetricsTest, ReportGuestSessionOnExtensionFailure) {
@@ -718,7 +718,12 @@ TEST_F(ForceInstalledMetricsTest, ReportGuestSessionOnExtensionFailure) {
       new chromeos::FakeChromeUserManager();
   user_manager::ScopedUserManager scoped_user_manager(
       base::WrapUnique(fake_user_manager));
+  const AccountId account_id =
+      AccountId::FromUserEmail(profile_->GetProfileUserName());
   user_manager::User* user = fake_user_manager->AddGuestUser();
+  fake_user_manager->UserLoggedIn(account_id, user->username_hash(),
+                                  false /* browser_restart */,
+                                  false /* is_child */);
   chromeos::ProfileHelper::Get()->SetProfileToUserMappingForTesting(user);
   SetupForceList();
   install_stage_tracker_->ReportFailure(
@@ -731,8 +736,8 @@ TEST_F(ForceInstalledMetricsTest, ReportGuestSessionOnExtensionFailure) {
   // loaded or failed.
   EXPECT_FALSE(fake_timer_->IsRunning());
   histogram_tester_.ExpectBucketCount(
-      kFailureSessionStats,
-      ForceInstalledMetrics::SessionType::SESSION_TYPE_GUEST, 2);
+      kFailureSessionStats, ForceInstalledMetrics::UserType::USER_TYPE_GUEST,
+      2);
 }
 #endif  // defined(OS_CHROMEOS)
 
