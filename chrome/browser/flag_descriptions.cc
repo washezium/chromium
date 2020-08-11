@@ -3998,6 +3998,11 @@ const char kFilesZipNoNaClName[] = "New ZIP handling in Files App";
 const char kFilesZipNoNaClDescription[] =
     "Enable new ZIP archive handling in Files App which does not rely on NaCl.";
 
+extern const char kFiltersInRecentsName[] = "Enable filters in Recents";
+extern const char kFiltersInRecentsDescription[] =
+    "Enable file-type filters (Audio, Images, Videos) in Files App Recents "
+    "view.";
+
 const char kFrameThrottleFpsName[] = "Set frame throttling fps.";
 const char kFrameThrottleFpsDescription[] =
     "Set the throttle fps for compositor frame submission.";
