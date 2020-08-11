@@ -1690,6 +1690,15 @@ RenderFrameHostManager::DetermineSiteInstanceForURL(
     }
   }
 
+  // Check if we should use |source_instance|, such as for about:blank and data:
+  // URLs.  Preferring |source_instance| over a site-less |current_instance| is
+  // important in session restore scenarios which should commit in the
+  // SiteInstance based on FrameNavigationEntry's initiator_origin.
+  if (CanUseSourceSiteInstance(dest_url, source_instance, was_server_redirect,
+                               is_failure)) {
+    return SiteInstanceDescriptor(source_instance);
+  }
+
   // If we haven't used our SiteInstance yet, then we can use it for this
   // entry.  We won't commit the SiteInstance to this site until the response
   // is received (in OnResponseStarted), unless the navigation entry was
@@ -1746,13 +1755,6 @@ RenderFrameHostManager::DetermineSiteInstanceForURL(
       current_instance_impl->ConvertToDefaultOrSetSite(dest_url);
 
     return SiteInstanceDescriptor(current_instance_impl);
-  }
-
-  // Check if we should use |source_instance|, such as for about:blank and data:
-  // URLs.
-  if (CanUseSourceSiteInstance(dest_url, source_instance, was_server_redirect,
-                               is_failure)) {
-    return SiteInstanceDescriptor(source_instance);
   }
 
   // Use the current SiteInstance for same site navigations.
