@@ -24,7 +24,7 @@ base::OnceCallback<void(
 {%-   endif -%}
 {%- endmacro -%}
 
-{%- macro trace_event(prefix, method_parameters, qualified_method_name,
+{%- macro trace_event(prefix, method_parameters, method_name, parameter_group,
                       trace_event_type='', dereference_parameters=False) -%}
 {#- This macro assumes that the argument names are the ones declared by -#}
 {#- |declare_request_params/declare_sync_method_params|. Namely the |prefix| -#}
@@ -40,12 +40,7 @@ base::OnceCallback<void(
 {#- |dereference_parameters| the parameters type is actually |kind*|. -#}
 {%-   if method_parameters -%}
   TRACE_EVENT{{trace_event_type}}1(
-{%-     if trace_event_type=='' or trace_event_type=='_BEGIN' -%}
-{%-       set parameter_group = 'input_parameters' -%}
-{%-     else -%}
-{%-       set parameter_group = 'response_parameters' -%}
-{%-     endif  %}
-    "mojom", "{{qualified_method_name}}", "{{parameter_group}}",
+    "mojom", "{{method_name}}", "{{parameter_group}}",
     [&](){
       auto value = std::make_unique<base::trace_event::TracedValue>();
       base::trace_event::TracedValue* raw_value = value.get();
@@ -75,7 +70,7 @@ base::OnceCallback<void(
       return value;
     }());
 {%-   else -%}  {#- if method_parameters -#}
-  TRACE_EVENT{{trace_event_type}}0("mojom", "{{qualified_method_name}}");
+  TRACE_EVENT{{trace_event_type}}0("mojom", "{{method_name}}");
 {%-   endif %}  {#- if method_parameters #}
 {%- endmacro -%}
 
