@@ -604,7 +604,7 @@
   {
     "name": "contextual-search-longpress-resolve",
     "owners": [ "//chrome/android/java/src/org/chromium/chrome/browser/contextualsearch/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 88
   },
   {
     "name": "contextual-search-ml-tap-suppression",
@@ -624,7 +624,7 @@
   {
     "name": "contextual-search-translations",
     "owners": [ "//chrome/android/java/src/org/chromium/chrome/browser/contextualsearch/OWNERS" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "conversion-measurement-api",
