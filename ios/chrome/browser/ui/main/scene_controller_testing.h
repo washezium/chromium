@@ -7,15 +7,15 @@
 
 #import "ios/chrome/browser/procedural_block_types.h"
 
-@protocol TabSwitcher;
+@class TabGridCoordinator;
 
 // Methods exposed for testing. This is terrible and should be rewritten.
 @interface SceneController ()
 
 - (void)showFirstRunUI;
-- (void)setTabSwitcher:(id<TabSwitcher>)switcher;
-- (id<TabSwitcher>)tabSwitcher;
 - (BOOL)isTabSwitcherActive;
+
+- (TabGridCoordinator*)mainCoordinator;
 
 // Dismisses all modal dialogs, excluding the omnibox if |dismissOmnibox| is
 // NO, then call |completion|.

@@ -9,14 +9,14 @@
 
 #import "base/ios/block_types.h"
 #import "ios/chrome/browser/chrome_root_coordinator.h"
-#import "ios/chrome/browser/ui/tab_grid/tab_switcher.h"
 
 @protocol ApplicationCommands;
-@protocol BrowsingDataCommands;
-
 class Browser;
+@protocol BrowsingDataCommands;
+@protocol TabGridCoordinatorDelegate;
+struct UrlLoadParams;
 
-@interface TabGridCoordinator : ChromeRootCoordinator <TabSwitcher>
+@interface TabGridCoordinator : ChromeRootCoordinator
 
 - (instancetype)initWithWindow:(UIWindow*)window
      applicationCommandEndpoint:
@@ -27,17 +27,13 @@ class Browser;
 
 - (instancetype)initWithWindow:(UIWindow*)window NS_UNAVAILABLE;
 
-@property(nonatomic, weak) id<TabSwitcherDelegate> delegate;
+@property(nonatomic, weak) id<TabGridCoordinatorDelegate> delegate;
 
 @property(nonatomic, assign) Browser* regularBrowser;
 @property(nonatomic, assign) Browser* incognitoBrowser;
 
 // The view controller, if any, that is active.
 @property(nonatomic, readonly, strong) UIViewController* activeViewController;
-
-// The view controller that is doing the view controller swapping.
-// This may or may not be the same as |activeViewController|.
-@property(nonatomic, readonly, strong) UIViewController* viewController;
 
 // If this property is YES, calls to |showTabSwitcher:completion:| and
 // |showTabViewController:completion:| will present the given view controllers
@@ -48,9 +44,8 @@ class Browser;
 // whether or not child coordinators exist.
 - (void)stopChildCoordinatorsWithCompletion:(ProceduralBlock)completion;
 
-// Displays the given TabSwitcher, replacing any TabSwitchers or view
-// controllers that may currently be visible.
-- (void)showTabSwitcher:(id<TabSwitcher>)tabSwitcher;
+// Displays the TabGrid.
+- (void)showTabGrid;
 
 // Displays the given view controller, replacing any TabSwitchers or other view
 // controllers that may currently be visible.  Runs the given |completion| block
@@ -58,8 +53,32 @@ class Browser;
 - (void)showTabViewController:(UIViewController*)viewController
                    completion:(ProceduralBlock)completion;
 
-// Perform any initial setup required for the appearance of |tabSwitcher|.
-- (void)prepareToShowTabSwitcher:(id<TabSwitcher>)tabSwitcher;
+// Perform any initial setup required for the appearance of the TabGrid.
+- (void)prepareToShowTabGrid;
+
+// Restores the internal state of the tab switcher with the given browser,
+// which must not be nil. |activeBrowser| is the browser which starts active,
+// and must be one of the other two browsers. Should only be called when the
+// object is not being shown.
+- (void)restoreInternalStateWithMainBrowser:(Browser*)mainBrowser
+                                 otrBrowser:(Browser*)otrBrowser
+                              activeBrowser:(Browser*)activeBrowser;
+
+// Create a new tab in |browser|. Implementors are expected to also perform an
+// animation from the selected tab in the tab switcher to the newly created tab
+// in the content area. Objects adopting this protocol should call the following
+// delegate methods:
+//   |-tabSwitcher:shouldFinishWithBrowser:|
+// to inform the delegate when this animation begins and ends.
+- (void)dismissWithNewTabAnimationToBrowser:(Browser*)browser
+                          withUrlLoadParams:(const UrlLoadParams&)urlLoadParams
+                                    atIndex:(int)position;
+
+// Updates the OTR (Off The Record) browser. Should only be called when both
+// the current OTR browser and the new OTR browser are either nil or contain no
+// tabs. This must be called after the otr browser has been deleted because the
+// incognito browser state is deleted.
+- (void)setOtrBrowser:(Browser*)otrBrowser;
 
 @end
 
