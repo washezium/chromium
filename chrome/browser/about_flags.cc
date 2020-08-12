@@ -261,15 +261,6 @@ const unsigned kOsDesktop = kOsMac | kOsWin | kOsLinux | kOsCrOS;
 const unsigned kOsAura = kOsWin | kOsLinux | kOsCrOS;
 #endif  // USE_AURA || OS_ANDROID
 
-const FeatureEntry::Choice kTouchEventFeatureDetectionChoices[] = {
-    {flags_ui::kGenericExperimentChoiceDisabled, "", ""},
-    {flags_ui::kGenericExperimentChoiceEnabled,
-     switches::kTouchEventFeatureDetection,
-     switches::kTouchEventFeatureDetectionEnabled},
-    {flags_ui::kGenericExperimentChoiceAutomatic,
-     switches::kTouchEventFeatureDetection,
-     switches::kTouchEventFeatureDetectionAuto}};
-
 #if defined(USE_AURA)
 const FeatureEntry::Choice kPullToRefreshChoices[] = {
     {flags_ui::kGenericExperimentChoiceDefault, "", ""},
@@ -2501,9 +2492,6 @@ const FeatureEntry kFeatureEntries[] = {
     {"focus-mode", flag_descriptions::kFocusMode,
      flag_descriptions::kFocusModeDescription, kOsDesktop,
      FEATURE_VALUE_TYPE(features::kFocusMode)},
-    {"touch-events", flag_descriptions::kTouchEventsName,
-     flag_descriptions::kTouchEventsDescription, kOsDesktop,
-     MULTI_VALUE_TYPE(kTouchEventFeatureDetectionChoices)},
 #if defined(OS_CHROMEOS)
     {"disable-explicit-dma-fences",
      flag_descriptions::kDisableExplicitDmaFencesName,

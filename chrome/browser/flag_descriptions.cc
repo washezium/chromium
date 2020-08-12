@@ -2313,12 +2313,6 @@ const char kTouchDragDropDescription[] =
     "Touch drag and drop can be initiated through long press on a draggable "
     "element.";
 
-const char kTouchEventsName[] = "Touch Events API";
-const char kTouchEventsDescription[] =
-    "Force Touch Events API feature detection to always be enabled or "
-    "disabled, or to be enabled when a touchscreen is detected on startup "
-    "(Automatic).";
-
 const char kTouchSelectionStrategyName[] = "Touch text selection strategy";
 const char kTouchSelectionStrategyDescription[] =
     "Controls how text selection granularity changes when touch text selection "
