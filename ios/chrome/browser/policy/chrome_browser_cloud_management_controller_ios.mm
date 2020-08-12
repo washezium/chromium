@@ -107,10 +107,8 @@ ChromeBrowserCloudManagementControllerIOS::GetSharedURLLoaderFactory() {
 std::unique_ptr<enterprise_reporting::ReportScheduler>
 ChromeBrowserCloudManagementControllerIOS::CreateReportScheduler(
     CloudPolicyClient* client) {
-  auto generator = std::make_unique<enterprise_reporting::ReportGenerator>(
-      &reporting_delegate_factory_);
-  return std::make_unique<enterprise_reporting::ReportScheduler>(
-      client, std::move(generator), &reporting_delegate_factory_);
+  // TODO(crbug.com/1066495): Finish iOS CBCM implementation.
+  return nullptr;
 }
 
 void ChromeBrowserCloudManagementControllerIOS::SetGaiaURLLoaderFactory(

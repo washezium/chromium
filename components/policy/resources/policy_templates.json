@@ -17361,6 +17361,7 @@
       'type': 'string',
       'schema': { 'type': 'string' },
       'supported_on': ['chrome.*:72-'],
+      'future_on': [ 'ios' ],
       'features': {
         'dynamic_refresh': False,
         'per_profile': False,
