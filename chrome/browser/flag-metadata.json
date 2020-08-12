@@ -2080,8 +2080,8 @@
   },
   {
     "name": "enable-subresource-redirect",
-    "owners": [ "robertogden", "tbansal" ],
-    "expiry_milestone": 85
+    "owners": [ "rajendrant", "mcrouse", "tbansal" ],
+    "expiry_milestone": 87
   },
   {
     "name": "enable-suggested-files",
