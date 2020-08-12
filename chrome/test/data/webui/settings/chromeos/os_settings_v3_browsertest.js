@@ -41,6 +41,7 @@ var OSSettingsV3BrowserTest = class extends PolymerTest {
  ['BluetoothPage', 'bluetooth_page_tests.m.js'],
  ['DateTimePage', 'date_time_page_tests.m.js'],
  ['InputMethodOptionPage', 'input_method_options_page_test.m.js'],
+ ['InputPage', 'input_page_test.m.js'],
  ['LocalizedLink', 'localized_link_test.m.js'],
  ['MultideviceFeatureItem', 'multidevice_feature_item_tests.m.js'],
  ['MultideviceFeatureToggle', 'multidevice_feature_toggle_tests.m.js'],

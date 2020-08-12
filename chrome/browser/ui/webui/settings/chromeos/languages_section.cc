@@ -95,6 +95,14 @@ const std::vector<SearchConcept>& GetInputPageSearchConceptsV2() {
        mojom::SearchResultDefaultRank::kMedium,
        mojom::SearchResultType::kSubpage,
        {.subpage = mojom::Subpage::kInput}},
+      {IDS_OS_SETTINGS_TAG_LANGUAGES_INPUT_INPUT_OPTIONS_SHELF,
+       mojom::kInputSubpagePath,
+       mojom::SearchResultIcon::kGlobe,
+       mojom::SearchResultDefaultRank::kMedium,
+       mojom::SearchResultType::kSetting,
+       {.setting = mojom::Setting::kShowInputOptionsInShelf},
+       {IDS_OS_SETTINGS_TAG_LANGUAGES_INPUT_INPUT_OPTIONS_SHELF_ALT1,
+        SearchConcept::kAltTagEnd}},
   });
   return *tags;
 }
@@ -383,6 +391,8 @@ void LanguagesSection::RegisterHierarchy(HierarchyGenerator* generator) const {
   if (IsLanguageSettingsV2Enabled()) {
     generator->RegisterNestedSetting(mojom::Setting::kAddLanguage,
                                      mojom::Subpage::kLanguages);
+    generator->RegisterNestedSetting(mojom::Setting::kShowInputOptionsInShelf,
+                                     mojom::Subpage::kInput);
   } else {
     static constexpr mojom::Setting kLanguagesAndInputDetailsSettings[] = {
         mojom::Setting::kAddLanguage,

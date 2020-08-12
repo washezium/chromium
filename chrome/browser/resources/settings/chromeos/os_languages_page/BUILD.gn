@@ -10,6 +10,7 @@ js_type_check("closure_compile") {
   deps = [
     ":input_method_options_page",
     ":input_method_util",
+    ":input_page",
     ":languages_metrics_proxy",
     ":manage_input_methods_page",
     ":os_add_languages_dialog",
@@ -35,6 +36,10 @@ js_library("input_method_options_page") {
 
 js_library("input_method_util") {
   deps = [ "//ui/webui/resources/js:cr" ]
+}
+
+js_library("input_page") {
+  deps = [ ":languages_metrics_proxy" ]
 }
 
 js_library("languages_metrics_proxy") {
@@ -129,6 +134,7 @@ js_type_check("closure_compile_module") {
   deps = [
     ":input_method_options_page.m",
     ":input_method_util.m",
+    ":input_page.m",
     ":languages_metrics_proxy.m",
     ":manage_input_methods_page.m",
     ":os_add_languages_dialog.m",
@@ -153,6 +159,12 @@ js_library("input_method_options_page.m") {
     "//ui/webui/resources/js:i18n_behavior.m",
   ]
   extra_deps = [ ":input_method_options_page_module" ]
+}
+
+js_library("input_page.m") {
+  sources = [ "$root_gen_dir/chrome/browser/resources/settings/chromeos/os_languages_page/input_page.m.js" ]
+  deps = [ ":languages_metrics_proxy.m" ]
+  extra_deps = [ ":input_page_module" ]
 }
 
 js_library("languages_metrics_proxy.m") {
@@ -256,6 +268,7 @@ import("//tools/polymer/polymer.gni")
 group("polymer3_elements") {
   public_deps = [
     ":input_method_options_page_module",
+    ":input_page_module",
     ":manage_input_methods_page_module",
     ":modulize",
     ":os_add_languages_dialog_module",
@@ -316,6 +329,15 @@ polymer_modulizer("os_languages_section") {
 polymer_modulizer("input_method_options_page") {
   js_file = "input_method_options_page.js"
   html_file = "input_method_options_page.html"
+  html_type = "dom-module"
+  migrated_imports = settings_migrated_imports
+  namespace_rewrites = os_settings_namespace_rewrites
+  auto_imports = os_settings_auto_imports
+}
+
+polymer_modulizer("input_page") {
+  js_file = "input_page.js"
+  html_file = "input_page.html"
   html_type = "dom-module"
   migrated_imports = settings_migrated_imports
   namespace_rewrites = os_settings_namespace_rewrites

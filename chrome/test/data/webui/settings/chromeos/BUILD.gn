@@ -40,6 +40,7 @@ js_modulizer("modulize") {
     "fake_settings_search_handler.js",
     "fake_user_action_recorder.js",
     "input_method_options_page_test.js",
+    "input_page_test.js",
     "localized_link_test.js",
     "multidevice_feature_item_tests.js",
     "multidevice_feature_toggle_tests.js",

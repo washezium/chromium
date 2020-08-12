@@ -1493,6 +1493,27 @@ TEST_F('OSSettingsInputMethodOptionsPageTest', 'AllJsTests', () => {
   mocha.run();
 });
 
+// eslint-disable-next-line no-var
+var OSSettingsInputPageTest = class extends OSSettingsBrowserTest {
+  /** @override */
+  get browsePreload() {
+    return super.browsePreload + 'chromeos/os_language_page/input_page.html';
+  }
+
+  /** @override */
+  get extraLibraries() {
+    return super.extraLibraries.concat([
+      BROWSER_SETTINGS_PATH + '../test_browser_proxy.js',
+      'input_page_test.js',
+      'test_os_languages_metrics_proxy.js',
+    ]);
+  }
+};
+
+TEST_F('OSSettingsInputPageTest', 'AllJsTests', () => {
+  mocha.run();
+});
+
 // Tests for the Reset section.
 // eslint-disable-next-line no-var
 var OSSettingsResetPageTest = class extends OSSettingsBrowserTest {
