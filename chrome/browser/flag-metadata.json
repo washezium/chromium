@@ -2589,7 +2589,7 @@
   {
     "name": "freeze-user-agent",
     "owners": [ "yoavweiss", "aarontag" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 89
   },
   {
     "name": "fullscreen-controller-browser-scoped",
