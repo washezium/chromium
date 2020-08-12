@@ -68,9 +68,10 @@
       <GraphSelectedNodeDetails
           :selected-node-details-data="pageModel.selectedNodeDetailsData"
           @[CUSTOM_EVENTS.DETAILS_CHECK_NODE]="filterAddOrCheckNode"
-          @[CUSTOM_EVENTS.DETAILS_UNCHECK_NODE]="filterUncheckNode"/>
-      <PackageDetailsPanel
-          :selected-package="pageModel.selectedNodeDetailsData.selectedNode"/>
+          @[CUSTOM_EVENTS.DETAILS_UNCHECK_NODE]="filterUncheckNode">
+        <PackageDetailsPanel
+            :selected-package="pageModel.selectedNodeDetailsData.selectedNode"/>
+      </GraphSelectedNodeDetails>
     </div>
   </div>
 </template>
@@ -270,7 +271,7 @@ export default PackageGraphPage;
   flex-direction: column;
   flex-grow: 0;
   overflow-y: scroll;
-  padding: 0 20px;
+  padding: 0 20px 20px 20px;
   width: 30vw;
 }
 

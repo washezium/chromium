@@ -94,13 +94,6 @@ const GraphFilterItems = {
 export default GraphFilterItems;
 </script>
 
-<style>
-#filter-list .md-list-item-content {
-  min-height: 0;
-  padding: 0;
-}
-</style>
-
 <style scoped>
 ul {
   list-style-type: none;
@@ -124,6 +117,11 @@ ul {
 #filter-list {
   max-height: 30vh;
   overflow-y: scroll;
+}
+
+#filter-list >>> .md-list-item-content {
+  min-height: 0;
+  padding: 0;
 }
 
 #controls {

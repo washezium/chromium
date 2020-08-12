@@ -73,9 +73,10 @@
       <GraphSelectedNodeDetails
           :selected-node-details-data="pageModel.selectedNodeDetailsData"
           @[CUSTOM_EVENTS.DETAILS_CHECK_NODE]="filterAddOrCheckNode"
-          @[CUSTOM_EVENTS.DETAILS_UNCHECK_NODE]="filterUncheckNode"/>
-      <ClassDetailsPanel
-          :selected-class="pageModel.selectedNodeDetailsData.selectedNode"/>
+          @[CUSTOM_EVENTS.DETAILS_UNCHECK_NODE]="filterUncheckNode">
+        <ClassDetailsPanel
+            :selected-class="pageModel.selectedNodeDetailsData.selectedNode"/>
+      </GraphSelectedNodeDetails>
     </div>
   </div>
 </template>
@@ -270,13 +271,6 @@ const ClassGraphPage = {
 export default ClassGraphPage;
 </script>
 
-<style>
-.user-input-group {
-  display: flex;
-  flex-direction: column;
-}
-</style>
-
 <style scoped>
 #title {
   padding: 10px;
@@ -300,7 +294,7 @@ export default ClassGraphPage;
   flex-direction: column;
   flex-grow: 0;
   overflow-y: scroll;
-  padding: 0 20px;
+  padding: 0 20px 20px 20px;
   width: 30vw;
 }
 
