@@ -5030,6 +5030,21 @@
             ]
         }
     ],
+    "OmniboxSpareRenderer": [
+        {
+            "platforms": [
+                "android"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "OmniboxSpareRenderer"
+                    ]
+                }
+            ]
+        }
+    ],
     "OmniboxSuggestionsRecyclerView": [
         {
             "platforms": [
