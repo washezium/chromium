@@ -333,6 +333,10 @@
       name: "CompositeSVG",
     },
     {
+      name: "CompositingOptimizations",
+      status: "experimental"
+    },
+    {
       name: "ComputedAccessibilityInfo",
       status: "experimental",
     },

@@ -1085,6 +1085,28 @@ void PaintLayer::SetChildNeedsCompositingInputsUpdateUpToAncestor(
   ancestor->child_needs_compositing_inputs_update_ = true;
 }
 
+const IntRect PaintLayer::ClippedAbsoluteBoundingBox() const {
+  if (RuntimeEnabledFeatures::CompositingOptimizationsEnabled()) {
+    PhysicalRect mapping_rect = BoundingBoxForCompositingOverlapTest();
+    GetLayoutObject().MapToVisualRectInAncestorSpace(
+        GetLayoutObject().View(), mapping_rect, kUseGeometryMapper);
+    return EnclosingIntRect(mapping_rect);
+  } else {
+    return GetAncestorDependentCompositingInputs()
+        .clipped_absolute_bounding_box;
+  }
+}
+const IntRect PaintLayer::UnclippedAbsoluteBoundingBox() const {
+  if (RuntimeEnabledFeatures::CompositingOptimizationsEnabled()) {
+    return EnclosingIntRect(GetLayoutObject().LocalToAbsoluteRect(
+        BoundingBoxForCompositingOverlapTest(),
+        kUseGeometryMapperMode | kIgnoreScrollOffset));
+  } else {
+    return GetAncestorDependentCompositingInputs()
+        .unclipped_absolute_bounding_box;
+  }
+}
+
 void PaintLayer::SetNeedsCompositingInputsUpdateInternal() {
   if (RuntimeEnabledFeatures::CompositeAfterPaintEnabled())
     return;
