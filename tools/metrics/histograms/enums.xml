@@ -28702,6 +28702,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3373" label="WrongBaselineOfEmptyLineButton"/>
   <int value="3374" label="V8RTCRtpTransceiver_Stopped_AttributeGetter"/>
   <int value="3375" label="V8RTCRtpTransceiver_Stop_Method"/>
+  <int value="3376" label="SecurePaymentConfirmation"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
