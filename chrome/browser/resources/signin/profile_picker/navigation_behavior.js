@@ -39,8 +39,11 @@ function computeStep(route) {
       // TODO(msalama): Add support in profile creation mode for policies like:
       // - ForceSignIn --> load signin page directly.
       // - DisallowSignIn --> open local profile customization.
-      // - Check |signInProfileCreationFlow| is not enabled.
-      return ProfileCreationSteps.PROFILE_TYPE_CHOICE;
+      if (loadTimeData.getBoolean('signInProfileCreationFlow')) {
+        return ProfileCreationSteps.PROFILE_TYPE_CHOICE;
+      } else {
+        return ProfileCreationSteps.LOCAL_PROFILE_CUSTOMIZATION;
+      }
     default:
       assertNotReached();
   }
