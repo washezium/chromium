@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_
-#define UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_
+#ifndef UI_PLATFORM_WINDOW_WM_WM_DROP_HANDLER_H_
+#define UI_PLATFORM_WINDOW_WM_WM_DROP_HANDLER_H_
 
 #include <memory>
 
@@ -17,7 +17,7 @@ namespace ui {
 class PlatformWindow;
 class OSExchangeData;
 
-class COMPONENT_EXPORT(HANDLERS) WmDropHandler {
+class COMPONENT_EXPORT(WM) WmDropHandler {
  public:
   // Notifies that drag has entered the window.
   // |point| is in the coordinate space of the PlatformWindow.
@@ -53,12 +53,12 @@ class COMPONENT_EXPORT(HANDLERS) WmDropHandler {
   virtual ~WmDropHandler() = default;
 };
 
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 void SetWmDropHandler(PlatformWindow* platform_window,
                       WmDropHandler* drop_handler);
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 WmDropHandler* GetWmDropHandler(const PlatformWindow& platform_window);
 
 }  // namespace ui
 
-#endif  // UI_PLATFORM_WINDOW_HANDLERS_WM_DROP_HANDLER_H_
+#endif  // UI_PLATFORM_WINDOW_WM_WM_DROP_HANDLER_H_

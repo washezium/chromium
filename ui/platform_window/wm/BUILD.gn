@@ -2,8 +2,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-component("handlers") {
-  output_name = "platform_window_handler_libs"
+component("wm") {
+  output_name = "platform_window_wm"
 
   sources = [
     "wm_drag_handler.cc",
@@ -16,7 +16,7 @@ component("handlers") {
     "wm_move_resize_handler.h",
   ]
 
-  defines = [ "IS_HANDLERS_IMPL" ]
+  defines = [ "IS_WM_IMPL" ]
 
   deps = [
     "//ui/base",

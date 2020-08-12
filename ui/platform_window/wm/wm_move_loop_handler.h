@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_LOOP_HANDLER_H_
-#define UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_LOOP_HANDLER_H_
+#ifndef UI_PLATFORM_WINDOW_WM_WM_MOVE_LOOP_HANDLER_H_
+#define UI_PLATFORM_WINDOW_WM_WM_MOVE_LOOP_HANDLER_H_
 
 #include "base/component_export.h"
 
@@ -16,7 +16,7 @@ namespace ui {
 class PlatformWindow;
 
 // Handler that starts interactive move loop for the PlatformWindow.
-class COMPONENT_EXPORT(HANDLERS) WmMoveLoopHandler {
+class COMPONENT_EXPORT(WM) WmMoveLoopHandler {
  public:
   // Starts a move loop for tab drag controller. Returns true on success or
   // false on fail/cancel.
@@ -29,12 +29,12 @@ class COMPONENT_EXPORT(HANDLERS) WmMoveLoopHandler {
   virtual ~WmMoveLoopHandler() {}
 };
 
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 void SetWmMoveLoopHandler(PlatformWindow* platform_window,
                           WmMoveLoopHandler* drag_handler);
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 WmMoveLoopHandler* GetWmMoveLoopHandler(const PlatformWindow& platform_window);
 
 }  // namespace ui
 
-#endif  // UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_LOOP_HANDLER_H_
+#endif  // UI_PLATFORM_WINDOW_WM_WM_MOVE_LOOP_HANDLER_H_

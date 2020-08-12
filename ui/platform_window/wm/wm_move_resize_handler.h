@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_RESIZE_HANDLER_H_
-#define UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_RESIZE_HANDLER_H_
+#ifndef UI_PLATFORM_WINDOW_WM_WM_MOVE_RESIZE_HANDLER_H_
+#define UI_PLATFORM_WINDOW_WM_WM_MOVE_RESIZE_HANDLER_H_
 
 #include "base/component_export.h"
 
@@ -15,7 +15,7 @@ namespace ui {
 
 class PlatformWindow;
 
-class COMPONENT_EXPORT(HANDLERS) WmMoveResizeHandler {
+class COMPONENT_EXPORT(WM) WmMoveResizeHandler {
  public:
   // A system window manager starts interactive drag or resize of a window based
   // on the |hittest| value. The |hittest| value identifies in which direction
@@ -52,13 +52,13 @@ class COMPONENT_EXPORT(HANDLERS) WmMoveResizeHandler {
   virtual ~WmMoveResizeHandler() {}
 };
 
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 void SetWmMoveResizeHandler(PlatformWindow* platform_window,
                             WmMoveResizeHandler* move_resize_handler);
-COMPONENT_EXPORT(HANDLERS)
+COMPONENT_EXPORT(WM)
 WmMoveResizeHandler* GetWmMoveResizeHandler(
     const PlatformWindow& platform_window);
 
 }  // namespace ui
 
-#endif  // UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_RESIZE_HANDLER_H_
+#endif  // UI_PLATFORM_WINDOW_WM_WM_MOVE_RESIZE_HANDLER_H_
