@@ -1239,6 +1239,24 @@ TEST_F('OSSettingsPrivacyPageTest', 'AllJsTests', () => {
   mocha.run();
 });
 
+// Tests for the Files section.
+// eslint-disable-next-line no-var
+var OSSettingsFilesPageTest = class extends OSSettingsBrowserTest {
+  /** @override */
+  get browsePreload() {
+    return super.browsePreload + 'chromeos/os_files_page/os_files_page.html';
+  }
+
+  /** @override */
+  get extraLibraries() {
+    return super.extraLibraries.concat(['os_files_page_test.js']);
+  }
+};
+
+TEST_F('OSSettingsFilesPageTest', 'AllJsTests', () => {
+  mocha.run();
+});
+
 // eslint-disable-next-line no-var
 var OSSettingsParentalControlsPageTest = class extends OSSettingsBrowserTest {
   /** @override */

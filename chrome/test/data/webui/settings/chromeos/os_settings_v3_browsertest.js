@@ -57,6 +57,8 @@ var OSSettingsV3BrowserTest = class extends PolymerTest {
  ['PeoplePageKerberosAccounts', 'people_page_kerberos_accounts_test.m.js'],
  ['PersonalizationPage', 'personalization_page_test.m.js'],
  ['PrivacyPage', 'os_privacy_page_test.m.js'],
+ ['SmbPage', 'smb_shares_page_tests.m.js'],
+ ['FilesPage', 'os_files_page_test.m.js'],
  ['ResetPage', 'os_reset_page_test.m.js'],
  ['SmartInputsPage', 'smart_inputs_page_test.m.js'],
  ['TimezoneSelector', 'timezone_selector_test.m.js'],
