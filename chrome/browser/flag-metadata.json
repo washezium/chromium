@@ -3833,7 +3833,7 @@
   {
     "name": "safe-browsing-available",
     "owners": [ "//ios/chrome/browser/safe_browsing/OWNERS", "bling-flags" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 87
   },
   {
     "name": "safe-browsing-enhanced-protection-android",
