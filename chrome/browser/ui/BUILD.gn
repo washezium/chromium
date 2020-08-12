@@ -340,6 +340,7 @@ static_library("ui") {
   # have the same dependencies. Once browser_ui is untangled from
   # browser, then we can clean up these dependencies.
   public_deps = [
+    "//chrome/services/machine_learning:machine_learning_tflite_buildflags",
     "//components/dom_distiller/core",
     "//components/safe_browsing:buildflags",
     "//components/sync",
