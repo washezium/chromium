@@ -5,17 +5,19 @@
 #ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_DRAG_HANDLER_H_
 #define UI_PLATFORM_WINDOW_HANDLERS_WM_DRAG_HANDLER_H_
 
-#include "base/bind.h"
+#include "base/component_export.h"
 #include "ui/base/dragdrop/drag_drop_types.h"
-#include "ui/gfx/geometry/point.h"
 #include "ui/gfx/native_widget_types.h"
-#include "ui/platform_window/handlers/wm_platform_export.h"
+
+namespace gfx {
+class Point;
+}
 
 namespace ui {
 class PlatformWindow;
 class OSExchangeData;
 
-class WM_PLATFORM_EXPORT WmDragHandler {
+class COMPONENT_EXPORT(HANDLERS) WmDragHandler {
  public:
   // During the drag operation, the handler may send updates
   class Delegate {
@@ -57,10 +59,11 @@ class WM_PLATFORM_EXPORT WmDragHandler {
   virtual void CancelDrag() = 0;
 };
 
-WM_PLATFORM_EXPORT void SetWmDragHandler(PlatformWindow* platform_window,
-                                         WmDragHandler* drag_handler);
-WM_PLATFORM_EXPORT WmDragHandler* GetWmDragHandler(
-    const PlatformWindow& platform_window);
+COMPONENT_EXPORT(HANDLERS)
+void SetWmDragHandler(PlatformWindow* platform_window,
+                      WmDragHandler* drag_handler);
+COMPONENT_EXPORT(HANDLERS)
+WmDragHandler* GetWmDragHandler(const PlatformWindow& platform_window);
 
 }  // namespace ui
 

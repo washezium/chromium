@@ -5,7 +5,7 @@
 #ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_RESIZE_HANDLER_H_
 #define UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_RESIZE_HANDLER_H_
 
-#include "ui/platform_window/handlers/wm_platform_export.h"
+#include "base/component_export.h"
 
 namespace gfx {
 class Point;
@@ -15,7 +15,7 @@ namespace ui {
 
 class PlatformWindow;
 
-class WmMoveResizeHandler {
+class COMPONENT_EXPORT(HANDLERS) WmMoveResizeHandler {
  public:
   // A system window manager starts interactive drag or resize of a window based
   // on the |hittest| value. The |hittest| value identifies in which direction
@@ -52,10 +52,11 @@ class WmMoveResizeHandler {
   virtual ~WmMoveResizeHandler() {}
 };
 
-WM_PLATFORM_EXPORT void SetWmMoveResizeHandler(
-    PlatformWindow* platform_window,
-    WmMoveResizeHandler* move_resize_handler);
-WM_PLATFORM_EXPORT WmMoveResizeHandler* GetWmMoveResizeHandler(
+COMPONENT_EXPORT(HANDLERS)
+void SetWmMoveResizeHandler(PlatformWindow* platform_window,
+                            WmMoveResizeHandler* move_resize_handler);
+COMPONENT_EXPORT(HANDLERS)
+WmMoveResizeHandler* GetWmMoveResizeHandler(
     const PlatformWindow& platform_window);
 
 }  // namespace ui

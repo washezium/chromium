@@ -7,8 +7,7 @@
 
 #include <memory>
 
-#include "ui/gfx/native_widget_types.h"
-#include "ui/platform_window/handlers/wm_platform_export.h"
+#include "base/component_export.h"
 
 namespace gfx {
 class PointF;
@@ -18,7 +17,7 @@ namespace ui {
 class PlatformWindow;
 class OSExchangeData;
 
-class WM_PLATFORM_EXPORT WmDropHandler {
+class COMPONENT_EXPORT(HANDLERS) WmDropHandler {
  public:
   // Notifies that drag has entered the window.
   // |point| is in the coordinate space of the PlatformWindow.
@@ -43,7 +42,7 @@ class WM_PLATFORM_EXPORT WmDropHandler {
   // of the drop is the location of the latest DragEnter/DragMotion. If
   // OSExchangeData is provided on OnDragEnter, the |data| should be same as it.
   // |modifiers| contains bitmask of ui::EventFlags that accompany the event.
-  virtual void OnDragDrop(std::unique_ptr<ui::OSExchangeData> data,
+  virtual void OnDragDrop(std::unique_ptr<OSExchangeData> data,
                           int modifiers) = 0;
 
   // Notifies that dragging is left. Must be called before
@@ -51,13 +50,14 @@ class WM_PLATFORM_EXPORT WmDropHandler {
   virtual void OnDragLeave() = 0;
 
  protected:
-  virtual ~WmDropHandler() {}
+  virtual ~WmDropHandler() = default;
 };
 
-WM_PLATFORM_EXPORT void SetWmDropHandler(PlatformWindow* platform_window,
-                                         WmDropHandler* drop_handler);
-WM_PLATFORM_EXPORT WmDropHandler* GetWmDropHandler(
-    const PlatformWindow& platform_window);
+COMPONENT_EXPORT(HANDLERS)
+void SetWmDropHandler(PlatformWindow* platform_window,
+                      WmDropHandler* drop_handler);
+COMPONENT_EXPORT(HANDLERS)
+WmDropHandler* GetWmDropHandler(const PlatformWindow& platform_window);
 
 }  // namespace ui
 

@@ -14,10 +14,9 @@ component("handlers") {
     "wm_move_loop_handler.h",
     "wm_move_resize_handler.cc",
     "wm_move_resize_handler.h",
-    "wm_platform_export.h",
   ]
 
-  defines = [ "PLATFORM_WINDOW_HANDLER_IMPLEMENTATION" ]
+  defines = [ "IS_HANDLERS_IMPL" ]
 
   deps = [
     "//ui/base",

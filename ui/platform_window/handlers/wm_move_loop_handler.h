@@ -5,7 +5,7 @@
 #ifndef UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_LOOP_HANDLER_H_
 #define UI_PLATFORM_WINDOW_HANDLERS_WM_MOVE_LOOP_HANDLER_H_
 
-#include "ui/platform_window/handlers/wm_platform_export.h"
+#include "base/component_export.h"
 
 namespace gfx {
 class Vector2d;
@@ -16,7 +16,7 @@ namespace ui {
 class PlatformWindow;
 
 // Handler that starts interactive move loop for the PlatformWindow.
-class WM_PLATFORM_EXPORT WmMoveLoopHandler {
+class COMPONENT_EXPORT(HANDLERS) WmMoveLoopHandler {
  public:
   // Starts a move loop for tab drag controller. Returns true on success or
   // false on fail/cancel.
@@ -29,10 +29,11 @@ class WM_PLATFORM_EXPORT WmMoveLoopHandler {
   virtual ~WmMoveLoopHandler() {}
 };
 
-WM_PLATFORM_EXPORT void SetWmMoveLoopHandler(PlatformWindow* platform_window,
-                                             WmMoveLoopHandler* drag_handler);
-WM_PLATFORM_EXPORT WmMoveLoopHandler* GetWmMoveLoopHandler(
-    const PlatformWindow& platform_window);
+COMPONENT_EXPORT(HANDLERS)
+void SetWmMoveLoopHandler(PlatformWindow* platform_window,
+                          WmMoveLoopHandler* drag_handler);
+COMPONENT_EXPORT(HANDLERS)
+WmMoveLoopHandler* GetWmMoveLoopHandler(const PlatformWindow& platform_window);
 
 }  // namespace ui
 
