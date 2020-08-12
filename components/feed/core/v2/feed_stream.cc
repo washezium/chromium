@@ -411,6 +411,16 @@ std::string FeedStream::DumpStateForDebugging() {
   if (model_) {
     ss << "model loaded, " << model_->GetContentList().size() << " contents\n";
   }
+  RequestSchedule schedule = prefs::GetRequestSchedule(*profile_prefs_);
+  if (schedule.refresh_offsets.empty()) {
+    ss << "No request schedule\n";
+  } else {
+    ss << "Request schedule reference " << schedule.anchor_time << '\n';
+    for (base::TimeDelta entry : schedule.refresh_offsets) {
+      ss << " fetch at " << entry << '\n';
+    }
+  }
+
   return ss.str();
 }
 
