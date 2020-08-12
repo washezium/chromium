@@ -126,7 +126,7 @@ struct TestNodeWrapper<WorkerNodeImpl>::Factory {
       WorkerNode::WorkerType worker_type,
       ProcessNodeImpl* process_node,
       const std::string& browser_context_id = std::string(),
-      const WorkerToken& token = WorkerToken::Create()) {
+      const WorkerToken& token = WorkerToken()) {
     return std::make_unique<WorkerNodeImpl>(browser_context_id, worker_type,
                                             process_node, token);
   }

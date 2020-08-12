@@ -19,7 +19,6 @@ WorkerNodeImpl::WorkerNodeImpl(const std::string& browser_context_id,
       worker_token_(worker_token) {
   DETACH_FROM_SEQUENCE(sequence_checker_);
   DCHECK(process_node);
-  DCHECK(worker_token);
 }
 
 WorkerNodeImpl::~WorkerNodeImpl() {

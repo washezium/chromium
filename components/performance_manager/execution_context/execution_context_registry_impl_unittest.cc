@@ -150,8 +150,7 @@ TEST_F(ExecutionContextRegistryImplTest, RegistryWorks) {
       FrameToken(base::UnguessableToken::Null())));
   EXPECT_FALSE(registry_->GetFrameNodeByFrameToken(
       FrameToken(base::UnguessableToken::Create())));
-  EXPECT_FALSE(registry_->GetWorkerNodeByWorkerToken(WorkerToken::Null()));
-  EXPECT_FALSE(registry_->GetWorkerNodeByWorkerToken(WorkerToken::Create()));
+  EXPECT_FALSE(registry_->GetWorkerNodeByWorkerToken(WorkerToken()));
 
   // Destroy nodes one by one and expect observer notifications.
   EXPECT_CALL(obs, OnBeforeExecutionContextRemoved(worker_ec));
