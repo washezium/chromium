@@ -50,11 +50,6 @@
     "expiry_milestone": 81
   },
   {
-    "name": "aggregated-ml-search-ranking",
-    "owners": [ "thanhdng", "jiameng" ],
-    "expiry_milestone": 82
-  },
-  {
     "name": "align-font-display-auto-lcp",
     "owners": [ "xiaochengh" ],
     "expiry_milestone": 87
