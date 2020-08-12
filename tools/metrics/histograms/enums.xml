@@ -39096,6 +39096,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="5" label="Non-integral x offset"/>
   <int value="6" label="Non-integral y offset"/>
   <int value="7" label="Will-change: transform"/>
+  <int value="8" label="Pixel or color effect"/>
 </enum>
 
 <enum name="LevelDBCorruptionRestoreValue">
