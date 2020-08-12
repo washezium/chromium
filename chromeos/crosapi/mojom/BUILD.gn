@@ -6,6 +6,7 @@ import("//mojo/public/tools/bindings/mojom.gni")
 
 mojom("mojom") {
   sources = [
+    "attestation.mojom",
     "crosapi.mojom",
     "screen_manager.mojom",
     "select_file.mojom",
