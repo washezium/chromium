@@ -4101,8 +4101,8 @@
   },
   {
     "name": "sms-receiver-cross-device",
-    "owners": [ "goto", "fugu-dev" ],
-    "expiry_milestone": 85
+    "owners": [ "goto", "web-identity@google.com" ],
+    "expiry_milestone": 88
   },
   {
     "name": "snapshot-draw-view",
