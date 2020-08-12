@@ -1157,7 +1157,12 @@ void NearbySharingServiceImpl::OnIncomingTransferUpdate(
     last_incoming_metadata_ = base::nullopt;
   }
 
-  // TODO(himanshujaju) - Handle is_final_status()
+  if (metadata.is_final_status()) {
+    OnTransferComplete();
+  } else if (metadata.status() ==
+             TransferMetadata::Status::kAwaitingLocalConfirmation) {
+    OnTransferStarted(/*is_incoming=*/true);
+  }
 
   base::ObserverList<TransferUpdateCallback>& transfer_callbacks =
       foreground_receive_callbacks_.might_have_observers()
@@ -1167,6 +1172,28 @@ void NearbySharingServiceImpl::OnIncomingTransferUpdate(
   for (TransferUpdateCallback& callback : transfer_callbacks) {
     callback.OnTransferUpdate(share_target, metadata);
   }
+}
+
+void NearbySharingServiceImpl::OnTransferComplete() {
+  is_receiving_files_ = false;
+  is_transferring_ = false;
+  is_sending_files_ = false;
+
+  NS_LOG(VERBOSE) << __func__
+                  << ": NearbySharing state change transfer finished";
+  // TODO(himanshujaju) - Check if we need to delay InvalidateSurfaceState()
+  // similar to GmsCore impl.
+  InvalidateSurfaceState();
+}
+
+void NearbySharingServiceImpl::OnTransferStarted(bool is_incoming) {
+  is_transferring_ = true;
+  if (is_incoming) {
+    is_receiving_files_ = true;
+  } else {
+    is_sending_files_ = true;
+  }
+  InvalidateSurfaceState();
 }
 
 NearbySharingService::StatusCodes NearbySharingServiceImpl::ReceivePayloads(

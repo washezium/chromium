@@ -397,6 +397,7 @@ class NearbySharingServiceImplTest : public testing::Test {
                                       TransferMetadata metadata) {
           EXPECT_EQ(TransferMetadata::Status::kAwaitingLocalConfirmation,
                     metadata.status());
+          EXPECT_FALSE(metadata.is_final_status());
           share_target = incoming_share_target;
           run_loop.Quit();
         }));
@@ -1375,6 +1376,7 @@ TEST_F(NearbySharingServiceImplTest,
 
         EXPECT_EQ(TransferMetadata::Status::kUnsupportedAttachmentType,
                   metadata.status());
+        EXPECT_TRUE(metadata.is_final_status());
         run_loop.Quit();
       }));
 
@@ -1427,6 +1429,7 @@ TEST_F(NearbySharingServiceImplTest,
 
         EXPECT_EQ(TransferMetadata::Status::kAwaitingLocalConfirmation,
                   metadata.status());
+        EXPECT_FALSE(metadata.is_final_status());
         run_loop.Quit();
       }));
 
@@ -1451,6 +1454,7 @@ TEST_F(NearbySharingServiceImplTest,
       .WillOnce(testing::Invoke([&run_loop_2](const ShareTarget& share_target,
                                               TransferMetadata metadata) {
         EXPECT_EQ(TransferMetadata::Status::kFailed, metadata.status());
+        EXPECT_TRUE(metadata.is_final_status());
         run_loop_2.Quit();
       }));
 
@@ -1489,6 +1493,7 @@ TEST_F(NearbySharingServiceImplTest,
 
         EXPECT_EQ(TransferMetadata::Status::kAwaitingLocalConfirmation,
                   metadata.status());
+        EXPECT_FALSE(metadata.is_final_status());
         run_loop.Quit();
       }));
 
@@ -1528,6 +1533,7 @@ TEST_F(NearbySharingServiceImplTest, AcceptValidShareTarget) {
           [](const ShareTarget& share_target, TransferMetadata metadata) {
             EXPECT_EQ(TransferMetadata::Status::kAwaitingRemoteAcceptance,
                       metadata.status());
+            EXPECT_FALSE(metadata.is_final_status());
           }));
 
   service_->Accept(share_target,
@@ -1580,6 +1586,7 @@ TEST_F(NearbySharingServiceImplTest, RejectValidShareTarget) {
       .WillOnce(testing::Invoke(
           [](const ShareTarget& share_target, TransferMetadata metadata) {
             EXPECT_EQ(TransferMetadata::Status::kRejected, metadata.status());
+            EXPECT_TRUE(metadata.is_final_status());
           }));
 
   service_->Reject(share_target,
