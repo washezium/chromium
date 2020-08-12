@@ -678,8 +678,8 @@
   },
   {
     "name": "cross-origin-opener-policy-reporting",
-    "owners": [ "ahemery", "clamy", "pmeuleman" ],
-    "expiry_milestone": 85
+    "owners": [ "ahemery", "arthursonzogni", "clamy", "pmeuleman" ],
+    "expiry_milestone": 86
   },
   {
     "name": "crostini-disk-resizing",
