@@ -831,6 +831,9 @@ extern const char kNewCanvas2DAPIDescription[];
 extern const char kNewProfilePickerName[];
 extern const char kNewProfilePickerDescription[];
 
+extern const char kSignInProfileCreationFlowName[];
+extern const char kSignInProfileCreationFlowDescription[];
+
 extern const char kNewUsbBackendName[];
 extern const char kNewUsbBackendDescription[];
 

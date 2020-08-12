@@ -40348,6 +40348,7 @@ from previous Chrome versions.
   <int value="-1734666001" label="SafeBrowsingEnhancedProtection:enabled"/>
   <int value="-1734254845" label="ash-enable-night-light"/>
   <int value="-1732888954" label="UseButtonTranslateBubbleUI:enabled"/>
+  <int value="-1732777136" label="SignInProfileCreationFlow:disabled"/>
   <int value="-1732561795" label="ConsistentOmniboxGeolocation:enabled"/>
   <int value="-1731267886" label="AutofillEnableStickyPaymentsBubble:enabled"/>
   <int value="-1731149013" label="AndroidMessagesIntegration:enabled"/>
@@ -41515,6 +41516,7 @@ from previous Chrome versions.
   <int value="-520221221" label="UserDataSnapshot:enabled"/>
   <int value="-520004021" label="WebXRHitTest:disabled"/>
   <int value="-519960638" label="enable-site-engagement-service"/>
+  <int value="-519844731" label="SignInProfileCreationFlow:enabled"/>
   <int value="-518104091" label="NewAudioRenderingMixingStrategy:enabled"/>
   <int value="-516845951" label="enable-embedded-extension-options"/>
   <int value="-515913489" label="EphemeralTabUsingBottomSheet:disabled"/>

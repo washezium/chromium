@@ -1403,6 +1403,11 @@ const char kNewProfilePickerName[] = "New profile picker";
 const char kNewProfilePickerDescription[] =
     "Enables new profile picker implementation.";
 
+const char kSignInProfileCreationFlowName[] = "Signin profile creation flow";
+const char kSignInProfileCreationFlowDescription[] =
+    "Enables signin promo page for the new profile creation flow in the "
+    "profile picker.";
+
 const char kNewUsbBackendName[] = "Enable new USB backend";
 const char kNewUsbBackendDescription[] =
     "Enables the new experimental USB backends for macOS and Windows";
