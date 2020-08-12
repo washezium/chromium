@@ -7,7 +7,8 @@
 
 #import "ios/chrome/browser/procedural_block_types.h"
 
-@class TabGridCoordinator;
+class Browser;
+struct UrlLoadParams;
 
 // Methods exposed for testing. This is terrible and should be rewritten.
 @interface SceneController ()
@@ -15,7 +16,8 @@
 - (void)showFirstRunUI;
 - (BOOL)isTabSwitcherActive;
 
-- (TabGridCoordinator*)mainCoordinator;
+- (void)addANewTabAndPresentBrowser:(Browser*)browser
+                  withURLLoadParams:(const UrlLoadParams&)urlLoadParams;
 
 // Dismisses all modal dialogs, excluding the omnibox if |dismissOmnibox| is
 // NO, then call |completion|.

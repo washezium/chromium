@@ -72,6 +72,7 @@
 #import "ios/chrome/browser/url_loading/scene_url_loading_service.h"
 #import "ios/chrome/browser/url_loading/url_loading_browser_agent.h"
 #import "ios/chrome/browser/url_loading/url_loading_params.h"
+#import "ios/chrome/browser/web_state_list/tab_insertion_browser_agent.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
 #import "ios/chrome/browser/web_state_list/web_state_list_observer_bridge.h"
 #import "ios/chrome/browser/window_activities/window_activity_helpers.h"
@@ -237,12 +238,12 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
 - (TabGridCoordinator*)mainCoordinator {
   if (!_mainCoordinator) {
     // Lazily create the main coordinator.
-    TabGridCoordinator* tabGridCoordinator =
-        [[TabGridCoordinator alloc] initWithWindow:self.sceneState.window
-                        applicationCommandEndpoint:self
-                       browsingDataCommandEndpoint:self.mainController];
-    tabGridCoordinator.regularBrowser = self.mainInterface.browser;
-    tabGridCoordinator.incognitoBrowser = self.incognitoInterface.browser;
+    TabGridCoordinator* tabGridCoordinator = [[TabGridCoordinator alloc]
+                     initWithWindow:self.sceneState.window
+         applicationCommandEndpoint:self
+        browsingDataCommandEndpoint:self.mainController
+                     regularBrowser:self.mainInterface.browser
+                   incognitoBrowser:self.incognitoInterface.browser];
     _mainCoordinator = tabGridCoordinator;
   }
   return _mainCoordinator;
@@ -583,11 +584,7 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
   // Lazy init of mainCoordinator.
   [self.mainCoordinator start];
 
-  // Call -restoreInternalState so that the grid shows the correct panel.
-  [self.mainCoordinator
-      restoreInternalStateWithMainBrowser:self.mainInterface.browser
-                               otrBrowser:self.incognitoInterface.browser
-                            activeBrowser:self.currentInterface.browser];
+  [self.mainCoordinator setActivePage:[self activePage]];
 
   // Decide if the First Run UI needs to run.
   const bool firstRun = ShouldPresentFirstRunExperience();
@@ -1369,12 +1366,8 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
       UrlLoadParams::InNewTab(GURL(kChromeUINewTabURL));
   urlLoadParams.web_params.transition_type = ui::PAGE_TRANSITION_TYPED;
 
-  Browser* mainBrowser = self.mainInterface.browser;
-  WebStateList* webStateList = mainBrowser->GetWebStateList();
-  [self.mainCoordinator
-      dismissWithNewTabAnimationToBrowser:mainBrowser
-                        withUrlLoadParams:urlLoadParams
-                                  atIndex:webStateList->count()];
+  [self addANewTabAndPresentBrowser:self.mainInterface.browser
+                  withURLLoadParams:urlLoadParams];
   return YES;
 }
 
@@ -1689,7 +1682,6 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
       targetMode == ApplicationMode::NORMAL
           ? self.interfaceProvider.mainInterface
           : self.interfaceProvider.incognitoInterface;
-  NSUInteger tabIndex = NSNotFound;
   ProceduralBlock startupCompletion =
       [self completionBlockForTriggeringAction:[self.startupParameters
                                                        postOpeningAction]];
@@ -1730,10 +1722,9 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
       self.NTPActionAfterTabSwitcherDismissal =
           [self.startupParameters postOpeningAction];
       [self setStartupParameters:nil];
-      [self.mainCoordinator
-          dismissWithNewTabAnimationToBrowser:targetInterface.browser
-                            withUrlLoadParams:urlLoadParams
-                                      atIndex:tabIndex];
+
+      [self addANewTabAndPresentBrowser:targetInterface.browser
+                      withURLLoadParams:urlLoadParams];
       // In this particular usage, there should be no postOpeningAction,
       // as triggering voice search while there are multiple windows opened is probably
       // a bad idea both technically and as a user experience.
@@ -2070,12 +2061,7 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
 
 - (void)showTabSwitcher {
   DCHECK(self.mainCoordinator);
-  // Tab switcher implementations may need to rebuild state before being
-  // displayed.
-  [self.mainCoordinator
-      restoreInternalStateWithMainBrowser:self.mainInterface.browser
-                               otrBrowser:self.incognitoInterface.browser
-                            activeBrowser:self.currentInterface.browser];
+  [self.mainCoordinator setActivePage:[self activePage]];
   self.tabSwitcherIsActive = YES;
   self.mainCoordinator.delegate = self;
 
@@ -2139,6 +2125,25 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
           : self.interfaceProvider.incognitoInterface;
 
   return targetInterface;
+}
+
+#pragma mark - TabGrid helpers
+
+// Returns the page that should be active in the TabGrid.
+- (TabGridPage)activePage {
+  if (self.currentInterface.browser == self.incognitoInterface.browser)
+    return TabGridPageIncognitoTabs;
+  return TabGridPageRegularTabs;
+}
+
+// Adds a new tab to the |browser| based on |urlLoadParams| and then presents
+// it.
+- (void)addANewTabAndPresentBrowser:(Browser*)browser
+                  withURLLoadParams:(const UrlLoadParams&)urlLoadParams {
+  TabInsertionBrowserAgent::FromBrowser(browser)->InsertWebState(
+      urlLoadParams.web_params, nil, false, browser->GetWebStateList()->count(),
+      false);
+  [self beginDismissingTabSwitcherWithCurrentBrowser:browser focusOmnibox:NO];
 }
 
 #pragma mark - Handling of destroying the incognito BrowserState
@@ -2220,9 +2225,9 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
 }
 
 - (void)willDestroyIncognitoBrowserState {
-  // Clear the Incognito Browser and notify the _tabSwitcher that its otrBrowser
+  // Clear the Incognito Browser and notify the TabGrid that its otrBrowser
   // will be destroyed.
-  [self.mainCoordinator setOtrBrowser:nil];
+  self.mainCoordinator.incognitoBrowser = nil;
 
   if (base::FeatureList::IsEnabled(kLogBreadcrumbs)) {
     BreadcrumbManagerBrowserAgent::FromBrowser(self.incognitoInterface.browser)
@@ -2249,7 +2254,7 @@ const char kMultiWindowOpenInNewWindowHistogram[] =
   }
 
   // Always set the new otr Browser for the tablet or grid switcher.
-  // Notify the _tabSwitcher with the new Incognito Browser.
-  [self.mainCoordinator setOtrBrowser:self.incognitoInterface.browser];
+  // Notify the TabGrid with the new Incognito Browser.
+  self.mainCoordinator.incognitoBrowser = self.incognitoInterface.browser;
 }
 @end

@@ -30,16 +30,21 @@
 #include "ios/chrome/browser/ui/ui_feature_flags.h"
 #import "ios/chrome/browser/ui/util/uikit_ui_util.h"
 #import "ios/chrome/browser/url_loading/url_loading_params.h"
-#import "ios/chrome/browser/web_state_list/tab_insertion_browser_agent.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
 #endif
 
-@interface TabGridCoordinator ()<TabPresentationDelegate,
-                                 HistoryPresentationDelegate,
-                                 RecentTabsPresentationDelegate>
+@interface TabGridCoordinator () <TabPresentationDelegate,
+                                  HistoryPresentationDelegate,
+                                  RecentTabsPresentationDelegate> {
+  // Use an explicit ivar instead of synthesizing as the setter isn't using the
+  // ivar.
+  Browser* _incognitoBrowser;
+}
+
+@property(nonatomic, assign, readonly) Browser* regularBrowser;
 // Superclass property specialized for the class that this coordinator uses.
 @property(nonatomic, weak) TabGridViewController* baseViewController;
 // Commad dispatcher used while this coordinator's view controller is active.
@@ -66,13 +71,14 @@
 @synthesize baseViewController = _baseViewController;
 // Ivars are not auto-synthesized when both accessor and mutator are overridden.
 @synthesize regularBrowser = _regularBrowser;
-@synthesize incognitoBrowser = _incognitoBrowser;
 
 - (instancetype)initWithWindow:(nullable UIWindow*)window
      applicationCommandEndpoint:
          (id<ApplicationCommands>)applicationCommandEndpoint
     browsingDataCommandEndpoint:
-        (id<BrowsingDataCommands>)browsingDataCommandEndpoint {
+        (id<BrowsingDataCommands>)browsingDataCommandEndpoint
+                 regularBrowser:(Browser*)regularBrowser
+               incognitoBrowser:(Browser*)incognitoBrowser {
   if ((self = [super initWithWindow:window])) {
     _dispatcher = [[CommandDispatcher alloc] init];
     [_dispatcher startDispatchingToTarget:applicationCommandEndpoint
@@ -85,6 +91,8 @@
                      forProtocol:@protocol(ApplicationSettingsCommands)];
     [_dispatcher startDispatchingToTarget:browsingDataCommandEndpoint
                               forProtocol:@protocol(BrowsingDataCommands)];
+    _regularBrowser = regularBrowser;
+    _incognitoBrowser = incognitoBrowser;
   }
   return self;
 }
@@ -98,14 +106,6 @@
                                   : _regularBrowser;
 }
 
-- (void)setRegularBrowser:(Browser*)regularBrowser {
-  if (self.regularTabsMediator) {
-    self.regularTabsMediator.browser = regularBrowser;
-  } else {
-    _regularBrowser = regularBrowser;
-  }
-}
-
 - (Browser*)incognitoBrowser {
   // Ensure browser which is actually used by the mediator is returned, as it
   // may have been updated.
@@ -114,11 +114,8 @@
 }
 
 - (void)setIncognitoBrowser:(Browser*)incognitoBrowser {
-  if (self.incognitoTabsMediator) {
-    self.incognitoTabsMediator.browser = incognitoBrowser;
-  } else {
-    _incognitoBrowser = incognitoBrowser;
-  }
+  DCHECK(self.incognitoTabsMediator);
+  self.incognitoTabsMediator.browser = incognitoBrowser;
 }
 
 - (void)stopChildCoordinatorsWithCompletion:(ProceduralBlock)completion {
@@ -132,33 +129,9 @@
   }
 }
 
-- (void)restoreInternalStateWithMainBrowser:(Browser*)mainBrowser
-                                 otrBrowser:(Browser*)otrBrowser
-                              activeBrowser:(Browser*)activeBrowser {
-  // The only action here is to signal to the tab grid which panel should be
-  // active.
-  if (activeBrowser == otrBrowser) {
-    self.baseViewController.activePage = TabGridPageIncognitoTabs;
-  } else {
-    self.baseViewController.activePage = TabGridPageRegularTabs;
-  }
-}
-
-- (void)dismissWithNewTabAnimationToBrowser:(Browser*)browser
-                          withUrlLoadParams:(const UrlLoadParams&)urlLoadParams
-                                    atIndex:(int)position {
-  int tabIndex = std::min(position, browser->GetWebStateList()->count());
-
-  TabInsertionBrowserAgent::FromBrowser(browser)->InsertWebState(
-      urlLoadParams.web_params, nil, false, tabIndex, false);
-
-  // Tell the delegate to display the tab.
-  [self.delegate tabGrid:self shouldFinishWithBrowser:browser focusOmnibox:NO];
-}
-
-- (void)setOtrBrowser:(Browser*)browser {
-  DCHECK(self.incognitoTabsMediator);
-  self.incognitoTabsMediator.browser = browser;
+- (void)setActivePage:(TabGridPage)page {
+  DCHECK(page != TabGridPageRemoteTabs);
+  self.baseViewController.activePage = page;
 }
 
 - (UIViewController*)activeViewController {

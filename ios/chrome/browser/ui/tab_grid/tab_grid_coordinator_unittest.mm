@@ -50,9 +50,10 @@ class TabGridCoordinatorTest : public BlockCleanupTest {
          applicationCommandEndpoint:OCMProtocolMock(
                                         @protocol(ApplicationCommands))
         browsingDataCommandEndpoint:OCMProtocolMock(
-                                        @protocol(BrowsingDataCommands))];
+                                        @protocol(BrowsingDataCommands))
+                     regularBrowser:browser_.get()
+                   incognitoBrowser:nil];
     coordinator_.animationsDisabledForTesting = YES;
-    coordinator_.regularBrowser = browser_.get();
     // TabGirdCoordinator will make its view controller the root, so stash the
     // original root view controller before starting |coordinator_|.
     original_root_view_controller_ =
