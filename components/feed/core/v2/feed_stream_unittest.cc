@@ -347,27 +347,28 @@ class TestWireResponseTranslator : public FeedStream::WireResponseTranslator {
       feedwire::Response response,
       StreamModelUpdateRequest::Source source,
       base::Time current_time) const override {
-    if (injected_response_) {
-      if (injected_response_->model_update_request)
-        injected_response_->model_update_request->source = source;
-      RefreshResponseData result = std::move(*injected_response_);
-      injected_response_.reset();
+    if (!injected_responses_.empty()) {
+      if (injected_responses_[0].model_update_request)
+        injected_responses_[0].model_update_request->source = source;
+      RefreshResponseData result = std::move(injected_responses_[0]);
+      injected_responses_.erase(injected_responses_.begin());
       return result;
     }
     return FeedStream::WireResponseTranslator::TranslateWireResponse(
         std::move(response), source, current_time);
   }
   void InjectResponse(std::unique_ptr<StreamModelUpdateRequest> response) {
-    injected_response_ = RefreshResponseData();
-    injected_response_->model_update_request = std::move(response);
+    RefreshResponseData data;
+    data.model_update_request = std::move(response);
+    InjectResponse(std::move(data));
   }
   void InjectResponse(RefreshResponseData response_data) {
-    injected_response_ = std::move(response_data);
+    injected_responses_.push_back(std::move(response_data));
   }
-  bool InjectedResponseConsumed() const { return !injected_response_; }
+  bool InjectedResponseConsumed() const { return injected_responses_.empty(); }
 
  private:
-  mutable base::Optional<RefreshResponseData> injected_response_;
+  mutable std::vector<RefreshResponseData> injected_responses_;
 };
 
 class FakeRefreshTaskScheduler : public RefreshTaskScheduler {
@@ -1396,6 +1397,23 @@ TEST_F(FeedStreamTest, ClearAllWithNoSurfacesAttachedDoesNotReload) {
   WaitForIdleTaskQueue();
 
   EXPECT_EQ("loading -> 2 slices", surface.DescribeUpdates());
+}
+
+TEST_F(FeedStreamTest, ClearAllWhileLoadingMore) {
+  response_translator_.InjectResponse(MakeTypicalInitialModelState());
+  TestSurface surface(stream_.get());
+  WaitForIdleTaskQueue();
+
+  stream_->LoadMore(surface.GetSurfaceId(), base::DoNothing());
+  response_translator_.InjectResponse(MakeTypicalNextPageState(2));
+  response_translator_.InjectResponse(MakeTypicalInitialModelState());
+  stream_->OnCacheDataCleared();  // triggers ClearAll().
+  WaitForIdleTaskQueue();
+
+  EXPECT_EQ(
+      "loading -> 2 slices -> 2 slices +spinner -> 4 slices -> loading -> 2 "
+      "slices",
+      surface.DescribeUpdates());
 }
 
 TEST_F(FeedStreamTest, ClearAllWipesAllState) {
