@@ -339,25 +339,25 @@ def ExtractEnumsFromXmlTree(tree):
   return enums, have_errors
 
 
-def _ExtractOwners(histogram):
-  """Extracts owners information from the given histogram element.
+def _ExtractOwners(node):
+  """Extracts owners information from the given node, if exists.
 
   Args:
-    histogram: A DOM Element corresponding to a histogram.
+    node: A DOM Element.
 
   Returns:
     A tuple of owner-related info, e.g. (['alice@chromium.org'], True)
 
     The first element is a list of the owners' email addresses, excluding the
     owner placeholder string. The second element is a boolean indicating
-    whether the histogram has an owner. A histogram whose owner is the owner
+    whether the node has an owner. A histogram whose owner is the owner
     placeholder string has an owner.
   """
   email_pattern = re.compile(BASIC_EMAIL_REGEXP)
   owners = []
   has_owner = False
 
-  for owner_node in IterElementsWithTag(histogram, 'owner', 1):
+  for owner_node in IterElementsWithTag(node, 'owner', 1):
     child = owner_node.firstChild
     owner_text = (child and child.nodeValue) or ''
     is_email = email_pattern.match(owner_text)
@@ -407,7 +407,9 @@ def _ProcessBaseHistogramAttribute(node, histogram_entry):
 # Variant: an analog of <variant> tag, represented as a JSON object like:
 # {
 #   'name': 'variant_name',
-#   'label': 'variant_label'
+#   'label': 'variant_label',
+#   'obsolete': 'Obsolete text.',
+#   'owners': ['me@chromium.org', 'you@chromium.org']
 # }
 
 
@@ -458,10 +460,22 @@ def _ExtractVariants(node):
   Returns:
     A list of Variants.
   """
-  return [{
-      'name': variant_node.getAttribute('name'),
-      'label': variant_node.getAttribute('label')
-  } for variant_node in IterElementsWithTag(node, 'variant', 1)]
+  variant_list = []
+  for variant_node in IterElementsWithTag(node, 'variant', 1):
+    variant = dict(name=variant_node.getAttribute('name'),
+                   label=variant_node.getAttribute('label'))
+
+    obsolete_text = _GetObsoleteReason(variant_node)
+    if obsolete_text:
+      variant['obsolete'] = obsolete_text
+
+    variant_owners, variant_has_owners = _ExtractOwners(variant_node)
+    if variant_has_owners:
+      variant['owners'] = variant_owners
+
+    variant_list.append(variant)
+
+  return variant_list
 
 
 def _ExtractHistogramsFromXmlTree(tree, enums):
@@ -789,18 +803,31 @@ def _GenerateNewHistogramsFromTokens(histogram_name, histograms_dict,
   # Each |token_assignment| contains one of the cross-product combinations and
   # corresponds to one new generated histogram.
   for token_assignment in token_assignments:
+    new_obsolete_reason = ''
+    new_owners = []
+    # Dictionaries of pairings used for string formatting of histogram name and
+    # summary.
+    token_name_pairings = {}
+    token_label_pairings = {}
+
+    for token_key, variant in token_assignment.pairings.items():
+      token_name_pairings[token_key] = variant['name']
+      token_label_pairings[token_key] = variant['label']
+
+      # If a variant has an obsolete reason, the new reason overwrites the
+      # obsolete reason of the original histogram.
+      if 'obsolete' in variant:
+        new_obsolete_reason = variant['obsolete']
+
+      # If a variant has owner(s), append to |new_owners|, overwriting the
+      # owners of the original histogram.
+      if 'owners' in variant:
+        new_owners += variant['owners']
+
     # Replace token in histogram name with variant name.
-    new_histogram_name = histogram_name.format(
-        **{
-            token_key: variant['name']
-            for token_key, variant in token_assignment.pairings.items()
-        })
+    new_histogram_name = histogram_name.format(**token_name_pairings)
     # Replace token in summary with variant label.
-    new_summary_text = summary_text.format(
-        **{
-            token_key: variant['label']
-            for token_key, variant in token_assignment.pairings.items()
-        })
+    new_summary_text = summary_text.format(**token_label_pairings)
 
     if new_histogram_name in new_histograms_dict:
       logging.error(
@@ -810,10 +837,16 @@ def _GenerateNewHistogramsFromTokens(histogram_name, histograms_dict,
       have_error = True
       continue
 
-    new_histogram_node = dict(histograms_dict[histogram_name],
-                              summary=new_summary_text)
+    new_histogram_node = dict(histogram_node, summary=new_summary_text)
     # Do not copy the <token> nodes to the generated histograms.
     del new_histogram_node['tokens']
+
+    if new_obsolete_reason:
+      new_histogram_node['obsolete'] = new_obsolete_reason
+
+    if new_owners:
+      new_histogram_node['owners'] = new_owners
+
     new_histograms_dict[new_histogram_name] = new_histogram_node
 
   return have_error
