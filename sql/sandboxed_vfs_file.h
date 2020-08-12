@@ -2,20 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef THIRD_PARTY_BLINK_RENDERER_MODULES_WEBDATABASE_SQLITE_SANDBOXED_VFS_FILE_H_
-#define THIRD_PARTY_BLINK_RENDERER_MODULES_WEBDATABASE_SQLITE_SANDBOXED_VFS_FILE_H_
+#ifndef SQL_SANDBOXED_VFS_FILE_H_
+#define SQL_SANDBOXED_VFS_FILE_H_
 
 #include "base/files/file.h"
-#include "third_party/blink/renderer/platform/wtf/allocator/allocator.h"
-#include "third_party/blink/renderer/platform/wtf/text/wtf_string.h"
+#include "base/files/file_path.h"
 #include "third_party/sqlite/sqlite3.h"
 
-namespace blink {
+namespace sql {
 
 class SandboxedVfs;
-class SandboxedVfsFile;
 
-// SQLite VFS file implementation that works in the Chrome renderer sandbox.
+// SQLite VFS file implementation that works in a typical Chromium sandbox.
 //
 // An instance is created when SQLite calls into SandboxedVfs::Open(). The
 // instance is deleted by a call to SandboxedVfsFile::Close().
@@ -32,17 +30,16 @@ class SandboxedVfsFile;
 // SQLite's built-in VFSes use the OS support for locking a range of bytes in
 // the file, rather locking than the whole file.
 class SandboxedVfsFile {
-  USING_FAST_MALLOC(SandboxedVfsFile);
-
  public:
-  // Creates an instance in the given buffer.
+  // Creates an instance in the given buffer. Note that `vfs` MUST outlive the
+  // returned sqlite3_file object.
   static void Create(base::File file,
-                     String file_name,
+                     base::FilePath file_path,
                      SandboxedVfs* vfs,
-                     sqlite3_file* buffer);
+                     sqlite3_file& buffer);
 
   // Extracts the instance bridged to the given SQLite VFS file.
-  static SandboxedVfsFile* FromSqliteFile(sqlite3_file* sqlite_file);
+  static SandboxedVfsFile& FromSqliteFile(sqlite3_file& sqlite_file);
 
   // sqlite3_file implementation.
   int Close();
@@ -68,7 +65,9 @@ class SandboxedVfsFile {
   int Unfetch(sqlite3_int64 offset, void* fetch_result);
 
  private:
-  SandboxedVfsFile(base::File file, String file_name, SandboxedVfs* vfs);
+  SandboxedVfsFile(base::File file,
+                   base::FilePath file_path,
+                   SandboxedVfs* vfs);
   ~SandboxedVfsFile();
 
   // Constructed from a file handle passed from the browser process.
@@ -78,18 +77,18 @@ class SandboxedVfsFile {
   // The SandboxedVfs that created this instance.
   SandboxedVfs* const vfs_;
   // Used to identify the file in IPCs to the browser process.
-  const String file_name_;
+  const base::FilePath file_path_;
 };
 
 // sqlite3_file "subclass" that bridges to a SandboxedVfsFile instance.
 struct SandboxedVfsFileSqliteBridge {
   sqlite3_file sqlite_file;
-  SandboxedVfsFile* blink_file;
+  SandboxedVfsFile* sandboxed_vfs_file;
 
-  static SandboxedVfsFileSqliteBridge* FromSqliteFile(
-      sqlite3_file* sqlite_file);
+  static SandboxedVfsFileSqliteBridge& FromSqliteFile(
+      sqlite3_file& sqlite_file);
 };
 
-}  // namespace blink
+}  // namespace sql
 
-#endif  // THIRD_PARTY_BLINK_RENDERER_MODULES_WEBDATABASE_SQLITE_SANDBOXED_VFS_FILE_H_
+#endif  // SQL_SANDBOXED_VFS_FILE_H_

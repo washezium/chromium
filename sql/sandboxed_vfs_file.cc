@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "third_party/blink/renderer/modules/webdatabase/sqlite/sandboxed_vfs_file.h"
+#include "sql/sandboxed_vfs_file.h"
 
 #include <atomic>
 #include <cstring>
@@ -15,85 +15,83 @@
 #include "base/threading/platform_thread.h"
 #include "build/build_config.h"
 #include "sql/initialization.h"
-#include "third_party/blink/public/platform/platform.h"
-#include "third_party/blink/renderer/modules/webdatabase/sqlite/sandboxed_vfs.h"
-#include "third_party/blink/renderer/modules/webdatabase/web_database_host.h"
+#include "sql/sandboxed_vfs.h"
 #include "third_party/sqlite/sqlite3.h"
 
-namespace blink {
+namespace sql {
 
 namespace {
 
 int SandboxedClose(sqlite3_file* file) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Close();
+  return SandboxedVfsFile::FromSqliteFile(*file).Close();
 }
 int SandboxedRead(sqlite3_file* file,
                   void* buffer,
                   int size,
                   sqlite3_int64 offset) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Read(buffer, size, offset);
+  return SandboxedVfsFile::FromSqliteFile(*file).Read(buffer, size, offset);
 }
 int SandboxedWrite(sqlite3_file* file,
                    const void* buffer,
                    int size,
                    sqlite3_int64 offset) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Write(buffer, size, offset);
+  return SandboxedVfsFile::FromSqliteFile(*file).Write(buffer, size, offset);
 }
 int SandboxedTruncate(sqlite3_file* file, sqlite3_int64 size) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Truncate(size);
+  return SandboxedVfsFile::FromSqliteFile(*file).Truncate(size);
 }
 int SandboxedSync(sqlite3_file* file, int flags) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Sync(flags);
+  return SandboxedVfsFile::FromSqliteFile(*file).Sync(flags);
 }
 int SandboxedFileSize(sqlite3_file* file, sqlite3_int64* result_size) {
-  return SandboxedVfsFile::FromSqliteFile(file)->FileSize(result_size);
+  return SandboxedVfsFile::FromSqliteFile(*file).FileSize(result_size);
 }
 int SandboxedLock(sqlite3_file* file, int mode) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Lock(mode);
+  return SandboxedVfsFile::FromSqliteFile(*file).Lock(mode);
 }
 int SandboxedUnlock(sqlite3_file* file, int mode) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Unlock(mode);
+  return SandboxedVfsFile::FromSqliteFile(*file).Unlock(mode);
 }
 int SandboxedCheckReservedLock(sqlite3_file* file, int* has_reserved_lock) {
-  return SandboxedVfsFile::FromSqliteFile(file)->CheckReservedLock(
+  return SandboxedVfsFile::FromSqliteFile(*file).CheckReservedLock(
       has_reserved_lock);
 }
 int SandboxedFileControl(sqlite3_file* file, int opcode, void* data) {
-  return SandboxedVfsFile::FromSqliteFile(file)->FileControl(opcode, data);
+  return SandboxedVfsFile::FromSqliteFile(*file).FileControl(opcode, data);
 }
 int SandboxedSectorSize(sqlite3_file* file) {
-  return SandboxedVfsFile::FromSqliteFile(file)->SectorSize();
+  return SandboxedVfsFile::FromSqliteFile(*file).SectorSize();
 }
 int SandboxedDeviceCharacteristics(sqlite3_file* file) {
-  return SandboxedVfsFile::FromSqliteFile(file)->DeviceCharacteristics();
+  return SandboxedVfsFile::FromSqliteFile(*file).DeviceCharacteristics();
 }
 int SandboxedShmMap(sqlite3_file* file,
                     int page_index,
                     int page_size,
                     int extend_file_if_needed,
                     void volatile** result) {
-  return SandboxedVfsFile::FromSqliteFile(file)->ShmMap(
+  return SandboxedVfsFile::FromSqliteFile(*file).ShmMap(
       page_index, page_size, extend_file_if_needed, result);
 }
 int SandboxedShmLock(sqlite3_file* file, int offset, int size, int flags) {
-  return SandboxedVfsFile::FromSqliteFile(file)->ShmLock(offset, size, flags);
+  return SandboxedVfsFile::FromSqliteFile(*file).ShmLock(offset, size, flags);
 }
 void SandboxedShmBarrier(sqlite3_file* file) {
-  SandboxedVfsFile::FromSqliteFile(file)->ShmBarrier();
+  SandboxedVfsFile::FromSqliteFile(*file).ShmBarrier();
 }
 int SandboxedShmUnmap(sqlite3_file* file, int also_delete_file) {
-  return SandboxedVfsFile::FromSqliteFile(file)->ShmUnmap(also_delete_file);
+  return SandboxedVfsFile::FromSqliteFile(*file).ShmUnmap(also_delete_file);
 }
 int SandboxedFetch(sqlite3_file* file,
                    sqlite3_int64 offset,
                    int size,
                    void** result) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Fetch(offset, size, result);
+  return SandboxedVfsFile::FromSqliteFile(*file).Fetch(offset, size, result);
 }
 int SandboxedUnfetch(sqlite3_file* file,
                      sqlite3_int64 offset,
                      void* fetch_result) {
-  return SandboxedVfsFile::FromSqliteFile(file)->Unfetch(offset, fetch_result);
+  return SandboxedVfsFile::FromSqliteFile(*file).Unfetch(offset, fetch_result);
 }
 
 const sqlite3_io_methods* GetSqliteIoMethods() {
@@ -130,19 +128,20 @@ const sqlite3_io_methods* GetSqliteIoMethods() {
 
 // static
 void SandboxedVfsFile::Create(base::File file,
-                              String file_name,
+                              base::FilePath file_path,
                               SandboxedVfs* vfs,
-                              sqlite3_file* buffer) {
-  SandboxedVfsFileSqliteBridge* bridge =
+                              sqlite3_file& buffer) {
+  SandboxedVfsFileSqliteBridge& bridge =
       SandboxedVfsFileSqliteBridge::FromSqliteFile(buffer);
-  bridge->blink_file =
-      new SandboxedVfsFile(std::move(file), std::move(file_name), vfs);
-  bridge->sqlite_file.pMethods = GetSqliteIoMethods();
+  bridge.sandboxed_vfs_file =
+      new SandboxedVfsFile(std::move(file), std::move(file_path), vfs);
+  bridge.sqlite_file.pMethods = GetSqliteIoMethods();
 }
 
 // static
-SandboxedVfsFile* SandboxedVfsFile::FromSqliteFile(sqlite3_file* sqlite_file) {
-  return SandboxedVfsFileSqliteBridge::FromSqliteFile(sqlite_file)->blink_file;
+SandboxedVfsFile& SandboxedVfsFile::FromSqliteFile(sqlite3_file& sqlite_file) {
+  return *SandboxedVfsFileSqliteBridge::FromSqliteFile(sqlite_file)
+              .sandboxed_vfs_file;
 }
 
 int SandboxedVfsFile::Close() {
@@ -216,16 +215,18 @@ int SandboxedVfsFile::Truncate(sqlite3_int64 size) {
   if (file_.SetLength(size))
     return SQLITE_OK;
 
-  // On Mac and Linux, the renderer sandbox blocks ftruncate(), so we have to
-  // use a sync mojo IPC to ask the browser process to call ftruncate() for us.
+  // On Mac, the default sandbox blocks ftruncate(), so we have to use a sync
+  // mojo IPC to ask the browser process to call ftruncate() for us.
   //
-  // TODO(pwnall): Figure out if we can allow ftruncate() in the renderer. It
-  //               would be useful for low-level storage APIs, like the upcoming
-  //               filesystem API.
-  if (!WebDatabaseHost::GetInstance().SetFileSize(file_name_, size))
-    return SQLITE_IOERR_TRUNCATE;
+  // TODO(crbug.com/1084565): Figure out if we can allow ftruncate() in renderer
+  // and utility processes. It would be useful for low-level storage APIs, like
+  // the upcoming filesystem API.
+  if (vfs_->delegate()->SetFileLength(file_path_, file_,
+                                      static_cast<size_t>(size))) {
+    return SQLITE_OK;
+  }
 
-  return SQLITE_OK;
+  return SQLITE_IOERR_TRUNCATE;
 }
 
 int SandboxedVfsFile::Sync(int flags) {
@@ -508,28 +509,28 @@ int SandboxedVfsFile::Unfetch(sqlite3_int64 offset, void* fetch_result) {
 }
 
 SandboxedVfsFile::SandboxedVfsFile(base::File file,
-                                   String file_name,
+                                   base::FilePath file_path,
                                    SandboxedVfs* vfs)
     : file_(std::move(file)),
       sqlite_lock_mode_(SQLITE_LOCK_NONE),
       vfs_(vfs),
-      file_name_(std::move(file_name)) {}
+      file_path_(std::move(file_path)) {}
 
 SandboxedVfsFile::~SandboxedVfsFile() = default;
 
 // static
-SandboxedVfsFileSqliteBridge* SandboxedVfsFileSqliteBridge::FromSqliteFile(
-    sqlite3_file* sqlite_file) {
+SandboxedVfsFileSqliteBridge& SandboxedVfsFileSqliteBridge::FromSqliteFile(
+    sqlite3_file& sqlite_file) {
   static_assert(std::is_standard_layout<SandboxedVfsFileSqliteBridge>::value,
                 "needed for the reinterpret_cast below");
   static_assert(offsetof(SandboxedVfsFileSqliteBridge, sqlite_file) == 0,
                 "sqlite_file must be the first member of the struct.");
 
-  SandboxedVfsFileSqliteBridge* bridge =
-      reinterpret_cast<SandboxedVfsFileSqliteBridge*>(sqlite_file);
-  DCHECK_EQ(sqlite_file, &bridge->sqlite_file)
+  SandboxedVfsFileSqliteBridge& bridge =
+      reinterpret_cast<SandboxedVfsFileSqliteBridge&>(sqlite_file);
+  DCHECK_EQ(&sqlite_file, &bridge.sqlite_file)
       << "assumed by the reinterpret_casts in the implementation";
   return bridge;
 }
 
-}  // namespace blink
+}  // namespace sql
