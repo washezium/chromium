@@ -422,7 +422,7 @@ const NSString* kScribbleOmniboxElementId = @"omnibox";
                        (UIScribbleElementIdentifier)elementIdentifier
     API_AVAILABLE(ios(14.0)) {
   DCHECK(elementIdentifier == kScribbleOmniboxElementId);
-  return self.delegate.scribbleForwardingTarget.isFirstResponder;
+  return self.delegate.omniboxScribbleForwardingTarget.isFirstResponder;
 }
 
 - (CGRect)
@@ -442,11 +442,11 @@ const NSString* kScribbleOmniboxElementId = @"omnibox";
                          completion:
                              (void (^)(UIResponder<UITextInput>* focusedInput))
                                  completion API_AVAILABLE(ios(14.0)) {
-  if (!self.delegate.scribbleForwardingTarget.isFirstResponder) {
+  if (!self.delegate.omniboxScribbleForwardingTarget.isFirstResponder) {
     [self.delegate locationBarRequestScribbleTargetFocus];
   }
 
-  completion(self.delegate.scribbleForwardingTarget);
+  completion(self.delegate.omniboxScribbleForwardingTarget);
 }
 
 #endif  // defined(__IPHONE_14_0)

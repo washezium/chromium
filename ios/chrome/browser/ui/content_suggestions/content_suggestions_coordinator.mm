@@ -179,6 +179,7 @@
                      FakeboxFocuser>>(self.browser->GetCommandDispatcher());
   self.headerController.commandHandler = self.NTPMediator;
   self.headerController.delegate = self.NTPMediator;
+
   self.headerController.readingListModel =
       ReadingListModelFactory::GetForBrowserState(
           self.browser->GetBrowserState());
