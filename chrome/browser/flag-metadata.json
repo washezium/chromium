@@ -743,7 +743,7 @@
   },
   {
     "name": "d3d11-video-decoder",
-    "owners": [ "liberato", "tmathmeyer", "videostack-eng" ],
+    "owners": [ "liberato", "tmathmeyer", "//media/OWNERS" ],
     "expiry_milestone": 78
   },
   {
