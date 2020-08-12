@@ -1855,6 +1855,7 @@ Unknown properties are collapsed to zero. -->
   <int value="16" label="All renderer allocation failure"/>
   <int value="17" label="Utility process foreground OOM"/>
   <int value="18" label="All utility process crashes"/>
+  <int value="19" label="Renderer shutdown from RenderProcessHost::Shutdown"/>
 </enum>
 
 <enum name="AndroidProcessedMinidumps">
