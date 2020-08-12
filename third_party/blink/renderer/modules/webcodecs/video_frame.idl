@@ -10,7 +10,8 @@ enum VideoPixelFormat {
 };
 
 [
-    Exposed=Window,
+    Exposed=(Window,Worker),
+    Serializable,
     RuntimeEnabled=WebCodecs
 ] interface VideoFrame {
   [RaisesException] constructor(ImageBitmap source, VideoFrameInit init);
