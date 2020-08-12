@@ -1369,9 +1369,9 @@
             ],
             "experiments": [
                 {
-                    "name": "Enabled10_v3",
+                    "name": "Enabled8_v4",
                     "params": {
-                        "max_shared_ops": "10"
+                        "max_shared_ops": "8"
                     },
                     "enable_features": [
                         "CacheStorageParallelOps",
