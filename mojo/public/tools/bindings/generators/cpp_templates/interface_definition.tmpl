@@ -122,7 +122,8 @@ bool {{proxy_name}}::{{method.name}}(
 {%-     set qualified_method_name = "%s::%s::%s" % (namespace_as_string,
                                                     class_name, method.name) %}
   {{interface_macros.trace_event("param_", method.parameters,
-                                 qualified_method_name)}}
+                                 qualified_method_name,
+                                 trace_event_type='_BEGIN')}}
 #endif
   const bool kExpectsResponse = true;
   const bool kIsSync = true;
@@ -133,13 +134,13 @@ bool {{proxy_name}}::{{method.name}}(
 {%-     for param in method.parameters -%}
       , std::move(param_{{param.name}})
 {%-     endfor %});
-{%-   else %}
+{%-   else %}  {#- if method|method_supports_lazy_serialization #}
   {{interface_macros.build_message_flags(False, "kIsSync", "kExpectsResponse",
                                          "kFlags")}}
   {{interface_macros.build_serialized_message(
       message_name, "param_%s", params_struct, params_description, "kFlags",
       "message")}}
-{%-   endif %}
+{%-   endif %}  {#- if method|method_supports_lazy_serialization #}
 
 #if defined(ENABLE_IPC_FUZZER)
   message.set_interface_name({{class_name}}::Name_);
@@ -154,10 +155,15 @@ bool {{proxy_name}}::{{method.name}}(
           , out_param_{{param.name}}
 {%-     endfor %}));
   ignore_result(receiver_->AcceptWithResponder(&message, std::move(responder)));
-  // TODO(karelkral) Trace the out_ parameters here
+#if BUILDFLAG(MOJO_TRACE_ENABLED)
+  {{interface_macros.trace_event("out_param_", method.response_parameters,
+                                 qualified_method_name,
+                                 trace_event_type='_END',
+                                 dereference_parameters=True)}}
+#endif
   return result;
 }
-{%-   endif %}
+{%-   endif %}  {#- if method.sync #}
 
 void {{proxy_name}}::{{method.name}}(
     {{interface_macros.declare_request_params("in_", method)}}) {
