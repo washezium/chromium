@@ -565,12 +565,32 @@ void NearbySharingServiceImpl::OnOutgoingAdvertisementDecoded(
     return;
   }
 
-  // Once get the advertisement, first thing to do is to decrypt its device name
-  // based on its visibility and create a ShareTarget to represent this remote
-  // device.
-  // TODO(nmusgrave): Use valid certificate from certificate manager.
+  // Once get the advertisement, the first thing to do is decrypt the
+  // certificate.
+  std::vector<uint8_t> encrypted_metadata = advertisement->encrypted_metadata;
+  std::vector<uint8_t> salt = advertisement->salt;
+
+  GetCertificateManager()->GetDecryptedPublicCertificate(
+      std::move(encrypted_metadata), std::move(salt),
+      base::BindOnce(&NearbySharingServiceImpl::OnOutgoingDecryptedCertificate,
+                     weak_ptr_factory_.GetWeakPtr(), endpoint_id,
+                     std::move(advertisement)));
+}
+
+void NearbySharingServiceImpl::OnOutgoingDecryptedCertificate(
+    const std::string& endpoint_id,
+    sharing::mojom::AdvertisementPtr advertisement,
+    base::Optional<NearbyShareDecryptedPublicCertificate> certificate) {
+  // Check again for this endpoint id, to avoid race conditions.
+  if (outgoing_share_target_map_.find(endpoint_id) !=
+      outgoing_share_target_map_.end()) {
+    return;
+  }
+
+  // The certificate provides the device name, in order to create a ShareTarget
+  // to represent this remote device.
   base::Optional<ShareTarget> share_target = CreateShareTarget(
-      endpoint_id, std::move(advertisement), /*certificate=*/base::nullopt,
+      endpoint_id, std::move(advertisement), std::move(certificate),
       /*is_incoming=*/false);
   if (!share_target) {
     NS_LOG(VERBOSE) << __func__

@@ -714,6 +714,7 @@ TEST_F(NearbySharingServiceImplTest,
   // Ensure decoder parses a valid endpoint advertisement.
   SetUpAdvertisementDecoder(kValidV1EndpointInfo,
                             /*return_empty_advertisement=*/false);
+  SetUpCertificateManager(/*return_empty_certificate=*/false);
 
   // Start discovering, to ensure a discovery listener is registered.
   base::RunLoop run_loop;
@@ -725,10 +726,77 @@ TEST_F(NearbySharingServiceImplTest,
                                     SendSurfaceState::kForeground));
   EXPECT_TRUE(fake_nearby_connections_manager_->IsDiscovering());
 
-  // Discover a new endpoint.
+  // Discover a new endpoint, with fields set up a valid certificate.
   EXPECT_CALL(discovery_callback, OnShareTargetDiscovered)
       .WillOnce([&run_loop](ShareTarget share_target) {
+        EXPECT_FALSE(share_target.is_incoming);
+        EXPECT_TRUE(share_target.is_known);
+        EXPECT_FALSE(share_target.has_attachments());
         EXPECT_EQ(kDeviceName, share_target.device_name);
+        EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
+        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
+                  share_target.type);
+        EXPECT_TRUE(share_target.device_id);
+        EXPECT_NE(kEndpointId, share_target.device_id);
+        EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
+        run_loop.Quit();
+      });
+  fake_nearby_connections_manager_->OnEndpointFound(
+      kEndpointId,
+      location::nearby::connections::mojom::DiscoveredEndpointInfo::New(
+          kValidV1EndpointInfo, kServiceId));
+  run_loop.Run();
+
+  // Register another send surface, which will automatically catch up discovered
+  // endpoints.
+  base::RunLoop run_loop2;
+  MockTransferUpdateCallback transfer_callback2;
+  NiceMock<MockShareTargetDiscoveredCallback> discovery_callback2;
+  EXPECT_CALL(discovery_callback2, OnShareTargetDiscovered)
+      .WillOnce([&run_loop2](ShareTarget share_target) {
+        EXPECT_EQ(kDeviceName, share_target.device_name);
+        run_loop2.Quit();
+      });
+
+  EXPECT_EQ(
+      NearbySharingService::StatusCodes::kOk,
+      service_->RegisterSendSurface(&transfer_callback2, &discovery_callback2,
+                                    SendSurfaceState::kForeground));
+  run_loop2.Run();
+}
+
+TEST_F(NearbySharingServiceImplTest, RegisterSendSurfaceEmptyCertificate) {
+  ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
+  SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
+
+  // Ensure decoder parses a valid endpoint advertisement.
+  SetUpAdvertisementDecoder(kValidV1EndpointInfo,
+                            /*return_empty_advertisement=*/false);
+  SetUpCertificateManager(/*return_empty_certificate=*/true);
+
+  // Start discovering, to ensure a discovery listener is registered.
+  base::RunLoop run_loop;
+  MockTransferUpdateCallback transfer_callback;
+  NiceMock<MockShareTargetDiscoveredCallback> discovery_callback;
+  EXPECT_EQ(
+      NearbySharingService::StatusCodes::kOk,
+      service_->RegisterSendSurface(&transfer_callback, &discovery_callback,
+                                    SendSurfaceState::kForeground));
+  EXPECT_TRUE(fake_nearby_connections_manager_->IsDiscovering());
+
+  // Discover a new endpoint, with fields set up a valid certificate.
+  EXPECT_CALL(discovery_callback, OnShareTargetDiscovered)
+      .WillOnce([&run_loop](ShareTarget share_target) {
+        EXPECT_FALSE(share_target.is_incoming);
+        EXPECT_FALSE(share_target.is_known);
+        EXPECT_FALSE(share_target.has_attachments());
+        EXPECT_EQ(kDeviceName, share_target.device_name);
+        EXPECT_FALSE(share_target.image_url);
+        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
+                  share_target.type);
+        EXPECT_TRUE(share_target.device_id);
+        EXPECT_EQ(kEndpointId, share_target.device_id);
+        EXPECT_FALSE(share_target.full_name);
         run_loop.Quit();
       });
   fake_nearby_connections_manager_->OnEndpointFound(

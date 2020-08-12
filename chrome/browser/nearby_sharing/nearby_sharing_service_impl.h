@@ -141,6 +141,10 @@ class NearbySharingServiceImpl
   void OnOutgoingAdvertisementDecoded(
       const std::string& endpoint_id,
       sharing::mojom::AdvertisementPtr advertisement);
+  void OnOutgoingDecryptedCertificate(
+      const std::string& endpoint_id,
+      sharing::mojom::AdvertisementPtr advertisement,
+      base::Optional<NearbyShareDecryptedPublicCertificate> certificate);
   bool IsBluetoothPresent() const;
   bool IsBluetoothPowered() const;
   bool HasAvailableConnectionMediums();
