@@ -749,7 +749,7 @@
   {
     "name": "darken-websites-checkbox-in-themes-setting",
     "owners": [ "lazzzis@google.com", "twellington" ],
-    "expiry_milestone": 83
+    "expiry_milestone": 92
   },
   {
     "name": "dcheck-is-fatal",
