@@ -2,13 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/webui/chrome_url_disabled_ui.h"
+#include "chrome/browser/ui/webui/chromeos/chrome_url_disabled/chrome_url_disabled_ui.h"
 
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/common/webui_url_constants.h"
 #include "chrome/grit/browser_resources.h"
 #include "components/strings/grit/components_strings.h"
 #include "content/public/browser/web_ui_data_source.h"
+
+namespace chromeos {
 
 ChromeURLDisabledUI::ChromeURLDisabledUI(content::WebUI* web_ui)
     : content::WebUIController(web_ui), weak_factory_(this) {
@@ -34,3 +36,5 @@ ChromeURLDisabledUI::ChromeURLDisabledUI(content::WebUI* web_ui)
 }
 
 ChromeURLDisabledUI::~ChromeURLDisabledUI() = default;
+
+}  // namespace chromeos
