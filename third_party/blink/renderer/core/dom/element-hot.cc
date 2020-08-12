@@ -138,13 +138,13 @@ void Element::setAttribute(const QualifiedName& name,
                          ? GetElementData()->Attributes().FindIndex(name)
                          : kNotFound;
 
-  String trusted_value =
+  AtomicString trusted_value(
       TrustedTypesCheckFor(ExpectedTrustedTypeForAttribute(name), value,
-                           GetExecutionContext(), exception_state);
+                           GetExecutionContext(), exception_state));
   if (exception_state.HadException())
     return;
 
-  SetAttributeInternal(index, name, AtomicString(trusted_value),
+  SetAttributeInternal(index, name, trusted_value,
                        kNotInSynchronizationOfLazyAttribute);
 }
 
@@ -172,13 +172,13 @@ void Element::SetAttributeHinted(const AtomicString& local_name,
   QualifiedName q_name = QualifiedName::Null();
   std::tie(index, q_name) = LookupAttributeQNameHinted(local_name, hint);
 
-  String trusted_value =
-      TrustedTypesCheckFor(ExpectedTrustedTypeForAttribute(q_name), value,
-                           GetExecutionContext(), exception_state);
+  AtomicString trusted_value(TrustedTypesCheckFor(
+      ExpectedTrustedTypeForAttribute(q_name), std::move(value),
+      GetExecutionContext(), exception_state));
   if (exception_state.HadException())
     return;
 
-  SetAttributeInternal(index, q_name, AtomicString(trusted_value),
+  SetAttributeInternal(index, q_name, trusted_value,
                        kNotInSynchronizationOfLazyAttribute);
 }
 
@@ -199,12 +199,12 @@ void Element::SetAttributeHinted(
   wtf_size_t index;
   QualifiedName q_name = QualifiedName::Null();
   std::tie(index, q_name) = LookupAttributeQNameHinted(local_name, hint);
-  String value = TrustedTypesCheckFor(ExpectedTrustedTypeForAttribute(q_name),
-                                      string_or_trusted, GetExecutionContext(),
-                                      exception_state);
+  AtomicString value(TrustedTypesCheckFor(
+      ExpectedTrustedTypeForAttribute(q_name), string_or_trusted,
+      GetExecutionContext(), exception_state));
   if (exception_state.HadException())
     return;
-  SetAttributeInternal(index, q_name, AtomicString(value),
+  SetAttributeInternal(index, q_name, value,
                        kNotInSynchronizationOfLazyAttribute);
 }
 
@@ -270,9 +270,9 @@ Attr* Element::setAttributeNode(Attr* attr_node,
   SynchronizeAllAttributes();
   const UniqueElementData& element_data = EnsureUniqueElementData();
 
-  String value = TrustedTypesCheckFor(
+  AtomicString value(TrustedTypesCheckFor(
       ExpectedTrustedTypeForAttribute(attr_node->GetQualifiedName()),
-      attr_node->value(), GetExecutionContext(), exception_state);
+      attr_node->value(), GetExecutionContext(), exception_state));
   if (exception_state.HadException())
     return nullptr;
 
@@ -301,8 +301,7 @@ Attr* Element::setAttributeNode(Attr* attr_node,
     }
   }
 
-  SetAttributeInternal(index, attr_node->GetQualifiedName(),
-                       AtomicString(value),
+  SetAttributeInternal(index, attr_node->GetQualifiedName(), value,
                        kNotInSynchronizationOfLazyAttribute);
 
   attr_node->AttachToElement(this, local_name);

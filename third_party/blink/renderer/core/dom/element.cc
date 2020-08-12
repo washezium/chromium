@@ -3788,13 +3788,13 @@ void Element::setAttributeNS(
                           exception_state))
     return;
 
-  String value = TrustedTypesCheckFor(
+  AtomicString value(TrustedTypesCheckFor(
       ExpectedTrustedTypeForAttribute(parsed_name), string_or_trusted,
-      GetExecutionContext(), exception_state);
+      GetExecutionContext(), exception_state));
   if (exception_state.HadException())
     return;
 
-  setAttribute(parsed_name, AtomicString(value));
+  setAttribute(parsed_name, value);
 }
 
 void Element::RemoveAttributeInternal(
