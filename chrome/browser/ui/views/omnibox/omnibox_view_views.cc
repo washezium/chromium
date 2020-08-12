@@ -50,6 +50,7 @@
 #include "components/strings/grit/components_strings.h"
 #include "components/url_formatter/elide_url.h"
 #include "components/url_formatter/url_fixer.h"
+#include "components/url_formatter/url_formatter.h"
 #include "components/vector_icons/vector_icons.h"
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
@@ -2454,9 +2455,9 @@ gfx::Range OmniboxViewViews::GetSimplifiedDomainBounds(
   }
 
   // TODO(estark): push this inside ParseForEmphasizeComponents()?
-  std::string simplified_domain =
+  base::string16 simplified_domain = url_formatter::IDNToUnicode(
       net::registry_controlled_domains::GetDomainAndRegistry(
-          url, net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);
+          url, net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES));
 
   if (simplified_domain.empty()) {
     ranges_surrounding_simplified_domain->emplace_back(0, host.begin);
@@ -2464,8 +2465,7 @@ gfx::Range OmniboxViewViews::GetSimplifiedDomainBounds(
     return gfx::Range(host.begin, host.end());
   }
 
-  size_t simplified_domain_pos =
-      text.rfind(base::ASCIIToUTF16(simplified_domain), host.end());
+  size_t simplified_domain_pos = text.rfind(simplified_domain);
   DCHECK_NE(simplified_domain_pos, std::string::npos);
   ranges_surrounding_simplified_domain->emplace_back(0, simplified_domain_pos);
   ranges_surrounding_simplified_domain->emplace_back(host.end(), text.size());
