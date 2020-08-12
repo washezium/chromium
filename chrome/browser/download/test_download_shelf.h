@@ -5,10 +5,7 @@
 #ifndef CHROME_BROWSER_DOWNLOAD_TEST_DOWNLOAD_SHELF_H_
 #define CHROME_BROWSER_DOWNLOAD_TEST_DOWNLOAD_SHELF_H_
 
-#include "base/compiler_specific.h"
-#include "base/memory/ref_counted.h"
 #include "chrome/browser/download/download_shelf.h"
-#include "content/public/browser/download_manager.h"
 
 class Profile;
 

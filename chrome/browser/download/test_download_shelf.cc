@@ -4,7 +4,7 @@
 
 #include "chrome/browser/download/test_download_shelf.h"
 
-#include "content/public/browser/download_manager.h"
+#include "base/time/time.h"
 
 TestDownloadShelf::TestDownloadShelf(Profile* profile)
     : DownloadShelf(nullptr, profile) {}
