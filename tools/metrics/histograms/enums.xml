@@ -21411,6 +21411,7 @@ Called by update_document_policy_enum.py.-->
   <int value="766" label="InsecurePrivateNetworkRequestsAllowed"/>
   <int value="767" label="InsecurePrivateNetworkRequestsAllowedForUrls"/>
   <int value="768" label="UserPrintersAllowed"/>
+  <int value="769" label="Printers"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
