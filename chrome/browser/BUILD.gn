@@ -3379,6 +3379,8 @@ static_library("browser") {
       "nearby_sharing/share_target.cc",
       "nearby_sharing/share_target.h",
       "nearby_sharing/share_target_discovered_callback.h",
+      "nearby_sharing/share_target_info.cc",
+      "nearby_sharing/share_target_info.h",
       "nearby_sharing/transfer_metadata.cc",
       "nearby_sharing/transfer_metadata.h",
       "nearby_sharing/transfer_metadata_builder.cc",
