@@ -1827,7 +1827,7 @@ crbug.com/922618 external/wpt/html/semantics/document-metadata/the-link-element/
 # Flaking on Linux Leak
 crbug.com/1049599 [ Linux ] virtual/threaded-prefer-compositing/fast/scrolling/events/overscroll-event-fired-to-element-with-overscroll-behavior.html [ Pass Failure Timeout ]
 crbug.com/1081237 [ Mac ] virtual/threaded-prefer-compositing/fast/scrolling/events/overscroll-event-fired-to-element-with-overscroll-behavior.html [ Pass Timeout ]
-crbug.com/1049641 [ Debug ] http/tests/devtools/sources/debugger/js-with-inline-stylesheets.js [ Pass Failure ]
+crbug.com/1049641 http/tests/devtools/sources/debugger/js-with-inline-stylesheets.js [ Pass Failure ]
 crbug.com/1049641 [ Debug ] http/tests/devtools/sources/debugger-breakpoints/set-breakpoint.js [ Pass Failure ]
 crbug.com/1049641 [ Debug ] http/tests/devtools/sources/debugger-breakpoints/set-conditional-breakpoint.js [ Pass Failure ]
 crbug.com/1049641 http/tests/devtools/sources/debugger/debugger-disable-enable.js [ Pass Timeout ]
