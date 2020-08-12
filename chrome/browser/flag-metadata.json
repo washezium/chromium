@@ -4072,7 +4072,7 @@
     "_comment2": "in https://crbug.com/849815.",
     "name": "site-isolation-trial-opt-out",
     "owners": [ "site-isolation-dev", "alexmos", "creis", "lukasza" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 95
   },
   {
     "name": "smart-dim-model-v3",
