@@ -13,45 +13,27 @@ namespace blink {
 
 class LocalFrame;
 
-// TextFragmentSelectorGenerator is responsible for generating text fragment
-// selectors for the user selected text according to spec in
-// https://github.com/WICG/scroll-to-text-fragment#proposed-solution.
-// Generated selectors would be later used to highlight the same
-// text if successfully parsed by |TextFragmentAnchor |. Generation will be
-// triggered when users request "link to text" for the selected text.
 class CORE_EXPORT TextFragmentSelectorGenerator final
     : public GarbageCollected<TextFragmentSelectorGenerator>,
       public TextFragmentFinder::Client {
  public:
-  explicit TextFragmentSelectorGenerator() = default;
+  TextFragmentSelectorGenerator(
+      LocalFrame* frame,
+      base::OnceCallback<void(const TextFragmentSelector&)> callback);
 
-  // Sets the frame and range of the current selection.
-  void UpdateSelection(LocalFrame* selection_frame,
-                       const EphemeralRangeInFlatTree& selection_range);
-
-  // Generates selector for current selection.
-  void GenerateSelector();
+  void GenerateSelector(const EphemeralRangeInFlatTree& selection_range);
 
   // TextFragmentFinder::Client interface
   void DidFindMatch(const EphemeralRangeInFlatTree& match,
                     const TextFragmentAnchorMetrics::Match match_metrics,
                     bool is_unique) override;
 
-  // Sets the callback used for notifying test results of |GenerateSelector|.
-  void SetCallbackForTesting(
-      base::OnceCallback<void(const TextFragmentSelector&)> callback);
-
-  // Notifies the results of |GenerateSelector|.
-  void NotifySelectorReady(const TextFragmentSelector& selector);
-
   void Trace(Visitor*) const;
 
  private:
-  Member<LocalFrame> selection_frame_;
-  Member<Range> selection_range_;
+  Member<LocalFrame> frame_;
+  base::OnceCallback<void(const TextFragmentSelector&)> callback_;
   std::unique_ptr<TextFragmentSelector> selector_;
-
-  base::OnceCallback<void(const TextFragmentSelector&)> callback_for_tests_;
 
   DISALLOW_COPY_AND_ASSIGN(TextFragmentSelectorGenerator);
 };

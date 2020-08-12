@@ -41,13 +41,10 @@ TEST_F(TextFragmentSelectorGeneratorTest, ExactTextSelector) {
         callback_called = true;
       });
 
-  TextFragmentSelectorGenerator generator;
-  generator.UpdateSelection(
-      GetDocument().GetFrame(),
+  TextFragmentSelectorGenerator generator(GetDocument().GetFrame(),
+                                          std::move(callback));
+  generator.GenerateSelector(
       ToEphemeralRangeInFlatTree(EphemeralRange(selected_start, selected_end)));
-  generator.SetCallbackForTesting(std::move(callback));
-  generator.GenerateSelector();
-
   EXPECT_TRUE(callback_called);
 }
 
@@ -72,13 +69,10 @@ TEST_F(TextFragmentSelectorGeneratorTest, ExactTextWithNestedTextNodes) {
         callback_called = true;
       });
 
-  TextFragmentSelectorGenerator generator;
-  generator.UpdateSelection(
-      GetDocument().GetFrame(),
+  TextFragmentSelectorGenerator generator(GetDocument().GetFrame(),
+                                          std::move(callback));
+  generator.GenerateSelector(
       ToEphemeralRangeInFlatTree(EphemeralRange(selected_start, selected_end)));
-  generator.SetCallbackForTesting(std::move(callback));
-  generator.GenerateSelector();
-
   EXPECT_TRUE(callback_called);
 }
 
@@ -102,13 +96,10 @@ TEST_F(TextFragmentSelectorGeneratorTest, ExactTextWithExtraSpace) {
         callback_called = true;
       });
 
-  TextFragmentSelectorGenerator generator;
-  generator.UpdateSelection(
-      GetDocument().GetFrame(),
+  TextFragmentSelectorGenerator generator(GetDocument().GetFrame(),
+                                          std::move(callback));
+  generator.GenerateSelector(
       ToEphemeralRangeInFlatTree(EphemeralRange(selected_start, selected_end)));
-  generator.SetCallbackForTesting(std::move(callback));
-  generator.GenerateSelector();
-
   EXPECT_TRUE(callback_called);
 }
 
@@ -134,13 +125,10 @@ TEST_F(TextFragmentSelectorGeneratorTest, MultiblockSelection) {
         callback_called = true;
       });
 
-  TextFragmentSelectorGenerator generator;
-  generator.UpdateSelection(
-      GetDocument().GetFrame(),
+  TextFragmentSelectorGenerator generator(GetDocument().GetFrame(),
+                                          std::move(callback));
+  generator.GenerateSelector(
       ToEphemeralRangeInFlatTree(EphemeralRange(selected_start, selected_end)));
-  generator.SetCallbackForTesting(std::move(callback));
-  generator.GenerateSelector();
-
   EXPECT_TRUE(callback_called);
 }
 
