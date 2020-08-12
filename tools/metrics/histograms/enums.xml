@@ -28521,7 +28521,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3198" label="CrossOriginOpenerPolicySameOriginAllowPopups"/>
   <int value="3199" label="CrossOriginEmbedderPolicyRequireCorp"/>
   <int value="3200" label="CoopAndCoepIsolated"/>
-  <int value="3201" label="WrongBaselineOfButtonElement"/>
+  <int value="3201" label="OBSOLETE_WrongBaselineOfButtonElement"/>
   <int value="3202" label="V8Document_HasTrustToken_Method"/>
   <int value="3203" label="ForceLoadAtTop"/>
   <int value="3204" label="LegacyLayoutByButton"/>
@@ -28698,6 +28698,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3369" label="WebSharePolicyDisallow"/>
   <int value="3370" label="FormAssociatedCustomElement"/>
   <int value="3371" label="WindowClosed"/>
+  <int value="3372" label="WrongBaselineOfMultiLineButton"/>
+  <int value="3373" label="WrongBaselineOfEmptyLineButton"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
