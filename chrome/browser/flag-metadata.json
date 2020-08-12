@@ -3456,7 +3456,7 @@
   },
   {
     "name": "overlay-new-layout",
-    "owners": [ "donnd", "jinsukkim", "contextual-search-eng" ],
+    "owners": [ "donnd", "jinsukkim", "contextual-search-eng@google.com" ],
     "expiry_milestone": 81
   },
   {
