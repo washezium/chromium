@@ -1831,16 +1831,6 @@ const FeatureEntry::FeatureVariation
 #endif  // OS_ANDROID
 
 const FeatureEntry::FeatureVariation
-    kOmniboxOnDeviceHeadSuggestIncognitoExperimentVariations[] = {{
-        "relevance-1000",
-        (FeatureEntry::FeatureParam[]){
-            {OmniboxFieldTrial::kOnDeviceHeadSuggestMaxScoreForNonUrlInput,
-             "1000"}},
-        1,
-        nullptr,
-    }};
-
-const FeatureEntry::FeatureVariation
     kOmniboxOnDeviceHeadSuggestNonIncognitoExperimentVariations[] = {
         {
             "relevance-1000",
@@ -3689,11 +3679,7 @@ const FeatureEntry kFeatureEntries[] = {
     {"omnibox-on-device-head-suggestions-incognito",
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoName,
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoDescription,
-     kOsAll,
-     FEATURE_WITH_PARAMS_VALUE_TYPE(
-         omnibox::kOnDeviceHeadProviderIncognito,
-         kOmniboxOnDeviceHeadSuggestIncognitoExperimentVariations,
-         "OmniboxOnDeviceHeadSuggestIncognito")},
+     kOsAll, FEATURE_VALUE_TYPE(omnibox::kOnDeviceHeadProviderIncognito)},
 
     {"omnibox-on-device-head-suggestions-non-incognito",
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsNonIncognitoName,
