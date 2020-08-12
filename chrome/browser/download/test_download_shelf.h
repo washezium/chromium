@@ -36,8 +36,8 @@ class TestDownloadShelf : public DownloadShelf {
   base::TimeDelta GetTransientDownloadShowDelay() const override;
 
  private:
-  bool is_showing_;
-  bool did_add_download_;
+  bool is_showing_ = false;
+  bool did_add_download_ = false;
 };
 
 #endif  // CHROME_BROWSER_DOWNLOAD_TEST_DOWNLOAD_SHELF_H_

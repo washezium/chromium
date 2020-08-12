@@ -7,9 +7,7 @@
 #include "content/public/browser/download_manager.h"
 
 TestDownloadShelf::TestDownloadShelf(Profile* profile)
-    : DownloadShelf(nullptr, profile),
-      is_showing_(false),
-      did_add_download_(false) {}
+    : DownloadShelf(nullptr, profile) {}
 
 TestDownloadShelf::~TestDownloadShelf() = default;
 

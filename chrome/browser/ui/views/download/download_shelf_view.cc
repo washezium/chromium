@@ -36,7 +36,6 @@
 #include "ui/views/controls/button/image_button_factory.h"
 #include "ui/views/controls/button/md_text_button.h"
 #include "ui/views/controls/link.h"
-#include "ui/views/mouse_watcher_view_host.h"
 
 using download::DownloadItem;
 
@@ -61,12 +60,7 @@ constexpr int kCloseAndLinkPadding = 6;
 DownloadShelfView::DownloadShelfView(Browser* browser, BrowserView* parent)
     : DownloadShelf(browser, browser->profile()),
       AnimationDelegateViews(this),
-      new_item_animation_(this),
-      shelf_animation_(this),
-      parent_(parent),
-      mouse_watcher_(
-          std::make_unique<views::MouseWatcherViewHost>(this, gfx::Insets()),
-          this) {
+      parent_(parent) {
   // Start out hidden: the shelf might be created but never shown in some
   // cases, like when installing a theme. See DownloadShelf::AddDownload().
   SetVisible(false);

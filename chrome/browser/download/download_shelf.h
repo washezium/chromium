@@ -97,8 +97,8 @@ class DownloadShelf {
 
   Browser* const browser_;
   Profile* const profile_;
-  bool should_show_on_unhide_;
-  bool is_hidden_;
+  bool should_show_on_unhide_ = false;
+  bool is_hidden_ = false;
   base::WeakPtrFactory<DownloadShelf> weak_ptr_factory_{this};
 };
 
