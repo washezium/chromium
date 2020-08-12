@@ -119,6 +119,11 @@
            use_base_dir="false"
            compress="false"
            type="BINDATA" />
+  <include name="IDR_OS_SETTINGS_LANGUAGES_PAGE_OS_LANGUAGES_PAGE_V2_M_JS"
+           file="${root_gen_dir}/chrome/browser/resources/settings/chromeos/os_languages_page/os_languages_page_v2.m.js"
+           use_base_dir="false"
+           compress="false"
+           type="BINDATA" />
   <include name="IDR_OS_SETTINGS_LANGUAGES_PAGE_OS_LANGUAGES_SECTION_M_JS"
            file="${root_gen_dir}/chrome/browser/resources/settings/chromeos/os_languages_page/os_languages_section.m.js"
            use_base_dir="false"
