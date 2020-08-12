@@ -2308,11 +2308,6 @@ const char kThreadedScrollingDescription[] =
     "this can dramatically hurt scrolling performance of most websites and is "
     "intended for testing purposes only.";
 
-const char kTouchAdjustmentName[] = "Touch adjustment";
-const char kTouchAdjustmentDescription[] =
-    "Refine the position of a touch gesture in order to compensate for touches "
-    "having poor resolution compared to a mouse.";
-
 const char kTouchDragDropName[] = "Touch initiated drag and drop";
 const char kTouchDragDropDescription[] =
     "Touch drag and drop can be initiated through long press on a draggable "

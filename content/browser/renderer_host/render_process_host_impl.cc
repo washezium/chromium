@@ -3320,7 +3320,6 @@ void RenderProcessHostImpl::PropagateBrowserCommandLineToRenderer(
     switches::kDisableSpeechAPI,
     switches::kDisableThreadedCompositing,
     switches::kDisableThreadedScrolling,
-    switches::kDisableTouchAdjustment,
     switches::kDisableTouchDragDrop,
     switches::kDisableV8IdleTasks,
     switches::kDisableVideoCaptureUseGpuMemoryBuffer,

@@ -2504,10 +2504,6 @@ const FeatureEntry kFeatureEntries[] = {
     {"touch-events", flag_descriptions::kTouchEventsName,
      flag_descriptions::kTouchEventsDescription, kOsDesktop,
      MULTI_VALUE_TYPE(kTouchEventFeatureDetectionChoices)},
-    {"disable-touch-adjustment", flag_descriptions::kTouchAdjustmentName,
-     flag_descriptions::kTouchAdjustmentDescription,
-     kOsWin | kOsLinux | kOsCrOS | kOsAndroid,
-     SINGLE_DISABLE_VALUE_TYPE(switches::kDisableTouchAdjustment)},
 #if defined(OS_CHROMEOS)
     {"disable-explicit-dma-fences",
      flag_descriptions::kDisableExplicitDmaFencesName,

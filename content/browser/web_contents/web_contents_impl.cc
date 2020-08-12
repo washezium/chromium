@@ -2252,9 +2252,6 @@ const WebPreferences WebContentsImpl::ComputeWebPreferences() {
       base::FeatureList::IsEnabled(features::kDirectManipulationStylus);
 #endif  // defined(OS_WIN)
 
-  prefs.touch_adjustment_enabled =
-      !command_line.HasSwitch(switches::kDisableTouchAdjustment);
-
   prefs.enable_scroll_animator =
       command_line.HasSwitch(switches::kEnableSmoothScrolling) ||
       (!command_line.HasSwitch(switches::kDisableSmoothScrolling) &&
