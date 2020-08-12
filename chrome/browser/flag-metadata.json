@@ -2608,11 +2608,6 @@
     "expiry_milestone": -1
   },
   {
-    "name": "fuzzy-app-search",
-    "owners": [ "thanhdng", "jiameng" ],
-    "expiry_milestone": 82
-  },
-  {
     "name": "gaia-action-buttons",
     "owners": [ "jeroendh@google.com", "rsorokin" ],
     "expiry_milestone": 79

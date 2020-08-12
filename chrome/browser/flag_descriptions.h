@@ -2341,9 +2341,6 @@ extern const char kFrameThrottleFps30[];
 extern const char kFsNosymfollowName[];
 extern const char kFsNosymfollowDescription[];
 
-extern const char kFuzzyAppSearchName[];
-extern const char kFuzzyAppSearchDescription[];
-
 extern const char kGaiaActionButtonsName[];
 extern const char kGaiaActionButtonsDescription[];
 
