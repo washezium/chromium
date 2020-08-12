@@ -1760,8 +1760,8 @@
   },
   {
     "name": "enable-native-notifications",
-    "owners": [ "peter", "finnur" ],
-    "expiry_milestone": 84
+    "owners": [ "peter", "finnur", "knollr" ],
+    "expiry_milestone": 90
   },
   {
     "name": "enable-navigation-predictor",
