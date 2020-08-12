@@ -548,7 +548,7 @@ void ThreadState::ScheduleConcurrentAndLazySweep() {
           WTF::CrossThreadBindRepeating(&ThreadState::PerformConcurrentSweep,
                                         WTF::CrossThreadUnretained(this))),
       ConvertToBaseRepeatingCallback(WTF::CrossThreadBindRepeating(
-          [](ThreadState* state) -> size_t {
+          [](ThreadState* state, size_t /*worker_count*/) -> size_t {
             return state->has_unswept_pages_.load(std::memory_order_relaxed)
                        ? 1
                        : 0;
