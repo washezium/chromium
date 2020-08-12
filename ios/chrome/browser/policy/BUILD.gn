@@ -129,7 +129,10 @@ bundle_data("test_resources") {
 source_set("unit_tests") {
   configs += [ "//build/config/compiler:enable_arc" ]
   testonly = true
-  sources = [ "policy_unittest.mm" ]
+  sources = [
+    "browser_dm_token_storage_ios_unittest.mm",
+    "policy_unittest.mm",
+  ]
   deps = [
     ":policy",
     ":test_resources",
