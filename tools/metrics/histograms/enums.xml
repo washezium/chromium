@@ -54988,10 +54988,11 @@ Called by update_net_trust_anchors.py.-->
 
 <enum name="PasswordScriptsFetcherParsingResult">
   <int value="0" label="No response from server"/>
-  <int value="1" label="Invalid JSON string"/>
-  <int value="2" label="Not a JSON dictionary"/>
+  <int value="1" label="Invalid JSON string - deprecated"/>
+  <int value="2" label="Not a JSON dictionary - deprecated"/>
   <int value="3" label="Invalid URLs found"/>
   <int value="4" label="OK"/>
+  <int value="5" label="Invalid JSON (either syntactically or structurally)"/>
 </enum>
 
 <enum name="PasswordStoreChange">
