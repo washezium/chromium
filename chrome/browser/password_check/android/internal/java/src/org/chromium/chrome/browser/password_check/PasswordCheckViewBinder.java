@@ -6,6 +6,7 @@ package org.chromium.chrome.browser.password_check;
 
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.COMPROMISED_CREDENTIAL;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.CREDENTIAL_HANDLER;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.CompromisedCredentialProperties.HAS_MANUAL_CHANGE_BUTTON;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_CONFIRMATION_HANDLER;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.DELETION_ORIGIN;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.CHECK_PROGRESS;
@@ -153,6 +154,13 @@ class PasswordCheckViewBinder {
         } else if (propertyKey == CREDENTIAL_HANDLER) {
             assert model.get(CREDENTIAL_HANDLER) != null;
             // Is read-only and must therefore be bound initially, so no action required.
+        } else if (propertyKey == HAS_MANUAL_CHANGE_BUTTON) {
+            ButtonCompat button = view.findViewById(R.id.credential_change_button);
+            button.setVisibility(model.get(HAS_MANUAL_CHANGE_BUTTON) ? View.VISIBLE : View.GONE);
+            TextView changeHint = view.findViewById(R.id.credential_change_hint);
+            changeHint.setVisibility(model.get(HAS_MANUAL_CHANGE_BUTTON) || credential.hasScript()
+                            ? View.GONE
+                            : View.VISIBLE);
         } else {
             assert false : "Unhandled update to property:" + propertyKey;
         }
