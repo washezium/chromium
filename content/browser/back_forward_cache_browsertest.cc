@@ -6599,6 +6599,8 @@ class EchoFakeWithFilter final : public mojom::Echo {
 IN_PROC_BROWSER_TEST_F(
     BackForwardCacheBrowserTest,
     ProcessKilledIfMessageReceivedOnAssociatedInterfaceWhileCached) {
+  base::HistogramTester histogram_tester;
+
   ASSERT_TRUE(embedded_test_server()->Start());
   GURL url_a(embedded_test_server()->GetURL("a.com", "/title1.html"));
   GURL url_b(embedded_test_server()->GetURL("b.com", "/title1.html"));
@@ -6632,6 +6634,11 @@ IN_PROC_BROWSER_TEST_F(
               testing::Optional(
                   bad_message::RFH_RECEIVED_ASSOCIATED_MESSAGE_WHILE_BFCACHED));
   EXPECT_TRUE(delete_observer_rfh_a.deleted());
+  histogram_tester.ExpectBucketCount(
+      "BackForwardCache.UnexpectedRendererToBrowserMessage.InterfaceName",
+      base::HistogramBase::Sample(
+          static_cast<int32_t>(base::HashMetricName(mojom::Echo::Name_))),
+      1);
 }
 
 IN_PROC_BROWSER_TEST_F(
