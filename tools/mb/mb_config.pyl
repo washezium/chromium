@@ -302,6 +302,7 @@
       'mac-upload-perfetto': 'release_bot',
       'win-annotator-rel': 'release_bot',
       'win-celab-builder-rel': 'release_bot_minimal_symbols',
+      'win-omaha-builder-rel': 'omaha_release_bot',
       'win-pixel-builder-rel': 'release_bot',
       'win-upload-perfetto': 'release_bot',
       'win10-code-coverage': 'clang_code_coverage',
@@ -2185,6 +2186,10 @@
       'official_optimize_goma_trybot',
     ],
 
+    'omaha_release_bot': [
+      'omaha_on_win_mac', 'release',
+    ],
+
     'ozone_linux_release_bot': [
       'ozone_linux', 'release_bot',
     ],
@@ -2855,6 +2860,10 @@
 
     'official_optimize_goma_trybot': {
       'mixins': ['official_optimize_goma', 'minimal_symbols', 'dcheck_always_on'],
+    },
+
+    'omaha_on_win_mac': {
+      'gn_args': 'is_google_branded=true',
     },
 
     'optimize_for_fuzzing': {

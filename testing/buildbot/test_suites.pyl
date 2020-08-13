@@ -3686,6 +3686,10 @@
       },
     },
 
+    'omaha_gtests': {
+      'updater_tests': {},
+    },
+
     'opus_tests': {
       'opus_tests': {
         'args': [
@@ -4360,7 +4364,6 @@
           ],
         },
       },
-      'updater_tests': {},
       'zucchini_unittests': {},
     },
 
