@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "ios/chrome/browser/ui/settings/password/password_details_table_view_controller.h"
+#import "ios/chrome/browser/ui/settings/password/legacy_password_details_table_view_controller.h"
 
 #import <UIKit/UIKit.h>
 
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, ItemType) {
 
 }  // namespace
 
-@interface PasswordDetailsTableViewController () {
+@interface LegacyPasswordDetailsTableViewController () {
   // The username to which the saved password belongs.
   NSString* _username;
   // The saved password.
@@ -92,21 +92,22 @@ typedef NS_ENUM(NSInteger, ItemType) {
 
 // Instance of the parent view controller needed in order to update the
 // password list when a password is deleted.
-@property(nonatomic, weak) id<PasswordDetailsTableViewControllerDelegate>
+@property(nonatomic, weak) id<LegacyPasswordDetailsTableViewControllerDelegate>
     delegate;
 
 @end
 
-@implementation PasswordDetailsTableViewController
+@implementation LegacyPasswordDetailsTableViewController
 
 @synthesize deleteConfirmation = _deleteConfirmation;
 
-- (instancetype)initWithPasswordForm:(const autofill::PasswordForm&)passwordForm
-                            delegate:
-                                (id<PasswordDetailsTableViewControllerDelegate>)
-                                    delegate
-              reauthenticationModule:
-                  (id<ReauthenticationProtocol>)reauthenticationModule {
+- (instancetype)
+      initWithPasswordForm:(const autofill::PasswordForm&)passwordForm
+                  delegate:
+                      (id<LegacyPasswordDetailsTableViewControllerDelegate>)
+                          delegate
+    reauthenticationModule:
+        (id<ReauthenticationProtocol>)reauthenticationModule {
   DCHECK(delegate);
   DCHECK(reauthenticationModule);
   UITableViewStyle style = base::FeatureList::IsEnabled(kSettingsRefresh)
@@ -349,25 +350,25 @@ typedef NS_ENUM(NSInteger, ItemType) {
   }
 
   if ([_weakReauthenticationModule canAttemptReauth]) {
-    __weak PasswordDetailsTableViewController* weakSelf = self;
-    void (^showPasswordHandler)(ReauthenticationResult) = ^(
-        ReauthenticationResult result) {
-      PasswordDetailsTableViewController* strongSelf = weakSelf;
-      if (!strongSelf)
-        return;
-      [strongSelf logPasswordSettingsReauthResult:result];
-      if (result == ReauthenticationResult::kFailure)
-        return;
-      TableViewTextItem* passwordItem = strongSelf->_passwordItem;
-      passwordItem.masked = NO;
-      [strongSelf reconfigureCellsForItems:@[ passwordItem ]];
-      strongSelf->_plainTextPasswordShown = YES;
-      [strongSelf toggleShowHideButton];
-      UMA_HISTOGRAM_ENUMERATION(
-          "PasswordManager.AccessPasswordInSettings",
-          password_manager::metrics_util::ACCESS_PASSWORD_VIEWED,
-          password_manager::metrics_util::ACCESS_PASSWORD_COUNT);
-    };
+    __weak LegacyPasswordDetailsTableViewController* weakSelf = self;
+    void (^showPasswordHandler)(ReauthenticationResult) =
+        ^(ReauthenticationResult result) {
+          LegacyPasswordDetailsTableViewController* strongSelf = weakSelf;
+          if (!strongSelf)
+            return;
+          [strongSelf logPasswordSettingsReauthResult:result];
+          if (result == ReauthenticationResult::kFailure)
+            return;
+          TableViewTextItem* passwordItem = strongSelf->_passwordItem;
+          passwordItem.masked = NO;
+          [strongSelf reconfigureCellsForItems:@[ passwordItem ]];
+          strongSelf->_plainTextPasswordShown = YES;
+          [strongSelf toggleShowHideButton];
+          UMA_HISTOGRAM_ENUMERATION(
+              "PasswordManager.AccessPasswordInSettings",
+              password_manager::metrics_util::ACCESS_PASSWORD_VIEWED,
+              password_manager::metrics_util::ACCESS_PASSWORD_COUNT);
+        };
 
     [_weakReauthenticationModule
         attemptReauthWithLocalizedReason:
@@ -409,10 +410,10 @@ typedef NS_ENUM(NSInteger, ItemType) {
     password_manager::metrics_util::LogPasswordSettingsReauthResult(
         password_manager::metrics_util::ReauthResult::kSkipped);
   } else if ([_weakReauthenticationModule canAttemptReauth]) {
-    __weak PasswordDetailsTableViewController* weakSelf = self;
+    __weak LegacyPasswordDetailsTableViewController* weakSelf = self;
     void (^copyPasswordHandler)(ReauthenticationResult) = ^(
         ReauthenticationResult result) {
-      PasswordDetailsTableViewController* strongSelf = weakSelf;
+      LegacyPasswordDetailsTableViewController* strongSelf = weakSelf;
       if (!strongSelf)
         return;
       [strongSelf logPasswordSettingsReauthResult:result];
@@ -491,7 +492,7 @@ typedef NS_ENUM(NSInteger, ItemType) {
 
 // Deletes the password with a deletion confirmation alert.
 - (void)deletePassword {
-  __weak PasswordDetailsTableViewController* weakSelf = self;
+  __weak LegacyPasswordDetailsTableViewController* weakSelf = self;
 
   self.deleteConfirmation = [UIAlertController
       alertControllerWithTitle:nil

@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_
-#define IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_
+#ifndef IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_LEGACY_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_
+#define IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_LEGACY_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_
 
-#import "ios/chrome/browser/ui/settings/password/password_details_table_view_controller_delegate.h"
+#import "ios/chrome/browser/ui/settings/password/legacy_password_details_table_view_controller_delegate.h"
 #import "ios/chrome/browser/ui/settings/settings_root_table_view_controller.h"
 
 namespace autofill {
@@ -14,17 +14,22 @@ struct PasswordForm;
 
 @protocol ReauthenticationProtocol;
 
+// TODO(crbug.com/1096986): Delete this view controller after Password Check
+// launch.
+
 // Displays details of a password item, including URL of the site, username and
 // password in masked state as default. User can copy the URL and username,
 // pass the iOS security check to see and copy the password , or delete the
 // password item.
-@interface PasswordDetailsTableViewController : SettingsRootTableViewController
+@interface LegacyPasswordDetailsTableViewController
+    : SettingsRootTableViewController
 
 // The designated initializer.
 - (nullable instancetype)
       initWithPasswordForm:(const autofill::PasswordForm&)passwordForm
                   delegate:
-                      (nonnull id<PasswordDetailsTableViewControllerDelegate>)
+                      (nonnull
+                           id<LegacyPasswordDetailsTableViewControllerDelegate>)
                           delegate
     reauthenticationModule:
         (nonnull id<ReauthenticationProtocol>)reauthenticationModule
@@ -34,4 +39,4 @@ struct PasswordForm;
 
 @end
 
-#endif  // IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_
+#endif  // IOS_CHROME_BROWSER_UI_SETTINGS_PASSWORD_LEGACY_PASSWORD_DETAILS_TABLE_VIEW_CONTROLLER_H_

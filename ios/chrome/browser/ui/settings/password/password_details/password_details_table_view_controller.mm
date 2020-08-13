@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "ios/chrome/browser/ui/settings/password/password_details/password_details_view_controller.h"
+#import "ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_controller.h"
 
 #include "base/ios/ios_util.h"
 #include "base/mac/foundation_util.h"
@@ -16,7 +16,7 @@
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_consumer.h"
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_handler.h"
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_constants.h"
-#import "ios/chrome/browser/ui/settings/password/password_details/password_details_view_controller_delegate.h"
+#import "ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_controller_delegate.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_cells_constants.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_text_edit_item.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_text_item.h"
@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
 
 }  // namespace
 
-@interface PasswordDetailsViewController ()
+@interface PasswordDetailsTableViewController ()
 
 // Password which is shown on the screen.
 @property(nonatomic, strong) PasswordDetails* password;
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
 
 @end
 
-@implementation PasswordDetailsViewController
+@implementation PasswordDetailsTableViewController
 
 #pragma mark - UIViewController
 
@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-  [self.handler passwordDetailsViewControllerDidDisappear];
+  [self.handler passwordDetailsTableViewControllerDidDisappear];
   [super viewDidDisappear:animated];
 }
 
@@ -349,7 +349,7 @@ typedef NS_ENUM(NSInteger, ReauthenticationReason) {
     __weak __typeof(self) weakSelf = self;
     void (^showPasswordHandler)(ReauthenticationResult) =
         ^(ReauthenticationResult result) {
-          PasswordDetailsViewController* strongSelf = weakSelf;
+          PasswordDetailsTableViewController* strongSelf = weakSelf;
           if (!strongSelf)
             return;
           [strongSelf logPasswordSettingsReauthResult:result];

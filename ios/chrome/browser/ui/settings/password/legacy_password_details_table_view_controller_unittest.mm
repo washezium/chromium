@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "ios/chrome/browser/ui/settings/password/password_details_table_view_controller.h"
+#import "ios/chrome/browser/ui/settings/password/legacy_password_details_table_view_controller.h"
 
 #include "base/mac/foundation_util.h"
 #include "base/strings/sys_string_conversions.h"
@@ -47,10 +47,10 @@ const int kShowHideButtonItem = 2;
 const int kDeleteSection = 3;
 const int kDeleteButtonItem = 0;
 
-class PasswordDetailsTableViewControllerTest
+class LegacyPasswordDetailsTableViewControllerTest
     : public ChromeTableViewControllerTest {
  protected:
-  PasswordDetailsTableViewControllerTest() {
+  LegacyPasswordDetailsTableViewControllerTest() {
     origin_ = kSite;
     form_.username_value = base::SysNSStringToUTF16(kUsername);
     form_.password_value = base::SysNSStringToUTF16(kPassword);
@@ -65,10 +65,11 @@ class PasswordDetailsTableViewControllerTest
   }
 
   ChromeTableViewController* InstantiateController() override {
-    return [[PasswordDetailsTableViewController alloc]
+    return [[LegacyPasswordDetailsTableViewController alloc]
           initWithPasswordForm:form_
-                      delegate:OCMProtocolMock(@protocol(
-                                   PasswordDetailsTableViewControllerDelegate))
+                      delegate:
+                          OCMProtocolMock(@protocol(
+                              LegacyPasswordDetailsTableViewControllerDelegate))
         reauthenticationModule:reauthentication_module_];
   }
 
@@ -78,7 +79,7 @@ class PasswordDetailsTableViewControllerTest
   autofill::PasswordForm form_;
 };
 
-TEST_F(PasswordDetailsTableViewControllerTest,
+TEST_F(LegacyPasswordDetailsTableViewControllerTest,
        TestInitialization_NormalPassword) {
   CreateController();
   CheckController();
@@ -119,7 +120,8 @@ TEST_F(PasswordDetailsTableViewControllerTest,
                           kDeleteSection, kDeleteButtonItem);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, TestInitialization_Blocked) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest,
+       TestInitialization_Blocked) {
   constexpr int kBlockedSiteSection = 0;
   constexpr int kBlockedSiteItem = 0;
   constexpr int kBlockedCopySiteButtonItem = 1;
@@ -149,7 +151,8 @@ TEST_F(PasswordDetailsTableViewControllerTest, TestInitialization_Blocked) {
                           kBlockedDeleteSection, kBlockedDeleteButtonItem);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, TestInitialization_Federated) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest,
+       TestInitialization_Federated) {
   constexpr int kFederatedSiteSection = 0;
   constexpr int kFederatedSiteItem = 0;
   constexpr int kFederatedCopySiteButtonItem = 1;
@@ -210,7 +213,7 @@ struct SimplifyOriginTestData {
   NSString* expectedSimplifiedOrigin;
 };
 
-TEST_F(PasswordDetailsTableViewControllerTest, SimplifyOrigin) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, SimplifyOrigin) {
   SimplifyOriginTestData test_data[] = {
       {GURL("http://test.com/index.php"), @"test.com"},
       {GURL("https://example.com/index.php"), @"example.com"},
@@ -230,7 +233,7 @@ TEST_F(PasswordDetailsTableViewControllerTest, SimplifyOrigin) {
   }
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, CopySite) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, CopySite) {
   CreateController();
   [controller() tableView:[controller() tableView]
       didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:kCopySiteButtonItem
@@ -239,7 +242,7 @@ TEST_F(PasswordDetailsTableViewControllerTest, CopySite) {
   EXPECT_NSEQ(origin_, generalPasteboard.string);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, CopyUsername) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, CopyUsername) {
   CreateController();
   [controller() tableView:[controller() tableView]
       didSelectRowAtIndexPath:[NSIndexPath
@@ -249,7 +252,7 @@ TEST_F(PasswordDetailsTableViewControllerTest, CopyUsername) {
   EXPECT_NSEQ(kUsername, generalPasteboard.string);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, ShowPassword) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, ShowPassword) {
   CreateController();
   [controller() tableView:[controller() tableView]
       didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:kShowHideButtonItem
@@ -265,7 +268,7 @@ TEST_F(PasswordDetailsTableViewControllerTest, ShowPassword) {
                           kPasswordSection, kShowHideButtonItem);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, HidePassword) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, HidePassword) {
   CreateController();
   // First show the password.
   [controller() tableView:[controller() tableView]
@@ -283,7 +286,7 @@ TEST_F(PasswordDetailsTableViewControllerTest, HidePassword) {
                           kPasswordSection, kShowHideButtonItem);
 }
 
-TEST_F(PasswordDetailsTableViewControllerTest, CopyPassword) {
+TEST_F(LegacyPasswordDetailsTableViewControllerTest, CopyPassword) {
   CreateController();
   [controller() tableView:[controller() tableView]
       didSelectRowAtIndexPath:[NSIndexPath

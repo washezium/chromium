@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#import "ios/chrome/browser/ui/settings/password/password_details/password_details_view_controller.h"
+#import "ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_controller.h"
 
 #include <memory>
 
@@ -15,7 +15,7 @@
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details.h"
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_consumer.h"
 #import "ios/chrome/browser/ui/settings/password/password_details/password_details_handler.h"
-#import "ios/chrome/browser/ui/settings/password/password_details/password_details_view_controller_delegate.h"
+#import "ios/chrome/browser/ui/settings/password/password_details/password_details_table_view_controller_delegate.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_cells_constants.h"
 #import "ios/chrome/browser/ui/table_view/cells/table_view_text_edit_item.h"
 #import "ios/chrome/browser/ui/table_view/chrome_table_view_controller_test.h"
@@ -44,8 +44,7 @@
 
 @implementation FakePasswordDetailsHandler
 
-// Called when the view controller was dismissed.
-- (void)passwordDetailsViewControllerDidDisappear {
+- (void)passwordDetailsTableViewControllerDidDisappear {
 }
 
 - (void)showPasscodeDialog {
@@ -64,7 +63,7 @@
 // Test class that conforms to PasswordDetailsViewControllerDelegate in order to
 // test the delegate methods are called correctly.
 @interface FakePasswordDetailsDelegate
-    : NSObject <PasswordDetailsViewControllerDelegate>
+    : NSObject <PasswordDetailsTableViewControllerDelegate>
 
 @property(nonatomic, strong) PasswordDetails* password;
 
@@ -73,7 +72,7 @@
 @implementation FakePasswordDetailsDelegate
 
 - (void)passwordDetailsViewController:
-            (PasswordDetailsViewController*)viewController
+            (PasswordDetailsTableViewController*)viewController
                didEditPasswordDetails:(PasswordDetails*)password {
   self.password = password;
 }
@@ -81,9 +80,10 @@
 @end
 
 // Unit tests for PasswordIssuesTableViewController.
-class PasswordDetailsViewControllerTest : public ChromeTableViewControllerTest {
+class PasswordDetailsTableViewControllerTest
+    : public ChromeTableViewControllerTest {
  protected:
-  PasswordDetailsViewControllerTest() {
+  PasswordDetailsTableViewControllerTest() {
     handler_ = [[FakePasswordDetailsHandler alloc] init];
     delegate_ = [[FakePasswordDetailsDelegate alloc] init];
     reauthentication_module_ = [[MockReauthenticationModule alloc] init];
@@ -91,8 +91,8 @@ class PasswordDetailsViewControllerTest : public ChromeTableViewControllerTest {
   }
 
   ChromeTableViewController* InstantiateController() override {
-    PasswordDetailsViewController* controller =
-        [[PasswordDetailsViewController alloc]
+    PasswordDetailsTableViewController* controller =
+        [[PasswordDetailsTableViewController alloc]
             initWithStyle:UITableViewStylePlain];
     controller.handler = handler_;
     controller.delegate = delegate_;
@@ -115,8 +115,8 @@ class PasswordDetailsViewControllerTest : public ChromeTableViewControllerTest {
         [[PasswordDetails alloc] initWithPasswordForm:form];
     password.compromised = isCompromised;
 
-    PasswordDetailsViewController* passwords_controller =
-        static_cast<PasswordDetailsViewController*>(controller());
+    PasswordDetailsTableViewController* passwords_controller =
+        static_cast<PasswordDetailsTableViewController*>(controller());
     [passwords_controller setPassword:password];
   }
 
@@ -146,9 +146,9 @@ class PasswordDetailsViewControllerTest : public ChromeTableViewControllerTest {
   MockReauthenticationModule* reauthentication_module_;
 };
 
-// Tests PasswordDetailsViewController is set up with appropriate items
+// Tests PasswordDetailsTableViewController is set up with appropriate items
 // and sections.
-TEST_F(PasswordDetailsViewControllerTest, TestModel) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestModel) {
   CreateController();
   CheckController();
   EXPECT_EQ(1, NumberOfSections());
@@ -157,7 +157,7 @@ TEST_F(PasswordDetailsViewControllerTest, TestModel) {
 }
 
 // Tests that password is displayed properly.
-TEST_F(PasswordDetailsViewControllerTest, TestPassword) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestPassword) {
   SetPassword();
   EXPECT_EQ(1, NumberOfSections());
   EXPECT_EQ(3, NumberOfItemsInSection(0));
@@ -168,7 +168,7 @@ TEST_F(PasswordDetailsViewControllerTest, TestPassword) {
 }
 
 // Tests that compromised password is displayed properly.
-TEST_F(PasswordDetailsViewControllerTest, TestCompromisedPassword) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestCompromisedPassword) {
   SetPassword(true);
   EXPECT_EQ(2, NumberOfSections());
   EXPECT_EQ(3, NumberOfItemsInSection(0));
@@ -184,7 +184,7 @@ TEST_F(PasswordDetailsViewControllerTest, TestCompromisedPassword) {
 }
 
 // Tests that password is shown/hidden.
-TEST_F(PasswordDetailsViewControllerTest, TestShowHidePassword) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestShowHidePassword) {
   SetPassword();
   CheckEditCellText(kMaskedPassword, 0, 2);
 
@@ -208,7 +208,7 @@ TEST_F(PasswordDetailsViewControllerTest, TestShowHidePassword) {
 }
 
 // Tests that passwords was not shown in case reauth failed.
-TEST_F(PasswordDetailsViewControllerTest, TestShowPasswordReauthFailed) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestShowPasswordReauthFailed) {
   SetPassword();
 
   CheckEditCellText(kMaskedPassword, 0, 2);
@@ -227,12 +227,13 @@ TEST_F(PasswordDetailsViewControllerTest, TestShowPasswordReauthFailed) {
 }
 
 // Tests that password was revealed during editing.
-TEST_F(PasswordDetailsViewControllerTest, TestPasswordShownDuringEditing) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestPasswordShownDuringEditing) {
   SetPassword();
   CheckEditCellText(kMaskedPassword, 0, 2);
 
-  PasswordDetailsViewController* passwordDetails =
-      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  PasswordDetailsTableViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsTableViewController>(
+          controller());
   [passwordDetails editButtonPressed];
   EXPECT_TRUE(passwordDetails.tableView.editing);
   CheckEditCellText(@"test", 0, 2);
@@ -243,25 +244,27 @@ TEST_F(PasswordDetailsViewControllerTest, TestPasswordShownDuringEditing) {
 }
 
 // Tests that editing mode was not entered because reauth failed.
-TEST_F(PasswordDetailsViewControllerTest, TestEditingReauthFailed) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestEditingReauthFailed) {
   SetPassword();
   CheckEditCellText(kMaskedPassword, 0, 2);
 
   reauth().expectedResult = ReauthenticationResult::kFailure;
-  PasswordDetailsViewController* passwordDetails =
-      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  PasswordDetailsTableViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsTableViewController>(
+          controller());
   [passwordDetails editButtonPressed];
   EXPECT_FALSE(passwordDetails.tableView.editing);
   CheckEditCellText(kMaskedPassword, 0, 2);
 }
 
 // Tests that delete button trigger showing password delete dialog.
-TEST_F(PasswordDetailsViewControllerTest, TestPasswordDelete) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestPasswordDelete) {
   SetPassword();
 
   EXPECT_FALSE(handler().deletionCalled);
-  PasswordDetailsViewController* passwordDetails =
-      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  PasswordDetailsTableViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsTableViewController>(
+          controller());
   [passwordDetails editButtonPressed];
   [[UIApplication sharedApplication]
       sendAction:passwordDetails.deleteButton.action
@@ -272,11 +275,12 @@ TEST_F(PasswordDetailsViewControllerTest, TestPasswordDelete) {
 }
 
 // Tests password editing. User confirmed this action.
-TEST_F(PasswordDetailsViewControllerTest, TestEditPasswordConfirmed) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestEditPasswordConfirmed) {
   SetPassword();
 
-  PasswordDetailsViewController* passwordDetails =
-      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  PasswordDetailsTableViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsTableViewController>(
+          controller());
   [passwordDetails editButtonPressed];
   EXPECT_FALSE(handler().editingCalled);
   EXPECT_FALSE(delegate().password);
@@ -297,11 +301,12 @@ TEST_F(PasswordDetailsViewControllerTest, TestEditPasswordConfirmed) {
 }
 
 // Tests  password editing. User cancelled this action.
-TEST_F(PasswordDetailsViewControllerTest, TestEditPasswordCancel) {
+TEST_F(PasswordDetailsTableViewControllerTest, TestEditPasswordCancel) {
   SetPassword();
 
-  PasswordDetailsViewController* passwordDetails =
-      base::mac::ObjCCastStrict<PasswordDetailsViewController>(controller());
+  PasswordDetailsTableViewController* passwordDetails =
+      base::mac::ObjCCastStrict<PasswordDetailsTableViewController>(
+          controller());
   [passwordDetails editButtonPressed];
   EXPECT_FALSE(delegate().password);
   EXPECT_TRUE(passwordDetails.tableView.editing);
