@@ -710,9 +710,8 @@ IN_PROC_BROWSER_TEST_F(BackForwardCacheBrowserTest, BasicDocumentInitiated) {
 }
 
 // Navigate from back and forward repeatedly.
-// TODO(https://crbug.com/1099395): flaky.
 IN_PROC_BROWSER_TEST_F(BackForwardCacheBrowserTest,
-                       DISABLED_NavigateBackForwardRepeatedly) {
+                       NavigateBackForwardRepeatedly) {
   ASSERT_TRUE(embedded_test_server()->Start());
   GURL url_a(embedded_test_server()->GetURL("a.com", "/title1.html"));
   GURL url_b(embedded_test_server()->GetURL("b.com", "/title1.html"));
