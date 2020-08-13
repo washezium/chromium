@@ -1030,6 +1030,11 @@
     "expiry_milestone": -1
   },
   {
+    "name": "enable-accelerated-video-decode",
+    "owners": [ "videostack-eng@google.com" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "enable-accessibility-expose-aria-annotations",
     "owners": [ "aleventhal@chromium.org", "//third_party/blink/renderer/modules/accessibility/OWNERS", "//ui/accessibility/OWNERS" ],
     "expiry_milestone": 85

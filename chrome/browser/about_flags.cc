@@ -2629,6 +2629,16 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kSystemTrayMicGainDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(ash::features::kSystemTrayMicGainSetting)},
 #endif  // OS_CHROMEOS
+
+#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
+    {
+        "enable-accelerated-video-decode",
+        flag_descriptions::kAcceleratedVideoDecodeName,
+        flag_descriptions::kAcceleratedVideoDecodeDescription,
+        kOsLinux,
+        SINGLE_VALUE_TYPE(switches::kEnableAcceleratedVideoDecode),
+    },
+#else
     {
         "disable-accelerated-video-decode",
         flag_descriptions::kAcceleratedVideoDecodeName,
@@ -2636,6 +2646,7 @@ const FeatureEntry kFeatureEntries[] = {
         kOsMac | kOsWin | kOsCrOS | kOsAndroid,
         SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
     },
+#endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
     {
         "disable-accelerated-video-encode",
         flag_descriptions::kAcceleratedVideoEncodeName,
