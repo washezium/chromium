@@ -199,8 +199,7 @@ void DownloadShelfView::Layout() {
 
 void DownloadShelfView::AnimationProgressed(const gfx::Animation* animation) {
   if (animation == &new_item_animation_) {
-    Layout();
-    SchedulePaint();
+    InvalidateLayout();
   } else if (animation == &shelf_animation_) {
     // Force a re-layout of the parent, which will call back into
     // GetPreferredSize, where we will do our animation. In the case where the
@@ -285,8 +284,7 @@ void DownloadShelfView::RemoveDownloadView(View* view) {
     Close();
   else
     AutoClose();
-  Layout();
-  SchedulePaint();
+  InvalidateLayout();
 }
 
 void DownloadShelfView::ConfigureButtonForTheme(views::MdTextButton* button) {
