@@ -242,15 +242,15 @@ void DownloadShelfView::AnimationEnded(const gfx::Animation* animation) {
     }
   }
 
-  // If we had keyboard focus, calling SetVisible(false) causes keyboard focus
-  // to be completely lost. To prevent this, we focus another view: the web
-  // contents. TODO(collinbaker): https://crbug.com/846466 Fix
-  // AccessiblePaneView::SetVisible or FocusManager to make this unnecessary.
+  // Make the shelf non-visible.
+  //
+  // If we had keyboard focus, calling SetVisible(false) will cause keyboard
+  // focus to be completely lost. To prevent this, focus the web contents.
+  // TODO(crbug.com/846466): Fix AccessiblePaneView::SetVisible() or
+  // FocusManager to make this unnecessary.
   auto* focus_manager = GetFocusManager();
-  if (focus_manager && Contains(focus_manager->GetFocusedView())) {
+  if (focus_manager && Contains(focus_manager->GetFocusedView()))
     parent_->contents_web_view()->RequestFocus();
-  }
-
   SetVisible(false);
 }
 
