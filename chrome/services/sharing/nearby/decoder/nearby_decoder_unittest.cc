@@ -36,7 +36,7 @@ void ExpectEquals(const Advertisement& self,
                   const mojom::AdvertisementPtr& other) {
   EXPECT_EQ(self.device_name(), other->device_name);
   EXPECT_EQ(self.salt(), other->salt);
-  EXPECT_EQ(self.encrypted_metadata_key(), other->encrypted_metadata);
+  EXPECT_EQ(self.encrypted_metadata_key(), other->encrypted_metadata_key);
 }
 
 void ExpectFrameContainsIntroduction(
