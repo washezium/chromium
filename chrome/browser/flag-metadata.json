@@ -3276,6 +3276,11 @@
     "expiry_milestone": 85
   },
   {
+    "name": "omnibox-focus-gesture-triggers-contextual-web-zero-suggest",
+    "owners": [ "tommycli", "chrome-omnibox-team@google.com" ],
+    "expiry_milestone": 95
+  },
+  {
     "name": "omnibox-history-quick-provider-allow-but-do-not-score-midword-terms",
     "owners": [ "manukh", "chrome-omnibox-team@google.com" ],
     "expiry_milestone": 88

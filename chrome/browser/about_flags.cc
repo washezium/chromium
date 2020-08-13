@@ -3660,6 +3660,15 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kOmniboxClobberIsZeroSuggestEntrypointDescription,
      kOsAll, FEATURE_VALUE_TYPE(omnibox::kClobberIsZeroSuggestEntrypoint)},
 
+    {"omnibox-focus-gesture-triggers-contextual-web-zero-suggest",
+     flag_descriptions::
+         kOmniboxFocusGestureTriggersContextualWebZeroSuggestName,
+     flag_descriptions::
+         kOmniboxFocusGestureTriggersContextualWebZeroSuggestDescription,
+     kOsAll,
+     FEATURE_VALUE_TYPE(
+         omnibox::kFocusGestureTriggersContextualWebZeroSuggest)},
+
     {"omnibox-on-device-head-suggestions-incognito",
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoName,
      flag_descriptions::kOmniboxOnDeviceHeadSuggestionsIncognitoDescription,
