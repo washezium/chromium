@@ -2731,6 +2731,10 @@ source_set("browser") {
     deps += [ "//ui/ozone" ]
   }
 
+  if (use_cras) {
+    defines += [ "USE_CRAS" ]
+  }
+
   if (enable_ipc_fuzzer) {
     configs += [ "//tools/ipc_fuzzer:ipc_fuzzer_config" ]
   }
