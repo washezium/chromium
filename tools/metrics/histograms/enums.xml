@@ -28714,6 +28714,10 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3376" label="SecurePaymentConfirmation"/>
   <int value="3377" label="CSSInvalidVariableUnset"/>
   <int value="3378" label="ElementInternalsShadowRoot"/>
+  <int value="3379" label="AnyPiiFieldDetected_PredictedTypeMatch"/>
+  <int value="3380" label="EmailFieldDetected_PredictedTypeMatch"/>
+  <int value="3381" label="PhoneFieldDetected_PredictedTypeMatch"/>
+  <int value="3382" label="EmailFieldDetected_PatternMatch"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
