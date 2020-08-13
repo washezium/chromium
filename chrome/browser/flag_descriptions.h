@@ -2222,9 +2222,6 @@ extern const char kEnableGoogleAssistantAecDescription[];
 extern const char kEnableHeuristicStylusPalmRejectionName[];
 extern const char kEnableHeuristicStylusPalmRejectionDescription[];
 
-extern const char kEnableHighResolutionMouseScrollingName[];
-extern const char kEnableHighResolutionMouseScrollingDescription[];
-
 extern const char kNewDragSpecInLauncherName[];
 extern const char kNewDragSpecInLauncherDescription[];
 

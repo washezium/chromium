@@ -1604,11 +1604,6 @@
     "expiry_milestone": 80
   },
   {
-    "name": "enable-high-resolution-mouse-scrolling",
-    "owners": [ "hcutts", "chromeos-tango@google.com" ],
-    "expiry_milestone": 85
-  },
-  {
     "name": "enable-history-manipulation-intervention",
     "owners": [ "shivanisha" ],
     "expiry_milestone": 76

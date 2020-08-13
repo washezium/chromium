@@ -3846,12 +3846,6 @@ const char kEnableHeuristicStylusPalmRejectionDescription[] =
     "Enable additional heuristic palm rejection logic when interacting with "
     "stylus usage. Not intended for all devices.";
 
-const char kEnableHighResolutionMouseScrollingName[] =
-    "Enable high resolution mouse scrolling";
-const char kEnableHighResolutionMouseScrollingDescription[] =
-    "Enable use of high-resolution scrolling events from supported mice (those "
-    "which report REL_WHEEL_HI_RES from the Linux kernel).";
-
 const char kNewDragSpecInLauncherName[] = "Enable Launcher App Paging";
 const char kNewDragSpecInLauncherDescription[] =
     "Show visual affordance of launcher app pages and enable page previews "

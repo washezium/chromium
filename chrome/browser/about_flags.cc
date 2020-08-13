@@ -6049,11 +6049,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kEnablePalmSuppressionDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(ui::kEnablePalmSuppression)},
 
-    {"enable-high-resolution-mouse-scrolling",
-     flag_descriptions::kEnableHighResolutionMouseScrollingName,
-     flag_descriptions::kEnableHighResolutionMouseScrollingDescription, kOsCrOS,
-     FEATURE_VALUE_TYPE(ui::kEnableHighResolutionMouseScrolling)},
-
     {"movable-partial-screenshot-region",
      flag_descriptions::kMovablePartialScreenshotName,
      flag_descriptions::kMovablePartialScreenshotDescription, kOsCrOS,
