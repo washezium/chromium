@@ -1332,6 +1332,13 @@
         ],
         'isolate_name': 'fuchsia_telemetry_gpu_integration_test',
       },
+      'pixel': {
+        'isolate_name': 'fuchsia_telemetry_gpu_integration_test',
+        'mixins': [
+          'chrome-gpu-gold-service-account',
+          'skia_gold_test',
+        ],
+      },
       'screenshot_sync': {
         'isolate_name': 'fuchsia_telemetry_gpu_integration_test',
       },
