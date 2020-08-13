@@ -13,15 +13,18 @@ import androidx.annotation.VisibleForTesting;
 import org.chromium.base.CallbackController;
 import org.chromium.base.Log;
 import org.chromium.chrome.R;
+import org.chromium.components.browser_ui.widget.LoadingView;
 
 /**
  * Another FirstRunFragment that is only used when running with CCT.
  */
-public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
-    private static final String TAG = "TosAndUmaCctFre";
+public class TosAndUmaFirstRunFragmentWithEnterpriseSupport
+        extends ToSAndUMAFirstRunFragment implements LoadingView.Observer {
+    private static final String TAG = "TosAndUmaFragment";
 
     /** FRE page that instantiates this fragment. */
-    public static class Page implements FirstRunPage<TosAndUmaCctFirstRunFragment> {
+    public static class Page
+            implements FirstRunPage<TosAndUmaFirstRunFragmentWithEnterpriseSupport> {
         @Override
         public boolean shouldSkipPageOnCreate() {
             // TODO(crbug.com/1111490): Revisit during post-MVP.
@@ -31,13 +34,13 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
         }
 
         @Override
-        public TosAndUmaCctFirstRunFragment instantiateFragment() {
-            return new TosAndUmaCctFirstRunFragment();
+        public TosAndUmaFirstRunFragmentWithEnterpriseSupport instantiateFragment() {
+            return new TosAndUmaFirstRunFragmentWithEnterpriseSupport();
         }
     }
 
     private boolean mViewCreated;
-    private View mLargeSpinner;
+    private LoadingView mLoadingSpinner;
     private CallbackController mCallbackController;
 
     /**
@@ -53,7 +56,7 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
 
     private static boolean sBlockPolicyLoadingForTest;
 
-    private TosAndUmaCctFirstRunFragment() {
+    private TosAndUmaFirstRunFragmentWithEnterpriseSupport() {
         mCallbackController = new CallbackController();
         checkAppRestriction();
     }
@@ -64,6 +67,10 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
             mCallbackController.destroy();
             mCallbackController = null;
         }
+        if (mLoadingSpinner != null) {
+            mLoadingSpinner.destroy();
+            mLoadingSpinner = null;
+        }
         super.onDestroy();
     }
 
@@ -71,16 +78,16 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mLargeSpinner = view.findViewById(R.id.progress_spinner_large);
+        mLoadingSpinner = view.findViewById(R.id.progress_spinner_large);
         mViewCreated = true;
 
         if (shouldWaitForPolicyLoading()) {
-            // TODO(crbug.com/1106987): Post a task to show the LargeSpinner after 500ms and make
-            // sure it appears 500 ms at least.
-            mLargeSpinner.setVisibility(View.VISIBLE);
+            mLoadingSpinner.addObserver(this);
+            mLoadingSpinner.showLoadingUI();
             setTosAndUmaVisible(false);
-        } else {
-            updateViewOnEnterpriseChecksComplete();
+        } else if (confirmedCctTosDialogDisabled()) {
+            // Skip the FRE if we know dialog is disabled by policy.
+            exitCctFirstRun();
         }
     }
 
@@ -95,7 +102,19 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
 
     @Override
     protected boolean canShowUmaCheckBox() {
-        return super.canShowUmaCheckBox() && shouldShowUmaAndTos();
+        return super.canShowUmaCheckBox() && confirmedToShowUmaAndTos();
+    }
+
+    @Override
+    public void onHideLoadingUIComplete() {
+        if (confirmedCctTosDialogDisabled()) {
+            // TODO(crbug.com/1108564): Show the different UI that has the enterprise disclosure.
+            exitCctFirstRun();
+        } else {
+            // Else, show the UMA as the loading spinner is GONE.
+            assert confirmedToShowUmaAndTos();
+            setTosAndUmaVisible(true);
+        }
     }
 
     /**
@@ -104,12 +123,29 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
      *         and can update the UI immediately.
      */
     private boolean shouldWaitForPolicyLoading() {
-        return (mHasRestriction == null || mHasRestriction) && mPolicyCctTosDialogEnabled == null;
+        return !confirmedNoAppRestriction() && mPolicyCctTosDialogEnabled == null;
     }
 
-    private boolean shouldShowUmaAndTos() {
-        return (mHasRestriction != null && !mHasRestriction)
-                || (mPolicyCctTosDialogEnabled != null && mPolicyCctTosDialogEnabled);
+    /**
+     * This methods will return true only when we know either 1) there's no on-device app
+     * restrictions or 2) policies has been loaded and first run has not been disabled via policy.
+     *
+     * @return Whether we should show TosAndUma components on the UI.
+     */
+    private boolean confirmedToShowUmaAndTos() {
+        return confirmedNoAppRestriction() || confirmedCctTosDialogEnabled();
+    }
+
+    private boolean confirmedNoAppRestriction() {
+        return mHasRestriction != null && !mHasRestriction;
+    }
+
+    private boolean confirmedCctTosDialogEnabled() {
+        return mPolicyCctTosDialogEnabled != null && mPolicyCctTosDialogEnabled;
+    }
+
+    private boolean confirmedCctTosDialogDisabled() {
+        return mPolicyCctTosDialogEnabled != null && !mPolicyCctTosDialogEnabled;
     }
 
     private void checkAppRestriction() {
@@ -123,7 +159,7 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
 
         if (!shouldWaitForPolicyLoading() && mViewCreated) {
             // TODO(crbug.com/1106812): Unregister policy listener.
-            updateViewOnEnterpriseChecksComplete();
+            mLoadingSpinner.hideLoadingUI();
         }
     }
 
@@ -142,34 +178,18 @@ public class TosAndUmaCctFirstRunFragment extends ToSAndUMAFirstRunFragment {
     @VisibleForTesting
     void onCctTosPolicyDetected(boolean cctTosDialogEnabled) {
         mPolicyCctTosDialogEnabled = cctTosDialogEnabled;
-        updateViewOnEnterpriseChecksComplete();
-    }
-
-    /**
-     * Update the UI based on aggregated signal whether ToS / UMA should be shown.
-     */
-    private void updateViewOnEnterpriseChecksComplete() {
-        if (shouldShowUmaAndTos()) {
-            mLargeSpinner.setVisibility(View.GONE);
-            setTosAndUmaVisible(true);
-            return;
+        if (mViewCreated) {
+            mLoadingSpinner.hideLoadingUI();
         }
-
-        assert mPolicyCctTosDialogEnabled != null && !mPolicyCctTosDialogEnabled;
-
-        // TODO(crbug.com/1108564): Show the different UI that has the enterprise disclosure.
-        // TODO(crbug.com/1106987): Post a task to show the LargeSpinner after 500ms and make sure
-        // it appears 500 ms at least.
-        mLargeSpinner.setVisibility(View.GONE);
-        exitCctFirstRun();
     }
 
     @VisibleForTesting
     void exitCctFirstRun() {
+        assert confirmedCctTosDialogDisabled();
         // TODO(crbug.com/1108564): Fire a signal to end this fragment when disclaimer is ready.
         // TODO(crbug.com/1108582): Save a shared pref indicating Enterprise CCT FRE is complete,
         //  and skip waiting for future cold starts.
-        Log.d(TAG, "ToSAndUMACCTFirstRunFragment finished.");
+        Log.d(TAG, "TosAndUmaFirstRunFragmentWithEnterpriseSupport finished.");
         getPageDelegate().exitFirstRun();
     }
 

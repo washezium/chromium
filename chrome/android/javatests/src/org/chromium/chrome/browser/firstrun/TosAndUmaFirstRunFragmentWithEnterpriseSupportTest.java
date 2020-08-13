@@ -17,6 +17,7 @@ import android.view.View;
 import androidx.annotation.IntDef;
 import androidx.test.filters.SmallTest;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import org.chromium.chrome.R;
 import org.chromium.chrome.browser.customtabs.CustomTabsTestUtils;
 import org.chromium.chrome.browser.flags.ChromeSwitches;
 import org.chromium.chrome.test.ChromeJUnit4ClassRunner;
+import org.chromium.content_public.browser.test.util.Criteria;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
 import org.chromium.content_public.browser.test.util.TestThreadUtils;
 import org.chromium.ui.test.util.DisableAnimationsTestRule;
@@ -41,12 +43,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Test for first run activity and {@link TosAndUmaCctFirstRunFragment}.
+ * Test for first run activity and {@link TosAndUmaFirstRunFragmentWithEnterpriseSupport}.
  * For the outside signals that used in this test so that the verification is focusing on the
  * workflow and UI transition.
  */
 @RunWith(ChromeJUnit4ClassRunner.class)
-public class TosAndUmaCctFirstRunFragmentTest {
+public class TosAndUmaFirstRunFragmentWithEnterpriseSupportTest {
     @IntDef({FragmentState.LOADING, FragmentState.NO_POLICY, FragmentState.HAS_POLICY})
     @Retention(RetentionPolicy.SOURCE)
     @interface FragmentState {
@@ -63,7 +65,7 @@ public class TosAndUmaCctFirstRunFragmentTest {
 
     private FirstRunActivityTestObserver mTestObserver = new FirstRunActivityTestObserver();
     private FirstRunActivity mActivity;
-    private TosAndUmaCctFirstRunFragment mFragment;
+    private TosAndUmaFirstRunFragmentWithEnterpriseSupport mFragment;
 
     private View mTosText;
     private View mAcceptButton;
@@ -79,14 +81,14 @@ public class TosAndUmaCctFirstRunFragmentTest {
         // Static switches.
         FirstRunActivity.setEnableEnterpriseCCTForTest(true);
         FirstRunAppRestrictionInfo.setInstanceForTest(mMockAppRestrictionInfo);
-        TosAndUmaCctFirstRunFragment.setBlockPolicyLoadingForTest(true);
+        TosAndUmaFirstRunFragmentWithEnterpriseSupport.setBlockPolicyLoadingForTest(true);
     }
 
     @After
     public void tearDown() {
         FirstRunActivity.setEnableEnterpriseCCTForTest(false);
         FirstRunAppRestrictionInfo.setInstanceForTest(null);
-        TosAndUmaCctFirstRunFragment.setBlockPolicyLoadingForTest(false);
+        TosAndUmaFirstRunFragmentWithEnterpriseSupport.setBlockPolicyLoadingForTest(false);
         if (mActivity != null) mActivity.finish();
     }
 
@@ -109,9 +111,6 @@ public class TosAndUmaCctFirstRunFragmentTest {
 
         waitUntilNativeLoaded();
 
-        // TODO(crbug.com/1108118): In our current test setup, #onCctPolicyDetected will actually
-        //  called inside #onNativeInitialized. When we decouple these two signals, we should update
-        //  the test accordingly.
         TestThreadUtils.runOnUiThreadBlocking(() -> mFragment.onCctTosPolicyDetected(true));
         assertUIState(FragmentState.NO_POLICY);
     }
@@ -128,7 +127,7 @@ public class TosAndUmaCctFirstRunFragmentTest {
         TestThreadUtils.runOnUiThreadBlocking(() -> mFragment.onCctTosPolicyDetected(false));
         assertUIState(FragmentState.HAS_POLICY);
 
-        Mockito.verify(mFragment).exitCctFirstRun();
+        CriteriaHelper.pollUiThread(() -> mTestObserver.exitFirstRunCallback.getCallCount() > 0);
     }
 
     /**
@@ -162,32 +161,30 @@ public class TosAndUmaCctFirstRunFragmentTest {
 
         CriteriaHelper.pollUiThread(
                 () -> mActivity.getSupportFragmentManager().getFragments().size() > 0);
-        mFragment = Mockito.spy((TosAndUmaCctFirstRunFragment) mActivity.getSupportFragmentManager()
-                                        .getFragments()
-                                        .get(0));
+        mFragment = (TosAndUmaFirstRunFragmentWithEnterpriseSupport) mActivity
+                            .getSupportFragmentManager()
+                            .getFragments()
+                            .get(0);
         mTosText = mActivity.findViewById(R.id.tos_and_privacy);
         mAcceptButton = mActivity.findViewById(R.id.tos_and_privacy);
         mLargeSpinner = mActivity.findViewById(R.id.progress_spinner_large);
     }
 
     private void assertUIState(@FragmentState int fragmentState) {
-        int tosVisibility = View.INVISIBLE;
-        int spinnerVisibility = View.GONE;
+        int tosVisibility =
+                (fragmentState == FragmentState.NO_POLICY) ? View.VISIBLE : View.INVISIBLE;
+        int spinnerVisibility = (fragmentState == FragmentState.LOADING) ? View.VISIBLE : View.GONE;
 
-        if (fragmentState == FragmentState.NO_POLICY) {
-            tosVisibility = View.VISIBLE;
-        }
-
-        if (fragmentState == FragmentState.LOADING) {
-            spinnerVisibility = View.VISIBLE;
-        }
+        CriteriaHelper.pollUiThread(
+                ()
+                        -> Criteria.checkThat(
+                                "Visibility of Loading spinner never reached test setting.",
+                                mLargeSpinner.getVisibility(), Matchers.is(spinnerVisibility)));
 
         Assert.assertEquals("Visibility of ToS text is different than the test setting.",
                 tosVisibility, mTosText.getVisibility());
         Assert.assertEquals("Visibility of accept button is different than the test setting.",
                 tosVisibility, mAcceptButton.getVisibility());
-        Assert.assertEquals("Visibility of Loading spinner is different than the test setting.",
-                spinnerVisibility, mLargeSpinner.getVisibility());
     }
 
     /** Set up mock FirstRunAppRestrictionInfo that there is app restriction on the device */
