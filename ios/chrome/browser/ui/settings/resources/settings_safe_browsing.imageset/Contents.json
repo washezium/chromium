@@ -2,18 +2,13 @@
     "images": [
         {
             "idiom": "universal",
-            "scale": "1x",
-            "filename": "infobar_passwords_icon.png"
-        },
-        {
-            "idiom": "universal",
             "scale": "2x",
-            "filename": "infobar_passwords_icon@2x.png"
+            "filename": "settings_safe_browsing@2x.png"
         },
         {
             "idiom": "universal",
             "scale": "3x",
-            "filename": "infobar_passwords_icon@3x.png"
+            "filename": "settings_safe_browsing@3x.png"
         }
     ],
     "info": {
