@@ -110,7 +110,7 @@ luci.realm(
         ),
         luci.binding(
             roles = "role/resultdb.invocationCreator",
-            groups = "all",
+            groups = "project-chromium-tryjob-access",
         ),
         # Other roles are inherited from @root which grants them to group:all.
     ],
