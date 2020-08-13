@@ -1030,8 +1030,6 @@ void RenderWidgetHostViewAndroid::CopyFromSurface(
 
   if (!using_browser_compositor_) {
     SynchronousCopyContents(src_subrect, output_size, std::move(callback));
-    UMA_HISTOGRAM_TIMES("Compositing.CopyFromSurfaceTimeSynchronous",
-                        base::TimeTicks::Now() - start_time);
     return;
   }
 
