@@ -2616,6 +2616,15 @@ bool PaintLayerScrollableArea::ComputeNeedsCompositedScrollingInternal(
     }
   }
 
+  // TODO(crbug.com/1113269): Temporary.
+  if (box->HasClip() || layer_->HasDescendantWithClipPath() ||
+      !!layer_->ClipPathAncestor()) {
+    non_composited_main_thread_scrolling_reasons_ |=
+        // Just a random flag to disable composited scrolling.
+        cc::MainThreadScrollingReason::kCantPaintScrollingBackgroundAndLCDText;
+    needs_composited_scrolling = false;
+  }
+
   DCHECK(!(non_composited_main_thread_scrolling_reasons_ &
            ~cc::MainThreadScrollingReason::kNonCompositedReasons));
   return needs_composited_scrolling;
