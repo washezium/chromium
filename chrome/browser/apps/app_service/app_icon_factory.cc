@@ -454,11 +454,12 @@ void IconLoadingPipeline::LoadWebAppIcon(
   // constructor.
   icon_scale_for_compressed_response_ = icon_scale_;
 
-  if (icon_manager.HasSmallestIcon(web_app_id, icon_size_in_px_)) {
+  if (icon_manager.HasSmallestIcon(web_app_id, {IconPurpose::ANY},
+                                   icon_size_in_px_)) {
     switch (icon_type_) {
       case apps::mojom::IconType::kCompressed:
         if (icon_effects_ == apps::IconEffects::kNone) {
-          icon_manager.ReadSmallestCompressedIcon(
+          icon_manager.ReadSmallestCompressedIconAny(
               web_app_id, icon_size_in_px_,
               base::BindOnce(&IconLoadingPipeline::CompleteWithCompressed,
                              base::WrapRefCounted(this)));
@@ -483,7 +484,7 @@ void IconLoadingPipeline::LoadWebAppIcon(
         // If |icon_effects| are requested, we must always load the
         // uncompressed image to apply the icon effects, and then re-encode the
         // image if the compressed icon is requested.
-        icon_manager.ReadSmallestIcon(
+        icon_manager.ReadSmallestIconAny(
             web_app_id, icon_size_in_px_,
             SkBitmapToImageSkiaCallback(
                 base::BindOnce(

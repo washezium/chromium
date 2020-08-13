@@ -1045,7 +1045,7 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTest,
   // Check that the installed icon is now blue.
   base::RunLoop run_loop;
   GetProvider().icon_manager().ReadIcons(
-      app_id, {192},
+      app_id, IconPurpose::ANY, {192},
       base::BindLambdaForTesting(
           [&run_loop](std::map<SquareSizePx, SkBitmap> icon_bitmaps) {
             run_loop.Quit();
@@ -1108,7 +1108,7 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTest,
   // Check that the installed icon is still black.
   base::RunLoop run_loop;
   GetProvider().icon_manager().ReadIcons(
-      app_id, {48, 192},
+      app_id, IconPurpose::ANY, {48, 192},
       base::BindLambdaForTesting(
           [&run_loop](std::map<SquareSizePx, SkBitmap> icon_bitmaps) {
             run_loop.Quit();

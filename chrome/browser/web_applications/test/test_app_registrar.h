@@ -68,7 +68,7 @@ class TestAppRegistrar : public AppRegistrar {
   base::Time GetAppInstallTime(const web_app::AppId& app_id) const override;
   std::vector<WebApplicationIconInfo> GetAppIconInfos(
       const AppId& app_id) const override;
-  std::vector<SquareSizePx> GetAppDownloadedIconSizes(
+  std::vector<SquareSizePx> GetAppDownloadedIconSizesAny(
       const AppId& app_id) const override;
   std::vector<WebApplicationShortcutsMenuItemInfo> GetAppShortcutsMenuItemInfos(
       const AppId& app_id) const override;
