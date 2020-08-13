@@ -569,6 +569,59 @@ TEST_F(SearchBoxViewTest,
   EXPECT_EQ(base::ASCIIToUTF16("test"), selection->result()->title());
 }
 
+// Tests that the default selection is reset after resetting and reactivating
+// the search box.
+TEST_F(SearchBoxViewTest, ResetSelectionAfterResettingSearchBox) {
+  SetSearchBoxActive(true, ui::ET_UNKNOWN);
+  CreateSearchResult(ash::SearchResultDisplayType::kList, 0.7,
+                     base::ASCIIToUTF16("test1"), base::string16());
+  CreateSearchResult(ash::SearchResultDisplayType::kList, 0.5,
+                     base::ASCIIToUTF16("test2"), base::string16());
+  base::RunLoop().RunUntilIdle();
+
+  SearchResultPageView* const result_page_view =
+      view()->contents_view()->search_results_page_view();
+
+  // Selection should rest on the first result, which is default.
+  const SearchResultBaseView* selection =
+      result_page_view->result_selection_controller()->selected_result();
+  EXPECT_EQ(result_page_view->first_result_view(), selection);
+  ASSERT_TRUE(selection->result());
+  EXPECT_EQ(base::ASCIIToUTF16("test1"), selection->result()->title());
+  EXPECT_TRUE(selection->is_default_result());
+
+  // Navigate down then up. The first result should no longer be default.
+  KeyPress(ui::VKEY_DOWN);
+  KeyPress(ui::VKEY_UP);
+
+  selection =
+      result_page_view->result_selection_controller()->selected_result();
+  ASSERT_TRUE(selection->result());
+  EXPECT_EQ(base::ASCIIToUTF16("test1"), selection->result()->title());
+  EXPECT_FALSE(selection->is_default_result());
+
+  // Navigate down to the second result.
+  KeyPress(ui::VKEY_DOWN);
+
+  selection =
+      result_page_view->result_selection_controller()->selected_result();
+  ASSERT_TRUE(selection->result());
+  EXPECT_EQ(base::ASCIIToUTF16("test2"), selection->result()->title());
+
+  // Reset the search box.
+  view()->ClearSearchAndDeactivateSearchBox();
+  SetSearchBoxActive(true, ui::ET_UNKNOWN);
+  result_page_view->OnSearchResultContainerResultsChanged();
+
+  // Selection should again rest on the first result, which is default.
+  selection =
+      result_page_view->result_selection_controller()->selected_result();
+  EXPECT_EQ(result_page_view->first_result_view(), selection);
+  ASSERT_TRUE(selection->result());
+  EXPECT_EQ(base::ASCIIToUTF16("test1"), selection->result()->title());
+  EXPECT_TRUE(selection->is_default_result());
+}
+
 TEST_F(SearchBoxViewTest, NewSearchQueryActionRecordedWhenUserType) {
   base::UserActionTester user_action_tester;
   // User starts to type a character in search box.
