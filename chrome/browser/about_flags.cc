@@ -1378,9 +1378,15 @@ const FeatureEntry::FeatureVariation kMarkHttpAsFeatureVariations[] = {
 
 const FeatureEntry::FeatureParam kPromoBrowserCommandUnknownCommandParam[] = {
     {features::kPromoBrowserCommandIdParam, "0"}};
+const FeatureEntry::FeatureParam
+    kPromoBrowserCommandOpenSafetyCheckCommandParam[] = {
+        {features::kPromoBrowserCommandIdParam, "1"}};
 const FeatureEntry::FeatureVariation kPromoBrowserCommandsVariations[] = {
     {"- Unknown Command", kPromoBrowserCommandUnknownCommandParam,
      base::size(kPromoBrowserCommandUnknownCommandParam),
+     "t4237555" /* variation_id */},
+    {"- Open Safety Check", kPromoBrowserCommandOpenSafetyCheckCommandParam,
+     base::size(kPromoBrowserCommandOpenSafetyCheckCommandParam),
      "t4237555" /* variation_id */}};
 
 #if defined(OS_ANDROID)
