@@ -1692,9 +1692,13 @@ bool VaapiWrapper::SubmitBuffer(VABufferType va_buffer_type,
   TRACE_EVENT0("media,gpu", "VaapiWrapper::SubmitBufferLocked");
 
   VABufferID buffer_id;
-  VAStatus va_res = vaCreateBuffer(va_display_, va_context_id_, va_buffer_type,
-                                   size, 1, nullptr, &buffer_id);
-  VA_SUCCESS_OR_RETURN(va_res, "vaCreateBuffer", false);
+  {
+    TRACE_EVENT0("media,gpu", "VaapiWrapper::SubmitBuffer_vaCreateBuffer");
+    const VAStatus va_res =
+        vaCreateBuffer(va_display_, va_context_id_, va_buffer_type, size, 1,
+                       nullptr, &buffer_id);
+    VA_SUCCESS_OR_RETURN(va_res, "vaCreateBuffer", false);
+  }
 
   ScopedVABufferMapping mapping(
       va_lock_, va_display_, buffer_id,
