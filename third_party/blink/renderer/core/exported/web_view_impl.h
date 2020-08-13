@@ -95,6 +95,8 @@ class WebViewClient;
 class WebFrameWidgetBase;
 class WebViewFrameWidget;
 
+enum class FullscreenRequestType;
+
 namespace mojom {
 namespace blink {
 class TextAutosizerPageInfo;
@@ -377,7 +379,7 @@ class CORE_EXPORT WebViewImpl final : public WebView,
 
   void EnterFullscreen(LocalFrame&,
                        const FullscreenOptions*,
-                       bool for_cross_process_descendant);
+                       FullscreenRequestType);
   void ExitFullscreen(LocalFrame&);
   void FullscreenElementChanged(Element* old_element, Element* new_element);
 

@@ -1683,9 +1683,8 @@ void WebViewImpl::ThemeChanged() {
 
 void WebViewImpl::EnterFullscreen(LocalFrame& frame,
                                   const FullscreenOptions* options,
-                                  bool for_cross_process_descendant) {
-  fullscreen_controller_->EnterFullscreen(frame, options,
-                                          for_cross_process_descendant);
+                                  FullscreenRequestType request_type) {
+  fullscreen_controller_->EnterFullscreen(frame, options, request_type);
 }
 
 void WebViewImpl::ExitFullscreen(LocalFrame& frame) {

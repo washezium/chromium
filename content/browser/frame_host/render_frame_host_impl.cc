@@ -4269,7 +4269,8 @@ void RenderFrameHostImpl::EnterFullscreen(
     RenderFrameProxyHost* child_proxy =
         rfh->frame_tree_node()->render_manager()->GetRenderFrameProxyHost(
             parent_site_instance);
-    child_proxy->GetAssociatedRemoteFrame()->WillEnterFullscreen();
+    child_proxy->GetAssociatedRemoteFrame()->WillEnterFullscreen(
+        options.Clone());
     notified_instances.insert(parent_site_instance);
   }
 
