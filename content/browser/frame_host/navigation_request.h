@@ -54,6 +54,12 @@
 #include "content/browser/android/navigation_handle_proxy.h"
 #endif
 
+namespace base {
+namespace trace_event {
+class TracedValue;
+}  // namespace trace_event
+}  // namespace base
+
 namespace network {
 class ResourceRequestBody;
 struct URLLoaderCompletionStatus;
@@ -715,6 +721,10 @@ class CONTENT_EXPORT NavigationRequest
   // process is able to calculate the exact origin to commit, the method below
   // should be renamed to something like GetOriginToCommit().
   url::Origin GetOriginForURLLoaderFactory();
+
+  // Add information about this NavigationRequest to |traced_value| for
+  // tracing purposes.
+  void AsValueInto(base::trace_event::TracedValue* traced_value);
 
  private:
   friend class NavigationRequestTest;
