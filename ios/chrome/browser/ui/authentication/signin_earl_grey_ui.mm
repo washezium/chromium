@@ -50,7 +50,7 @@ using chrome_test_util::SignOutAccountsButton;
   }
   [[EarlGrey selectElementWithMatcher:SettingsDoneButton()]
       performAction:grey_tap()];
-  [SigninEarlGrey checkSignedInWithFakeIdentity:fakeIdentity];
+  [SigninEarlGrey verifySignedInWithFakeIdentity:fakeIdentity];
 }
 
 + (void)selectIdentityWithEmail:(NSString*)userEmail {
@@ -225,7 +225,7 @@ using chrome_test_util::SignOutAccountsButton;
   [ChromeEarlGreyUI waitForAppToIdle];
   [[EarlGrey selectElementWithMatcher:SettingsDoneButton()]
       performAction:grey_tap()];
-  [SigninEarlGrey checkSignedOut];
+  [SigninEarlGrey verifySignedOut];
 }
 
 + (void)tapRemoveAccountFromDeviceWithFakeIdentity:
