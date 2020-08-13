@@ -993,11 +993,6 @@
     "expiry_milestone": 86
   },
   {
-    "name": "draw-vertically-edge-to-edge",
-    "owners": [ "chrome-android-app@chromium.org" ],
-    "expiry_milestone": 88
-  },
-  {
     "name": "dynamic-color-gamut",
     "owners": [ "cblume", "khushalsagar", "ccameron" ],
     "expiry_milestone": 90
