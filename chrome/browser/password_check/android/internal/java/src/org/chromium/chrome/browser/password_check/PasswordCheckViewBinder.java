@@ -19,6 +19,7 @@ import static org.chromium.chrome.browser.password_check.PasswordCheckProperties
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.chromium.chrome.browser.password_check.PasswordCheckProperties.ItemType;
 import org.chromium.chrome.browser.password_check.internal.R;
@@ -144,6 +148,8 @@ class PasswordCheckViewBinder {
             button.setOnClickListener(unusedView -> {
                 model.get(CREDENTIAL_HANDLER).onChangePasswordButtonClick(credential);
             });
+            setTintListForCompoundDrawables(button.getCompoundDrawablesRelative(),
+                    view.getContext(), org.chromium.ui.R.color.default_text_color_inverse);
             if (credential.hasScript()) {
                 ButtonCompat button_with_script =
                         view.findViewById(R.id.credential_change_button_with_script);
@@ -467,5 +473,14 @@ class PasswordCheckViewBinder {
 
     private static int getDimensionPixelOffset(View view, int resourceId) {
         return view.getContext().getResources().getDimensionPixelOffset(resourceId);
+    }
+
+    private static void setTintListForCompoundDrawables(
+            Drawable[] compoundDrawables, Context context, @ColorRes int tintColorList) {
+        for (Drawable drawable : compoundDrawables) {
+            if (drawable == null) continue;
+            DrawableCompat.setTintList(
+                    drawable, AppCompatResources.getColorStateList(context, tintColorList));
+        }
     }
 }
