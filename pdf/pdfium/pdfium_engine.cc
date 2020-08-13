@@ -445,8 +445,6 @@ PDFiumEngine::PDFiumEngine(PDFEngine::Client* client, bool enable_javascript)
   if (enable_javascript)
     DCHECK(IsV8Initialized());
 
-  find_factory_.Initialize(this);
-
   IFSDK_PAUSE::version = 1;
   IFSDK_PAUSE::user = nullptr;
   IFSDK_PAUSE::NeedToPauseNow = Pause_NeedToPauseNow;
@@ -1709,10 +1707,11 @@ void PDFiumEngine::StartFind(const std::string& text, bool case_sensitive) {
   if (doc_loader_set_for_testing_) {
     ContinueFind(case_sensitive ? 1 : 0);
   } else {
-    pp::CompletionCallback callback =
-        find_factory_.NewCallback(&PDFiumEngine::ContinueFind);
-    pp::Module::Get()->core()->CallOnMainThread(0, callback,
-                                                case_sensitive ? 1 : 0);
+    pp::Module::Get()->core()->CallOnMainThread(
+        0,
+        PPCompletionCallbackFromResultCallback(base::BindOnce(
+            &PDFiumEngine::ContinueFind, find_weak_factory_.GetWeakPtr())),
+        case_sensitive ? 1 : 0);
   }
 }
 
@@ -1977,7 +1976,7 @@ void PDFiumEngine::StopFind() {
   current_find_text_.clear();
 
   UpdateTickMarks();
-  find_factory_.CancelAll();
+  find_weak_factory_.InvalidateWeakPtrs();
 }
 
 std::vector<pp::Rect> PDFiumEngine::GetAllScreenRectsUnion(
