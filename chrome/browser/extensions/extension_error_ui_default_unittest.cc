@@ -107,6 +107,6 @@ TEST(ExtensionErrorUIDefaultTest, BubbleMessageMentionsMalware) {
   std::vector<base::string16> messages = bubble->GetBubbleViewMessages();
 
   EXPECT_THAT(messages, testing::ElementsAre(l10n_util::GetStringFUTF16(
-                            IDS_EXTENSION_ALERT_ITEM_BLACKLISTED_MALWARE,
+                            IDS_EXTENSION_ALERT_ITEM_BLOCKLISTED_MALWARE,
                             base::UTF8ToUTF16(extension->name()))));
 }
