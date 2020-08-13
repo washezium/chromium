@@ -710,6 +710,11 @@ base::WeakPtr<const FrameSchedulerImpl> FrameSchedulerImpl::GetWeakPtr() const {
   return weak_factory_.GetWeakPtr();
 }
 
+void FrameSchedulerImpl::ReportActiveSchedulerTrackedFeatures() {
+  if (delegate_)
+    ReportFeaturesToDelegate();
+}
+
 void FrameSchedulerImpl::OnAddedAllThrottlingOptOut() {
   ++all_throttling_opt_out_count_;
   opted_out_from_all_throttling_ =

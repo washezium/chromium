@@ -138,6 +138,8 @@ class PLATFORM_EXPORT FrameSchedulerImpl : public FrameScheduler,
   base::WeakPtr<FrameScheduler> GetWeakPtr() override;
   base::WeakPtr<const FrameSchedulerImpl> GetWeakPtr() const;
 
+  void ReportActiveSchedulerTrackedFeatures() override;
+
   scoped_refptr<base::SingleThreadTaskRunner> ControlTaskRunner();
 
   void UpdatePolicy();

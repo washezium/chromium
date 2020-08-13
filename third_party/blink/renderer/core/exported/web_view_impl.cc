@@ -2460,9 +2460,29 @@ void WebViewImpl::SetPageLifecycleState(
                        /*is_initial_state=*/false);
   }
 
+  // Make sure no TrackedFeaturesUpdate message is sent after the ACK
+  // TODO(carlscab): Do we really need to go through LocalFrame =>
+  // platform/scheduler/ => LocalFrame to report the features? We can probably
+  // move SchedulerTrackedFeatures to core/ and remove the back and forth.
+  ReportActiveSchedulerTrackedFeatures();
+
   lifecycle_state_ = std::move(state);
   // Tell the browser that the freezing or resuming was successful.
   std::move(callback).Run();
+}
+
+void WebViewImpl::ReportActiveSchedulerTrackedFeatures() {
+  Page* page = GetPage();
+  if (!page)
+    return;
+
+  for (Frame* frame = page->MainFrame(); frame;
+       frame = frame->Tree().TraverseNext()) {
+    if (!frame->IsLocalFrame())
+      continue;
+    auto* local_frame = DynamicTo<LocalFrame>(frame);
+    local_frame->GetFrameScheduler()->ReportActiveSchedulerTrackedFeatures();
+  }
 }
 
 void WebViewImpl::AudioStateChanged(bool is_audio_playing) {
