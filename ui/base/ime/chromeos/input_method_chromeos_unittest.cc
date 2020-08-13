@@ -417,6 +417,17 @@ TEST_F(InputMethodChromeOSTest, GetInputTextType_WithoutFocusedClient) {
   EXPECT_EQ(TEXT_INPUT_TYPE_PASSWORD, ime_->GetTextInputType());
 }
 
+TEST_F(InputMethodChromeOSTest,
+       OnWillChangeFocusedClientClearAutocorrectRange) {
+  input_type_ = TEXT_INPUT_TYPE_TEXT;
+  ime_->SetFocusedTextInputClient(this);
+  ime_->SetAutocorrectRange(base::UTF8ToUTF16("text"), 0, 5);
+  EXPECT_EQ(gfx::Range(0, 5), this->GetAutocorrectRange());
+
+  ime_->SetFocusedTextInputClient(nullptr);
+  EXPECT_EQ(gfx::Range(), this->GetAutocorrectRange());
+}
+
 // Confirm that IBusClient::FocusIn is called on "connected" if input_type_ is
 // TEXT.
 TEST_F(InputMethodChromeOSTest, FocusIn_Text) {

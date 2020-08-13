@@ -314,6 +314,13 @@ void InputMethodChromeOS::OnWillChangeFocusedClient(
     TextInputClient* focused) {
   ConfirmCompositionText(/* reset_engine */ true, /* keep_selection */ false);
 
+  // Removes any autocorrect range in the unfocused TextInputClient.
+  gfx::Range text_range;
+  if (focused_before && focused_before->GetTextRange(&text_range)) {
+    // This is currently only implemented in RenderWidgetHostViewAura.
+    focused_before->SetAutocorrectRange(base::EmptyString16(), text_range);
+  }
+
   if (GetEngine())
     GetEngine()->FocusOut();
 }
