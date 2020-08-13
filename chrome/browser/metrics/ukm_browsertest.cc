@@ -616,20 +616,12 @@ IN_PROC_BROWSER_TEST_F(UkmBrowserTest, LogProtoData) {
 }
 #endif  // !defined(OS_ANDROID)
 
-// https://crbug.com/1102747
-#if defined(OS_ANDROID)
-#define MAYBE_AddSyncedUserBirthYearAndGenderToProtoData \
-  DISABLED_AddSyncedUserBirthYearAndGenderToProtoData
-#else
-#define MAYBE_AddSyncedUserBirthYearAndGenderToProtoData \
-  AddSyncedUserBirthYearAndGenderToProtoData
-#endif
 // TODO(crbug/1016118): Add the remaining test cases.
 // Keep this test in sync with testUKMDemographicsReportingWithFeatureEnabled
 // and testUKMDemographicsReportingWithFeatureDisabled in
 // ios/chrome/browser/metrics/demographics_egtest.mm.
 IN_PROC_BROWSER_TEST_P(UkmBrowserTestWithDemographics,
-                       MAYBE_AddSyncedUserBirthYearAndGenderToProtoData) {
+                       AddSyncedUserBirthYearAndGenderToProtoData) {
   ukm::UkmTestHelper ukm_test_helper(GetUkmService());
   test::DemographicsTestParams param = GetParam();
   MetricsConsentOverride metrics_consent(true);
@@ -679,7 +671,12 @@ IN_PROC_BROWSER_TEST_P(UkmBrowserTestWithDemographics,
     histogram.ExpectTotalCount("UKM.UserDemographics.Status", /*count=*/0);
   }
 
-  harness->service()->GetUserSettings()->SetSyncRequested(false);
+#if !defined(OS_CHROMEOS)
+  // Sign out the user to revoke all refresh tokens. This prevents any posted
+  // tasks from successfully fetching an access token during the tear-down
+  // phase and crashing on a DCHECK. See crbug/1102746 for more details.
+  harness->SignOutPrimaryAccount();
+#endif  // !defined(OS_CHROMEOS)
   ClosePlatformBrowser(browser);
 }
 
