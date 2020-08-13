@@ -193,9 +193,8 @@ PeriodicSamplingScheduler::PeriodicSamplingScheduler(
     base::TimeDelta sampling_duration,
     double fraction_of_execution_time_to_sample,
     base::TimeTicks start_time)
-    : period_duration_(
-          base::TimeDelta::FromSecondsD(sampling_duration.InSecondsF() /
-                                        fraction_of_execution_time_to_sample)),
+    : period_duration_(sampling_duration /
+                       fraction_of_execution_time_to_sample),
       sampling_duration_(sampling_duration),
       period_start_time_(start_time) {
   DCHECK(sampling_duration_ <= period_duration_);
