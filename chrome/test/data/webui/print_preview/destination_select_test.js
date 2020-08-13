@@ -4,6 +4,7 @@
 
 import {Destination, DestinationConnectionStatus, DestinationOrigin, DestinationType, getSelectDropdownBackground} from 'chrome://print/print_preview.js';
 import {assert} from 'chrome://resources/js/assert.m.js';
+import {loadTimeData} from 'chrome://resources/js/load_time_data.m.js';
 import {Base} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 
 import {assertEquals, assertFalse, assertTrue} from '../chai_assert.js';
@@ -17,6 +18,7 @@ destination_select_test.suiteName = 'DestinationSelectTest';
 destination_select_test.TestNames = {
   UpdateStatus: 'update status',
   ChangeIcon: 'change icon',
+  ChangeIconDeprecationWarnings: 'change icon deprecation warnings',
 };
 
 suite(destination_select_test.suiteName, function() {
@@ -77,9 +79,11 @@ suite(destination_select_test.suiteName, function() {
   /**
    * Test that changing different destinations results in the correct icon being
    * shown.
+   * @param {boolean} cloudPrintDeprecationWarningsSuppressed Whether cloud
+   *     print deprecation warnings should be suppressed.
    * @return {!Promise} Promise that resolves when the test finishes.
    */
-  function testChangeIcon() {
+  function testChangeIcon(cloudPrintDeprecationWarningsSuppressed) {
     const destination = recentDestinationList[0];
     destinationSelect.destination = destination;
     destinationSelect.updateDestination();
@@ -94,13 +98,19 @@ suite(destination_select_test.suiteName, function() {
     return selectOption(destinationSelect, driveKey)
         .then(() => {
           // Icon updates early based on the ID.
+          // TODO(dhoss): This icon should be 'save-to-drive-not-supported'
+          // after all cloud print deprecation warnings are implemented.
           compareIcon(selectEl, 'save-to-drive');
 
           // Update the destination.
           destinationSelect.destination = getGoogleDriveDestination(account);
 
+          const saveToDriveIcon = cloudPrintDeprecationWarningsSuppressed ?
+              'save-to-drive' :
+              'save-to-drive-not-supported';
+
           // Still Save to Drive icon.
-          compareIcon(selectEl, 'save-to-drive');
+          compareIcon(selectEl, saveToDriveIcon);
 
           // Select a destination with the shared printer icon.
           return selectOption(
@@ -141,6 +151,21 @@ suite(destination_select_test.suiteName, function() {
   });
 
   test(assert(destination_select_test.TestNames.ChangeIcon), function() {
-    return testChangeIcon();
+    loadTimeData.overrideValues(
+        {cloudPrintDeprecationWarningsSuppressed: true});
+
+    // Repopulate |recentDestinationList| to have
+    // |cloudPrintDeprecationWarningsSuppressed| take effect during creation of
+    // new Destinations.
+    populateRecentDestinationList();
+    destinationSelect.recentDestinationList = recentDestinationList;
+
+    return testChangeIcon(true);
   });
+
+  test(
+      assert(destination_select_test.TestNames.ChangeIconDeprecationWarnings),
+      function() {
+        return testChangeIcon(false);
+      });
 });
