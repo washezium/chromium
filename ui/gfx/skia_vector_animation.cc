@@ -26,7 +26,7 @@ SkiaVectorAnimation::TimerControl::TimerControl(
     : start_offset_(offset),
       end_offset_((offset + cycle_duration)),
       cycle_duration_(end_offset_ - start_offset_),
-      progress_per_millisecond_(1.0 / total_duration.InMillisecondsF()),
+      total_duration_(total_duration),
       previous_tick_(start_timestamp),
       progress_(base::TimeDelta::FromMilliseconds(0)),
       current_cycle_progress_(start_offset_),
@@ -58,15 +58,15 @@ void SkiaVectorAnimation::TimerControl::Resume(
 
 double SkiaVectorAnimation::TimerControl::GetNormalizedCurrentCycleProgress()
     const {
-  return current_cycle_progress_.InMillisecondsF() * progress_per_millisecond_;
+  return current_cycle_progress_ / total_duration_;
 }
 
 double SkiaVectorAnimation::TimerControl::GetNormalizedStartOffset() const {
-  return start_offset_.InMillisecondsF() * progress_per_millisecond_;
+  return start_offset_ / total_duration_;
 }
 
 double SkiaVectorAnimation::TimerControl::GetNormalizedEndOffset() const {
-  return end_offset_.InMillisecondsF() * progress_per_millisecond_;
+  return end_offset_ / total_duration_;
 }
 
 SkiaVectorAnimation::SkiaVectorAnimation(

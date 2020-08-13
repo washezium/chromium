@@ -262,7 +262,7 @@ void AdaptiveCongestionControl::PruneFrameStats() {
     dead_time_in_history_ -= DeadTime(frame_stats_[0], frame_stats_[1]);
     DCHECK_GE(acked_bits_in_history_, 0UL);
     VLOG(2) << "DT: " << dead_time_in_history_.InSecondsF();
-    DCHECK_GE(dead_time_in_history_.InSecondsF(), 0.0);
+    DCHECK_GE(dead_time_in_history_, base::TimeDelta());
     frame_stats_.pop_front();
   }
 }
