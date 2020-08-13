@@ -54499,6 +54499,9 @@ Called by update_net_trust_anchors.py.-->
   <int value="7" label="Reauth required">
     Re-authenticaion for filling passwords is required.
   </int>
+  <int value="8" label="Password is already filled">
+    Password field is already filled in and it doesn't look like a placeholder.
+  </int>
 </enum>
 
 <enum name="PasswordManagerHttpCredentialType">
