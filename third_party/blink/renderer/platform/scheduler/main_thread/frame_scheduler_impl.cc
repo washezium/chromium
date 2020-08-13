@@ -196,10 +196,10 @@ FrameSchedulerImpl::FrameSchedulerImpl(
 }
 
 FrameSchedulerImpl::FrameSchedulerImpl()
-    : FrameSchedulerImpl(nullptr,
-                         nullptr,
-                         nullptr,
-                         nullptr,
+    : FrameSchedulerImpl(/*main_thread_scheduler=*/nullptr,
+                         /*parent_page_scheduler=*/nullptr,
+                         /*delegate=*/nullptr,
+                         /*blame_context=*/nullptr,
                          FrameType::kSubframe) {}
 
 namespace {
@@ -570,6 +570,12 @@ scoped_refptr<base::SingleThreadTaskRunner>
 FrameSchedulerImpl::ControlTaskRunner() {
   DCHECK(parent_page_scheduler_);
   return main_thread_scheduler_->ControlTaskRunner();
+}
+
+AgentGroupSchedulerImpl* FrameSchedulerImpl::GetAgentGroupScheduler() {
+  return parent_page_scheduler_
+             ? parent_page_scheduler_->GetAgentGroupScheduler()
+             : nullptr;
 }
 
 blink::PageScheduler* FrameSchedulerImpl::GetPageScheduler() const {
