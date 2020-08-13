@@ -28720,6 +28720,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3380" label="EmailFieldDetected_PredictedTypeMatch"/>
   <int value="3381" label="PhoneFieldDetected_PredictedTypeMatch"/>
   <int value="3382" label="EmailFieldDetected_PatternMatch"/>
+  <int value="3383" label="LastLetterSpacingAffectsRendering"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
