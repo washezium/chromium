@@ -2317,8 +2317,14 @@ extern const char kFilesSWADescription[];
 extern const char kFilesTransferDetailsName[];
 extern const char kFilesTransferDetailsDescription[];
 
-extern const char kFilesZipNoNaClName[];
-extern const char kFilesZipNoNaClDescription[];
+extern const char kFilesZipMountName[];
+extern const char kFilesZipMountDescription[];
+
+extern const char kFilesZipPackName[];
+extern const char kFilesZipPackDescription[];
+
+extern const char kFilesZipUnpackName[];
+extern const char kFilesZipUnpackDescription[];
 
 extern const char kFiltersInRecentsName[];
 extern const char kFiltersInRecentsDescription[];

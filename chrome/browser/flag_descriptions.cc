@@ -3987,9 +3987,17 @@ const char kFilesTransferDetailsName[] = "Enable Files Transfer Details.";
 const char kFilesTransferDetailsDescription[] =
     "Enable transfer details like remaining time in the progress center panel.";
 
-const char kFilesZipNoNaClName[] = "New ZIP handling in Files App";
-const char kFilesZipNoNaClDescription[] =
-    "Enable new ZIP archive handling in Files App which does not rely on NaCl.";
+const char kFilesZipMountName[] = "New ZIP mounting in Files App";
+const char kFilesZipMountDescription[] =
+    "Enable new ZIP archive mounting system in File Manager.";
+
+const char kFilesZipPackName[] = "New ZIP packing in Files App";
+const char kFilesZipPackDescription[] =
+    "Enable new ZIP archive creation system in File Manager.";
+
+const char kFilesZipUnpackName[] = "New ZIP unpacking in Files App";
+const char kFilesZipUnpackDescription[] =
+    "Enable new ZIP archive extraction system in File Manager.";
 
 extern const char kFiltersInRecentsName[] = "Enable filters in Recents";
 extern const char kFiltersInRecentsDescription[] =

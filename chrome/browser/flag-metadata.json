@@ -2461,9 +2461,19 @@
     "expiry_milestone": 87
   },
   {
-    "name": "files-zip-no-nacl",
+    "name": "files-zip-mount",
     "owners": [ "fdegros", "jboulic", "dats" ],
-    "expiry_milestone": 88
+    "expiry_milestone": 90
+  },
+  {
+    "name": "files-zip-pack",
+    "owners": [ "fdegros", "jboulic", "dats" ],
+    "expiry_milestone": 90
+  },
+  {
+    "name": "files-zip-unpack",
+    "owners": [ "fdegros", "jboulic", "dats" ],
+    "expiry_milestone": 90
   },
   {
     "name": "fill-on-account-select",

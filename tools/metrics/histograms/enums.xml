@@ -40648,6 +40648,7 @@ from previous Chrome versions.
   <int value="-1433719718" label="enable-webrtc-stun-origin"/>
   <int value="-1433452630" label="AllowRemoteContextForNotifications:enabled"/>
   <int value="-1433087548" label="enable-app-install-alerts"/>
+  <int value="-1432246303" label="FilesZipPack:enabled"/>
   <int value="-1431722713" label="TabFreeze:disabled"/>
   <int value="-1431563697" label="WebPaymentsMethodSectionOrderV2:enabled"/>
   <int value="-1430090822" label="EnableSharedImageForWebview:disabled"/>
@@ -40699,6 +40700,7 @@ from previous Chrome versions.
   <int value="-1388817073" label="OmniboxReverseAnswers:disabled"/>
   <int value="-1386966873" label="disable-mac-views-native-app-windows"/>
   <int value="-1386790338" label="ImeMozcProto:disabled"/>
+  <int value="-1386776772" label="FilesZipPack:disabled"/>
   <int value="-1385221197"
       label="AllowSignedHTTPExchangeCertsWithoutExtension:enabled"/>
   <int value="-1384426209" label="SharingDeviceRegistration:disabled"/>
@@ -41197,6 +41199,7 @@ from previous Chrome versions.
   <int value="-886912558" label="ChromeHomePromo:enabled"/>
   <int value="-886898803" label="CooperativeScheduling:enabled"/>
   <int value="-885601782" label="enable-contextual-search"/>
+  <int value="-885209667" label="FilesZipMount:disabled"/>
   <int value="-884864731" label="WebPaymentsSingleAppUiSkip:enabled"/>
   <int value="-883694393" label="SyncPseudoUSSSupervisedUsers:disabled"/>
   <int value="-883608641" label="enable-cros-action-recorder"/>
@@ -42515,6 +42518,7 @@ from previous Chrome versions.
   <int value="564522013" label="Av1Decoder:disabled"/>
   <int value="565406673" label="EnableVirtualKeyboardMdUi:enabled"/>
   <int value="567368307" label="enable-experimental-canvas-features"/>
+  <int value="572915501" label="FilesZipUnpack:disabled"/>
   <int value="573385109" label="SharedClipboardUI:enabled"/>
   <int value="575380532" label="ExperimentalAccessibilityLabels:disabled"/>
   <int value="575394365" label="AndroidPaymentApps:disabled"/>
@@ -42569,6 +42573,7 @@ from previous Chrome versions.
   <int value="624317932" label="print-pdf-as-image"/>
   <int value="624368375" label="OmniboxEntitySuggestions:enabled"/>
   <int value="625273056" label="disable-boot-animation"/>
+  <int value="626605468" label="FilesZipUnpack:enabled"/>
   <int value="628302973" label="NTPSnippets:enabled"/>
   <int value="628570445" label="AndroidAutofillAccessibility:enabled"/>
   <int value="629549626" label="ContextualSearchMlTapSuppression:enabled"/>
@@ -43844,6 +43849,7 @@ from previous Chrome versions.
   <int value="1974776131" label="MediaFeeds:disabled"/>
   <int value="1975657253" label="ScalableAppList:disabled"/>
   <int value="1976644015" label="enable-forbid-sync-xhr-in-page-dismissal"/>
+  <int value="1978548617" label="FilesZipMount:enabled"/>
   <int value="1979222611" label="XRSandbox:disabled"/>
   <int value="1979472169" label="TabGroupsFeedback:disabled"/>
   <int value="1980011075" label="debug-packed-apps"/>
