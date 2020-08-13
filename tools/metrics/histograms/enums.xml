@@ -57330,6 +57330,14 @@ Called by update_net_trust_anchors.py.-->
   <int value="4" label="Printer was setup via Extensions API"/>
 </enum>
 
+<enum name="PrinterStatusQueryResult">
+  <int value="0" label="UNKNOWN_FAILURE">All other query failures.</int>
+  <int value="1" label="SUCCESS">Printer returned a valid printer status.</int>
+  <int value="2" label="UNREACHABLE">
+    Device could not connect to the printer.
+  </int>
+</enum>
+
 <enum name="PrinterStatusReasons">
   <int value="0" label="UNKNOWN_REASON"/>
   <int value="1" label="NONE"/>
