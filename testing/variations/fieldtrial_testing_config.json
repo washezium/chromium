@@ -1675,6 +1675,25 @@
             ]
         }
     ],
+    "CompositingOptimizations": [
+        {
+            "platforms": [
+                "android",
+                "chromeos",
+                "linux",
+                "mac",
+                "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "CompositingOptimizations"
+                    ]
+                }
+            ]
+        }
+    ],
     "ContentCapture": [
         {
             "platforms": [
@@ -5166,26 +5185,6 @@
                     "name": "Enabled",
                     "enable_features": [
                         "OverflowIconsForMediaControls"
-                    ]
-                }
-            ]
-        }
-    ],
-    "PaintHolding": [
-        {
-            "platforms": [
-                "android",
-                "android_weblayer",
-                "chromeos",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "PaintHolding"
                     ]
                 }
             ]
