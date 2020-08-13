@@ -4802,6 +4802,7 @@ static_library("browser") {
     ]
     deps += [
       "//components/printing/browser",
+      "//components/printing/common:mojo_interfaces",
       "//components/services/print_compositor/public/cpp",
       "//components/services/print_compositor/public/mojom",
       "//printing",
@@ -4849,8 +4850,6 @@ static_library("browser") {
         "printing/pwg_raster_converter.cc",
         "printing/pwg_raster_converter.h",
       ]
-
-      deps += [ "//components/printing/common:mojo_interfaces" ]
 
       if (is_win) {
         sources += [
