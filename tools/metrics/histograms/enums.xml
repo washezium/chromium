@@ -7627,6 +7627,11 @@ Called by update_bad_message_reasons.py.-->
   <int value="1" label="Invalid"/>
 </enum>
 
+<enum name="BooleanIsAdaptiveIcon">
+  <int value="0" label="Non adaptive icon"/>
+  <int value="1" label="Adaptive icon"/>
+</enum>
+
 <enum name="BooleanIsGenerationTriggeredManually">
   <int value="0" label="Password generation was triggered automatically"/>
   <int value="1" label="A user triggered password generation"/>
