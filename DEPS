@@ -875,7 +875,7 @@ deps = {
 
   # Build tools for Chrome OS.
   'src/third_party/chromite': {
-      'url': Var('chromium_git') + '/chromiumos/chromite.git' + '@' + 'bca9dcdf05aaccf4e0c2dea6bd4cddced50f0c88',
+      'url': Var('chromium_git') + '/chromiumos/chromite.git' + '@' + '35492ebf6ba2deca7f54bfde94013d773a777a93',
       'condition': 'checkout_chromeos',
   },
 
