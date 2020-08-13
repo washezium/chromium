@@ -131,13 +131,8 @@ NSString* const kPasteboardChangeDateKey = @"PasteboardChangeDate";
   if (![self shouldReturnValueOfClipboard])
     return nil;
 
-  if (@available(iOS 14, *)) {
-    // On iOS 14, don't actually access the pasteboard in this method. This
-    // prevents the pasteboard access notification from appearing.
-  } else {
-    if (!self.cachedURL) {
-      self.cachedURL = [self URLFromPasteboard];
-    }
+  if (!self.cachedURL) {
+    self.cachedURL = [self URLFromPasteboard];
   }
   return self.cachedURL;
 }
@@ -148,13 +143,8 @@ NSString* const kPasteboardChangeDateKey = @"PasteboardChangeDate";
   if (![self shouldReturnValueOfClipboard])
     return nil;
 
-  if (@available(iOS 14, *)) {
-    // On iOS 14, don't actually access the pasteboard in this method. This
-    // prevents the pasteboard access notification from appearing.
-  } else {
-    if (!self.cachedText) {
-      self.cachedText = UIPasteboard.generalPasteboard.string;
-    }
+  if (!self.cachedText) {
+    self.cachedText = UIPasteboard.generalPasteboard.string;
   }
   return self.cachedText;
 }
@@ -165,13 +155,8 @@ NSString* const kPasteboardChangeDateKey = @"PasteboardChangeDate";
   if (![self shouldReturnValueOfClipboard])
     return nil;
 
-  if (@available(iOS 14, *)) {
-    // On iOS 14, don't actually access the pasteboard in this method. This
-    // prevents the pasteboard access notification from appearing.
-  } else {
-    if (!self.cachedImage) {
-      self.cachedImage = UIPasteboard.generalPasteboard.image;
-    }
+  if (!self.cachedImage) {
+    self.cachedImage = UIPasteboard.generalPasteboard.image;
   }
 
   return self.cachedImage;

@@ -320,10 +320,9 @@ AutocompleteController::AutocompleteController(
     // ClipboardRecentContent can be null in iOS tests.  For non-iOS, we
     // create a ClipboardRecentContent as above (for both Chrome and tests).
     if (ClipboardRecentContent::GetInstance()) {
-      clipboard_provider_ = new ClipboardProvider(
+      providers_.push_back(new ClipboardProvider(
           provider_client_.get(), this, history_url_provider_,
-          ClipboardRecentContent::GetInstance());
-      providers_.push_back(clipboard_provider_);
+          ClipboardRecentContent::GetInstance()));
     }
   }
 
