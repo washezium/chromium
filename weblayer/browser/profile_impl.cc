@@ -18,6 +18,7 @@
 #include "base/task/thread_pool.h"
 #include "base/threading/thread_restrictions.h"
 #include "build/build_config.h"
+#include "components/keyed_service/content/browser_context_dependency_manager.h"
 #include "components/prefs/pref_service.h"
 #include "components/web_cache/browser/web_cache_manager.h"
 #include "content/public/browser/browser_task_traits.h"
@@ -219,8 +220,12 @@ ProfileImpl::ProfileImpl(const std::string& name)
 }
 
 ProfileImpl::~ProfileImpl() {
-  if (browser_context_)
+  if (browser_context_) {
+    BrowserContextDependencyManager::GetInstance()
+        ->DestroyBrowserContextServices(browser_context_.get());
     browser_context_->ShutdownStoragePartitions();
+  }
+
   GetProfiles().erase(this);
   for (auto& observer : GetObservers())
     observer.ProfileDestroyed(this);
