@@ -428,7 +428,7 @@ void AddEnterpriseEnrollmentWorkItems(const InstallerState& installer_state,
     cmd_line.AppendSwitchASCII(switches::kStoreDMToken, "%1");
     cmd_line.AppendSwitch(switches::kSystemLevel);
     cmd_line.AppendSwitch(switches::kVerboseLogging);
-    InstallUtil::AppendModeAndChannelSwitches(&cmd_line);
+    InstallUtil::AppendModeSwitch(&cmd_line);
 
     AppCommand cmd(cmd_line.GetCommandLineString());
     // TODO(alito): For now setting this command as web accessible is required
@@ -644,9 +644,8 @@ bool AppendPostInstallTasks(const InstallParams& install_params,
   HKEY root = installer_state.root_key();
   const base::FilePath& target_path = installer_state.target_path();
   base::FilePath new_chrome_exe(target_path.Append(kChromeNewExe));
-  const base::string16 clients_key(install_static::GetClientsKeyPath());
 
-  // Append work items that will only be executed if this was an in-use update.
+  // Append work items that will only be executed if this was an update.
   // We update the 'opv' value with the current version that is active,
   // the 'cpv' value with the critical update version (if present), and the
   // 'cmd' value with the rename command to run.
@@ -663,6 +662,8 @@ bool AppendPostInstallTasks(const InstallParams& install_params,
     base::FilePath installer_path(
         installer_state.GetInstallerDirectory(new_version)
             .Append(setup_path.BaseName()));
+
+    const base::string16 clients_key(install_static::GetClientsKeyPath());
 
     if (current_version.IsValid()) {
       in_use_update_work_items->AddSetRegValueWorkItem(
@@ -688,7 +689,7 @@ bool AppendPostInstallTasks(const InstallParams& install_params,
       product_rename_cmd.AppendSwitch(switches::kSystemLevel);
     if (installer_state.verbose_logging())
       product_rename_cmd.AppendSwitch(switches::kVerboseLogging);
-    InstallUtil::AppendModeAndChannelSwitches(&product_rename_cmd);
+    InstallUtil::AppendModeSwitch(&product_rename_cmd);
     in_use_update_work_items->AddSetRegValueWorkItem(
         root, clients_key, KEY_WOW64_32KEY, google_update::kRegRenameCmdField,
         product_rename_cmd.GetCommandLineString(), true);
@@ -708,21 +709,8 @@ bool AppendPostInstallTasks(const InstallParams& install_params,
             new Not(new ConditionRunIfFileExists(new_chrome_exe))));
     regular_update_work_items->set_log_message("RegularUpdateWorkItemList");
 
-    // Convey the channel name to the browser if this installer instance's
-    // channel is enforced by policy. Otherwise, delete the registry value.
-    const auto& install_details = install_static::InstallDetails::Get();
-    if (install_details.channel_origin() ==
-        install_static::ChannelOrigin::kPolicy) {
-      post_install_task_list->AddSetRegValueWorkItem(
-          root, clients_key, KEY_WOW64_32KEY, google_update::kRegChannelField,
-          install_details.channel(), true);
-    } else {
-      regular_update_work_items->AddDeleteRegValueWorkItem(
-          root, clients_key, KEY_WOW64_32KEY, google_update::kRegChannelField);
-    }
-
-    // Since this was not an in-use-update, delete 'opv', 'cpv',
-    // and 'cmd' keys.
+    // Since this was not an in-use-update, delete 'opv', 'cpv', and 'cmd' keys.
+    const base::string16 clients_key(install_static::GetClientsKeyPath());
     regular_update_work_items->AddDeleteRegValueWorkItem(
         root, clients_key, KEY_WOW64_32KEY, google_update::kRegOldVersionField);
     regular_update_work_items->AddDeleteRegValueWorkItem(
@@ -980,7 +968,7 @@ void AddActiveSetupWorkItems(const InstallerState& installer_state,
   cmd.AppendSwitch(installer::switches::kConfigureUserSettings);
   cmd.AppendSwitch(installer::switches::kVerboseLogging);
   cmd.AppendSwitch(installer::switches::kSystemLevel);
-  InstallUtil::AppendModeAndChannelSwitches(&cmd);
+  InstallUtil::AppendModeSwitch(&cmd);
   list->AddSetRegValueWorkItem(root, active_setup_path, WorkItem::kWow64Default,
                                L"StubPath", cmd.GetCommandLineString(), true);
 
@@ -1003,7 +991,7 @@ void AppendUninstallCommandLineFlags(const InstallerState& installer_state,
 
   uninstall_cmd->AppendSwitch(installer::switches::kUninstall);
 
-  InstallUtil::AppendModeAndChannelSwitches(uninstall_cmd);
+  InstallUtil::AppendModeSwitch(uninstall_cmd);
   if (installer_state.is_msi())
     uninstall_cmd->AppendSwitch(installer::switches::kMsi);
   if (installer_state.system_install())
@@ -1030,7 +1018,7 @@ void AddOsUpgradeWorkItems(const InstallerState& installer_state,
             .Append(setup_path.BaseName()));
     // Add the main option to indicate OS upgrade flow.
     cmd_line.AppendSwitch(installer::switches::kOnOsUpgrade);
-    InstallUtil::AppendModeAndChannelSwitches(&cmd_line);
+    InstallUtil::AppendModeSwitch(&cmd_line);
     if (installer_state.system_install())
       cmd_line.AppendSwitch(installer::switches::kSystemLevel);
     // Log everything for now.
