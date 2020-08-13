@@ -653,6 +653,7 @@
       'chromeos-amd64-generic-lacros-internal-rel': 'chromeos_amd64-generic_lacros_rel',
       'linux-autofill-captured-sites-rel': 'release_bot',
       'linux-password-manager-captured-sites-rel': 'release_bot',
+      'lorenz-graph-dbg': 'android_debug_static_bot',
       'mac-autofill-captured-sites-rel': 'release_bot',
       'win-autofill-captured-sites-rel': 'release_bot',
       'win-celab-rel': 'official_celab_release_bot',
