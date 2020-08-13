@@ -837,7 +837,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-NetExportFileWriterTest*',
         ],
@@ -976,7 +975,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-OutOfProcessPPAPITest.TrueTypeFont',
         ],
@@ -1155,7 +1153,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-BluetoothShellApiTest.ApiSanityCheck:BluetoothSocketApiTest.Listen:BluetoothSocketApiTest.PermissionDenied',
         ],
@@ -2365,7 +2362,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-BluetoothShellApiTest.ApiSanityCheck:BluetoothSocketApiTest.Listen:BluetoothSocketApiTest.PermissionDenied',
         ],
@@ -2442,7 +2438,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-SingleClientSessionsSyncTestWithFaviconTestServer.ShouldDeleteOnDemandIconsOnSessionsDisabled',
         ],
