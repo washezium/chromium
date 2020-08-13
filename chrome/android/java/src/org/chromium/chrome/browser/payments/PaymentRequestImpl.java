@@ -1701,7 +1701,7 @@ public class PaymentRequestImpl
         mHasClosed = true;
 
         assert mComponentPaymentRequestImpl != null;
-        mComponentPaymentRequestImpl.teardown();
+        mComponentPaymentRequestImpl.close();
         mComponentPaymentRequestImpl = null;
 
         closeUIAndDestroyNativeObjects();
