@@ -2187,6 +2187,9 @@ extern const char kEnableAssistantRoutinesDescription[];
 extern const char kEnableAssistantTimersV2Name[];
 extern const char kEnableAssistantTimersV2Description[];
 
+extern const char kEnableAutoSelectName[];
+extern const char kEnableAutoSelectDescription[];
+
 extern const char kEnableBackgroundBlurName[];
 extern const char kEnableBackgroundBlurDescription[];
 

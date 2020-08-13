@@ -3780,6 +3780,10 @@ const char kEnableAssistantTimersV2Name[] = "Enable Assistant Timers V2";
 const char kEnableAssistantTimersV2Description[] =
     "Enables v2 of Assistant timers.";
 
+const char kEnableAutoSelectName[] = "Auto Select";
+const char kEnableAutoSelectDescription[] =
+    "Automatically select the word under cursor on contextual menu click.";
+
 const char kEnableBackgroundBlurName[] = "Enable background blur.";
 const char kEnableBackgroundBlurDescription[] =
     "Enables background blur for the Launcher, Shelf, Unified System Tray etc.";

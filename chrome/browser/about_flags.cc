@@ -6277,6 +6277,12 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(features::kCpuAffinityRestrictToLittleCores)},
 #endif  // OS_ANDROID
 
+#if defined(OS_CHROMEOS)
+    {"enable-auto-select", flag_descriptions::kEnableAutoSelectName,
+     flag_descriptions::kEnableAutoSelectDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(blink::features::kCrOSAutoSelect)},
+#endif  // defined(OS_CHROMEOS)
+
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the

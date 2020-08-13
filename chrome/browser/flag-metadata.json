@@ -1170,6 +1170,11 @@
     "expiry_milestone": 82
   },
   {
+    "name": "enable-auto-select",
+    "owners": ["croissant-eng"],
+    "expiry_milestone": 88
+  },
+  {
     "name": "enable-autofill-account-wallet-storage",
     "owners": [ "treib", "jsaul@google.com", "butter-team@google.com" ],
     "expiry_milestone": 88
