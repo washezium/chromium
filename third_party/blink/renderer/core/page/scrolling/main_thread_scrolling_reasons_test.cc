@@ -403,8 +403,8 @@ TEST_F(NonCompositedMainThreadScrollingReasonsTest, ClipTest) {
 }
 
 TEST_F(NonCompositedMainThreadScrollingReasonsTest, ClipPathTest) {
-  TestNonCompositedReasons("clip-path",
-                           cc::MainThreadScrollingReason::kNotScrollingOnMain);
+  TestNonCompositedReasons(
+      "clip-path", cc::MainThreadScrollingReason::kNotOpaqueForTextAndLCDText);
 }
 
 TEST_F(NonCompositedMainThreadScrollingReasonsTest, BoxShadowTest) {
@@ -424,8 +424,9 @@ TEST_F(NonCompositedMainThreadScrollingReasonsTest, StackingContextTest) {
 }
 
 TEST_F(NonCompositedMainThreadScrollingReasonsTest, BorderRadiusTest) {
-  TestNonCompositedReasons("border-radius",
-                           cc::MainThreadScrollingReason::kNotScrollingOnMain);
+  TestNonCompositedReasons(
+      "border-radius",
+      cc::MainThreadScrollingReason::kNotOpaqueForTextAndLCDText);
 }
 
 TEST_F(NonCompositedMainThreadScrollingReasonsTest,
