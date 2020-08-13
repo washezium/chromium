@@ -43,9 +43,6 @@
 // Induces a GREYAssert if an identity is signed in.
 - (void)checkSignedOut;
 
-// Wait until |matcher| is accessible (not nil).
-- (void)waitForMatcher:(id<GREYMatcher>)matcher;
-
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_AUTHENTICATION_SIGNIN_EARL_GREY_H_

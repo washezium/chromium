@@ -493,7 +493,7 @@ void ChooseImportOrKeepDataSepareteDialog(id<GREYMatcher> choiceButtonMatcher) {
 // onscreen.
 - (void)assertFakeSSOScreenIsVisible {
   // Check for the fake SSO screen.
-  [SigninEarlGrey
+  [ChromeEarlGrey
       waitForMatcher:grey_accessibilityID(kFakeAddAccountViewIdentifier)];
   // Close the SSO view controller.
   id<GREYMatcher> matcher =
@@ -540,7 +540,7 @@ void ChooseImportOrKeepDataSepareteDialog(id<GREYMatcher> choiceButtonMatcher) {
   // Open the identity chooser.
   [ChromeEarlGreyUI openSettingsMenu];
   [ChromeEarlGreyUI tapSettingsMenuButton:SecondarySignInButton()];
-  [SigninEarlGrey waitForMatcher:identityChooserButtonMatcherWithEmail(
+  [ChromeEarlGrey waitForMatcher:identityChooserButtonMatcherWithEmail(
                                      fakeIdentity.userEmail)];
 
   // Remove the fake identity.
