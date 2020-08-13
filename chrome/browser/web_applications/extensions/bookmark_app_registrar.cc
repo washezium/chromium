@@ -240,7 +240,8 @@ std::vector<SquareSizePx> BookmarkAppRegistrar::GetAppDownloadedIconSizes(
 }
 
 std::vector<WebApplicationShortcutsMenuItemInfo>
-BookmarkAppRegistrar::GetAppShortcutInfos(const web_app::AppId& app_id) const {
+BookmarkAppRegistrar::GetAppShortcutsMenuItemInfos(
+    const web_app::AppId& app_id) const {
   std::vector<WebApplicationShortcutsMenuItemInfo> result;
   const Extension* extension = GetBookmarkAppDchecked(app_id);
   if (!extension)

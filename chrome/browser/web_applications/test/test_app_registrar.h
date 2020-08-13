@@ -70,7 +70,7 @@ class TestAppRegistrar : public AppRegistrar {
       const AppId& app_id) const override;
   std::vector<SquareSizePx> GetAppDownloadedIconSizes(
       const AppId& app_id) const override;
-  std::vector<WebApplicationShortcutsMenuItemInfo> GetAppShortcutInfos(
+  std::vector<WebApplicationShortcutsMenuItemInfo> GetAppShortcutsMenuItemInfos(
       const AppId& app_id) const override;
   std::vector<std::vector<SquareSizePx>>
   GetAppDownloadedShortcutsMenuIconsSizes(const AppId& app_id) const override;

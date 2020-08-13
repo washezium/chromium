@@ -160,7 +160,7 @@ std::vector<SquareSizePx> TestAppRegistrar::GetAppDownloadedIconSizes(
 }
 
 std::vector<WebApplicationShortcutsMenuItemInfo>
-TestAppRegistrar::GetAppShortcutInfos(const AppId& app_id) const {
+TestAppRegistrar::GetAppShortcutsMenuItemInfos(const AppId& app_id) const {
   NOTIMPLEMENTED();
   return {};
 }

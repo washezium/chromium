@@ -1246,7 +1246,9 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
             ManifestUpdateResult::kAppUpdated);
   histogram_tester_.ExpectBucketCount(kUpdateHistogramName,
                                       ManifestUpdateResult::kAppUpdated, 1);
-  EXPECT_EQ(GetProvider().registrar().GetAppShortcutInfos(app_id).size(), 2u);
+  EXPECT_EQ(
+      GetProvider().registrar().GetAppShortcutsMenuItemInfos(app_id).size(),
+      2u);
 }
 
 IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
@@ -1284,8 +1286,9 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
             ManifestUpdateResult::kAppUpdated);
   histogram_tester_.ExpectBucketCount(kUpdateHistogramName,
                                       ManifestUpdateResult::kAppUpdated, 1);
-  EXPECT_EQ(GetProvider().registrar().GetAppShortcutInfos(app_id)[0].name,
-            base::UTF8ToUTF16(kAnotherShortcutsItemName));
+  EXPECT_EQ(
+      GetProvider().registrar().GetAppShortcutsMenuItemInfos(app_id)[0].name,
+      base::UTF8ToUTF16(kAnotherShortcutsItemName));
 }
 
 IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
@@ -1361,8 +1364,9 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
             ManifestUpdateResult::kAppUpdated);
   histogram_tester_.ExpectBucketCount(kUpdateHistogramName,
                                       ManifestUpdateResult::kAppUpdated, 1);
-  EXPECT_EQ(GetProvider().registrar().GetAppShortcutInfos(app_id)[0].url,
-            http_server_.GetURL(kAnotherShortcutsItemUrl));
+  EXPECT_EQ(
+      GetProvider().registrar().GetAppShortcutsMenuItemInfos(app_id)[0].url,
+      http_server_.GetURL(kAnotherShortcutsItemUrl));
 }
 
 IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
@@ -1463,7 +1467,7 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
                                       ManifestUpdateResult::kAppUpdated, 1);
   EXPECT_EQ(GetProvider()
                 .registrar()
-                .GetAppShortcutInfos(app_id)[0]
+                .GetAppShortcutsMenuItemInfos(app_id)[0]
                 .shortcut_icon_infos[0]
                 .url,
             http_server_.GetURL(kAnotherIconSrc));
@@ -1507,7 +1511,7 @@ IN_PROC_BROWSER_TEST_P(ManifestUpdateManagerBrowserTestWithShortcutsMenu,
                                       ManifestUpdateResult::kAppUpdated, 1);
   EXPECT_EQ(GetProvider()
                 .registrar()
-                .GetAppShortcutInfos(app_id)[0]
+                .GetAppShortcutsMenuItemInfos(app_id)[0]
                 .shortcut_icon_infos[0]
                 .square_size_px,
             kAnotherIconSize);

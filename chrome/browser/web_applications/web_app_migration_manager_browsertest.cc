@@ -414,7 +414,7 @@ IN_PROC_BROWSER_TEST_F(WebAppMigrationManagerBrowserTestWithShortcutsMenu,
   EXPECT_TRUE(provider().registrar().IsInstalled(app_id));
 
   std::vector<WebApplicationShortcutsMenuItemInfo> shortcuts_menu_item_infos =
-      provider().registrar().GetAppShortcutInfos(app_id);
+      provider().registrar().GetAppShortcutsMenuItemInfos(app_id);
   EXPECT_EQ(shortcuts_menu_item_infos.size(), 2u);
   EXPECT_EQ(shortcuts_menu_item_infos[0].name, base::UTF8ToUTF16("shortcut1"));
   EXPECT_EQ(shortcuts_menu_item_infos[0].shortcut_icon_infos.size(), 1u);
