@@ -864,8 +864,7 @@ LCDTextDisallowedReason PictureLayerImpl::ComputeLCDTextDisallowedReason()
     return LCDTextDisallowedReason::kWillChangeTransform;
 
   EffectNode* effect_node = GetEffectTree().Node(effect_tree_index());
-  // TODO(crbug.com/1114504): Should also consider ancestor filters.
-  if (!effect_node->filters.IsEmpty())
+  if (effect_node->node_or_ancestor_has_filters)
     return LCDTextDisallowedReason::kPixelOrColorEffect;
 
   return LCDTextDisallowedReason::kNone;
