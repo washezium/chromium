@@ -37309,6 +37309,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="7" label="Share"/>
   <int value="8" label="Open all in New Tabs"/>
   <int value="9" label="Hide"/>
+  <int value="10" label="Move"/>
 </enum>
 
 <enum name="IOSMenuScenario">
@@ -37318,6 +37319,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="3" label="RecentTabs Entry"/>
   <int value="4" label="ContentSuggestions Entry"/>
   <int value="5" label="RecentTabs Header"/>
+  <int value="6" label="Bookmark Folder"/>
 </enum>
 
 <enum name="IOSNTPImpression">
