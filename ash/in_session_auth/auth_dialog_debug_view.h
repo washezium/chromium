@@ -34,6 +34,8 @@ class AuthDialogDebugView : public views::View, public views::ButtonListener {
   void ButtonPressed(views::Button* sender, const ui::Event& event) override;
 
  private:
+  class FingerprintView;
+
   // Add a view for dialog title.
   void AddTitleView();
 
@@ -83,6 +85,8 @@ class AuthDialogDebugView : public views::View, public views::ButtonListener {
 
   // PIN pad view.
   LoginPinView* pin_view_ = nullptr;
+
+  FingerprintView* fingerprint_view_ = nullptr;
 
   // Show other authentication mechanisms if more than one.
   views::LabelButton* more_options_button_ = nullptr;
