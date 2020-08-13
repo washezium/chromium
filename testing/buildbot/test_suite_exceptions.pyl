@@ -2686,12 +2686,14 @@
           'DesktopWidgetTest.GetWindowPlacement:'
           'DesktopWidgetTest.MinimumSizeConstraints:'
           'EditableComboboxTest.AltLeftOrRightDoesNothing:'
+          'EditableComboboxTest.CtrlLeftOrRightMovesToNextWords:'
           'EditableComboboxTest.EndOrHomeMovesToBeginningOrEndOfText:'
           'EditableComboboxTest.MenuCanAdaptToContentChange:'
           'TextfieldTest.ContextMenuDisplayTest:'
+          'TextfieldTest.CutCopyPasteWithEditCommand:'
           'TextfieldTest.OverflowTest:'
-          'TextfieldTest.SwitchFocusInKeyDown:',
-          'TooltipControllerTest*'
+          'TextfieldTest.SwitchFocusInKeyDown:'
+          'TooltipControllerTest*',
         ],
       },
     },
