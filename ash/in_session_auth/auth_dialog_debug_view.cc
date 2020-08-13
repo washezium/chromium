@@ -99,7 +99,10 @@ class AuthDialogDebugView::FingerprintView : public views::View {
   AnimatedRoundedImageView* icon_ = nullptr;
 };
 
-AuthDialogDebugView::AuthDialogDebugView() {
+AuthDialogDebugView::AuthDialogDebugView(uint32_t auth_methods)
+    : auth_methods_(auth_methods) {
+  DCHECK(auth_methods_ & kAuthPassword);
+
   SetLayoutManager(std::make_unique<views::FillLayout>());
   container_ = AddChildView(std::make_unique<NonAccessibleView>());
   container_->SetBackground(views::CreateSolidBackground(SK_ColorWHITE));
@@ -120,8 +123,10 @@ AuthDialogDebugView::AuthDialogDebugView() {
   AddPinView();
   AddVerticalSpacing(kVerticalSpacingBetweenPasswordAndPINKeyboard);
 
-  fingerprint_view_ =
-      container_->AddChildView(std::make_unique<FingerprintView>());
+  if (auth_methods_ & kAuthFingerprint) {
+    fingerprint_view_ =
+        container_->AddChildView(std::make_unique<FingerprintView>());
+  }
 
   AddActionButtonsView();
   AddVerticalSpacing(kBottomVerticalSpacing);
@@ -177,9 +182,11 @@ void AuthDialogDebugView::AddPasswordView() {
   password_view_->SetFocusEnabledForChildViews(true);
   password_view_->SetVisible(true);
 
-  // TODO(b/156258540): Set this text according to "has PIN or not".
   password_view_->SetPlaceholderText(
-      l10n_util::GetStringUTF16(IDS_ASH_LOGIN_POD_PASSWORD_PIN_PLACEHOLDER));
+      (auth_methods_ & kAuthPin)
+          ? l10n_util::GetStringUTF16(
+                IDS_ASH_LOGIN_POD_PASSWORD_PIN_PLACEHOLDER)
+          : l10n_util::GetStringUTF16(IDS_ASH_LOGIN_POD_PASSWORD_PLACEHOLDER));
 }
 
 void AuthDialogDebugView::AddPinView() {
@@ -191,7 +198,7 @@ void AuthDialogDebugView::AddPinView() {
                           base::Unretained(password_view_)),
       base::BindRepeating(&LoginPasswordView::SubmitPassword,
                           base::Unretained(password_view_))));
-  pin_view_->SetVisible(true);
+  pin_view_->SetVisible(auth_methods_ & kAuthPin);
 }
 
 void AuthDialogDebugView::InitPasswordView() {
