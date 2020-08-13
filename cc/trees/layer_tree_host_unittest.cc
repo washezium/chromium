@@ -6135,13 +6135,11 @@ SINGLE_AND_MULTI_THREAD_TEST_F(LayerTreeHostTestDeferSwapPromiseForVisibility);
 class SimpleSwapPromiseMonitor : public SwapPromiseMonitor {
  public:
   SimpleSwapPromiseMonitor(LayerTreeHost* layer_tree_host,
-                           LayerTreeHostImpl* layer_tree_host_impl,
                            int* set_needs_commit_count,
                            int* set_needs_redraw_count)
-      : SwapPromiseMonitor(
-            (layer_tree_host ? layer_tree_host->GetSwapPromiseManager()
-                             : nullptr),
-            layer_tree_host_impl),
+      : SwapPromiseMonitor(layer_tree_host
+                               ? layer_tree_host->GetSwapPromiseManager()
+                               : nullptr),
         set_needs_commit_count_(set_needs_commit_count) {}
 
   ~SimpleSwapPromiseMonitor() override = default;
@@ -6171,7 +6169,7 @@ class LayerTreeHostTestSwapPromiseDuringCommit : public LayerTreeHostTest {
 
     {
       std::unique_ptr<SimpleSwapPromiseMonitor> swap_promise_monitor(
-          new SimpleSwapPromiseMonitor(layer_tree_host(), nullptr,
+          new SimpleSwapPromiseMonitor(layer_tree_host(),
                                        &set_needs_commit_count,
                                        &set_needs_redraw_count));
       layer_tree_host()->QueueSwapPromise(std::move(swap_promise));
@@ -6194,7 +6192,7 @@ class LayerTreeHostTestSwapPromiseDuringCommit : public LayerTreeHostTest {
 
     {
       std::unique_ptr<SimpleSwapPromiseMonitor> swap_promise_monitor(
-          new SimpleSwapPromiseMonitor(layer_tree_host(), nullptr,
+          new SimpleSwapPromiseMonitor(layer_tree_host(),
                                        &set_needs_commit_count,
                                        &set_needs_redraw_count));
       layer_tree_host()->QueueSwapPromise(std::move(swap_promise));
@@ -6224,7 +6222,7 @@ class LayerTreeHostTestSimpleSwapPromiseMonitor : public LayerTreeHostTest {
 
     {
       std::unique_ptr<SimpleSwapPromiseMonitor> swap_promise_monitor(
-          new SimpleSwapPromiseMonitor(layer_tree_host(), nullptr,
+          new SimpleSwapPromiseMonitor(layer_tree_host(),
                                        &set_needs_commit_count,
                                        &set_needs_redraw_count));
       layer_tree_host()->SetNeedsCommit();
@@ -6240,7 +6238,7 @@ class LayerTreeHostTestSimpleSwapPromiseMonitor : public LayerTreeHostTest {
 
     {
       std::unique_ptr<SimpleSwapPromiseMonitor> swap_promise_monitor(
-          new SimpleSwapPromiseMonitor(layer_tree_host(), nullptr,
+          new SimpleSwapPromiseMonitor(layer_tree_host(),
                                        &set_needs_commit_count,
                                        &set_needs_redraw_count));
       layer_tree_host()->SetNeedsUpdateLayers();
@@ -6250,7 +6248,7 @@ class LayerTreeHostTestSimpleSwapPromiseMonitor : public LayerTreeHostTest {
 
     {
       std::unique_ptr<SimpleSwapPromiseMonitor> swap_promise_monitor(
-          new SimpleSwapPromiseMonitor(layer_tree_host(), nullptr,
+          new SimpleSwapPromiseMonitor(layer_tree_host(),
                                        &set_needs_commit_count,
                                        &set_needs_redraw_count));
       layer_tree_host()->SetNeedsAnimate();

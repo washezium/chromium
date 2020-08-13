@@ -952,8 +952,7 @@ bool LayerTreeHostImpl::HasBlockingWheelEventHandlerAt(
 std::unique_ptr<SwapPromiseMonitor>
 LayerTreeHostImpl::CreateLatencyInfoSwapPromiseMonitor(
     ui::LatencyInfo* latency) {
-  return base::WrapUnique(
-      new LatencyInfoSwapPromiseMonitor(latency, nullptr, this));
+  return base::WrapUnique(new LatencyInfoSwapPromiseMonitor(latency, this));
 }
 
 std::unique_ptr<EventsMetricsManager::ScopedMonitor>
