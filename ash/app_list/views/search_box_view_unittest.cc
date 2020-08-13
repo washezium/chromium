@@ -825,7 +825,7 @@ INSTANTIATE_TEST_SUITE_P(All,
 // titles.
 TEST_F(SearchBoxViewAutocompleteTest,
        SearchBoxAutocompletesTopListResultTitle) {
-  // Add two SearchResults, one with higher ranking. Initialize their title
+  // Add two SearchResults, one tile and one list result. Initialize their title
   // field to a non-empty string.
   CreateSearchResult(ash::SearchResultDisplayType::kList, 1.0,
                      base::ASCIIToUTF16("hello list"), base::string16());
@@ -838,16 +838,16 @@ TEST_F(SearchBoxViewAutocompleteTest,
   KeyPress(ui::VKEY_E);
   view()->ProcessAutocomplete();
 
-  EXPECT_EQ(view()->search_box()->GetText(), base::ASCIIToUTF16("hello list"));
+  EXPECT_EQ(view()->search_box()->GetText(), base::ASCIIToUTF16("hello tile"));
   EXPECT_EQ(view()->search_box()->GetSelectedText(),
-            base::ASCIIToUTF16("llo list"));
+            base::ASCIIToUTF16("llo tile"));
 }
 
 // Tests that autocomplete suggestions are consistent with top SearchResult tile
 // titles.
 TEST_F(SearchBoxViewAutocompleteTest,
        SearchBoxAutocompletesTopTileResultTitle) {
-  // Add two SearchResults, one with higher ranking. Initialize their title
+  // Add two SearchResults, one tile and one list result. Initialize their title
   // field to a non-empty string.
   CreateSearchResult(ash::SearchResultDisplayType::kTile, 1.0,
                      base::ASCIIToUTF16("hello tile"), base::string16());
@@ -868,8 +868,9 @@ TEST_F(SearchBoxViewAutocompleteTest,
 // details.
 TEST_F(SearchBoxViewAutocompleteTest,
        SearchBoxAutocompletesTopListResultDetails) {
-  // Add two SearchResults, one with higher ranking. Initialize their details
-  // field to a non-empty string.
+  // Add two SearchResults, one tile and one list result. The tile should
+  // display first, despite having a lower score. Initialize their details field
+  // to a non-empty string.
   CreateSearchResult(ash::SearchResultDisplayType::kList, 1.0, base::string16(),
                      base::ASCIIToUTF16("hello list"));
   CreateSearchResult(ash::SearchResultDisplayType::kTile, 0.5, base::string16(),
@@ -880,17 +881,17 @@ TEST_F(SearchBoxViewAutocompleteTest,
   KeyPress(ui::VKEY_H);
   KeyPress(ui::VKEY_E);
   view()->ProcessAutocomplete();
-  EXPECT_EQ(view()->search_box()->GetText(), base::ASCIIToUTF16("hello list"));
+  EXPECT_EQ(view()->search_box()->GetText(), base::ASCIIToUTF16("hello tile"));
   EXPECT_EQ(view()->search_box()->GetSelectedText(),
-            base::ASCIIToUTF16("llo list"));
+            base::ASCIIToUTF16("llo tile"));
 }
 
 // Tests that autocomplete suggestions are consistent with top SearchResult tile
 // details.
 TEST_F(SearchBoxViewAutocompleteTest,
        SearchBoxAutocompletesTopTileResultDetails) {
-  // Add two SearchResults, one with higher ranking. Initialize their details
-  // field to a non-empty string.
+  // Add two SearchResults, one tile and one list result. Initialize their
+  // details field to a non-empty string.
   CreateSearchResult(ash::SearchResultDisplayType::kTile, 1.0, base::string16(),
                      base::ASCIIToUTF16("hello tile"));
   CreateSearchResult(ash::SearchResultDisplayType::kList, 0.5, base::string16(),
