@@ -26,6 +26,7 @@
 #include "content/public/browser/browsing_data_remover.h"
 #include "content/public/browser/device_service.h"
 #include "content/public/browser/download_manager.h"
+#include "content/public/browser/render_process_host.h"
 #include "content/public/browser/storage_partition.h"
 #include "services/network/public/mojom/network_context.mojom.h"
 #include "weblayer/browser/android/metrics/weblayer_metrics_service_client.h"
@@ -544,6 +545,10 @@ void ProfileImpl::RemoveBrowserPersistenceStorage(
       base::flat_set<std::string>(ids.begin(), ids.end()));
 }
 
+void ProfileImpl::PrepareForPossibleCrossOriginNavigation(JNIEnv* env) {
+  PrepareForPossibleCrossOriginNavigation();
+}
+
 #endif  // OS_ANDROID
 
 base::FilePath ProfileImpl::GetBrowserPersisterDataBaseDir() const {
@@ -625,6 +630,10 @@ void ProfileImpl::GetCachedFaviconForPageUrl(
 
   service->GetFaviconForPageUrl(page_url, std::move(callback),
                                 &cancelable_task_tracker_);
+}
+
+void ProfileImpl::PrepareForPossibleCrossOriginNavigation() {
+  content::RenderProcessHost::WarmupSpareRenderProcessHost(GetBrowserContext());
 }
 
 int ProfileImpl::GetNumberOfBrowsers() {
