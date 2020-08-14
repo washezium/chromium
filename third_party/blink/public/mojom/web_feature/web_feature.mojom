@@ -2722,6 +2722,7 @@ enum WebFeature {
   kDOMWindowOpenPositioningFeaturesCrossScreen = 3392,
   kDOMWindowSetWindowRectCrossScreen = 3393,
   kFullscreenCrossScreen = 3394,
+  kBatterySavingsMeta = 3395,
 
   // Add new features immediately above this line. Don't change assigned
   // numbers of any item, and don't reuse removed slots.
