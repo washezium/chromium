@@ -8414,7 +8414,7 @@
             ]
         }
     ],
-    "WindowsHybridSpellCheck": [
+    "WindowsNativeSpellChecker": [
         {
             "platforms": [
                 "windows"
