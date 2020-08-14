@@ -114,7 +114,7 @@ class FakeWorkerGlobalScope : public WorkerGlobalScope {
   }
 
  private:
-  DedicatedWorkerToken token_;
+  SharedWorkerToken token_;
 };
 
 class WorkerThreadForTest : public WorkerThread {
@@ -151,6 +151,8 @@ class WorkerThreadForTest : public WorkerThread {
         base::UnguessableToken::Create(),
         std::make_unique<WorkerSettings>(std::make_unique<Settings>().get()),
         kV8CacheOptionsDefault, nullptr /* worklet_module_responses_map */);
+    // Create a dummy parent context.
+    creation_params->parent_context_token = LocalFrameToken();
 
     Start(std::move(creation_params),
           WorkerBackingThreadStartupData::CreateDefault(),

@@ -127,6 +127,14 @@ class CORE_EXPORT WorkletGlobalScope
   // Returns the WorkletToken that uniquely identifies this worklet.
   virtual WorkletToken GetWorkletToken() const = 0;
 
+  // Returns the ExecutionContextToken that uniquely identifies the parent
+  // context that created this worklet. Note that this will always be a
+  // LocalFrameToken.
+  base::Optional<ExecutionContextToken> GetParentExecutionContextToken()
+      const final {
+    return frame_token_;
+  }
+
  private:
   enum class ThreadType {
     // Indicates this global scope lives on the main thread.
@@ -171,6 +179,9 @@ class CORE_EXPORT WorkletGlobalScope
   Member<LocalFrame> frame_;
   // |worker_thread_| is available only when |thread_type_| is kOffMainThread.
   WorkerThread* worker_thread_;
+
+  // The token identifying the LocalFrame that caused this scope to be created.
+  const LocalFrameToken frame_token_;
 
   std::unique_ptr<ukm::UkmRecorder> ukm_recorder_;
 };

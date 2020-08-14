@@ -73,7 +73,7 @@ class MainThreadWorkletTest : public PageTestBase {
         MakeGarbageCollected<WorkletModuleResponsesMap>(),
         mojo::NullRemote() /* browser_interface_broker */,
         BeginFrameProviderParams(), nullptr /* parent_feature_policy */,
-        window->GetAgentClusterID());
+        window->GetAgentClusterID(), window->GetExecutionContextToken());
     global_scope_ = MakeGarbageCollected<FakeWorkletGlobalScope>(
         std::move(creation_params), *reporting_proxy_, &GetFrame(),
         false /* create_microtask_queue */);

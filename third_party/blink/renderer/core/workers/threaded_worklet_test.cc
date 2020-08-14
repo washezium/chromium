@@ -221,7 +221,8 @@ class ThreadedWorkletMessagingProxyForTest
             MakeGarbageCollected<WorkletModuleResponsesMap>(),
             mojo::NullRemote() /* browser_interface_broker */,
             BeginFrameProviderParams(), nullptr /* parent_feature_policy */,
-            GetExecutionContext()->GetAgentClusterID()),
+            GetExecutionContext()->GetAgentClusterID(),
+            GetExecutionContext()->GetExecutionContextToken()),
         base::nullopt);
   }
 
