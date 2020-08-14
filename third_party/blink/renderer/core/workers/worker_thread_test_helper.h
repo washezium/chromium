@@ -104,9 +104,14 @@ class FakeWorkerGlobalScope : public WorkerGlobalScope {
     NOTREACHED();
   }
   bool IsOffMainThreadScriptFetchDisabled() override { return true; }
-  WorkerToken GetWorkerToken() const override { return token_; }
 
   void ExceptionThrown(ErrorEvent*) override {}
+
+  // Returns a token uniquely identifying this fake worker.
+  WorkerToken GetWorkerToken() const final { return token_; }
+  ExecutionContextToken GetExecutionContextToken() const final {
+    return token_;
+  }
 
  private:
   DedicatedWorkerToken token_;

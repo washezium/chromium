@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "base/single_thread_task_runner.h"
+#include "third_party/blink/public/common/tokens/tokens.h"
 #include "third_party/blink/public/platform/web_url_request.h"
 #include "third_party/blink/renderer/bindings/core/v8/active_script_wrappable.h"
 #include "third_party/blink/renderer/core/core_export.h"
@@ -122,6 +123,9 @@ class CORE_EXPORT WorkletGlobalScope
                      WorkerThread*);
 
   BrowserInterfaceBrokerProxy& GetBrowserInterfaceBroker() override;
+
+  // Returns the WorkletToken that uniquely identifies this worklet.
+  virtual WorkletToken GetWorkletToken() const = 0;
 
  private:
   enum class ThreadType {

@@ -110,7 +110,6 @@ class CORE_EXPORT DedicatedWorkerGlobalScope final : public WorkerGlobalScope {
       network::mojom::CredentialsMode,
       RejectCoepUnsafeNone reject_coep_unsafe_none) override;
   bool IsOffMainThreadScriptFetchDisabled() override;
-  WorkerToken GetWorkerToken() const override { return token_; }
 
   // Called by the bindings (dedicated_worker_global_scope.idl).
   const String name() const;
@@ -133,7 +132,12 @@ class CORE_EXPORT DedicatedWorkerGlobalScope final : public WorkerGlobalScope {
   // Called by the Oilpan.
   void Trace(Visitor*) const override;
 
-  const DedicatedWorkerToken& token() const { return token_; }
+  // Returns the token that uniquely identifies this worker.
+  const DedicatedWorkerToken& GetDedicatedWorkerToken() const { return token_; }
+  WorkerToken GetWorkerToken() const final { return token_; }
+  ExecutionContextToken GetExecutionContextToken() const final {
+    return token_;
+  }
 
  private:
   void DidReceiveResponseForClassicScript(
