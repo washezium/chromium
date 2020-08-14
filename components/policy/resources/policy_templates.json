@@ -2005,7 +2005,7 @@
       'owners': ['jamiewalch@chromium.org', 'rkjnsn@chromium.org'],
       'type': 'main',
       'schema': { 'type': 'boolean' },
-      'supported_on': ['chrome.*:36-', 'chrome_os:41-'],
+      'supported_on': ['chrome.*:36-', 'chrome_os:86-'],
       'features': {
         'dynamic_refresh': True,
         'per_profile': False,
