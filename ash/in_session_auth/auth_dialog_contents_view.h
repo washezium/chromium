@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ASH_IN_SESSION_AUTH_AUTH_DIALOG_DEBUG_VIEW_H_
-#define ASH_IN_SESSION_AUTH_AUTH_DIALOG_DEBUG_VIEW_H_
+#ifndef ASH_IN_SESSION_AUTH_AUTH_DIALOG_CONTENTS_VIEW_H_
+#define ASH_IN_SESSION_AUTH_AUTH_DIALOG_CONTENTS_VIEW_H_
 
 #include <string>
 
@@ -23,7 +23,8 @@ class LoginPinView;
 
 // Contains the debug views that allows the developer to interact with the
 // AuthDialogController.
-class AuthDialogDebugView : public views::View, public views::ButtonListener {
+class AuthDialogContentsView : public views::View,
+                               public views::ButtonListener {
  public:
   // Flags which describe the set of currently visible auth methods.
   enum AuthMethods {
@@ -33,10 +34,10 @@ class AuthDialogDebugView : public views::View, public views::ButtonListener {
     kAuthFingerprint = 1 << 2,  // Use fingerprint to unlock.
   };
 
-  explicit AuthDialogDebugView(uint32_t auth_methods);
-  AuthDialogDebugView(const AuthDialogDebugView&) = delete;
-  AuthDialogDebugView& operator=(const AuthDialogDebugView&) = delete;
-  ~AuthDialogDebugView() override;
+  explicit AuthDialogContentsView(uint32_t auth_methods);
+  AuthDialogContentsView(const AuthDialogContentsView&) = delete;
+  AuthDialogContentsView& operator=(const AuthDialogContentsView&) = delete;
+  ~AuthDialogContentsView() override;
 
   // views::ButtonListener:
   void ButtonPressed(views::Button* sender, const ui::Event& event) override;
@@ -108,9 +109,9 @@ class AuthDialogDebugView : public views::View, public views::ButtonListener {
   // Container which holds action buttons.
   views::View* action_view_container_ = nullptr;
 
-  base::WeakPtrFactory<AuthDialogDebugView> weak_factory_{this};
+  base::WeakPtrFactory<AuthDialogContentsView> weak_factory_{this};
 };
 
 }  // namespace ash
 
-#endif  // ASH_IN_SESSION_AUTH_AUTH_DIALOG_DEBUG_VIEW_H_
+#endif  // ASH_IN_SESSION_AUTH_AUTH_DIALOG_CONTENTS_VIEW_H_

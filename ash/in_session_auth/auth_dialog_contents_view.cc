@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "ash/in_session_auth/auth_dialog_debug_view.h"
+#include "ash/in_session_auth/auth_dialog_contents_view.h"
 
 #include <memory>
 #include <utility>
@@ -32,6 +32,7 @@ enum class ButtonId {
   kCancel,
 };
 
+// TODO(b/164195709): Move these strings to a grd file.
 const char kTitle[] = "Verify it's you";
 const char kFingerprintPrompt[] = "Authenticate with fingerprint";
 // If fingerprint option is available, password input field will be hidden
@@ -57,7 +58,7 @@ constexpr int kFingerprintViewWidthDp = 204;
 }  // namespace
 
 // Consists of fingerprint icon view and a label.
-class AuthDialogDebugView::FingerprintView : public views::View {
+class AuthDialogContentsView::FingerprintView : public views::View {
  public:
   FingerprintView() {
     SetBorder(views::CreateEmptyBorder(kFingerprintIconTopSpacingDp, 0, 0, 0));
@@ -99,7 +100,7 @@ class AuthDialogDebugView::FingerprintView : public views::View {
   AnimatedRoundedImageView* icon_ = nullptr;
 };
 
-AuthDialogDebugView::AuthDialogDebugView(uint32_t auth_methods)
+AuthDialogContentsView::AuthDialogContentsView(uint32_t auth_methods)
     : auth_methods_(auth_methods) {
   DCHECK(auth_methods_ & kAuthPassword);
 
@@ -135,9 +136,9 @@ AuthDialogDebugView::AuthDialogDebugView(uint32_t auth_methods)
   InitPasswordView();
 }
 
-AuthDialogDebugView::~AuthDialogDebugView() = default;
+AuthDialogContentsView::~AuthDialogContentsView() = default;
 
-void AuthDialogDebugView::AddTitleView() {
+void AuthDialogContentsView::AddTitleView() {
   title_ = container_->AddChildView(std::make_unique<views::Label>());
   title_->SetEnabledColor(SK_ColorBLACK);
   title_->SetSubpixelRenderingEnabled(false);
@@ -152,7 +153,7 @@ void AuthDialogDebugView::AddTitleView() {
   title_->SetElideBehavior(gfx::ElideBehavior::ELIDE_TAIL);
 }
 
-void AuthDialogDebugView::AddPromptView() {
+void AuthDialogContentsView::AddPromptView() {
   prompt_ = container_->AddChildView(std::make_unique<views::Label>());
   prompt_->SetEnabledColor(SK_ColorBLACK);
   prompt_->SetSubpixelRenderingEnabled(false);
@@ -170,7 +171,7 @@ void AuthDialogDebugView::AddPromptView() {
   prompt_->SetElideBehavior(gfx::ElideBehavior::ELIDE_TAIL);
 }
 
-void AuthDialogDebugView::AddPasswordView() {
+void AuthDialogContentsView::AddPasswordView() {
   password_view_ = container_->AddChildView(
       std::make_unique<LoginPasswordView>(CreateInSessionAuthPalette()));
 
@@ -189,7 +190,7 @@ void AuthDialogDebugView::AddPasswordView() {
           : l10n_util::GetStringUTF16(IDS_ASH_LOGIN_POD_PASSWORD_PLACEHOLDER));
 }
 
-void AuthDialogDebugView::AddPinView() {
+void AuthDialogContentsView::AddPinView() {
   pin_view_ = container_->AddChildView(std::make_unique<LoginPinView>(
       LoginPinView::Style::kAlphanumeric, CreateInSessionAuthPalette(),
       base::BindRepeating(&LoginPasswordView::InsertNumber,
@@ -201,21 +202,22 @@ void AuthDialogDebugView::AddPinView() {
   pin_view_->SetVisible(auth_methods_ & kAuthPin);
 }
 
-void AuthDialogDebugView::InitPasswordView() {
-  password_view_->Init(base::BindRepeating(&AuthDialogDebugView::OnAuthSubmit,
-                                           base::Unretained(this)),
-                       base::BindRepeating(&LoginPinView::OnPasswordTextChanged,
-                                           base::Unretained(pin_view_)),
-                       base::DoNothing(), base::DoNothing());
+void AuthDialogContentsView::InitPasswordView() {
+  password_view_->Init(
+      base::BindRepeating(&AuthDialogContentsView::OnAuthSubmit,
+                          base::Unretained(this)),
+      base::BindRepeating(&LoginPinView::OnPasswordTextChanged,
+                          base::Unretained(pin_view_)),
+      base::DoNothing(), base::DoNothing());
 }
 
-void AuthDialogDebugView::AddVerticalSpacing(int height) {
+void AuthDialogContentsView::AddVerticalSpacing(int height) {
   auto* spacing =
       container_->AddChildView(std::make_unique<NonAccessibleView>());
   spacing->SetPreferredSize(gfx::Size(kContainerPreferredWidth, height));
 }
 
-void AuthDialogDebugView::AddActionButtonsView() {
+void AuthDialogContentsView::AddActionButtonsView() {
   action_view_container_ =
       container_->AddChildView(std::make_unique<NonAccessibleView>());
   auto* buttons_layout = action_view_container_->SetLayoutManager(
@@ -231,8 +233,8 @@ void AuthDialogDebugView::AddActionButtonsView() {
                 action_view_container_);
 }
 
-void AuthDialogDebugView::ButtonPressed(views::Button* sender,
-                                        const ui::Event& event) {
+void AuthDialogContentsView::ButtonPressed(views::Button* sender,
+                                           const ui::Event& event) {
   if (sender == cancel_button_) {
     // Cancel() deletes |this|.
     InSessionAuthDialogController::Get()->Cancel();
@@ -242,9 +244,9 @@ void AuthDialogDebugView::ButtonPressed(views::Button* sender,
   // view and password input view.
 }
 
-views::LabelButton* AuthDialogDebugView::AddButton(const std::string& text,
-                                                   int id,
-                                                   views::View* container) {
+views::LabelButton* AuthDialogContentsView::AddButton(const std::string& text,
+                                                      int id,
+                                                      views::View* container) {
   // Creates a button with |text|.
   auto button =
       std::make_unique<views::MdTextButton>(this, base::ASCIIToUTF16(text));
@@ -256,14 +258,14 @@ views::LabelButton* AuthDialogDebugView::AddButton(const std::string& text,
   return view;
 }
 
-void AuthDialogDebugView::OnAuthSubmit(const base::string16& password) {
+void AuthDialogContentsView::OnAuthSubmit(const base::string16& password) {
   InSessionAuthDialogController::Get()->AuthenticateUserWithPasswordOrPin(
       base::UTF16ToUTF8(password),
-      base::BindOnce(&AuthDialogDebugView::OnAuthComplete,
+      base::BindOnce(&AuthDialogContentsView::OnAuthComplete,
                      weak_factory_.GetWeakPtr()));
 }
 
 // TODO(b/156258540): Clear password/PIN if auth failed and retry is allowed.
-void AuthDialogDebugView::OnAuthComplete(base::Optional<bool> success) {}
+void AuthDialogContentsView::OnAuthComplete(base::Optional<bool> success) {}
 
 }  // namespace ash
