@@ -6249,6 +6249,7 @@ Called by update_bad_message_reasons.py.-->
   <int value="230" label="RFH_SUBFRAME_CAPTURE_ON_MAIN_FRAME"/>
   <int value="231" label="RFH_CSP_ATTRIBUTE"/>
   <int value="232" label="RFH_RECEIVED_ASSOCIATED_MESSAGE_WHILE_BFCACHED"/>
+  <int value="233" label="RWH_CLOSE_PORTAL"/>
 </enum>
 
 <enum name="BadMessageReasonExtensions">
