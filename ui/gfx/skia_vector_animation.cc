@@ -153,7 +153,7 @@ float SkiaVectorAnimation::GetCurrentProgress() const {
       } else {
         // It may be that the timer hasn't been initialized which may happen if
         // the animation was paused while it was in |kScheculePlay| state.
-        return scheduled_start_offset_.InMillisecondsF() / skottie_->duration();
+        return scheduled_start_offset_ / GetAnimationDuration();
       }
     case PlayState::kSchedulePlay:
     case PlayState::kPlaying:
