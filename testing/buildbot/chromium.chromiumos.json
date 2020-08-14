@@ -5118,7 +5118,6 @@
         "args": [
           "--gtest_filter=-NativeDesktopMediaListTest*:PermissionMessageCombinationsUnittest.USBSerialBluetoothCoalescing:RelaunchNotificationControllerPlatformImplTest.SynchronousNotification:WindowSizerTest*:ChromeContentBrowserClientTest.UserAgentStringOrdering:ChromeMetricsServiceClientTest.TestRegisterMetricsServiceProviders"
         ],
-        "experiment_percentage": 100,
         "merge": {
           "args": [],
           "script": "//testing/merge_scripts/standard_gtest_merge.py"
