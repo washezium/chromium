@@ -28739,6 +28739,9 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3396" label="DigitalGoodsGetDigitalGoodsService"/>
   <int value="3397" label="DigitalGoodsGetDetails"/>
   <int value="3398" label="DigitalGoodsAcknowledge"/>
+  <int value="3399" label="MediaRecorder_MimeType"/>
+  <int value="3400" label="MediaRecorder_VideoBitsPerSecond"/>
+  <int value="3401" label="MediaRecorder_AudioBitsPerSecond"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
