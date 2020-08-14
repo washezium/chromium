@@ -42864,6 +42864,7 @@ from previous Chrome versions.
   <int value="902209599" label="ShelfHotseat:enabled"/>
   <int value="902839593" label="WebContentsForceDark:disabled"/>
   <int value="903267263" label="disable-offline-pages"/>
+  <int value="904811479" label="query-tiles-enable-trending"/>
   <int value="908302031"
       label="OmniboxUIExperimentElideSuggestionUrlAfterHost:enabled"/>
   <int value="908370794" label="UserActivityPredictionMlService:enabled"/>
