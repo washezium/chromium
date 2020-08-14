@@ -28725,6 +28725,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3384" label="V8FontMetadata_GetTables_Method"/>
   <int value="3385" label="V8FontMetadata_Blob_Method"/>
   <int value="3386" label="V8FontManager_Query_Method"/>
+  <int value="3387" label="AudioContextBaseLatency"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
