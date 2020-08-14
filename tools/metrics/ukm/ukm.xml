@@ -7906,6 +7906,25 @@ be describing additional metrics about the same event.
   </metric>
 </event>
 
+<event name="OptimizationGuideAutotuning">
+  <owner>sophiechang@chromium.org</owner>
+  <owner>mcrouse@chromium.org</owner>
+  <summary>
+    Metrics associated with an autotuning event initiated by the Optimization
+    Guide.
+  </summary>
+  <metric name="OptimizationType">
+    <summary>
+      The |optimization_guide::proto::OptimizationType| that is being tuned.
+    </summary>
+  </metric>
+  <metric name="TuningVersion">
+    <summary>
+      The version of the tuning group for the optimization type that was served.
+    </summary>
+  </metric>
+</event>
+
 <event name="PageDomainInfo">
   <owner>uthakore@chromium.org</owner>
   <owner>invernizzi@chromium.org</owner>
