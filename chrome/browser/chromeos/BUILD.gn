@@ -942,6 +942,8 @@ source_set("chromeos") {
     "crosapi/browser_manager.h",
     "crosapi/browser_util.cc",
     "crosapi/browser_util.h",
+    "crosapi/message_center_ash.cc",
+    "crosapi/message_center_ash.h",
     "crosapi/screen_manager_crosapi.cc",
     "crosapi/screen_manager_crosapi.h",
     "crosapi/select_file_ash.cc",

@@ -2,10 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_NOTIFICATIONS_MESSAGE_CENTER_CLIENT_LACROS_H_
-#define CHROME_BROWSER_NOTIFICATIONS_MESSAGE_CENTER_CLIENT_LACROS_H_
+#ifndef CHROME_BROWSER_NOTIFICATIONS_NOTIFICATION_PLATFORM_BRIDGE_LACROS_H_
+#define CHROME_BROWSER_NOTIFICATIONS_NOTIFICATION_PLATFORM_BRIDGE_LACROS_H_
 
+#include <map>
+#include <memory>
+#include <string>
+
+#include "base/memory/weak_ptr.h"
 #include "chrome/browser/notifications/notification_platform_bridge.h"
+#include "chromeos/crosapi/mojom/message_center.mojom.h"
 
 class NotificationPlatformBridgeDelegate;
 
@@ -13,16 +19,15 @@ class NotificationPlatformBridgeDelegate;
 // clicks on notifications received over mojo. Works together with
 // NotificationPlatformBridgeChromeOs because that class contains support for
 // transient notifications and multiple profiles.
-// TODO(jamescook): Derive from crosapi::mojom::MessageCenterClient once that
-// mojo interface is introduced.
-class MessageCenterClientLacros : public NotificationPlatformBridge {
+class NotificationPlatformBridgeLacros : public NotificationPlatformBridge {
  public:
-  explicit MessageCenterClientLacros(
+  explicit NotificationPlatformBridgeLacros(
       NotificationPlatformBridgeDelegate* delegate);
-  MessageCenterClientLacros(const MessageCenterClientLacros&) = delete;
-  MessageCenterClientLacros& operator=(const MessageCenterClientLacros&) =
+  NotificationPlatformBridgeLacros(const NotificationPlatformBridgeLacros&) =
       delete;
-  ~MessageCenterClientLacros() override;
+  NotificationPlatformBridgeLacros& operator=(
+      const NotificationPlatformBridgeLacros&) = delete;
+  ~NotificationPlatformBridgeLacros() override;
 
   // NotificationPlatformBridge:
   void Display(NotificationHandler::Type notification_type,
@@ -35,11 +40,19 @@ class MessageCenterClientLacros : public NotificationPlatformBridge {
   void SetReadyCallback(NotificationBridgeReadyCallback callback) override;
   void DisplayServiceShutDown(Profile* profile) override;
 
-  // TODO(jamescook): Add "client" methods like OnNotificationClicked,
-  // OnNotificationClosed, etc.
-
  private:
-  NotificationPlatformBridgeDelegate* delegate_;
+  class RemoteNotificationDelegate;
+
+  // Cleans up after a remote notification is closed.
+  void OnRemoteNotificationClosed(const std::string& id);
+
+  NotificationPlatformBridgeDelegate* const bridge_delegate_;
+
+  // Map key is notification ID.
+  std::map<std::string, std::unique_ptr<RemoteNotificationDelegate>>
+      remote_notifications_;
+
+  base::WeakPtrFactory<NotificationPlatformBridgeLacros> weak_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_NOTIFICATIONS_MESSAGE_CENTER_CLIENT_LACROS_H_
+#endif  // CHROME_BROWSER_NOTIFICATIONS_NOTIFICATION_PLATFORM_BRIDGE_LACROS_H_
