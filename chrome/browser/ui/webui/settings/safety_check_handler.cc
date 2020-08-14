@@ -144,7 +144,14 @@ SafetyCheckHandler::ChromeCleanerStatus fetchCurrentChromeCleanerStatus() {
 
 SafetyCheckHandler::SafetyCheckHandler() = default;
 
-SafetyCheckHandler::~SafetyCheckHandler() = default;
+SafetyCheckHandler::~SafetyCheckHandler() {
+#if defined(OS_WIN) && BUILDFLAG(GOOGLE_CHROME_BRANDING)
+  // It seems |OnJavascriptDisallowed| is not always called before the
+  // deconstructor. Remove the CCT observer (no-op if not registered)
+  // also here to ensure it does not stay registered.
+  safe_browsing::ChromeCleanerController::GetInstance()->RemoveObserver(this);
+#endif
+}
 
 void SafetyCheckHandler::SendSafetyCheckStartedWebUiUpdates() {
   AllowJavascript();
@@ -355,9 +362,9 @@ void SafetyCheckHandler::CheckExtensions() {
 
 #if defined(OS_WIN) && BUILDFLAG(GOOGLE_CHROME_BRANDING)
 void SafetyCheckHandler::CheckChromeCleaner() {
-  // TODO(crbug.com/1097757): Register as a Chrome cleaner observer instead
-  // to auto-update from Chrome cleaner state changes.
-  OnChromeCleanerCheckResult(fetchCurrentChromeCleanerStatus());
+  // Registering the observer immediately triggers a callback with the
+  // current state.
+  safe_browsing::ChromeCleanerController::GetInstance()->AddObserver(this);
 }
 #endif
 
@@ -875,6 +882,10 @@ void SafetyCheckHandler::OnJavascriptDisallowed() {
   version_updater_.reset();
   // Stop observing safety check events.
   safety_check_.reset(nullptr);
+#if defined(OS_WIN) && BUILDFLAG(GOOGLE_CHROME_BRANDING)
+  // Remove |this| as an observer for the Chrome cleaner.
+  safe_browsing::ChromeCleanerController::GetInstance()->RemoveObserver(this);
+#endif
 }
 
 void SafetyCheckHandler::RegisterMessages() {
