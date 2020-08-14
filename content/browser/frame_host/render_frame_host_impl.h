@@ -1440,8 +1440,9 @@ class CONTENT_EXPORT RenderFrameHostImpl
   network::CrossOriginOpenerPolicy cross_origin_opener_policy() const {
     return cross_origin_opener_policy_;
   }
-  void set_cross_origin_opener_policy(network::CrossOriginOpenerPolicy policy) {
-    cross_origin_opener_policy_ = policy;
+  void set_cross_origin_opener_policy_for_testing(
+      const network::CrossOriginOpenerPolicy& cross_origin_opener_policy) {
+    cross_origin_opener_policy_ = cross_origin_opener_policy;
   }
   CrossOriginOpenerPolicyReporter* coop_reporter() {
     return coop_reporter_.get();

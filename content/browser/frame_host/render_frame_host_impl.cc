@@ -2161,7 +2161,7 @@ bool RenderFrameHostImpl::CreateRenderFrame(
   NavigationRequest* navigation_request =
       frame_tree_node()->navigation_request();
   if (navigation_request &&
-      navigation_request->coop_status().require_browsing_instance_swap) {
+      navigation_request->coop_status().require_browsing_instance_swap()) {
     params->replication_state.name = "";
     // "COOP swaps" only affect main frames, that have an empty unique name.
     DCHECK(params->replication_state.unique_name.empty());
@@ -8351,7 +8351,7 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
       navigation_request->SandboxFlagsToCommit();
 
   int virtual_browsing_context_group =
-      navigation_request->coop_status().virtual_browsing_context_group;
+      navigation_request->coop_status().virtual_browsing_context_group();
 
   // If we still have a PeakGpuMemoryTracker, then the loading it was observing
   // never completed. Cancel it's callback so that we don't report partial
@@ -8361,6 +8361,11 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
   // Main Frames will create the tracker, which will be triggered after we
   // receive DidStopLoading.
   loading_mem_tracker_ = navigation_request->TakePeakGpuMemoryTracker();
+
+  if (created_new_document) {
+    cross_origin_opener_policy_ =
+        navigation_request->coop_status().current_coop();
+  }
 
   network::mojom::ClientSecurityStatePtr client_security_state =
       navigation_request->TakeClientSecurityState();
@@ -8373,8 +8378,8 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
   // and we have a reporter on the page we're going to, report it here.
   const CrossOriginOpenerPolicyStatus& coop_status =
       navigation_request->coop_status();
-  if (coop_status.had_opener_before_browsing_instance_swap && coop_reporter) {
-    if (coop_status.require_browsing_instance_swap) {
+  if (coop_status.had_opener() && coop_reporter) {
+    if (coop_status.require_browsing_instance_swap()) {
       coop_reporter->QueueOpenerBreakageReport(
           coop_reporter->GetPreviousDocumentUrlForReporting(
               navigation_request->GetRedirectChain(),
@@ -8382,7 +8387,7 @@ bool RenderFrameHostImpl::DidCommitNavigationInternal(
           false /* is_reported_from_document */, false /* is_report_only */);
     }
 
-    if (coop_status.virtual_browsing_instance_swap) {
+    if (coop_status.virtual_browsing_instance_swap()) {
       coop_reporter->QueueOpenerBreakageReport(
           coop_reporter->GetPreviousDocumentUrlForReporting(
               navigation_request->GetRedirectChain(),

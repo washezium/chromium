@@ -820,7 +820,7 @@ RenderFrameHostImpl* RenderFrameHostManager::GetFrameHostForNavigation(
         navigation_rfh->SwapIn();
       navigation_rfh->OnCommittedSpeculativeBeforeNavigationCommit();
       CommitPending(std::move(speculative_render_frame_host_), nullptr,
-                    request->coop_status().require_browsing_instance_swap);
+                    request->coop_status().require_browsing_instance_swap());
     }
   }
   DCHECK(navigation_rfh &&
@@ -2446,7 +2446,7 @@ RenderFrameHostManager::GetSiteInstanceForNavigationRequest(
       request->state() >= NavigationRequest::CANCELING, is_reload,
       request->IsSameDocument(), request->GetRestoreType() != RestoreType::NONE,
       request->is_view_source(), request->WasServerRedirect(),
-      request->coop_status().require_browsing_instance_swap,
+      request->coop_status().require_browsing_instance_swap(),
       request->common_params().should_replace_current_entry);
 
   // If the NavigationRequest's dest_site_instance was present but incorrect,
