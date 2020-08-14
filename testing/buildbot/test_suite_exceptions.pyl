@@ -2685,8 +2685,8 @@
         'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-DesktopWidgetFocusManagerTest.AnchoredDialogInDesktopNativeWidgetAura:'
-          'DesktopWidgetTest.GetWindowPlacement:'
-          'DesktopWidgetTest.MinimumSizeConstraints:'
+          'DesktopWidgetTest*:'
+          'DesktopWindowTreeHostPlatformTest*:'
           'EditableComboboxTest*:'
           'MenuRunnerTest*:'
           'TextfieldTest*:'
