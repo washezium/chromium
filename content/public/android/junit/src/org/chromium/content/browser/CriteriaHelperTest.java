@@ -5,8 +5,11 @@
 package org.chromium.content.browser;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import static org.chromium.base.task.TaskTraits.THREAD_POOL;
 import static org.chromium.content_public.browser.test.util.CriteriaHelper.DEFAULT_POLLING_INTERVAL;
 
 import androidx.test.filters.MediumTest;
@@ -19,9 +22,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import org.chromium.base.ThreadUtils;
-import org.chromium.base.test.BaseJUnit4ClassRunner;
-import org.chromium.base.test.UiThreadTest;
-import org.chromium.base.test.util.Batch;
+import org.chromium.base.task.PostTask;
+import org.chromium.base.test.BaseRobolectricTestRunner;
 import org.chromium.content_public.browser.test.util.Criteria;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
 import org.chromium.content_public.browser.test.util.CriteriaNotSatisfiedException;
@@ -32,8 +34,7 @@ import java.io.StringWriter;
 /**
  * Tests for {@link CriteriaHelper}.
  */
-@RunWith(BaseJUnit4ClassRunner.class)
-@Batch(Batch.UNIT_TESTS)
+@RunWith(BaseRobolectricTestRunner.class)
 public class CriteriaHelperTest {
     private static final String ERROR_MESSAGE = "my special error message";
 
@@ -43,36 +44,35 @@ public class CriteriaHelperTest {
     @Test
     @MediumTest
     public void testUiThread() {
-        CriteriaHelper.pollUiThread(
-                () -> Criteria.checkThat(ThreadUtils.runningOnUiThread(), Matchers.is(true)));
-    }
-
-    @Test
-    @MediumTest
-    @UiThreadTest
-    public void testUiThreadNested() {
-        CriteriaHelper.pollUiThreadNested(
-                () -> Criteria.checkThat(ThreadUtils.runningOnUiThread(), Matchers.is(true)));
+        // Robolectric runs the test on UI thread.
+        assertTrue(ThreadUtils.runningOnUiThread());
+        // In Instrumented tests, the tests would be on instrumentation thread instead.
+        // Emulate that behavior by posting the body of the test.
+        PostTask.postTask(THREAD_POOL, () -> {
+            assertFalse(ThreadUtils.runningOnUiThread());
+            CriteriaHelper.pollUiThread(
+                    () -> Criteria.checkThat(ThreadUtils.runningOnUiThread(), Matchers.is(true)));
+        });
     }
 
     @Test
     @MediumTest
     public void testInstrumentationThread() {
-        CriteriaHelper.pollInstrumentationThread(
-                () -> Criteria.checkThat(ThreadUtils.runningOnUiThread(), Matchers.is(false)));
+        // Robolectric runs the test on UI thread.
+        assertTrue(ThreadUtils.runningOnUiThread());
+        // In Instrumented tests, the tests would be on instrumentation thread instead.
+        // Emulate that behavior by posting the body of the test.
+        PostTask.postTask(THREAD_POOL, () -> {
+            assertFalse(ThreadUtils.runningOnUiThread());
+            CriteriaHelper.pollInstrumentationThread(
+                    () -> Criteria.checkThat(ThreadUtils.runningOnUiThread(), Matchers.is(false)));
+        });
     }
 
     @Test
     @MediumTest
     public void testPass_Runnable_UiThread() {
         CriteriaHelper.pollUiThread(() -> {});
-    }
-
-    @Test
-    @MediumTest
-    @UiThreadTest
-    public void testPass_Runnable_UiThreadNested() {
-        CriteriaHelper.pollUiThreadNested(() -> {});
     }
 
     @Test
@@ -89,13 +89,6 @@ public class CriteriaHelperTest {
 
     @Test
     @MediumTest
-    @UiThreadTest
-    public void testPass_Callable_UiThreadNested() {
-        CriteriaHelper.pollUiThreadNested(() -> true);
-    }
-
-    @Test
-    @MediumTest
     public void testPass_Callable_InstrumentationThread() {
         CriteriaHelper.pollInstrumentationThread(() -> true);
     }
@@ -105,16 +98,6 @@ public class CriteriaHelperTest {
     public void testThrow_Runnable_UiThread() {
         thrown.expect(AssertionError.class);
         CriteriaHelper.pollUiThread(() -> {
-            throw new CriteriaNotSatisfiedException("");
-        }, 0, DEFAULT_POLLING_INTERVAL);
-    }
-
-    @Test
-    @MediumTest
-    @UiThreadTest
-    public void testThrow_Runnable_UiThreadNested() {
-        thrown.expect(AssertionError.class);
-        CriteriaHelper.pollUiThreadNested(() -> {
             throw new CriteriaNotSatisfiedException("");
         }, 0, DEFAULT_POLLING_INTERVAL);
     }
@@ -137,14 +120,6 @@ public class CriteriaHelperTest {
 
     @Test
     @MediumTest
-    @UiThreadTest
-    public void testThrow_Callable_UiThreadNested() {
-        thrown.expect(AssertionError.class);
-        CriteriaHelper.pollUiThreadNested(() -> false, 0, DEFAULT_POLLING_INTERVAL);
-    }
-
-    @Test
-    @MediumTest
     public void testThrow_Callable_InstrumentationThread() {
         thrown.expect(AssertionError.class);
         CriteriaHelper.pollInstrumentationThread(() -> false, 0, DEFAULT_POLLING_INTERVAL);
@@ -155,16 +130,6 @@ public class CriteriaHelperTest {
     public void testMessage_Runnable_UiThread() {
         thrown.expectMessage(ERROR_MESSAGE);
         CriteriaHelper.pollUiThread(() -> {
-            throw new CriteriaNotSatisfiedException(ERROR_MESSAGE);
-        }, 0, DEFAULT_POLLING_INTERVAL);
-    }
-
-    @Test
-    @MediumTest
-    @UiThreadTest
-    public void testMessage_Runnable_UiThreadNested() {
-        thrown.expectMessage(ERROR_MESSAGE);
-        CriteriaHelper.pollUiThreadNested(() -> {
             throw new CriteriaNotSatisfiedException(ERROR_MESSAGE);
         }, 0, DEFAULT_POLLING_INTERVAL);
     }
@@ -216,22 +181,6 @@ public class CriteriaHelperTest {
 
     @Test
     @MediumTest
-    @UiThreadTest
-    public void testStack_Runnable_UiThreadNested() {
-        try {
-            CriteriaHelper.pollUiThreadNested(() -> {
-                throw new CriteriaNotSatisfiedException("test");
-            }, 0, DEFAULT_POLLING_INTERVAL);
-        } catch (AssertionError e) {
-            assertThat(getStackTrace(e),
-                    containsString("CriteriaHelperTest.testStack_Runnable_UiThreadNested("));
-            return;
-        }
-        Assert.fail();
-    }
-
-    @Test
-    @MediumTest
     public void testStack_Runnable_InstrumentationThread() {
         try {
             CriteriaHelper.pollInstrumentationThread(() -> {
@@ -253,20 +202,6 @@ public class CriteriaHelperTest {
         } catch (AssertionError e) {
             assertThat(getStackTrace(e),
                     containsString("CriteriaHelperTest.testStack_Callable_UiThread("));
-            return;
-        }
-        Assert.fail();
-    }
-
-    @Test
-    @MediumTest
-    @UiThreadTest
-    public void testStack_Callable_UiThreadNested() {
-        try {
-            CriteriaHelper.pollUiThreadNested(() -> false, 0, DEFAULT_POLLING_INTERVAL);
-        } catch (AssertionError e) {
-            assertThat(getStackTrace(e),
-                    containsString("CriteriaHelperTest.testStack_Callable_UiThreadNested("));
             return;
         }
         Assert.fail();
