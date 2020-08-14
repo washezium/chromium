@@ -60,6 +60,7 @@
 #include "third_party/blink/renderer/core/page/page.h"
 #include "third_party/blink/renderer/core/page/scrolling/top_document_root_scroller_controller.h"
 #include "third_party/blink/renderer/core/svg/svg_element.h"
+#include "third_party/blink/renderer/core/svg/svg_g_element.h"
 #include "third_party/blink/renderer/core/svg/svg_style_element.h"
 #include "third_party/blink/renderer/modules/accessibility/ax_menu_list.h"
 #include "third_party/blink/renderer/modules/accessibility/ax_menu_list_option.h"
@@ -1540,6 +1541,10 @@ bool AXObject::ComputeAccessibilityIsIgnoredButIncludedInTree() const {
   // This is useful for APIs that return the node referenced by
   // aria-labeledby and aria-describedby.
   if (GetLayoutObject() && AriaHiddenRoot())
+    return true;
+
+  // Preserve SVG grouping elements.
+  if (GetNode() && IsA<SVGGElement>(GetNode()))
     return true;
 
   return false;

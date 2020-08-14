@@ -2227,6 +2227,10 @@ IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilitySvg) {
   RunHtmlTest(FILE_PATH_LITERAL("svg.html"));
 }
 
+IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilitySvgG) {
+  RunHtmlTest(FILE_PATH_LITERAL("svg-g.html"));
+}
+
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilityTableSimple) {
   RunHtmlTest(FILE_PATH_LITERAL("table-simple.html"));
 }
