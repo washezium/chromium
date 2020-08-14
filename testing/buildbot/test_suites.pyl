@@ -4426,6 +4426,7 @@
           ],
         },
       },
+      'updater_tests': {},
       'zucchini_unittests': {},
     },
 
