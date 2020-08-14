@@ -3401,6 +3401,10 @@
       'sandbox_linux_unittests': {},
     },
 
+    'linux_lacros_cq_gtests': {
+      'unit_tests': {},
+    },
+
     'linux_ozone_common_gtests': {
       'content_unittests': {},
       'events_unittests': {},
