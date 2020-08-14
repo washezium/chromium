@@ -4140,7 +4140,7 @@ bool RenderProcessHostImpl::IsSuitableHost(
 
       // If the destination requires a different process lock, this process
       // cannot be used.
-      if (process_lock.lock_url() != site_info.process_lock_url())
+      if (process_lock != ProcessLock(site_info))
         return false;
     } else {
       if (!host->IsUnused() &&
