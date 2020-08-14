@@ -3503,6 +3503,21 @@
             ]
         }
     ],
+    "IOSDiscoverFeed": [
+        {
+            "platforms": [
+                "ios"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled",
+                    "enable_features": [
+                        "DiscoverFeedInNtp"
+                    ]
+                }
+            ]
+        }
+    ],
     "IOSDragAndDrop": [
         {
             "platforms": [
