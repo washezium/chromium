@@ -277,6 +277,10 @@ try_.chromium_chromiumos_builder(
 )
 
 try_.chromium_chromiumos_builder(
+    name = "linux-lacros-rel",
+)
+
+try_.chromium_chromiumos_builder(
     name = "linux-chromeos-dbg",
 )
 
