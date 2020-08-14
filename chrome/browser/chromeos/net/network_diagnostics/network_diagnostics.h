@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_IMPL_H_
-#define CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_IMPL_H_
+#ifndef CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_H_
+#define CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_H_
 
 #include "base/memory/weak_ptr.h"
 #include "chromeos/services/network_health/public/mojom/network_diagnostics.mojom.h"
@@ -15,17 +15,14 @@ class DebugDaemonClient;
 
 namespace network_diagnostics {
 
-class NetworkDiagnosticsImpl : public mojom::NetworkDiagnosticsRoutines {
+class NetworkDiagnostics : public mojom::NetworkDiagnosticsRoutines {
  public:
-  explicit NetworkDiagnosticsImpl(
-      chromeos::DebugDaemonClient* debug_daemon_client);
-  NetworkDiagnosticsImpl(const NetworkDiagnosticsImpl&) = delete;
-  NetworkDiagnosticsImpl& operator=(const NetworkDiagnosticsImpl&) = delete;
-  ~NetworkDiagnosticsImpl() override;
+  explicit NetworkDiagnostics(chromeos::DebugDaemonClient* debug_daemon_client);
+  NetworkDiagnostics(const NetworkDiagnostics&) = delete;
+  NetworkDiagnostics& operator=(const NetworkDiagnostics&) = delete;
+  ~NetworkDiagnostics() override;
 
-  // Binds this instance, an implementation of
-  // chromeos::network_diagnostics::mojom::NetworkDiagnosticsRoutines, to
-  // multiple mojom::NetworkDiagnosticsRoutines receivers.
+  // Binds this instance to |receiver|.
   void BindReceiver(
       mojo::PendingReceiver<mojom::NetworkDiagnosticsRoutines> receiver);
 
@@ -41,13 +38,13 @@ class NetworkDiagnosticsImpl : public mojom::NetworkDiagnosticsRoutines {
   void CaptivePortal(CaptivePortalCallback callback) override;
 
  private:
-  mojo::ReceiverSet<mojom::NetworkDiagnosticsRoutines> receivers_;
   // An unowned pointer to the DebugDaemonClient instance.
   chromeos::DebugDaemonClient* debug_daemon_client_;
-  base::WeakPtrFactory<NetworkDiagnosticsImpl> weak_factory_{this};
+  // Receivers for external requests (WebUI, Feedback, CrosHealthdClient).
+  mojo::ReceiverSet<mojom::NetworkDiagnosticsRoutines> receivers_;
 };
 
 }  // namespace network_diagnostics
 }  // namespace chromeos
 
-#endif  // CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_IMPL_H_
+#endif  // CHROME_BROWSER_CHROMEOS_NET_NETWORK_DIAGNOSTICS_NETWORK_DIAGNOSTICS_H_

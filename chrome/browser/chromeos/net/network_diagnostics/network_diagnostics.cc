@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/net/network_diagnostics/network_diagnostics_impl.h"
+#include "chrome/browser/chromeos/net/network_diagnostics/network_diagnostics.h"
 
 #include <memory>
 #include <utility>
@@ -22,7 +22,7 @@
 namespace chromeos {
 namespace network_diagnostics {
 
-NetworkDiagnosticsImpl::NetworkDiagnosticsImpl(
+NetworkDiagnostics::NetworkDiagnostics(
     chromeos::DebugDaemonClient* debug_daemon_client) {
   DCHECK(debug_daemon_client);
   if (debug_daemon_client) {
@@ -30,15 +30,15 @@ NetworkDiagnosticsImpl::NetworkDiagnosticsImpl(
   }
 }
 
-NetworkDiagnosticsImpl::~NetworkDiagnosticsImpl() {}
+NetworkDiagnostics::~NetworkDiagnostics() {}
 
-void NetworkDiagnosticsImpl::BindReceiver(
+void NetworkDiagnostics::BindReceiver(
     mojo::PendingReceiver<mojom::NetworkDiagnosticsRoutines> receiver) {
-  NET_LOG(EVENT) << "NetworkDiagnosticsImpl::BindReceiver()";
+  NET_LOG(EVENT) << "NetworkDiagnostics::BindReceiver()";
   receivers_.Add(this, std::move(receiver));
 }
 
-void NetworkDiagnosticsImpl::LanConnectivity(LanConnectivityCallback callback) {
+void NetworkDiagnostics::LanConnectivity(LanConnectivityCallback callback) {
   auto routine = std::make_unique<LanConnectivityRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
   // This ensures that the routine stays alive when it makes asynchronous mojo
@@ -50,7 +50,7 @@ void NetworkDiagnosticsImpl::LanConnectivity(LanConnectivityCallback callback) {
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::SignalStrength(SignalStrengthCallback callback) {
+void NetworkDiagnostics::SignalStrength(SignalStrengthCallback callback) {
   auto routine = std::make_unique<SignalStrengthRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
   // This ensures that the routine stays alive when it makes asynchronous mojo
@@ -64,7 +64,7 @@ void NetworkDiagnosticsImpl::SignalStrength(SignalStrengthCallback callback) {
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::GatewayCanBePinged(
+void NetworkDiagnostics::GatewayCanBePinged(
     GatewayCanBePingedCallback callback) {
   auto routine =
       std::make_unique<GatewayCanBePingedRoutine>(debug_daemon_client_);
@@ -80,7 +80,7 @@ void NetworkDiagnosticsImpl::GatewayCanBePinged(
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::HasSecureWiFiConnection(
+void NetworkDiagnostics::HasSecureWiFiConnection(
     HasSecureWiFiConnectionCallback callback) {
   auto routine = std::make_unique<HasSecureWiFiConnectionRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
@@ -96,7 +96,7 @@ void NetworkDiagnosticsImpl::HasSecureWiFiConnection(
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::DnsResolverPresent(
+void NetworkDiagnostics::DnsResolverPresent(
     DnsResolverPresentCallback callback) {
   auto routine = std::make_unique<DnsResolverPresentRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
@@ -111,7 +111,7 @@ void NetworkDiagnosticsImpl::DnsResolverPresent(
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::DnsLatency(DnsLatencyCallback callback) {
+void NetworkDiagnostics::DnsLatency(DnsLatencyCallback callback) {
   auto routine = std::make_unique<DnsLatencyRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
   // This ensures that the routine stays alive when it makes asynchronous mojo
@@ -125,7 +125,7 @@ void NetworkDiagnosticsImpl::DnsLatency(DnsLatencyCallback callback) {
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::DnsResolution(DnsResolutionCallback callback) {
+void NetworkDiagnostics::DnsResolution(DnsResolutionCallback callback) {
   auto routine = std::make_unique<DnsResolutionRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
   // This ensures that the routine stays alive when it makes asynchronous mojo
@@ -139,7 +139,7 @@ void NetworkDiagnosticsImpl::DnsResolution(DnsResolutionCallback callback) {
       std::move(routine), std::move(callback)));
 }
 
-void NetworkDiagnosticsImpl::CaptivePortal(CaptivePortalCallback callback) {
+void NetworkDiagnostics::CaptivePortal(CaptivePortalCallback callback) {
   auto routine = std::make_unique<CaptivePortalRoutine>();
   // RunRoutine() takes a lambda callback that takes ownership of the routine.
   // This ensures that the routine stays alive when it makes asynchronous mojo

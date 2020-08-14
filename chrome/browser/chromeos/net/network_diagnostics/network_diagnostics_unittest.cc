@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/net/network_diagnostics/network_diagnostics_impl.h"
+#include "chrome/browser/chromeos/net/network_diagnostics/network_diagnostics.h"
 
 #include <memory>
 #include <utility>
@@ -83,15 +83,15 @@ const char kFakeValidICMPOutput[] = R"(
 
 }  // namespace
 
-class NetworkDiagnosticsImplTest : public ::testing::Test {
+class NetworkDiagnosticsTest : public ::testing::Test {
  public:
-  NetworkDiagnosticsImplTest() {
+  NetworkDiagnosticsTest() {
     // Set TestDebugDaemonClient
     test_debug_daemon_client_ = std::make_unique<TestDebugDaemonClient>();
-    network_diagnostics_impl_ = std::make_unique<NetworkDiagnosticsImpl>(
-        test_debug_daemon_client_.get());
-    network_diagnostics_impl_->BindReceiver(
-        network_diagnostics_.BindNewPipeAndPassReceiver());
+    network_diagnostics_ =
+        std::make_unique<NetworkDiagnostics>(test_debug_daemon_client_.get());
+    network_diagnostics_->BindReceiver(
+        network_diagnostics_remote_.BindNewPipeAndPassReceiver());
 
     // Initialize the ManagedNetworkConfigurationHandler and any associated
     // properties.
@@ -100,7 +100,7 @@ class NetworkDiagnosticsImplTest : public ::testing::Test {
     InitializeManagedNetworkConfigurationHandler();
     // Note that |cros_network_config_test_helper_| must be initialized before
     // any routine is initialized (routine initialization is done in
-    // NetworkDiagnosticsImpl). This is because |g_network_config_override| in
+    // NetworkDiagnostics). This is because |g_network_config_override| in
     // OverrideInProcessInstanceForTesting() must be set up before the routines
     // invoke BindToInProcessInstance(). See
     // chromeos/services/network_config/in_process_instance.cc for further
@@ -114,7 +114,7 @@ class NetworkDiagnosticsImplTest : public ::testing::Test {
     SetUpWiFi();
   }
 
-  ~NetworkDiagnosticsImplTest() override {
+  ~NetworkDiagnosticsTest() override {
     NetworkCertLoader::Shutdown();
     LoginState::Shutdown();
     managed_network_configuration_handler_.reset();
@@ -227,12 +227,12 @@ class NetworkDiagnosticsImplTest : public ::testing::Test {
     return cros_network_config_test_helper_.network_state_helper();
   }
 
-  base::WeakPtr<NetworkDiagnosticsImplTest> weak_ptr() {
+  base::WeakPtr<NetworkDiagnosticsTest> weak_ptr() {
     return weak_factory_.GetWeakPtr();
   }
 
-  NetworkDiagnosticsImpl* network_diagnostics_impl() {
-    return network_diagnostics_impl_.get();
+  NetworkDiagnostics* network_diagnostics() {
+    return network_diagnostics_.get();
   }
 
   TestDebugDaemonClient* test_debug_daemon_client() {
@@ -256,17 +256,17 @@ class NetworkDiagnosticsImplTest : public ::testing::Test {
   // InitializeManagedNetworkConfigurationHandler().
   network_config::CrosNetworkConfigTestHelper cros_network_config_test_helper_{
       false};
-  mojo::Remote<mojom::NetworkDiagnosticsRoutines> network_diagnostics_;
-  std::unique_ptr<NetworkDiagnosticsImpl> network_diagnostics_impl_;
-  base::WeakPtrFactory<NetworkDiagnosticsImplTest> weak_factory_{this};
+  mojo::Remote<mojom::NetworkDiagnosticsRoutines> network_diagnostics_remote_;
+  std::unique_ptr<NetworkDiagnostics> network_diagnostics_;
+  base::WeakPtrFactory<NetworkDiagnosticsTest> weak_factory_{this};
 };
 
-// Test whether NetworkDiagnosticsImpl can successfully invoke the
+// Test whether NetworkDiagnostics can successfully invoke the
 // LanConnectivity routine.
-TEST_F(NetworkDiagnosticsImplTest, LanConnectivityReachability) {
+TEST_F(NetworkDiagnosticsTest, LanConnectivityReachability) {
   mojom::RoutineVerdict received_verdict;
   base::RunLoop run_loop;
-  network_diagnostics_impl()->LanConnectivity(base::BindOnce(
+  network_diagnostics()->LanConnectivity(base::BindOnce(
       [](mojom::RoutineVerdict* received_verdict,
          base::OnceClosure quit_closure, mojom::RoutineVerdict actual_verdict) {
         *received_verdict = actual_verdict;
@@ -277,13 +277,13 @@ TEST_F(NetworkDiagnosticsImplTest, LanConnectivityReachability) {
   EXPECT_EQ(received_verdict, mojom::RoutineVerdict::kNoProblem);
 }
 
-// Test whether NetworkDiagnosticsImpl can successfully invoke the
+// Test whether NetworkDiagnostics can successfully invoke the
 // SignalStrength routine.
-TEST_F(NetworkDiagnosticsImplTest, SignalStrengthReachability) {
+TEST_F(NetworkDiagnosticsTest, SignalStrengthReachability) {
   mojom::RoutineVerdict received_verdict;
   std::vector<mojom::SignalStrengthProblem> received_problems;
   base::RunLoop run_loop;
-  network_diagnostics_impl()->SignalStrength(base::BindOnce(
+  network_diagnostics()->SignalStrength(base::BindOnce(
       [](mojom::RoutineVerdict* received_verdict,
          std::vector<mojom::SignalStrengthProblem>* received_problems,
          base::OnceClosure quit_closure, mojom::RoutineVerdict actual_verdict,
@@ -299,14 +299,14 @@ TEST_F(NetworkDiagnosticsImplTest, SignalStrengthReachability) {
   EXPECT_EQ(received_problems, no_problems);
 }
 
-// Test whether NetworkDiagnosticsImpl can successfully invoke the
+// Test whether NetworkDiagnostics can successfully invoke the
 // GatewayCanBePinged routine.
-TEST_F(NetworkDiagnosticsImplTest, GatewayCanBePingedReachability) {
+TEST_F(NetworkDiagnosticsTest, GatewayCanBePingedReachability) {
   test_debug_daemon_client()->set_icmp_output(kFakeValidICMPOutput);
   mojom::RoutineVerdict received_verdict;
   std::vector<mojom::GatewayCanBePingedProblem> received_problems;
   base::RunLoop run_loop;
-  network_diagnostics_impl()->GatewayCanBePinged(base::BindOnce(
+  network_diagnostics()->GatewayCanBePinged(base::BindOnce(
       [](mojom::RoutineVerdict* received_verdict,
          std::vector<mojom::GatewayCanBePingedProblem>* received_problems,
          base::OnceClosure quit_closure, mojom::RoutineVerdict actual_verdict,
@@ -322,13 +322,13 @@ TEST_F(NetworkDiagnosticsImplTest, GatewayCanBePingedReachability) {
   EXPECT_EQ(received_problems, no_problems);
 }
 
-// Test whether NetworkDiagnosticsImpl can successfully invoke the
+// Test whether NetworkDiagnostics can successfully invoke the
 // HasSecureWiFiConnection routine.
-TEST_F(NetworkDiagnosticsImplTest, HasSecureWiFiConnectionReachability) {
+TEST_F(NetworkDiagnosticsTest, HasSecureWiFiConnectionReachability) {
   mojom::RoutineVerdict received_verdict;
   std::vector<mojom::HasSecureWiFiConnectionProblem> received_problems;
   base::RunLoop run_loop;
-  network_diagnostics_impl()->HasSecureWiFiConnection(base::BindOnce(
+  network_diagnostics()->HasSecureWiFiConnection(base::BindOnce(
       [](mojom::RoutineVerdict* received_verdict,
          std::vector<mojom::HasSecureWiFiConnectionProblem>* received_problems,
          base::OnceClosure quit_closure, mojom::RoutineVerdict actual_verdict,
@@ -345,16 +345,16 @@ TEST_F(NetworkDiagnosticsImplTest, HasSecureWiFiConnectionReachability) {
   EXPECT_EQ(received_problems, no_problems);
 }
 
-// Test whether NetworkDiagnosticsImpl can successfully invoke the
+// Test whether NetworkDiagnostics can successfully invoke the
 // DnsResolverPresent routine.
-TEST_F(NetworkDiagnosticsImplTest, DnsResolverPresentReachability) {
+TEST_F(NetworkDiagnosticsTest, DnsResolverPresentReachability) {
   // Attach nameservers to the IPConfigs.
   SetUpNameServers(kWellFormedDnsServers);
 
   mojom::RoutineVerdict received_verdict;
   std::vector<mojom::DnsResolverPresentProblem> received_problems;
   base::RunLoop run_loop;
-  network_diagnostics_impl()->DnsResolverPresent(base::BindOnce(
+  network_diagnostics()->DnsResolverPresent(base::BindOnce(
       [](mojom::RoutineVerdict* received_verdict,
          std::vector<mojom::DnsResolverPresentProblem>* received_problems,
          base::OnceClosure quit_closure, mojom::RoutineVerdict actual_verdict,
@@ -370,17 +370,17 @@ TEST_F(NetworkDiagnosticsImplTest, DnsResolverPresentReachability) {
   EXPECT_EQ(received_problems, no_problems);
 }
 
-// TODO(khegde): Test whether NetworkDiagnosticsImpl can successfully invoke the
+// TODO(khegde): Test whether NetworkDiagnostics can successfully invoke the
 // DnsLatency routine. This would require a way to fake and inject the following
 // into the DnsLatency routine: base::TickClock, network::mojom::HostResolver,
 // and network::TestNetworkContext.
-// TEST_F(NetworkDiagnosticsImplTest, DnsLatencyReachability) {}
+// TEST_F(NetworkDiagnosticsTest, DnsLatencyReachability) {}
 
-// TODO(khegde): Test whether NetworkDiagnosticsImpl can successfully invoke the
+// TODO(khegde): Test whether NetworkDiagnostics can successfully invoke the
 // DnsResolution routine. This would require a way to fake and inject the
 // following into the DnsResolution routine: network::mojom::HostResolver and
 // network::TestNetworkContext.
-// TEST_F(NetworkDiagnosticsImplTest, DnsResolutionReachability) {}
+// TEST_F(NetworkDiagnosticsTest, DnsResolutionReachability) {}
 
 }  // namespace network_diagnostics
 }  // namespace chromeos
