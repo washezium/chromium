@@ -3692,10 +3692,12 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(omnibox::kOmniboxTabSwitchSuggestions)},
 #endif  // defined(OS_ANDROID)
 
-    {"omnibox-clobber-is-zero-suggest-entrypoint",
-     flag_descriptions::kOmniboxClobberIsZeroSuggestEntrypointName,
-     flag_descriptions::kOmniboxClobberIsZeroSuggestEntrypointDescription,
-     kOsAll, FEATURE_VALUE_TYPE(omnibox::kClobberIsZeroSuggestEntrypoint)},
+    {"omnibox-clobber-triggers-contextual-web-zero-suggest",
+     flag_descriptions::kOmniboxClobberTriggersContextualWebZeroSuggestName,
+     flag_descriptions::
+         kOmniboxClobberTriggersContextualWebZeroSuggestDescription,
+     kOsAll,
+     FEATURE_VALUE_TYPE(omnibox::kClobberTriggersContextualWebZeroSuggest)},
 
     {"omnibox-focus-gesture-triggers-contextual-web-zero-suggest",
      flag_descriptions::

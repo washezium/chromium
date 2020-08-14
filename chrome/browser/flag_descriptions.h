@@ -868,8 +868,8 @@ extern const char kOmniboxAssistantVoiceSearchDescription[];
 extern const char kOmniboxAutocompleteTitlesName[];
 extern const char kOmniboxAutocompleteTitlesDescription[];
 
-extern const char kOmniboxClobberIsZeroSuggestEntrypointName[];
-extern const char kOmniboxClobberIsZeroSuggestEntrypointDescription[];
+extern const char kOmniboxClobberTriggersContextualWebZeroSuggestName[];
+extern const char kOmniboxClobberTriggersContextualWebZeroSuggestDescription[];
 
 extern const char kOmniboxFocusGestureTriggersContextualWebZeroSuggestName[];
 extern const char

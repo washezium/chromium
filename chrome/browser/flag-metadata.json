@@ -3246,7 +3246,7 @@
     "expiry_milestone": 95
   },
   {
-    "name": "omnibox-clobber-is-zero-suggest-entrypoint",
+    "name": "omnibox-clobber-triggers-contextual-web-zero-suggest",
     "owners": [ "tommycli", "chrome-omnibox-team@google.com" ],
     "expiry_milestone": 95
   },
