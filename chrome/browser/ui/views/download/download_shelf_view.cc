@@ -133,66 +133,58 @@ gfx::Size DownloadShelfView::CalculatePreferredSize() const {
     adjust_size(download_views_.front());
 
   prefsize.Enlarge(0, kTopPadding);
-  if (shelf_animation_.is_animating()) {
-    prefsize.set_height(
-        static_cast<int>(static_cast<double>(prefsize.height()) *
-                         shelf_animation_.GetCurrentValue()));
-  }
-  return prefsize;
+  return gfx::Tween::SizeValueBetween(shelf_animation_.GetCurrentValue(),
+                                      gfx::Size(prefsize.width(), 0), prefsize);
 }
 
 void DownloadShelfView::Layout() {
-  // Let our base class layout our child views
-  views::View::Layout();
+  int x = kStartPadding;
 
-  int max_download_x =
-      std::max<int>(0, width() - kEndPadding - close_button_->width() -
-                           kCloseAndLinkPadding - show_all_view_->width());
+  int download_items_end =
+      std::max(0, width() - kEndPadding - close_button_->width() -
+                      kCloseAndLinkPadding - show_all_view_->width());
   // If there is not enough room to show the first download item, show the
   // "Show all downloads" link to the left to make it more visible that there is
   // something to see.
-  bool show_link_only = !download_views_.empty() &&
-                        (download_views_.back()->GetPreferredSize().width() >
-                         (max_download_x - kStartPadding));
-  int next_x = show_link_only ? kStartPadding : max_download_x;
+  bool all_downloads_hidden =
+      !download_views_.empty() &&
+      (download_views_.back()->GetPreferredSize().width() >
+       (download_items_end - x));
 
   const auto center_y = [height = height()](int item_height) {
     return std::max((height - item_height) / 2, kTopPadding);
   };
 
-  show_all_view_->SetPosition({next_x, center_y(show_all_view_->height())});
+  show_all_view_->SetPosition({all_downloads_hidden ? x : download_items_end,
+                               center_y(show_all_view_->height())});
   close_button_->SetPosition(
       {show_all_view_->bounds().right() + kCloseAndLinkPadding,
        center_y(close_button_->height())});
-  if (show_link_only) {
+  if (all_downloads_hidden) {
     // Let's hide all the items.
-    for (auto ri = download_views_.rbegin(); ri != download_views_.rend(); ++ri)
-      (*ri)->SetVisible(false);
+    for (auto* view : download_views_)
+      view->SetVisible(false);
     return;
   }
 
-  next_x = kStartPadding;
-  for (auto ri = download_views_.rbegin(); ri != download_views_.rend(); ++ri) {
-    gfx::Size view_size = (*ri)->GetPreferredSize();
+  for (auto* view : base::Reversed(download_views_)) {
+    gfx::Size view_size = view->GetPreferredSize();
 
-    int x = next_x;
-
-    // Figure out width of item.
-    int item_width = view_size.width();
-    if (new_item_animation_.is_animating() && ri == download_views_.rbegin()) {
-      item_width = static_cast<int>(static_cast<double>(view_size.width()) *
-                                    new_item_animation_.GetCurrentValue());
+    if (view == download_views_.back()) {
+      view_size = gfx::Tween::SizeValueBetween(
+          new_item_animation_.GetCurrentValue(),
+          gfx::Size(0, view_size.height()), view_size);
     }
 
-    next_x += item_width;
+    const gfx::Rect bounds({x, center_y(view_size.height())}, view_size);
+    x = bounds.right();
 
     // Make sure our item can be contained within the shelf.
-    if (next_x < max_download_x) {
-      (*ri)->SetVisible(true);
-      (*ri)->SetBounds(x, center_y(view_size.height()), item_width,
-                       view_size.height());
+    if (x < download_items_end) {
+      view->SetVisible(true);
+      view->SetBoundsRect(bounds);
     } else {
-      (*ri)->SetVisible(false);
+      view->SetVisible(false);
     }
   }
 }
