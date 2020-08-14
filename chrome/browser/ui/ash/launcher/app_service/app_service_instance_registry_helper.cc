@@ -331,8 +331,12 @@ void AppServiceInstanceRegistryHelper::SetWindowActivated(
     Browser* browser = chrome::FindBrowserWithWindow(window);
     if (!browser)
       return;
+
     content::WebContents* contents =
         browser->tab_strip_model()->GetActiveWebContents();
+    if (!contents)
+      return;
+
     apps::InstanceState state = static_cast<apps::InstanceState>(
         apps::InstanceState::kStarted | apps::InstanceState::kRunning |
         apps::InstanceState::kActive | apps::InstanceState::kVisible);
