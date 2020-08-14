@@ -5708,6 +5708,7 @@ Unknown properties are collapsed to zero. -->
   <int value="17" label="Reload"/>
   <int value="18" label="Guest"/>
   <int value="19" label="The frame has not comitted any navigations yet"/>
+  <int value="20" label="Same-site navigation on page that has unload handler"/>
 </enum>
 
 <enum name="BackForwardCacheDisabledForRenderFrameHostReason">

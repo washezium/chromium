@@ -1386,6 +1386,19 @@ RenderFrameHostManager::ShouldProactivelySwapBrowsingInstance(
     }
     if (!IsSameSiteBackForwardCacheEnabled())
       return ShouldSwapBrowsingInstance::kNo_SameSiteNavigation;
+    // We should not do a proactive BrowsingInstance swap on pages with unload
+    // handlers if we explicitly specified to do so to avoid exposing a
+    // web-observable behavior change (unload handlers running after a same-site
+    // navigation). Note that we're only checking for unload handlers in frames
+    // that share the same SiteInstance as the main frame, because unload
+    // handlers that exist in cross-SiteInstance subframes will be dispatched
+    // after we committed the navigation, regardless of our decision to swap
+    // BrowsingInstances or not.
+    if (ShouldSkipSameSiteBackForwardCacheForPageWithUnload() &&
+        render_frame_host_->UnloadHandlerExistsInSameSiteInstance()) {
+      return ShouldSwapBrowsingInstance::
+          kNo_UnloadHandlerExistsOnSameSiteNavigation;
+    }
   }
 
   if (IsProactivelySwapBrowsingInstanceEnabled())
