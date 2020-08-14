@@ -101,7 +101,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -122,7 +122,8 @@
               "os": "Android"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       },
@@ -2754,7 +2755,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -2776,7 +2777,8 @@
               "pool": "chromium.tests.gpu"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       }
@@ -3134,8 +3136,7 @@
         "args": [
           "--gtest-benchmark-name=angle_perftests",
           "-v",
-          "--shard-timeout=1600",
-          "--test-launcher-batch-limit=100"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -3154,7 +3155,8 @@
               "pool": "chromium.tests.gpu"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       }
@@ -3265,7 +3267,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -3287,7 +3289,8 @@
               "pool": "chromium.tests.gpu"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       }
@@ -3872,7 +3875,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -3894,7 +3897,8 @@
               "pool": "chromium.tests.gpu"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       },
@@ -4931,7 +4935,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -4952,7 +4956,8 @@
               "os": "Android"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       },
@@ -6669,7 +6674,7 @@
           "--gtest-benchmark-name=angle_perftests",
           "-v",
           "--one-frame-only",
-          "--shard-timeout=800"
+          "--test-launcher-batch-limit=1"
         ],
         "isolate_name": "angle_perftests",
         "merge": {
@@ -6691,7 +6696,8 @@
               "pool": "chromium.tests.gpu"
             }
           ],
-          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com"
+          "service_account": "chromium-tester@chops-service-accounts.iam.gserviceaccount.com",
+          "shards": 3
         },
         "test_id_prefix": "ninja://third_party/angle/src/tests:angle_perftests/"
       },
