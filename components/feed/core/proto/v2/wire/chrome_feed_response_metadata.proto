@@ -8,6 +8,6 @@ package feedwire;
 
 option optimize_for = LITE_RUNTIME;
 
-// UNUSED_IN_CHROME message FeedId {
-// UNUSED_IN_CHROME extensions 1 to 6;
-// UNUSED_IN_CHROME }
+message ChromeFeedResponseMetadata {
+  optional bool privacy_notice_fulfilled = 1;
+}
