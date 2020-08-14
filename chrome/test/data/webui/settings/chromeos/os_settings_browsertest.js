@@ -1555,8 +1555,14 @@ var OSSettingsInputPageTest = class extends OSSettingsBrowserTest {
   /** @override */
   get extraLibraries() {
     return super.extraLibraries.concat([
+      BROWSER_SETTINGS_PATH + '../fake_chrome_event.js',
       BROWSER_SETTINGS_PATH + '../test_browser_proxy.js',
+      BROWSER_SETTINGS_PATH + '../test_util.js',
+      BROWSER_SETTINGS_PATH + 'fake_input_method_private.js',
+      BROWSER_SETTINGS_PATH + 'fake_language_settings_private.js',
+      BROWSER_SETTINGS_PATH + 'fake_settings_private.js',
       'input_page_test.js',
+      'test_os_languages_browser_proxy.js',
       'test_os_languages_metrics_proxy.js',
     ]);
   }
