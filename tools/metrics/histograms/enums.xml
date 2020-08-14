@@ -21421,6 +21421,7 @@ Called by update_document_policy_enum.py.-->
   <int value="769" label="Printers"/>
   <int value="770" label="PrintersBulkConfiguration"/>
   <int value="771" label="DeviceReleaseLtsTag"/>
+  <int value="772" label="PrintersBulkAccessMode"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
