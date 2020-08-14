@@ -870,8 +870,12 @@ TEST_F(NativeWidgetMacTest, NonWidgetParentLastReference) {
     // to the child window is released inside WidgetOwnerNSWindowAdapter::
     // OnWindowWillClose().
     [native_parent close];
-    EXPECT_TRUE(child_dealloced);
   }
+
+  // Check this only once the autorelease pool has been drained: AppKit likes to
+  // autorelease NSWindows when tearing them down, presumably to make UAF bugs
+  // with NSWindows less likely.
+  EXPECT_TRUE(child_dealloced);
   EXPECT_TRUE(native_parent_dealloced);
 }
 
