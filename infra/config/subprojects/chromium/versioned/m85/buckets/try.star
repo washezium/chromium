@@ -100,10 +100,12 @@ try_.chromium_android_builder(
     goma_jobs = goma.jobs.J150,
 )
 
-try_.chromium_android_builder(
-    name = "android-nougat-arm64-rel",
-    goma_jobs = goma.jobs.J150,
-)
+# TODO(crbug.com/1111436) Added it back once all Pixel 1s are flashed
+# back to NJH47F
+#try_.chromium_android_builder(
+#    name = "android-nougat-arm64-rel",
+#    goma_jobs = goma.jobs.J150,
+#)
 
 try_.chromium_android_builder(
     name = "android-pie-arm64-dbg",
