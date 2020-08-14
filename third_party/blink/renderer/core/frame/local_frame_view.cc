@@ -4672,7 +4672,25 @@ static PaintLayer* GetXrOverlayLayer(Document& document) {
   if (!document.IsXrOverlay())
     return nullptr;
 
-  Element* fullscreen_element = Fullscreen::FullscreenElementFrom(document);
+  // When DOM overlay mode is active in iframe content, the parent frame's
+  // document will also be marked as being in DOM overlay mode, with the iframe
+  // element being in fullscreen mode. Find the innermost reachable fullscreen
+  // element to use as the XR overlay layer. This is the overlay element for
+  // same-process iframes, or an iframe element for OOPIF if the overlay element
+  // is in another process.
+  Document* content_document = &document;
+  Element* fullscreen_element =
+      Fullscreen::FullscreenElementFrom(*content_document);
+  while (auto* frame_owner =
+             DynamicTo<HTMLFrameOwnerElement>(fullscreen_element)) {
+    content_document = frame_owner->contentDocument();
+    if (!content_document) {
+      // This is an OOPIF iframe, treat it as the fullscreen element.
+      break;
+    }
+    fullscreen_element = Fullscreen::FullscreenElementFrom(*content_document);
+  }
+
   if (!fullscreen_element)
     return nullptr;
 
