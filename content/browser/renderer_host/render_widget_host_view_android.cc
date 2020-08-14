@@ -39,7 +39,6 @@
 #include "components/viz/common/surfaces/parent_local_surface_id_allocator.h"
 #include "content/browser/accessibility/browser_accessibility_manager_android.h"
 #include "content/browser/accessibility/web_contents_accessibility_android.h"
-#include "content/browser/android/content_feature_list.h"
 #include "content/browser/android/gesture_listener_manager.h"
 #include "content/browser/android/ime_adapter_android.h"
 #include "content/browser/android/overscroll_controller_android.h"
