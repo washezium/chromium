@@ -6,10 +6,10 @@ import {html, Polymer} from 'chrome://resources/polymer/v3_0/polymer/polymer_bun
 
 /**
  * @fileoverview
- * 'scanning-page' is used to interact with connected scanners.
+ * 'scanning-app' is used to interact with connected scanners.
  */
 Polymer({
-  is: 'scanning-page',
+  is: 'scanning-app',
 
   _template: html`{__html_template__}`,
 

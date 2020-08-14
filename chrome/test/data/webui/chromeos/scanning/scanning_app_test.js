@@ -2,17 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO(jschettler): use es6 module for mojo binding (crbug/1004256).
+// TODO(jschettler): Use es6 module for mojo binding (crbug/1004256).
 import 'chrome://resources/mojo/mojo/public/js/mojo_bindings_lite.js';
-import 'chrome://print-management/scanning_page.js';
+import 'chrome://scanning/scanning_app.js';
 
-suite('ScanningPageTest', () => {
-  /** @type {?ScanningPageElement} */
+suite('ScanningAppTest', () => {
+  /** @type {?ScanningAppElement} */
   let page = null;
 
   setup(function() {
     PolymerTest.clearBody();
-    page = document.createElement('scanning-page');
+    page = document.createElement('scanning-app');
     document.body.appendChild(page);
   });
 
