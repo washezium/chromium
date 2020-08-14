@@ -1734,6 +1734,9 @@ const FeatureEntry::FeatureParam kContextMenuShopImageWithGoogleLens[] = {
     {"lensShopVariation", "ShopImageWithGoogleLens"}};
 const FeatureEntry::FeatureParam kContextMenuSearchSimilarProducts[] = {
     {"lensShopVariation", "SearchSimilarProducts"}};
+const FeatureEntry::FeatureParam
+    kContextMenuShopImageWithGoogleLensShoppyImage[] = {
+        {"lensShopVariation", "ShopImageWithGoogleLensShoppyImage"}};
 
 const FeatureEntry::FeatureVariation
     kContextMenuShopWithGoogleLensShopVariations[] = {
@@ -1742,7 +1745,10 @@ const FeatureEntry::FeatureVariation
         {"ShopImageWithGoogleLens", kContextMenuShopImageWithGoogleLens,
          base::size(kContextMenuShopImageWithGoogleLens), nullptr},
         {"SearchSimilarProducts", kContextMenuSearchSimilarProducts,
-         base::size(kContextMenuSearchSimilarProducts), nullptr}};
+         base::size(kContextMenuSearchSimilarProducts), nullptr},
+        {"ShopImageWithGoogleLensShoppyImage",
+         kContextMenuShopImageWithGoogleLensShoppyImage,
+         base::size(kContextMenuShopImageWithGoogleLensShoppyImage), nullptr}};
 #endif  // defined(OS_ANDROID)
 
 const FeatureEntry::FeatureParam kLazyFrameLoadingAutomatic[] = {
