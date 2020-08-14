@@ -28536,7 +28536,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3201" label="OBSOLETE_WrongBaselineOfButtonElement"/>
   <int value="3202" label="V8Document_HasTrustToken_Method"/>
   <int value="3203" label="ForceLoadAtTop"/>
-  <int value="3204" label="LegacyLayoutByButton"/>
+  <int value="3204" label="OBSOLETE_LegacyLayoutByButton"/>
   <int value="3205" label="LegacyLayoutByDeprecatedFlexBox"/>
   <int value="3206" label="LegacyLayoutByDetailsMarker"/>
   <int value="3207" label="LegacyLayoutByEditing"/>
