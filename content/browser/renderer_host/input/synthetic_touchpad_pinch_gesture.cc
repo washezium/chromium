@@ -122,8 +122,7 @@ float SyntheticTouchpadPinchGesture::CalculateTargetScale(
   if (HasReachedTarget(timestamp))
     return params_.scale_factor;
 
-  float progress = (timestamp - start_time_).InSecondsF() /
-                   (stop_time_ - start_time_).InSecondsF();
+  const float progress = (timestamp - start_time_) / (stop_time_ - start_time_);
   return Lerp(1.0f, params_.scale_factor, progress);
 }
 
