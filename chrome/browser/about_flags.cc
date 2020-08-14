@@ -4250,6 +4250,14 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kEnableWebAuthenticationCableV2SupportDescription,
      kOsDesktop | kOsAndroid, FEATURE_VALUE_TYPE(device::kWebAuthPhoneSupport)},
 
+#if defined(OS_CHROMEOS)
+    {"enable-web-authentication-chromeos-authenticator",
+     flag_descriptions::kEnableWebAuthenticationChromeOSAuthenticatorName,
+     flag_descriptions::
+         kEnableWebAuthenticationChromeOSAuthenticatorDescription,
+     kOsCrOS, FEATURE_VALUE_TYPE(device::kWebAuthCrosPlatformAuthenticator)},
+#endif
+
     {"use-preferred-interval-for-video",
      flag_descriptions::kUsePreferredIntervalForVideoName,
      flag_descriptions::kUsePreferredIntervalForVideoDescription, kOsDesktop,

@@ -41710,6 +41710,8 @@ from previous Chrome versions.
   <int value="-345838366" label="enable-hosted-apps-in-windows"/>
   <int value="-345324571" label="enable-quirks-client"/>
   <int value="-345181892" label="new-tab-button-position"/>
+  <int value="-344357771"
+      label="WebAuthenticationCrosPlatformAuthenticator:enabled"/>
   <int value="-344343842" label="disable-experimental-app-list"/>
   <int value="-343769596" label="ServiceWorkerScriptStreaming:disabled"/>
   <int value="-342421456" label="EnableOverviewRoundedCorners:disabled"/>
@@ -42479,6 +42481,8 @@ from previous Chrome versions.
   <int value="494939785" label="InsecureFormSubmissionInterstitial:disabled"/>
   <int value="497137719" label="OmniboxVoiceSearchAlwaysVisible:disabled"/>
   <int value="500177932" label="ArcSmartTextSelection:disabled"/>
+  <int value="500947367"
+      label="WebAuthenticationCrosPlatformAuthenticator:disabled"/>
   <int value="501477022" label="DrawOcclusion:enabled"/>
   <int value="502551931" label="IncognitoStrings:enabled"/>
   <int value="503189154" label="ViewsBrowserWindows:disabled"/>

@@ -1003,6 +1003,12 @@ const char kEnableWebAuthenticationCableV2SupportDescription[] =
     "Authentication API. (This will also enable the cloud-based protocol "
     "on platforms where it is not already enabled.)";
 
+const char kEnableWebAuthenticationChromeOSAuthenticatorName[] =
+    "ChromeOS platform Web Authentication support";
+const char kEnableWebAuthenticationChromeOSAuthenticatorDescription[] =
+    "Enable the ChromeOS platform authenticator for the Web Authentication "
+    "API.";
+
 const char kExperimentalWebAssemblyFeaturesName[] = "Experimental WebAssembly";
 const char kExperimentalWebAssemblyFeaturesDescription[] =
     "Enable web pages to use experimental WebAssembly features.";
