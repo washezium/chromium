@@ -1,8 +1,8 @@
 {
     "trace_processor_shell": {
         "win": {
-            "hash": "8af9d51d24a493273de7734ea9e91ba2d4ec0ee3",
-            "remote_path": "perfetto_binaries/trace_processor_shell/win/78d7b4b8250e8fb9509115c2e0b98dd32bb5b9f4/trace_processor_shell.exe"
+            "hash": "0819a37f7e3da5b5ede65fa8fdf1c244193e5d5c",
+            "remote_path": "perfetto_binaries/trace_processor_shell/win/4faa62a0e9f8cf23cd47984113ac6b194fafb7a4/trace_processor_shell.exe"
         },
         "mac": {
             "hash": "13ddf5987185cd47586548fd150a6111c799c882",
