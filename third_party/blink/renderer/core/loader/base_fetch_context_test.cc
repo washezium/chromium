@@ -78,7 +78,6 @@ class MockBaseFetchContext final : public BaseFetchContext {
       const DOMWrapperWorld* world) const override {
     return GetContentSecurityPolicy();
   }
-  bool ShouldBypassMainWorldCSP() const override { return false; }
   bool IsSVGImageChromeClient() const override { return false; }
   void CountUsage(WebFeature) const override {}
   void CountDeprecation(WebFeature) const override {}
