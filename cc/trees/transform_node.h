@@ -28,6 +28,9 @@ struct CC_EXPORT TransformNode {
   int id;
   // The node index of the parent node in the transform tree node vector.
   int parent_id;
+  // The node index of the nearest parent frame node in the transform tree node
+  // vector.
+  int parent_frame_id;
 
   ElementId element_id;
 
@@ -118,7 +121,8 @@ struct CC_EXPORT TransformNode {
   float maximum_animation_scale;
   float starting_animation_scale;
 
-  // Element ID of the document containing this node.
+  // Set to the element ID of containing document if this transform node is the
+  // root of a frame subtree.
   ElementId frame_element_id;
 
   bool operator==(const TransformNode& other) const;

@@ -15,6 +15,7 @@ namespace cc {
 TransformNode::TransformNode()
     : id(TransformTree::kInvalidNodeId),
       parent_id(TransformTree::kInvalidNodeId),
+      parent_frame_id(TransformTree::kInvalidNodeId),
       sticky_position_constraint_id(-1),
       sorting_context_id(0),
       needs_local_transform_update(true),
@@ -39,6 +40,7 @@ TransformNode::TransformNode(const TransformNode&) = default;
 
 bool TransformNode::operator==(const TransformNode& other) const {
   return id == other.id && parent_id == other.parent_id &&
+         parent_frame_id == other.parent_frame_id &&
          element_id == other.element_id && local == other.local &&
          origin == other.origin && post_translation == other.post_translation &&
          to_parent == other.to_parent &&
@@ -66,7 +68,8 @@ bool TransformNode::operator==(const TransformNode& other) const {
          scroll_offset == other.scroll_offset &&
          snap_amount == other.snap_amount &&
          maximum_animation_scale == other.maximum_animation_scale &&
-         starting_animation_scale == other.starting_animation_scale;
+         starting_animation_scale == other.starting_animation_scale &&
+         frame_element_id == other.frame_element_id;
 }
 
 void TransformNode::AsValueInto(base::trace_event::TracedValue* value) const {
