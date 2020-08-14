@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/policy/external_data_handlers/native_printers_external_data_handler.h"
+#include "chrome/browser/chromeos/policy/external_data_handlers/printers_external_data_handler.h"
 
 #include <utility>
 
@@ -28,20 +28,19 @@ base::WeakPtr<chromeos::BulkPrintersCalculator> GetBulkPrintersCalculator(
 
 }  // namespace
 
-NativePrintersExternalDataHandler::NativePrintersExternalDataHandler(
+PrintersExternalDataHandler::PrintersExternalDataHandler(
     chromeos::CrosSettings* cros_settings,
     DeviceLocalAccountPolicyService* policy_service)
-    : native_printers_observer_(cros_settings,
-                                policy_service,
-                                key::kPrintersBulkConfiguration,
-                                this) {
-  native_printers_observer_.Init();
+    : printers_observer_(cros_settings,
+                         policy_service,
+                         key::kPrintersBulkConfiguration,
+                         this) {
+  printers_observer_.Init();
 }
 
-NativePrintersExternalDataHandler::~NativePrintersExternalDataHandler() =
-    default;
+PrintersExternalDataHandler::~PrintersExternalDataHandler() = default;
 
-void NativePrintersExternalDataHandler::OnExternalDataSet(
+void PrintersExternalDataHandler::OnExternalDataSet(
     const std::string& policy,
     const std::string& user_id) {
   auto calculator = GetBulkPrintersCalculator(user_id);
@@ -50,7 +49,7 @@ void NativePrintersExternalDataHandler::OnExternalDataSet(
   }
 }
 
-void NativePrintersExternalDataHandler::OnExternalDataCleared(
+void PrintersExternalDataHandler::OnExternalDataCleared(
     const std::string& policy,
     const std::string& user_id) {
   auto calculator = GetBulkPrintersCalculator(user_id);
@@ -59,7 +58,7 @@ void NativePrintersExternalDataHandler::OnExternalDataCleared(
   }
 }
 
-void NativePrintersExternalDataHandler::OnExternalDataFetched(
+void PrintersExternalDataHandler::OnExternalDataFetched(
     const std::string& policy,
     const std::string& user_id,
     std::unique_ptr<std::string> data,
@@ -70,7 +69,7 @@ void NativePrintersExternalDataHandler::OnExternalDataFetched(
   }
 }
 
-void NativePrintersExternalDataHandler::RemoveForAccountId(
+void PrintersExternalDataHandler::RemoveForAccountId(
     const AccountId& account_id) {
   auto* factory = chromeos::BulkPrintersCalculatorFactory::Get();
   if (factory) {

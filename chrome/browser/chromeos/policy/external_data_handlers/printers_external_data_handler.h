@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
-#define CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#define CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_PRINTERS_EXTERNAL_DATA_HANDLER_H_
 
 #include <memory>
 #include <string>
@@ -18,13 +18,15 @@ namespace policy {
 
 class DeviceLocalAccountPolicyService;
 
-class NativePrintersExternalDataHandler
-    : public CloudExternalDataPolicyHandler {
+class PrintersExternalDataHandler : public CloudExternalDataPolicyHandler {
  public:
-  NativePrintersExternalDataHandler(
-      chromeos::CrosSettings* cros_settings,
-      DeviceLocalAccountPolicyService* policy_service);
-  ~NativePrintersExternalDataHandler() override;
+  PrintersExternalDataHandler(chromeos::CrosSettings* cros_settings,
+                              DeviceLocalAccountPolicyService* policy_service);
+  ~PrintersExternalDataHandler() override;
+
+  PrintersExternalDataHandler(const PrintersExternalDataHandler&) = delete;
+  PrintersExternalDataHandler& operator=(const PrintersExternalDataHandler&) =
+      delete;
 
   // CloudExternalDataPolicyHandler:
   void OnExternalDataSet(const std::string& policy,
@@ -38,11 +40,9 @@ class NativePrintersExternalDataHandler
   void RemoveForAccountId(const AccountId& account_id) override;
 
  private:
-  CloudExternalDataPolicyObserver native_printers_observer_;
-
-  DISALLOW_COPY_AND_ASSIGN(NativePrintersExternalDataHandler);
+  CloudExternalDataPolicyObserver printers_observer_;
 };
 
 }  // namespace policy
 
-#endif  // CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#endif  // CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_PRINTERS_EXTERNAL_DATA_HANDLER_H_
