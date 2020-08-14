@@ -245,10 +245,7 @@ class NearbySharingServiceImplTest : public testing::Test {
         .WillRepeatedly(testing::Return(&mock_decoder_));
   }
 
-  void TearDown() override {
-    profile_manager_.DeleteAllTestingProfiles();
-    NearbyProcessManager::GetInstance().ClearActiveProfile();
-  }
+  void TearDown() override { profile_manager_.DeleteAllTestingProfiles(); }
 
   std::unique_ptr<NearbySharingServiceImpl> CreateService(
       const std::string& profile_name) {
@@ -262,8 +259,8 @@ class NearbySharingServiceImplTest : public testing::Test {
         &prefs_, notification_display_service, profile,
         base::WrapUnique(fake_nearby_connections_manager_),
         &mock_nearby_process_manager_);
-    NearbyProcessManager& process_manager = NearbyProcessManager::GetInstance();
-    process_manager.SetActiveProfile(profile);
+    ON_CALL(mock_nearby_process_manager_, IsActiveProfile(profile))
+        .WillByDefault(Return(true));
 
     // Allow the posted task to fetch the BluetoothAdapter to finish.
     base::RunLoop().RunUntilIdle();
@@ -618,8 +615,8 @@ TEST_F(NearbySharingServiceImplTest,
        RegisterSendSurfaceNoActiveProfilesNotDiscovering) {
   ui::ScopedSetIdleState unlocked(ui::IDLE_STATE_IDLE);
   SetConnectionType(net::NetworkChangeNotifier::CONNECTION_WIFI);
-  NearbyProcessManager& process_manager = NearbyProcessManager::GetInstance();
-  process_manager.ClearActiveProfile();
+  ON_CALL(mock_nearby_process_manager_, IsActiveProfile(_))
+      .WillByDefault(Return(false));
   MockTransferUpdateCallback transfer_callback;
   MockShareTargetDiscoveredCallback discovery_callback;
   EXPECT_EQ(
