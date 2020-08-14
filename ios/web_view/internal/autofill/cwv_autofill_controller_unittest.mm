@@ -99,7 +99,8 @@ class CWVAutofillControllerTest : public PlatformTest {
         std::make_unique<WebViewPasswordManagerClient>(
             &web_state_, /*sync_service=*/nullptr, &pref_service_,
             /*identity_manager=*/nullptr, /*log_manager=*/nullptr,
-            /*profile_store=*/nullptr, /*account_store=*/nullptr);
+            /*profile_store=*/nullptr, /*account_store=*/nullptr,
+            /*requirements_service=*/nullptr);
     auto password_manager = std::make_unique<password_manager::PasswordManager>(
         password_manager_client.get());
     auto password_manager_driver =
