@@ -967,7 +967,7 @@
     {
       name: "LayoutNGFieldset",
       depends_on: ["LayoutNG"],
-      status: "experimental",
+      status: "stable",
     },
     {
       name: "LayoutNGFlexBox",
