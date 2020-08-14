@@ -355,9 +355,9 @@ void SafetyCheckHandler::CheckExtensions() {
 
 #if defined(OS_WIN) && BUILDFLAG(GOOGLE_CHROME_BRANDING)
 void SafetyCheckHandler::CheckChromeCleaner() {
-  // Registering the observer immediately triggers a callback with the
-  // current state.
-  safe_browsing::ChromeCleanerController::GetInstance()->AddObserver(this);
+  // TODO(crbug.com/1097757): Register as a Chrome cleaner observer instead
+  // to auto-update from Chrome cleaner state changes.
+  OnChromeCleanerCheckResult(fetchCurrentChromeCleanerStatus());
 }
 #endif
 
@@ -875,10 +875,6 @@ void SafetyCheckHandler::OnJavascriptDisallowed() {
   version_updater_.reset();
   // Stop observing safety check events.
   safety_check_.reset(nullptr);
-#if defined(OS_WIN) && BUILDFLAG(GOOGLE_CHROME_BRANDING)
-  // Remove |this| as an observer for the Chrome cleaner.
-  safe_browsing::ChromeCleanerController::GetInstance()->RemoveObserver(this);
-#endif
 }
 
 void SafetyCheckHandler::RegisterMessages() {
