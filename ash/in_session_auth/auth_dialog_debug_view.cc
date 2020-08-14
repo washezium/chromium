@@ -234,8 +234,8 @@ void AuthDialogDebugView::AddActionButtonsView() {
 void AuthDialogDebugView::ButtonPressed(views::Button* sender,
                                         const ui::Event& event) {
   if (sender == cancel_button_) {
-    // DestroyAuthenticationDialog deletes |this|.
-    InSessionAuthDialogController::Get()->DestroyAuthenticationDialog();
+    // Cancel() deletes |this|.
+    InSessionAuthDialogController::Get()->Cancel();
   }
 
   // TODO(b/156258540): Enable more options button when we have both fingerprint

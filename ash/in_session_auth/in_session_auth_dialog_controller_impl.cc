@@ -25,8 +25,13 @@ void InSessionAuthDialogControllerImpl::SetClient(
   client_ = client;
 }
 
-void InSessionAuthDialogControllerImpl::ShowAuthenticationDialog() {
+void InSessionAuthDialogControllerImpl::ShowAuthenticationDialog(
+    FinishCallback finish_callback) {
   DCHECK(client_);
+  // Concurrent requests are not supported.
+  DCHECK(!dialog_);
+
+  finish_callback_ = std::move(finish_callback);
 
   AccountId account_id =
       Shell::Get()->session_controller()->GetActiveAccountId();
@@ -73,9 +78,16 @@ void InSessionAuthDialogControllerImpl::OnAuthenticateComplete(
     OnAuthenticateCallback callback,
     bool success) {
   std::move(callback).Run(success);
-  // TODO(b/156258540): send status to UserAuthenticationServiceProvider for
-  // dbus response.
+  // TODO(b/156258540): Manage retry instead of closing directly.
   DestroyAuthenticationDialog();
+  if (finish_callback_)
+    std::move(finish_callback_).Run(success);
+}
+
+void InSessionAuthDialogControllerImpl::Cancel() {
+  DestroyAuthenticationDialog();
+  if (finish_callback_)
+    std::move(finish_callback_).Run(false);
 }
 
 }  // namespace ash
