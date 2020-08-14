@@ -5,6 +5,8 @@
 #ifndef CHROME_BROWSER_NEARBY_SHARING_CERTIFICATES_NEARBY_SHARE_CERTIFICATE_MANAGER_H_
 #define CHROME_BROWSER_NEARBY_SHARING_CERTIFICATES_NEARBY_SHARE_CERTIFICATE_MANAGER_H_
 
+#include <vector>
+
 #include "base/callback.h"
 #include "base/observer_list.h"
 #include "base/observer_list_types.h"
@@ -13,6 +15,7 @@
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_encrypted_metadata_key.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_private_certificate.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_visibility.h"
+#include "chrome/browser/nearby_sharing/proto/rpc_resources.pb.h"
 
 // The Nearby Share certificate manager maintains the local device's private
 // certificates and contacts' public certificates. The manager communicates with
@@ -48,6 +51,16 @@ class NearbyShareCertificateManager {
   // Returns the currently valid private certificate with |visibility|.
   // TODO(crbug.com/1106369): Use common visibility enum.
   virtual NearbySharePrivateCertificate GetValidPrivateCertificate(
+      NearbyShareVisibility visibility) = 0;
+
+  // Returns all local device private certificates of |visibility| converted to
+  // public certificates. The public certificates' for_selected_contacts fields
+  // will be set to reflect the |visibility|. NOTE: Only certificates with the
+  // requested visibility will be returned; if selected-contacts visibility is
+  // passed in, the all-contacts visibility certificates will *not* be returned
+  // as well.
+  virtual std::vector<nearbyshare::proto::PublicCertificate>
+  GetPrivateCertificatesAsPublicCertificates(
       NearbyShareVisibility visibility) = 0;
 
   // Returns in |callback| the public certificate that is able to be decrypted

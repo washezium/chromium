@@ -104,12 +104,15 @@ TEST(NearbySharePrivateCertificateTest,
 
 TEST(NearbySharePrivateCertificateTest, PublicCertificateConversion) {
   NearbySharePrivateCertificate private_certificate =
-      GetNearbyShareTestPrivateCertificate(NearbyShareVisibility::kAllContacts);
+      GetNearbyShareTestPrivateCertificate(
+          NearbyShareVisibility::kSelectedContacts);
   private_certificate.offset_for_testing() = GetNearbyShareTestValidityOffset();
   base::Optional<nearbyshare::proto::PublicCertificate> public_certificate =
       private_certificate.ToPublicCertificate();
   ASSERT_TRUE(public_certificate);
-  EXPECT_EQ(GetNearbyShareTestPublicCertificate().SerializeAsString(),
+  EXPECT_EQ(GetNearbyShareTestPublicCertificate(
+                NearbyShareVisibility::kSelectedContacts)
+                .SerializeAsString(),
             public_certificate->SerializeAsString());
 }
 

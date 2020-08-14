@@ -30,6 +30,7 @@
 #include "chrome/browser/nearby_sharing/mock_nearby_process_manager.h"
 #include "chrome/browser/nearby_sharing/mock_nearby_sharing_decoder.h"
 #include "chrome/browser/nearby_sharing/nearby_connections_manager.h"
+#include "chrome/browser/nearby_sharing/proto/rpc_resources.pb.h"
 #include "chrome/browser/notifications/notification_display_service_factory.h"
 #include "chrome/browser/notifications/notification_display_service_tester.h"
 #include "chrome/services/sharing/public/cpp/advertisement.h"
@@ -317,7 +318,8 @@ class NearbySharingServiceImplTest : public testing::Test {
     if (success) {
       std::move(calls.back().callback)
           .Run(NearbyShareDecryptedPublicCertificate::DecryptPublicCertificate(
-              GetNearbyShareTestPublicCertificate(),
+              GetNearbyShareTestPublicCertificate(
+                  NearbyShareVisibility::kAllContacts),
               GetNearbyShareTestEncryptedMetadataKey()));
     } else {
       std::move(calls.back().callback).Run(base::nullopt);

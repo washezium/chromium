@@ -13,6 +13,7 @@
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_decrypted_public_certificate.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_encrypted_metadata_key.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_private_certificate.h"
+#include "chrome/browser/nearby_sharing/proto/rpc_resources.pb.h"
 
 // A fake implementation of NearbyShareCertificateManager, along with a fake
 // factory, to be used in tests.
@@ -64,6 +65,9 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
   // NearbyShareCertificateManager:
   NearbySharePrivateCertificate GetValidPrivateCertificate(
       NearbyShareVisibility visibility) override;
+  std::vector<nearbyshare::proto::PublicCertificate>
+  GetPrivateCertificatesAsPublicCertificates(
+      NearbyShareVisibility visibility) override;
   void GetDecryptedPublicCertificate(
       NearbyShareEncryptedMetadataKey encrypted_metadata_key,
       CertDecryptedCallback callback) override;
@@ -75,6 +79,10 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
 
   size_t num_get_valid_private_certificate_calls() {
     return num_get_valid_private_certificate_calls_;
+  }
+
+  size_t num_get_private_certificates_as_public_certificates_calls() {
+    return num_get_private_certificates_as_public_certificates_calls_;
   }
 
   size_t num_download_public_certificates_calls() {
@@ -92,6 +100,7 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
   void OnStop() override;
 
   size_t num_get_valid_private_certificate_calls_ = 0;
+  size_t num_get_private_certificates_as_public_certificates_calls_ = 0;
   size_t num_download_public_certificates_calls_ = 0;
   std::vector<GetDecryptedPublicCertificateCall>
       get_decrypted_public_certificate_calls_;

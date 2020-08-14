@@ -46,6 +46,13 @@ NearbyShareCertificateManagerImpl::GetValidPrivateCertificate(
                                        nearbyshare::proto::EncryptedMetadata());
 }
 
+std::vector<nearbyshare::proto::PublicCertificate>
+NearbyShareCertificateManagerImpl::GetPrivateCertificatesAsPublicCertificates(
+    NearbyShareVisibility visibility) {
+  NOTIMPLEMENTED();
+  return std::vector<nearbyshare::proto::PublicCertificate>();
+}
+
 void NearbyShareCertificateManagerImpl::GetDecryptedPublicCertificate(
     NearbyShareEncryptedMetadataKey encrypted_metadata_key,
     CertDecryptedCallback callback) {
