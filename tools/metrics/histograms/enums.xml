@@ -40808,6 +40808,8 @@ from previous Chrome versions.
   <int value="-1324634193" label="EnablePalmOnMaxTouchMajor:disabled"/>
   <int value="-1324029365" label="EnableTLS13EarlyData:enabled"/>
   <int value="-1322882747" label="disable-datasaver-prompt"/>
+  <int value="-1321640296"
+      label="AutofillDownstreamCvcPromptUseGooglePayLogo:enabled"/>
   <int value="-1320181781" label="ChromeOSDirectVideoDecoder:disabled"/>
   <int value="-1319688939" label="ignore-gpu-blacklist"/>
   <int value="-1318914924" label="OverflowIconsForMediaControls:enabled"/>
@@ -41810,6 +41812,8 @@ from previous Chrome versions.
   <int value="-271084069" label="ClickToCallUI:enabled"/>
   <int value="-270626757" label="log-net-log"/>
   <int value="-270261701" label="WebRtcEnableCaptureMultiChannelApm:disabled"/>
+  <int value="-269440655"
+      label="AutofillDownstreamCvcPromptUseGooglePayLogo:disabled"/>
   <int value="-268897347" label="DisableCameraFrameRotationAtSource:disabled"/>
   <int value="-268549184"
       label="AutofillSaveCreditCardUsesStrikeSystemV2:enabled"/>

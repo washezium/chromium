@@ -566,6 +566,11 @@ const char kEnableAutofillCreditCardAuthenticationDescription[] =
     "authenticator (if available) to verify card ownership when retrieving "
     "credit cards from Google Payments.";
 
+const char kEnableAutofillCreditCardCvcPromptGoogleLogoName[] =
+    "Enable Google Pay branding on CVC prompt on Android";
+const char kEnableAutofillCreditCardCvcPromptGoogleLogoDescription[] =
+    "If enabled, show the Google Pay logo on CVC prompt on Android.";
+
 const char kEnableAutofillCreditCardUploadFeedbackName[] =
     "Enable feedback for credit card upload flow";
 const char kEnableAutofillCreditCardUploadFeedbackDescription[] =

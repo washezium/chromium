@@ -342,6 +342,9 @@ extern const char kEnableAutofillCreditCardAblationExperimentDescription[];
 extern const char kEnableAutofillCreditCardAuthenticationName[];
 extern const char kEnableAutofillCreditCardAuthenticationDescription[];
 
+extern const char kEnableAutofillCreditCardCvcPromptGoogleLogoName[];
+extern const char kEnableAutofillCreditCardCvcPromptGoogleLogoDescription[];
+
 extern const char kEnableAutofillCreditCardUploadFeedbackName[];
 extern const char kEnableAutofillCreditCardUploadFeedbackDescription[];
 
