@@ -47,8 +47,7 @@ NearbyShareCertificateManagerImpl::GetValidPrivateCertificate(
 }
 
 void NearbyShareCertificateManagerImpl::GetDecryptedPublicCertificate(
-    base::span<const uint8_t> encrypted_metadata_key,
-    base::span<const uint8_t> salt,
+    NearbyShareEncryptedMetadataKey encrypted_metadata_key,
     CertDecryptedCallback callback) {
   NOTIMPLEMENTED();
 }

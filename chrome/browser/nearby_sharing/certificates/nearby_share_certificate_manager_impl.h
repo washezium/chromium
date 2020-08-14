@@ -7,8 +7,8 @@
 
 #include <memory>
 
-#include "base/containers/span.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_certificate_manager.h"
+#include "chrome/browser/nearby_sharing/certificates/nearby_share_encrypted_metadata_key.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_private_certificate.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_visibility.h"
 
@@ -37,8 +37,7 @@ class NearbyShareCertificateManagerImpl : public NearbyShareCertificateManager {
   NearbySharePrivateCertificate GetValidPrivateCertificate(
       NearbyShareVisibility visibility) override;
   void GetDecryptedPublicCertificate(
-      base::span<const uint8_t> encrypted_metadata_key,
-      base::span<const uint8_t> salt,
+      NearbyShareEncryptedMetadataKey encrypted_metadata_key,
       CertDecryptedCallback callback) override;
   void DownloadPublicCertificates() override;
   void OnStart() override;

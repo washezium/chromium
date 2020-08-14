@@ -6,11 +6,11 @@
 #define CHROME_BROWSER_NEARBY_SHARING_CERTIFICATES_NEARBY_SHARE_CERTIFICATE_MANAGER_H_
 
 #include "base/callback.h"
-#include "base/containers/span.h"
 #include "base/observer_list.h"
 #include "base/observer_list_types.h"
 #include "base/optional.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_decrypted_public_certificate.h"
+#include "chrome/browser/nearby_sharing/certificates/nearby_share_encrypted_metadata_key.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_private_certificate.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_visibility.h"
 
@@ -51,11 +51,10 @@ class NearbyShareCertificateManager {
       NearbyShareVisibility visibility) = 0;
 
   // Returns in |callback| the public certificate that is able to be decrypted
-  // using |encrypted_metadata_key| and |salt|, and returns base::nullopt if no
-  // such public certificate exists.
+  // using |encrypted_metadata_key|, and returns base::nullopt if no such public
+  // certificate exists.
   virtual void GetDecryptedPublicCertificate(
-      base::span<const uint8_t> encrypted_metadata_key,
-      base::span<const uint8_t> salt,
+      NearbyShareEncryptedMetadataKey encrypted_metadata_key,
       CertDecryptedCallback callback) = 0;
 
   // Makes an RPC call to the Nearby server to retrieve all public certificates

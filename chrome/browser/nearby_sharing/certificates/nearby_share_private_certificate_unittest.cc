@@ -63,10 +63,10 @@ TEST(NearbySharePrivateCertificateTest, EncryptMetadataKey) {
   base::Optional<NearbyShareEncryptedMetadataKey> encrypted_metadata_key =
       private_certificate.EncryptMetadataKey();
   ASSERT_TRUE(encrypted_metadata_key);
-  EXPECT_EQ(kNearbyShareNumBytesMetadataEncryptionKey,
-            encrypted_metadata_key->encrypted_key().size());
   EXPECT_EQ(kNearbyShareNumBytesMetadataEncryptionKeySalt,
             encrypted_metadata_key->salt().size());
+  EXPECT_EQ(kNearbyShareNumBytesMetadataEncryptionKey,
+            encrypted_metadata_key->encrypted_key().size());
 }
 
 TEST(NearbySharePrivateCertificateTest, EncryptMetadataKey_FixedData) {

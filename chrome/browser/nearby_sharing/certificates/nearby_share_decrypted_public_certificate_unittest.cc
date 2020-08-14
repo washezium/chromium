@@ -37,8 +37,9 @@ TEST(NearbyShareDecryptedPublicCertificateTest, Decrypt_IncorrectKeyFailure) {
   EXPECT_FALSE(NearbyShareDecryptedPublicCertificate::DecryptPublicCertificate(
       GetNearbyShareTestPublicCertificate(),
       NearbyShareEncryptedMetadataKey(
-          std::vector<uint8_t>(kNearbyShareNumBytesMetadataEncryptionKey, 0x00),
           std::vector<uint8_t>(kNearbyShareNumBytesMetadataEncryptionKeySalt,
+                               0x00),
+          std::vector<uint8_t>(kNearbyShareNumBytesMetadataEncryptionKey,
                                0x00))));
 }
 

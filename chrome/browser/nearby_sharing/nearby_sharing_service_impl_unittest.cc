@@ -312,10 +312,10 @@ class NearbySharingServiceImplTest : public testing::Test {
 
     ASSERT_FALSE(calls.empty());
     EXPECT_EQ(expected_num_calls, calls.size());
-    EXPECT_EQ(GetNearbyShareTestEncryptedMetadataKey().encrypted_key(),
-              calls.back().encrypted_metadata_key);
     EXPECT_EQ(GetNearbyShareTestEncryptedMetadataKey().salt(),
-              calls.back().salt);
+              calls.back().encrypted_metadata_key.salt());
+    EXPECT_EQ(GetNearbyShareTestEncryptedMetadataKey().encrypted_key(),
+              calls.back().encrypted_metadata_key.encrypted_key());
 
     if (success) {
       std::move(calls.back().callback)

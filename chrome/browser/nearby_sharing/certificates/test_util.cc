@@ -172,9 +172,9 @@ const NearbyShareEncryptedMetadataKey&
 GetNearbyShareTestEncryptedMetadataKey() {
   static const base::NoDestructor<NearbyShareEncryptedMetadataKey>
       encrypted_metadata_key(
+          GetNearbyShareTestSalt(),
           std::vector<uint8_t>(std::begin(kTestEncryptedMetadataKey),
-                               std::end(kTestEncryptedMetadataKey)),
-          GetNearbyShareTestSalt());
+                               std::end(kTestEncryptedMetadataKey)));
   return *encrypted_metadata_key;
 }
 

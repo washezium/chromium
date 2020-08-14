@@ -8,10 +8,10 @@
 #include <memory>
 #include <vector>
 
-#include "base/containers/span.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_certificate_manager.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_certificate_manager_impl.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_decrypted_public_certificate.h"
+#include "chrome/browser/nearby_sharing/certificates/nearby_share_encrypted_metadata_key.h"
 #include "chrome/browser/nearby_sharing/certificates/nearby_share_private_certificate.h"
 
 // A fake implementation of NearbyShareCertificateManager, along with a fake
@@ -42,8 +42,7 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
   class GetDecryptedPublicCertificateCall {
    public:
     GetDecryptedPublicCertificateCall(
-        base::span<const uint8_t> encrypted_metadata_key,
-        base::span<const uint8_t> salt,
+        NearbyShareEncryptedMetadataKey encrypted_metadata_key,
         CertDecryptedCallback callback);
     GetDecryptedPublicCertificateCall(
         GetDecryptedPublicCertificateCall&& other);
@@ -55,8 +54,7 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
         const GetDecryptedPublicCertificateCall&) = delete;
     ~GetDecryptedPublicCertificateCall();
 
-    std::vector<uint8_t> encrypted_metadata_key;
-    std::vector<uint8_t> salt;
+    NearbyShareEncryptedMetadataKey encrypted_metadata_key;
     CertDecryptedCallback callback;
   };
 
@@ -67,8 +65,7 @@ class FakeNearbyShareCertificateManager : public NearbyShareCertificateManager {
   NearbySharePrivateCertificate GetValidPrivateCertificate(
       NearbyShareVisibility visibility) override;
   void GetDecryptedPublicCertificate(
-      base::span<const uint8_t> encrypted_metadata_key,
-      base::span<const uint8_t> salt,
+      NearbyShareEncryptedMetadataKey encrypted_metadata_key,
       CertDecryptedCallback callback) override;
   void DownloadPublicCertificates() override;
 
