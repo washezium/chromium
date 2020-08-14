@@ -410,8 +410,7 @@ int AdaptiveCongestionControl::GetBitrate(base::TimeTicks playout_time,
       playout_time -
       EstimatedSendingTime(last_enqueued_frame_ + 1, safe_bitrate);
 
-  double empty_buffer_fraction =
-      time_to_catch_up.InSecondsF() / playout_delay.InSecondsF();
+  double empty_buffer_fraction = time_to_catch_up / playout_delay;
   empty_buffer_fraction = std::min(empty_buffer_fraction, 1.0);
   empty_buffer_fraction = std::max(empty_buffer_fraction, 0.0);
 
