@@ -4463,6 +4463,11 @@
     "expiry_milestone": 88
   },
   {
+    "name": "video-tutorials",
+    "owners": [ "shaktisahu", "hesen" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "wallet-service-use-sandbox",
     "owners": [ "jsaul@google.com", "payments-autofill-team@google.com" ],
     // This flag is used by testing teams to run Google Payments calls against

@@ -3153,6 +3153,9 @@ const char kUseChimeAndroidSdkDescription[] =
     "Enable Chime SDK to receive push notification.";
 const char kUseChimeAndroidSdkName[] = "Use Chime SDK";
 
+const char kVideoTutorialsName[] = "Enable video tutorials";
+const char kVideoTutorialsDescription[] = "Show video tutorials in Chrome";
+
 const char kInlineUpdateFlowName[] = "Enable Google Play inline update flow";
 const char kInlineUpdateFlowDescription[] =
     "When this flag is set, instead of taking the user to the Google Play "
