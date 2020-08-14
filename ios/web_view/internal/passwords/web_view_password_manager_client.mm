@@ -210,6 +210,14 @@ void WebViewPasswordManagerClient::NotifyStorePasswordCalled() {
   helper_.NotifyStorePasswordCalled();
 }
 
+void WebViewPasswordManagerClient::NotifyUserCredentialsWereLeaked(
+    password_manager::CredentialLeakType leak_type,
+    password_manager::CompromisedSitesCount saved_sites,
+    const GURL& origin,
+    const base::string16& username) {
+  [bridge_ showPasswordBreachForLeakType:leak_type URL:origin];
+}
+
 bool WebViewPasswordManagerClient::IsSavingAndFillingEnabled(
     const GURL& url) const {
   return *saving_passwords_enabled_ && !IsIncognito() &&
