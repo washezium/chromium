@@ -23,6 +23,10 @@ extern const char kMoreThanOneActivity[];
 // Used when the TWA declares more than one IS_READY_TO_PAY service.
 extern const char kMoreThanOneService[];
 
+// Used when the merchant invokes the Trusted Web Activity with more than set of
+// payment method specific data.
+extern const char kMoreThanOneMethodData[];
+
 }  // namespace errors
 }  // namespace payments
 

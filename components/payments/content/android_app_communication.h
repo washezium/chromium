@@ -5,7 +5,9 @@
 #ifndef COMPONENTS_PAYMENTS_CONTENT_ANDROID_APP_COMMUNICATION_H_
 #define COMPONENTS_PAYMENTS_CONTENT_ANDROID_APP_COMMUNICATION_H_
 
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -14,6 +16,8 @@
 #include "base/optional.h"
 #include "base/supports_user_data.h"
 #include "components/payments/core/android_app_description.h"
+
+class GURL;
 
 namespace content {
 class BrowserContext;
@@ -28,6 +32,10 @@ class AndroidAppCommunication : public base::SupportsUserData::Data {
   using GetAppDescriptionsCallback = base::OnceCallback<void(
       const base::Optional<std::string>& error_message,
       std::vector<std::unique_ptr<AndroidAppDescription>> app_descriptions)>;
+
+  using IsReadyToPayCallback =
+      base::OnceCallback<void(const base::Optional<std::string>& error_message,
+                              bool is_ready_to_pay)>;
 
   // Returns a weak pointer to the instance of AndroidAppCommunication that is
   // owned by the given |context|, which should not be null.
@@ -46,6 +54,17 @@ class AndroidAppCommunication : public base::SupportsUserData::Data {
   // package of the TWA that invoked Chrome, or an empty string otherwise.
   virtual void GetAppDescriptions(const std::string& twa_package_name,
                                   GetAppDescriptionsCallback callback) = 0;
+
+  // Queries the IS_READY_TO_PAY service to check whether the payment app can
+  // perform payments.
+  virtual void IsReadyToPay(const std::string& package_name,
+                            const std::string& service_name,
+                            const std::map<std::string, std::set<std::string>>&
+                                stringified_method_data,
+                            const GURL& top_level_origin,
+                            const GURL& payment_request_origin,
+                            const std::string& payment_request_id,
+                            IsReadyToPayCallback callback) = 0;
 
   // Enables the testing mode.
   virtual void SetForTesting() = 0;

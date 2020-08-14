@@ -13,9 +13,12 @@
 #include "components/payments/core/method_strings.h"
 #include "components/payments/core/native_error_strings.h"
 #include "content/public/browser/browser_thread.h"
+#include "url/gurl.h"
 
 namespace payments {
 namespace {
+
+static constexpr char kEmptyDictionaryJson[] = "{}";
 
 void OnIsImplemented(
     const std::string& twa_package_name,
@@ -78,6 +81,64 @@ void OnIsImplemented(
                           std::move(app_descriptions));
 }
 
+void OnIsReadyToPay(AndroidAppCommunication::IsReadyToPayCallback callback,
+                    arc::mojom::IsReadyToPayResultPtr response) {
+  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+  if (response.is_null()) {
+    std::move(callback).Run(errors::kEmptyResponse, /*is_ready_to_pay=*/false);
+    return;
+  }
+
+  if (response->is_error()) {
+    std::move(callback).Run(response->get_error(), /*is_ready_to_pay=*/false);
+    return;
+  }
+
+  if (!response->is_response()) {
+    std::move(callback).Run(errors::kInvalidResponse,
+                            /*is_ready_to_pay=*/false);
+    return;
+  }
+
+  std::move(callback).Run(/*error_message=*/base::nullopt,
+                          response->get_response());
+}
+
+arc::mojom::PaymentParametersPtr CreatePaymentParameters(
+    const std::string& package_name,
+    const std::string& activity_or_service_name,
+    const std::map<std::string, std::set<std::string>>& stringified_method_data,
+    const GURL& top_level_origin,
+    const GURL& payment_request_origin,
+    const std::string& payment_request_id,
+    base::Optional<std::string>* error_message) {
+  // Chrome OS TWA supports only kGooglePlayBilling payment method identifier
+  // at this time.
+  auto supported_method_iterator =
+      stringified_method_data.find(methods::kGooglePlayBilling);
+  if (supported_method_iterator == stringified_method_data.end())
+    return nullptr;
+
+  // Chrome OS TWA supports only one set of payment method specific data.
+  if (supported_method_iterator->second.size() > 1) {
+    *error_message = errors::kMoreThanOneMethodData;
+    return nullptr;
+  }
+
+  auto parameters = arc::mojom::PaymentParameters::New();
+  parameters->stringified_method_data =
+      supported_method_iterator->second.empty()
+          ? kEmptyDictionaryJson
+          : *supported_method_iterator->second.begin();
+  parameters->package_name = package_name;
+  parameters->activity_or_service_name = activity_or_service_name;
+  parameters->top_level_origin = top_level_origin.spec();
+  parameters->payment_request_origin = payment_request_origin.spec();
+  parameters->payment_request_id = payment_request_id;
+
+  return parameters;
+}
+
 // Invokes the TWA Android app in Android subsystem on Chrome OS.
 class AndroidAppCommunicationChromeOS : public AndroidAppCommunication {
  public:
@@ -117,6 +178,37 @@ class AndroidAppCommunicationChromeOS : public AndroidAppCommunication {
     payment_app_service->IsPaymentImplemented(
         twa_package_name, base::BindOnce(&OnIsImplemented, twa_package_name,
                                          std::move(callback)));
+  }
+
+  // AndroidAppCommunication implementation.
+  void IsReadyToPay(const std::string& package_name,
+                    const std::string& service_name,
+                    const std::map<std::string, std::set<std::string>>&
+                        stringified_method_data,
+                    const GURL& top_level_origin,
+                    const GURL& payment_request_origin,
+                    const std::string& payment_request_id,
+                    IsReadyToPayCallback callback) override {
+    DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+    auto* payment_app_service = get_app_service_.Run(context());
+    if (!payment_app_service) {
+      std::move(callback).Run(errors::kUnableToInvokeAndroidPaymentApps,
+                              /*is_ready_to_pay=*/false);
+      return;
+    }
+
+    base::Optional<std::string> error_message;
+    auto parameters = CreatePaymentParameters(
+        package_name, service_name, stringified_method_data, top_level_origin,
+        payment_request_origin, payment_request_id, &error_message);
+    if (!parameters) {
+      std::move(callback).Run(error_message, /*is_ready_to_pay=*/false);
+      return;
+    }
+
+    payment_app_service->IsReadyToPay(
+        std::move(parameters),
+        base::BindOnce(&OnIsReadyToPay, std::move(callback)));
   }
 
   // AndroidAppCommunication implementation:

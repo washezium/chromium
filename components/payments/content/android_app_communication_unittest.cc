@@ -15,6 +15,7 @@
 #include "components/payments/content/android_app_communication_test_support.h"
 #include "components/payments/core/android_app_description.h"
 #include "testing/gtest/include/gtest/gtest.h"
+#include "url/gurl.h"
 
 namespace payments {
 namespace {
@@ -59,9 +60,16 @@ class AndroidAppCommunicationTest : public testing::Test {
     apps_ = std::move(apps);
   }
 
+  void OnIsReadyToPayResponse(const base::Optional<std::string>& error,
+                              bool is_ready_to_pay) {
+    error_ = error;
+    is_ready_to_pay_ = is_ready_to_pay;
+  }
+
   std::unique_ptr<AndroidAppCommunicationTestSupport> support_;
   base::Optional<std::string> error_;
   std::vector<std::unique_ptr<AndroidAppDescription>> apps_;
+  bool is_ready_to_pay_ = false;
 };
 
 TEST_F(AndroidAppCommunicationTest, OneInstancePerBrowserContext) {
@@ -248,6 +256,175 @@ TEST_F(AndroidAppCommunicationTest, OutsideOfTwa) {
 
   EXPECT_FALSE(error_.has_value());
   EXPECT_TRUE(apps_.empty());
+}
+
+TEST_F(AndroidAppCommunicationTest, NoArcForIsReadyToPay) {
+  // Intentionally do not set an instance.
+
+  support_->ExpectNoIsReadyToPayQuery();
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data["https://play.google.com/billing"].insert("{}");
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  ASSERT_TRUE(error_.has_value());
+  EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+  EXPECT_FALSE(is_ready_to_pay_);
+}
+
+TEST_F(AndroidAppCommunicationTest, TwaIsReadyToPayOnlyWithPlayBilling) {
+  auto scoped_initialization = support_->CreateScopedInitialization();
+
+  support_->ExpectNoIsReadyToPayQuery();
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data["https://example.com"].insert("{}");
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  if (support_->AreAndroidAppsSupportedOnThisPlatform()) {
+    EXPECT_FALSE(error_.has_value());
+  } else {
+    ASSERT_TRUE(error_.has_value());
+    EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+  }
+
+  EXPECT_FALSE(is_ready_to_pay_);
+}
+
+TEST_F(AndroidAppCommunicationTest, MoreThanOnePaymentMethodDataNotReadyToPay) {
+  auto scoped_initialization = support_->CreateScopedInitialization();
+
+  support_->ExpectNoIsReadyToPayQuery();
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data["https://play.google.com/billing"].insert(
+      "{\"product_id\": \"1\"}");
+  stringified_method_data["https://play.google.com/billing"].insert(
+      "{\"product_id\": \"2\"}");
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  ASSERT_TRUE(error_.has_value());
+
+  if (support_->AreAndroidAppsSupportedOnThisPlatform()) {
+    EXPECT_EQ("At most one payment method specific data is supported.",
+              error_.value());
+  } else {
+    EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+  }
+
+  EXPECT_FALSE(is_ready_to_pay_);
+}
+
+TEST_F(AndroidAppCommunicationTest, EmptyMethodDataIsReadyToPay) {
+  auto scoped_initialization = support_->CreateScopedInitialization();
+
+  support_->ExpectQueryIsReadyToPayAndRespond(true);
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data.insert(std::make_pair(
+      "https://play.google.com/billing", std::set<std::string>()));
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  if (support_->AreAndroidAppsSupportedOnThisPlatform()) {
+    EXPECT_FALSE(error_.has_value());
+    EXPECT_TRUE(is_ready_to_pay_);
+  } else {
+    ASSERT_TRUE(error_.has_value());
+    EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+    EXPECT_FALSE(is_ready_to_pay_);
+  }
+}
+
+TEST_F(AndroidAppCommunicationTest, NotReadyToPay) {
+  auto scoped_initialization = support_->CreateScopedInitialization();
+
+  support_->ExpectQueryIsReadyToPayAndRespond(false);
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data["https://play.google.com/billing"].insert("{}");
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  if (support_->AreAndroidAppsSupportedOnThisPlatform()) {
+    EXPECT_FALSE(error_.has_value());
+  } else {
+    ASSERT_TRUE(error_.has_value());
+    EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+  }
+
+  EXPECT_FALSE(is_ready_to_pay_);
+}
+
+TEST_F(AndroidAppCommunicationTest, ReadyToPay) {
+  auto scoped_initialization = support_->CreateScopedInitialization();
+
+  support_->ExpectQueryIsReadyToPayAndRespond(true);
+
+  auto communication =
+      AndroidAppCommunication::GetForBrowserContext(support_->context());
+  communication->SetForTesting();
+
+  std::map<std::string, std::set<std::string>> stringified_method_data;
+  stringified_method_data["https://play.google.com/billing"].insert("{}");
+  communication->IsReadyToPay(
+      "com.example.app", "com.example.app.Service", stringified_method_data,
+      GURL("https://top-level-origin.com"),
+      GURL("https://payment-request-origin.com"), "payment-request-id",
+      base::BindOnce(&AndroidAppCommunicationTest::OnIsReadyToPayResponse,
+                     base::Unretained(this)));
+
+  if (support_->AreAndroidAppsSupportedOnThisPlatform()) {
+    EXPECT_FALSE(error_.has_value());
+    EXPECT_TRUE(is_ready_to_pay_);
+  } else {
+    ASSERT_TRUE(error_.has_value());
+    EXPECT_EQ("Unable to invoke Android apps.", error_.value());
+    EXPECT_FALSE(is_ready_to_pay_);
+  }
 }
 
 }  // namespace

@@ -8,6 +8,7 @@
 
 #include "base/callback.h"
 #include "base/optional.h"
+#include "components/payments/core/native_error_strings.h"
 
 namespace payments {
 namespace {
@@ -24,6 +25,19 @@ class AndroidAppCommunicationStub : public AndroidAppCommunication {
                           GetAppDescriptionsCallback callback) override {
     std::move(callback).Run(/*error_message=*/base::nullopt,
                             /*app_descriptions=*/{});
+  }
+
+  // AndroidAppCommunication implementation.
+  void IsReadyToPay(const std::string& package_name,
+                    const std::string& service_name,
+                    const std::map<std::string, std::set<std::string>>&
+                        stringified_method_data,
+                    const GURL& top_level_origin,
+                    const GURL& payment_request_origin,
+                    const std::string& payment_request_id,
+                    IsReadyToPayCallback callback) override {
+    std::move(callback).Run(errors::kUnableToInvokeAndroidPaymentApps,
+                            /*is_ready_to_pay=*/false);
   }
 
   // AndroidAppCommunication implementation.
