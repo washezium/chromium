@@ -694,7 +694,7 @@
   },
   "cronet_unittests_ios": {
     "label": "//components/cronet/ios:cronet_unittests_ios",
-    "type": "raw",
+    "type": "console_test_launcher",
   },
   "cros_browser_sanity_test": {
     "args": [
