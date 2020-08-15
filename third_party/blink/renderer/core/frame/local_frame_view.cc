@@ -4706,10 +4706,19 @@ static PaintLayer* GetXrOverlayLayer(Document& document) {
 }
 
 PaintLayer* LocalFrameView::GetFullScreenOverlayLayer() const {
+  Document* doc = frame_->GetDocument();
+  DCHECK(doc);
+
+  // For WebXR DOM Overlay, the fullscreen overlay layer comes from either the
+  // overlay element itself, or from an iframe element if the overlay element is
+  // in an OOPIF. This layer is needed even for non-main-frame scenarios to
+  // ensure the background remains transparent.
+  if (doc->IsXrOverlay())
+    return GetXrOverlayLayer(*doc);
+
+  // Fullscreen overlay video layers are only used for the main frame.
   DCHECK(frame_->IsMainFrame());
-  if (auto* layer = GetXrOverlayLayer(*frame_->GetDocument()))
-    return layer;
-  return GetFullScreenOverlayVideoLayer(*frame_->GetDocument());
+  return GetFullScreenOverlayVideoLayer(*doc);
 }
 
 }  // namespace blink
