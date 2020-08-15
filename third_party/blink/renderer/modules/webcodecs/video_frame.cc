@@ -97,16 +97,17 @@ VideoFrame* VideoFrame::Create(ImageBitmap* source,
                                       "No source was provided");
     return nullptr;
   }
-  gfx::Size size(source->width(), source->height());
-  gfx::Rect rect(size);
-  base::TimeDelta timestamp =
-      base::TimeDelta::FromMicroseconds(init->timestamp());
 
-  if (!source) {
+  if (!source->BitmapImage()) {
     exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
                                       "Invalid source state");
     return nullptr;
   }
+
+  gfx::Size size(source->width(), source->height());
+  gfx::Rect rect(size);
+  base::TimeDelta timestamp =
+      base::TimeDelta::FromMicroseconds(init->timestamp());
 
   auto sk_image =
       source->BitmapImage()->PaintImageForCurrentFrame().GetSkImage();
