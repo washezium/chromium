@@ -55686,6 +55686,17 @@ Called by update_net_trust_anchors.py.-->
   <int value="6" label="Could Not Create Upload Directory"/>
 </enum>
 
+<enum name="PhoneCollectionState">
+  <int value="0" label="Phone Not Collected, WebOTP Not Used, OTC Not Used"/>
+  <int value="1" label="Phone Not Collected, WebOTP Not Used, OTC Used"/>
+  <int value="2" label="Phone Not Collected, WebOTP Used, OTC Not Used"/>
+  <int value="3" label="Phone Not Collected, WebOTP Used, OTC Used"/>
+  <int value="4" label="Phone Collected, WebOTP Not Used, OTC Not Used"/>
+  <int value="5" label="Phone Collected, WebOTP Not Used, OTC Used"/>
+  <int value="6" label="Phone Collected, WebOTP Used, OTC Not Used"/>
+  <int value="7" label="Phone Collected, WebOTP Used, OTC Used"/>
+</enum>
+
 <enum name="PhoneNumberRegexVariantResult">
   <obsolete>
     Removed in M82 as the experiment has been stopped.
