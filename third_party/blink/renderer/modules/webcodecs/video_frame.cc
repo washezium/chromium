@@ -266,7 +266,20 @@ base::Optional<uint64_t> VideoFrame::duration() const {
 }
 
 void VideoFrame::destroy() {
+  // TODO(tguilbert): Add a warning when destroying already destroyed frames?
   handle_->Invalidate();
+}
+
+VideoFrame* VideoFrame::clone(ExceptionState& exception_state) {
+  auto frame = handle_->frame();
+
+  if (!frame) {
+    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
+                                      "Cannot clone destroyed VideoFrame.");
+    return nullptr;
+  }
+
+  return MakeGarbageCollected<VideoFrame>(std::move(frame));
 }
 
 scoped_refptr<VideoFrame::Handle> VideoFrame::handle() {
