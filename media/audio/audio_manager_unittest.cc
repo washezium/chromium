@@ -58,7 +58,7 @@
 #include "chromeos/audio/audio_devices_pref_handler_stub.h"
 #include "chromeos/audio/cras_audio_handler.h"
 #include "chromeos/dbus/audio/fake_cras_audio_client.h"
-#include "media/audio/cras/audio_manager_cras.h"
+#include "media/audio/cras/audio_manager_chromeos.h"
 #endif  // defined(USE_CRAS)
 
 namespace media {
@@ -496,7 +496,7 @@ TEST_F(AudioManagerTest, EnumerateInputDevicesCras) {
       cras_audio_handler_->GetDeviceFromId(kUSBCameraMic.id)->display_name;
 
   DVLOG(2) << "Testing AudioManagerCras.";
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
   AudioDeviceDescriptions device_descriptions;
   device_info_accessor_->GetAudioInputDeviceDescriptions(&device_descriptions);
   CheckDeviceDescriptionsCras(device_descriptions, expectation);
@@ -523,7 +523,7 @@ TEST_F(AudioManagerTest, EnumerateOutputDevicesCras) {
       cras_audio_handler_->GetDeviceFromId(kJabraSpeaker1.id)->display_name;
 
   DVLOG(2) << "Testing AudioManagerCras.";
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
   AudioDeviceDescriptions device_descriptions;
   device_info_accessor_->GetAudioOutputDeviceDescriptions(&device_descriptions);
   CheckDeviceDescriptionsCras(device_descriptions, expectation);
@@ -545,7 +545,7 @@ TEST_F(AudioManagerTest, CheckOutputStreamParametersCras) {
   ABORT_AUDIO_TEST_IF_NOT(OutputDevicesAvailable());
 
   DVLOG(2) << "Testing AudioManagerCras.";
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
   AudioParameters params, golden_params;
 
   // channel_layout:
@@ -627,7 +627,7 @@ TEST_F(AudioManagerTest, LookupDefaultInputDeviceWithProperGroupId) {
   expectation[kJabraMic1.id] =
       cras_audio_handler_->GetDeviceFromId(kJabraMic1.id)->display_name;
 
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
   auto previous_default_device_id =
       device_info_accessor_->GetDefaultInputDeviceID();
   EXPECT_EQ(base::NumberToString(kJabraMic1.id), previous_default_device_id);
@@ -671,7 +671,7 @@ TEST_F(AudioManagerTest, LookupDefaultOutputDeviceWithProperGroupId) {
   expectation[kJabraSpeaker1.id] =
       cras_audio_handler_->GetDeviceFromId(kJabraSpeaker1.id)->display_name;
 
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
   auto previous_default_device_id =
       device_info_accessor_->GetDefaultOutputDeviceID();
   EXPECT_EQ(base::NumberToString(kJabraSpeaker1.id),
@@ -1005,7 +1005,7 @@ TEST_F(AudioManagerTest, CheckMinMaxAudioBufferSizeCallbacks) {
 #if defined(OS_MAC)
   CreateAudioManagerForTesting<AudioManagerMac>();
 #elif defined(USE_CRAS)
-  CreateAudioManagerForTesting<AudioManagerCras>();
+  CreateAudioManagerForTesting<AudioManagerChromeOS>();
 #endif
 
   DCHECK(audio_manager_);

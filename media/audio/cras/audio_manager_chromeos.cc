@@ -1,8 +1,8 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "media/audio/cras/audio_manager_cras.h"
+#include "media/audio/cras/audio_manager_chromeos.h"
 
 #include <stddef.h>
 
@@ -33,9 +33,6 @@
 
 namespace media {
 namespace {
-
-// Maximum number of output streams that can be open simultaneously.
-const int kMaxOutputStreams = 50;
 
 // Default sample rate for input and output streams.
 const int kDefaultSampleRate = 48000;
@@ -99,11 +96,11 @@ void ProcessVirtualDeviceName(AudioDeviceNames* device_names,
 
 }  // namespace
 
-bool AudioManagerCras::HasAudioOutputDevices() {
+bool AudioManagerChromeOS::HasAudioOutputDevices() {
   return true;
 }
 
-bool AudioManagerCras::HasAudioInputDevices() {
+bool AudioManagerChromeOS::HasAudioInputDevices() {
   chromeos::AudioDeviceList devices;
   GetAudioDevices(&devices);
   for (size_t i = 0; i < devices.size(); ++i) {
@@ -113,21 +110,22 @@ bool AudioManagerCras::HasAudioInputDevices() {
   return false;
 }
 
-AudioManagerCras::AudioManagerCras(std::unique_ptr<AudioThread> audio_thread,
-                                   AudioLogFactory* audio_log_factory)
-    : AudioManagerBase(std::move(audio_thread), audio_log_factory),
+AudioManagerChromeOS::AudioManagerChromeOS(
+    std::unique_ptr<AudioThread> audio_thread,
+    AudioLogFactory* audio_log_factory)
+    : AudioManagerCrasBase(std::move(audio_thread), audio_log_factory),
       on_shutdown_(base::WaitableEvent::ResetPolicy::MANUAL,
                    base::WaitableEvent::InitialState::NOT_SIGNALED),
       main_task_runner_(base::ThreadTaskRunnerHandle::Get()),
       weak_ptr_factory_(this) {
   weak_this_ = weak_ptr_factory_.GetWeakPtr();
-  SetMaxOutputStreamsAllowed(kMaxOutputStreams);
 }
 
-AudioManagerCras::~AudioManagerCras() = default;
+AudioManagerChromeOS::~AudioManagerChromeOS() = default;
 
-void AudioManagerCras::GetAudioDeviceNamesImpl(bool is_input,
-                                               AudioDeviceNames* device_names) {
+void AudioManagerChromeOS::GetAudioDeviceNamesImpl(
+    bool is_input,
+    AudioDeviceNames* device_names) {
   DCHECK(device_names->empty());
 
   device_names->push_back(AudioDeviceName::CreateDefault());
@@ -157,23 +155,23 @@ void AudioManagerCras::GetAudioDeviceNamesImpl(bool is_input,
   }
 }
 
-void AudioManagerCras::GetAudioInputDeviceNames(
+void AudioManagerChromeOS::GetAudioInputDeviceNames(
     AudioDeviceNames* device_names) {
   GetAudioDeviceNamesImpl(true, device_names);
 }
 
-void AudioManagerCras::GetAudioOutputDeviceNames(
+void AudioManagerChromeOS::GetAudioOutputDeviceNames(
     AudioDeviceNames* device_names) {
   GetAudioDeviceNamesImpl(false, device_names);
 }
 
-AudioParameters AudioManagerCras::GetInputStreamParameters(
+AudioParameters AudioManagerChromeOS::GetInputStreamParameters(
     const std::string& device_id) {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
 
   int user_buffer_size = GetUserBufferSize();
-  int buffer_size = user_buffer_size ?
-      user_buffer_size : kDefaultInputBufferSize;
+  int buffer_size =
+      user_buffer_size ? user_buffer_size : kDefaultInputBufferSize;
 
   // TODO(hshi): Fine-tune audio parameters based on |device_id|. The optimal
   // parameters for the loopback stream may differ from the default.
@@ -211,7 +209,7 @@ AudioParameters AudioManagerCras::GetInputStreamParameters(
   return params;
 }
 
-std::string AudioManagerCras::GetAssociatedOutputDeviceID(
+std::string AudioManagerChromeOS::GetAssociatedOutputDeviceID(
     const std::string& input_device_id) {
   chromeos::AudioDeviceList devices;
   GetAudioDevices(&devices);
@@ -239,17 +237,17 @@ std::string AudioManagerCras::GetAssociatedOutputDeviceID(
              : base::NumberToString(output_device_it->id);
 }
 
-std::string AudioManagerCras::GetDefaultInputDeviceID() {
+std::string AudioManagerChromeOS::GetDefaultInputDeviceID() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   return base::NumberToString(GetPrimaryActiveInputNode());
 }
 
-std::string AudioManagerCras::GetDefaultOutputDeviceID() {
+std::string AudioManagerChromeOS::GetDefaultOutputDeviceID() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   return base::NumberToString(GetPrimaryActiveOutputNode());
 }
 
-std::string AudioManagerCras::GetGroupIDOutput(
+std::string AudioManagerChromeOS::GetGroupIDOutput(
     const std::string& output_device_id) {
   chromeos::AudioDeviceList devices;
   GetAudioDevices(&devices);
@@ -257,7 +255,7 @@ std::string AudioManagerCras::GetGroupIDOutput(
   return GetHardwareDeviceFromDeviceId(devices, false, output_device_id);
 }
 
-std::string AudioManagerCras::GetGroupIDInput(
+std::string AudioManagerChromeOS::GetGroupIDInput(
     const std::string& input_device_id) {
   chromeos::AudioDeviceList devices;
   GetAudioDevices(&devices);
@@ -265,51 +263,14 @@ std::string AudioManagerCras::GetGroupIDInput(
   return GetHardwareDeviceFromDeviceId(devices, true, input_device_id);
 }
 
-const char* AudioManagerCras::GetName() {
-  return "CRAS";
-}
-
-bool AudioManagerCras::Shutdown() {
+bool AudioManagerChromeOS::Shutdown() {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
   weak_ptr_factory_.InvalidateWeakPtrs();
   on_shutdown_.Signal();
   return AudioManager::Shutdown();
 }
 
-AudioOutputStream* AudioManagerCras::MakeLinearOutputStream(
-    const AudioParameters& params,
-    const LogCallback& log_callback) {
-  DCHECK_EQ(AudioParameters::AUDIO_PCM_LINEAR, params.format());
-  // Pinning stream is not supported for MakeLinearOutputStream.
-  return MakeOutputStream(params, AudioDeviceDescription::kDefaultDeviceId);
-}
-
-AudioOutputStream* AudioManagerCras::MakeLowLatencyOutputStream(
-    const AudioParameters& params,
-    const std::string& device_id,
-    const LogCallback& log_callback) {
-  DCHECK_EQ(AudioParameters::AUDIO_PCM_LOW_LATENCY, params.format());
-  // TODO(dgreid): Open the correct input device for unified IO.
-  return MakeOutputStream(params, device_id);
-}
-
-AudioInputStream* AudioManagerCras::MakeLinearInputStream(
-    const AudioParameters& params,
-    const std::string& device_id,
-    const LogCallback& log_callback) {
-  DCHECK_EQ(AudioParameters::AUDIO_PCM_LINEAR, params.format());
-  return MakeInputStream(params, device_id);
-}
-
-AudioInputStream* AudioManagerCras::MakeLowLatencyInputStream(
-    const AudioParameters& params,
-    const std::string& device_id,
-    const LogCallback& log_callback) {
-  DCHECK_EQ(AudioParameters::AUDIO_PCM_LOW_LATENCY, params.format());
-  return MakeInputStream(params, device_id);
-}
-
-int AudioManagerCras::GetDefaultOutputBufferSizePerBoard() {
+int AudioManagerChromeOS::GetDefaultOutputBufferSizePerBoard() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   int32_t buffer_size = 512;
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
@@ -321,7 +282,7 @@ int AudioManagerCras::GetDefaultOutputBufferSizePerBoard() {
     main_task_runner_->PostTask(
         FROM_HERE,
         base::BindOnce(
-            &AudioManagerCras::GetDefaultOutputBufferSizeOnMainThread,
+            &AudioManagerChromeOS::GetDefaultOutputBufferSizeOnMainThread,
             weak_this_, base::Unretained(&buffer_size),
             base::Unretained(&event)));
   }
@@ -329,7 +290,7 @@ int AudioManagerCras::GetDefaultOutputBufferSizePerBoard() {
   return static_cast<int>(buffer_size);
 }
 
-bool AudioManagerCras::GetSystemAecSupportedPerBoard() {
+bool AudioManagerChromeOS::GetSystemAecSupportedPerBoard() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   bool system_aec_supported = false;
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
@@ -342,7 +303,7 @@ bool AudioManagerCras::GetSystemAecSupportedPerBoard() {
     // executed in main thread before local variables are destructed.
     main_task_runner_->PostTask(
         FROM_HERE,
-        base::BindOnce(&AudioManagerCras::GetSystemAecSupportedOnMainThread,
+        base::BindOnce(&AudioManagerChromeOS::GetSystemAecSupportedOnMainThread,
                        weak_this_, base::Unretained(&system_aec_supported),
                        base::Unretained(&event)));
   }
@@ -350,7 +311,7 @@ bool AudioManagerCras::GetSystemAecSupportedPerBoard() {
   return system_aec_supported;
 }
 
-int32_t AudioManagerCras::GetSystemAecGroupIdPerBoard() {
+int32_t AudioManagerChromeOS::GetSystemAecGroupIdPerBoard() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   int32_t group_id = chromeos::CrasAudioHandler::kSystemAecGroupIdNotAvailable;
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
@@ -363,7 +324,7 @@ int32_t AudioManagerCras::GetSystemAecGroupIdPerBoard() {
     // executed in main thread before local variables are destructed.
     main_task_runner_->PostTask(
         FROM_HERE,
-        base::BindOnce(&AudioManagerCras::GetSystemAecGroupIdOnMainThread,
+        base::BindOnce(&AudioManagerChromeOS::GetSystemAecGroupIdOnMainThread,
                        weak_this_, base::Unretained(&group_id),
                        base::Unretained(&event)));
   }
@@ -371,7 +332,7 @@ int32_t AudioManagerCras::GetSystemAecGroupIdPerBoard() {
   return group_id;
 }
 
-AudioParameters AudioManagerCras::GetPreferredOutputStreamParameters(
+AudioParameters AudioManagerChromeOS::GetPreferredOutputStreamParameters(
     const std::string& output_device_id,
     const AudioParameters& input_params) {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
@@ -410,8 +371,8 @@ AudioParameters AudioManagerCras::GetPreferredOutputStreamParameters(
     const chromeos::AudioDevice* device =
         GetDeviceFromId(devices, preferred_device_id);
     if (device && device->is_input == false) {
-      channel_layout = GuessChannelLayout(
-          static_cast<int>(device->max_supported_channels));
+      channel_layout =
+          GuessChannelLayout(static_cast<int>(device->max_supported_channels));
       // Fall-back to old fashion: always fixed to STEREO layout.
       if (channel_layout == CHANNEL_LAYOUT_UNSUPPORTED) {
         channel_layout = CHANNEL_LAYOUT_STEREO;
@@ -429,18 +390,8 @@ AudioParameters AudioManagerCras::GetPreferredOutputStreamParameters(
                                             limits::kMaxAudioBufferSize));
 }
 
-AudioOutputStream* AudioManagerCras::MakeOutputStream(
-    const AudioParameters& params,
-    const std::string& device_id) {
-  return new CrasUnifiedStream(params, this, device_id);
-}
-
-AudioInputStream* AudioManagerCras::MakeInputStream(
-    const AudioParameters& params, const std::string& device_id) {
-  return new CrasInputStream(params, this, device_id);
-}
-
-bool AudioManagerCras::IsDefault(const std::string& device_id, bool is_input) {
+bool AudioManagerChromeOS::IsDefault(const std::string& device_id,
+                                     bool is_input) {
   AudioDeviceNames device_names;
   GetAudioDeviceNamesImpl(is_input, &device_names);
   DCHECK(!device_names.empty());
@@ -448,7 +399,7 @@ bool AudioManagerCras::IsDefault(const std::string& device_id, bool is_input) {
   return device_name.unique_id == device_id;
 }
 
-std::string AudioManagerCras::GetHardwareDeviceFromDeviceId(
+std::string AudioManagerChromeOS::GetHardwareDeviceFromDeviceId(
     const chromeos::AudioDeviceList& devices,
     bool is_input,
     const std::string& device_id) {
@@ -466,7 +417,7 @@ std::string AudioManagerCras::GetHardwareDeviceFromDeviceId(
   return device ? device->device_name : "";
 }
 
-void AudioManagerCras::GetAudioDevices(chromeos::AudioDeviceList* devices) {
+void AudioManagerChromeOS::GetAudioDevices(chromeos::AudioDeviceList* devices) {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
                             base::WaitableEvent::InitialState::NOT_SIGNALED);
@@ -475,24 +426,24 @@ void AudioManagerCras::GetAudioDevices(chromeos::AudioDeviceList* devices) {
   } else {
     main_task_runner_->PostTask(
         FROM_HERE,
-        base::BindOnce(&AudioManagerCras::GetAudioDevicesOnMainThread,
+        base::BindOnce(&AudioManagerChromeOS::GetAudioDevicesOnMainThread,
                        weak_this_, base::Unretained(devices),
                        base::Unretained(&event)));
   }
   WaitEventOrShutdown(&event);
 }
 
-void AudioManagerCras::GetAudioDevicesOnMainThread(
+void AudioManagerChromeOS::GetAudioDevicesOnMainThread(
     chromeos::AudioDeviceList* devices,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
-  // CrasAudioHandler is shut down before AudioManagerCras.
+  // CrasAudioHandler is shut down before AudioManagerChromeOS.
   if (chromeos::CrasAudioHandler::Get())
     chromeos::CrasAudioHandler::Get()->GetAudioDevices(devices);
   event->Signal();
 }
 
-uint64_t AudioManagerCras::GetPrimaryActiveInputNode() {
+uint64_t AudioManagerChromeOS::GetPrimaryActiveInputNode() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   uint64_t device_id = 0;
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
@@ -502,14 +453,15 @@ uint64_t AudioManagerCras::GetPrimaryActiveInputNode() {
   } else {
     main_task_runner_->PostTask(
         FROM_HERE,
-        base::BindOnce(&AudioManagerCras::GetPrimaryActiveInputNodeOnMainThread,
-                       weak_this_, &device_id, &event));
+        base::BindOnce(
+            &AudioManagerChromeOS::GetPrimaryActiveInputNodeOnMainThread,
+            weak_this_, &device_id, &event));
   }
   WaitEventOrShutdown(&event);
   return device_id;
 }
 
-uint64_t AudioManagerCras::GetPrimaryActiveOutputNode() {
+uint64_t AudioManagerChromeOS::GetPrimaryActiveOutputNode() {
   DCHECK(GetTaskRunner()->BelongsToCurrentThread());
   base::WaitableEvent event(base::WaitableEvent::ResetPolicy::MANUAL,
                             base::WaitableEvent::InitialState::NOT_SIGNALED);
@@ -521,7 +473,7 @@ uint64_t AudioManagerCras::GetPrimaryActiveOutputNode() {
     main_task_runner_->PostTask(
         FROM_HERE,
         base::BindOnce(
-            &AudioManagerCras::GetPrimaryActiveOutputNodeOnMainThread,
+            &AudioManagerChromeOS::GetPrimaryActiveOutputNodeOnMainThread,
             weak_this_, base::Unretained(&device_id),
             base::Unretained(&event)));
   }
@@ -529,7 +481,7 @@ uint64_t AudioManagerCras::GetPrimaryActiveOutputNode() {
   return device_id;
 }
 
-void AudioManagerCras::GetPrimaryActiveInputNodeOnMainThread(
+void AudioManagerChromeOS::GetPrimaryActiveInputNodeOnMainThread(
     uint64_t* active_input_node_id,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
@@ -540,7 +492,7 @@ void AudioManagerCras::GetPrimaryActiveInputNodeOnMainThread(
   event->Signal();
 }
 
-void AudioManagerCras::GetPrimaryActiveOutputNodeOnMainThread(
+void AudioManagerChromeOS::GetPrimaryActiveOutputNodeOnMainThread(
     uint64_t* active_output_node_id,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
@@ -551,7 +503,7 @@ void AudioManagerCras::GetPrimaryActiveOutputNodeOnMainThread(
   event->Signal();
 }
 
-void AudioManagerCras::GetDefaultOutputBufferSizeOnMainThread(
+void AudioManagerChromeOS::GetDefaultOutputBufferSizeOnMainThread(
     int32_t* buffer_size,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
@@ -560,7 +512,7 @@ void AudioManagerCras::GetDefaultOutputBufferSizeOnMainThread(
   event->Signal();
 }
 
-void AudioManagerCras::GetSystemAecSupportedOnMainThread(
+void AudioManagerChromeOS::GetSystemAecSupportedOnMainThread(
     bool* system_aec_supported,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
@@ -571,7 +523,7 @@ void AudioManagerCras::GetSystemAecSupportedOnMainThread(
   event->Signal();
 }
 
-void AudioManagerCras::GetSystemAecGroupIdOnMainThread(
+void AudioManagerChromeOS::GetSystemAecGroupIdOnMainThread(
     int32_t* group_id,
     base::WaitableEvent* event) {
   DCHECK(main_task_runner_->BelongsToCurrentThread());
@@ -580,7 +532,7 @@ void AudioManagerCras::GetSystemAecGroupIdOnMainThread(
   event->Signal();
 }
 
-void AudioManagerCras::WaitEventOrShutdown(base::WaitableEvent* event) {
+void AudioManagerChromeOS::WaitEventOrShutdown(base::WaitableEvent* event) {
   base::WaitableEvent* waitables[] = {event, &on_shutdown_};
   base::WaitableEvent::WaitMany(waitables, base::size(waitables));
 }

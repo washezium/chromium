@@ -1,9 +1,9 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CRAS_H_
-#define MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CRAS_H_
+#ifndef MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CHROMEOS_H_
+#define MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CHROMEOS_H_
 
 #include <cras_types.h>
 
@@ -16,14 +16,15 @@
 #include "base/memory/ref_counted.h"
 #include "chromeos/audio/audio_device.h"
 #include "media/audio/audio_manager_base.h"
+#include "media/audio/cras/audio_manager_cras_base.h"
 
 namespace media {
 
-class MEDIA_EXPORT AudioManagerCras : public AudioManagerBase {
+class MEDIA_EXPORT AudioManagerChromeOS : public AudioManagerCrasBase {
  public:
-  AudioManagerCras(std::unique_ptr<AudioThread> audio_thread,
+  AudioManagerChromeOS(std::unique_ptr<AudioThread> audio_thread,
                    AudioLogFactory* audio_log_factory);
-  ~AudioManagerCras() override;
+  ~AudioManagerChromeOS() override;
 
   // AudioManager implementation.
   bool HasAudioOutputDevices() override;
@@ -38,29 +39,10 @@ class MEDIA_EXPORT AudioManagerCras : public AudioManagerBase {
   std::string GetDefaultOutputDeviceID() override;
   std::string GetGroupIDOutput(const std::string& output_device_id) override;
   std::string GetGroupIDInput(const std::string& input_device_id) override;
-  const char* GetName() override;
   bool Shutdown() override;
 
-  // AudioManagerBase implementation.
-  AudioOutputStream* MakeLinearOutputStream(
-      const AudioParameters& params,
-      const LogCallback& log_callback) override;
-  AudioOutputStream* MakeLowLatencyOutputStream(
-      const AudioParameters& params,
-      const std::string& device_id,
-      const LogCallback& log_callback) override;
-  AudioInputStream* MakeLinearInputStream(
-      const AudioParameters& params,
-      const std::string& device_id,
-      const LogCallback& log_callback) override;
-  AudioInputStream* MakeLowLatencyInputStream(
-      const AudioParameters& params,
-      const std::string& device_id,
-      const LogCallback& log_callback) override;
-
-  // Checks if |device_id| corresponds to the default device.
-  // Set |is_input| to true for capture devices, false for output.
-  bool IsDefault(const std::string& device_id, bool is_input);
+  // AudioManagerCras implementation.
+  bool IsDefault(const std::string& device_id, bool is_input) override;
 
  protected:
   AudioParameters GetPreferredOutputStreamParameters(
@@ -68,14 +50,6 @@ class MEDIA_EXPORT AudioManagerCras : public AudioManagerBase {
       const AudioParameters& input_params) override;
 
  private:
-  // Called by MakeLinearOutputStream and MakeLowLatencyOutputStream.
-  AudioOutputStream* MakeOutputStream(const AudioParameters& params,
-                                      const std::string& device_id);
-
-  // Called by MakeLinearInputStream and MakeLowLatencyInputStream.
-  AudioInputStream* MakeInputStream(const AudioParameters& params,
-                                    const std::string& device_id);
-
   // Get default output buffer size for this board.
   int GetDefaultOutputBufferSizePerBoard();
 
@@ -118,13 +92,13 @@ class MEDIA_EXPORT AudioManagerCras : public AudioManagerBase {
   scoped_refptr<base::SingleThreadTaskRunner> main_task_runner_;
 
   // For posting tasks from audio thread to |main_task_runner_|.
-  base::WeakPtr<AudioManagerCras> weak_this_;
+  base::WeakPtr<AudioManagerChromeOS> weak_this_;
 
-  base::WeakPtrFactory<AudioManagerCras> weak_ptr_factory_;
+  base::WeakPtrFactory<AudioManagerChromeOS> weak_ptr_factory_;
 
-  DISALLOW_COPY_AND_ASSIGN(AudioManagerCras);
+  DISALLOW_COPY_AND_ASSIGN(AudioManagerChromeOS);
 };
 
 }  // namespace media
 
-#endif  // MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CRAS_H_
+#endif  // MEDIA_AUDIO_CRAS_AUDIO_MANAGER_CHROMEOS_H_

@@ -14,7 +14,7 @@
 #include "media/audio/alsa/audio_manager_alsa.h"
 #endif
 #if defined(USE_CRAS)
-#include "media/audio/cras/audio_manager_cras.h"
+#include "media/audio/cras/audio_manager_chromeos.h"
 #endif
 #if defined(USE_PULSEAUDIO)
 #include "media/audio/pulse/audio_manager_pulse.h"
@@ -43,8 +43,8 @@ std::unique_ptr<media::AudioManager> CreateAudioManager(
 #if defined(USE_CRAS)
   if (base::CommandLine::ForCurrentProcess()->HasSwitch(switches::kUseCras)) {
     UMA_HISTOGRAM_ENUMERATION("Media.LinuxAudioIO", kCras, kAudioIOMax + 1);
-    return std::make_unique<AudioManagerCras>(std::move(audio_thread),
-                                              audio_log_factory);
+    return std::make_unique<AudioManagerChromeOS>(std::move(audio_thread),
+                                                  audio_log_factory);
   }
 #endif
 
