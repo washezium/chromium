@@ -852,8 +852,14 @@ IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilityAriaMenuItem) {
   RunAriaTest(FILE_PATH_LITERAL("aria-menuitem.html"));
 }
 
+#if defined(OS_ANDROID)
+#define MAYBE_AccessibilityAriaMenuItemInGroup \
+  DISABLED_AccessibilityAriaMenuItemInGroup
+#else
+#define MAYBE_AccessibilityAriaMenuItemInGroup AccessibilityAriaMenuItemInGroup
+#endif
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest,
-                       AccessibilityAriaMenuItemInGroup) {
+                       MAYBE_AccessibilityAriaMenuItemInGroup) {
   RunAriaTest(FILE_PATH_LITERAL("aria-menuitem-in-group.html"));
 }
 // crbug.com/442278 will stop creating new text elements representing title.
