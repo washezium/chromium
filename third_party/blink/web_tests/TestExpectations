@@ -6753,3 +6753,6 @@ crbug.com/1113791 [ Win ] media/video-zoom.html [ Pass Failure ]
 crbug.com/1095540 virtual/threaded-prefer-compositing/fast/scrolling/resize-corner-tracking-touch.html [ Pass Failure ]
 crbug.com/1113521 [ Mac ] fast/events/mouse-cursor-image-set.html [ Pass Crash ]
 crbug.com/1046784 http/tests/devtools/network/network-content-replacement-xhr.js [ Pass Failure ]
+
+# Sheriff 2020-08-14
+crbug.com/1116681 [ Mac ] fast/frames/iframe-scaling-with-scroll.html [ Pass Failure ]
