@@ -2343,6 +2343,11 @@ IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilityUl) {
   RunHtmlTest(FILE_PATH_LITERAL("ul.html"));
 }
 
+IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest,
+                       AccessibilityNotUserSelectable) {
+  RunCSSTest(FILE_PATH_LITERAL("user-select.html"));
+}
+
 IN_PROC_BROWSER_TEST_P(DumpAccessibilityTreeTest, AccessibilityVar) {
   RunHtmlTest(FILE_PATH_LITERAL("var.html"));
 }

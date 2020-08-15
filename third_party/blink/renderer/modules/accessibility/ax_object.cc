@@ -790,6 +790,11 @@ void AXObject::Serialize(ui::AXNodeData* node_data) {
         IsSelectedFromFocus());
   }
 
+  if (IsNotUserSelectable()) {
+    node_data->AddBoolAttribute(
+        ax::mojom::blink::BoolAttribute::kNotUserSelectableStyle, true);
+  }
+
   if (IsRichlyEditable())
     node_data->AddState(ax::mojom::blink::State::kRichlyEditable);
 
