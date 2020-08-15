@@ -21425,6 +21425,12 @@ Called by update_document_policy_enum.py.-->
   <int value="770" label="PrintersBulkConfiguration"/>
   <int value="771" label="DeviceReleaseLtsTag"/>
   <int value="772" label="PrintersBulkAccessMode"/>
+  <int value="773" label="DefaultFileSystemReadGuardSetting"/>
+  <int value="774" label="DefaultFileSystemWriteGuardSetting"/>
+  <int value="775" label="FileSystemReadAskForUrls"/>
+  <int value="776" label="FileSystemReadBlockedForUrls"/>
+  <int value="777" label="FileSystemWriteAskForUrls"/>
+  <int value="778" label="FileSystemWriteBlockedForUrls"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
