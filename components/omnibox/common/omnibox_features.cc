@@ -283,12 +283,12 @@ const base::Feature kReactiveZeroSuggestionsOnNTPRealbox{
 // Allow suggestions to be shown to the user on the New Tab Page upon focusing
 // URL bar (the omnibox).
 const base::Feature kZeroSuggestionsOnNTP{"OmniboxZeroSuggestionsOnNTP",
-                                          base::FEATURE_DISABLED_BY_DEFAULT};
+                                          base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Allow suggestions to be shown to the user on the New Tab Page upon focusing
 // the real search box.
 const base::Feature kZeroSuggestionsOnNTPRealbox{
-    "OmniboxZeroSuggestionsOnNTPRealbox", base::FEATURE_DISABLED_BY_DEFAULT};
+    "OmniboxZeroSuggestionsOnNTPRealbox", base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Allow on-focus query refinements to be shown on the default SERP.
 const base::Feature kZeroSuggestionsOnSERP{"OmniboxZeroSuggestionsOnSERP",

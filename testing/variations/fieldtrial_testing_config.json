@@ -4893,7 +4893,6 @@
                         "UIMaxAutocompleteMatches": "8"
                     },
                     "enable_features": [
-                        "NtpRealbox",
                         "OmniboxDisplayTitleForCurrentUrl",
                         "OmniboxDocumentProvider",
                         "OmniboxMaxURLMatches",
