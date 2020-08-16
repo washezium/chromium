@@ -14,6 +14,7 @@
 #include "base/notreached.h"
 #include "base/strings/sys_string_conversions.h"
 #include "components/metal_util/device.h"
+#include "ui/gfx/color_space.h"
 
 namespace {
 
@@ -67,7 +68,6 @@ MTLPixelFormat IOSurfaceGetMTLPixelFormat(IOSurfaceRef buffer)
     default:
       break;
   }
-  NOTREACHED();
   return MTLPixelFormatInvalid;
 }
 
@@ -146,7 +146,8 @@ API_AVAILABLE(macos(10.15))
   base::scoped_nsprotocol<id<MTLRenderPipelineState>> _render_pipeline_state;
 }
 - (id)init;
-- (void)setContents:(id)contents;
+- (void)setHDRContents:(IOSurfaceRef)buffer
+        withColorSpace:(gfx::ColorSpace)color_space;
 @end
 
 @implementation HDRCopierLayer
@@ -161,9 +162,8 @@ API_AVAILABLE(macos(10.15))
   return self;
 }
 
-- (void)setContents:(id)contents {
-  IOSurfaceRef buffer = reinterpret_cast<IOSurfaceRef>(contents);
-
+- (void)setHDRContents:(IOSurfaceRef)buffer
+        withColorSpace:(gfx::ColorSpace)color_space {
   // Retrieve information about the IOSurface.
   size_t width = IOSurfaceGetWidth(buffer);
   size_t height = IOSurfaceGetHeight(buffer);
@@ -277,8 +277,29 @@ CALayer* CreateHDRCopierLayer() {
   // (HDR content will be clipped, but that would have happened anyway).
   if (@available(macos 10.15, *))
     return [[HDRCopierLayer alloc] init];
-  else
-    return [[CALayer alloc] init];
+  NOTREACHED();
+  return nil;
+}
+
+void UpdateHDRCopierLayer(CALayer* layer,
+                          IOSurfaceRef buffer,
+                          const gfx::ColorSpace& color_space) {
+  if (@available(macos 10.15, *)) {
+    if (auto* hdr_copier_layer = base::mac::ObjCCast<HDRCopierLayer>(layer)) {
+      [hdr_copier_layer setHDRContents:buffer withColorSpace:color_space];
+      return;
+    }
+  }
+  NOTREACHED();
+}
+
+bool ShouldUseHDRCopier(IOSurfaceRef buffer,
+                        const gfx::ColorSpace& color_space) {
+  if (@available(macos 10.15, *)) {
+    return color_space.IsHDR() &&
+           IOSurfaceGetMTLPixelFormat(buffer) != MTLPixelFormatInvalid;
+  }
+  return false;
 }
 
 }  // namespace metal
