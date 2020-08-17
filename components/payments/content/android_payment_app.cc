@@ -6,6 +6,8 @@
 
 #include <utility>
 
+#include "base/check.h"
+#include "components/payments/core/method_strings.h"
 #include "components/payments/core/native_error_strings.h"
 #include "components/payments/core/payer_data.h"
 
@@ -139,6 +141,19 @@ void AndroidPaymentApp::UpdateWith(
 }
 
 void AndroidPaymentApp::OnPaymentDetailsNotUpdated() {}
+
+bool AndroidPaymentApp::IsPreferred() const {
+  // This class used only on Chrome OS, where the only Android payment app
+  // available is the trusted web application (TWA) that launched this instance
+  // of Chrome with a TWA specific payment method, so this app should be
+  // preferred.
+#if !defined(OS_CHROMEOS)
+  NOTREACHED();
+#endif  // OS_CHROMEOS
+  DCHECK_EQ(1U, GetAppMethodNames().size());
+  DCHECK_EQ(methods::kGooglePlayBilling, *GetAppMethodNames().begin());
+  return true;
+}
 
 void AndroidPaymentApp::OnPaymentAppResponse(
     Delegate* delegate,

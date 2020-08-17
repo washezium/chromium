@@ -72,6 +72,7 @@ class AndroidPaymentApp : public PaymentApp {
   void UpdateWith(
       mojom::PaymentRequestDetailsUpdatePtr details_update) override;
   void OnPaymentDetailsNotUpdated() override;
+  bool IsPreferred() const override;
 
  private:
   void OnPaymentAppResponse(Delegate* delegate,
