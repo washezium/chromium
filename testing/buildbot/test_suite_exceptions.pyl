@@ -1161,7 +1161,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-NativeExtensionBindingsSystemUnittest*:'
           'BluetoothSocketApiUnittest.CreateThenClose:'
@@ -2675,7 +2674,6 @@
       },
       # https://crbug.com/1111979,
       'linux-lacros-tester-rel': {
-        'experiment_percentage': 100,
         'args': [
           '--gtest_filter=-DesktopWidgetFocusManagerTest.AnchoredDialogInDesktopNativeWidgetAura:'
           'DesktopWidgetTest*:'
