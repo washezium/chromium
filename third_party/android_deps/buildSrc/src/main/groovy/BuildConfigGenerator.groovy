@@ -463,9 +463,12 @@ class BuildConfigGenerator extends DefaultTask {
                 sb.append('    "com/google/protobuf/Wrappers*",\n')
                 sb.append('  ]')
                 break
-	    case 'androidx_webkit_webkit':
-	        sb.append('  visibility = ["//android_webview/tools/system_webview_shell:*"]\n')
-		break
+            case 'androidx_webkit_webkit':
+                sb.append('  visibility = ["//android_webview/tools/system_webview_shell:*"]\n')
+                break
+            case 'com_android_tools_desugar_jdk_libs_configuration':
+                sb.append('  enable_bytecode_checks = false\n')
+                break
         }
     }
 
