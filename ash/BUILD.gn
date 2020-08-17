@@ -567,6 +567,8 @@ component("ash") {
     "login/ui/login_palette.h",
     "login/ui/login_password_view.cc",
     "login/ui/login_password_view.h",
+    "login/ui/login_pin_input_view.cc",
+    "login/ui/login_pin_input_view.h",
     "login/ui/login_pin_view.cc",
     "login/ui/login_pin_view.h",
     "login/ui/login_public_account_user_view.cc",
