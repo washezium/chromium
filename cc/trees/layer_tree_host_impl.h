@@ -303,7 +303,7 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
       const gfx::Point& viewport_point) override;
   void MouseLeave() override;
 
-  // Returns frame_element_id from the layer hit by the given point.
+  // Returns visible_frame_element_id from the layer hit by the given point.
   // If the hit test failed, an invalid element ID is returned.
   ElementId FindFrameElementIdAtPoint(
       const gfx::PointF& viewport_point) override;
