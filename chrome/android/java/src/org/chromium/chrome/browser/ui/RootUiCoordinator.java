@@ -138,7 +138,7 @@ public class RootUiCoordinator
     private List<ButtonDataProvider> mButtonDataProviders;
     private IdentityDiscController mIdentityDiscController;
     private ChromeActionModeHandler mChromeActionModeHandler;
-    private ToolbarActionModeCallback mActionModeControllerCallback;
+    private final ToolbarActionModeCallback mActionModeControllerCallback;
     private ObservableSupplierImpl<Boolean> mOmniboxFocusStateSupplier =
             new ObservableSupplierImpl<>();
     protected final ObservableSupplier<Profile> mProfileSupplier;
@@ -191,6 +191,7 @@ public class RootUiCoordinator
         mBookmarkBridgeSupplier = bookmarkBridgeSupplier;
         mAppMenuSupplier = new ObservableSupplierImpl<>();
         mContextualSearchManagerSupplier = contextualSearchManagerSupplier;
+        mActionModeControllerCallback = new ToolbarActionModeCallback();
 
         mOmniboxFocusStateSupplier.set(false);
 
@@ -509,7 +510,6 @@ public class RootUiCoordinator
                     bottomToolbarVisibilitySupplier, mActivity.getLifecycleDispatcher(),
                     mActivity.getModalDialogManager());
             mButtonDataProviders = Arrays.asList(mIdentityDiscController, shareButtonController);
-            mActionModeControllerCallback = new ToolbarActionModeCallback();
             mToolbarManager = new ToolbarManager(mActivity, mActivity.getBrowserControlsManager(),
                     mActivity.getFullscreenManager(), toolbarContainer,
                     mActivity.getCompositorViewHolder().getInvalidator(), urlFocusChangedCallback,
