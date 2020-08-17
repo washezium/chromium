@@ -6738,3 +6738,6 @@ crbug.com/1046784 http/tests/devtools/network/network-content-replacement-xhr.js
 
 # Sheriff 2020-08-14
 crbug.com/1116681 [ Mac ] fast/frames/iframe-scaling-with-scroll.html [ Pass Failure ]
+
+# Sheriff 2020-08-17
+crbug.com/1069546 [ Mac ] compositing/layer-creation/overflow-scroll-overlap.html [ Pass Failure ]
