@@ -36,9 +36,6 @@ SharingMessageModelTypeController::GetPreconditionState() const {
   if (syncer::IsWebSignout(sync_service_->GetAuthError())) {
     return PreconditionState::kMustStopAndClearData;
   }
-  if (sync_service_->GetBackedOffDataTypes().Has(syncer::SHARING_MESSAGE)) {
-    return PreconditionState::kMustStopAndClearData;
-  }
   return PreconditionState::kPreconditionsMet;
 }
 
