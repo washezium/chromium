@@ -1403,6 +1403,15 @@ body.files-ng .dialog-footer button {
   color: rgb(168, 168, 168);
 }
 
+body.files-ng .dialog-footer cr-button[disabled],
+body.files-ng .dialog-footer cr-button[disabled]:hover,
+body.files-ng .dialog-footer button[disabled],
+body.files-ng .dialog-footer button[disabled]:hover {
+  background-color:
+      var(--cros-button-background-color-primary-disabled);
+  color: var(--cros-button-label-color-primary-disabled);
+}
+
 body:not(.files-ng) .dialog-footer .primary,
 body:not(.files-ng) .dialog-footer .primary:hover {
   background-color: rgb(51, 103, 214);
