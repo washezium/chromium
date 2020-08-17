@@ -20,6 +20,10 @@
         padding-inline-start: var(--cr-section-padding);
       }
 
+      .bottom-margin {
+        margin-bottom: var(--cr-section-vertical-margin);
+      }
+
       .icon-external {
         margin-inline-end: 0;
       }
@@ -57,7 +61,7 @@
           on-settings-boolean-control-change="onShowImeMenuChange_">
       </settings-toggle-button>
 
-      <div class="hr">
+      <div class="hr bottom-margin">
         <h2>$i18n{inputMethodListTitle}</h2>
         <div class="list-frame vertical-list" id="inputMethodsList">
           <template is="dom-repeat"
@@ -104,6 +108,13 @@
           </div>
         </div>
       </div>
+      <settings-toggle-button id="enableSpellcheckingToggle" class="hr"
+          label="$i18n{spellCheckTitle}"
+          sub-label="[[getSpellCheckSubLabel_(spellCheckLanguages_)]]"
+          pref="{{prefs.browser.enable_spellchecking}}"
+          disabled="[[!spellCheckLanguages_.length]]"
+          on-settings-boolean-control-change="onSpellcheckToggleChange_">
+      </settings-toggle-button>
     </div>
   </template>
   <script src="input_page.js"></script>

@@ -109,6 +109,12 @@ const std::vector<SearchConcept>& GetInputPageSearchConceptsV2() {
        mojom::SearchResultDefaultRank::kMedium,
        mojom::SearchResultType::kSetting,
        {.setting = mojom::Setting::kAddInputMethod}},
+      {IDS_OS_SETTINGS_TAG_LANGUAGES_SPELL_CHECK,
+       mojom::kInputSubpagePath,
+       mojom::SearchResultIcon::kGlobe,
+       mojom::SearchResultDefaultRank::kMedium,
+       mojom::SearchResultType::kSetting,
+       {.setting = mojom::Setting::kSpellCheck}},
   });
   return *tags;
 }
@@ -271,6 +277,9 @@ void AddInputPageStringsV2(content::WebUIDataSource* html_source) {
        IDS_OS_SETTINGS_LANGUAGES_INPUT_METHOD_LIST_TITLE},
       {"openOptionsPage", IDS_OS_SETTINGS_LANGUAGES_OPEN_OPTIONS_PAGE_LABEL},
       {"addInputMethodLabel", IDS_OS_SETTINGS_LANGUAGES_ADD_INPUT_METHOD_LABEL},
+      {"spellCheckTitle", IDS_OS_SETTINGS_LANGUAGES_SPELL_CHECK_TITLE},
+      {"spellCheckDisabledReason",
+       IDS_OS_SETTINGS_LANGUAGES_SPELL_CHECK_DISABLED_REASON},
   };
   AddLocalizedStringsBulk(html_source, kLocalizedStrings);
 }
@@ -398,6 +407,7 @@ void LanguagesSection::RegisterHierarchy(HierarchyGenerator* generator) const {
       mojom::kInputSubpagePath);
   static constexpr mojom::Setting kInputPageSettings[] = {
       mojom::Setting::kAddInputMethod,
+      mojom::Setting::kSpellCheck,
   };
   RegisterNestedSettingBulk(mojom::Subpage::kInput, kInputPageSettings,
                             generator);

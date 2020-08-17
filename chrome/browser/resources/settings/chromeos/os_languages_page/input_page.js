@@ -34,6 +34,16 @@ Polymer({
 
     /** @type {!LanguageHelper} */
     languageHelper: Object,
+
+    /**
+     * @private {!Array<!LanguageState|!ForcedLanguageState>}
+     */
+    spellCheckLanguages_: {
+      type: Array,
+      value() {
+        return [];
+      },
+    },
   },
 
   /** @private {?settings.LanguagesMetricsProxy} */
@@ -164,5 +174,23 @@ Polymer({
   onAddInputMethodClick_() {
     this.languagesMetricsProxy_.recordAddInputMethod();
     // TODO(crbug/1113439): Add input methods dialog.
+  },
+
+  /**
+   * @return {string|undefined}
+   * @private
+   */
+  getSpellCheckSubLabel_() {
+    return this.spellCheckLanguages_.length ?
+        undefined :  // equivalent to not setting the sublabel in the HTML.
+        this.i18n('spellCheckDisabledReason');
+  },
+
+  /**
+   * @param {!Event} e
+   * @private
+   */
+  onSpellcheckToggleChange_(e) {
+    this.languagesMetricsProxy_.recordToggleSpellCheck(e.target.checked);
   },
 });
