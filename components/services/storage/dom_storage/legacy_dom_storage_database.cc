@@ -155,8 +155,12 @@ bool LegacyDomStorageDatabase::LazyOpen(bool create_if_needed) {
     return false;
   }
 
-  db_.reset(new sql::Database());
+  db_ = std::make_unique<sql::Database>();
   db_->set_histogram_tag("DOMStorageDatabase");
+
+  // This database should only be accessed from the process hosting the storage
+  // service, so exclusive locking is appropriate.
+  db_->set_exclusive_locking();
 
   // This db does not use [meta] table, store mmap status data elsewhere.
   db_->set_mmap_alt_status();
