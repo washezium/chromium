@@ -6153,6 +6153,7 @@ Unknown properties are collapsed to zero. -->
   <int value="226" label="RFMF_INVALID_PLUGIN_EMBEDDER_ORIGIN"/>
   <int value="227" label="RFH_INVALID_CALL_FROM_NOT_MAIN_FRAME"/>
   <int value="228" label="INPUT_ROUTER_INVALID_EVENT_SOURCE"/>
+  <int value="233" label="RWH_CLOSE_PORTAL"/>
 </enum>
 
 <enum name="BadMessageReasonExtensions">
