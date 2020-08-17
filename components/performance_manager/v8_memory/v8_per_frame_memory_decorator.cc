@@ -48,6 +48,8 @@ class V8PerFrameMemoryDecorator::ObserverNotifier {
 
 namespace {
 
+using MeasurementMode = V8PerFrameMemoryRequest::MeasurementMode;
+
 using PerFrameUsagePtr = blink::mojom::PerFrameV8MemoryUsageDataPtr;
 
 // Comparator that generates a strict total order of PerFrameUsagePtr's when
@@ -185,7 +187,7 @@ class NodeAttachedProcessData
   void ScheduleNextMeasurement();
 
  private:
-  void StartMeasurement();
+  void StartMeasurement(MeasurementMode mode);
   void EnsureRemote();
   void OnPerFrameV8MemoryUsageData(
       blink::mojom::PerProcessV8MemoryUsageDataPtr result);
@@ -228,10 +230,14 @@ void NodeAttachedProcessData::ScheduleNextMeasurement() {
     return;
   }
 
+  V8PerFrameMemoryRequest* next_request = nullptr;
   auto* decorator =
       V8PerFrameMemoryDecorator::GetFromGraph(process_node_->GetGraph());
-  if (!decorator ||
-      decorator->GetMinTimeBetweenRequestsPerProcess().is_zero()) {
+  if (decorator) {
+    next_request = decorator->GetNextRequest();
+  }
+
+  if (!next_request) {
     // All measurements have been cancelled, or decorator was removed from
     // graph.
     state_ = State::kIdle;
@@ -243,17 +249,20 @@ void NodeAttachedProcessData::ScheduleNextMeasurement() {
   state_ = State::kWaiting;
   if (last_request_time_.is_null()) {
     // This is the first measurement. Perform it immediately.
-    StartMeasurement();
+    StartMeasurement(next_request->mode());
     return;
   }
 
+  // TODO(joenotcharles): Make sure kLazy requests can't starve kBounded
+  // requests.
   base::TimeTicks next_request_time =
-      last_request_time_ + decorator->GetMinTimeBetweenRequestsPerProcess();
-  timer_.Start(FROM_HERE, next_request_time - base::TimeTicks::Now(), this,
-               &NodeAttachedProcessData::StartMeasurement);
+      last_request_time_ + next_request->min_time_between_requests();
+  timer_.Start(FROM_HERE, next_request_time - base::TimeTicks::Now(),
+               base::BindOnce(&NodeAttachedProcessData::StartMeasurement,
+                              base::Unretained(this), next_request->mode()));
 }
 
-void NodeAttachedProcessData::StartMeasurement() {
+void NodeAttachedProcessData::StartMeasurement(MeasurementMode mode) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK_EQ(state_, State::kWaiting);
   state_ = State::kMeasuring;
@@ -268,7 +277,9 @@ void NodeAttachedProcessData::StartMeasurement() {
   // NodeAttachedProcessData when the last V8PerFrameMemoryRequest is deleted,
   // which could happen at any time.
   resource_usage_reporter_->GetPerFrameV8MemoryUsageData(
-      blink::mojom::V8PerFrameMemoryReporter::Mode::DEFAULT,
+      mode == MeasurementMode::kLazy
+          ? blink::mojom::V8PerFrameMemoryReporter::Mode::LAZY
+          : blink::mojom::V8PerFrameMemoryReporter::Mode::DEFAULT,
       base::BindOnce(&NodeAttachedProcessData::OnPerFrameV8MemoryUsageData,
                      weak_factory_.GetWeakPtr()));
 }
@@ -371,16 +382,25 @@ void SetBindV8PerFrameMemoryReporterCallbackForTesting(
 // V8PerFrameMemoryRequest
 
 V8PerFrameMemoryRequest::V8PerFrameMemoryRequest(
-    const base::TimeDelta& sample_frequency)
-    : sample_frequency_(sample_frequency) {
-  DCHECK_GT(sample_frequency_, base::TimeDelta());
+    const base::TimeDelta& min_time_between_requests,
+    MeasurementMode mode)
+    : min_time_between_requests_(min_time_between_requests), mode_(mode) {
+  DCHECK_GT(min_time_between_requests_, base::TimeDelta());
 }
 
 V8PerFrameMemoryRequest::V8PerFrameMemoryRequest(
-    const base::TimeDelta& sample_frequency,
+    const base::TimeDelta& min_time_between_requests,
     Graph* graph)
-    : sample_frequency_(sample_frequency) {
-  DCHECK_GT(sample_frequency_, base::TimeDelta());
+    : V8PerFrameMemoryRequest(min_time_between_requests,
+                              MeasurementMode::kDefault) {
+  StartMeasurement(graph);
+}
+
+V8PerFrameMemoryRequest::V8PerFrameMemoryRequest(
+    const base::TimeDelta& min_time_between_requests,
+    MeasurementMode mode,
+    Graph* graph)
+    : V8PerFrameMemoryRequest(min_time_between_requests, mode) {
   StartMeasurement(graph);
 }
 
@@ -388,12 +408,13 @@ V8PerFrameMemoryRequest::V8PerFrameMemoryRequest(
 // sequence.
 V8PerFrameMemoryRequest::V8PerFrameMemoryRequest(
     util::PassKey<V8PerFrameMemoryRequestAnySeq>,
-    const base::TimeDelta& sample_frequency,
+    const base::TimeDelta& min_time_between_requests,
+    MeasurementMode mode,
     base::WeakPtr<V8PerFrameMemoryRequestAnySeq> off_sequence_request)
-    : sample_frequency_(sample_frequency),
-      off_sequence_request_(std::move(off_sequence_request)),
-      off_sequence_request_sequence_(base::SequencedTaskRunnerHandle::Get()) {
+    : V8PerFrameMemoryRequest(min_time_between_requests, mode) {
   DETACH_FROM_SEQUENCE(sequence_checker_);
+  off_sequence_request_ = std::move(off_sequence_request);
+  off_sequence_request_sequence_ = base::SequencedTaskRunnerHandle::Get();
   // Unretained is safe since |this| will be destroyed on the graph sequence.
   PerformanceManager::CallOnGraph(
       FROM_HERE, base::BindOnce(&V8PerFrameMemoryRequest::StartMeasurement,
@@ -586,12 +607,10 @@ base::Value V8PerFrameMemoryDecorator::DescribeProcessNodeData(
   return dict;
 }
 
-base::TimeDelta V8PerFrameMemoryDecorator::GetMinTimeBetweenRequestsPerProcess()
-    const {
+V8PerFrameMemoryRequest* V8PerFrameMemoryDecorator::GetNextRequest() const {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  return measurement_requests_.empty()
-             ? base::TimeDelta()
-             : measurement_requests_.front()->sample_frequency();
+  return measurement_requests_.empty() ? nullptr
+                                       : measurement_requests_.front();
 }
 
 void V8PerFrameMemoryDecorator::AddMeasurementRequest(
@@ -607,7 +626,14 @@ void V8PerFrameMemoryDecorator::AddMeasurementRequest(
   for (std::vector<V8PerFrameMemoryRequest*>::const_iterator it =
            measurement_requests_.begin();
        it != measurement_requests_.end(); ++it) {
-    if (request->sample_frequency() < (*it)->sample_frequency()) {
+    if (request->min_time_between_requests() <
+            (*it)->min_time_between_requests() ||
+        // Make sure bounded request sort before lazy requests so that they
+        // aren't starved.
+        (request->min_time_between_requests() ==
+             (*it)->min_time_between_requests() &&
+         request->mode() ==
+             V8PerFrameMemoryRequest::MeasurementMode::kBounded)) {
       measurement_requests_.insert(it, request);
       UpdateProcessMeasurementSchedules();
       return;
@@ -636,8 +662,8 @@ void V8PerFrameMemoryDecorator::UpdateProcessMeasurementSchedules() const {
   for (size_t i = 1; i < measurement_requests_.size(); ++i) {
     DCHECK(measurement_requests_[i - 1]);
     DCHECK(measurement_requests_[i]);
-    DCHECK_LE(measurement_requests_[i - 1]->sample_frequency(),
-              measurement_requests_[i]->sample_frequency());
+    DCHECK_LE(measurement_requests_[i - 1]->min_time_between_requests(),
+              measurement_requests_[i]->min_time_between_requests());
   }
 #endif
   for (const ProcessNode* node : graph_->GetAllProcessNodes()) {
@@ -666,7 +692,8 @@ void V8PerFrameMemoryDecorator::NotifyObserversOnMeasurementAvailable(
 // V8PerFrameMemoryRequestAnySeq
 
 V8PerFrameMemoryRequestAnySeq::V8PerFrameMemoryRequestAnySeq(
-    const base::TimeDelta& sample_frequency) {
+    const base::TimeDelta& min_time_between_requests,
+    MeasurementMode mode) {
   // |request_| must be initialized in the constructor body so that
   // |weak_factory_| is completely constructed.
   //
@@ -674,8 +701,8 @@ V8PerFrameMemoryRequestAnySeq::V8PerFrameMemoryRequestAnySeq(
   // constructor. After construction the V8PerFrameMemoryRequest must only be
   // accessed on the graph sequence.
   request_ = base::WrapUnique(new V8PerFrameMemoryRequest(
-      util::PassKey<V8PerFrameMemoryRequestAnySeq>(), sample_frequency,
-      weak_factory_.GetWeakPtr()));
+      util::PassKey<V8PerFrameMemoryRequestAnySeq>(), min_time_between_requests,
+      mode, weak_factory_.GetWeakPtr()));
 }
 
 V8PerFrameMemoryRequestAnySeq::~V8PerFrameMemoryRequestAnySeq() {
