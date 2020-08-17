@@ -1333,6 +1333,154 @@ TEST_F(OptimizationGuideHintsManagerTest,
       123456);
 }
 
+TEST_F(
+    OptimizationGuideHintsManagerTest,
+    CanApplyOptimizationOptimizationTypeHostHasSentinelTuningVersionShouldLogUKM) {
+  optimization_guide::proto::Configuration config;
+  optimization_guide::proto::Hint* hint1 = config.add_hints();
+  hint1->set_key("somedomain.org");
+  hint1->set_key_representation(optimization_guide::proto::HOST);
+  hint1->set_version("someversion");
+  optimization_guide::proto::Optimization* opt1 =
+      hint1->add_whitelisted_optimizations();
+  opt1->set_optimization_type(optimization_guide::proto::RESOURCE_LOADING);
+  opt1->set_tuning_version(UINT64_MAX);
+  ProcessHints(config, "1.0.0.0");
+
+  hints_manager()->RegisterOptimizationTypes(
+      {optimization_guide::proto::RESOURCE_LOADING});
+
+  std::unique_ptr<content::MockNavigationHandle> navigation_handle =
+      CreateMockNavigationHandleWithOptimizationGuideWebContentsObserver(
+          url_with_hints());
+  base::RunLoop run_loop;
+  hints_manager()->OnNavigationStartOrRedirect(navigation_handle.get(),
+                                               run_loop.QuitClosure());
+  run_loop.Run();
+
+  ukm::TestAutoSetUkmRecorder ukm_recorder;
+
+  optimization_guide::OptimizationMetadata optimization_metadata;
+  optimization_guide::OptimizationTypeDecision optimization_type_decision =
+      hints_manager()->CanApplyOptimization(
+          navigation_handle->GetURL(), navigation_handle->GetNavigationId(),
+          optimization_guide::proto::RESOURCE_LOADING, &optimization_metadata);
+  EXPECT_EQ(optimization_guide::OptimizationTypeDecision::kNotAllowedByHint,
+            optimization_type_decision);
+
+  // Make sure autotuning UKM is recorded.
+  auto entries = ukm_recorder.GetEntriesByName(
+      ukm::builders::OptimizationGuideAutotuning::kEntryName);
+  EXPECT_EQ(1u, entries.size());
+  auto* entry = entries[0];
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kOptimizationTypeName,
+      static_cast<int64_t>(optimization_guide::proto::RESOURCE_LOADING));
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kTuningVersionName,
+      UINT64_MAX);
+}
+
+TEST_F(
+    OptimizationGuideHintsManagerTest,
+    CanApplyOptimizationOptimizationTypePatternHasSentinelTuningVersionShouldLogUKM) {
+  optimization_guide::proto::Configuration config;
+  optimization_guide::proto::Hint* hint1 = config.add_hints();
+  hint1->set_key("somedomain.org");
+  hint1->set_key_representation(optimization_guide::proto::HOST);
+  hint1->set_version("someversion");
+  optimization_guide::proto::PageHint* ph1 = hint1->add_page_hints();
+  ph1->set_page_pattern("*");
+  optimization_guide::proto::Optimization* opt1 =
+      ph1->add_whitelisted_optimizations();
+  opt1->set_optimization_type(optimization_guide::proto::RESOURCE_LOADING);
+  opt1->set_tuning_version(UINT64_MAX);
+  ProcessHints(config, "1.0.0.0");
+
+  hints_manager()->RegisterOptimizationTypes(
+      {optimization_guide::proto::RESOURCE_LOADING});
+
+  std::unique_ptr<content::MockNavigationHandle> navigation_handle =
+      CreateMockNavigationHandleWithOptimizationGuideWebContentsObserver(
+          url_with_hints());
+  base::RunLoop run_loop;
+  hints_manager()->OnNavigationStartOrRedirect(navigation_handle.get(),
+                                               run_loop.QuitClosure());
+  run_loop.Run();
+
+  ukm::TestAutoSetUkmRecorder ukm_recorder;
+
+  optimization_guide::OptimizationMetadata optimization_metadata;
+  optimization_guide::OptimizationTypeDecision optimization_type_decision =
+      hints_manager()->CanApplyOptimization(
+          navigation_handle->GetURL(), navigation_handle->GetNavigationId(),
+          optimization_guide::proto::RESOURCE_LOADING, &optimization_metadata);
+  EXPECT_EQ(optimization_guide::OptimizationTypeDecision::kNotAllowedByHint,
+            optimization_type_decision);
+
+  // Make sure autotuning UKM is recorded.
+  auto entries = ukm_recorder.GetEntriesByName(
+      ukm::builders::OptimizationGuideAutotuning::kEntryName);
+  EXPECT_EQ(1u, entries.size());
+  auto* entry = entries[0];
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kOptimizationTypeName,
+      static_cast<int64_t>(optimization_guide::proto::RESOURCE_LOADING));
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kTuningVersionName,
+      UINT64_MAX);
+}
+
+TEST_F(
+    OptimizationGuideHintsManagerTest,
+    CanApplyOptimizationURLKeyedOptimizationTypeHasSentinelTuningVersionShouldLogUKM) {
+  optimization_guide::proto::Configuration config;
+  optimization_guide::proto::Hint* hint1 = config.add_hints();
+  hint1->set_key(url_with_hints().spec());
+  hint1->set_key_representation(optimization_guide::proto::FULL_URL);
+  hint1->set_version("someversion");
+  optimization_guide::proto::PageHint* ph1 = hint1->add_page_hints();
+  ph1->set_page_pattern(url_with_hints().spec());
+  optimization_guide::proto::Optimization* opt1 =
+      ph1->add_whitelisted_optimizations();
+  opt1->set_optimization_type(optimization_guide::proto::RESOURCE_LOADING);
+  opt1->set_tuning_version(UINT64_MAX);
+  ProcessHints(config, "1.0.0.0");
+
+  hints_manager()->RegisterOptimizationTypes(
+      {optimization_guide::proto::RESOURCE_LOADING});
+
+  std::unique_ptr<content::MockNavigationHandle> navigation_handle =
+      CreateMockNavigationHandleWithOptimizationGuideWebContentsObserver(
+          url_with_hints());
+  base::RunLoop run_loop;
+  hints_manager()->OnNavigationStartOrRedirect(navigation_handle.get(),
+                                               run_loop.QuitClosure());
+  run_loop.Run();
+
+  ukm::TestAutoSetUkmRecorder ukm_recorder;
+
+  optimization_guide::OptimizationMetadata optimization_metadata;
+  optimization_guide::OptimizationTypeDecision optimization_type_decision =
+      hints_manager()->CanApplyOptimization(
+          navigation_handle->GetURL(), navigation_handle->GetNavigationId(),
+          optimization_guide::proto::RESOURCE_LOADING, &optimization_metadata);
+  EXPECT_EQ(optimization_guide::OptimizationTypeDecision::kNotAllowedByHint,
+            optimization_type_decision);
+
+  // Make sure autotuning UKM is recorded.
+  auto entries = ukm_recorder.GetEntriesByName(
+      ukm::builders::OptimizationGuideAutotuning::kEntryName);
+  EXPECT_EQ(1u, entries.size());
+  auto* entry = entries[0];
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kOptimizationTypeName,
+      static_cast<int64_t>(optimization_guide::proto::RESOURCE_LOADING));
+  ukm_recorder.ExpectEntryMetric(
+      entry, ukm::builders::OptimizationGuideAutotuning::kTuningVersionName,
+      UINT64_MAX);
+}
+
 TEST_F(OptimizationGuideHintsManagerTest,
        CanApplyOptimizationOptimizationTypeHasTuningVersionButNoNavigation) {
   optimization_guide::proto::Configuration config;
