@@ -377,10 +377,6 @@ const char kOpenDownloadsInFilesAppDescription[] =
     "the tools menu or after pressing the 'Open in downloads' button invoked "
     "by pressing 'Open In...' after download completes.";
 
-const char kImprovedCookieControlsName[] = "Third-party cookie blocking UI";
-const char kImprovedCookieControlsDescription[] =
-    "Allows user to manage third-party cookie blocking.";
-
 const char kPasswordCheckName[] = "Bulk Password Check";
 const char kPasswordCheckDescription[] =
     "Enables the Bulk Password Check feature for signed-in users.";
