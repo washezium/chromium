@@ -1774,7 +1774,7 @@ void LockContentsView::LayoutAuth(LoginBigUserView* to_update,
   DCHECK(to_update);
 
   auto capture_animation_state_pre_layout = [&](LoginBigUserView* view) {
-    if (!view)
+    if (!animate || !view)
       return;
     if (view->auth_user())
       view->auth_user()->CaptureStateForAnimationPreLayout();
@@ -1829,10 +1829,10 @@ void LockContentsView::LayoutAuth(LoginBigUserView* to_update,
   };
 
   auto apply_animation_post_layout = [&](LoginBigUserView* view) {
-    if (!view)
+    if (!animate || !view)
       return;
     if (view->auth_user())
-      view->auth_user()->ApplyAnimationPostLayout(animate);
+      view->auth_user()->ApplyAnimationPostLayout();
   };
 
   // The high-level layout flow:
