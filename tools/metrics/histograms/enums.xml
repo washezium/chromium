@@ -28757,6 +28757,12 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3408" label="ThirdPartyCookieRead"/>
   <int value="3409" label="ThirdPartyCookieWrite"/>
   <int value="3410" label="RTCLegacyRtpDataChannelNegotiated"/>
+  <int value="3411" label="CrossSitePostMessage"/>
+  <int value="3412" label="SchemelesslySameSitePostMessage"/>
+  <int value="3413" label="SchemefulSameSitePostMessage"/>
+  <int value="3414" label="UnspecifiedTargetOriginPostMessage"/>
+  <int value="3415" label="SchemelesslySameSitePostMessageSecureToInsecure"/>
+  <int value="3416" label="SchemelesslySameSitePostMessageInsecureToSecure"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
