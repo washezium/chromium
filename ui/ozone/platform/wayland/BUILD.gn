@@ -239,7 +239,6 @@ source_set("test_support") {
   testonly = true
 
   sources = [
-    "test/constants.h",
     "test/global_object.cc",
     "test/global_object.h",
     "test/mock_buffer.cc",
