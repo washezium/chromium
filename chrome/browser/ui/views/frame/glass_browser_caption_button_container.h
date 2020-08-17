@@ -7,6 +7,7 @@
 
 #include "base/scoped_observer.h"
 #include "chrome/browser/ui/views/frame/caption_button_container.h"
+#include "ui/base/pointer/touch_ui_controller.h"
 #include "ui/views/controls/button/button.h"
 #include "ui/views/view.h"
 #include "ui/views/widget/widget.h"
@@ -41,9 +42,10 @@ class GlassBrowserCaptionButtonContainer : public CaptionButtonContainer,
   void ResetWindowControls();
   void ButtonPressed(views::Button* sender);
 
-  // Sets caption button visibility based on window state. Only one of maximize
-  // or restore button should ever be visible at the same time.
-  void UpdateButtonVisibility();
+  // Sets caption button visibility and enabled state based on window state.
+  // Only one of maximize or restore button should ever be visible at the same
+  // time, and both are disabled in tablet UI mode.
+  void UpdateButtons();
 
   GlassBrowserFrameView* const frame_view_;
   Windows10CaptionButton* const minimize_button_;
@@ -52,6 +54,11 @@ class GlassBrowserCaptionButtonContainer : public CaptionButtonContainer,
   Windows10CaptionButton* const close_button_;
 
   ScopedObserver<views::Widget, views::WidgetObserver> widget_observer_{this};
+
+  std::unique_ptr<ui::TouchUiController::Subscription> subscription_ =
+      ui::TouchUiController::Get()->RegisterCallback(base::BindRepeating(
+          &GlassBrowserCaptionButtonContainer::UpdateButtons,
+          base::Unretained(this)));
 };
 
 #endif  // CHROME_BROWSER_UI_VIEWS_FRAME_GLASS_BROWSER_CAPTION_BUTTON_CONTAINER_H_
