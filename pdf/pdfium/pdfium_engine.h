@@ -124,6 +124,7 @@ class PDFiumEngine : public PDFEngine,
   void SelectAll() override;
   const std::vector<DocumentAttachmentInfo>& GetDocumentAttachmentInfoList()
       const override;
+  std::vector<uint8_t> GetAttachmentData(size_t index) override;
   const DocumentMetadata& GetDocumentMetadata() const override;
   int GetNumberOfPages() override;
   pp::VarArray GetBookmarks() override;

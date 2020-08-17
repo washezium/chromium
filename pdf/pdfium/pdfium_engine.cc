@@ -789,7 +789,7 @@ void PDFiumEngine::FinishLoadingDocument() {
   if (doc()) {
     DocumentFeatures document_features;
     document_features.page_count = pages_.size();
-    document_features.has_attachments = (FPDFDoc_GetAttachmentCount(doc()) > 0);
+    document_features.has_attachments = !doc_attachment_info_list_.empty();
     document_features.is_tagged = FPDFCatalog_IsTagged(doc());
     document_features.form_type =
         static_cast<FormType>(FPDF_GetFormType(doc()));
@@ -2189,6 +2189,25 @@ const std::vector<DocumentAttachmentInfo>&
 PDFiumEngine::GetDocumentAttachmentInfoList() const {
   DCHECK(document_loaded_);
   return doc_attachment_info_list_;
+}
+
+std::vector<uint8_t> PDFiumEngine::GetAttachmentData(size_t index) {
+  DCHECK_LT(index, doc_attachment_info_list_.size());
+  DCHECK(doc_attachment_info_list_[index].is_readable);
+  unsigned long length_bytes = doc_attachment_info_list_[index].size_bytes;
+  DCHECK_NE(length_bytes, 0u);
+
+  FPDF_ATTACHMENT attachment = FPDFDoc_GetAttachment(doc(), index);
+  std::vector<uint8_t> content_buf(length_bytes);
+  unsigned long data_size_bytes;
+  bool is_attachment_readable = FPDFAttachment_GetFile(
+      attachment, content_buf.data(), length_bytes, &data_size_bytes);
+  if (!is_attachment_readable || length_bytes != data_size_bytes) {
+    NOTREACHED();
+    return std::vector<uint8_t>();
+  }
+
+  return content_buf;
 }
 
 const DocumentMetadata& PDFiumEngine::GetDocumentMetadata() const {
