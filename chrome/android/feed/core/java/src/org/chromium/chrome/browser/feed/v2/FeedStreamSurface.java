@@ -174,6 +174,8 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
      *  Clear all the data related to all surfaces.
      */
     public static void clearAll() {
+        if (sSurfaces == null) return;
+
         ArrayList<FeedStreamSurface> openSurfaces = new ArrayList<FeedStreamSurface>();
         for (FeedStreamSurface surface : sSurfaces) {
             if (surface.isOpened()) openSurfaces.add(surface);
