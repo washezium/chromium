@@ -1468,6 +1468,9 @@ extern const char kEnableVulkanDescription[];
 
 #if defined(OS_ANDROID)
 
+extern const char kAImageReaderName[];
+extern const char kAImageReaderDescription[];
+
 extern const char kAndroidAutofillAccessibilityName[];
 extern const char kAndroidAutofillAccessibilityDescription[];
 

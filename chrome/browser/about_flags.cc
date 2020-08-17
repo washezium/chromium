@@ -6278,6 +6278,10 @@ const FeatureEntry kFeatureEntries[] = {
     {"enable-surface-control", flag_descriptions::kAndroidSurfaceControlName,
      flag_descriptions::kAndroidSurfaceControlDescription, kOsAndroid,
      FEATURE_VALUE_TYPE(features::kAndroidSurfaceControl)},
+
+    {"enable-image-reader", flag_descriptions::kAImageReaderName,
+     flag_descriptions::kAImageReaderDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(features::kAImageReader)},
 #endif  // OS_ANDROID
 
 #if defined(OS_ANDROID)

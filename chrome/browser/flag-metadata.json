@@ -1634,6 +1634,11 @@
     "expiry_milestone": 77
   },
   {
+    "name": "enable-image-reader",
+    "owners": [ "vikassoni", "khushalsagar" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "enable-immersive-fullscreen-toolbar",
     "owners": [ "lgrey" ],
     "expiry_milestone": 90
