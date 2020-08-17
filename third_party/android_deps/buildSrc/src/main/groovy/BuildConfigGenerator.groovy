@@ -291,7 +291,6 @@ class BuildConfigGenerator extends DefaultTask {
                 sb.append('  # shown when incremental_install=true.\n')
                 sb.append('  ignore_manifest = true\n')
                 sb.append('  ignore_proguard_configs = true\n')
-                sb.append('  custom_package = "androidx.core"\n')
                 break
             case 'androidx_fragment_fragment':
                 sb.append('\n')

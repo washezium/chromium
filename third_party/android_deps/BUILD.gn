@@ -276,7 +276,6 @@ android_aar_prebuilt("androidx_core_core_java") {
   # shown when incremental_install=true.
   ignore_manifest = true
   ignore_proguard_configs = true
-  custom_package = "androidx.core"
 }
 
 # This is generated, do not edit. Update BuildConfigGenerator.groovy instead.

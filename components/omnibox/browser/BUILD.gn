@@ -335,7 +335,7 @@ if (is_android) {
       "//components/browser_ui/strings/android:browser_ui_strings_grd",
       "//ui/android:ui_java_resources",
     ]
-    custom_package = "org.chromium.components.omnibox"
+    create_srcjar = false
   }
 
   android_library("browser_java") {
@@ -347,6 +347,7 @@ if (is_android) {
       "android/java/src/org/chromium/components/omnibox/SuggestionAnswer.java",
     ]
 
+    resources_package = "org.chromium.components.omnibox"
     deps = [
       ":java_resources",
       "//base:base_java",

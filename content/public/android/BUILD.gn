@@ -26,7 +26,7 @@ android_resources("content_java_resources") {
     ":content_strings_grd",
     "//ui/android:ui_java_resources",
   ]
-  custom_package = "org.chromium.content"
+  create_srcjar = false
   sources = [
     "java/res/drawable-hdpi/ic_menu_share_holo_light.png",
     "java/res/drawable-hdpi/ic_search.png",
@@ -114,7 +114,7 @@ android_library("content_java") {
     "//url:gurl_java",
     "//url:origin_java",
   ]
-
+  resources_package = "org.chromium.content"
   srcjar_deps = [
     ":common_aidl",
     ":content_public_android_java_enums_srcjar",
