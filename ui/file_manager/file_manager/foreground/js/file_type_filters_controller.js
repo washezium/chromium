@@ -64,7 +64,7 @@ class FileTypeFiltersController {
   createFilterButton_(label) {
     const button = util.createChild(this.container_, 'file-type-filter-button');
     button.textContent = label;
-    button.addEventListener('click', this.onFilterButtonClicked_.bind(this));
+    button.onclick = this.onFilterButtonClicked_.bind(this);
     return button;
   }
 
@@ -87,7 +87,7 @@ class FileTypeFiltersController {
 
   /**
    * Updates the UI when one of the filter buttons is clicked.
-   * @param {!Event} event Event.
+   * @param {Event} event Event.
    * @private
    */
   onFilterButtonClicked_(event) {
