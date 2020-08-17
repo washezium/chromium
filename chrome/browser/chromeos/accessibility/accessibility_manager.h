@@ -80,14 +80,12 @@ struct AccessibilityStatusEventDetails {
   bool enabled;
 };
 
-typedef base::RepeatingCallback<void(const AccessibilityStatusEventDetails&)>
-    AccessibilityStatusCallback;
-
-typedef base::CallbackList<void(const AccessibilityStatusEventDetails&)>
-    AccessibilityStatusCallbackList;
-
-typedef AccessibilityStatusCallbackList::Subscription
-    AccessibilityStatusSubscription;
+using AccessibilityStatusCallbackList =
+    base::CallbackList<void(const AccessibilityStatusEventDetails&)>;
+using AccessibilityStatusCallback =
+    AccessibilityStatusCallbackList::CallbackType;
+using AccessibilityStatusSubscription =
+    AccessibilityStatusCallbackList::Subscription;
 
 class AccessibilityPanelWidgetObserver;
 

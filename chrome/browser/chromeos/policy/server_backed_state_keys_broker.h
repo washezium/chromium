@@ -25,10 +25,12 @@ namespace policy {
 // register callbacks to invoke when the state keys change.
 class ServerBackedStateKeysBroker {
  public:
-  typedef std::unique_ptr<base::CallbackList<void()>::Subscription>
-      Subscription;
-  typedef base::OnceCallback<void(const std::vector<std::string>&)>
-      StateKeysCallback;
+  using UpdateCallbackList = base::CallbackList<void()>;
+  using UpdateCallback = UpdateCallbackList::CallbackType;
+  using Subscription = std::unique_ptr<UpdateCallbackList::Subscription>;
+  using StateKeysCallback =
+      base::OnceCallback<void(const std::vector<std::string>&)>;
+  using StateKeysCallbackList = std::vector<StateKeysCallback>;
 
   ServerBackedStateKeysBroker(
       chromeos::SessionManagerClient* session_manager_client);
@@ -38,7 +40,7 @@ class ServerBackedStateKeysBroker {
   // Note that consuming code needs to hold on to the returned Subscription as
   // long as it wants to receive the callback. If the state keys haven't been
   // requested yet, calling this will also trigger their initial fetch.
-  Subscription RegisterUpdateCallback(const base::RepeatingClosure& callback);
+  Subscription RegisterUpdateCallback(const UpdateCallback& callback);
 
   // Requests state keys asynchronously. Invokes the passed callback at most
   // once, with the current state keys passed as a parameter to the callback. If
@@ -80,10 +82,10 @@ class ServerBackedStateKeysBroker {
   bool requested_;
 
   // List of callbacks to receive update notifications.
-  base::CallbackList<void()> update_callbacks_;
+  UpdateCallbackList update_callbacks_;
 
   // List of pending one-shot state key request callbacks.
-  std::vector<StateKeysCallback> request_callbacks_;
+  StateKeysCallbackList request_callbacks_;
 
   base::WeakPtrFactory<ServerBackedStateKeysBroker> weak_factory_{this};
 

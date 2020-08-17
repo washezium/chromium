@@ -49,9 +49,11 @@ const char kChapsPath[] = "libchaps.so";
 
 class ChromeOSUserData {
  public:
+  using SlotReadyCallback = base::OnceCallback<void(ScopedPK11Slot)>;
+
   explicit ChromeOSUserData(ScopedPK11Slot public_slot)
-      : public_slot_(std::move(public_slot)),
-        private_slot_initialization_started_(false) {}
+      : public_slot_(std::move(public_slot)) {}
+
   ~ChromeOSUserData() {
     if (public_slot_) {
       SECStatus status = SECMOD_CloseUserDB(public_slot_.get());
@@ -65,8 +67,7 @@ class ChromeOSUserData {
                                        : nullptr);
   }
 
-  ScopedPK11Slot GetPrivateSlot(
-      base::OnceCallback<void(ScopedPK11Slot)> callback) {
+  ScopedPK11Slot GetPrivateSlot(SlotReadyCallback callback) {
     if (private_slot_)
       return ScopedPK11Slot(PK11_ReferenceSlot(private_slot_.get()));
     if (!callback.is_null())
@@ -96,13 +97,14 @@ class ChromeOSUserData {
   }
 
  private:
+  using SlotReadyCallbackList =
+      std::vector<base::OnceCallback<void(ScopedPK11Slot)>>;
+
   ScopedPK11Slot public_slot_;
   ScopedPK11Slot private_slot_;
 
-  bool private_slot_initialization_started_;
+  bool private_slot_initialization_started_ = false;
 
-  typedef std::vector<base::OnceCallback<void(ScopedPK11Slot)>>
-      SlotReadyCallbackList;
   SlotReadyCallbackList tpm_ready_callback_list_;
 };
 

@@ -32,7 +32,7 @@ ServerBackedStateKeysBroker::~ServerBackedStateKeysBroker() {
 
 ServerBackedStateKeysBroker::Subscription
 ServerBackedStateKeysBroker::RegisterUpdateCallback(
-    const base::RepeatingClosure& callback) {
+    const UpdateCallback& callback) {
   if (!available())
     FetchStateKeys();
   return update_callbacks_.Add(callback);
@@ -80,7 +80,7 @@ void ServerBackedStateKeysBroker::StoreStateKeys(
   if (send_notification)
     update_callbacks_.Notify();
 
-  std::vector<StateKeysCallback> callbacks;
+  StateKeysCallbackList callbacks;
   request_callbacks_.swap(callbacks);
   for (auto& callback : callbacks) {
     if (!callback.is_null())

@@ -93,7 +93,7 @@ class TranslateScript {
   base::TimeDelta expiration_delay_;
 
   // The callbacks called when the server sends a response.
-  typedef std::vector<RequestCallback> RequestCallbackList;
+  using RequestCallbackList = std::vector<RequestCallback>;
   RequestCallbackList callback_list_;
 
   base::WeakPtrFactory<TranslateScript> weak_method_factory_{this};
