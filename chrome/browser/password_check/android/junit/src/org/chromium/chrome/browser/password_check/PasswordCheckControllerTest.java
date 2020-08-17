@@ -52,6 +52,7 @@ import org.chromium.base.Callback;
 import org.chromium.base.test.BaseRobolectricTestRunner;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.password_check.PasswordCheckProperties.ItemType;
+import org.chromium.chrome.browser.password_check.helper.PasswordCheckChangePasswordHelper;
 import org.chromium.chrome.browser.password_check.helper.PasswordCheckReauthenticationHelper;
 import org.chromium.chrome.browser.password_check.helper.PasswordCheckReauthenticationHelper.ReauthReason;
 import org.chromium.chrome.test.util.browser.Features;
@@ -83,7 +84,7 @@ public class PasswordCheckControllerTest {
     @Mock
     private PasswordCheckComponentUi.Delegate mDelegate;
     @Mock
-    private PasswordCheckComponentUi.ChangePasswordDelegate mChangePasswordDelegate;
+    private PasswordCheckChangePasswordHelper mChangePasswordDelegate;
     @Mock
     private PasswordCheck mPasswordCheck;
     @Mock

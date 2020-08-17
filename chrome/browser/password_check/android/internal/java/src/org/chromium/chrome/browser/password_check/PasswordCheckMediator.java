@@ -22,7 +22,7 @@ import android.util.Pair;
 
 import androidx.appcompat.app.AlertDialog;
 
-import org.chromium.chrome.browser.password_check.PasswordCheckComponentUi.ChangePasswordDelegate;
+import org.chromium.chrome.browser.password_check.helper.PasswordCheckChangePasswordHelper;
 import org.chromium.chrome.browser.password_check.helper.PasswordCheckReauthenticationHelper;
 import org.chromium.chrome.browser.password_check.helper.PasswordCheckReauthenticationHelper.ReauthReason;
 import org.chromium.ui.modelutil.ListModel;
@@ -35,12 +35,12 @@ import org.chromium.ui.modelutil.PropertyModel;
  */
 class PasswordCheckMediator
         implements PasswordCheckCoordinator.CredentialEventHandler, PasswordCheck.Observer {
-    private final PasswordCheckComponentUi.ChangePasswordDelegate mChangePasswordDelegate;
     private final PasswordCheckReauthenticationHelper mReauthenticationHelper;
+    private final PasswordCheckChangePasswordHelper mChangePasswordDelegate;
     private PropertyModel mModel;
     private PasswordCheckComponentUi.Delegate mDelegate;
 
-    PasswordCheckMediator(ChangePasswordDelegate changePasswordDelegate,
+    PasswordCheckMediator(PasswordCheckChangePasswordHelper changePasswordDelegate,
             PasswordCheckReauthenticationHelper reauthenticationHelper) {
         mChangePasswordDelegate = changePasswordDelegate;
         mReauthenticationHelper = reauthenticationHelper;
