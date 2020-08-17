@@ -4902,13 +4902,17 @@
                 {
                     "name": "AndroidExperiments",
                     "params": {
-                        "ZeroSuggestVariant:1:*": "Local",
-                        "ZeroSuggestVariant:7:*": "Local",
-                        "ZeroSuggestVariant:8:*": "Local",
-                        "rounded_edges": "true"
+                        "OmniboxMaxURLMatches": "7",
+                        "OmniboxMaxZeroSuggestMatches": "15",
+                        "UIMaxAutocompleteMatches": "8",
+                        "omnibox_compact_suggestions_variant": "semi-compact"
                     },
                     "enable_features": [
-                        "OmniboxOnFocusSuggestions"
+                        "OmniboxAdaptiveSuggestionsCount",
+                        "OmniboxCompactSuggestions",
+                        "OmniboxMaxURLMatches",
+                        "OmniboxMaxZeroSuggestMatches",
+                        "OmniboxUIExperimentMaxAutocompleteMatches"
                     ]
                 }
             ]
