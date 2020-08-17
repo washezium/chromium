@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/supervised_user/supervised_user_whitelist_service.h"
+#include "chrome/browser/supervised_user/supervised_user_allowlist_service.h"
 
 #include <stddef.h>
 
@@ -33,7 +33,7 @@
 
 const char kName[] = "name";
 
-SupervisedUserWhitelistService::SupervisedUserWhitelistService(
+SupervisedUserAllowlistService::SupervisedUserAllowlistService(
     PrefService* prefs,
     component_updater::SupervisedUserWhitelistInstaller* installer,
     const std::string& client_id)
@@ -41,130 +41,129 @@ SupervisedUserWhitelistService::SupervisedUserWhitelistService(
   DCHECK(prefs);
 }
 
-SupervisedUserWhitelistService::~SupervisedUserWhitelistService() {
-}
+SupervisedUserAllowlistService::~SupervisedUserAllowlistService() {}
 
 // static
-void SupervisedUserWhitelistService::RegisterProfilePrefs(
+void SupervisedUserAllowlistService::RegisterProfilePrefs(
     user_prefs::PrefRegistrySyncable* registry) {
-  registry->RegisterDictionaryPref(prefs::kSupervisedUserWhitelists);
+  registry->RegisterDictionaryPref(prefs::kSupervisedUserAllowlists);
 }
 
-void SupervisedUserWhitelistService::Init() {
-  const base::DictionaryValue* whitelists =
-      prefs_->GetDictionary(prefs::kSupervisedUserWhitelists);
-  for (base::DictionaryValue::Iterator it(*whitelists); !it.IsAtEnd();
+void SupervisedUserAllowlistService::Init() {
+  const base::DictionaryValue* allowlists =
+      prefs_->GetDictionary(prefs::kSupervisedUserAllowlists);
+  for (base::DictionaryValue::Iterator it(*allowlists); !it.IsAtEnd();
        it.Advance()) {
-    registered_whitelists_.insert(it.key());
+    registered_allowlists_.insert(it.key());
   }
-  UMA_HISTOGRAM_COUNTS_100("ManagedUsers.Whitelist.Count", whitelists->size());
+  UMA_HISTOGRAM_COUNTS_100("ManagedUsers.Whitelist.Count", allowlists->size());
 
   // The installer can be null in some unit tests.
   if (!installer_)
     return;
 
   installer_->Subscribe(
-      base::BindRepeating(&SupervisedUserWhitelistService::OnWhitelistReady,
+      base::BindRepeating(&SupervisedUserAllowlistService::OnAllowlistReady,
                           weak_ptr_factory_.GetWeakPtr()));
 
-  // Register whitelists specified on the command line.
-  for (const auto& whitelist : GetWhitelistsFromCommandLine())
-    RegisterWhitelist(whitelist.first, whitelist.second, FROM_COMMAND_LINE);
+  // Register allowlists specified on the command line.
+  for (const auto& allowlist : GetAllowlistsFromCommandLine())
+    RegisterAllowlist(allowlist.first, allowlist.second, FROM_COMMAND_LINE);
 }
 
-void SupervisedUserWhitelistService::AddSiteListsChangedCallback(
+void SupervisedUserAllowlistService::AddSiteListsChangedCallback(
     const SiteListsChangedCallback& callback) {
   site_lists_changed_callbacks_.push_back(callback);
 
-  std::vector<scoped_refptr<SupervisedUserSiteList>> whitelists;
-  GetLoadedWhitelists(&whitelists);
-  callback.Run(whitelists);
+  std::vector<scoped_refptr<SupervisedUserSiteList>> allowlists;
+  GetLoadedAllowlists(&allowlists);
+  callback.Run(allowlists);
 }
 
 // static
 std::map<std::string, std::string>
-SupervisedUserWhitelistService::GetWhitelistsFromCommandLine() {
-  std::map<std::string, std::string> whitelists;
+SupervisedUserAllowlistService::GetAllowlistsFromCommandLine() {
+  std::map<std::string, std::string> allowlists;
   const base::CommandLine* command_line =
       base::CommandLine::ForCurrentProcess();
-  std::string command_line_whitelists = command_line->GetSwitchValueASCII(
-      switches::kInstallSupervisedUserWhitelists);
+  std::string command_line_allowlists = command_line->GetSwitchValueASCII(
+      switches::kInstallSupervisedUserAllowlists);
   std::vector<base::StringPiece> string_pieces =
-      base::SplitStringPiece(command_line_whitelists, ",",
+      base::SplitStringPiece(command_line_allowlists, ",",
                              base::TRIM_WHITESPACE, base::SPLIT_WANT_ALL);
-  for (const base::StringPiece& whitelist : string_pieces) {
+  for (const base::StringPiece& allowlist : string_pieces) {
     std::string id;
     std::string name;
-    size_t separator = whitelist.find(':');
+    size_t separator = allowlist.find(':');
     if (separator != base::StringPiece::npos) {
-      id = std::string(whitelist.substr(0, separator));
-      name = std::string(whitelist.substr(separator + 1));
+      id = std::string(allowlist.substr(0, separator));
+      name = std::string(allowlist.substr(separator + 1));
     } else {
-      id = std::string(whitelist);
+      id = std::string(allowlist);
     }
 
-    const bool result = whitelists.insert(std::make_pair(id, name)).second;
+    const bool result = allowlists.insert(std::make_pair(id, name)).second;
     DCHECK(result);
   }
 
-  return whitelists;
+  return allowlists;
 }
 
-void SupervisedUserWhitelistService::LoadWhitelistForTesting(
+void SupervisedUserAllowlistService::LoadAllowlistForTesting(
     const std::string& id,
     const base::string16& title,
     const base::FilePath& path) {
-  bool result = registered_whitelists_.insert(id).second;
+  bool result = registered_allowlists_.insert(id).second;
   DCHECK(result);
-  OnWhitelistReady(id, title, base::FilePath(), path);
+  OnAllowlistReady(id, title, base::FilePath(), path);
 }
 
-void SupervisedUserWhitelistService::UnloadWhitelist(const std::string& id) {
-  bool result = registered_whitelists_.erase(id) > 0u;
+void SupervisedUserAllowlistService::UnloadAllowlist(const std::string& id) {
+  bool result = registered_allowlists_.erase(id) > 0u;
   DCHECK(result);
-  loaded_whitelists_.erase(id);
-  NotifyWhitelistsChanged();
+  loaded_allowlists_.erase(id);
+  NotifyAllowlistsChanged();
 }
 
 // static
-syncer::SyncData SupervisedUserWhitelistService::CreateWhitelistSyncData(
+syncer::SyncData SupervisedUserAllowlistService::CreateAllowlistSyncData(
     const std::string& id,
     const std::string& name) {
   sync_pb::EntitySpecifics specifics;
-  sync_pb::ManagedUserWhitelistSpecifics* whitelist =
+  sync_pb::ManagedUserWhitelistSpecifics* allowlist =
       specifics.mutable_managed_user_whitelist();
-  whitelist->set_id(id);
-  whitelist->set_name(name);
+  allowlist->set_id(id);
+  allowlist->set_name(name);
 
   return syncer::SyncData::CreateLocalData(id, name, specifics);
 }
 
-void SupervisedUserWhitelistService::WaitUntilReadyToSync(
+void SupervisedUserAllowlistService::WaitUntilReadyToSync(
     base::OnceClosure done) {
   // This service handles sync events at any time.
   std::move(done).Run();
 }
 
 base::Optional<syncer::ModelError>
-SupervisedUserWhitelistService::MergeDataAndStartSyncing(
+SupervisedUserAllowlistService::MergeDataAndStartSyncing(
     syncer::ModelType type,
     const syncer::SyncDataList& initial_sync_data,
     std::unique_ptr<syncer::SyncChangeProcessor> sync_processor,
     std::unique_ptr<syncer::SyncErrorFactory> error_handler) {
-  DCHECK_EQ(syncer::SUPERVISED_USER_WHITELISTS, type);
+  DCHECK_EQ(syncer::SUPERVISED_USER_ALLOWLISTS, type);
 
   syncer::SyncChangeList change_list;
 
-  DictionaryPrefUpdate update(prefs_, prefs::kSupervisedUserWhitelists);
+  DictionaryPrefUpdate update(prefs_, prefs::kSupervisedUserAllowlists);
   base::DictionaryValue* pref_dict = update.Get();
   std::set<std::string> seen_ids;
 
   for (const syncer::SyncData& sync_data : initial_sync_data) {
-    DCHECK_EQ(syncer::SUPERVISED_USER_WHITELISTS, sync_data.GetDataType());
-    const sync_pb::ManagedUserWhitelistSpecifics& whitelist =
+    DCHECK_EQ(syncer::SUPERVISED_USER_ALLOWLISTS, sync_data.GetDataType());
+    const sync_pb::ManagedUserWhitelistSpecifics& allowlist =
         sync_data.GetSpecifics().managed_user_whitelist();
-    std::string id = whitelist.id();
-    std::string name = whitelist.name();
+    std::string id = allowlist.id();
+    std::string name = allowlist.name();
     seen_ids.insert(id);
     base::DictionaryValue* dict = nullptr;
     if (pref_dict->GetDictionary(id, &dict)) {
@@ -172,10 +171,10 @@ SupervisedUserWhitelistService::MergeDataAndStartSyncing(
       bool result = dict->GetString(kName, &old_name);
       DCHECK(result);
       if (name != old_name) {
-        SetWhitelistProperties(dict, whitelist);
+        SetAllowlistProperties(dict, allowlist);
       }
     } else {
-      AddNewWhitelist(pref_dict, whitelist);
+      AddNewAllowlist(pref_dict, allowlist);
     }
   }
 
@@ -187,29 +186,29 @@ SupervisedUserWhitelistService::MergeDataAndStartSyncing(
   }
 
   for (const std::string& id : ids_to_remove)
-    RemoveWhitelist(pref_dict, id);
+    RemoveAllowlist(pref_dict, id);
 
-  // Notify if whitelists have been uninstalled. We will notify about newly
-  // added whitelists later, when they are actually available
-  // (in OnWhitelistLoaded).
+  // Notify if allowlists have been uninstalled. We will notify about newly
+  // added allowlists later, when they are actually available
+  // (in OnAllowlistLoaded).
   if (!ids_to_remove.empty())
-    NotifyWhitelistsChanged();
+    NotifyAllowlistsChanged();
 
   // The function does not generate any errors, so it can always return
   // base::nullopt.
   return base::nullopt;
 }
 
-void SupervisedUserWhitelistService::StopSyncing(syncer::ModelType type) {
-  DCHECK_EQ(syncer::SUPERVISED_USER_WHITELISTS, type);
+void SupervisedUserAllowlistService::StopSyncing(syncer::ModelType type) {
+  DCHECK_EQ(syncer::SUPERVISED_USER_ALLOWLISTS, type);
 }
 
-syncer::SyncDataList SupervisedUserWhitelistService::GetAllSyncDataForTesting(
+syncer::SyncDataList SupervisedUserAllowlistService::GetAllSyncDataForTesting(
     syncer::ModelType type) const {
   syncer::SyncDataList sync_data;
-  const base::DictionaryValue* whitelists =
-      prefs_->GetDictionary(prefs::kSupervisedUserWhitelists);
-  for (base::DictionaryValue::Iterator it(*whitelists); !it.IsAtEnd();
+  const base::DictionaryValue* allowlists =
+      prefs_->GetDictionary(prefs::kSupervisedUserAllowlists);
+  for (base::DictionaryValue::Iterator it(*allowlists); !it.IsAtEnd();
        it.Advance()) {
     const std::string& id = it.key();
     const base::DictionaryValue* dict = nullptr;
@@ -218,44 +217,44 @@ syncer::SyncDataList SupervisedUserWhitelistService::GetAllSyncDataForTesting(
     bool result = dict->GetString(kName, &name);
     DCHECK(result);
     sync_pb::EntitySpecifics specifics;
-    sync_pb::ManagedUserWhitelistSpecifics* whitelist =
+    sync_pb::ManagedUserWhitelistSpecifics* allowlist =
         specifics.mutable_managed_user_whitelist();
-    whitelist->set_id(id);
-    whitelist->set_name(name);
+    allowlist->set_id(id);
+    allowlist->set_name(name);
     sync_data.push_back(syncer::SyncData::CreateLocalData(id, name, specifics));
   }
   return sync_data;
 }
 
 base::Optional<syncer::ModelError>
-SupervisedUserWhitelistService::ProcessSyncChanges(
+SupervisedUserAllowlistService::ProcessSyncChanges(
     const base::Location& from_here,
     const syncer::SyncChangeList& change_list) {
-  bool whitelists_removed = false;
-  DictionaryPrefUpdate update(prefs_, prefs::kSupervisedUserWhitelists);
+  bool allowlists_removed = false;
+  DictionaryPrefUpdate update(prefs_, prefs::kSupervisedUserAllowlists);
   base::DictionaryValue* pref_dict = update.Get();
   for (const syncer::SyncChange& sync_change : change_list) {
     syncer::SyncData data = sync_change.sync_data();
-    DCHECK_EQ(syncer::SUPERVISED_USER_WHITELISTS, data.GetDataType());
-    const sync_pb::ManagedUserWhitelistSpecifics& whitelist =
+    DCHECK_EQ(syncer::SUPERVISED_USER_ALLOWLISTS, data.GetDataType());
+    const sync_pb::ManagedUserWhitelistSpecifics& allowlist =
         data.GetSpecifics().managed_user_whitelist();
-    std::string id = whitelist.id();
+    std::string id = allowlist.id();
     switch (sync_change.change_type()) {
       case syncer::SyncChange::ACTION_ADD: {
         DCHECK(!pref_dict->HasKey(id)) << id;
-        AddNewWhitelist(pref_dict, whitelist);
+        AddNewAllowlist(pref_dict, allowlist);
         break;
       }
       case syncer::SyncChange::ACTION_UPDATE: {
         base::DictionaryValue* dict = nullptr;
         pref_dict->GetDictionaryWithoutPathExpansion(id, &dict);
-        SetWhitelistProperties(dict, whitelist);
+        SetAllowlistProperties(dict, allowlist);
         break;
       }
       case syncer::SyncChange::ACTION_DELETE: {
         DCHECK(pref_dict->HasKey(id)) << id;
-        RemoveWhitelist(pref_dict, id);
-        whitelists_removed = true;
+        RemoveAllowlist(pref_dict, id);
+        allowlists_removed = true;
         break;
       }
       case syncer::SyncChange::ACTION_INVALID: {
@@ -265,94 +264,94 @@ SupervisedUserWhitelistService::ProcessSyncChanges(
     }
   }
 
-  if (whitelists_removed)
-    NotifyWhitelistsChanged();
+  if (allowlists_removed)
+    NotifyAllowlistsChanged();
 
   return base::nullopt;
 }
 
-void SupervisedUserWhitelistService::AddNewWhitelist(
+void SupervisedUserAllowlistService::AddNewAllowlist(
     base::DictionaryValue* pref_dict,
-    const sync_pb::ManagedUserWhitelistSpecifics& whitelist) {
+    const sync_pb::ManagedUserWhitelistSpecifics& allowlist) {
   base::RecordAction(base::UserMetricsAction("ManagedUsers_Whitelist_Added"));
 
-  RegisterWhitelist(whitelist.id(), whitelist.name(), FROM_SYNC);
+  RegisterAllowlist(allowlist.id(), allowlist.name(), FROM_SYNC);
   std::unique_ptr<base::DictionaryValue> dict(new base::DictionaryValue);
-  SetWhitelistProperties(dict.get(), whitelist);
-  pref_dict->SetWithoutPathExpansion(whitelist.id(), std::move(dict));
+  SetAllowlistProperties(dict.get(), allowlist);
+  pref_dict->SetWithoutPathExpansion(allowlist.id(), std::move(dict));
 }
 
-void SupervisedUserWhitelistService::SetWhitelistProperties(
+void SupervisedUserAllowlistService::SetAllowlistProperties(
     base::DictionaryValue* dict,
-    const sync_pb::ManagedUserWhitelistSpecifics& whitelist) {
-  dict->SetString(kName, whitelist.name());
+    const sync_pb::ManagedUserWhitelistSpecifics& allowlist) {
+  dict->SetString(kName, allowlist.name());
 }
 
-void SupervisedUserWhitelistService::RemoveWhitelist(
+void SupervisedUserAllowlistService::RemoveAllowlist(
     base::DictionaryValue* pref_dict,
     const std::string& id) {
   base::RecordAction(base::UserMetricsAction("ManagedUsers_Whitelist_Removed"));
 
   pref_dict->RemoveKey(id);
   installer_->UnregisterWhitelist(client_id_, id);
-  UnloadWhitelist(id);
+  UnloadAllowlist(id);
 }
 
-void SupervisedUserWhitelistService::RegisterWhitelist(const std::string& id,
+void SupervisedUserAllowlistService::RegisterAllowlist(const std::string& id,
                                                        const std::string& name,
-                                                       WhitelistSource source) {
-  bool result = registered_whitelists_.insert(id).second;
+                                                       AllowlistSource source) {
+  bool result = registered_allowlists_.insert(id).second;
   DCHECK(result);
 
-  // Using an empty client ID for whitelists installed from the command line
-  // causes the installer to not persist the installation, so the whitelist will
+  // Using an empty client ID for allowlists installed from the command line
+  // causes the installer to not persist the installation, so the allowlist will
   // be removed the next time the browser is started without the command line
   // flag.
   installer_->RegisterWhitelist(
       source == FROM_COMMAND_LINE ? std::string() : client_id_, id, name);
 }
 
-void SupervisedUserWhitelistService::GetLoadedWhitelists(
-    std::vector<scoped_refptr<SupervisedUserSiteList>>* whitelists) {
-  for (const auto& whitelist : loaded_whitelists_)
-    whitelists->push_back(whitelist.second);
+void SupervisedUserAllowlistService::GetLoadedAllowlists(
+    std::vector<scoped_refptr<SupervisedUserSiteList>>* allowlists) {
+  for (const auto& allowlist : loaded_allowlists_)
+    allowlists->push_back(allowlist.second);
 }
 
-void SupervisedUserWhitelistService::NotifyWhitelistsChanged() {
-  std::vector<scoped_refptr<SupervisedUserSiteList>> whitelists;
-  GetLoadedWhitelists(&whitelists);
+void SupervisedUserAllowlistService::NotifyAllowlistsChanged() {
+  std::vector<scoped_refptr<SupervisedUserSiteList>> allowlists;
+  GetLoadedAllowlists(&allowlists);
 
   for (const auto& callback : site_lists_changed_callbacks_)
-    callback.Run(whitelists);
+    callback.Run(allowlists);
 }
 
-void SupervisedUserWhitelistService::OnWhitelistReady(
+void SupervisedUserAllowlistService::OnAllowlistReady(
     const std::string& id,
     const base::string16& title,
     const base::FilePath& large_icon_path,
-    const base::FilePath& whitelist_path) {
-  // If we did not register the whitelist or it has been unregistered in the
+    const base::FilePath& allowlist_path) {
+  // If we did not register the allowlist or it has been unregistered in the
   // mean time, ignore it.
-  if (registered_whitelists_.count(id) == 0u)
+  if (registered_allowlists_.count(id) == 0u)
     return;
 
   SupervisedUserSiteList::Load(
-      id, title, large_icon_path, whitelist_path,
-      base::Bind(&SupervisedUserWhitelistService::OnWhitelistLoaded,
+      id, title, large_icon_path, allowlist_path,
+      base::Bind(&SupervisedUserAllowlistService::OnAllowlistLoaded,
                  weak_ptr_factory_.GetWeakPtr(), id));
 }
 
-void SupervisedUserWhitelistService::OnWhitelistLoaded(
+void SupervisedUserAllowlistService::OnAllowlistLoaded(
     const std::string& id,
-    const scoped_refptr<SupervisedUserSiteList>& whitelist) {
-  if (!whitelist) {
-    LOG(WARNING) << "Couldn't load whitelist " << id;
+    const scoped_refptr<SupervisedUserSiteList>& allowlist) {
+  if (!allowlist) {
+    LOG(WARNING) << "Couldn't load allowlist " << id;
     return;
   }
-  // If the whitelist has been unregistered in the mean time, ignore it.
-  if (registered_whitelists_.count(id) == 0u)
+  // If the allowlist has been unregistered in the mean time, ignore it.
+  if (registered_allowlists_.count(id) == 0u)
     return;
 
-  loaded_whitelists_[id] = whitelist;
-  NotifyWhitelistsChanged();
+  loaded_allowlists_[id] = allowlist;
+  NotifyAllowlistsChanged();
 }

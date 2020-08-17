@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_WHITELIST_SERVICE_H_
-#define CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_WHITELIST_SERVICE_H_
+#ifndef CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_ALLOWLIST_SERVICE_H_
+#define CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_ALLOWLIST_SERVICE_H_
 
 #include <map>
 #include <memory>
@@ -23,7 +23,7 @@ class SupervisedUserSiteList;
 namespace base {
 class DictionaryValue;
 class FilePath;
-}
+}  // namespace base
 
 namespace component_updater {
 class SupervisedUserWhitelistInstaller;
@@ -37,17 +37,17 @@ namespace sync_pb {
 class ManagedUserWhitelistSpecifics;
 }
 
-class SupervisedUserWhitelistService : public syncer::SyncableService {
+class SupervisedUserAllowlistService : public syncer::SyncableService {
  public:
   typedef base::Callback<void(
-      const std::vector<scoped_refptr<SupervisedUserSiteList> >&)>
+      const std::vector<scoped_refptr<SupervisedUserSiteList>>&)>
       SiteListsChangedCallback;
 
-  SupervisedUserWhitelistService(
+  SupervisedUserAllowlistService(
       PrefService* prefs,
       component_updater::SupervisedUserWhitelistInstaller* installer,
       const std::string& client_id);
-  ~SupervisedUserWhitelistService() override;
+  ~SupervisedUserAllowlistService() override;
 
   static void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry);
 
@@ -58,22 +58,22 @@ class SupervisedUserWhitelistService : public syncer::SyncableService {
   // site lists.
   void AddSiteListsChangedCallback(const SiteListsChangedCallback& callback);
 
-  // Returns a map (from CRX ID to name) of whitelists to be installed,
+  // Returns a map (from CRX ID to name) of allowlists to be installed,
   // specified on the command line.
-  static std::map<std::string, std::string> GetWhitelistsFromCommandLine();
+  static std::map<std::string, std::string> GetAllowlistsFromCommandLine();
 
-  // Loads an already existing whitelist on disk (i.e. without downloading it as
+  // Loads an already existing allowlist on disk (i.e. without downloading it as
   // a component).
-  void LoadWhitelistForTesting(const std::string& id,
+  void LoadAllowlistForTesting(const std::string& id,
                                const base::string16& title,
                                const base::FilePath& path);
 
-  // Unloads a whitelist. Public for testing.
-  void UnloadWhitelist(const std::string& id);
+  // Unloads a allowlist. Public for testing.
+  void UnloadAllowlist(const std::string& id);
 
-  // Creates Sync data for a whitelist with the given |id| and |name|.
+  // Creates Sync data for a allowlist with the given |id| and |name|.
   // Public for testing.
-  static syncer::SyncData CreateWhitelistSyncData(const std::string& id,
+  static syncer::SyncData CreateAllowlistSyncData(const std::string& id,
                                                   const std::string& name);
 
   // SyncableService implementation:
@@ -91,37 +91,37 @@ class SupervisedUserWhitelistService : public syncer::SyncableService {
   syncer::SyncDataList GetAllSyncDataForTesting(syncer::ModelType type) const;
 
  private:
-  // The following methods handle whitelist additions, updates and removals,
+  // The following methods handle allowlist additions, updates and removals,
   // usually coming from Sync.
-  void AddNewWhitelist(base::DictionaryValue* pref_dict,
-                       const sync_pb::ManagedUserWhitelistSpecifics& whitelist);
-  void SetWhitelistProperties(
+  void AddNewAllowlist(base::DictionaryValue* pref_dict,
+                       const sync_pb::ManagedUserWhitelistSpecifics& allowlist);
+  void SetAllowlistProperties(
       base::DictionaryValue* pref_dict,
-      const sync_pb::ManagedUserWhitelistSpecifics& whitelist);
-  void RemoveWhitelist(base::DictionaryValue* pref_dict, const std::string& id);
+      const sync_pb::ManagedUserWhitelistSpecifics& allowlist);
+  void RemoveAllowlist(base::DictionaryValue* pref_dict, const std::string& id);
 
-  enum WhitelistSource {
+  enum AllowlistSource {
     FROM_SYNC,
     FROM_COMMAND_LINE,
   };
 
-  // Registers a new or existing whitelist.
-  void RegisterWhitelist(const std::string& id,
+  // Registers a new or existing allowlist.
+  void RegisterAllowlist(const std::string& id,
                          const std::string& name,
-                         WhitelistSource source);
+                         AllowlistSource source);
 
-  void GetLoadedWhitelists(
-      std::vector<scoped_refptr<SupervisedUserSiteList>>* whitelists);
+  void GetLoadedAllowlists(
+      std::vector<scoped_refptr<SupervisedUserSiteList>>* allowlists);
 
-  void NotifyWhitelistsChanged();
+  void NotifyAllowlistsChanged();
 
-  void OnWhitelistReady(const std::string& id,
+  void OnAllowlistReady(const std::string& id,
                         const base::string16& title,
                         const base::FilePath& large_icon_path,
-                        const base::FilePath& whitelist_path);
-  void OnWhitelistLoaded(
+                        const base::FilePath& allowlist_path);
+  void OnAllowlistLoaded(
       const std::string& id,
-      const scoped_refptr<SupervisedUserSiteList>& whitelist);
+      const scoped_refptr<SupervisedUserSiteList>& allowlist);
 
   PrefService* prefs_;
   component_updater::SupervisedUserWhitelistInstaller* installer_;
@@ -129,16 +129,16 @@ class SupervisedUserWhitelistService : public syncer::SyncableService {
   std::string client_id_;
   std::vector<SiteListsChangedCallback> site_lists_changed_callbacks_;
 
-  // The set of registered whitelists. A whitelist might be registered but not
-  // loaded yet, in which case it will not be in |loaded_whitelists_| yet.
-  // On the other hand, every loaded whitelist has to be registered.
-  std::set<std::string> registered_whitelists_;
-  std::map<std::string, scoped_refptr<SupervisedUserSiteList> >
-      loaded_whitelists_;
+  // The set of registered allowlists. A allowlist might be registered but not
+  // loaded yet, in which case it will not be in |loaded_allowlists_| yet.
+  // On the other hand, every loaded allowlist has to be registered.
+  std::set<std::string> registered_allowlists_;
+  std::map<std::string, scoped_refptr<SupervisedUserSiteList>>
+      loaded_allowlists_;
 
-  base::WeakPtrFactory<SupervisedUserWhitelistService> weak_ptr_factory_{this};
+  base::WeakPtrFactory<SupervisedUserAllowlistService> weak_ptr_factory_{this};
 
-  DISALLOW_COPY_AND_ASSIGN(SupervisedUserWhitelistService);
+  DISALLOW_COPY_AND_ASSIGN(SupervisedUserAllowlistService);
 };
 
-#endif  // CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_WHITELIST_SERVICE_H_
+#endif  // CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_ALLOWLIST_SERVICE_H_

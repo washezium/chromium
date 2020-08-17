@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_BLACKLIST_H_
-#define CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_BLACKLIST_H_
+#ifndef CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_DENYLIST_H_
+#define CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_DENYLIST_H_
 
 #include <stddef.h>
 
@@ -24,7 +24,7 @@ class GURL;
 
 // Compact list of (SHA1 hashes of) blocked hosts.
 // Checking for URLs is thread-safe, loading is not.
-class SupervisedUserBlacklist {
+class SupervisedUserDenylist {
  public:
   struct Hash {
     Hash() {}
@@ -34,12 +34,12 @@ class SupervisedUserBlacklist {
     unsigned char data[base::kSHA1Length];
   };
 
-  SupervisedUserBlacklist();
-  ~SupervisedUserBlacklist();
+  SupervisedUserDenylist();
+  ~SupervisedUserDenylist();
 
-  // Asynchronously read a blacklist from the given file, replacing any previous
+  // Asynchronously read a denylist from the given file, replacing any previous
   // entries. |done_callback| will be run after reading finishes (successfully
-  // or not), but not if the SupervisedUserBlacklist is destroyed before that.
+  // or not), but not if the SupervisedUserDenylist is destroyed before that.
   void ReadFromFile(const base::FilePath& path,
                     const base::Closure& done_callback);
 
@@ -53,9 +53,9 @@ class SupervisedUserBlacklist {
 
   std::vector<Hash> host_hashes_;
 
-  base::WeakPtrFactory<SupervisedUserBlacklist> weak_ptr_factory_{this};
+  base::WeakPtrFactory<SupervisedUserDenylist> weak_ptr_factory_{this};
 
-  DISALLOW_COPY_AND_ASSIGN(SupervisedUserBlacklist);
+  DISALLOW_COPY_AND_ASSIGN(SupervisedUserDenylist);
 };
 
-#endif  // CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_BLACKLIST_H_
+#endif  // CHROME_BROWSER_SUPERVISED_USER_SUPERVISED_USER_DENYLIST_H_

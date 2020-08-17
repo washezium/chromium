@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/supervised_user/supervised_user_blacklist.h"
+#include "chrome/browser/supervised_user/supervised_user_denylist.h"
 
 #include <algorithm>
 #include <cstring>
@@ -18,10 +18,10 @@
 
 namespace {
 
-std::unique_ptr<std::vector<SupervisedUserBlacklist::Hash>>
+std::unique_ptr<std::vector<SupervisedUserDenylist::Hash>>
 ReadFromBinaryFileOnFileThread(const base::FilePath& path) {
-  std::unique_ptr<std::vector<SupervisedUserBlacklist::Hash>> host_hashes(
-      new std::vector<SupervisedUserBlacklist::Hash>);
+  std::unique_ptr<std::vector<SupervisedUserDenylist::Hash>> host_hashes(
+      new std::vector<SupervisedUserDenylist::Hash>);
 
   base::MemoryMappedFile file;
   if (!file.Initialize(path))
@@ -46,45 +46,45 @@ ReadFromBinaryFileOnFileThread(const base::FilePath& path) {
 
 }  // namespace
 
-SupervisedUserBlacklist::Hash::Hash(const std::string& host) {
+SupervisedUserDenylist::Hash::Hash(const std::string& host) {
   const unsigned char* host_bytes =
       reinterpret_cast<const unsigned char*>(host.c_str());
   base::SHA1HashBytes(host_bytes, host.length(), data);
 }
 
-bool SupervisedUserBlacklist::Hash::operator<(const Hash& rhs) const {
+bool SupervisedUserDenylist::Hash::operator<(const Hash& rhs) const {
   return memcmp(data, rhs.data, base::kSHA1Length) < 0;
 }
 
-SupervisedUserBlacklist::SupervisedUserBlacklist() {}
+SupervisedUserDenylist::SupervisedUserDenylist() {}
 
-SupervisedUserBlacklist::~SupervisedUserBlacklist() {}
+SupervisedUserDenylist::~SupervisedUserDenylist() {}
 
-bool SupervisedUserBlacklist::HasURL(const GURL& url) const {
+bool SupervisedUserDenylist::HasURL(const GURL& url) const {
   Hash hash(url.host());
   return std::binary_search(host_hashes_.begin(), host_hashes_.end(), hash);
 }
 
-size_t SupervisedUserBlacklist::GetEntryCount() const {
+size_t SupervisedUserDenylist::GetEntryCount() const {
   return host_hashes_.size();
 }
 
-void SupervisedUserBlacklist::ReadFromFile(const base::FilePath& path,
-                                           const base::Closure& done_callback) {
+void SupervisedUserDenylist::ReadFromFile(const base::FilePath& path,
+                                          const base::Closure& done_callback) {
   base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE,
       {base::MayBlock(), base::TaskPriority::BEST_EFFORT,
        base::TaskShutdownBehavior::CONTINUE_ON_SHUTDOWN},
       base::BindOnce(&ReadFromBinaryFileOnFileThread, path),
-      base::BindOnce(&SupervisedUserBlacklist::OnReadFromFileCompleted,
+      base::BindOnce(&SupervisedUserDenylist::OnReadFromFileCompleted,
                      weak_ptr_factory_.GetWeakPtr(), done_callback));
 }
 
-void SupervisedUserBlacklist::OnReadFromFileCompleted(
+void SupervisedUserDenylist::OnReadFromFileCompleted(
     const base::Closure& done_callback,
     std::unique_ptr<std::vector<Hash>> host_hashes) {
   host_hashes_.swap(*host_hashes);
-  LOG_IF(WARNING, host_hashes_.empty()) << "Got empty blacklist";
+  LOG_IF(WARNING, host_hashes_.empty()) << "Got empty denylist";
 
   if (!done_callback.is_null())
     done_callback.Run();

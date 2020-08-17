@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/supervised_user/supervised_user_whitelist_service.h"
+#include "chrome/browser/supervised_user/supervised_user_allowlist_service.h"
 
 #include <map>
 #include <memory>
@@ -41,16 +41,16 @@ class MockSupervisedUserWhitelistInstaller
   MockSupervisedUserWhitelistInstaller() {}
   ~MockSupervisedUserWhitelistInstaller() override {}
 
-  const std::set<std::string>& registered_whitelists() {
-    return registered_whitelists_;
+  const std::set<std::string>& registered_allowlists() {
+    return registered_allowlists_;
   }
 
-  void NotifyWhitelistReady(const std::string& crx_id,
+  void NotifyAllowlistReady(const std::string& crx_id,
                             const base::string16& title,
                             const base::FilePath& large_icon_path,
-                            const base::FilePath& whitelist_path) {
+                            const base::FilePath& allowlist_path) {
     for (const auto& callback : ready_callbacks_)
-      callback.Run(crx_id, title, large_icon_path, whitelist_path);
+      callback.Run(crx_id, title, large_icon_path, allowlist_path);
   }
 
   // SupervisedUserWhitelistInstaller implementation:
@@ -64,86 +64,86 @@ class MockSupervisedUserWhitelistInstaller
                          const std::string& crx_id,
                          const std::string& name) override {
     EXPECT_EQ(kClientId, client_id);
-    EXPECT_FALSE(WhitelistIsRegistered(crx_id)) << crx_id;
-    registered_whitelists_.insert(crx_id);
+    EXPECT_FALSE(AllowlistIsRegistered(crx_id)) << crx_id;
+    registered_allowlists_.insert(crx_id);
   }
 
   void UnregisterWhitelist(const std::string& client_id,
                            const std::string& crx_id) override {
     EXPECT_EQ(kClientId, client_id);
-    EXPECT_TRUE(WhitelistIsRegistered(crx_id)) << crx_id;
-    registered_whitelists_.erase(crx_id);
+    EXPECT_TRUE(AllowlistIsRegistered(crx_id)) << crx_id;
+    registered_allowlists_.erase(crx_id);
   }
 
  private:
-  bool WhitelistIsRegistered(const std::string& crx_id) {
-    return registered_whitelists_.count(crx_id) > 0;
+  bool AllowlistIsRegistered(const std::string& crx_id) {
+    return registered_allowlists_.count(crx_id) > 0;
   }
 
-  std::set<std::string> registered_whitelists_;
+  std::set<std::string> registered_allowlists_;
   std::vector<WhitelistReadyCallback> ready_callbacks_;
 };
 
 }  // namespace
 
-class SupervisedUserWhitelistServiceTest : public testing::Test {
+class SupervisedUserAllowlistServiceTest : public testing::Test {
  public:
-  SupervisedUserWhitelistServiceTest()
+  SupervisedUserAllowlistServiceTest()
       : installer_(new MockSupervisedUserWhitelistInstaller),
-        service_(new SupervisedUserWhitelistService(profile_.GetPrefs(),
+        service_(new SupervisedUserAllowlistService(profile_.GetPrefs(),
                                                     installer_.get(),
                                                     kClientId)) {
     service_->AddSiteListsChangedCallback(
-        base::Bind(&SupervisedUserWhitelistServiceTest::OnSiteListsChanged,
+        base::Bind(&SupervisedUserAllowlistServiceTest::OnSiteListsChanged,
                    base::Unretained(this)));
   }
 
  protected:
   void PrepareInitialStateAndPreferences() {
-    // Create two whitelists.
+    // Create two allowlists.
     DictionaryPrefUpdate update(profile_.GetPrefs(),
-                                prefs::kSupervisedUserWhitelists);
+                                prefs::kSupervisedUserAllowlists);
     base::DictionaryValue* dict = update.Get();
 
-    std::unique_ptr<base::DictionaryValue> whitelist_dict(
+    std::unique_ptr<base::DictionaryValue> allowlist_dict(
         new base::DictionaryValue);
-    whitelist_dict->SetString("name", "Whitelist A");
-    dict->Set("aaaa", std::move(whitelist_dict));
+    allowlist_dict->SetString("name", "Allowlist A");
+    dict->Set("aaaa", std::move(allowlist_dict));
 
-    whitelist_dict.reset(new base::DictionaryValue);
-    whitelist_dict->SetString("name", "Whitelist B");
-    dict->Set("bbbb", std::move(whitelist_dict));
+    allowlist_dict.reset(new base::DictionaryValue);
+    allowlist_dict->SetString("name", "Allowlist B");
+    dict->Set("bbbb", std::move(allowlist_dict));
 
-    installer_->RegisterWhitelist(kClientId, "aaaa", "Whitelist A");
-    installer_->RegisterWhitelist(kClientId, "bbbb", "Whitelist B");
+    installer_->RegisterWhitelist(kClientId, "aaaa", "Allowlist A");
+    installer_->RegisterWhitelist(kClientId, "bbbb", "Allowlist B");
   }
 
   void CheckFinalStateAndPreferences() {
-    EXPECT_EQ(2u, installer_->registered_whitelists().size());
-    EXPECT_EQ(1u, installer_->registered_whitelists().count("bbbb"));
-    EXPECT_EQ(1u, installer_->registered_whitelists().count("cccc"));
+    EXPECT_EQ(2u, installer_->registered_allowlists().size());
+    EXPECT_EQ(1u, installer_->registered_allowlists().count("bbbb"));
+    EXPECT_EQ(1u, installer_->registered_allowlists().count("cccc"));
 
     const base::DictionaryValue* dict =
-        profile_.GetPrefs()->GetDictionary(prefs::kSupervisedUserWhitelists);
+        profile_.GetPrefs()->GetDictionary(prefs::kSupervisedUserAllowlists);
     EXPECT_EQ(2u, dict->size());
-    const base::DictionaryValue* whitelist_dict = nullptr;
-    ASSERT_TRUE(dict->GetDictionary("bbbb", &whitelist_dict));
+    const base::DictionaryValue* allowlist_dict = nullptr;
+    ASSERT_TRUE(dict->GetDictionary("bbbb", &allowlist_dict));
     std::string name;
-    ASSERT_TRUE(whitelist_dict->GetString("name", &name));
-    EXPECT_EQ("Whitelist B New", name);
-    ASSERT_TRUE(dict->GetDictionary("cccc", &whitelist_dict));
-    ASSERT_TRUE(whitelist_dict->GetString("name", &name));
-    EXPECT_EQ("Whitelist C", name);
+    ASSERT_TRUE(allowlist_dict->GetString("name", &name));
+    EXPECT_EQ("Allowlist B New", name);
+    ASSERT_TRUE(dict->GetDictionary("cccc", &allowlist_dict));
+    ASSERT_TRUE(allowlist_dict->GetString("name", &name));
+    EXPECT_EQ("Allowlist C", name);
   }
 
-  const sync_pb::ManagedUserWhitelistSpecifics* FindWhitelist(
+  const sync_pb::ManagedUserWhitelistSpecifics* FindAllowlist(
       const syncer::SyncDataList& data_list,
       const std::string& id) {
     for (const syncer::SyncData& data : data_list) {
-      const sync_pb::ManagedUserWhitelistSpecifics& whitelist =
+      const sync_pb::ManagedUserWhitelistSpecifics& allowlist =
           data.GetSpecifics().managed_user_whitelist();
-      if (whitelist.id() == id)
-        return &whitelist;
+      if (allowlist.id() == id)
+        return &allowlist;
     }
     return nullptr;
   }
@@ -160,81 +160,81 @@ class SupervisedUserWhitelistServiceTest : public testing::Test {
   data_decoder::test::InProcessDataDecoder in_process_data_decoder_;
 
   std::unique_ptr<MockSupervisedUserWhitelistInstaller> installer_;
-  std::unique_ptr<SupervisedUserWhitelistService> service_;
+  std::unique_ptr<SupervisedUserAllowlistService> service_;
 
   std::vector<scoped_refptr<SupervisedUserSiteList>> site_lists_;
   base::Closure site_lists_changed_callback_;
 };
 
-TEST_F(SupervisedUserWhitelistServiceTest, MergeEmpty) {
+TEST_F(SupervisedUserAllowlistServiceTest, MergeEmpty) {
   service_->Init();
 
   ASSERT_TRUE(
-      service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_WHITELISTS)
+      service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_ALLOWLISTS)
           .empty());
   base::Optional<syncer::ModelError> error = service_->MergeDataAndStartSyncing(
-      syncer::SUPERVISED_USER_WHITELISTS, syncer::SyncDataList(),
+      syncer::SUPERVISED_USER_ALLOWLISTS, syncer::SyncDataList(),
       std::unique_ptr<syncer::SyncChangeProcessor>(),
       std::unique_ptr<syncer::SyncErrorFactory>());
   EXPECT_TRUE(
-      service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_WHITELISTS)
+      service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_ALLOWLISTS)
           .empty());
   EXPECT_FALSE(error.has_value());
 
-  EXPECT_EQ(0u, installer_->registered_whitelists().size());
+  EXPECT_EQ(0u, installer_->registered_allowlists().size());
 }
 
-TEST_F(SupervisedUserWhitelistServiceTest, MergeExisting) {
+TEST_F(SupervisedUserAllowlistServiceTest, MergeExisting) {
   PrepareInitialStateAndPreferences();
 
-  // Initialize the service. The whitelists should not be ready yet.
+  // Initialize the service. The allowlists should not be ready yet.
   service_->Init();
   EXPECT_EQ(0u, site_lists_.size());
 
-  // Notify that whitelist A is ready.
+  // Notify that allowlist A is ready.
   base::RunLoop run_loop;
   site_lists_changed_callback_ = run_loop.QuitClosure();
   base::FilePath test_data_dir;
   ASSERT_TRUE(base::PathService::Get(chrome::DIR_TEST_DATA, &test_data_dir));
-  base::FilePath whitelist_path =
+  base::FilePath allowlist_path =
       test_data_dir.AppendASCII("whitelists/content_pack/site_list.json");
-  installer_->NotifyWhitelistReady("aaaa", base::ASCIIToUTF16("Title"),
-                                   base::FilePath(), whitelist_path);
+  installer_->NotifyAllowlistReady("aaaa", base::ASCIIToUTF16("Title"),
+                                   base::FilePath(), allowlist_path);
   run_loop.Run();
 
   ASSERT_EQ(1u, site_lists_.size());
   EXPECT_EQ(base::ASCIIToUTF16("Title"), site_lists_[0]->title());
   EXPECT_EQ(4u, site_lists_[0]->patterns().size());
 
-  // Do the initial merge. One item should be added (whitelist C), one should be
-  // modified (whitelist B), and one item should be removed (whitelist A).
+  // Do the initial merge. One item should be added (allowlist C), one should be
+  // modified (allowlist B), and one item should be removed (allowlist A).
   syncer::SyncDataList initial_data;
   initial_data.push_back(
-      SupervisedUserWhitelistService::CreateWhitelistSyncData(
-          "bbbb", "Whitelist B New"));
+      SupervisedUserAllowlistService::CreateAllowlistSyncData(
+          "bbbb", "Allowlist B New"));
   initial_data.push_back(
-      SupervisedUserWhitelistService::CreateWhitelistSyncData(
-          "cccc", "Whitelist C"));
+      SupervisedUserAllowlistService::CreateAllowlistSyncData("cccc",
+                                                              "Allowlist C"));
   ASSERT_EQ(
-      2u, service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_WHITELISTS)
+      2u, service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_ALLOWLISTS)
               .size());
   base::Optional<syncer::ModelError> error = service_->MergeDataAndStartSyncing(
-      syncer::SUPERVISED_USER_WHITELISTS, initial_data,
+      syncer::SUPERVISED_USER_ALLOWLISTS, initial_data,
       std::unique_ptr<syncer::SyncChangeProcessor>(),
       std::unique_ptr<syncer::SyncErrorFactory>());
   EXPECT_EQ(
-      2u, service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_WHITELISTS)
+      2u, service_->GetAllSyncDataForTesting(syncer::SUPERVISED_USER_ALLOWLISTS)
               .size());
   EXPECT_FALSE(error.has_value());
 
-  // Whitelist A (which was previously ready) should be removed now, and
-  // whitelist B was never ready.
+  // Allowlist A (which was previously ready) should be removed now, and
+  // allowlist B was never ready.
   EXPECT_EQ(0u, site_lists_.size());
 
   CheckFinalStateAndPreferences();
 }
 
-TEST_F(SupervisedUserWhitelistServiceTest, ApplyChanges) {
+TEST_F(SupervisedUserAllowlistServiceTest, ApplyChanges) {
   PrepareInitialStateAndPreferences();
 
   service_->Init();
@@ -243,24 +243,24 @@ TEST_F(SupervisedUserWhitelistServiceTest, ApplyChanges) {
   syncer::SyncChangeList changes;
   changes.push_back(syncer::SyncChange(
       FROM_HERE, syncer::SyncChange::ACTION_ADD,
-      SupervisedUserWhitelistService::CreateWhitelistSyncData(
-          "cccc", "Whitelist C")));
+      SupervisedUserAllowlistService::CreateAllowlistSyncData("cccc",
+                                                              "Allowlist C")));
   changes.push_back(syncer::SyncChange(
       FROM_HERE, syncer::SyncChange::ACTION_UPDATE,
-      SupervisedUserWhitelistService::CreateWhitelistSyncData(
-          "bbbb", "Whitelist B New")));
+      SupervisedUserAllowlistService::CreateAllowlistSyncData(
+          "bbbb", "Allowlist B New")));
   changes.push_back(syncer::SyncChange(
       FROM_HERE, syncer::SyncChange::ACTION_DELETE,
-      SupervisedUserWhitelistService::CreateWhitelistSyncData(
-          "aaaa", "Ignored")));
+      SupervisedUserAllowlistService::CreateAllowlistSyncData("aaaa",
+                                                              "Ignored")));
   base::Optional<syncer::ModelError> error =
       service_->ProcessSyncChanges(FROM_HERE, changes);
   EXPECT_FALSE(error.has_value());
 
   EXPECT_EQ(0u, site_lists_.size());
 
-  // If whitelist A now becomes ready, it should be ignored.
-  installer_->NotifyWhitelistReady(
+  // If allowlist A now becomes ready, it should be ignored.
+  installer_->NotifyAllowlistReady(
       "aaaa", base::ASCIIToUTF16("Title"), base::FilePath(),
       base::FilePath(FILE_PATH_LITERAL("/path/to/aaaa")));
   EXPECT_EQ(0u, site_lists_.size());
