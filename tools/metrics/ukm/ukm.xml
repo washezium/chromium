@@ -261,6 +261,9 @@ be describing additional metrics about the same event.
     </summary>
   </metric>
   <metric name="Timing.PreActivationForegroundDuration">
+    <obsolete>
+      Deprecated 07/2020.
+    </obsolete>
     <summary>
       Number of millseconds that the current web contents spent in the
       foreground prior to the frame receiving user activation.
