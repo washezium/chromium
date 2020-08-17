@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
-#define CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#define CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
 
 #include <memory>
 #include <string>
@@ -19,13 +19,13 @@ namespace policy {
 
 class PolicyService;
 
-class DeviceNativePrintersExternalDataHandler
+class DevicePrintersExternalDataHandler
     : public DeviceCloudExternalDataPolicyHandler {
  public:
-  DeviceNativePrintersExternalDataHandler(
+  DevicePrintersExternalDataHandler(
       PolicyService* policy_service,
       base::WeakPtr<chromeos::BulkPrintersCalculator> device_calculator);
-  ~DeviceNativePrintersExternalDataHandler() override;
+  ~DevicePrintersExternalDataHandler() override;
 
   // DeviceCloudExternalDataPolicyHandler:
   void OnDeviceExternalDataSet(const std::string& policy) override;
@@ -39,11 +39,11 @@ class DeviceNativePrintersExternalDataHandler
   base::WeakPtr<chromeos::BulkPrintersCalculator> calculator_;
 
   std::unique_ptr<DeviceCloudExternalDataPolicyObserver>
-      device_native_printers_observer_;
+      device_printers_observer_;
 
-  DISALLOW_COPY_AND_ASSIGN(DeviceNativePrintersExternalDataHandler);
+  DISALLOW_COPY_AND_ASSIGN(DevicePrintersExternalDataHandler);
 };
 
 }  // namespace policy
 
-#endif  // CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_NATIVE_PRINTERS_EXTERNAL_DATA_HANDLER_H_
+#endif  // CHROME_BROWSER_CHROMEOS_POLICY_EXTERNAL_DATA_HANDLERS_DEVICE_PRINTERS_EXTERNAL_DATA_HANDLER_H_

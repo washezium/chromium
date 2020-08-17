@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/policy/external_data_handlers/device_native_printers_external_data_handler.h"
+#include "chrome/browser/chromeos/policy/external_data_handlers/device_printers_external_data_handler.h"
 
 #include <memory>
 #include <string>
@@ -23,11 +23,11 @@ namespace policy {
 
 namespace {
 
-// The number of printers in kDeviceNativePrintersContentsJson.
+// The number of printers in kDevicePrintersContentsJson.
 const size_t kNumPrinters = 2;
 
-// An example device native printers configuration file.
-const char kDeviceNativePrintersContentsJson[] = R"json(
+// An example device printers configuration file.
+const char kDevicePrintersContentsJson[] = R"json(
 [
   {
     "id": "First",
@@ -56,9 +56,9 @@ const char kDeviceNativePrintersContentsJson[] = R"json(
 
 }  // namespace
 
-class DeviceNativePrintersExternalDataHandlerTest : public testing::Test {
+class DevicePrintersExternalDataHandlerTest : public testing::Test {
  protected:
-  DeviceNativePrintersExternalDataHandlerTest() {}
+  DevicePrintersExternalDataHandlerTest() {}
 
   // testing::Test
   void SetUp() override {
@@ -70,33 +70,33 @@ class DeviceNativePrintersExternalDataHandlerTest : public testing::Test {
                 RemoveObserver(policy::POLICY_DOMAIN_CHROME, testing::_))
         .Times(1);
     external_printers_ = chromeos::BulkPrintersCalculator::Create();
-    device_native_printers_external_data_handler_ =
-        std::make_unique<DeviceNativePrintersExternalDataHandler>(
+    device_printers_external_data_handler_ =
+        std::make_unique<DevicePrintersExternalDataHandler>(
             &policy_service_, external_printers_->AsWeakPtr());
     external_printers_->SetAccessMode(
         chromeos::BulkPrintersCalculator::ALL_ACCESS);
   }
 
   void TearDown() override {
-    device_native_printers_external_data_handler_->Shutdown();
+    device_printers_external_data_handler_->Shutdown();
   }
 
  protected:
   base::test::TaskEnvironment task_environment_;
   MockPolicyService policy_service_;
-  std::unique_ptr<DeviceNativePrintersExternalDataHandler>
-      device_native_printers_external_data_handler_;
+  std::unique_ptr<DevicePrintersExternalDataHandler>
+      device_printers_external_data_handler_;
   std::unique_ptr<chromeos::BulkPrintersCalculator> external_printers_;
 };
 
-TEST_F(DeviceNativePrintersExternalDataHandlerTest, OnDataFetched) {
+TEST_F(DevicePrintersExternalDataHandlerTest, OnDataFetched) {
   EXPECT_TRUE(external_printers_->GetPrinters().empty());
 
-  device_native_printers_external_data_handler_->OnDeviceExternalDataSet(
+  device_printers_external_data_handler_->OnDeviceExternalDataSet(
       key::kDevicePrinters);
-  device_native_printers_external_data_handler_->OnDeviceExternalDataFetched(
+  device_printers_external_data_handler_->OnDeviceExternalDataFetched(
       key::kDevicePrinters,
-      std::make_unique<std::string>(kDeviceNativePrintersContentsJson),
+      std::make_unique<std::string>(kDevicePrintersContentsJson),
       base::FilePath());
   task_environment_.RunUntilIdle();
 
@@ -108,16 +108,16 @@ TEST_F(DeviceNativePrintersExternalDataHandlerTest, OnDataFetched) {
   EXPECT_EQ("Color Laser", printers.at("Second").display_name());
 }
 
-TEST_F(DeviceNativePrintersExternalDataHandlerTest, OnDataCleared) {
+TEST_F(DevicePrintersExternalDataHandlerTest, OnDataCleared) {
   EXPECT_TRUE(external_printers_->GetPrinters().empty());
 
-  device_native_printers_external_data_handler_->OnDeviceExternalDataSet(
+  device_printers_external_data_handler_->OnDeviceExternalDataSet(
       key::kDevicePrinters);
-  device_native_printers_external_data_handler_->OnDeviceExternalDataFetched(
+  device_printers_external_data_handler_->OnDeviceExternalDataFetched(
       key::kDevicePrinters,
-      std::make_unique<std::string>(kDeviceNativePrintersContentsJson),
+      std::make_unique<std::string>(kDevicePrintersContentsJson),
       base::FilePath());
-  device_native_printers_external_data_handler_->OnDeviceExternalDataCleared(
+  device_printers_external_data_handler_->OnDeviceExternalDataCleared(
       key::kDevicePrinters);
   task_environment_.RunUntilIdle();
 

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/policy/external_data_handlers/device_native_printers_external_data_handler.h"
+#include "chrome/browser/chromeos/policy/external_data_handlers/device_printers_external_data_handler.h"
 
 #include <utility>
 
@@ -12,33 +12,32 @@
 
 namespace policy {
 
-DeviceNativePrintersExternalDataHandler::
-    DeviceNativePrintersExternalDataHandler(
-        PolicyService* policy_service,
-        base::WeakPtr<chromeos::BulkPrintersCalculator> calculator)
+DevicePrintersExternalDataHandler::DevicePrintersExternalDataHandler(
+    PolicyService* policy_service,
+    base::WeakPtr<chromeos::BulkPrintersCalculator> calculator)
     : calculator_(calculator),
-      device_native_printers_observer_(
+      device_printers_observer_(
           std::make_unique<DeviceCloudExternalDataPolicyObserver>(
               policy_service,
               key::kDevicePrinters,
               this)) {}
 
-DeviceNativePrintersExternalDataHandler::
-    ~DeviceNativePrintersExternalDataHandler() = default;
+DevicePrintersExternalDataHandler::~DevicePrintersExternalDataHandler() =
+    default;
 
-void DeviceNativePrintersExternalDataHandler::OnDeviceExternalDataSet(
+void DevicePrintersExternalDataHandler::OnDeviceExternalDataSet(
     const std::string& policy) {
   if (calculator_)
     calculator_->ClearData();
 }
 
-void DeviceNativePrintersExternalDataHandler::OnDeviceExternalDataCleared(
+void DevicePrintersExternalDataHandler::OnDeviceExternalDataCleared(
     const std::string& policy) {
   if (calculator_)
     calculator_->ClearData();
 }
 
-void DeviceNativePrintersExternalDataHandler::OnDeviceExternalDataFetched(
+void DevicePrintersExternalDataHandler::OnDeviceExternalDataFetched(
     const std::string& policy,
     std::unique_ptr<std::string> data,
     const base::FilePath& file_path) {
@@ -46,8 +45,8 @@ void DeviceNativePrintersExternalDataHandler::OnDeviceExternalDataFetched(
     calculator_->SetData(std::move(data));
 }
 
-void DeviceNativePrintersExternalDataHandler::Shutdown() {
-  device_native_printers_observer_.reset();
+void DevicePrintersExternalDataHandler::Shutdown() {
+  device_printers_observer_.reset();
 }
 
 }  // namespace policy
