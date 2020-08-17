@@ -22,8 +22,6 @@ Still reading?
   <issue id="AllowBackup" severity="ignore"/>
   <!-- TODO(crbug.com/804427): Remove this suppression or add rationale. -->
   <issue id="AppCompatResource" severity="ignore"/>
-  <!-- We use asserts in Chromium. See https://chromium.googlesource.com/chromium/src/+/master/styleguide/java/java.md#Asserts -->
-  <issue id="Assert" severity="ignore"/>
   <issue id="Autofill">
     <!-- Filed https://crbug.com/1073966 to fix -->
     <ignore regexp="chrome/android/features/tab_ui/java/res/layout/bottom_tab_grid_toolbar.xml"/>
@@ -38,13 +36,8 @@ Still reading?
   <issue id="ButtonOrder" severity="Error">
     <ignore regexp="chrome/android/java/res/layout/homepage_editor.xml"/>
   </issue>
-  <issue id="ButtonStyle" severity="Error">
-    <ignore regexp="remoting/android/host/res/layout/main.xml"/>
-  </issue>
   <issue id="ClickableViewAccessibility" severity="ignore"/>
   <issue id="ContentDescription" severity="Error">
-    <ignore regexp="chromecast/internal"/>
-    <ignore regexp="remoting/android/internal"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/contacts_list_item_view.xml"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
@@ -94,14 +87,8 @@ Still reading?
   <issue id="GoogleAppIndexingWarning" severity="ignore"/>
   <issue id="HandlerLeak">
     <ignore regexp="android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java"/>
-    <ignore regexp="chromecast/internal"/>
-    <ignore regexp="remoting/android/java/src/org/chromium/chromoting/TapGestureDetector.java"/>
   </issue>
   <issue id="HardcodedDebugMode" severity="ignore"/>
-  <issue id="HardcodedText" severity="Error">
-    <ignore regexp="chromecast/internal"/>
-    <ignore regexp="remoting/android/host/res/layout/main.xml"/>
-  </issue>
   <issue id="IconColors" severity="Error">
     <ignore regexp="tools/android/audio_focus_grabber/java/res/drawable-.*/notification_icon.png"/>
   </issue>
@@ -113,38 +100,26 @@ Still reading?
     <ignore regexp="chrome/android/java/res/drawable-xxxhdpi"/>
     <!-- This is intentional to save on WebAPKs' size. -->
     <ignore regexp="chrome/android/webapk/shell_apk/res/drawable-*"/>
-    <ignore regexp="chromecast/internal"/>
     <ignore regexp="content/public/android/java/res/drawable-xxhdpi"/>
     <ignore regexp="content/public/android/java/res/drawable-xxxhdpi"/>
     <ignore regexp="ui/android/java/res/drawable-xxhdpi"/>
     <ignore regexp="ui/android/java/res/drawable-xxxhdpi"/>
-    <ignore regexp="remoting/android/internal"/>
   </issue>
   <issue id="IconDipSize">
     <!-- These only need to be 1px for all densities. See: crbug.com/804449 -->
     <ignore regexp="chrome/android/java/res/.*tab_strip_fade"/>
-    <ignore regexp="chromecast/internal"/>
   </issue>
   <issue id="IconDuplicates" severity="Error">
-    <!-- mipmap version is used for app launcher only. drawables used for notifications -->
-    <ignore regexp="chromecast/browser/android/apk/res/mipmap-.*/app_icon.png"/>
-    <ignore regexp="chromecast/internal"/>
     <!-- Filed https://crbug.com/1073963 -->
     <ignore regexp="clank/java/res_default/mipmap-.*/app_shortcut_icon.png"/>
-  </issue>
-  <issue id="IconDuplicatesConfig" severity="Error">
-    <ignore regexp="chromecast/internal"/>
-    <ignore regexp="remoting/android/internal"/>
   </issue>
   <issue id="IconLauncherFormat" severity="ignore"/>
   <issue id="IconLauncherShape" severity="Error">
     <ignore regexp="chrome/android/webapk/shell_apk/res/mipmap-mdpi/ic_launcher_background.png"/>
-    <ignore regexp="chromecast/internal"/>
   </issue>
   <issue id="IconLocation">
     <!-- This is just for testing -->
     <ignore regexp="chrome/test/chromedriver/test/webview_shell/java/res/drawable/icon.png"/>
-    <ignore regexp="chromecast/internal"/>
     <!-- It is OK for content_shell_apk to have missing assets. -->
     <ignore regexp="content/shell/android/java/res/"/>
     <!-- Memconsumer is only for tooling -->
@@ -157,7 +132,6 @@ Still reading?
     <!-- This is intentional to reduce APK size. See: http://crrev/c/1352161 -->
     <ignore regexp="chrome/android/features/autofill_assistant/java/res"/>
     <ignore regexp="chrome/android/webapk/shell_apk/res"/>
-    <ignore regexp="chromecast/internal"/>
     <!-- crbug.com/457918 is tracking missing assets -->
     <ignore regexp="components/embedder_support/android/java/res"/>
     <ignore regexp="tools/android/push_apps_to_background/res"/>
@@ -207,7 +181,6 @@ Still reading?
     <!-- TODO(crbug.com/1039415): Remove suppression after fixing bug. -->
     <ignore regexp="chrome/android/feed/core/java/res/layout/feed_more_button.xml"/>
   </issue>
-  <issue id="MissingApplicationIcon" severity="ignore"/>
   <issue id="MissingClass" severity="ignore"/>
   <issue id="MissingDefaultResource">
     <!-- Only used by ToolbarControlContainer guarded by tablet form-factor. -->
@@ -224,14 +197,10 @@ Still reading?
   <issue id="MissingRegistered" severity="ignore"/>
   <issue id="MissingSuperCall" severity="Error">
     <!-- TODO(wnwen): File bug to fix -->
-    <ignore regexp="remoting/android/java/src/org/chromium/chromoting/Chromoting.java"/>
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/widget/selection/SelectionToolbar.java"/>
   </issue>
   <issue id="MissingTranslation">
-    <!-- http://crbug.com/450548 -->
-    <ignore regexp="chromecast/internal"/>
     <ignore regexp="restriction_values.xml.*"/>
-    <ignore regexp="remoting/resources/strings_java.resources.zip"/>
   </issue>
   <issue id="MissingVersion" severity="ignore"/>
   <issue id="NewApi">
@@ -283,7 +252,6 @@ Still reading?
   <issue id="RtlCompat" severity="ignore"/>
   <issue id="RtlEnabled" severity="ignore"/>
   <issue id="RtlHardcoded" severity="Error">
-    <ignore regexp="remoting/android/internal"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/sheet_tab_toolbar.xml"/>
   </issue>
@@ -294,9 +262,6 @@ Still reading?
   </issue>
   <issue id="SetJavaScriptEnabled" severity="ignore"/>
   <issue id="SignatureOrSystemPermissions" severity="ignore"/>
-  <issue id="SpUsage" severity="Error">
-    <ignore regexp="chromecast/internal"/>
-  </issue>
   <issue id="StaticFieldLeak">
     <!-- Nice to fix, but not necessary or performance critical. -->
     <ignore regexp="This `AsyncTask` class should be static or leaks might occur"/>
@@ -313,29 +278,15 @@ Still reading?
   <!-- Many .xtb files have a % that is not part of a formatted string. https://crbug.com/941164 -->
   <issue id="StringFormatInvalid" severity="ignore"/>
   <issue id="StringFormatMatches" severity="ignore"/>
-  <!-- We have many C++ enums that we don't care about in java -->
-  <issue id="SwitchIntDef" severity="ignore"/>
-  <issue id="TextFields" severity="Error">
-    <ignore regexp="chromecast/internal"/>
-  </issue>
   <issue id="TypographyDashes" severity="Error">
     <ignore regexp="chrome/app/policy/android/values-v21/restriction_values.xml"/>
   </issue>
   <!-- Typos check disabled due to lint bug: http://crbug.com/671170 -->
   <issue id="Typos" severity="ignore"/>
-  <!-- Our generated enums are allowed to have the same values. -->
-  <issue id="UniqueConstants" severity="ignore"/>
-  <issue id="UnusedAttribute" severity="ignore"/>
   <issue id="UnusedIds" severity="ignore"/>
   <issue id="UnusedQuantity" severity="ignore"/>
   <issue id="UnusedResources">
     <!-- Do not add new suppressions without rationale. -->
-    <!-- 1: raw resources are accessed by URL in various places -->
-    <ignore regexp="gen/remoting/android/.*/res/raw/credits.*"/>
-    <!-- 1: all resources in remoting internal -->
-    <ignore regexp="remoting/android/internal"/>
-    <!-- 1: string test only, used in CronetSmokeTestCase dynamically -->
-    <ignore regexp="R.string.TestSupportImplClass"/>
     <!-- 1: resource used by android webview glue layer, could be refactored -->
     <ignore regexp="R.string.private_browsing_warning"/>
     <!-- 4: The WAM server currently has 2 codes paths for minting a WebAPK, and
@@ -382,8 +333,6 @@ Still reading?
     <ignore regexp="android_webview/tools/automated_ui_tests/java/res/layout/"/>
     <!-- 1: resource in //ui because it's used by multiple deps. -->
     <ignore regexp="The resource `R.drawable.*_expand_.*` appears to be unused"/>
-    <!-- 1 resource used by android tv to generate resources.zip file -->
-    <ignore regexp="chromecast/internal/shell/browser/android/java/res/drawable-hdpi/ic_settings_cast.png"/>
     <!-- 1 string used by Android's policies system, pulled from app directly -->
     <ignore regexp="restriction_values.xml"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
@@ -442,7 +391,6 @@ Still reading?
   <issue id="UselessParent">
     <ignore regexp="android_webview/tools/system_webview_shell/apk/res/layout/activity_webview_browser.xml"/>
     <ignore regexp="chrome/android/java/res/layout/data_usage_breakdown.xml"/>
-    <ignore regexp="chromecast/internal"/>
     <ignore regexp="tools/android/kerberos/SpnegoAuthenticator/res/layout/activity_account_authenticator.xml"/>
   </issue>
   <issue id="UsesMinSdkAttributes" severity="ignore"/>
@@ -458,8 +406,6 @@ Still reading?
   <issue id="VisibleForTests" severity="Error">
     <ignore regexp="/javatests/"/>
     <ignore regexp="/test/"/>
-    <!-- TODO(wnwen): File bug to fix -->
-    <ignore regexp="remoting/android/internal/apk/src/org/chromium/chromoting/RemotingApplication.java"/>
     <!-- TODO(crbug.com/757124): Remove all these specific Feedback files after underlying issue is resolved -->
     <!-- Underlying issue is that Android FeedbackOptions.Builder using @VisibleForTesting without 'otherwise='. -->
     <ignore regexp="clank/java/src/com/google/android/apps/chrome/feedback/FeedbackUtil.java"/>
