@@ -4502,6 +4502,11 @@
     "expiry_milestone": 86
   },
   {
+    "name": "web-share",
+    "owners": [ "mhochk@microsoft.com", "ericwilligers@google.com" ],
+    "expiry_milestone": 89
+  },
+  {
     "name": "webpage-default-zoom-from-dynamic-type",
     "owners": [ "rkgibson", "bling-flags" ],
     "expiry_milestone": 87
