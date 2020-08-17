@@ -2347,24 +2347,6 @@
             ]
         }
     ],
-    "DiscardCodeCacheAfterFirstUse": [
-        {
-            "platforms": [
-                "android",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "EnableDiscardCodeCacheAfterFirstUse",
-                    "enable_features": [
-                        "DiscardCodeCacheAfterFirstUse"
-                    ]
-                }
-            ]
-        }
-    ],
     "DnsHttpssvc": [
         {
             "platforms": [
