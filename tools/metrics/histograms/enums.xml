@@ -28755,6 +28755,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3405" label="GPUAdapter_Name"/>
   <int value="3406" label="WindowScreenInternal"/>
   <int value="3407" label="WindowScreenPrimary"/>
+  <int value="3408" label="ThirdPartyCookieRead"/>
+  <int value="3409" label="ThirdPartyCookieWrite"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
