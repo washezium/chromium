@@ -4,10 +4,8 @@
 
 import("//ui/webui/resources/tools/js_modulizer.gni")
 
-
-group("modulize") {
-  deps = [
-    "./cellular_setup:modulize",
-    "./network:modulize",
+js_modulizer("modulize") {
+  input_files = [
+    "base_page_test.js",
   ]
 }
