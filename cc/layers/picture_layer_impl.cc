@@ -975,6 +975,10 @@ const PaintWorkletRecordMap& PictureLayerImpl::GetPaintWorkletRecords() const {
   return paint_worklet_records_;
 }
 
+bool PictureLayerImpl::IsDirectlyCompositedImage() const {
+  return directly_composited_image_size_.has_value();
+}
+
 gfx::Rect PictureLayerImpl::GetEnclosingRectInTargetSpace() const {
   return GetScaledEnclosingRectInTargetSpace(MaximumTilingContentsScale());
 }
