@@ -362,6 +362,20 @@ void SetLinkUnderCursor(pp::Instance* instance,
   pp::PDF::SetLinkUnderCursor(instance, link_under_cursor.c_str());
 }
 
+PP_PrivateFocusObjectType GetAnnotationFocusType(
+    FPDF_ANNOTATION_SUBTYPE annot_type) {
+  switch (annot_type) {
+    case FPDF_ANNOT_LINK:
+      return PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_LINK;
+    case FPDF_ANNOT_HIGHLIGHT:
+      return PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_HIGHLIGHT;
+    case FPDF_ANNOT_WIDGET:
+      return PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_TEXT_FIELD;
+    default:
+      return PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_NONE;
+  }
+}
+
 base::string16 GetAttachmentAttribute(FPDF_ATTACHMENT attachment,
                                       FPDF_BYTESTRING field) {
   return CallPDFiumWideStringBufferApi(
@@ -1006,6 +1020,44 @@ void PDFiumEngine::UpdateFocus(bool has_focus) {
     }
     KillFormFocus();
   }
+}
+
+PP_PrivateAccessibilityFocusInfo PDFiumEngine::GetFocusInfo() {
+  PP_PrivateAccessibilityFocusInfo focus_info = {
+      PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_NONE, 0, 0};
+
+  switch (focus_item_type_) {
+    case FocusElementType::kNone: {
+      break;
+    }
+    case FocusElementType::kPage: {
+      int page_index;
+      FPDF_ANNOTATION focused_annot;
+      FPDF_BOOL ret = FORM_GetFocusedAnnot(form(), &page_index, &focused_annot);
+      DCHECK(ret);
+
+      if (PageIndexInBounds(page_index) && focused_annot) {
+        PP_PrivateFocusObjectType type =
+            GetAnnotationFocusType(FPDFAnnot_GetSubtype(focused_annot));
+        int annot_index = FPDFPage_GetAnnotIndex(pages_[page_index]->GetPage(),
+                                                 focused_annot);
+        if (type != PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_NONE &&
+            annot_index >= 0) {
+          focus_info.focused_object_type = type;
+          focus_info.focused_object_page_index = page_index;
+          focus_info.focused_annotation_index_in_page = annot_index;
+        }
+      }
+      FPDFPage_CloseAnnot(focused_annot);
+      break;
+    }
+    case FocusElementType::kDocument: {
+      focus_info.focused_object_type =
+          PP_PrivateFocusObjectType::PP_PRIVATEFOCUSOBJECT_DOCUMENT;
+      break;
+    }
+  }
+  return focus_info;
 }
 
 uint32_t PDFiumEngine::GetLoadedByteSize() {

@@ -483,6 +483,9 @@ class PDFEngine {
   // Notify whether the PDF currently has the focus or not.
   virtual void UpdateFocus(bool has_focus) = 0;
 
+  // Returns the focus info of current focus item.
+  virtual PP_PrivateAccessibilityFocusInfo GetFocusInfo() = 0;
+
   virtual uint32_t GetLoadedByteSize() = 0;
   virtual bool ReadLoadedBytes(uint32_t length, void* buffer) = 0;
 };

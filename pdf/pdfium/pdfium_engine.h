@@ -174,6 +174,7 @@ class PDFiumEngine : public PDFEngine,
   void OnDocumentCanceled() override;
   void KillFormFocus() override;
   void UpdateFocus(bool has_focus) override;
+  PP_PrivateAccessibilityFocusInfo GetFocusInfo() override;
   uint32_t GetLoadedByteSize() override;
   bool ReadLoadedBytes(uint32_t length, void* buffer) override;
 #if defined(PDF_ENABLE_XFA)
