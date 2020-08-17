@@ -4,12 +4,13 @@
 
 #include "components/performance_manager/public/v8_memory/v8_per_frame_memory_decorator.h"
 
+#include <algorithm>
+#include <iterator>
 #include <utility>
 #include <vector>
 
 #include "base/bind.h"
 #include "base/check.h"
-#include "base/containers/flat_map.h"
 #include "base/containers/flat_set.h"
 #include "base/memory/weak_ptr.h"
 #include "base/stl_util.h"
@@ -46,6 +47,35 @@ class V8PerFrameMemoryDecorator::ObserverNotifier {
 };
 
 namespace {
+
+using PerFrameUsagePtr = blink::mojom::PerFrameV8MemoryUsageDataPtr;
+
+// Comparator that generates a strict total order of PerFrameUsagePtr's when
+// compared by their frame tokens.
+struct SortByToken {
+  constexpr bool operator()(const PerFrameUsagePtr& a,
+                            const PerFrameUsagePtr& b) {
+    return a->frame_token < b->frame_token;
+  }
+
+  constexpr bool operator()(const PerFrameUsagePtr& a,
+                            const blink::LocalFrameToken& b) {
+    return a->frame_token < b.value();
+  }
+};
+
+// Returns the memory used by the main world in a frame.
+uint64_t GetMainWorldBytesUsed(const PerFrameUsagePtr& per_frame) {
+  for (const auto& entry : per_frame->associated_bytes) {
+    if (entry->world_id ==
+        blink::mojom::V8IsolatedWorldMemoryUsage::kMainWorldId) {
+      return entry->bytes_used;
+    }
+  }
+  NOTREACHED() << "There should always be data for the main isolated world for "
+                  "each frame.";
+  return 0ULL;
+}
 
 // Forwards the pending receiver to the RenderProcessHost and binds it on the
 // UI thread.
@@ -254,53 +284,44 @@ void NodeAttachedProcessData::OnPerFrameV8MemoryUsageData(
   // existing frame is likewise accured to unassociated usage.
   uint64_t unassociated_v8_bytes_used = result->unassociated_bytes_used;
 
-  // Create a mapping from token to per-frame usage for the merge below.
-  std::vector<std::pair<blink::LocalFrameToken,
-                        blink::mojom::PerFrameV8MemoryUsageDataPtr>>
-      tmp;
-  for (auto& entry : result->associated_memory) {
-    tmp.emplace_back(std::make_pair(blink::LocalFrameToken(entry->frame_token),
-                                    std::move(entry)));
-  }
-  DCHECK_EQ(tmp.size(), result->associated_memory.size());
-
-  base::flat_map<blink::LocalFrameToken,
-                 blink::mojom::PerFrameV8MemoryUsageDataPtr>
-      associated_memory(std::move(tmp));
-  // Validate that the frame tokens were all unique. If there are duplicates,
-  // the map will arbirarily drop all but one record per unique token.
-  DCHECK_EQ(associated_memory.size(), result->associated_memory.size());
-
+  // Use a sorted vector (O(NlogN)) + lower_bound (O(logN)) for O(NlogN)
+  // lookups.
+  std::sort(result->associated_memory.begin(), result->associated_memory.end(),
+            SortByToken());
   base::flat_set<const FrameNode*> frame_nodes = process_node_->GetFrameNodes();
   for (const FrameNode* frame_node : frame_nodes) {
-    auto it = associated_memory.find(frame_node->GetFrameToken());
-    if (it == associated_memory.end()) {
+    const blink::LocalFrameToken& frame_token = frame_node->GetFrameToken();
+    auto it = std::lower_bound(result->associated_memory.begin(),
+                               result->associated_memory.end(), frame_token,
+                               SortByToken());
+    if (it == result->associated_memory.end() ||
+        (*it)->frame_token != frame_token.value()) {
       // No data for this node, clear any data associated with it.
       NodeAttachedFrameData::Destroy(frame_node);
     } else {
-      bool found_main_world = false;
+      DCHECK(std::next(it) == result->associated_memory.end() ||
+             (*std::next(it))->frame_token != (*it)->frame_token)
+          << "Duplicate frame tokens found";
+
+      // TODO(crbug.com/1080672): Where to stash the non-main-world data?
       NodeAttachedFrameData* frame_data =
           NodeAttachedFrameData::GetOrCreate(frame_node);
-      for (const auto& entry : it->second->associated_bytes) {
-        if (entry->world_id ==
-            blink::mojom::V8IsolatedWorldMemoryUsage::kMainWorldId) {
-          frame_data->data_available_ = true;
-          frame_data->data_.set_v8_bytes_used(entry->bytes_used);
-          found_main_world = true;
-        } else {
-          // TODO(crbug.com/1080672): Where to stash the rest of the data?
-        }
-      }
-      // There should always be data for the main isolated world for each frame.
-      DCHECK(found_main_world);
-      // Clear this datum as its usage has been consumed.
-      associated_memory.erase(it);
+      frame_data->data_available_ = true;
+      frame_data->data_.set_v8_bytes_used(GetMainWorldBytesUsed(*it));
+
+      // Zero out this datum as its usage has been consumed.
+      (*it)->associated_bytes.clear();
     }
   }
 
-  for (const auto& it : associated_memory) {
+  for (const PerFrameUsagePtr& per_frame : result->associated_memory) {
+    if (per_frame->associated_bytes.empty()) {
+      // Frame was already consumed.
+      continue;
+    }
     // Accrue the data for non-existent frames to unassociated bytes.
-    unassociated_v8_bytes_used += it.second->associated_bytes[0]->bytes_used;
+    // TODO(crbug.com/1080672): Where to stash the non-main-world data?
+    unassociated_v8_bytes_used += GetMainWorldBytesUsed(per_frame);
   }
 
   data_available_ = true;
