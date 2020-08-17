@@ -259,11 +259,6 @@ const char kEnablePersistentDownloadsName[] = "Enable persistent downloads";
 const char kEnablePersistentDownloadsDescription[] =
     "Enables the new, experimental implementation of persistent downloads";
 
-const char kEnableSyncTrustedVaultName[] =
-    "Enable trusted vault sync passphrase type";
-const char kEnableSyncTrustedVaultDescription[] =
-    "Enables the new, experimental passphrase type for sync data";
-
 const char kExpandedTabStripName[] = "Enable expanded tabstrip";
 const char kExpandedTabStripDescription[] =
     "Enables the new expanded tabstrip. Activated by swiping down the tabstrip"
