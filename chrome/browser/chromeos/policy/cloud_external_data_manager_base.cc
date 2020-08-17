@@ -10,11 +10,11 @@
 #include <map>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "base/bind.h"
 #include "base/bind_helpers.h"
 #include "base/callback.h"
+#include "base/callback_list.h"
 #include "base/check_op.h"
 #include "base/files/file_path.h"
 #include "base/location.h"
@@ -105,7 +105,8 @@ class CloudExternalDataManagerBase::Backend {
  private:
   // List of callbacks to invoke when the attempt to retrieve external data
   // referenced by a policy completes successfully or fails permanently.
-  using FetchCallbackList = std::vector<ExternalDataFetcher::FetchCallback>;
+  using FetchCallbackList =
+      base::OnceCallbackList<void(const std::string*, const base::FilePath&)>;
 
   // Map from policy names to the lists of callbacks defined above.
   using FetchCallbackMap = std::map<std::string, FetchCallbackList>;
@@ -216,8 +217,7 @@ void CloudExternalDataManagerBase::Backend::OnMetadataUpdated(
         updater_->CancelExternalDataFetch(policy);
       }
       // Invoke all callbacks for |policy|, indicating permanent failure.
-      for (ExternalDataFetcher::FetchCallback& callback : it->second)
-        RunCallback(std::move(callback), nullptr, base::FilePath());
+      it->second.Notify(nullptr, base::FilePath());
       pending_downloads_.erase(it++);
       continue;
     }
@@ -243,11 +243,7 @@ bool CloudExternalDataManagerBase::Backend::OnDownloadSuccess(
   if (external_data_store_)
     file_path = external_data_store_->Store(policy, hash, data);
 
-  for (ExternalDataFetcher::FetchCallback& callback :
-       pending_downloads_[policy]) {
-    RunCallback(std::move(callback), std::make_unique<std::string>(data),
-                file_path);
-  }
+  pending_downloads_[policy].Notify(&data, file_path);
   pending_downloads_.erase(policy);
   return true;
 }
@@ -279,7 +275,20 @@ void CloudExternalDataManagerBase::Backend::Fetch(
     }
   }
 
-  pending_downloads_[policy].push_back(std::move(callback));
+  // Callback lists cannot hold callbacks that take move-only args, since
+  // Notify()ing such a list would move the arg into the first callback, leaving
+  // it null or unspecified for remaining callbacks.  Instead, adapt the
+  // provided callbacks to accept a raw pointer, which can be copied, and then
+  // wrap in a separate scoping object for each callback.
+  pending_downloads_[policy].AddUnsafe(base::BindOnce(
+      [](const CloudExternalDataManagerBase::Backend* backend,
+         ExternalDataFetcher::FetchCallback callback, const std::string* data,
+         const base::FilePath& file_path) {
+        backend->RunCallback(
+            std::move(callback),
+            data ? std::make_unique<std::string>(*data) : nullptr, file_path);
+      },
+      base::Unretained(this), std::move(callback)));
   if (!has_pending_download)
     StartDownload(policy);
 }

@@ -28,9 +28,9 @@ class ServerBackedStateKeysBroker {
   using UpdateCallbackList = base::CallbackList<void()>;
   using UpdateCallback = UpdateCallbackList::CallbackType;
   using Subscription = std::unique_ptr<UpdateCallbackList::Subscription>;
-  using StateKeysCallback =
-      base::OnceCallback<void(const std::vector<std::string>&)>;
-  using StateKeysCallbackList = std::vector<StateKeysCallback>;
+  using StateKeysCallbackList =
+      base::OnceCallbackList<void(const std::vector<std::string>&)>;
+  using StateKeysCallback = StateKeysCallbackList::CallbackType;
 
   ServerBackedStateKeysBroker(
       chromeos::SessionManagerClient* session_manager_client);

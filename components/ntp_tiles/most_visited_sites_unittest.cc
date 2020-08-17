@@ -393,27 +393,6 @@ class PopularSitesFactoryForTest {
   scoped_refptr<network::SharedURLLoaderFactory> test_shared_loader_factory_;
 };
 
-// CallbackList-like container without Subscription, mimicking the
-// implementation in TopSites (which doesn't use base::CallbackList).
-class TopSitesCallbackList {
- public:
-  void Add(TopSites::GetMostVisitedURLsCallback callback) {
-    callbacks_.push_back(std::move(callback));
-  }
-
-  void ClearAndNotify(const MostVisitedURLList& list) {
-    std::vector<TopSites::GetMostVisitedURLsCallback> callbacks;
-    callbacks.swap(callbacks_);
-    for (auto& callback : callbacks)
-      std::move(callback).Run(list);
-  }
-
-  bool empty() const { return callbacks_.empty(); }
-
- private:
-  std::vector<TopSites::GetMostVisitedURLsCallback> callbacks_;
-};
-
 }  // namespace
 
 // Param is a tuple with two components:
@@ -423,6 +402,9 @@ class TopSitesCallbackList {
 class MostVisitedSitesTest
     : public ::testing::TestWithParam<std::tuple<bool, bool>> {
  protected:
+  using TopSitesCallbackList =
+      base::OnceCallbackList<TopSites::GetMostVisitedURLsCallback::RunType>;
+
   MostVisitedSitesTest() {
     MostVisitedSites::RegisterProfilePrefs(pref_service_.registry());
 
@@ -1245,7 +1227,7 @@ TEST_P(MostVisitedSitesWithCustomLinksTest,
   suggestions_service_callbacks_.Notify(SuggestionsProfile());
   VerifyAndClearExpectations();
   EXPECT_CALL(mock_observer_, OnURLsAvailable(_)).Times(0);
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 2", "http://site2/")}));
   base::RunLoop().RunUntilIdle();
 }
@@ -1835,7 +1817,8 @@ TEST_P(MostVisitedSitesWithCacheHitTest,
 TEST_P(MostVisitedSitesWithCacheHitTest,
        ShouldSwitchToTopSitesIfEmptyUpdateBySuggestionsService) {
   EXPECT_CALL(*mock_top_sites_, GetMostVisitedURLs(_))
-      .WillOnce(Invoke(&top_sites_callbacks_, &TopSitesCallbackList::Add));
+      .WillOnce(
+          Invoke(&top_sites_callbacks_, &TopSitesCallbackList::AddUnsafe));
   suggestions_service_callbacks_.Notify(SuggestionsProfile());
   VerifyAndClearExpectations();
 
@@ -1849,7 +1832,7 @@ TEST_P(MostVisitedSitesWithCacheHitTest,
               MatchesTile("Site 6", "http://site6/", TileSource::TOP_SITES),
               MatchesTile("Site 7", "http://site7/",
                           TileSource::TOP_SITES))))));
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 4", "http://site4/"),
                           MakeMostVisitedURL("Site 5", "http://site5/"),
                           MakeMostVisitedURL("Site 6", "http://site6/"),
@@ -1887,7 +1870,8 @@ class MostVisitedSitesWithEmptyCacheTest : public MostVisitedSitesTest {
     EXPECT_CALL(mock_suggestions_service_, GetSuggestionsDataFromCache())
         .WillOnce(Return(SuggestionsProfile()));  // Empty cache.
     EXPECT_CALL(*mock_top_sites_, GetMostVisitedURLs(_))
-        .WillOnce(Invoke(&top_sites_callbacks_, &TopSitesCallbackList::Add));
+        .WillOnce(
+            Invoke(&top_sites_callbacks_, &TopSitesCallbackList::AddUnsafe));
     EXPECT_CALL(*mock_top_sites_, SyncWithHistory());
     EXPECT_CALL(mock_suggestions_service_, FetchSuggestionsData())
         .WillOnce(Return(true));
@@ -1951,7 +1935,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
   VerifyAndClearExpectations();
 
   // Reply from top sites is ignored (i.e. not reported to observer).
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 4", "http://site4/")}));
   VerifyAndClearExpectations();
 
@@ -1977,7 +1961,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
               MatchesTile("Site 2", "http://site2/", TileSource::TOP_SITES),
               MatchesTile("Site 3", "http://site3/",
                           TileSource::TOP_SITES))))));
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                           MakeMostVisitedURL("Site 2", "http://site2/"),
                           MakeMostVisitedURL("Site 3", "http://site3/")}));
@@ -1996,7 +1980,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
               MatchesTile("Site 2", "http://site2/", TileSource::TOP_SITES),
               MatchesTile("Site 3", "http://site3/",
                           TileSource::TOP_SITES))))));
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                           MakeMostVisitedURL("Site 2", "http://site2/"),
                           MakeMostVisitedURL("Site 3", "http://site3/")}));
@@ -2032,7 +2016,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
               MatchesTile("Site 2", "http://site2/", TileSource::TOP_SITES),
               MatchesTile("Site 3", "http://site3/",
                           TileSource::TOP_SITES))))));
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                           MakeMostVisitedURL("Site 2", "http://site2/"),
                           MakeMostVisitedURL("Site 3", "http://site3/")}));
@@ -2054,7 +2038,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest, ShouldPropagateUpdateByTopSites) {
               MatchesTile("Site 2", "http://site2/", TileSource::TOP_SITES),
               MatchesTile("Site 3", "http://site3/",
                           TileSource::TOP_SITES))))));
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                           MakeMostVisitedURL("Site 2", "http://site2/"),
                           MakeMostVisitedURL("Site 3", "http://site3/")}));
@@ -2103,7 +2087,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
                                     SectionType::PERSONALIZED, IsEmpty()))));
   }
   suggestions_service_callbacks_.Notify(SuggestionsProfile());
-  top_sites_callbacks_.ClearAndNotify(MostVisitedURLList());
+  top_sites_callbacks_.Notify(MostVisitedURLList());
 
   base::RunLoop().RunUntilIdle();
 }
@@ -2122,7 +2106,7 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
 
   suggestions_service_callbacks_.Notify(SuggestionsProfile());
 
-  top_sites_callbacks_.ClearAndNotify(
+  top_sites_callbacks_.Notify(
       MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                           MakeMostVisitedURL("Site 2", "http://site2/"),
                           MakeMostVisitedURL("Site 3", "http://site3/")}));
@@ -2130,11 +2114,12 @@ TEST_P(MostVisitedSitesWithEmptyCacheTest,
 
   for (int i = 0; i < 4; ++i) {
     EXPECT_CALL(*mock_top_sites_, GetMostVisitedURLs(_))
-        .WillOnce(Invoke(&top_sites_callbacks_, &TopSitesCallbackList::Add));
+        .WillOnce(
+            Invoke(&top_sites_callbacks_, &TopSitesCallbackList::AddUnsafe));
     mock_top_sites_->NotifyTopSitesChanged(
         history::TopSitesObserver::ChangeReason::MOST_VISITED);
     EXPECT_FALSE(top_sites_callbacks_.empty());
-    top_sites_callbacks_.ClearAndNotify(
+    top_sites_callbacks_.Notify(
         MostVisitedURLList({MakeMostVisitedURL("Site 1", "http://site1/"),
                             MakeMostVisitedURL("Site 2", "http://site2/"),
                             MakeMostVisitedURL("Site 3", "http://site3/")}));

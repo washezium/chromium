@@ -40,7 +40,7 @@ ServerBackedStateKeysBroker::RegisterUpdateCallback(
 
 void ServerBackedStateKeysBroker::RequestStateKeys(StateKeysCallback callback) {
   if (!available()) {
-    request_callbacks_.push_back(std::move(callback));
+    request_callbacks_.AddUnsafe(std::move(callback));
     FetchStateKeys();
     return;
   }
@@ -80,12 +80,7 @@ void ServerBackedStateKeysBroker::StoreStateKeys(
   if (send_notification)
     update_callbacks_.Notify();
 
-  StateKeysCallbackList callbacks;
-  request_callbacks_.swap(callbacks);
-  for (auto& callback : callbacks) {
-    if (!callback.is_null())
-      std::move(callback).Run(state_keys_);
-  }
+  request_callbacks_.Notify(state_keys_);
 
   base::ThreadTaskRunnerHandle::Get()->PostDelayedTask(
       FROM_HERE,
