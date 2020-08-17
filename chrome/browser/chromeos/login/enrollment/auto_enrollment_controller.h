@@ -33,7 +33,7 @@ namespace chromeos {
 class AutoEnrollmentController {
  public:
   using ProgressCallbackList =
-      base::CallbackList<void(policy::AutoEnrollmentState)>;
+      base::RepeatingCallbackList<void(policy::AutoEnrollmentState)>;
 
   // Parameter values for the kEnterpriseEnableForcedReEnrollment flag.
   static const char kForcedReEnrollmentAlways[];

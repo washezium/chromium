@@ -25,7 +25,7 @@ namespace policy {
 // register callbacks to invoke when the state keys change.
 class ServerBackedStateKeysBroker {
  public:
-  using UpdateCallbackList = base::CallbackList<void()>;
+  using UpdateCallbackList = base::RepeatingClosureList;
   using UpdateCallback = UpdateCallbackList::CallbackType;
   using Subscription = std::unique_ptr<UpdateCallbackList::Subscription>;
   using StateKeysCallbackList =

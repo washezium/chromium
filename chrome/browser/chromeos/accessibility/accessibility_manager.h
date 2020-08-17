@@ -81,7 +81,7 @@ struct AccessibilityStatusEventDetails {
 };
 
 using AccessibilityStatusCallbackList =
-    base::CallbackList<void(const AccessibilityStatusEventDetails&)>;
+    base::RepeatingCallbackList<void(const AccessibilityStatusEventDetails&)>;
 using AccessibilityStatusCallback =
     AccessibilityStatusCallbackList::CallbackType;
 using AccessibilityStatusSubscription =

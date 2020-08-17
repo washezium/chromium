@@ -56,7 +56,7 @@ class TranslateLanguageList {
   void SetResourceRequestsAllowed(bool allowed);
 
   using EventCallbackList =
-      base::CallbackList<void(const TranslateEventDetails&)>;
+      base::RepeatingCallbackList<void(const TranslateEventDetails&)>;
   using EventCallback = EventCallbackList::CallbackType;
 
   // Registers a callback for translate events related to the language list,

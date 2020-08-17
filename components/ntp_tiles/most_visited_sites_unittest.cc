@@ -283,7 +283,7 @@ class MockCustomLinksManager : public CustomLinksManager {
   MOCK_METHOD1(DeleteLink, bool(const GURL& url));
   MOCK_METHOD0(UndoAction, bool());
   MOCK_METHOD1(RegisterCallbackForOnChanged,
-               std::unique_ptr<base::CallbackList<void()>::Subscription>(
+               std::unique_ptr<base::RepeatingClosureList::Subscription>(
                    base::RepeatingClosure callback));
 };
 
@@ -528,7 +528,7 @@ class MostVisitedSitesTest
   void EnableCustomLinks() { is_custom_links_enabled_ = true; }
 
   bool is_custom_links_enabled_ = false;
-  base::CallbackList<SuggestionsService::ResponseCallback::RunType>
+  base::RepeatingCallbackList<SuggestionsService::ResponseCallback::RunType>
       suggestions_service_callbacks_;
   TopSitesCallbackList top_sites_callbacks_;
 

@@ -140,12 +140,12 @@ class TranslateManager {
 
   // Callback types for translate errors.
   using TranslateErrorCallbackList =
-      base::CallbackList<void(const TranslateErrorDetails&)>;
+      base::RepeatingCallbackList<void(const TranslateErrorDetails&)>;
   using TranslateErrorCallback = TranslateErrorCallbackList::CallbackType;
 
   // Callback types for translate initialization.
   using TranslateInitCallbackList =
-      base::CallbackList<void(const TranslateInitDetails&)>;
+      base::RepeatingCallbackList<void(const TranslateInitDetails&)>;
   using TranslateInitCallback = TranslateInitCallbackList::CallbackType;
 
   // Registers a callback for translate errors.

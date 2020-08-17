@@ -111,8 +111,8 @@ typedef base::RepeatingCallback<void(DownloadCheckResult)>
 // been formed for a download, or when one has not been formed for a supported
 // download.
 using ClientDownloadRequestCallbackList =
-    base::CallbackList<void(download::DownloadItem*,
-                            const ClientDownloadRequest*)>;
+    base::RepeatingCallbackList<void(download::DownloadItem*,
+                                     const ClientDownloadRequest*)>;
 using ClientDownloadRequestCallback =
     ClientDownloadRequestCallbackList::CallbackType;
 using ClientDownloadRequestSubscription =
@@ -121,7 +121,7 @@ using ClientDownloadRequestSubscription =
 // Callbacks run on the main thread when a NativeFileSystemWriteRequest has been
 // formed for a write operation.
 using NativeFileSystemWriteRequestCallbackList =
-    base::CallbackList<void(const ClientDownloadRequest*)>;
+    base::RepeatingCallbackList<void(const ClientDownloadRequest*)>;
 using NativeFileSystemWriteRequestCallback =
     NativeFileSystemWriteRequestCallbackList::CallbackType;
 using NativeFileSystemWriteRequestSubscription =
@@ -130,7 +130,7 @@ using NativeFileSystemWriteRequestSubscription =
 // Callbacks run on the main thread when a PPAPI ClientDownloadRequest has been
 // formed for a download.
 using PPAPIDownloadRequestCallbackList =
-    base::CallbackList<void(const ClientDownloadRequest*)>;
+    base::RepeatingCallbackList<void(const ClientDownloadRequest*)>;
 using PPAPIDownloadRequestCallback =
     PPAPIDownloadRequestCallbackList::CallbackType;
 using PPAPIDownloadRequestSubscription =
