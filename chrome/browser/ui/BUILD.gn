@@ -1489,6 +1489,7 @@ static_library("ui") {
       "//build:lacros_buildflags",
       "//chrome/app/vector_icons",
       "//chrome/browser:theme_properties",
+      "//chrome/browser/media/kaleidoscope/mojom",
       "//chrome/browser/media/router",
       "//chrome/browser/nearby_sharing/certificates",
       "//chrome/browser/nearby_sharing/client",
