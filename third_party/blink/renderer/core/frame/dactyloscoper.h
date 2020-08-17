@@ -29,6 +29,8 @@ class CORE_EXPORT Dactyloscoper {
 
   static void Record(ExecutionContext*, WebFeature);
 
+  // These are helpers used by the generated bindings code when invoking IDL
+  // methods with HighEntropy=Direct.
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
                                   IdentifiableToken);
