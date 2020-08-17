@@ -165,11 +165,6 @@ bool IsOptimizationTypeAllowed(
           optimization_metadata->set_loading_predictor_metadata(
               optimization.loading_predictor_metadata());
           break;
-        case optimization_guide::proto::Optimization::
-            kDelayAsyncScriptExecutionMetadata:
-          optimization_metadata->set_delay_async_script_execution_metadata(
-              optimization.delay_async_script_execution_metadata());
-          break;
         case optimization_guide::proto::Optimization::kAnyMetadata:
           optimization_metadata->set_any_metadata(optimization.any_metadata());
           break;
@@ -1431,9 +1426,6 @@ void OptimizationGuideHintsManager::AddHintForTesting(
   } else if (metadata->public_image_metadata()) {
     *optimization->mutable_public_image_metadata() =
         *metadata->public_image_metadata();
-  } else if (metadata->delay_async_script_execution_metadata()) {
-    *optimization->mutable_delay_async_script_execution_metadata() =
-        *metadata->delay_async_script_execution_metadata();
   } else if (metadata->any_metadata()) {
     *optimization->mutable_any_metadata() = *metadata->any_metadata();
   } else {
