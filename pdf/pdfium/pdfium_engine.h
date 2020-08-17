@@ -48,6 +48,7 @@ class KeyboardInputEvent;
 class MouseInputEvent;
 class PDFiumDocument;
 class PDFiumPermissions;
+class TouchInputEvent;
 
 namespace draw_utils {
 class ShadowMatrix;
@@ -554,9 +555,9 @@ class PDFiumEngine : public PDFEngine,
   // independent of whether it is hidden or not at the moment.
   float GetToolbarHeightInScreenCoords();
 
-  void ScheduleTouchTimer(const pp::TouchInputEvent& event);
+  void ScheduleTouchTimer(const TouchInputEvent& event);
   void KillTouchTimer();
-  void HandleLongPress(const pp::TouchInputEvent& event);
+  void HandleLongPress(const TouchInputEvent& event);
 
   // Returns a VarDictionary (representing a bookmark), which in turn contains
   // child VarDictionaries (representing the child bookmarks).

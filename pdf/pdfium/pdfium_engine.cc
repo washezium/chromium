@@ -61,6 +61,7 @@
 #include "third_party/pdfium/public/fpdf_searchex.h"
 #include "third_party/skia/include/core/SkBitmap.h"
 #include "ui/events/keycodes/keyboard_codes.h"
+#include "ui/gfx/geometry/point_conversions.h"
 #include "ui/gfx/geometry/rect.h"
 #include "ui/gfx/geometry/size.h"
 #include "ui/gfx/geometry/vector2d.h"
@@ -846,8 +847,9 @@ bool PDFiumEngine::HandleEvent(const pp::InputEvent& event) {
     case PP_INPUTEVENT_TYPE_TOUCHSTART: {
       KillTouchTimer();
 
-      pp::TouchInputEvent touch_event(event);
-      if (touch_event.GetTouchCount(PP_TOUCHLIST_TYPE_TARGETTOUCHES) == 1)
+      TouchInputEvent touch_event(
+          GetTouchInputEvent(pp::TouchInputEvent(event)));
+      if (touch_event.GetTouchCount() == 1)
         ScheduleTouchTimer(touch_event);
       break;
     }
@@ -2404,11 +2406,9 @@ void PDFiumEngine::SetGrayscale(bool grayscale) {
   render_grayscale_ = grayscale;
 }
 
-void PDFiumEngine::HandleLongPress(const pp::TouchInputEvent& event) {
+void PDFiumEngine::HandleLongPress(const TouchInputEvent& event) {
   base::AutoReset<bool> handling_long_press_guard(&handling_long_press_, true);
-  pp::FloatPoint fp =
-      event.GetTouchByIndex(PP_TOUCHLIST_TYPE_TARGETTOUCHES, 0).position();
-  gfx::Point point(fp.x(), fp.y());
+  gfx::Point point = gfx::ToRoundedPoint(event.GetTargetTouchPoint());
 
   // Send a fake mouse down to trigger the multi-click selection code.
   MouseInputEvent mouse_event(
@@ -3672,7 +3672,7 @@ bool PDFiumEngine::IsAnnotationAnEditableFormTextArea(FPDF_ANNOTATION annot,
   return CheckIfEditableFormTextArea(flags, form_type);
 }
 
-void PDFiumEngine::ScheduleTouchTimer(const pp::TouchInputEvent& evt) {
+void PDFiumEngine::ScheduleTouchTimer(const TouchInputEvent& evt) {
   touch_timer_.Start(FROM_HERE, kTouchLongPressTimeout,
                      base::BindOnce(&PDFiumEngine::HandleLongPress,
                                     base::Unretained(this), evt));
