@@ -7,6 +7,7 @@ package org.chromium.chrome.browser.password_check;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Browser;
 import android.view.MenuItem;
 
@@ -20,6 +21,8 @@ import org.chromium.chrome.browser.LaunchIntentDispatcher;
 import org.chromium.chrome.browser.help.HelpAndFeedback;
 import org.chromium.chrome.browser.password_check.helper.PasswordCheckReauthenticationHelper;
 import org.chromium.chrome.browser.profiles.Profile;
+import org.chromium.chrome.browser.settings.SettingsLauncher;
+import org.chromium.chrome.browser.settings.SettingsLauncherImpl;
 import org.chromium.ui.modelutil.PropertyModel;
 import org.chromium.ui.modelutil.PropertyModelChangeProcessor;
 
@@ -173,6 +176,16 @@ class PasswordCheckCoordinator implements PasswordCheckComponentUi, LifecycleObs
         Intent intent = buildIntent(credential.getOrigin().getSpec());
         populateAutofillAssistantExtras(intent, credential.getUsername());
         IntentUtils.safeStartActivity(mFragmentView.getActivity(), intent);
+    }
+
+    @Override
+    public void launchEditPage(CompromisedCredential credential) {
+        SettingsLauncher launcher = new SettingsLauncherImpl();
+        Bundle fragmentArgs = new Bundle();
+        fragmentArgs.putParcelable(
+                PasswordCheckEditFragmentView.EXTRA_COMPROMISED_CREDENTIAL, credential);
+        launcher.launchSettingsActivity(
+                mFragmentView.getContext(), PasswordCheckEditFragmentView.class, fragmentArgs);
     }
 
     private Intent getPackageLaunchIntent(String packageName) {

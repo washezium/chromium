@@ -12,7 +12,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -276,6 +278,20 @@ public class PasswordCheckControllerTest {
     public void testOnChangePasswordWithScriptButtonClick() {
         mMediator.onChangePasswordWithScriptButtonClick(BOB);
         verify(mChangePasswordDelegate).launchCctWithScript(eq(BOB));
+    }
+
+    @Test
+    public void testOnEditPasswordButtonClick() {
+        when(mReauthenticationHelper.canReauthenticate()).thenReturn(true);
+        doAnswer(invocation -> {
+            Callback<Boolean> cb = invocation.getArgument(1);
+            cb.onResult(true);
+            return true;
+        })
+                .when(mReauthenticationHelper)
+                .reauthenticate(anyInt(), notNull());
+        mMediator.onEdit(ANA);
+        verify(mChangePasswordDelegate).launchEditPage(eq(ANA));
     }
 
     private void assertIdleHeader(MVCListAdapter.ListItem header) {

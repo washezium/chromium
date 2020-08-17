@@ -146,11 +146,9 @@ class PasswordCheckMediator
             return;
         }
 
-        mReauthenticationHelper.reauthenticate(ReauthReason.EDIT_PASSWORD,
-                reauthSucceeded
-                -> {
-                        // TODO(crbug.com/1114720): Show edit fragment if reauth succeeded.
-                });
+        mReauthenticationHelper.reauthenticate(ReauthReason.EDIT_PASSWORD, reauthSucceeded -> {
+            if (reauthSucceeded) mChangePasswordDelegate.launchEditPage(credential);
+        });
     }
 
     @Override

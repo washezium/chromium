@@ -44,6 +44,12 @@ interface PasswordCheckComponentUi {
          * @param credential A {@link CompromisedCredential}.
          */
         void launchCctWithScript(CompromisedCredential credential);
+
+        /**
+         * Starts a new site (e.g. a fragment) that allows to change the password saved in Chrome.
+         * @param credential A {@link CompromisedCredential} to edit in Chrome.
+         */
+        void launchEditPage(CompromisedCredential credential);
     }
 
     /**
