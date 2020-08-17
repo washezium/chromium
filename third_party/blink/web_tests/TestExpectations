@@ -2689,18 +2689,6 @@ crbug.com/1105958 external/wpt/payment-request/payment-is-showing.https.html [ T
 
 # ====== New tests from wpt-importer added here ======
 crbug.com/626703 external/wpt/dom/events/Event-dispatch-click.html [ Timeout ]
-crbug.com/626703 [ Linux ] external/wpt/streams/readable-streams/tee.any.serviceworker.html [ Timeout ]
-crbug.com/626703 [ Mac ] external/wpt/streams/readable-streams/tee.any.serviceworker.html [ Timeout ]
-crbug.com/626703 [ Win ] external/wpt/streams/readable-streams/tee.any.serviceworker.html [ Timeout ]
-crbug.com/626703 [ Linux ] external/wpt/streams/readable-streams/tee.any.sharedworker.html [ Timeout ]
-crbug.com/626703 [ Mac ] external/wpt/streams/readable-streams/tee.any.sharedworker.html [ Timeout ]
-crbug.com/626703 [ Win ] external/wpt/streams/readable-streams/tee.any.sharedworker.html [ Timeout ]
-crbug.com/626703 [ Linux ] external/wpt/streams/readable-streams/tee.any.html [ Timeout ]
-crbug.com/626703 [ Mac ] external/wpt/streams/readable-streams/tee.any.html [ Timeout ]
-crbug.com/626703 [ Win ] external/wpt/streams/readable-streams/tee.any.html [ Timeout ]
-crbug.com/626703 [ Linux ] external/wpt/streams/readable-streams/tee.any.worker.html [ Timeout ]
-crbug.com/626703 [ Mac ] external/wpt/streams/readable-streams/tee.any.worker.html [ Timeout ]
-crbug.com/626703 [ Win ] external/wpt/streams/readable-streams/tee.any.worker.html [ Timeout ]
 crbug.com/626703 [ Linux ] external/wpt/input-events/input-events-get-target-ranges-backspace.tentative.html [ Timeout ]
 crbug.com/626703 [ Mac ] external/wpt/input-events/input-events-get-target-ranges-backspace.tentative.html [ Timeout ]
 crbug.com/626703 [ Win ] external/wpt/input-events/input-events-get-target-ranges-backspace.tentative.html [ Timeout ]
