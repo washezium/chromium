@@ -614,19 +614,19 @@ This file contains the strings for ash.
         Input methods
       </message>
       <message name="IDS_ASH_STATUS_TRAY_IME_SETTINGS" desc="The label used for IME settings entry.">
-        Customize languages and input...
+        Input settings
       </message>
       <message name="IDS_ASH_STATUS_TRAY_IME_MANAGED" desc="Tooltip for the icon displayed when input methods are managed by enterprise policy">
         Input methods are configured by your administrator.
       </message>
       <message name="IDS_ASH_STATUS_TRAY_IME_EMOJI" desc="The label used for IME emoji entry.">
-        Emoji palette
+        Emojis
       </message>
       <message name="IDS_ASH_STATUS_TRAY_IME_HANDWRITING" desc="The label used for IME handwriting entry.">
-        Handwriting input
+        Handwriting
       </message>
       <message name="IDS_ASH_STATUS_TRAY_IME_VOICE" desc="The label used for IME voice entry.">
-        Voice input
+        Voice
       </message>
 
       <message name="IDS_ASH_STATUS_TRAY_LOCALE_CHANGE_TITLE" desc="The title used for locale change notifications in the system tray.">
