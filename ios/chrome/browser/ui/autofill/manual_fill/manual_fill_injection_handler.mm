@@ -11,6 +11,7 @@
 #include "base/bind.h"
 #include "base/json/string_escape.h"
 #include "base/mac/foundation_util.h"
+#include "base/metrics/histogram_functions.h"
 #include "base/strings/sys_string_conversions.h"
 #include "base/values.h"
 #import "components/autofill/ios/browser/autofill_util.h"
@@ -23,6 +24,7 @@
 #import "ios/chrome/browser/ui/commands/security_alert_commands.h"
 #import "ios/chrome/browser/ui/ui_feature_flags.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
+#include "ios/chrome/common/ui/reauthentication/reauthentication_event.h"
 #import "ios/chrome/common/ui/reauthentication/reauthentication_module.h"
 #include "ios/chrome/grit/ios_strings.h"
 #import "ios/web/public/deprecated/crw_js_injection_receiver.h"
@@ -36,6 +38,8 @@
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
 #endif
+
+using base::UmaHistogramEnumeration;
 
 namespace {
 // The timeout for any JavaScript call in this file.
@@ -120,10 +124,19 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
 - (void)userDidPickContent:(NSString*)content
              passwordField:(BOOL)passwordField
              requiresHTTPS:(BOOL)requiresHTTPS {
+  if (passwordField) {
+    UmaHistogramEnumeration("IOS.Reauth.Password.ManualFallback",
+                            ReauthenticationEvent::kAttempt);
+  }
+
   if ([self canUserInjectInPasswordField:passwordField
                            requiresHTTPS:requiresHTTPS]) {
     if (!base::FeatureList::IsEnabled(kEnableAutofillPasswordReauthIOS)) {
       [self fillLastSelectedFieldWithString:content];
+      if (passwordField) {
+        UmaHistogramEnumeration("IOS.Reauth.Password.ManualFallback",
+                                ReauthenticationEvent::kSuccess);
+      }
     } else {
       if (!passwordField) {
         [self fillLastSelectedFieldWithString:content];
@@ -136,7 +149,12 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
         __weak __typeof(self) weakSelf = self;
         auto completionHandler = ^(ReauthenticationResult result) {
           if (result != ReauthenticationResult::kFailure) {
+            UmaHistogramEnumeration("IOS.Reauth.Password.ManualFallback",
+                                    ReauthenticationEvent::kSuccess);
             [weakSelf fillLastSelectedFieldWithString:content];
+          } else {
+            UmaHistogramEnumeration("IOS.Reauth.Password.ManualFallback",
+                                    ReauthenticationEvent::kFailure);
           }
         };
 
@@ -145,6 +163,8 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
                         canReusePreviousAuth:YES
                                      handler:completionHandler];
       } else {
+        UmaHistogramEnumeration("IOS.Reauth.Password.ManualFallback",
+                                ReauthenticationEvent::kMissingPasscode);
         [self.securityAlertHandler showSetPasscodeDialog];
       }
     }
