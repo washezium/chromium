@@ -188,6 +188,8 @@ class NodeAttachedProcessData
 
  private:
   void StartMeasurement(MeasurementMode mode);
+  void ScheduleUpgradeToBoundedMeasurement();
+  void UpgradeToBoundedMeasurementIfNeeded();
   void EnsureRemote();
   void OnPerFrameV8MemoryUsageData(
       blink::mojom::PerProcessV8MemoryUsageDataPtr result);
@@ -196,16 +198,29 @@ class NodeAttachedProcessData
 
   mojo::Remote<blink::mojom::V8PerFrameMemoryReporter> resource_usage_reporter_;
 
+  // State transitions:
+  //
+  //   +-----------------------------------+
+  //   |                                   |
+  //   |               +-> MeasuringLazy +-+
+  //   v               |         +
+  // Idle +-> Waiting +>         |
+  //   ^               |         v
+  //   |               +-> MeasuringBounded +-+
+  //   |                                      |
+  //   +--------------------------------------+
   enum class State {
-    kWaiting,    // Waiting to take a measurement.
-    kMeasuring,  // Waiting for measurement results.
-    kIdle,       // No measurements scheduled.
+    kIdle,              // No measurements scheduled.
+    kWaiting,           // Waiting to take a measurement.
+    kMeasuringBounded,  // Waiting for results from a bounded measurement.
+    kMeasuringLazy,     // Waiting for results from a lazy measurement.
   };
   State state_ = State::kIdle;
 
   // Used to schedule the next measurement.
   base::TimeTicks last_request_time_;
-  base::OneShotTimer timer_;
+  base::OneShotTimer request_timer_;
+  base::OneShotTimer bounded_upgrade_timer_;
 
   V8PerFrameMemoryProcessData data_;
   bool data_available_ = false;
@@ -224,7 +239,15 @@ NodeAttachedProcessData::NodeAttachedProcessData(
 void NodeAttachedProcessData::ScheduleNextMeasurement() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 
-  if (state_ == State::kMeasuring) {
+  if (state_ == State::kMeasuringLazy) {
+    // Upgrade to a bounded measurement if the lazy measurement is taking too
+    // long. Otherwise do nothing until the current measurement finishes.
+    // ScheduleNextMeasurement will be called again at that point.
+    ScheduleUpgradeToBoundedMeasurement();
+    return;
+  }
+
+  if (state_ == State::kMeasuringBounded) {
     // Don't restart the timer until the current measurement finishes.
     // ScheduleNextMeasurement will be called again at that point.
     return;
@@ -241,7 +264,8 @@ void NodeAttachedProcessData::ScheduleNextMeasurement() {
     // All measurements have been cancelled, or decorator was removed from
     // graph.
     state_ = State::kIdle;
-    timer_.Stop();
+    request_timer_.Stop();
+    bounded_upgrade_timer_.Stop();
     last_request_time_ = base::TimeTicks();
     return;
   }
@@ -253,19 +277,27 @@ void NodeAttachedProcessData::ScheduleNextMeasurement() {
     return;
   }
 
-  // TODO(joenotcharles): Make sure kLazy requests can't starve kBounded
-  // requests.
   base::TimeTicks next_request_time =
       last_request_time_ + next_request->min_time_between_requests();
-  timer_.Start(FROM_HERE, next_request_time - base::TimeTicks::Now(),
-               base::BindOnce(&NodeAttachedProcessData::StartMeasurement,
-                              base::Unretained(this), next_request->mode()));
+  request_timer_.Start(
+      FROM_HERE, next_request_time - base::TimeTicks::Now(),
+      base::BindOnce(&NodeAttachedProcessData::StartMeasurement,
+                     base::Unretained(this), next_request->mode()));
 }
 
 void NodeAttachedProcessData::StartMeasurement(MeasurementMode mode) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  DCHECK_EQ(state_, State::kWaiting);
-  state_ = State::kMeasuring;
+  if (mode == MeasurementMode::kLazy) {
+    DCHECK_EQ(state_, State::kWaiting);
+    state_ = State::kMeasuringLazy;
+    // Ensure this lazy measurement doesn't starve any bounded measurements in
+    // the queue.
+    ScheduleUpgradeToBoundedMeasurement();
+  } else {
+    DCHECK(state_ == State::kWaiting || state_ == State::kMeasuringLazy);
+    state_ = State::kMeasuringBounded;
+  }
+
   last_request_time_ = base::TimeTicks::Now();
 
   EnsureRemote();
@@ -284,10 +316,47 @@ void NodeAttachedProcessData::StartMeasurement(MeasurementMode mode) {
                      weak_factory_.GetWeakPtr()));
 }
 
+void NodeAttachedProcessData::ScheduleUpgradeToBoundedMeasurement() {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  DCHECK_EQ(state_, State::kMeasuringLazy);
+
+  V8PerFrameMemoryRequest* bounded_request = nullptr;
+  auto* decorator =
+      V8PerFrameMemoryDecorator::GetFromGraph(process_node_->GetGraph());
+  if (decorator) {
+    bounded_request = decorator->GetNextBoundedRequest();
+  }
+  if (!bounded_request) {
+    // All measurements have been cancelled, or decorator was removed from
+    // graph.
+    return;
+  }
+
+  base::TimeTicks bounded_request_time =
+      last_request_time_ + bounded_request->min_time_between_requests();
+  bounded_upgrade_timer_.Start(
+      FROM_HERE, bounded_request_time - base::TimeTicks::Now(),
+      base::BindOnce(
+          &NodeAttachedProcessData::UpgradeToBoundedMeasurementIfNeeded,
+          base::Unretained(this)));
+}
+
+void NodeAttachedProcessData::UpgradeToBoundedMeasurementIfNeeded() {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  if (state_ != State::kMeasuringLazy) {
+    // State changed before timer expired.
+    return;
+  }
+  StartMeasurement(MeasurementMode::kBounded);
+}
+
 void NodeAttachedProcessData::OnPerFrameV8MemoryUsageData(
     blink::mojom::PerProcessV8MemoryUsageDataPtr result) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  DCHECK_EQ(state_, State::kMeasuring);
+
+  // Data has arrived so don't upgrade lazy requests to bounded, even if
+  // another lazy request is issued before the timer expires.
+  bounded_upgrade_timer_.Stop();
 
   // Distribute the data to the frames.
   // If a frame doesn't have corresponding data in the result, clear any data
@@ -338,9 +407,12 @@ void NodeAttachedProcessData::OnPerFrameV8MemoryUsageData(
   data_available_ = true;
   data_.set_unassociated_v8_bytes_used(unassociated_v8_bytes_used);
 
-  // Schedule another measurement for this process node.
-  state_ = State::kIdle;
-  ScheduleNextMeasurement();
+  // Schedule another measurement for this process node unless one is already
+  // scheduled.
+  if (state_ != State::kWaiting) {
+    state_ = State::kIdle;
+    ScheduleNextMeasurement();
+  }
 
   V8PerFrameMemoryDecorator::ObserverNotifier()
       .NotifyObserversOnMeasurementAvailable(process_node_);
@@ -529,7 +601,8 @@ const V8PerFrameMemoryProcessData* V8PerFrameMemoryProcessData::ForProcessNode(
 V8PerFrameMemoryDecorator::V8PerFrameMemoryDecorator() = default;
 
 V8PerFrameMemoryDecorator::~V8PerFrameMemoryDecorator() {
-  DCHECK(measurement_requests_.empty());
+  DCHECK(bounded_measurement_requests_.empty());
+  DCHECK(lazy_measurement_requests_.empty());
 }
 
 void V8PerFrameMemoryDecorator::OnPassedToGraph(Graph* graph) {
@@ -551,11 +624,17 @@ void V8PerFrameMemoryDecorator::OnPassedToGraph(Graph* graph) {
 void V8PerFrameMemoryDecorator::OnTakenFromGraph(Graph* graph) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK_EQ(graph, graph_);
-  for (V8PerFrameMemoryRequest* request : measurement_requests_) {
+  for (V8PerFrameMemoryRequest* request : bounded_measurement_requests_) {
     request->OnDecoratorUnregistered(
         util::PassKey<V8PerFrameMemoryDecorator>());
   }
-  measurement_requests_.clear();
+  bounded_measurement_requests_.clear();
+  for (V8PerFrameMemoryRequest* request : lazy_measurement_requests_) {
+    request->OnDecoratorUnregistered(
+        util::PassKey<V8PerFrameMemoryDecorator>());
+  }
+  lazy_measurement_requests_.clear();
+
   UpdateProcessMeasurementSchedules();
 
   graph->GetNodeDataDescriberRegistry()->UnregisterDescriber(this);
@@ -609,8 +688,26 @@ base::Value V8PerFrameMemoryDecorator::DescribeProcessNodeData(
 
 V8PerFrameMemoryRequest* V8PerFrameMemoryDecorator::GetNextRequest() const {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  return measurement_requests_.empty() ? nullptr
-                                       : measurement_requests_.front();
+  V8PerFrameMemoryRequest* next_bounded_request = GetNextBoundedRequest();
+  if (lazy_measurement_requests_.empty())
+    return next_bounded_request;
+  V8PerFrameMemoryRequest* next_lazy_request =
+      lazy_measurement_requests_.front();
+  // Prioritize bounded requests.
+  if (next_bounded_request &&
+      next_bounded_request->min_time_between_requests() <=
+          next_lazy_request->min_time_between_requests()) {
+    return next_bounded_request;
+  }
+  return next_lazy_request;
+}
+
+V8PerFrameMemoryRequest* V8PerFrameMemoryDecorator::GetNextBoundedRequest()
+    const {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  return bounded_measurement_requests_.empty()
+             ? nullptr
+             : bounded_measurement_requests_.front();
 }
 
 void V8PerFrameMemoryDecorator::AddMeasurementRequest(
@@ -618,28 +715,25 @@ void V8PerFrameMemoryDecorator::AddMeasurementRequest(
     V8PerFrameMemoryRequest* request) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK(request);
-  DCHECK(!base::Contains(measurement_requests_, request))
+  std::vector<V8PerFrameMemoryRequest*>& measurement_requests =
+      request->mode() == MeasurementMode::kLazy ? lazy_measurement_requests_
+                                                : bounded_measurement_requests_;
+  DCHECK(!base::Contains(measurement_requests, request))
       << "V8PerFrameMemoryRequest object added twice";
   // Each user of this decorator is expected to issue a single
-  // V8PerFrameMemoryRequest, so the size of measurement_requests_ is too low
+  // V8PerFrameMemoryRequest, so the size of measurement_requests is too low
   // to make the complexity of real priority queue worthwhile.
   for (std::vector<V8PerFrameMemoryRequest*>::const_iterator it =
-           measurement_requests_.begin();
-       it != measurement_requests_.end(); ++it) {
+           measurement_requests.begin();
+       it != measurement_requests.end(); ++it) {
     if (request->min_time_between_requests() <
-            (*it)->min_time_between_requests() ||
-        // Make sure bounded request sort before lazy requests so that they
-        // aren't starved.
-        (request->min_time_between_requests() ==
-             (*it)->min_time_between_requests() &&
-         request->mode() ==
-             V8PerFrameMemoryRequest::MeasurementMode::kBounded)) {
-      measurement_requests_.insert(it, request);
+        (*it)->min_time_between_requests()) {
+      measurement_requests.insert(it, request);
       UpdateProcessMeasurementSchedules();
       return;
     }
   }
-  measurement_requests_.push_back(request);
+  measurement_requests.push_back(request);
   UpdateProcessMeasurementSchedules();
 }
 
@@ -648,7 +742,10 @@ void V8PerFrameMemoryDecorator::RemoveMeasurementRequest(
     V8PerFrameMemoryRequest* request) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK(request);
-  size_t num_erased = base::Erase(measurement_requests_, request);
+  size_t num_erased = base::Erase(request->mode() == MeasurementMode::kLazy
+                                      ? lazy_measurement_requests_
+                                      : bounded_measurement_requests_,
+                                  request);
   DCHECK_EQ(num_erased, 1ULL);
   UpdateProcessMeasurementSchedules();
 }
@@ -657,14 +754,22 @@ void V8PerFrameMemoryDecorator::UpdateProcessMeasurementSchedules() const {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   DCHECK(graph_);
 #if DCHECK_IS_ON()
-  // Check the data invariant on measurement_requests_, which will be used by
+  // Check the data invariant on measurement_requests, which will be used by
   // ScheduleNextMeasurement.
-  for (size_t i = 1; i < measurement_requests_.size(); ++i) {
-    DCHECK(measurement_requests_[i - 1]);
-    DCHECK(measurement_requests_[i]);
-    DCHECK_LE(measurement_requests_[i - 1]->min_time_between_requests(),
-              measurement_requests_[i]->min_time_between_requests());
-  }
+  auto check_invariants =
+      [](const std::vector<V8PerFrameMemoryRequest*>& measurement_requests,
+         MeasurementMode mode) {
+        for (size_t i = 1; i < measurement_requests.size(); ++i) {
+          DCHECK(measurement_requests[i - 1]);
+          DCHECK(measurement_requests[i]);
+          DCHECK_EQ(measurement_requests[i - 1]->mode(), mode);
+          DCHECK_EQ(measurement_requests[i]->mode(), mode);
+          DCHECK_LE(measurement_requests[i - 1]->min_time_between_requests(),
+                    measurement_requests[i]->min_time_between_requests());
+        }
+      };
+  check_invariants(bounded_measurement_requests_, MeasurementMode::kBounded);
+  check_invariants(lazy_measurement_requests_, MeasurementMode::kLazy);
 #endif
   for (const ProcessNode* node : graph_->GetAllProcessNodes()) {
     NodeAttachedProcessData* process_data = NodeAttachedProcessData::Get(node);
@@ -682,7 +787,11 @@ void V8PerFrameMemoryDecorator::NotifyObserversOnMeasurementAvailable(
     util::PassKey<ObserverNotifier> key,
     const ProcessNode* process_node) const {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-  for (V8PerFrameMemoryRequest* request : measurement_requests_) {
+  for (V8PerFrameMemoryRequest* request : bounded_measurement_requests_) {
+    request->NotifyObserversOnMeasurementAvailable(
+        util::PassKey<V8PerFrameMemoryDecorator>(), process_node);
+  }
+  for (V8PerFrameMemoryRequest* request : lazy_measurement_requests_) {
     request->NotifyObserversOnMeasurementAvailable(
         util::PassKey<V8PerFrameMemoryDecorator>(), process_node);
   }

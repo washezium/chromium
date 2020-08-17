@@ -571,8 +571,10 @@ TEST_F(V8PerFrameMemoryDecoratorTest, PerFrameDataIsDistributed) {
 }
 
 TEST_F(V8PerFrameMemoryDecoratorTest, LazyRequests) {
+  constexpr base::TimeDelta kLazyRequestLength =
+      base::TimeDelta::FromSeconds(30);
   V8PerFrameMemoryRequest lazy_request(
-      kMinTimeBetweenRequests, V8PerFrameMemoryRequest::MeasurementMode::kLazy,
+      kLazyRequestLength, V8PerFrameMemoryRequest::MeasurementMode::kLazy,
       graph());
 
   MockV8PerFrameMemoryReporter reporter;
@@ -586,15 +588,79 @@ TEST_F(V8PerFrameMemoryDecoratorTest, LazyRequests) {
       content::PROCESS_TYPE_RENDERER,
       RenderProcessHostProxy::CreateForTesting(kTestProcessID));
 
-  task_env().RunUntilIdle();
+  task_env().FastForwardBy(base::TimeDelta::FromSeconds(1));
   testing::Mock::VerifyAndClearExpectations(&reporter);
 
-  // Bounded requests should be preferred over lazy requests with the same
-  // min_time_between_requests.
-  V8PerFrameMemoryRequest bounded_request(kMinTimeBetweenRequests, graph());
+  // If a lazy request takes too long to respond it should be upgraded to a
+  // bounded request if one is in the queue.
+  constexpr base::TimeDelta kLongBoundedRequestLength =
+      base::TimeDelta::FromSeconds(45);
+  V8PerFrameMemoryRequest long_bounded_request(kLongBoundedRequestLength,
+                                               graph());
   auto* decorator = V8PerFrameMemoryDecorator::GetFromGraph(graph());
   ASSERT_TRUE(decorator);
   ASSERT_TRUE(decorator->GetNextRequest());
+  EXPECT_EQ(decorator->GetNextRequest()->min_time_between_requests(),
+            kLazyRequestLength);
+  EXPECT_EQ(decorator->GetNextRequest()->mode(),
+            V8PerFrameMemoryRequest::MeasurementMode::kLazy);
+  {
+    // Next lazy request sent after 30 sec + 10 sec delay until reply = 40 sec
+    // until reply arrives. kLongBoundedRequestLength > 40 sec so the reply
+    // should arrive in time to prevent upgrading the request.
+    auto data = blink::mojom::PerProcessV8MemoryUsageData::New();
+    data->unassociated_bytes_used = 1U;
+    ExpectQueryAndDelayReply(&reporter, base::TimeDelta::FromSeconds(10),
+                             std::move(data),
+                             MockV8PerFrameMemoryReporter::Mode::LAZY);
+  }
+
+  // Wait long enough for the upgraded request to be sent, to verify that it
+  // wasn't sent.
+  task_env().FastForwardBy(kLongBoundedRequestLength);
+  testing::Mock::VerifyAndClearExpectations(&reporter);
+
+  constexpr base::TimeDelta kUpgradeRequestLength =
+      base::TimeDelta::FromSeconds(40);
+  V8PerFrameMemoryRequest bounded_request_upgrade(kUpgradeRequestLength,
+                                                  graph());
+  ASSERT_TRUE(decorator->GetNextRequest());
+  EXPECT_EQ(decorator->GetNextRequest()->min_time_between_requests(),
+            kLazyRequestLength);
+  EXPECT_EQ(decorator->GetNextRequest()->mode(),
+            V8PerFrameMemoryRequest::MeasurementMode::kLazy);
+
+  {
+    ::testing::InSequence seq;
+
+    // Again, 40 sec total until reply arrives. kUpgradeRequestLength <= 40 sec
+    // so a second upgraded request should be sent.
+    auto data = blink::mojom::PerProcessV8MemoryUsageData::New();
+    data->unassociated_bytes_used = 2U;
+    ExpectQueryAndDelayReply(&reporter, base::TimeDelta::FromSeconds(10),
+                             std::move(data),
+                             MockV8PerFrameMemoryReporter::Mode::LAZY);
+
+    auto data2 = blink::mojom::PerProcessV8MemoryUsageData::New();
+    data2->unassociated_bytes_used = 3U;
+    ExpectQueryAndReply(&reporter, std::move(data2),
+                        MockV8PerFrameMemoryReporter::Mode::DEFAULT);
+  }
+
+  // Wait long enough for the upgraded request to be sent.
+  task_env().FastForwardBy(kUpgradeRequestLength);
+  testing::Mock::VerifyAndClearExpectations(&reporter);
+
+  EXPECT_TRUE(V8PerFrameMemoryProcessData::ForProcessNode(process.get()));
+  EXPECT_EQ(3u, V8PerFrameMemoryProcessData::ForProcessNode(process.get())
+                    ->unassociated_v8_bytes_used());
+
+  // Bounded requests should be preferred over lazy requests with the same
+  // min_time_between_requests.
+  V8PerFrameMemoryRequest short_bounded_request(kLazyRequestLength, graph());
+  ASSERT_TRUE(decorator->GetNextRequest());
+  EXPECT_EQ(decorator->GetNextRequest()->min_time_between_requests(),
+            kLazyRequestLength);
   EXPECT_EQ(decorator->GetNextRequest()->mode(),
             V8PerFrameMemoryRequest::MeasurementMode::kBounded);
 }

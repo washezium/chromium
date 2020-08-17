@@ -5,6 +5,8 @@
 #ifndef COMPONENTS_PERFORMANCE_MANAGER_PUBLIC_V8_MEMORY_V8_PER_FRAME_MEMORY_DECORATOR_H_
 #define COMPONENTS_PERFORMANCE_MANAGER_PUBLIC_V8_MEMORY_V8_PER_FRAME_MEMORY_DECORATOR_H_
 
+#include <vector>
+
 #include "base/containers/flat_map.h"
 #include "base/memory/scoped_refptr.h"
 #include "base/memory/weak_ptr.h"
@@ -267,6 +269,10 @@ class V8PerFrameMemoryDecorator
   // Returns the next measurement request that should be scheduled.
   V8PerFrameMemoryRequest* GetNextRequest() const;
 
+  // Returns the next measurement request with mode kBounded that should be
+  // scheduled.
+  V8PerFrameMemoryRequest* GetNextBoundedRequest() const;
+
   // Implementation details below this point.
 
   // V8PerFrameMemoryRequest objects register themselves with the decorator.
@@ -287,8 +293,9 @@ class V8PerFrameMemoryDecorator
 
   Graph* graph_ = nullptr;
 
-  // List of requests sorted by min_time_between_requests (lowest first).
-  std::vector<V8PerFrameMemoryRequest*> measurement_requests_;
+  // Lists of requests sorted by min_time_between_requests (lowest first).
+  std::vector<V8PerFrameMemoryRequest*> bounded_measurement_requests_;
+  std::vector<V8PerFrameMemoryRequest*> lazy_measurement_requests_;
 
   SEQUENCE_CHECKER(sequence_checker_);
 };
