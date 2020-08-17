@@ -159,4 +159,10 @@ Polymer({
   getOpenOptionsPageLabel_(inputMethodName) {
     return this.i18n('openOptionsPage', inputMethodName);
   },
+
+  /** @private */
+  onAddInputMethodClick_() {
+    this.languagesMetricsProxy_.recordAddInputMethod();
+    // TODO(crbug/1113439): Add input methods dialog.
+  },
 });

@@ -1,7 +1,9 @@
 <link rel="import" href="chrome://resources/html/polymer.html">
 
+<link rel="import" href="chrome://resources/cr_elements/cr_button/cr_button.html">
 <link rel="import" href="chrome://resources/cr_elements/cr_icon_button/cr_icon_button.html">
 <link rel="import" href="chrome://resources/html/i18n_behavior.html">
+<link rel="import" href="chrome://resources/polymer/v1_0/iron-icon/iron-icon.html">
 <link rel="import" href="input_method_util.html">
 <link rel="import" href="languages_metrics_proxy.html">
 <link rel="import" href="../os_route.html">
@@ -38,6 +40,12 @@
       .internal-wrapper,
       .external-wrapper {
         display: flex;
+      }
+
+      #addInputMethod {
+        --iron-icon-fill-color: var(--cr-link-color);
+        margin-inline-end: 4px;
+        margin-top: 16px;
       }
     </style>
 
@@ -88,6 +96,12 @@
               </template>
             </div>
           </template>
+          <div class="list-item">
+            <cr-button id="addInputMethod" on-click="onAddInputMethodClick_">
+              <iron-icon icon="cr:add"></iron-icon>
+              $i18n{addInputMethodLabel}
+            </cr-button>
+          </div>
         </div>
       </div>
     </div>

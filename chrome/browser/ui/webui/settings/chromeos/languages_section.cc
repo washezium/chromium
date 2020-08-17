@@ -103,6 +103,12 @@ const std::vector<SearchConcept>& GetInputPageSearchConceptsV2() {
        {.setting = mojom::Setting::kShowInputOptionsInShelf},
        {IDS_OS_SETTINGS_TAG_LANGUAGES_INPUT_INPUT_OPTIONS_SHELF_ALT1,
         SearchConcept::kAltTagEnd}},
+      {IDS_OS_SETTINGS_TAG_LANGUAGES_ADD_INPUT_METHOD,
+       mojom::kInputSubpagePath,
+       mojom::SearchResultIcon::kGlobe,
+       mojom::SearchResultDefaultRank::kMedium,
+       mojom::SearchResultType::kSetting,
+       {.setting = mojom::Setting::kAddInputMethod}},
   });
   return *tags;
 }
@@ -264,6 +270,7 @@ void AddInputPageStringsV2(content::WebUIDataSource* html_source) {
       {"inputMethodListTitle",
        IDS_OS_SETTINGS_LANGUAGES_INPUT_METHOD_LIST_TITLE},
       {"openOptionsPage", IDS_OS_SETTINGS_LANGUAGES_OPEN_OPTIONS_PAGE_LABEL},
+      {"addInputMethodLabel", IDS_OS_SETTINGS_LANGUAGES_ADD_INPUT_METHOD_LABEL},
   };
   AddLocalizedStringsBulk(html_source, kLocalizedStrings);
 }
@@ -389,6 +396,11 @@ void LanguagesSection::RegisterHierarchy(HierarchyGenerator* generator) const {
       IDS_OS_SETTINGS_LANGUAGES_INPUT_PAGE_TITLE, mojom::Subpage::kInput,
       mojom::SearchResultIcon::kGlobe, mojom::SearchResultDefaultRank::kMedium,
       mojom::kInputSubpagePath);
+  static constexpr mojom::Setting kInputPageSettings[] = {
+      mojom::Setting::kAddInputMethod,
+  };
+  RegisterNestedSettingBulk(mojom::Subpage::kInput, kInputPageSettings,
+                            generator);
 
   // Languages and input details.
   generator->RegisterTopLevelSubpage(
