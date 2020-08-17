@@ -10,6 +10,7 @@
 #include "components/password_manager/core/browser/well_known_change_password_util.h"
 #include "components/password_manager/core/common/password_manager_features.h"
 #include "ios/chrome/browser/browser_state/chrome_browser_state.h"
+#include "ios/chrome/browser/passwords/ios_chrome_change_password_url_service_factory.h"
 #import "ios/web/public/navigation/navigation_context.h"
 #import "net/base/mac/url_conversions.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
@@ -22,7 +23,11 @@ using password_manager::WellKnownChangePasswordTabHelper;
 
 WellKnownChangePasswordTabHelper::WellKnownChangePasswordTabHelper(
     web::WebState* web_state)
-    : web::WebStatePolicyDecider(web_state), web_state_(web_state) {
+    : web::WebStatePolicyDecider(web_state),
+      web_state_(web_state),
+      change_password_url_service_(
+          IOSChromeChangePasswordUrlServiceFactory::GetForBrowserState(
+              web_state->GetBrowserState())) {
   web_state->AddObserver(this);
 }
 
@@ -57,7 +62,7 @@ WellKnownChangePasswordTabHelper::ShouldAllowRequest(
         base::FeatureList::IsEnabled(
             password_manager::features::kWellKnownChangePassword)) {
       request_url_ = request_url;
-
+      change_password_url_service_->PrefetchURLs();
       auto url_loader_factory =
           web_state_->GetBrowserState()->GetSharedURLLoaderFactory();
       well_known_change_password_state_.FetchNonExistingResource(
@@ -122,7 +127,9 @@ void WellKnownChangePasswordTabHelper::OnProcessingFinished(bool is_supported) {
   } else {
     std::move(response_policy_callback_)
         .Run(web::WebStatePolicyDecider::PolicyDecision::Cancel());
-    Redirect(request_url_.GetOrigin());
+    GURL redirect_url =
+        change_password_url_service_->GetChangePasswordUrl(request_url_);
+    Redirect(redirect_url.is_valid() ? redirect_url : request_url_.GetOrigin());
   }
 }
 
