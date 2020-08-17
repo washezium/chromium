@@ -24,6 +24,7 @@
 #include "components/policy/core/common/cloud/cloud_policy_client_registration_helper.h"
 #include "components/policy/core/common/cloud/device_management_service.h"
 #include "components/policy/core/common/cloud/user_cloud_policy_manager.h"
+#include "components/policy/core/common/command_line_policy_provider.h"
 #include "components/policy/core/common/configuration_policy_provider.h"
 #include "components/policy/core/common/policy_map.h"
 #include "components/policy/core/common/policy_namespace.h"
@@ -59,6 +60,13 @@
 #endif
 
 namespace policy {
+
+namespace {
+bool IsCommandLinePolicySupported() {
+  // TODO(crbug/1113792): Enable it on Android.
+  return false;
+}
+}  // namespace
 
 ChromeBrowserPolicyConnector::ChromeBrowserPolicyConnector()
     : BrowserPolicyConnector(base::Bind(&BuildHandlerList)) {
@@ -102,6 +110,8 @@ bool ChromeBrowserPolicyConnector::HasMachineLevelPolicies() {
   if (ProviderHasPolicies(machine_level_user_cloud_policy_manager_))
     return true;
 #endif  // !defined(OS_ANDROID) && !defined(OS_CHROMEOS)
+  if (ProviderHasPolicies(command_line_provider_))
+    return true;
   return false;
 }
 
@@ -144,6 +154,14 @@ ChromeBrowserPolicyConnector::CreatePolicyProviders() {
     providers.push_back(std::move(machine_level_user_cloud_policy_manager));
   }
 #endif
+
+  if (IsCommandLinePolicySupported()) {
+    std::unique_ptr<CommandLinePolicyProvider> command_line_provider =
+        std::make_unique<CommandLinePolicyProvider>(
+            *base::CommandLine::ForCurrentProcess());
+    command_line_provider_ = command_line_provider.get();
+    providers.push_back(std::move(command_line_provider));
+  }
 
   return providers;
 }
