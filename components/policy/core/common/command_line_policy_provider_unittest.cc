@@ -7,10 +7,15 @@
 #include <memory>
 
 #include "base/values.h"
+#include "build/build_config.h"
 #include "components/policy/core/common/policy_bundle.h"
 #include "components/policy/core/common/policy_switches.h"
 #include "components/policy/core/common/policy_types.h"
 #include "testing/gtest/include/gtest/gtest.h"
+
+#if defined(OS_ANDROID)
+#include "base/android/build_info.h"
+#endif  // defined(OS_ANDROID)
 
 namespace policy {
 
@@ -36,8 +41,15 @@ class CommandLinePolicyProviderTest : public ::testing::Test {
   }
 
   std::unique_ptr<CommandLinePolicyProvider> CreatePolicyProvider() {
-    return std::make_unique<CommandLinePolicyProvider>(command_line_);
+    return CommandLinePolicyProvider::CreateForTesting(command_line_);
   }
+
+  std::unique_ptr<CommandLinePolicyProvider> CreatePolicyProviderWithCheck(
+      version_info::Channel channel) {
+    return CommandLinePolicyProvider::CreateIfAllowed(command_line_, channel);
+  }
+
+  base::CommandLine* command_line() { return &command_line_; }
 
  private:
   base::CommandLine command_line_{base::CommandLine::NO_PROGRAM};
@@ -51,4 +63,25 @@ TEST_F(CommandLinePolicyProviderTest, LoadAndRefresh) {
   policy_provider->RefreshPolicies();
   VerifyPolicyProvider(policy_provider.get());
 }
+
+TEST_F(CommandLinePolicyProviderTest, Creator) {
+  version_info::Channel channels[] = {
+      version_info::Channel::UNKNOWN, version_info::Channel::CANARY,
+      version_info::Channel::DEV, version_info::Channel::BETA,
+      version_info::Channel::STABLE};
+  for (auto channel : channels) {
+    bool is_created = false;
+#if defined(OS_ANDROID)
+    is_created = channel != version_info::Channel::BETA &&
+                 channel != version_info::Channel::STABLE &&
+                 base::android::BuildInfo::GetInstance()->is_debug_android();
+#endif  // defined(OS_ANDROID)
+    auto policy_provider = CreatePolicyProviderWithCheck(channel);
+    if (is_created)
+      EXPECT_TRUE(policy_provider);
+    else
+      EXPECT_FALSE(policy_provider);
+  }
+}
+
 }  // namespace policy

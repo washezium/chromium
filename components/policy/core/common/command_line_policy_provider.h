@@ -8,6 +8,7 @@
 #include "components/policy/core/common/configuration_policy_provider.h"
 #include "components/policy/core/common/policy_loader_command_line.h"
 #include "components/policy/policy_export.h"
+#include "components/version_info/channel.h"
 
 namespace policy {
 
@@ -16,7 +17,16 @@ namespace policy {
 class POLICY_EXPORT CommandLinePolicyProvider
     : public ConfigurationPolicyProvider {
  public:
-  explicit CommandLinePolicyProvider(const base::CommandLine& command_line);
+  // The |CommandLinePolicyProvider| provides an extremely easy way to set up
+  // policies which means it can be used for malicious purposes. So it should
+  // be created if and only if the browser is under development environment.
+  static std::unique_ptr<CommandLinePolicyProvider> CreateIfAllowed(
+      const base::CommandLine& command_line,
+      version_info::Channel channel);
+
+  static std::unique_ptr<CommandLinePolicyProvider> CreateForTesting(
+      const base::CommandLine& command_line);
+
   CommandLinePolicyProvider(const CommandLinePolicyProvider&) = delete;
   CommandLinePolicyProvider& operator=(const CommandLinePolicyProvider&) =
       delete;
@@ -27,6 +37,8 @@ class POLICY_EXPORT CommandLinePolicyProvider
   void RefreshPolicies() override;
 
  private:
+  explicit CommandLinePolicyProvider(const base::CommandLine& command_line);
+
   PolicyLoaderCommandLine loader_;
 };
 

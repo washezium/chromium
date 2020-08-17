@@ -18,6 +18,7 @@
 #include "chrome/browser/browser_process.h"
 #include "chrome/browser/policy/configuration_policy_handler_list_factory.h"
 #include "chrome/browser/policy/device_management_service_configuration.h"
+#include "chrome/common/channel_info.h"
 #include "chrome/common/chrome_paths.h"
 #include "components/policy/core/common/async_policy_provider.h"
 #include "components/policy/core/common/cloud/cloud_external_data_manager.h"
@@ -60,13 +61,6 @@
 #endif
 
 namespace policy {
-
-namespace {
-bool IsCommandLinePolicySupported() {
-  // TODO(crbug/1113792): Enable it on Android.
-  return false;
-}
-}  // namespace
 
 ChromeBrowserPolicyConnector::ChromeBrowserPolicyConnector()
     : BrowserPolicyConnector(base::Bind(&BuildHandlerList)) {
@@ -155,10 +149,10 @@ ChromeBrowserPolicyConnector::CreatePolicyProviders() {
   }
 #endif
 
-  if (IsCommandLinePolicySupported()) {
-    std::unique_ptr<CommandLinePolicyProvider> command_line_provider =
-        std::make_unique<CommandLinePolicyProvider>(
-            *base::CommandLine::ForCurrentProcess());
+  std::unique_ptr<CommandLinePolicyProvider> command_line_provider =
+      CommandLinePolicyProvider::CreateIfAllowed(
+          *base::CommandLine::ForCurrentProcess(), chrome::GetChannel());
+  if (command_line_provider) {
     command_line_provider_ = command_line_provider.get();
     providers.push_back(std::move(command_line_provider));
   }
