@@ -357,7 +357,40 @@ TEST_F(AndroidPaymentAppFactoryTest,
   apps.back()->activities.back()->name = "com.twa.app.ActivityTwo";
   apps.back()->activities.back()->default_payment_method =
       "https://example.test";
+  support_->ExpectQueryListOfPaymentAppsAndRespond(std::move(apps));
 
+  factory_.Create(delegate_.GetWeakPtr());
+}
+
+// At most one IS_READY_TO_PAY service is allowed in an Android payment app.
+TEST_F(AndroidPaymentAppFactoryTest, ReturnErrorWhenMoreThanOneServiceInApp) {
+  // Enable invoking Android payment apps on those platforms that support it.
+  auto scoped_initialization_ = support_->CreateScopedInitialization();
+
+  EXPECT_CALL(delegate_, GetTwaPackageName())
+      .WillRepeatedly(testing::Return("com.example.app"));
+  EXPECT_CALL(delegate_, OnDoneCreatingPaymentApps());
+
+  EXPECT_CALL(delegate_, OnPaymentAppCreationError(
+                             "Found more than one IS_READY_TO_PAY service, but "
+                             "at most one service is supported."))
+      .Times(support_->AreAndroidAppsSupportedOnThisPlatform() ? 1 : 0);
+
+  EXPECT_CALL(delegate_, OnPaymentAppCreated(testing::_)).Times(0);
+
+  std::vector<std::unique_ptr<AndroidAppDescription>> apps;
+  apps.emplace_back(std::make_unique<AndroidAppDescription>());
+  apps.back()->package = "com.example.app";
+
+  // Two IS_READY_TO_PAY services:
+  apps.back()->service_names.push_back("com.example.app.ServiceOne");
+  apps.back()->service_names.push_back("com.example.app.ServiceTwo");
+
+  apps.back()->activities.emplace_back(
+      std::make_unique<AndroidActivityDescription>());
+  apps.back()->activities.back()->name = "com.example.app.Activity";
+  apps.back()->activities.back()->default_payment_method =
+      "https://play.google.com/billing";
   support_->ExpectQueryListOfPaymentAppsAndRespond(std::move(apps));
 
   factory_.Create(delegate_.GetWeakPtr());

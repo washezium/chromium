@@ -98,6 +98,11 @@ class AppFinder : public base::SupportsUserData::Data {
     std::vector<std::unique_ptr<AndroidAppDescription>> single_activity_apps;
     for (size_t i = 0; i < app_descriptions.size(); ++i) {
       auto app = std::move(app_descriptions[i]);
+      if (app->service_names.size() > 1U) {
+        delegate_->OnPaymentAppCreationError(errors::kMoreThanOneService);
+        continue;
+      }
+
       SplitPotentiallyMultipleActivities(std::move(app), &single_activity_apps);
     }
 

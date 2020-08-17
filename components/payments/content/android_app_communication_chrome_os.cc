@@ -56,12 +56,6 @@ void OnIsImplemented(
     return;
   }
 
-  if (response->get_valid()->service_names.size() > 1U) {
-    std::move(callback).Run(errors::kMoreThanOneService,
-                            /*app_descriptions=*/{});
-    return;
-  }
-
   auto activity = std::make_unique<AndroidActivityDescription>();
   activity->name = response->get_valid()->activity_names.front();
 
