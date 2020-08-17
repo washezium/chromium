@@ -28,16 +28,16 @@ Still reading?
     <ignore regexp="chrome/android/java/res/layout/password_entry_editor.xml"/>
     <ignore regexp="components/browser_ui/widget/android/java/res/layout/radio_button_with_edit_text.xml"/>
   </issue>
-  <issue id="AuthLeak" severity="Error">
+  <issue id="AuthLeak">
     <ignore regexp="chrome/android/javatests"/>
     <ignore regexp="Test.java"/>
   </issue>
-  <issue id="BadHostnameVerifier" severity="Error"/>
-  <issue id="ButtonOrder" severity="Error">
+  <issue id="BadHostnameVerifier"/>
+  <issue id="ButtonOrder">
     <ignore regexp="chrome/android/java/res/layout/homepage_editor.xml"/>
   </issue>
   <issue id="ClickableViewAccessibility" severity="ignore"/>
-  <issue id="ContentDescription" severity="Error">
+  <issue id="ContentDescription">
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/contacts_list_item_view.xml"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
@@ -64,7 +64,7 @@ Still reading?
     <ignore regexp="chrome/android/java/res/menu/main_menu.xml"/>
   </issue>
   <!-- TODO(crbug.com/635567): Fix this properly. -->
-  <issue id="Deprecated" severity="Error">
+  <issue id="Deprecated">
     <ignore regexp="/test/"/>
     <ignore regexp="AndroidManifest.xml"/>
     <ignore regexp="android:singleLine"/>
@@ -89,7 +89,7 @@ Still reading?
     <ignore regexp="android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java"/>
   </issue>
   <issue id="HardcodedDebugMode" severity="ignore"/>
-  <issue id="IconColors" severity="Error">
+  <issue id="IconColors">
     <ignore regexp="tools/android/audio_focus_grabber/java/res/drawable-.*/notification_icon.png"/>
   </issue>
   <issue id="IconDensities">
@@ -109,12 +109,12 @@ Still reading?
     <!-- These only need to be 1px for all densities. See: crbug.com/804449 -->
     <ignore regexp="chrome/android/java/res/.*tab_strip_fade"/>
   </issue>
-  <issue id="IconDuplicates" severity="Error">
+  <issue id="IconDuplicates">
     <!-- Filed https://crbug.com/1073963 -->
     <ignore regexp="clank/java/res_default/mipmap-.*/app_shortcut_icon.png"/>
   </issue>
   <issue id="IconLauncherFormat" severity="ignore"/>
-  <issue id="IconLauncherShape" severity="Error">
+  <issue id="IconLauncherShape">
     <ignore regexp="chrome/android/webapk/shell_apk/res/mipmap-mdpi/ic_launcher_background.png"/>
   </issue>
   <issue id="IconLocation">
@@ -137,12 +137,12 @@ Still reading?
     <ignore regexp="tools/android/push_apps_to_background/res"/>
     <ignore regexp="ui/android/java/res"/>
   </issue>
-  <issue id="ImpliedQuantity" severity="Error">
+  <issue id="ImpliedQuantity">
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd"/>
     <ignore regexp="components/browser_ui/strings/android/browser_ui_strings_grd"/>
     <ignore regexp="clank/third_party/chime/chime_systemtray_strings_grd.resources.zip"/>
   </issue>
-  <issue id="IncludeLayoutParam" severity="Error">
+  <issue id="IncludeLayoutParam">
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/start_top_toolbar.xml"/>
   </issue>
@@ -153,13 +153,13 @@ Still reading?
     <ignore regexp="test"/>
   </issue>
   <issue id="Instantiatable" severity="ignore"/>
-  <issue id="InconsistentArrays" severity="Error">
+  <issue id="InconsistentArrays">
     <ignore regexp="android_webview/locale_paks.resources.zip/values/locale-paks.xml"/>
     <ignore regexp="chrome/android/chrome_locale_paks.resources.zip/values/locale-paks.xml"/>
     <ignore regexp="preloaded_fonts.xml"/>
   </issue>
   <issue id="InconsistentLayout" severity="ignore"/>
-  <issue id="InefficientWeight" severity="Error">
+  <issue id="InefficientWeight">
     <ignore regexp="android_webview/tools/system_webview_shell/apk/res/layout/activity_webview_browser.xml"/>
   </issue>
   <issue id="InflateParams" severity="ignore"/>
@@ -168,16 +168,12 @@ Still reading?
   <issue id="JobSchedulerService" severity="ignore"/>
   <!-- TODO(crbug.com/804453): Remove this after fixing. -->
   <issue id="KeyboardInaccessibleWidget" severity="ignore"/>
-  <issue id="LabelFor" severity="Error">
+  <issue id="LabelFor">
     <ignore regexp="android_webview/tools/system_webview_shell/apk/res/layout/activity_webview_browser.xml"/>
-  </issue>
-  <issue id="LintError">
-    <!-- We no longer supply class files to lint. -->
-    <ignore regexp="No `.class` files were found in project"/>
   </issue>
   <issue id="LogConditional" severity="ignore"/>
   <issue id="LongLogTag" severity="ignore"/>
-  <issue id="MergeRootFrame" severity="Error">
+  <issue id="MergeRootFrame">
     <!-- TODO(crbug.com/1039415): Remove suppression after fixing bug. -->
     <ignore regexp="chrome/android/feed/core/java/res/layout/feed_more_button.xml"/>
   </issue>
@@ -195,7 +191,7 @@ Still reading?
   <issue id="MissingPrefix" severity="ignore"/>
   <issue id="MissingQuantity" severity="ignore"/>
   <issue id="MissingRegistered" severity="ignore"/>
-  <issue id="MissingSuperCall" severity="Error">
+  <issue id="MissingSuperCall">
     <!-- TODO(wnwen): File bug to fix -->
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/widget/selection/SelectionToolbar.java"/>
   </issue>
@@ -234,7 +230,7 @@ Still reading?
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/browserservices/OriginVerifier.java"/>
     <ignore regexp="chrome/android/webapk/libs/client/src/org/chromium/webapk/lib/client/WebApkValidator.java"/>
   </issue>
-  <issue id="PluralsCandidate" severity="Error">
+  <issue id="PluralsCandidate">
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd.resources.zip/values-en-rGB/android_chrome_strings.xml"/>
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd.resources.zip/values/android_chrome_strings.xml"/>
   </issue>
@@ -244,14 +240,14 @@ Still reading?
   <issue id="Recycle" severity="ignore"/>
   <issue id="Registered" severity="ignore"/>
   <issue id="ResourceAsColor" severity="ignore"/>
-  <issue id="ResourceType" severity="Error">
+  <issue id="ResourceType">
     <ignore regexp="/javatests/"/>
   </issue>
   <!-- TODO(crbug.com/831774): Play Services starts complaining about RestrictedApi. Needs investigation -->
   <issue id="RestrictedApi" severity="ignore"/>
   <issue id="RtlCompat" severity="ignore"/>
   <issue id="RtlEnabled" severity="ignore"/>
-  <issue id="RtlHardcoded" severity="Error">
+  <issue id="RtlHardcoded">
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/sheet_tab_toolbar.xml"/>
   </issue>
@@ -266,7 +262,7 @@ Still reading?
     <!-- Nice to fix, but not necessary or performance critical. -->
     <ignore regexp="This `AsyncTask` class should be static or leaks might occur"/>
   </issue>
-  <issue id="StringFormatCount" severity="Error">
+  <issue id="StringFormatCount">
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd.resources.zip/values-af/android_chrome_strings.xml"/>
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd.resources.zip/values-cs/android_chrome_strings.xml"/>
     <ignore regexp="chrome/browser/ui/android/strings/ui_strings_grd.resources.zip/values-fr/android_chrome_strings.xml"/>
@@ -278,7 +274,7 @@ Still reading?
   <!-- Many .xtb files have a % that is not part of a formatted string. https://crbug.com/941164 -->
   <issue id="StringFormatInvalid" severity="ignore"/>
   <issue id="StringFormatMatches" severity="ignore"/>
-  <issue id="TypographyDashes" severity="Error">
+  <issue id="TypographyDashes">
     <ignore regexp="chrome/app/policy/android/values-v21/restriction_values.xml"/>
   </issue>
   <!-- Typos check disabled due to lint bug: http://crbug.com/671170 -->
@@ -394,7 +390,7 @@ Still reading?
     <ignore regexp="tools/android/kerberos/SpnegoAuthenticator/res/layout/activity_account_authenticator.xml"/>
   </issue>
   <issue id="UsesMinSdkAttributes" severity="ignore"/>
-  <issue id="ValidFragment" severity="Error">
+  <issue id="ValidFragment">
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/media/router/BaseMediaRouteDialogManager.java"/>
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/media/router/MediaRouteChooserDialogManager.java"/>
     <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/media/router/MediaRouteControllerDialogManager.java"/>
@@ -403,7 +399,7 @@ Still reading?
   </issue>
   <issue id="VectorPath" severity="ignore"/>
   <issue id="ViewConstructor" severity="ignore"/>
-  <issue id="VisibleForTests" severity="Error">
+  <issue id="VisibleForTests">
     <ignore regexp="/javatests/"/>
     <ignore regexp="/test/"/>
     <!-- TODO(crbug.com/757124): Remove all these specific Feedback files after underlying issue is resolved -->
