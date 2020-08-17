@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_SERVICES_MACHINE_LEARNING_MACHINE_LEARNING_TFLITE_PREDICTOR_H_
-#define CHROME_SERVICES_MACHINE_LEARNING_MACHINE_LEARNING_TFLITE_PREDICTOR_H_
+#ifndef CHROME_SERVICES_MACHINE_LEARNING_IN_PROCESS_TFLITE_PREDICTOR_H_
+#define CHROME_SERVICES_MACHINE_LEARNING_IN_PROCESS_TFLITE_PREDICTOR_H_
 
 #include <functional>
 #include <string>
@@ -20,10 +20,10 @@
 namespace machine_learning {
 
 // TFLite predictor class around TFLite C API for TFLite model evaluation.
-class TFLitePredictor {
+class InProcessTFLitePredictor {
  public:
-  TFLitePredictor(std::string filename, int32_t num_threads);
-  ~TFLitePredictor();
+  InProcessTFLitePredictor(std::string filename, int32_t num_threads);
+  ~InProcessTFLitePredictor();
 
   // Loads model, build the TFLite interpreter and allocates tensors.
   TfLiteStatus Initialize();
@@ -94,4 +94,4 @@ class TFLitePredictor {
 
 }  // namespace machine_learning
 
-#endif  // CHROME_SERVICES_MACHINE_LEARNING_MACHINE_LEARNING_TFLITE_PREDICTOR_H_
+#endif  // CHROME_SERVICES_MACHINE_LEARNING_IN_PROCESS_TFLITE_PREDICTOR_H_

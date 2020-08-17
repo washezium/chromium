@@ -2,18 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/services/machine_learning/machine_learning_tflite_predictor.h"
+#include "chrome/services/machine_learning/in_process_tflite_predictor.h"
 
 #include "base/check.h"
 
 namespace machine_learning {
 
-TFLitePredictor::TFLitePredictor(std::string filename, int32_t num_threads)
+InProcessTFLitePredictor::InProcessTFLitePredictor(std::string filename,
+                                                   int32_t num_threads)
     : model_file_name_(filename), num_threads_(num_threads) {}
 
-TFLitePredictor::~TFLitePredictor() = default;
+InProcessTFLitePredictor::~InProcessTFLitePredictor() = default;
 
-TfLiteStatus TFLitePredictor::Initialize() {
+TfLiteStatus InProcessTFLitePredictor::Initialize() {
   if (!LoadModel())
     return kTfLiteError;
   if (!BuildInterpreter())
@@ -24,11 +25,11 @@ TfLiteStatus TFLitePredictor::Initialize() {
   return status;
 }
 
-TfLiteStatus TFLitePredictor::Evaluate() {
+TfLiteStatus InProcessTFLitePredictor::Evaluate() {
   return TfLiteInterpreterInvoke(interpreter_.get());
 }
 
-bool TFLitePredictor::LoadModel() {
+bool InProcessTFLitePredictor::LoadModel() {
   if (model_file_name_.empty())
     return false;
 
@@ -42,7 +43,7 @@ bool TFLitePredictor::LoadModel() {
   return true;
 }
 
-bool TFLitePredictor::BuildInterpreter() {
+bool InProcessTFLitePredictor::BuildInterpreter() {
   // We create the pointer using this approach since |TfLiteInterpreterOptions|
   // is a structure without the delete operator.
   options_ = std::unique_ptr<TfLiteInterpreterOptions,
@@ -65,73 +66,77 @@ bool TFLitePredictor::BuildInterpreter() {
   return true;
 }
 
-TfLiteStatus TFLitePredictor::AllocateTensors() {
+TfLiteStatus InProcessTFLitePredictor::AllocateTensors() {
   TfLiteStatus status = TfLiteInterpreterAllocateTensors(interpreter_.get());
   DCHECK(status == kTfLiteOk);
   return status;
 }
 
-int32_t TFLitePredictor::GetInputTensorCount() const {
+int32_t InProcessTFLitePredictor::GetInputTensorCount() const {
   if (interpreter_ == nullptr)
     return 0;
   return TfLiteInterpreterGetInputTensorCount(interpreter_.get());
 }
 
-int32_t TFLitePredictor::GetOutputTensorCount() const {
+int32_t InProcessTFLitePredictor::GetOutputTensorCount() const {
   if (interpreter_ == nullptr)
     return 0;
   return TfLiteInterpreterGetOutputTensorCount(interpreter_.get());
 }
 
-TfLiteTensor* TFLitePredictor::GetInputTensor(int32_t index) const {
+TfLiteTensor* InProcessTFLitePredictor::GetInputTensor(int32_t index) const {
   if (interpreter_ == nullptr)
     return nullptr;
   return TfLiteInterpreterGetInputTensor(interpreter_.get(), index);
 }
 
-const TfLiteTensor* TFLitePredictor::GetOutputTensor(int32_t index) const {
+const TfLiteTensor* InProcessTFLitePredictor::GetOutputTensor(
+    int32_t index) const {
   if (interpreter_ == nullptr)
     return nullptr;
   return TfLiteInterpreterGetOutputTensor(interpreter_.get(), index);
 }
 
-bool TFLitePredictor::IsInitialized() const {
+bool InProcessTFLitePredictor::IsInitialized() const {
   return initialized_;
 }
 
-int32_t TFLitePredictor::GetInputTensorNumDims(int32_t tensor_index) const {
+int32_t InProcessTFLitePredictor::GetInputTensorNumDims(
+    int32_t tensor_index) const {
   TfLiteTensor* tensor = GetInputTensor(tensor_index);
   return TfLiteTensorNumDims(tensor);
 }
 
-int32_t TFLitePredictor::GetInputTensorDim(int32_t tensor_index,
-                                           int32_t dim_index) const {
+int32_t InProcessTFLitePredictor::GetInputTensorDim(int32_t tensor_index,
+                                                    int32_t dim_index) const {
   TfLiteTensor* tensor = GetInputTensor(tensor_index);
   return TfLiteTensorDim(tensor, dim_index);
 }
 
-void* TFLitePredictor::GetInputTensorData(int32_t tensor_index) const {
+void* InProcessTFLitePredictor::GetInputTensorData(int32_t tensor_index) const {
   TfLiteTensor* tensor = GetInputTensor(tensor_index);
   return TfLiteTensorData(tensor);
 }
 
-int32_t TFLitePredictor::GetOutputTensorNumDims(int32_t tensor_index) const {
+int32_t InProcessTFLitePredictor::GetOutputTensorNumDims(
+    int32_t tensor_index) const {
   const TfLiteTensor* tensor = GetOutputTensor(tensor_index);
   return TfLiteTensorNumDims(tensor);
 }
 
-int32_t TFLitePredictor::GetOutputTensorDim(int32_t tensor_index,
-                                            int32_t dim_index) const {
+int32_t InProcessTFLitePredictor::GetOutputTensorDim(int32_t tensor_index,
+                                                     int32_t dim_index) const {
   const TfLiteTensor* tensor = GetOutputTensor(tensor_index);
   return TfLiteTensorDim(tensor, dim_index);
 }
 
-void* TFLitePredictor::GetOutputTensorData(int32_t tensor_index) const {
+void* InProcessTFLitePredictor::GetOutputTensorData(
+    int32_t tensor_index) const {
   const TfLiteTensor* tensor = GetInputTensor(tensor_index);
   return TfLiteTensorData(tensor);
 }
 
-int32_t TFLitePredictor::GetTFLiteNumThreads() const {
+int32_t InProcessTFLitePredictor::GetTFLiteNumThreads() const {
   return num_threads_;
 }
 
