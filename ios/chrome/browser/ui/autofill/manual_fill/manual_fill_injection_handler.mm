@@ -20,6 +20,7 @@
 #import "ios/chrome/browser/autofill/form_input_accessory_view_handler.h"
 #import "ios/chrome/browser/passwords/password_tab_helper.h"
 #import "ios/chrome/browser/ui/autofill/manual_fill/form_observer_helper.h"
+#import "ios/chrome/browser/ui/commands/security_alert_commands.h"
 #import "ios/chrome/browser/ui/ui_feature_flags.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
 #import "ios/chrome/common/ui/reauthentication/reauthentication_module.h"
@@ -75,21 +76,20 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
 @property(nonatomic, assign) std::string lastFocusedElementIdentifier;
 
 // Used to present alerts.
-@property(nonatomic, weak) id<AutofillSecurityAlertPresenter> alertPresenter;
+@property(nonatomic, weak) id<SecurityAlertCommands> securityAlertHandler;
 
 @end
 
 @implementation ManualFillInjectionHandler
 
-- (instancetype)initWithWebStateList:(WebStateList*)webStateList
-              securityAlertPresenter:
-                  (id<AutofillSecurityAlertPresenter>)securityAlertPresenter
-              reauthenticationModule:
-                  (ReauthenticationModule*)reauthenticationModule {
+- (instancetype)
+      initWithWebStateList:(WebStateList*)webStateList
+      securityAlertHandler:(id<SecurityAlertCommands>)securityAlertHandler
+    reauthenticationModule:(ReauthenticationModule*)reauthenticationModule {
   self = [super init];
   if (self) {
     _webStateList = webStateList;
-    _alertPresenter = securityAlertPresenter;
+    _securityAlertHandler = securityAlertHandler;
     _formHelper =
         [[FormObserverHelper alloc] initWithWebStateList:webStateList];
     _formHelper.delegate = self;
@@ -105,13 +105,13 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
   if (passwordField && ![self isLastFocusedElementPasswordField]) {
     NSString* alertBody = l10n_util::GetNSString(
         IDS_IOS_MANUAL_FALLBACK_NOT_SECURE_PASSWORD_BODY);
-    [self.alertPresenter presentSecurityWarningAlertWithText:alertBody];
+    [self.securityAlertHandler presentSecurityWarningAlertWithText:alertBody];
     return NO;
   }
   if (requiresHTTPS && ![self isLastFocusedElementSecure]) {
     NSString* alertBody =
         l10n_util::GetNSString(IDS_IOS_MANUAL_FALLBACK_NOT_SECURE_GENERIC_BODY);
-    [self.alertPresenter presentSecurityWarningAlertWithText:alertBody];
+    [self.securityAlertHandler presentSecurityWarningAlertWithText:alertBody];
     return NO;
   }
   return YES;
@@ -145,7 +145,7 @@ const int64_t kJavaScriptExecutionTimeoutInSeconds = 1;
                         canReusePreviousAuth:YES
                                      handler:completionHandler];
       } else {
-        [self.alertPresenter showSetPasscodeDialog];
+        [self.securityAlertHandler showSetPasscodeDialog];
       }
     }
   }
