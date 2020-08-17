@@ -3808,6 +3808,26 @@
             ]
         }
     ],
+    "InhibitBlobMemoryControllerMemoryPressureResponse": [
+        {
+            "platforms": [
+                "android",
+                "chromeos",
+                "ios",
+                "linux",
+                "mac",
+                "windows"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled_20200720",
+                    "enable_features": [
+                        "InhibitBlobMemoryControllerMemoryPressureResponse"
+                    ]
+                }
+            ]
+        }
+    ],
     "InspectionResultsCache": [
         {
             "platforms": [
