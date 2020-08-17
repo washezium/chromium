@@ -162,8 +162,10 @@ bool LegacyDomStorageDatabase::LazyOpen(bool create_if_needed) {
   // service, so exclusive locking is appropriate.
   db_->set_exclusive_locking();
 
-  // This db does not use [meta] table, store mmap status data elsewhere.
-  db_->set_mmap_alt_status();
+  // This database is only opened to migrate DOMStorage data to a new backend.
+  // Given the use case, mmap()'s performance improvements are not worth the
+  // (tiny amount of) problems that mmap() may cause.
+  db_->set_mmap_disabled();
 
   if (file_path_.empty()) {
     // This code path should only be triggered by unit tests.
