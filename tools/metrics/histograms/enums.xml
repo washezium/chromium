@@ -28757,6 +28757,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3407" label="WindowScreenPrimary"/>
   <int value="3408" label="ThirdPartyCookieRead"/>
   <int value="3409" label="ThirdPartyCookieWrite"/>
+  <int value="3410" label="RTCLegacyRtpDataChannelNegotiated"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
