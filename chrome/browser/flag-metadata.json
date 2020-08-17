@@ -3098,7 +3098,7 @@
   {
     "name": "new-shortcut-mapping",
     "owners": [ "oshima", "afakhry" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 86
   },
   {
     "name": "new-tabstrip-animation",
