@@ -54,19 +54,6 @@ std::string ReceiveSurfaceStateToString(
   }
 }
 
-std::string DataUsageToString(DataUsage usage) {
-  switch (usage) {
-    case DataUsage::kOffline:
-      return "OFFLINE";
-    case DataUsage::kOnline:
-      return "ONLINE";
-    case DataUsage::kWifiOnly:
-      return "WIFI_ONLY";
-    case DataUsage::kUnknown:
-      return "UNKNOWN";
-  }
-}
-
 std::string PowerLevelToString(PowerLevel level) {
   switch (level) {
     case PowerLevel::kLowPower:
@@ -77,55 +64,6 @@ std::string PowerLevelToString(PowerLevel level) {
       return "HIGH_POWER";
     case PowerLevel::kUnknown:
       return "UNKNOWN";
-  }
-}
-
-std::string VisibilityToString(Visibility visibility) {
-  switch (visibility) {
-    case Visibility::kNoOne:
-      return "NO_ONE";
-    case Visibility::kAllContacts:
-      return "ALL_CONTACTS";
-    case Visibility::kSelectedContacts:
-      return "SELECTED_CONTACTS";
-    case Visibility::kUnknown:
-      return "UNKNOWN";
-  }
-}
-
-std::string ConnectionsStatusToString(
-    NearbyConnectionsManager::ConnectionsStatus status) {
-  switch (status) {
-    case NearbyConnectionsManager::ConnectionsStatus::kSuccess:
-      return "SUCCESS";
-    case NearbyConnectionsManager::ConnectionsStatus::kError:
-      return "ERROR";
-    case NearbyConnectionsManager::ConnectionsStatus::kOutOfOrderApiCall:
-      return "OUT_OF_ORDER_API_CALL";
-    case NearbyConnectionsManager::ConnectionsStatus::
-        kAlreadyHaveActiveStrategy:
-      return "ALREADY_HAVE_ACTIVE_STRATEGY";
-    case NearbyConnectionsManager::ConnectionsStatus::kAlreadyAdvertising:
-      return "ALREADY_ADVERTISING";
-    case NearbyConnectionsManager::ConnectionsStatus::kAlreadyDiscovering:
-      return "ALREADY_DISCOVERING";
-    case NearbyConnectionsManager::ConnectionsStatus::kEndpointIOError:
-      return "ENDPOINT_IO_ERROR";
-    case NearbyConnectionsManager::ConnectionsStatus::kEndpointUnknown:
-      return "ENDPOINT_UNKNOWN";
-    case NearbyConnectionsManager::ConnectionsStatus::kConnectionRejected:
-      return "CONNECTION_REJECTED";
-    case NearbyConnectionsManager::ConnectionsStatus::
-        kAlreadyConnectedToEndpoint:
-      return "ALREADY_CONNECTED_TO_ENDPOINT";
-    case NearbyConnectionsManager::ConnectionsStatus::kNotConnectedToEndpoint:
-      return "NOT_CONNECTED_TO_ENDPOINT";
-    case NearbyConnectionsManager::ConnectionsStatus::kBluetoothError:
-      return "BLUETOOTH_ERROR";
-    case NearbyConnectionsManager::ConnectionsStatus::kWifiLanError:
-      return "WIFI_LAN_ERROR";
-    case NearbyConnectionsManager::ConnectionsStatus::kPayloadUnknown:
-      return "PAYLOAD_UNKNOWN";
   }
 }
 
@@ -700,7 +638,7 @@ bool NearbySharingServiceImpl::IsVisibleInBackground(Visibility visibility) {
 void NearbySharingServiceImpl::OnVisibilityChanged(Visibility new_visibility) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   NS_LOG(VERBOSE) << __func__ << ": Nearby sharing visibility changed to "
-                  << VisibilityToString(new_visibility);
+                  << new_visibility;
   if (advertising_power_level_ != PowerLevel::kUnknown)
     StopAdvertising();
 
@@ -710,7 +648,7 @@ void NearbySharingServiceImpl::OnVisibilityChanged(Visibility new_visibility) {
 void NearbySharingServiceImpl::OnDataUsageChanged(DataUsage data_usage) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
   NS_LOG(VERBOSE) << __func__ << ": Nearby sharing data usage changed to "
-                  << DataUsageToString(data_usage);
+                  << data_usage;
 
   if (advertising_power_level_ != PowerLevel::kUnknown)
     StopAdvertising();
@@ -955,15 +893,14 @@ void NearbySharingServiceImpl::InvalidateAdvertisingState() {
           << ": Failed to advertise because we're already advertising with "
              "power level "
           << PowerLevelToString(advertising_power_level_)
-          << " and data usage preference " << DataUsageToString(data_usage);
+          << " and data usage preference " << data_usage;
       return;
     }
 
     StopAdvertising();
     NS_LOG(VERBOSE) << __func__ << ": Restart advertising with power level "
                     << PowerLevelToString(power_level)
-                    << " and data usage preference "
-                    << DataUsageToString(data_usage);
+                    << " and data usage preference " << data_usage;
   }
 
   base::Optional<std::string> device_name;
@@ -988,16 +925,15 @@ void NearbySharingServiceImpl::InvalidateAdvertisingState() {
         NS_LOG(VERBOSE)
             << __func__
             << ": Advertising attempted over Nearby Connections with result "
-            << ConnectionsStatusToString(status);
+            << status;
       }));
 
   advertising_power_level_ = power_level;
   NS_LOG(VERBOSE) << __func__
                   << ": Advertising has started over Nearby Connections: "
                   << " power level " << PowerLevelToString(power_level)
-                  << " visibility "
-                  << VisibilityToString(settings_.GetVisibility())
-                  << " data usage " << DataUsageToString(data_usage);
+                  << " visibility " << settings_.GetVisibility()
+                  << " data usage " << data_usage;
   return;
 }
 
@@ -1113,7 +1049,7 @@ void NearbySharingServiceImpl::StartScanning() {
         NS_LOG(VERBOSE) << __func__
                         << ": Scanning start attempted over Nearby Connections "
                            "with result "
-                        << ConnectionsStatusToString(status);
+                        << status;
       }));
 
   InvalidateSendSurfaceState();
