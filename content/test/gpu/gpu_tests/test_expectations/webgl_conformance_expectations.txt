@@ -229,6 +229,7 @@ crbug.com/1096746 [ fuchsia ] conformance/rendering/line-rendering-quality.html 
 crbug.com/1096746 [ fuchsia ] conformance/rendering/many-draw-calls.html [ Skip ]
 crbug.com/1096746 [ fuchsia ] conformance/glsl/functions/glsl-function-fract.html [ Skip ]
 crbug.com/1096746 [ fuchsia ] conformance/uniforms/no-over-optimization-on-uniform-array-00.html [ Skip ]
+crbug.com/1096746 [ fuchsia ] conformance/glsl/functions/glsl-function-mix-float.html [ Skip ]
 
 # Fails only on Swarming
 crbug.com/1096746 [ fuchsia ] conformance/glsl/functions/glsl-function-ceil.html [ Skip ]
