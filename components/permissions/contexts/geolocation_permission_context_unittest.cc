@@ -27,7 +27,6 @@
 #include "base/test/simple_test_clock.h"
 #include "base/time/clock.h"
 #include "build/build_config.h"
-#include "components/content_settings/browser/content_settings_usages_state.h"
 #include "components/content_settings/browser/page_specific_content_settings.h"
 #include "components/content_settings/browser/test_page_specific_content_settings_delegate.h"
 #include "components/content_settings/core/browser/host_content_settings_map.h"
@@ -256,14 +255,9 @@ void GeolocationPermissionContextTests::CheckTabContentsState(
       content_settings::PageSpecificContentSettings::GetForFrame(
           web_contents()->GetMainFrame());
 
-  const ContentSettingsUsagesState::StateMap& state_map =
-      content_settings->geolocation_usages_state().state_map();
-  EXPECT_EQ(1U, state_map.count(requesting_frame.GetOrigin()));
-  EXPECT_EQ(0U, state_map.count(requesting_frame));
-  auto settings = state_map.find(requesting_frame.GetOrigin());
-  ASSERT_FALSE(settings == state_map.end())
-      << "geolocation state not found " << requesting_frame;
-  EXPECT_EQ(expected_content_setting, settings->second);
+  expected_content_setting == CONTENT_SETTING_BLOCK
+      ? content_settings->IsContentBlocked(ContentSettingsType::GEOLOCATION)
+      : content_settings->IsContentAllowed(ContentSettingsType::GEOLOCATION);
 }
 
 void GeolocationPermissionContextTests::SetUp() {
