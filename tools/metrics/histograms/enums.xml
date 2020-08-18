@@ -64742,6 +64742,13 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="10" label="Undo">The sync was aborted with an undo button.</int>
 </enum>
 
+<enum name="SigninInterceptResult">
+  <int value="0" label="Accepted"/>
+  <int value="1" label="Declined"/>
+  <int value="2" label="Ignored"/>
+  <int value="3" label="Not displayed"/>
+</enum>
+
 <enum name="SigninInvalidGaiaCredentialsReason">
   <int value="0" label="Unknown"/>
   <int value="1" label="Credentials rejected by server"/>
