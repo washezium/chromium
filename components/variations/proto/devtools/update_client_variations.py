@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-"""Updates the generated ClientVariations proto parser.
+"""Updates the generated ClientVariations proto parser and formatter.
 
 If this script happens not to run correctly in your environment, it should be
 easy to perform the steps manually. This script simply builds a generated file,
@@ -19,8 +19,7 @@ OUTPUT_TEMPLATE = """\
 // found in the LICENSE file.
 
 // Note: This is a generated file. Do not edit by hand. Instead, run
-// components/variations/proto/devtools/update_client_variations_parser.py to
-// update.
+// components/variations/proto/devtools/update_client_variations.py to update.
 
 const gen = {};
 
@@ -30,6 +29,9 @@ const gen = {};
 
 export function parseClientVariations(data) {
   return gen.parseClientVariations(data);
+}
+export function formatClientVariations(data) {
+  return gen.formatClientVariations(data);
 }
 """
 
@@ -49,13 +51,13 @@ def main():
 
   script_file = os.path.join(
       build_dir, 'gen', 'components', 'variations', 'proto', 'devtools',
-      'client_variations_parser_gen.js')
+      'client_variations_gen.js')
   with open(script_file, 'r') as f:
     script = f.read().strip()
   script = script.replace('call(this)', 'call(gen)')
 
   output_file = os.path.abspath(
-      os.path.join(cwd, 'client_variations_parser.js'))
+      os.path.join(cwd, 'client_variations.js'))
   with open(output_file, 'w') as f:
     f.write(OUTPUT_TEMPLATE % script)
 
