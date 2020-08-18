@@ -871,10 +871,6 @@ extern const char kOmniboxAutocompleteTitlesDescription[];
 extern const char kOmniboxClobberTriggersContextualWebZeroSuggestName[];
 extern const char kOmniboxClobberTriggersContextualWebZeroSuggestDescription[];
 
-extern const char kOmniboxFocusGestureTriggersContextualWebZeroSuggestName[];
-extern const char
-    kOmniboxFocusGestureTriggersContextualWebZeroSuggestDescription[];
-
 extern const char kOmniboxCompactSuggestionsName[];
 extern const char kOmniboxCompactSuggestionsDescription[];
 

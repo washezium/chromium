@@ -1487,16 +1487,6 @@ const char kOmniboxClobberTriggersContextualWebZeroSuggestDescription[] =
     "Backspace), Chrome will request ZeroSuggest suggestions for the OTHER "
     "page classification (contextual web).";
 
-const char kOmniboxFocusGestureTriggersContextualWebZeroSuggestName[] =
-    "Omnibox Focus Gesture Triggers Contextual Web ZeroSuggest";
-const char kOmniboxFocusGestureTriggersContextualWebZeroSuggestDescription[] =
-    "Disable this flag to prevent focus gestures (e.g. clicks, taps, Ctrl+L) "
-    "from triggering ZeroSuggest for the OTHER page classification (contextual "
-    "web). This is used to experiment with alternate ZeroSuggest triggers like "
-    "clobber. Note, this flag is Enabled by default, as on-focus is the "
-    "standard ZeroSuggest trigger. This flag doesn't affect the NTP or SERP. "
-    "We don't want to accidentally unlaunch on-focus NTP ZeroSuggest.";
-
 const char kOmniboxCompactSuggestionsName[] = "Omnibox: Compact suggestions";
 const char kOmniboxCompactSuggestionsDescription[] =
     "Conserve the space for Omnibox Suggestions by slightly reducing their "
