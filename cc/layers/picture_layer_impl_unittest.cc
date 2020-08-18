@@ -5028,11 +5028,10 @@ TEST_F(LegacySWPictureLayerImplTest, UpdateLCDTextInvalidatesPendingTree) {
 
   pending_layer()->SetContentsOpaque(true);
   pending_layer()->UpdateTiles();
-  // Once we disable lcd text, we don't re-enable it.
-  EXPECT_FALSE(pending_layer()->can_use_lcd_text());
+  EXPECT_TRUE(pending_layer()->can_use_lcd_text());
   EXPECT_TRUE(pending_layer()->HighResTiling()->has_tiles());
   for (Tile* tile : pending_layer()->HighResTiling()->AllTilesForTesting())
-    EXPECT_FALSE(tile->can_use_lcd_text());
+    EXPECT_TRUE(tile->can_use_lcd_text());
 }
 
 TEST_F(LegacySWPictureLayerImplTest, UpdateLCDTextPushToActiveTree) {
