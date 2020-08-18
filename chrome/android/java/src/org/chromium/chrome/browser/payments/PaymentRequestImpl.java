@@ -434,7 +434,7 @@ public class PaymentRequestImpl
             mQueryForQuota.put("basic-card-payment-options", paymentMethodData);
         }
 
-        if (!parseAndValidateDetailsOrDisconnectFromClient(details)) return true;
+        if (!parseAndValidateDetailsOrDisconnectFromClient(details)) return false;
         mSpec = new PaymentRequestSpec(mPaymentOptions, details, mMethodData.values(),
                 LocaleUtils.getDefaultLocaleString());
 
