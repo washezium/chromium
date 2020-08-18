@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.chromium.base.Callback;
 import org.chromium.base.ContextUtils;
 import org.chromium.base.Log;
+import org.chromium.base.ThreadUtils;
 import org.chromium.base.annotations.CalledByNative;
 import org.chromium.base.annotations.JNINamespace;
 import org.chromium.base.annotations.NativeMethods;
@@ -215,6 +216,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
         @Override
         public String getAccountName() {
+            assert ThreadUtils.runningOnUiThread();
             CoreAccountInfo primaryAccount =
                     IdentityServicesProvider.get()
                             .getIdentityManager(Profile.getLastUsedRegularProfile())
@@ -224,11 +226,13 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
         @Override
         public int[] getExperimentIds() {
+            // Note: this is thread-safe.
             return FeedStreamSurfaceJni.get().getExperimentIds();
         }
 
         @Override
         public String getClientInstanceId() {
+            assert ThreadUtils.runningOnUiThread();
             return FeedServiceBridge.getClientInstanceId();
         }
 
@@ -607,6 +611,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void navigateTab(String url, View actionSourceView) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportOpenAction(mNativeFeedStreamSurface,
                 FeedStreamSurface.this, getSliceIdFromView(actionSourceView));
         NewTabPageUma.recordAction(NewTabPageUma.ACTION_OPENED_SNIPPET);
@@ -619,6 +624,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void navigateNewTab(String url, View actionSourceView) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportOpenInNewTabAction(mNativeFeedStreamSurface,
                 FeedStreamSurface.this, getSliceIdFromView(actionSourceView));
         NewTabPageUma.recordAction(NewTabPageUma.ACTION_OPENED_SNIPPET);
@@ -631,6 +637,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void navigateIncognitoTab(String url) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportOpenInNewIncognitoTabAction(
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
         NewTabPageUma.recordAction(NewTabPageUma.ACTION_OPENED_SNIPPET);
@@ -643,6 +650,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void downloadLink(String url) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportDownloadAction(
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
         RequestCoordinatorBridge.getForProfile(Profile.getLastUsedRegularProfile())
@@ -652,6 +660,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void showBottomSheet(View view, View actionSourceView) {
+        assert ThreadUtils.runningOnUiThread();
         dismissBottomSheet();
 
         FeedStreamSurfaceJni.get().reportContextMenuOpened(
@@ -665,6 +674,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void dismissBottomSheet() {
+        assert ThreadUtils.runningOnUiThread();
         if (mBottomSheetContent != null) {
             mBottomSheetController.hideContent(mBottomSheetContent, true);
         }
@@ -674,6 +684,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void recordActionManageInterests() {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportManageInterestsAction(
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
     }
@@ -685,18 +696,24 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void processThereAndBackAgainData(byte[] data) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().processThereAndBackAgain(
                 mNativeFeedStreamSurface, FeedStreamSurface.this, data);
     }
 
     @Override
     public void processViewAction(byte[] data) {
-        FeedStreamSurfaceJni.get().processViewAction(
-                mNativeFeedStreamSurface, FeedStreamSurface.this, data);
+        // TODO(crbug.com/1117586): The caller should be calling on the Ui thread.
+        // assert ThreadUtils.runningOnUiThread();
+        PostTask.postTask(UiThreadTaskTraits.DEFAULT, () -> {
+            FeedStreamSurfaceJni.get().processViewAction(
+                    mNativeFeedStreamSurface, FeedStreamSurface.this, data);
+        });
     }
 
     @Override
     public void sendFeedback(Map<String, String> productSpecificDataMap) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().reportSendFeedbackAction(
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
 
@@ -754,12 +771,14 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public int requestDismissal(byte[] data) {
+        assert ThreadUtils.runningOnUiThread();
         return FeedStreamSurfaceJni.get().executeEphemeralChange(
                 mNativeFeedStreamSurface, FeedStreamSurface.this, data);
     }
 
     @Override
     public void commitDismissal(int changeId) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().commitEphemeralChange(
                 mNativeFeedStreamSurface, FeedStreamSurface.this, changeId);
 
@@ -769,6 +788,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
 
     @Override
     public void discardDismissal(int changeId) {
+        assert ThreadUtils.runningOnUiThread();
         FeedStreamSurfaceJni.get().discardEphemeralChange(
                 mNativeFeedStreamSurface, FeedStreamSurface.this, changeId);
     }
@@ -777,6 +797,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
     public void showSnackbar(String text, String actionLabel,
             FeedActionsHandler.SnackbarDuration duration,
             FeedActionsHandler.SnackbarController controller) {
+        assert ThreadUtils.runningOnUiThread();
         int durationMs = SNACKBAR_DURATION_MS_SHORT;
         if (duration == FeedActionsHandler.SnackbarDuration.LONG) {
             durationMs = SNACKBAR_DURATION_MS_LONG;
