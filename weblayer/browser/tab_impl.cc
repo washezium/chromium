@@ -588,6 +588,7 @@ void TabImpl::CaptureScreenShot(
     Java_TabImpl_runCaptureScreenShotCallback(
         env, ScopedJavaLocalRef<jobject>(value_callback),
         ScopedJavaLocalRef<jobject>(), static_cast<int>(error));
+    return;
   }
 
   rwhv->CopyFromSurface(
