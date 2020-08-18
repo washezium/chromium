@@ -498,6 +498,7 @@ generate_jni("android_webview_unittests_jni") {
 # robolectric tests
 junit_binary("android_webview_junit_tests") {
   sources = [
+    "../junit/src/org/chromium/android_webview/robolectric/AwDisplayCutoutControllerTest.java",
     "../junit/src/org/chromium/android_webview/robolectric/AwLayoutSizerTest.java",
     "../junit/src/org/chromium/android_webview/robolectric/AwScrollOffsetManagerTest.java",
     "../junit/src/org/chromium/android_webview/robolectric/FindAddressTest.java",
