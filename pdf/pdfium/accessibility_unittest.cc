@@ -148,14 +148,14 @@ TEST_F(AccessibilityTest, GetUnderlyingTextRangeForRect) {
   std::unique_ptr<PDFiumEngine> engine =
       InitializeEngine(&client, FILE_PATH_LITERAL("hello_world2.pdf"));
   ASSERT_TRUE(engine);
+  ASSERT_EQ(2, engine->GetNumberOfPages());
 
-  PDFiumPage* page = GetPDFiumPageForTest(engine.get(), 0);
-  ASSERT_TRUE(page);
+  PDFiumPage& page = GetPDFiumPageForTest(*engine, 0);
 
   // The test rect spans across [0, 4] char indices.
   int start_index = -1;
   int char_count = 0;
-  EXPECT_TRUE(page->GetUnderlyingTextRangeForRect(
+  EXPECT_TRUE(page.GetUnderlyingTextRangeForRect(
       pp::FloatRect(20.0f, 50.0f, 26.0f, 8.0f), &start_index, &char_count));
   EXPECT_EQ(start_index, 0);
   EXPECT_EQ(char_count, 5);
@@ -165,7 +165,7 @@ TEST_F(AccessibilityTest, GetUnderlyingTextRangeForRect) {
   // of first line.
   start_index = -1;
   char_count = 0;
-  EXPECT_TRUE(page->GetUnderlyingTextRangeForRect(
+  EXPECT_TRUE(page.GetUnderlyingTextRangeForRect(
       pp::FloatRect(20.0f, 0.0f, 26.0f, 58.0f), &start_index, &char_count));
   EXPECT_EQ(start_index, 0);
   EXPECT_EQ(char_count, 5);
@@ -174,7 +174,7 @@ TEST_F(AccessibilityTest, GetUnderlyingTextRangeForRect) {
   // will return false and not change the dummy values set here.
   start_index = -9;
   char_count = -10;
-  EXPECT_FALSE(page->GetUnderlyingTextRangeForRect(
+  EXPECT_FALSE(page.GetUnderlyingTextRangeForRect(
       pp::FloatRect(10.0f, 10.0f, 0.0f, 0.0f), &start_index, &char_count));
   EXPECT_EQ(start_index, -9);
   EXPECT_EQ(char_count, -10);

@@ -2271,7 +2271,7 @@ const DocumentMetadata& PDFiumEngine::GetDocumentMetadata() const {
   return doc_metadata_;
 }
 
-int PDFiumEngine::GetNumberOfPages() {
+int PDFiumEngine::GetNumberOfPages() const {
   return pages_.size();
 }
 
