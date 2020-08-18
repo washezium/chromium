@@ -28763,6 +28763,15 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3414" label="UnspecifiedTargetOriginPostMessage"/>
   <int value="3415" label="SchemelesslySameSitePostMessageSecureToInsecure"/>
   <int value="3416" label="SchemelesslySameSitePostMessageInsecureToSecure"/>
+  <int value="3417" label="BCPBroadcast"/>
+  <int value="3418" label="BCPRead"/>
+  <int value="3419" label="BCPWriteWithoutResponse"/>
+  <int value="3420" label="BCPWrite"/>
+  <int value="3421" label="BCPNotify"/>
+  <int value="3422" label="BCPIndicate"/>
+  <int value="3423" label="BCPAuthenticatedSignedWrites"/>
+  <int value="3424" label="BCPReliableWrite"/>
+  <int value="3425" label="BCPWritableAuxiliaries"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
