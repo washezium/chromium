@@ -1815,61 +1815,8 @@ class TumblrStory2018(_InfiniteScrollStory):
     # go to the https://techcrunch.tumblr.com
     action_runner.ReloadPage()
 
-
-class TwitterScrollDesktopStory2020(_InfiniteScrollStory):
-  NAME = 'browse:social:twitter_infinite_scroll:2020'
-  URL = 'https://twitter.com/AbeShinzo?lang=ja'
+class TwitterScrollDesktopStory2018(_InfiniteScrollStory):
+  NAME = 'browse:social:twitter_infinite_scroll:2018'
+  URL = 'https://twitter.com/NASA'
   SUPPORTED_PLATFORMS = platforms.DESKTOP_ONLY
-  TAGS = [
-      story_tags.INFINITE_SCROLL, story_tags.INTERNATIONAL, story_tags.YEAR_2020
-  ]
-
-  # This map translates page-specific event names to event names needed for
-  # the reported_by_page:* metric.
-  EVENTS_REPORTED_BY_PAGE = '''
-    window.__telemetry_reported_page_events = {
-      'ttft':
-          'telemetry:reported_by_page:viewable',
-      'tti':
-          'telemetry:reported_by_page:interactive'
-    };
-  '''
-
-  # Patch performance.mark to get notified about page events.
-  PERFORMANCE_MARK_PATCH = '''
-    window.__telemetry_observed_page_events = new Set();
-    (function () {
-      let reported = window.__telemetry_reported_page_events;
-      let observed = window.__telemetry_observed_page_events;
-      let performance_mark = window.performance.mark;
-      window.performance.mark = function (label) {
-        performance_mark.call(window.performance, label);
-        if (reported.hasOwnProperty(label)) {
-          performance_mark.call(
-              window.performance, reported[label]);
-          observed.add(reported[label]);
-        }
-      }
-    })();
-  '''
-
-  # Page event queries.
-  INTERACTIVE_EVENT = '''
-    (window.__telemetry_observed_page_events.has(
-        "telemetry:reported_by_page:interactive"))
-  '''
-
-  def __init__(self, story_set, take_memory_measurement):
-    super(TwitterScrollDesktopStory2020,
-          self).__init__(story_set, take_memory_measurement)
-    self.script_to_evaluate_on_commit = js_template.Render(
-        '''{{@events_reported_by_page}}
-        {{@performance_mark}}''',
-        events_reported_by_page=self.EVENTS_REPORTED_BY_PAGE,
-        performance_mark=self.PERFORMANCE_MARK_PATCH)
-
-  def _DidLoadDocument(self, action_runner):
-    # 1. Wait until the page load.
-    action_runner.WaitForJavaScriptCondition(self.INTERACTIVE_EVENT)
-
-    super(TwitterScrollDesktopStory2020, self)._DidLoadDocument(action_runner)
+  TAGS = [story_tags.INFINITE_SCROLL, story_tags.YEAR_2018]

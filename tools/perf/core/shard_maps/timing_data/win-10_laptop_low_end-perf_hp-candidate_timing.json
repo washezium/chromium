@@ -56,6 +56,10 @@
         "name": "v8.browsing_desktop/browse:social:twitter:2018"
     },
     {
+        "duration": "103.0",
+        "name": "v8.browsing_desktop/browse:social:twitter_infinite_scroll:2018"
+    },
+    {
         "duration": "98.0",
         "name": "v8.browsing_desktop/browse:tech:discourse_infinite_scroll:2018"
     },
