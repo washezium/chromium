@@ -5,7 +5,9 @@
 #ifndef THIRD_PARTY_BLINK_RENDERER_CORE_FRAME_DACTYLOSCOPER_H_
 #define THIRD_PARTY_BLINK_RENDERER_CORE_FRAME_DACTYLOSCOPER_H_
 
+#include "base/optional.h"
 #include "third_party/blink/public/common/privacy_budget/identifiable_token.h"
+#include "third_party/blink/public/common/privacy_budget/identifiable_token_builder.h"
 #include "third_party/blink/renderer/core/core_export.h"
 #include "third_party/blink/renderer/core/frame/web_feature.h"
 #include "third_party/blink/renderer/core/svg/svg_string_list_tear_off.h"
@@ -44,6 +46,18 @@ class CORE_EXPORT Dactyloscoper {
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
                                   SVGStringListTearOff*);
+
+  template <typename T>
+  static void RecordDirectSurface(ExecutionContext* context,
+                                  WebFeature feature,
+                                  const base::Optional<T>& value) {
+    if (value.has_value()) {
+      RecordDirectSurface(context, feature, value.value());
+    } else {
+      RecordDirectSurface(context, feature,
+                          IdentifiableTokenBuilder().GetToken());
+    }
+  }
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Dactyloscoper);
