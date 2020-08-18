@@ -1045,11 +1045,6 @@ base::RefCountedMemory* ChromeWebUIControllerFactory::GetFaviconResourceBytes(
   if (page_url.host_piece() == chrome::kChromeUIFlagsHost)
     return FlagsUI::GetFaviconResourceBytes(scale_factor);
 
-  if (page_url.host_piece() == chrome::kChromeUIHistoryHost) {
-    return ui::ResourceBundle::GetSharedInstance()
-        .LoadDataResourceBytesForScale(IDR_HISTORY_FAVICON, scale_factor);
-  }
-
 #if !defined(OS_ANDROID)
 #if !defined(OS_CHROMEOS)
   // The Apps launcher page is not available on android or ChromeOS.
@@ -1060,6 +1055,9 @@ base::RefCountedMemory* ChromeWebUIControllerFactory::GetFaviconResourceBytes(
   // Bookmarks are part of NTP on Android.
   if (page_url.host_piece() == chrome::kChromeUIBookmarksHost)
     return BookmarksUI::GetFaviconResourceBytes(scale_factor);
+
+  if (page_url.host_piece() == chrome::kChromeUIHistoryHost)
+    return HistoryUI::GetFaviconResourceBytes(scale_factor);
 
   // Android uses the native download manager.
   if (page_url.host_piece() == chrome::kChromeUIDownloadsHost)
