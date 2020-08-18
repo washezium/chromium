@@ -278,15 +278,11 @@ class ExtensionContentSettingsApiLazyTest
 
  protected:
   bool RunLazyTest(const std::string& extension_name) {
-    return RunLazyTestWithArg(extension_name, nullptr);
-  }
-
-  bool RunLazyTestWithArg(const std::string& extension_name, const char* arg) {
     int browser_test_flags = kFlagNone;
     if (GetParam() == ContextType::kServiceWorker)
       browser_test_flags |= kFlagRunAsServiceWorkerBasedExtension;
 
-    return RunExtensionTestWithFlagsAndArg(extension_name, arg,
+    return RunExtensionTestWithFlagsAndArg(extension_name, nullptr,
                                            browser_test_flags, kFlagNone);
   }
 
@@ -433,64 +429,6 @@ IN_PROC_BROWSER_TEST_P(ExtensionContentSettingsApiLazyTest,
       "ContentSettings.ExtensionNonEmbeddedSettingSet", cookies_type, 1);
   histogram_tester.ExpectTotalCount(
       "ContentSettings.ExtensionNonEmbeddedSettingSet", 2);
-}
-
-class ExtensionContentSettingsApiTestWithPermissionDelegationDisabled
-    : public ExtensionContentSettingsApiLazyTest {
- public:
-  ExtensionContentSettingsApiTestWithPermissionDelegationDisabled() {
-    feature_list_.InitAndDisableFeature(
-        permissions::features::kPermissionDelegation);
-  }
-
- private:
-  base::test::ScopedFeatureList feature_list_;
-};
-
-INSTANTIATE_TEST_SUITE_P(
-    EventPage,
-    ExtensionContentSettingsApiTestWithPermissionDelegationDisabled,
-    ::testing::Values(ContextType::kEventPage));
-
-INSTANTIATE_TEST_SUITE_P(
-    ServiceWorker,
-    ExtensionContentSettingsApiTestWithPermissionDelegationDisabled,
-    ::testing::Values(ContextType::kServiceWorker));
-
-class ExtensionContentSettingsApiTestWithPermissionDelegationEnabled
-    : public ExtensionContentSettingsApiLazyTest {
- public:
-  ExtensionContentSettingsApiTestWithPermissionDelegationEnabled() {
-    feature_list_.InitAndEnableFeature(
-        permissions::features::kPermissionDelegation);
-  }
-
- private:
-  base::test::ScopedFeatureList feature_list_;
-};
-
-INSTANTIATE_TEST_SUITE_P(
-    EventPage,
-    ExtensionContentSettingsApiTestWithPermissionDelegationEnabled,
-    ::testing::Values(ContextType::kEventPage));
-
-INSTANTIATE_TEST_SUITE_P(
-    ServiceWorker,
-    ExtensionContentSettingsApiTestWithPermissionDelegationEnabled,
-    ::testing::Values(ContextType::kServiceWorker));
-
-IN_PROC_BROWSER_TEST_P(
-    ExtensionContentSettingsApiTestWithPermissionDelegationDisabled,
-    EmbeddedSettings) {
-  const char kExtensionPath[] = "content_settings/embeddedsettings";
-  EXPECT_TRUE(RunLazyTestWithArg(kExtensionPath, nullptr)) << message_;
-}
-
-IN_PROC_BROWSER_TEST_P(
-    ExtensionContentSettingsApiTestWithPermissionDelegationEnabled,
-    EmbeddedSettings) {
-  const char kExtensionPath[] = "content_settings/embeddedsettings";
-  EXPECT_TRUE(RunLazyTestWithArg(kExtensionPath, "permission")) << message_;
 }
 
 class ExtensionContentSettingsApiTestWithWildcardMatchingDisabled
