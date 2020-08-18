@@ -7870,6 +7870,21 @@
             ]
         }
     ],
+    "WebRTC-VP8VariableFramerateScreenshare": [
+        {
+            "platforms": [
+                "windows",
+                "mac",
+                "chromeos",
+                "linux"
+            ],
+            "experiments": [
+                {
+                    "name": "Enabled"
+                }
+            ]
+        }
+    ],
     "WebRTC-Video-MinVideoBitrate": [
         {
             "platforms": [
