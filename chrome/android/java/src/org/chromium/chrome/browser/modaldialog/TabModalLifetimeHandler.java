@@ -50,7 +50,7 @@ public class TabModalLifetimeHandler implements NativeInitObserver, Destroyable 
         }
     };
 
-    private final ChromeActivity mActivity;
+    private ChromeActivity mActivity;
     private final ModalDialogManager mManager;
     private final Supplier<ComposedBrowserControlsVisibilityDelegate> mAppVisibilityDelegate;
     private final Supplier<TabObscuringHandler> mTabObscuringHandlerSupplier;
@@ -131,6 +131,12 @@ public class TabModalLifetimeHandler implements NativeInitObserver, Destroyable 
     public void destroy() {
         if (mTabModelObserver != null) mTabModelObserver.destroy();
         if (mPresenter != null) mPresenter.destroy();
+
+        if (mActiveTab != null) {
+            mActiveTab.removeObserver(mTabObserver);
+            mActiveTab = null;
+        }
+        mActivity = null;
     }
 
     /** Update whether the {@link ModalDialogManager} should suspend tab modal dialogs. */
