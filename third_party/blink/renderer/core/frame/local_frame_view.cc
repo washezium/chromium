@@ -3130,12 +3130,9 @@ void LocalFrameView::PushPaintArtifactToCompositor(
 std::unique_ptr<JSONObject> LocalFrameView::CompositedLayersAsJSON(
     LayerTreeFlags flags) {
   auto* root_frame_view = GetFrame().LocalFrameRoot().View();
-  if (root_frame_view->GetPaintController()) {
-    return root_frame_view->paint_artifact_compositor_->GetLayersAsJSON(
-        flags, &root_frame_view->GetPaintController()->GetPaintArtifact());
-  } else {
-    return std::make_unique<JSONObject>();
-  }
+  if (root_frame_view->GetPaintController())
+    return root_frame_view->paint_artifact_compositor_->GetLayersAsJSON(flags);
+  return std::make_unique<JSONObject>();
 }
 
 void LocalFrameView::UpdateStyleAndLayoutIfNeededRecursive() {
