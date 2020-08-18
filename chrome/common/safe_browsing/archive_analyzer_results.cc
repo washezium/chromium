@@ -181,10 +181,6 @@ void UpdateArchiveAnalyzerResultsWithFile(base::FilePath path,
     }
 #endif  // OS_MAC
   }
-
-  base::UmaHistogramSparse(
-      "SBClientDownload.ArchiveDownloadExtensions",
-      FileTypePolicies::GetInstance()->UmaValueForFile(path));
 }
 
 }  // namespace safe_browsing
