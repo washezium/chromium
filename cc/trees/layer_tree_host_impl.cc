@@ -2430,7 +2430,7 @@ viz::CompositorFrame LayerTreeHostImpl::GenerateCompositorFrame(
     // For now cap the interval assuming a 24fps video, which is likely the
     // lowest frame rate we'll see for a video that would also be acceptable to
     // the page.
-    double interval_in_seconds = 1 / 24;
+    double interval_in_seconds = 1.0 / 24.0;
     metadata.preferred_frame_interval =
         base::TimeDelta::FromSecondsD(interval_in_seconds);
   } else {
