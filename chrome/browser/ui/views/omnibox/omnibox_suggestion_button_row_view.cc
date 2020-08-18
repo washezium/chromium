@@ -135,12 +135,12 @@ OmniboxSuggestionButtonRowView::OmniboxSuggestionButtonRowView(
   keyword_button_ = CreatePillButton(
       this, "Keyword search", vector_icons::kSearchIcon,
       make_predicate(OmniboxPopupModel::FOCUSED_BUTTON_KEYWORD));
-  pedal_button_ =
-      CreatePillButton(this, "Pedal", omnibox::kProductIcon,
-                       make_predicate(OmniboxPopupModel::FOCUSED_BUTTON_PEDAL));
   tab_switch_button_ = CreatePillButton(
       this, "Switch to this tab", omnibox::kSwitchIcon,
       make_predicate(OmniboxPopupModel::FOCUSED_BUTTON_TAB_SWITCH));
+  pedal_button_ =
+      CreatePillButton(this, "Pedal", omnibox::kProductIcon,
+                       make_predicate(OmniboxPopupModel::FOCUSED_BUTTON_PEDAL));
 }
 
 OmniboxSuggestionButtonRowView::~OmniboxSuggestionButtonRowView() = default;
