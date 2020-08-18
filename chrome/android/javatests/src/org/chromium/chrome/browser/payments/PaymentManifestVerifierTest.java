@@ -9,12 +9,19 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 
+import androidx.test.filters.SmallTest;
+
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import org.chromium.base.annotations.CalledByNative;
-import org.chromium.base.annotations.CalledByNativeJavaTest;
+import org.chromium.base.test.BaseJUnit4ClassRunner;
+import org.chromium.base.test.util.Batch;
 import org.chromium.chrome.browser.payments.PaymentManifestVerifier.ManifestVerifyCallback;
+import org.chromium.chrome.test.ChromeBrowserTestRule;
 import org.chromium.components.payments.PackageManagerDelegate;
 import org.chromium.components.payments.PaymentManifestDownloader;
 import org.chromium.components.payments.PaymentManifestParser;
@@ -22,6 +29,7 @@ import org.chromium.components.payments.PaymentManifestWebDataService;
 import org.chromium.components.payments.PaymentManifestWebDataService.PaymentManifestWebDataServiceCallback;
 import org.chromium.components.payments.WebAppManifestSection;
 import org.chromium.content_public.browser.WebContents;
+import org.chromium.content_public.browser.test.NativeLibraryTestUtils;
 import org.chromium.url.GURL;
 import org.chromium.url.Origin;
 
@@ -29,19 +37,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** A test for the verifier of a payment app manifest. */
+@RunWith(BaseJUnit4ClassRunner.class)
+@Batch(AndroidPaymentAppFinderUnitTest.PAYMENTS_BROWSER_UNIT_TESTS)
 public class PaymentManifestVerifierTest {
     private static final String ERROR_MESSAGE = "This is an error message.";
 
-    private final Origin mTestOrigin;
-    private final GURL mMethodName;
-    private final ResolveInfo mAlicePay;
-    private final ResolveInfo mBobPay;
-    private final Set<ResolveInfo> mMatchingApps;
-    private final PaymentManifestDownloader mDownloader;
-    private final PaymentManifestWebDataService mWebDataService;
-    private final PaymentManifestParser mParser;
-    private final PackageManagerDelegate mPackageManagerDelegate;
-    private final ManifestVerifyCallback mCallback;
+    private Origin mTestOrigin;
+    private GURL mMethodName;
+    private ResolveInfo mAlicePay;
+    private ResolveInfo mBobPay;
+    private Set<ResolveInfo> mMatchingApps;
+    private PaymentManifestDownloader mDownloader;
+    private PaymentManifestWebDataService mWebDataService;
+    private PaymentManifestParser mParser;
+    private PackageManagerDelegate mPackageManagerDelegate;
+    private ManifestVerifyCallback mCallback;
 
     // SHA256("01020304050607080900"):
     public static final byte[][] BOB_PAY_SIGNATURE_FINGERPRINTS = {{(byte) 0x9A, (byte) 0x89,
@@ -52,8 +62,13 @@ public class PaymentManifestVerifierTest {
             (byte) 0x09, (byte) 0xC4, (byte) 0x74, (byte) 0xF5, (byte) 0x93, (byte) 0xFB}};
     public static final Signature BOB_PAY_SIGNATURE = new Signature("01020304050607080900");
 
-    @CalledByNative
-    private PaymentManifestVerifierTest() {
+    @Rule
+    public ChromeBrowserTestRule mTestRule = new ChromeBrowserTestRule();
+
+    @Before
+    public void setUp() {
+        NativeLibraryTestUtils.loadNativeLibraryAndInitBrowserProcess();
+
         mTestOrigin = PaymentManifestDownloader.createOpaqueOriginForTest();
         mMethodName = new GURL("https://example.com");
 
@@ -132,7 +147,8 @@ public class PaymentManifestVerifierTest {
         mCallback = Mockito.mock(ManifestVerifyCallback.class);
     }
 
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testUnableToDownloadPaymentMethodManifest() {
         PaymentManifestVerifier verifier = new PaymentManifestVerifier(mTestOrigin, mMethodName,
                 mMatchingApps, null /* supportedOrigins */,
@@ -156,7 +172,8 @@ public class PaymentManifestVerifierTest {
                 .onValidDefaultPaymentApp(Mockito.any(GURL.class), Mockito.any(ResolveInfo.class));
     }
 
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testUnableToDownloadWebAppManifest() {
         PaymentManifestVerifier verifier = new PaymentManifestVerifier(mTestOrigin, mMethodName,
                 mMatchingApps, null /* supportedOrigins */,
@@ -189,7 +206,8 @@ public class PaymentManifestVerifierTest {
         Mockito.verify(mCallback).onFinishedUsingResources();
     }
 
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testUnableToParsePaymentMethodManifest() {
         PaymentManifestVerifier verifier = new PaymentManifestVerifier(mTestOrigin, mMethodName,
                 mMatchingApps, null /* supportedOrigins */, mWebDataService,
@@ -209,7 +227,8 @@ public class PaymentManifestVerifierTest {
         Mockito.verify(mCallback).onFinishedUsingResources();
     }
 
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testUnableToParseWebAppManifest() {
         PaymentManifestVerifier verifier = new PaymentManifestVerifier(mTestOrigin, mMethodName,
                 mMatchingApps, null /* supportedOrigins */, mWebDataService,
@@ -237,7 +256,8 @@ public class PaymentManifestVerifierTest {
         Mockito.verify(mCallback).onFinishedUsingResources();
     }
 
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testBobPayAllowed() {
         PaymentManifestVerifier verifier = new PaymentManifestVerifier(mTestOrigin, mMethodName,
                 mMatchingApps, null /* supportedOrigins */, mWebDataService, mDownloader, mParser,
@@ -260,7 +280,8 @@ public class PaymentManifestVerifierTest {
     }
 
     /** If a single web app manifest fails to download, all downloads should be aborted. */
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testFirstOfTwoManifestsFailsToDownload() {
         CountingParser parser = new CountingParser() {
             @Override
@@ -312,7 +333,8 @@ public class PaymentManifestVerifierTest {
     }
 
     /** If a single web app manifest fails to parse, all downloads should be aborted. */
-    @CalledByNativeJavaTest
+    @SmallTest
+    @Test
     public void testFirstOfTwoManifestsFailsToParse() {
         CountingParser parser = new CountingParser() {
             @Override

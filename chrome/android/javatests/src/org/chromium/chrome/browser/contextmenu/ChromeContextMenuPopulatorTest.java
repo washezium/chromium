@@ -11,13 +11,19 @@ import static org.mockito.Mockito.when;
 
 import android.util.Pair;
 
+import androidx.test.filters.SmallTest;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.chromium.base.ContextUtils;
-import org.chromium.base.annotations.CalledByNative;
-import org.chromium.base.annotations.CalledByNativeJavaTest;
+import org.chromium.base.test.BaseJUnit4ClassRunner;
+import org.chromium.base.test.UiThreadTest;
+import org.chromium.base.test.util.Batch;
 import org.chromium.blink_public.common.ContextMenuDataMediaType;
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.IntentHandler;
@@ -28,6 +34,7 @@ import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.share.ShareDelegate;
 import org.chromium.components.embedder_support.contextmenu.ContextMenuParams;
 import org.chromium.components.search_engines.TemplateUrlService;
+import org.chromium.content_public.browser.test.NativeLibraryTestUtils;
 import org.chromium.ui.base.MenuSourceType;
 
 import java.util.Arrays;
@@ -37,6 +44,8 @@ import java.util.List;
 /**
  * Unit tests for the context menu logic of Chrome.
  */
+@RunWith(BaseJUnit4ClassRunner.class)
+@Batch(Batch.UNIT_TESTS)
 public class ChromeContextMenuPopulatorTest {
     private static final String PAGE_URL = "http://www.blah.com";
     private static final String LINK_URL = "http://www.blah.com/other_blah";
@@ -55,12 +64,11 @@ public class ChromeContextMenuPopulatorTest {
 
     private ChromeContextMenuPopulator mPopulator;
 
-    @CalledByNative
-    private ChromeContextMenuPopulatorTest() {}
-
-    @CalledByNative
+    @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        NativeLibraryTestUtils.loadNativeLibraryNoBrowserProcess();
 
         when(mItemDelegate.getPageUrl()).thenReturn(PAGE_URL);
         when(mItemDelegate.isIncognitoSupported()).thenReturn(true);
@@ -114,7 +122,9 @@ public class ChromeContextMenuPopulatorTest {
         }
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testHttpLink() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         ContextMenuParams contextMenuParams = new ContextMenuParams(0, 0, PAGE_URL, LINK_URL,
@@ -151,7 +161,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected4);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testHttpLinkWithPreviewTabEnabled() {
         ContextMenuParams contextMenuParams = new ContextMenuParams(0, 0, PAGE_URL, LINK_URL,
                 LINK_TEXT, "", "", "", null, false, 0, 0, MenuSourceType.MENU_SOURCE_TOUCH);
@@ -184,7 +196,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected3);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testMailLink() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         ContextMenuParams contextMenuParams =
@@ -220,7 +234,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected4);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testTelLink() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         ContextMenuParams contextMenuParams =
@@ -257,7 +273,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected4);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testVideoLink() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         String sourceUrl = "http://www.blah.com/";
@@ -298,7 +316,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected4Tab1, expected4Tab2);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testImageHiFi() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         ContextMenuParams contextMenuParams = new ContextMenuParams(0,
@@ -333,7 +353,9 @@ public class ChromeContextMenuPopulatorTest {
         checkMenuOptions(contextMenuParams, expected4);
     }
 
-    @CalledByNativeJavaTest
+    @Test
+    @SmallTest
+    @UiThreadTest
     public void testHttpLinkWithImageHiFi() {
         FirstRunStatus.setFirstRunFlowComplete(false);
         ContextMenuParams contextMenuParams = new ContextMenuParams(0,
