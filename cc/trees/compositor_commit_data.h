@@ -1,10 +1,11 @@
-// Copyright 2011 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CC_TREES_SCROLL_AND_SCALE_SET_H_
-#define CC_TREES_SCROLL_AND_SCALE_SET_H_
+#ifndef CC_TREES_COMPOSITOR_COMMIT_DATA_H_
+#define CC_TREES_COMPOSITOR_COMMIT_DATA_H_
 
+#include <memory>
 #include <vector>
 
 #include "cc/cc_export.h"
@@ -20,12 +21,12 @@ namespace cc {
 
 class SwapPromise;
 
-struct CC_EXPORT ScrollAndScaleSet {
-  ScrollAndScaleSet();
-  ScrollAndScaleSet(const ScrollAndScaleSet&) = delete;
-  ~ScrollAndScaleSet();
+struct CC_EXPORT CompositorCommitData {
+  CompositorCommitData();
+  CompositorCommitData(const CompositorCommitData&) = delete;
+  ~CompositorCommitData();
 
-  ScrollAndScaleSet& operator=(const ScrollAndScaleSet&) = delete;
+  CompositorCommitData& operator=(const CompositorCommitData&) = delete;
 
   struct CC_EXPORT ScrollUpdateInfo {
     ScrollUpdateInfo();
@@ -108,4 +109,4 @@ struct CC_EXPORT ScrollAndScaleSet {
 
 }  // namespace cc
 
-#endif  // CC_TREES_SCROLL_AND_SCALE_SET_H_
+#endif  // CC_TREES_COMPOSITOR_COMMIT_DATA_H_

@@ -1,14 +1,14 @@
-// Copyright 2011 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "cc/trees/scroll_and_scale_set.h"
+#include "cc/trees/compositor_commit_data.h"
 
 #include "cc/trees/swap_promise.h"
 
 namespace cc {
 
-ScrollAndScaleSet::ScrollAndScaleSet()
+CompositorCommitData::CompositorCommitData()
     : page_scale_delta(1.f),
       is_pinch_gesture_active(false),
       top_controls_delta(0.f),
@@ -18,11 +18,11 @@ ScrollAndScaleSet::ScrollAndScaleSet()
       scroll_gesture_did_end(false),
       manipulation_info(kManipulationInfoNone) {}
 
-ScrollAndScaleSet::~ScrollAndScaleSet() = default;
+CompositorCommitData::~CompositorCommitData() = default;
 
-ScrollAndScaleSet::ScrollUpdateInfo::ScrollUpdateInfo() = default;
+CompositorCommitData::ScrollUpdateInfo::ScrollUpdateInfo() = default;
 
-ScrollAndScaleSet::ScrollUpdateInfo::ScrollUpdateInfo(
+CompositorCommitData::ScrollUpdateInfo::ScrollUpdateInfo(
     ElementId id,
     gfx::ScrollOffset delta,
     base::Optional<TargetSnapAreaElementIds> snap_target_ids)
@@ -30,10 +30,11 @@ ScrollAndScaleSet::ScrollUpdateInfo::ScrollUpdateInfo(
       scroll_delta(delta),
       snap_target_element_ids(snap_target_ids) {}
 
-ScrollAndScaleSet::ScrollUpdateInfo::ScrollUpdateInfo(
+CompositorCommitData::ScrollUpdateInfo::ScrollUpdateInfo(
     const ScrollUpdateInfo& other) = default;
 
-ScrollAndScaleSet::ScrollUpdateInfo& ScrollAndScaleSet::ScrollUpdateInfo::
-operator=(const ScrollUpdateInfo& other) = default;
+CompositorCommitData::ScrollUpdateInfo&
+CompositorCommitData::ScrollUpdateInfo::operator=(
+    const ScrollUpdateInfo& other) = default;
 
 }  // namespace cc
