@@ -703,6 +703,9 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         FeedStreamSurfaceJni.get().reportSendFeedbackAction(
                 mNativeFeedStreamSurface, FeedStreamSurface.this);
 
+        // Make sure the bottom sheet is dismissed before we take a snapshot.
+        dismissBottomSheet();
+
         Profile profile = Profile.getLastUsedRegularProfile();
         if (profile == null) {
             return;
