@@ -1496,6 +1496,10 @@ if (!is_android) {
       deps += [ "//chrome/app:chrome_dll_resources" ]
     }
 
+    if (use_ozone) {
+      deps += [ "//ui/ozone" ]
+    }
+
     if (is_mac) {
       sources += [ "../browser/metrics/power_metrics_provider_mac_unittest.cc" ]
     }
