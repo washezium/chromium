@@ -1480,6 +1480,12 @@
         },
       },
       # https://crbug.com/1111979
+      'linux-lacros-rel': {
+        'args': [
+          '--test-launcher-filter-file=../../testing/buildbot/filters/lacros.interactive_ui_tests.filter',
+        ],
+      },
+      # https://crbug.com/1111979
       'linux-lacros-tester-fyi-rel': {
         'experiment_percentage': 100,
       },
