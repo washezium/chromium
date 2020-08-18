@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceFragmentCompat;
+
+import org.chromium.base.supplier.Supplier;
 
 /**
  * This class is responsible for rendering the edit fragment where users can provide a new password
@@ -30,10 +33,20 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
     @VisibleForTesting
     static final String EXTRA_NEW_PASSWORD = "extra_new_password";
 
+    private Supplier<PasswordCheck> mPasswordCheckFactory;
     private String mNewPassword;
     private CompromisedCredential mCredential;
 
     private EditText mPasswordText;
+
+    /**
+     * Initializes the password check factory that allows to retrieve a {@link PasswordCheck}
+     * implementation used for saving the changed credential.
+     * @param passwordCheckFactory A {@link Supplier<PasswordCheck>}.
+     */
+    public void setCheckProvider(Supplier<PasswordCheck> passwordCheckFactory) {
+        mPasswordCheckFactory = passwordCheckFactory;
+    }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {}
@@ -89,6 +102,22 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_COMPROMISED_CREDENTIAL, mCredential);
         outState.putString(EXTRA_NEW_PASSWORD, mNewPassword);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_save_edited_password) {
+            if (!TextUtils.isEmpty(mNewPassword)) saveChanges();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void saveChanges() {
+        assert !TextUtils.isEmpty(mNewPassword);
+        mPasswordCheckFactory.get().updateCredential(mCredential, mNewPassword);
+        getActivity().finish();
     }
 
     private CompromisedCredential getCredentialFromInstanceStateOrLaunchBundle(
