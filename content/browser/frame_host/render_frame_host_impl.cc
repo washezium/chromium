@@ -1804,7 +1804,7 @@ void RenderFrameHostImpl::AccessibilityPerformAction(
   }
   // Set the input modality in RenderWidgetHostViewAura to touch so the
   // VK shows up.
-  if (action_data.action == ax::mojom::Action::kDoDefault) {
+  if (action_data.action == ax::mojom::Action::kFocus) {
     RenderWidgetHostViewBase* view = static_cast<RenderWidgetHostViewBase*>(
         render_view_host_->GetWidget()->GetView());
     if (view)
