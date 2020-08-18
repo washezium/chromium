@@ -4752,21 +4752,6 @@
             ]
         }
     ],
-    "OmniboxSuggestionsRecyclerView": [
-        {
-            "platforms": [
-                "android"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "OmniboxSuggestionsRecyclerView"
-                    ]
-                }
-            ]
-        }
-    ],
     "OmniboxSuggestionsWrapAround": [
         {
             "platforms": [
