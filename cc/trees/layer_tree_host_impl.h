@@ -352,7 +352,7 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   void DidChangeBrowserControlsPosition() override;
   void DidObserveScrollDelay(base::TimeDelta scroll_delay,
                              base::TimeTicks scroll_timestamp);
-  bool ShouldPinTopControlsToContentTop() const override;
+  bool OnlyExpandTopControlsAtPageTop() const override;
   bool HaveRootScrollNode() const override;
   void SetNeedsCommit() override;
 

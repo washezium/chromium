@@ -887,8 +887,9 @@ blink::VisualProperties RenderWidgetHostImpl::GetVisualProperties() {
   visual_properties.browser_controls_params
       .animate_browser_controls_height_changes =
       rvh_delegate_view->ShouldAnimateBrowserControlsHeightChanges();
-  visual_properties.browser_controls_params.pin_top_controls_to_content_top =
-      rvh_delegate_view->ShouldPinTopControlsToContentTop();
+  visual_properties.browser_controls_params
+      .only_expand_top_controls_at_page_top =
+      rvh_delegate_view->OnlyExpandTopControlsAtPageTop();
 
   float top_controls_height = rvh_delegate_view->GetTopControlsHeight();
   float top_controls_min_height = rvh_delegate_view->GetTopControlsMinHeight();

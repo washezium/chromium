@@ -2948,8 +2948,8 @@ void LayerTreeHostImpl::DidLoseLayerTreeFrameSink() {
   lag_tracking_manager_.Clear();
 }
 
-bool LayerTreeHostImpl::ShouldPinTopControlsToContentTop() const {
-  return active_tree_->pin_top_controls_to_content_top();
+bool LayerTreeHostImpl::OnlyExpandTopControlsAtPageTop() const {
+  return active_tree_->only_expand_top_controls_at_page_top();
 }
 
 bool LayerTreeHostImpl::HaveRootScrollNode() const {
