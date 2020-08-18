@@ -2899,7 +2899,7 @@ deps = {
       'packages': [
           {
               'package': 'chromium/third_party/android_deps/libs/com_android_tools_desugar_jdk_libs',
-              'version': 'version:1.0.5-cr0',
+              'version': 'version:1.0.10-cr0',
           },
       ],
       'condition': 'checkout_android',
@@ -2910,7 +2910,7 @@ deps = {
       'packages': [
           {
               'package': 'chromium/third_party/android_deps/libs/com_android_tools_desugar_jdk_libs_configuration',
-              'version': 'version:0.11.1-cr0',
+              'version': 'version:1.0.10-cr0',
           },
       ],
       'condition': 'checkout_android',
