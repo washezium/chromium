@@ -348,10 +348,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
             mRootView = (RecyclerView) mHybridListRenderer.bind(mContentManager);
 
             mSliceViewTracker =
-                    new FeedSliceViewTracker(mRootView, mContentManager, (String sliceId) -> {
-                        FeedStreamSurfaceJni.get().reportSliceViewed(
-                                mNativeFeedStreamSurface, FeedStreamSurface.this, sliceId);
-                    });
+                    new FeedSliceViewTracker(mRootView, mContentManager, new ViewTrackerObserver());
         } else {
             mRootView = null;
         }
@@ -863,6 +860,7 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         }
 
         mScrollReporter.onUnbind();
+        mSliceViewTracker.clear();
 
         FeedStreamSurfaceJni.get().surfaceClosed(mNativeFeedStreamSurface, FeedStreamSurface.this);
         mOpened = false;
@@ -907,10 +905,24 @@ public class FeedStreamSurface implements SurfaceActionsHandler, FeedActionsHand
         }
     }
 
+    private class ViewTrackerObserver implements FeedSliceViewTracker.Observer {
+        @Override
+        public void sliceVisible(String sliceId) {
+            FeedStreamSurfaceJni.get().reportSliceViewed(
+                    mNativeFeedStreamSurface, FeedStreamSurface.this, sliceId);
+        }
+        @Override
+        public void feedContentVisible() {
+            FeedStreamSurfaceJni.get().reportFeedViewed(
+                    mNativeFeedStreamSurface, FeedStreamSurface.this);
+        }
+    }
+
     @NativeMethods
     interface Natives {
         long init(FeedStreamSurface caller);
         int[] getExperimentIds();
+        void reportFeedViewed(long nativeFeedStreamSurface, FeedStreamSurface caller);
         void reportSliceViewed(
                 long nativeFeedStreamSurface, FeedStreamSurface caller, String sliceId);
         void reportNavigationStarted(long nativeFeedStreamSurface, FeedStreamSurface caller);

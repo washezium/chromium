@@ -673,7 +673,9 @@ void FeedStream::ReportSliceViewed(SurfaceId surface_id,
   if (index >= 0)
     metrics_reporter_->ContentSliceViewed(surface_id, index);
 }
-
+void FeedStream::ReportFeedViewed(SurfaceId surface_id) {
+  metrics_reporter_->FeedViewed(surface_id);
+}
 void FeedStream::ReportSendFeedbackAction() {
   metrics_reporter_->SendFeedbackAction();
 }
