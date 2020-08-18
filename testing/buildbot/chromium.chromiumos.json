@@ -4184,10 +4184,7 @@
   },
   "linux-lacros-rel": {
     "additional_compile_targets": [
-      "chrome",
-      "chrome_sandbox",
-      "linux_symbols",
-      "symupload"
+      "gn_all"
     ],
     "gtest_tests": [
       {
