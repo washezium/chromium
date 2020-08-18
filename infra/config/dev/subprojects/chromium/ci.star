@@ -68,7 +68,7 @@ ci_builder(
 
 ci_builder(
     name = "linux-rel-swarming",
-    description_html = "Test description. <b>Test HTML</b>."
+    description_html = "Test description. <b>Test HTML</b>.",
 )
 
 ci_builder(

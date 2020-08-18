@@ -721,10 +721,10 @@ def gpu_fyi_linux_builder(
         **kwargs
     )
 
-def gpu_fyi_mac_builder(*, name, **kwargs):
+def gpu_fyi_mac_builder(*, name, cores = 4, **kwargs):
     return gpu_fyi_builder(
         name = name,
-        cores = 4,
+        cores = cores,
         execution_timeout = 6 * time.hour,
         goma_backend = builders.goma.backend.RBE_PROD,
         os = builders.os.MAC_ANY,
