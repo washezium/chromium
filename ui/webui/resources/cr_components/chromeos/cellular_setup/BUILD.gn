@@ -89,10 +89,12 @@ js_type_check("closure_compile_module") {
   deps = [
     # ":button_bar.m",
     ":base_page.m",
+
     # ":button_bar.m",
     # ":cellular_setup.m",
     ":final_page.m",
-    # ":mojo_interface_provider.m",
+    ":mojo_interface_provider.m",
+
     # ":provisioning_page.m",
     # ":psim_flow_ui.m",
     # ":sim_detect_page.m",
@@ -118,10 +120,20 @@ js_library("final_page.m") {
   extra_deps = [ ":final_page_module" ]
 }
 
+js_library("mojo_interface_provider.m") {
+  sources = [ "$root_gen_dir/ui/webui/resources/cr_components/chromeos/cellular_setup/mojo_interface_provider.m.js" ]
+  deps = [
+    "//chromeos/services/cellular_setup/public/mojom:mojom_js_library_for_compile",
+    "//ui/webui/resources/js:cr.m",
+  ]
+  extra_deps = [ ":modulize" ]
+}
+
 group("polymer3_elements") {
   public_deps = [
     ":base_page_module",
     ":final_page_module",
+    ":modulize",
   ]
 }
 
@@ -139,4 +151,9 @@ polymer_modulizer("final_page") {
   html_type = "dom-module"
   namespace_rewrites = cr_components_chromeos_namespace_rewrites
   auto_imports = cr_components_chromeos_auto_imports
+}
+
+js_modulizer("modulize") {
+  input_files = [ "mojo_interface_provider.js" ]
+  namespace_rewrites = cr_components_chromeos_namespace_rewrites
 }
