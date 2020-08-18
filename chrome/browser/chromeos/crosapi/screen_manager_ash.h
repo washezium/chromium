@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_CROSAPI_H_
-#define CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_CROSAPI_H_
+#ifndef CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_ASH_H_
+#define CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_ASH_H_
 
 #include <stdint.h>
 
@@ -17,21 +17,19 @@
 #include "ui/gfx/image/image.h"
 
 namespace crosapi {
+
 struct Bitmap;
-}  // namespace crosapi
 
 // This class is the ash-chrome implementation of the ScreenManager interface.
 // This class must only be used from the main thread.
-class ScreenManagerCrosapi : public crosapi::mojom::ScreenManager,
-                             aura::WindowObserver {
+class ScreenManagerAsh : public mojom::ScreenManager, aura::WindowObserver {
  public:
-  ScreenManagerCrosapi();
-  ScreenManagerCrosapi(const ScreenManagerCrosapi&) = delete;
-  ScreenManagerCrosapi& operator=(const ScreenManagerCrosapi&) = delete;
-  ~ScreenManagerCrosapi() override;
+  ScreenManagerAsh();
+  ScreenManagerAsh(const ScreenManagerAsh&) = delete;
+  ScreenManagerAsh& operator=(const ScreenManagerAsh&) = delete;
+  ~ScreenManagerAsh() override;
 
-  void BindReceiver(
-      mojo::PendingReceiver<crosapi::mojom::ScreenManager> receiver);
+  void BindReceiver(mojo::PendingReceiver<mojom::ScreenManager> receiver);
 
   // crosapi::mojom::ScreenManager:
   void TakeScreenSnapshot(TakeScreenSnapshotCallback callback) override;
@@ -46,7 +44,7 @@ class ScreenManagerCrosapi : public crosapi::mojom::ScreenManager,
   void OnWindowDestroying(aura::Window* window) final;
 
  private:
-  using SnapshotCallback = base::OnceCallback<void(const crosapi::Bitmap&)>;
+  using SnapshotCallback = base::OnceCallback<void(const Bitmap&)>;
   void DidTakeSnapshot(SnapshotCallback callback, gfx::Image image);
 
   // This class generates unique, non-reused IDs for windows on demand. The IDs
@@ -63,9 +61,11 @@ class ScreenManagerCrosapi : public crosapi::mojom::ScreenManager,
   // This class supports any number of connections. This allows the client to
   // have multiple, potentially thread-affine, remotes. This is needed by
   // WebRTC.
-  mojo::ReceiverSet<crosapi::mojom::ScreenManager> receivers_;
+  mojo::ReceiverSet<mojom::ScreenManager> receivers_;
 
-  base::WeakPtrFactory<ScreenManagerCrosapi> weak_factory_{this};
+  base::WeakPtrFactory<ScreenManagerAsh> weak_factory_{this};
 };
 
-#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_CROSAPI_H_
+}  // namespace crosapi
+
+#endif  // CHROME_BROWSER_CHROMEOS_CROSAPI_SCREEN_MANAGER_ASH_H_

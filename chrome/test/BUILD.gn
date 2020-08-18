@@ -2162,9 +2162,8 @@ if (!is_android) {
     # Browser tests for functionality that is only intended to be present in
     # ash-chrome, not lacros-chrome.
     if (is_chromeos && !chromeos_is_browser_only) {
-      sources += [
-        "../browser/chromeos/crosapi/screen_manager_crosapi_browsertest.cc",
-      ]
+      sources +=
+          [ "../browser/chromeos/crosapi/screen_manager_ash_browsertest.cc" ]
     }
 
     if (is_chromeos) {

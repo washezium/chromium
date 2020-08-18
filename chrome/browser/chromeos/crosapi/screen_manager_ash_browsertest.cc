@@ -7,7 +7,7 @@
 #include "base/memory/scoped_refptr.h"
 #include "base/task/task_traits.h"
 #include "base/task/thread_pool.h"
-#include "chrome/browser/chromeos/crosapi/screen_manager_crosapi.h"
+#include "chrome/browser/chromeos/crosapi/screen_manager_ash.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/browser_window.h"
 #include "chrome/test/base/in_process_browser_test.h"
@@ -18,32 +18,31 @@
 #include "mojo/public/cpp/bindings/sync_call_restrictions.h"
 #include "ui/aura/window.h"
 
+namespace crosapi {
 namespace {
 
 // This class tests that the ash-chrome implementation of the screen manager
 // crosapi works properly.
-class ScreenManagerCrosapiBrowserTest : public InProcessBrowserTest {
+class ScreenManagerAshBrowserTest : public InProcessBrowserTest {
  protected:
-  using SMRemote = mojo::Remote<crosapi::mojom::ScreenManager>;
-  using SMPendingRemote = mojo::PendingRemote<crosapi::mojom::ScreenManager>;
-  using SMPendingReceiver =
-      mojo::PendingReceiver<crosapi::mojom::ScreenManager>;
+  using SMRemote = mojo::Remote<mojom::ScreenManager>;
+  using SMPendingRemote = mojo::PendingRemote<mojom::ScreenManager>;
+  using SMPendingReceiver = mojo::PendingReceiver<mojom::ScreenManager>;
 
-  ScreenManagerCrosapiBrowserTest() = default;
+  ScreenManagerAshBrowserTest() = default;
 
-  ScreenManagerCrosapiBrowserTest(const ScreenManagerCrosapiBrowserTest&) =
+  ScreenManagerAshBrowserTest(const ScreenManagerAshBrowserTest&) = delete;
+  ScreenManagerAshBrowserTest& operator=(const ScreenManagerAshBrowserTest&) =
       delete;
-  ScreenManagerCrosapiBrowserTest& operator=(
-      const ScreenManagerCrosapiBrowserTest&) = delete;
 
-  ~ScreenManagerCrosapiBrowserTest() override {
+  ~ScreenManagerAshBrowserTest() override {
     background_sequence_->DeleteSoon(FROM_HERE,
                                      std::move(screen_manager_remote_));
   }
 
   void SetUpOnMainThread() override {
     // The implementation of screen manager is affine to this sequence.
-    screen_manager_ = std::make_unique<ScreenManagerCrosapi>();
+    screen_manager_ = std::make_unique<ScreenManagerAsh>();
 
     SMPendingRemote pending_remote;
     SMPendingReceiver pending_receiver =
@@ -70,7 +69,7 @@ class ScreenManagerCrosapiBrowserTest : public InProcessBrowserTest {
   }
 
   // Affine to main sequence.
-  std::unique_ptr<ScreenManagerCrosapi> screen_manager_;
+  std::unique_ptr<ScreenManagerAsh> screen_manager_;
 
   // A sequence that is allowed to block.
   scoped_refptr<base::SequencedTaskRunner> background_sequence_;
@@ -80,14 +79,14 @@ class ScreenManagerCrosapiBrowserTest : public InProcessBrowserTest {
 };
 
 // Tests that taking a screen snapshot works.
-IN_PROC_BROWSER_TEST_F(ScreenManagerCrosapiBrowserTest, TakeScreenSnapshot) {
+IN_PROC_BROWSER_TEST_F(ScreenManagerAshBrowserTest, TakeScreenSnapshot) {
   base::RunLoop run_loop;
-  crosapi::Bitmap snapshot;
+  Bitmap snapshot;
 
   // Take a snapshot on a background sequence. The call is blocking, so when it
   // finishes, we can also unblock the main thread.
   auto take_snapshot_background = base::BindOnce(
-      [](SMRemote* remote, crosapi::Bitmap* snapshot) {
+      [](SMRemote* remote, Bitmap* snapshot) {
         mojo::ScopedAllowSyncCallForTesting allow_sync;
         (*remote)->TakeScreenSnapshot(snapshot);
       },
@@ -103,17 +102,17 @@ IN_PROC_BROWSER_TEST_F(ScreenManagerCrosapiBrowserTest, TakeScreenSnapshot) {
   EXPECT_EQ(int{snapshot.height}, primary_window->bounds().height());
 }
 
-IN_PROC_BROWSER_TEST_F(ScreenManagerCrosapiBrowserTest, TakeWindowSnapshot) {
+IN_PROC_BROWSER_TEST_F(ScreenManagerAshBrowserTest, TakeWindowSnapshot) {
   base::RunLoop run_loop;
   bool success;
-  crosapi::Bitmap snapshot;
+  Bitmap snapshot;
 
   // Take a snapshot on a background sequence. The call is blocking, so when it
   // finishes, we can also unblock the main thread.
   auto take_snapshot_background = base::BindOnce(
-      [](SMRemote* remote, bool* success, crosapi::Bitmap* snapshot) {
+      [](SMRemote* remote, bool* success, Bitmap* snapshot) {
         mojo::ScopedAllowSyncCallForTesting allow_sync;
-        std::vector<crosapi::mojom::WindowDetailsPtr> windows;
+        std::vector<mojom::WindowDetailsPtr> windows;
         (*remote)->ListWindows(&windows);
 
         // There should be exactly 1 window.
@@ -136,3 +135,4 @@ IN_PROC_BROWSER_TEST_F(ScreenManagerCrosapiBrowserTest, TakeWindowSnapshot) {
 }
 
 }  // namespace
+}  // namespace crosapi
