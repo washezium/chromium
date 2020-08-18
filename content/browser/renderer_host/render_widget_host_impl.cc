@@ -107,6 +107,7 @@
 #include "storage/browser/file_system/isolated_context.h"
 #include "third_party/blink/public/common/input/synthetic_web_input_event_builders.h"
 #include "third_party/blink/public/common/widget/visual_properties.h"
+#include "third_party/blink/public/mojom/input/touch_event.mojom.h"
 #include "third_party/blink/public/mojom/native_file_system/native_file_system_drag_drop_token.mojom.h"
 #include "third_party/blink/public/mojom/page/drag.mojom.h"
 #include "ui/base/clipboard/clipboard_constants.h"
@@ -3467,9 +3468,9 @@ void RenderWidgetHostImpl::ZoomToFindInPageRectInMainFrame(
   root_rvhi->ZoomToFindInPageRect(transformed_rect_to_zoom);
 }
 
-void RenderWidgetHostImpl::SetHasTouchEventHandlers(bool has_handlers) {
-  input_router_->OnHasTouchEventHandlers(has_handlers);
-  has_touch_handler_ = has_handlers;
+void RenderWidgetHostImpl::SetHasTouchEventConsumers(
+    blink::mojom::TouchEventConsumersPtr consumers) {
+  input_router_->OnHasTouchEventHandlers(consumers->has_touch_event_handlers);
 }
 
 void RenderWidgetHostImpl::IntrinsicSizingInfoChanged(
