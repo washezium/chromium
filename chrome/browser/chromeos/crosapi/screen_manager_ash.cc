@@ -10,10 +10,9 @@
 #include "ash/public/cpp/shell_window_ids.h"
 #include "ash/shell.h"
 #include "base/files/file_path.h"
-#include "base/numerics/checked_math.h"
-#include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 #include "chromeos/crosapi/cpp/bitmap.h"
+#include "chromeos/crosapi/cpp/bitmap_util.h"
 #include "ui/snapshot/snapshot.h"
 
 namespace crosapi {
@@ -119,22 +118,8 @@ void ScreenManagerAsh::OnWindowDestroying(aura::Window* window) {
 
 void ScreenManagerAsh::DidTakeSnapshot(SnapshotCallback callback,
                                        gfx::Image image) {
-  SkBitmap bitmap = image.AsBitmap();
-
-  // This code currently relies on the assumption that the bitmap is unpadded,
-  // and uses 4 bytes per pixel.
-  int size;
-  size = base::CheckMul(bitmap.width(), bitmap.height()).ValueOrDie();
-  size = base::CheckMul(size, 4).ValueOrDie();
-  CHECK_EQ(bitmap.computeByteSize(), base::checked_cast<size_t>(size));
-
-  uint8_t* base = static_cast<uint8_t*>(bitmap.getPixels());
-  std::vector<uint8_t> bytes(base, base + bitmap.computeByteSize());
-
-  Bitmap snapshot;
-  snapshot.width = bitmap.width();
-  snapshot.height = bitmap.height();
-  snapshot.pixels.swap(bytes);
+  SkBitmap sk_bitmap = image.AsBitmap();
+  Bitmap snapshot = BitmapFromSkBitmap(sk_bitmap);
   std::move(callback).Run(std::move(snapshot));
 }
 

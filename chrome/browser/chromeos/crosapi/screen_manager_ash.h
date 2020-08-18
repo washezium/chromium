@@ -44,7 +44,7 @@ class ScreenManagerAsh : public mojom::ScreenManager, aura::WindowObserver {
   void OnWindowDestroying(aura::Window* window) final;
 
  private:
-  using SnapshotCallback = base::OnceCallback<void(const Bitmap&)>;
+  using SnapshotCallback = base::OnceCallback<void(Bitmap)>;
   void DidTakeSnapshot(SnapshotCallback callback, gfx::Image image);
 
   // This class generates unique, non-reused IDs for windows on demand. The IDs
