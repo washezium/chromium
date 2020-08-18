@@ -495,7 +495,7 @@
   {
     "name": "click-to-call-ui",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 90
   },
   {
     "name": "click-to-open-pdf",
@@ -3813,22 +3813,22 @@
   {
     "name": "remote-copy-image-notification",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 90
   },
   {
     "name": "remote-copy-persistent-notification",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 90
   },
   {
     "name": "remote-copy-progress-notification",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 90
   },
   {
     "name": "remote-copy-receiver",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 90
   },
   {
     "name": "report-feed-user-actions",
@@ -3976,7 +3976,7 @@
   {
     "name": "shared-clipboard-ui",
     "owners": [ "//chrome/browser/sharing/OWNERS" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 90
   },
   {
     "name": "shared-highlighting-ios",
