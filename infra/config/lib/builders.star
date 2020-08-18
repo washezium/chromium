@@ -25,6 +25,7 @@ for use with the corresponding arguments to `builder`. Can also be accessed
 through `builders.cpu`, `builders.os` and `builders.goma` respectively.
 """
 
+load("//project.star", "settings")
 load("./args.star", "args")
 
 ################################################################################
@@ -242,6 +243,7 @@ defaults = args.defaults(
     configure_kitchen = False,
     cores = None,
     cpu = None,
+    fully_qualified_builder_dimension = False,
     goma_backend = None,
     goma_debug = False,
     goma_enable_ats = args.COMPUTE,
@@ -278,6 +280,7 @@ def builder(
         os = args.DEFAULT,
         builderless = args.DEFAULT,
         auto_builder_dimension = args.DEFAULT,
+        fully_qualified_builder_dimension = args.DEFAULT,
         cores = args.DEFAULT,
         cpu = args.DEFAULT,
         builder_group = args.DEFAULT,
@@ -329,6 +332,12 @@ def builder(
         machines devoted to the builder. If True, a dimension will be emitted of
         the form 'builder:<name>'. By default, considered True iff `builderless`
         is considered False.
+      * fully_qualified_builder_dimension - a boolean modifying the behavior of
+        auto_builder_dimension to generate a builder dimensions that is
+        fully-qualified with the project and bucket of the builder. If True, and
+        `auto_builder_dimension` is considered True, a dimension will be emitted
+        of the form 'builder:<project>/<bucket>/<name>'. By default, considered
+        False.
       * builder_group - a string with the group of the builder. Emits a property
         of the form 'builder_group:<builder_group>'. By default, considered None.
       * mastername - a string with the group of the builder. Emits a property
@@ -426,6 +435,12 @@ def builder(
     if builderless:
         dimensions["builderless"] = "1"
 
+    # bucket might be the args.COMPUTE sentinel value if the caller didn't set
+    # bucket in some way, which will result in a weird fully-qualified builder
+    # dimension, but it shouldn't matter because the call to luci.builder will
+    # fail without bucket being set
+    bucket = defaults.get_value("bucket", bucket)
+
     auto_builder_dimension = defaults.get_value(
         "auto_builder_dimension",
         auto_builder_dimension,
@@ -433,7 +448,11 @@ def builder(
     if auto_builder_dimension == args.COMPUTE:
         auto_builder_dimension = builderless == False
     if auto_builder_dimension:
-        dimensions["builder"] = name
+        fully_qualified_builder_dimension = defaults.get_value("fully_qualified_builder_dimension", fully_qualified_builder_dimension)
+        if fully_qualified_builder_dimension:
+            dimensions["builder"] = "{}/{}/{}".format(settings.project, bucket, name)
+        else:
+            dimensions["builder"] = name
 
     cores = defaults.get_value("cores", cores)
     if cores != None:
@@ -498,7 +517,6 @@ def builder(
         properties["$build/code_coverage"] = code_coverage
 
     kwargs = dict(kwargs)
-    bucket = defaults.get_value("bucket", bucket)
     if bucket != args.COMPUTE:
         kwargs["bucket"] = bucket
     executable = defaults.get_value("executable", executable)
