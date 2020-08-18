@@ -2660,6 +2660,13 @@ Here are some things you can try to get started.
       <message name="IDS_ASH_SCREEN_CAPTURE_BUTTON_DELETE" desc="The delete button label for the screen capture notificaiton.">
         Delete
       </message>
+      <!-- Switch Between TABLET/LAPTOP MODE-->
+      <message name="IDS_ASH_SWITCH_TO_TABLET_MODE" desc="Alert of switching to tablet mode.">
+        Switch to tablet mode
+      </message>
+      <message name="IDS_ASH_SWITCH_TO_LAPTOP_MODE" desc="Alert of switching to laptop mode.">
+        Switch to laptop mode
+      </message>
     </messages>
   </release>
 </grit>
