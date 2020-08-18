@@ -1336,6 +1336,23 @@
             ]
         }
     ],
+    "ContentCaptureUserActivatedDelay": [
+        {
+            "platforms": [
+                "android",
+                "android_weblayer",
+                "android_webview"
+            ],
+            "experiments": [
+                {
+                    "name": "ContentCaptureUserActivatedDelay",
+                    "enable_features": [
+                        "ContentCaptureUserActivatedDelay"
+                    ]
+                }
+            ]
+        }
+    ],
     "ContentIndexingDownloadHome": [
         {
             "platforms": [
