@@ -57,6 +57,12 @@ class PDFiumEngine : public PDFEngine,
                      public DocumentLoader::Client,
                      public IFSDK_PAUSE {
  public:
+  // State transition when tabbing forward:
+  // None -> Document -> Page -> None (when focusable annotations on all pages
+  // are done).
+  // Exposed for testing.
+  enum class FocusElementType { kNone, kDocument, kPage };
+
   PDFiumEngine(PDFEngine::Client* client, bool enable_javascript);
   PDFiumEngine(const PDFiumEngine&) = delete;
   PDFiumEngine& operator=(const PDFiumEngine&) = delete;
@@ -76,7 +82,7 @@ class PDFiumEngine : public PDFEngine,
   static void OverrideSetLinkUnderCursorFunctionForTesting(
       SetLinkUnderCursorFunction function);
 
-  // PDFEngine implementation.
+  // PDFEngine:
   bool New(const char* url, const char* headers) override;
   void PageOffsetUpdated(const pp::Point& page_offset) override;
   void PluginSizeUpdated(const gfx::Size& size) override;
@@ -162,19 +168,20 @@ class PDFiumEngine : public PDFEngine,
                     uint32_t* selection_start_char_index,
                     uint32_t* selection_end_page_index,
                     uint32_t* selection_end_char_index) override;
+  void KillFormFocus() override;
+  void UpdateFocus(bool has_focus) override;
+  PP_PrivateAccessibilityFocusInfo GetFocusInfo() override;
+  uint32_t GetLoadedByteSize() override;
+  bool ReadLoadedBytes(uint32_t length, void* buffer) override;
 
-  // DocumentLoader::Client implementation.
+  // DocumentLoader::Client:
   pp::Instance* GetPluginInstance() override;
   std::unique_ptr<URLLoaderWrapper> CreateURLLoader() override;
   void OnPendingRequestComplete() override;
   void OnNewDataReceived() override;
   void OnDocumentComplete() override;
   void OnDocumentCanceled() override;
-  void KillFormFocus() override;
-  void UpdateFocus(bool has_focus) override;
-  PP_PrivateAccessibilityFocusInfo GetFocusInfo() override;
-  uint32_t GetLoadedByteSize() override;
-  bool ReadLoadedBytes(uint32_t length, void* buffer) override;
+
 #if defined(PDF_ENABLE_XFA)
   void UpdatePageCount();
 #endif  // defined(PDF_ENABLE_XFA)
@@ -184,11 +191,6 @@ class PDFiumEngine : public PDFEngine,
   FPDF_AVAIL fpdf_availability() const;
   FPDF_DOCUMENT doc() const;
   FPDF_FORMHANDLE form() const;
-
-  // State transition when tabbing forward:
-  // None -> Document -> Page -> None (when focusable annotations on all pages
-  // are done).
-  enum class FocusElementType { kNone, kDocument, kPage };
 
  private:
   // This helper class is used to detect the difference in selection between
