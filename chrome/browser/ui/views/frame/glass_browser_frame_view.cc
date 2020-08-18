@@ -231,11 +231,6 @@ gfx::Size GlassBrowserFrameView::GetMinimumSize() const {
   return min_size;
 }
 
-CaptionButtonContainer* GlassBrowserFrameView::GetCaptionButtonContainer()
-    const {
-  return caption_button_container_;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // GlassBrowserFrameView, views::NonClientFrameView implementation:
 
