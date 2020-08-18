@@ -71715,19 +71715,60 @@ Full version information for the fingerprint enum values:
   <int value="3" label="FAILED_OTHER">Failed for other reason</int>
 </enum>
 
+<enum name="VaapiFunctions">
+  <int value="0" label="vaBeginPicture()"/>
+  <int value="1" label="vaCreateBuffer()"/>
+  <int value="2" label="vaCreateConfig()"/>
+  <int value="3" label="vaCreateContext()"/>
+  <int value="4" label="vaCreateImage()"/>
+  <int value="5" label="vaCreateSurfaces() (allocate mode)"/>
+  <int value="6" label="vaCreateSurfaces() (import mode)"/>
+  <int value="7" label="vaDestroyBuffer()"/>
+  <int value="8" label="vaDestroyConfig()"/>
+  <int value="9" label="vaDestroyContext()"/>
+  <int value="10" label="vaDestroySurfaces()"/>
+  <int value="11" label="vaEndPicture()"/>
+  <int value="12" label="vaExportSurfaceHandle()"/>
+  <int value="13" label="vaGetConfigAttributes()"/>
+  <int value="14" label="vaPutImage()"/>
+  <int value="15" label="vaPutSurface()"/>
+  <int value="16" label="vaQueryConfigAttributes()"/>
+  <int value="17" label="vaQueryImageFormats()"/>
+  <int value="18" label="vaQuerySurfaceAttributes()"/>
+  <int value="19" label="vaQueryVideoProcPipelineCaps()"/>
+  <int value="20" label="vaRenderPicture() (|pending_va_buffers_|)"/>
+  <int value="21" label="vaRenderPicture() using VPP"/>
+  <int value="22" label="vaSyncSurface()"/>
+  <int value="23" label="vaTerminate()"/>
+  <int value="24" label="vaUnmapBuffer()"/>
+  <int value="25" label="Other VA functions"/>
+</enum>
+
 <enum name="VAIPFailure">
+  <obsolete>
+    Deprecated as of 8/2020.
+  </obsolete>
   <int value="0" label="VAAPI_VPP_ERROR"/>
 </enum>
 
 <enum name="VAJDAFailure">
+  <obsolete>
+    Deprecated as of 8/2020, superseded by VaapiFunctions.
+  </obsolete>
   <int value="0" label="VAAPI_ERROR"/>
 </enum>
 
 <enum name="VAJDAWorkerDecoderFailure">
+  <obsolete>
+    Deprecated as of 8/2020, superseded by VaapiFunctions.
+  </obsolete>
   <int value="0" label="kVaapiError"/>
 </enum>
 
 <enum name="VAJEAEncoderResult">
+  <obsolete>
+    Deprecated as of 8/2020, superseded by VaapiFunctions.
+  </obsolete>
   <int value="0" label="VAAPI_SUCCESS"/>
   <int value="1" label="VAAPI_ERROR"/>
 </enum>
@@ -71952,6 +71993,9 @@ Full version information for the fingerprint enum values:
 </enum>
 
 <enum name="VAVDADecoderFailure">
+  <obsolete>
+    Deprecated as of 8/2020, superseded by VaapiFunctions.
+  </obsolete>
   <int value="0" label="VAAPI_ERROR"/>
   <int value="1" label="VAAPI_VPP_ERROR"/>
 </enum>
@@ -71968,6 +72012,9 @@ Full version information for the fingerprint enum values:
 </enum>
 
 <enum name="VAVEAEncoderFailure">
+  <obsolete>
+    Deprecated as of 8/2020, superseded by VaapiFunctions.
+  </obsolete>
   <int value="0" label="VAAPI_ERROR"/>
 </enum>
 
