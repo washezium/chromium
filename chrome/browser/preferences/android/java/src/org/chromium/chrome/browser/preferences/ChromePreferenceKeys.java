@@ -653,6 +653,10 @@ public final class ChromePreferenceKeys {
     public static final String SIGNIN_PROMO_SETTINGS_PERSONALIZED_DISMISSED =
             "settings_personalized_signin_promo_dismissed";
 
+    // TODO(https://crbug.com/1091858): Remove this after migrating the legacy code that uses
+    //                                  the sync account before the native is loaded.
+    public static final String SIGNIN_LEGACY_SYNC_ACCOUNT_EMAIL = "google.services.username";
+
     public static final String SNAPSHOT_DATABASE_REMOVED = "snapshot_database_removed";
 
     public static final String SURVEY_DATE_LAST_ROLLED = "last_rolled_for_chrome_survey_key";
