@@ -29021,6 +29021,8 @@ Called by update_feature_policy_enum.py.-->
   <int value="5"
       label="Updated and tried to upload all pending actions and finished
              without receiving a new consistency token"/>
+  <int value="6"
+      label="Upload attempt was aborted because the account is now signed-out"/>
 </enum>
 
 <enum name="FeedUserActionType">
