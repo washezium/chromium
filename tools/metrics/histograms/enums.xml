@@ -12500,8 +12500,8 @@ Called by update_net_error_codes.py.-->
 <enum name="CorbResultVsInitiatorLockCompatibility">
   <summary>
     Whether CORB blocking might have been caused by treating |request_initiator|
-    as opaque when |request_initiator_site_lock| is incompatible (as may be the
-    case for HTML Imports).
+    as opaque when |request_initiator_origin_lock| is incompatible (as may be
+    the case for HTML Imports).
   </summary>
   <int value="0" label="NoBlocking"/>
   <int value="1" label="BenignBlocking">
@@ -12509,7 +12509,7 @@ Called by update_net_error_codes.py.-->
   </int>
   <int value="2" label="BlockingWhenIncorrectLock">
     CORB blocked a response after forcing |request_initiator| to be treated as
-    opaque (because it was incompatible with |request_initiator_site_lock|).
+    opaque (because it was incompatible with |request_initiator_origin_lock|).
     This case is most likely to be hit with HTML Imports.
   </int>
   <int value="3" label="BlockingWhenCompatibleLock"/>
@@ -61230,35 +61230,35 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
 
 <enum name="RequestInitiatorOriginLockCompatibility">
   <int value="0" label="BrowserProcess">
-    Request came from a browser process and so the |request_initiator_site_lock|
-    doesn't apply.
+    Request came from a browser process and so the
+    |request_initiator_origin_lock| doesn't apply.
   </int>
   <int value="1" label="NoLock">
-    |request_initiator_site_lock| is missing - see https://crbug.com/1098938 and
-    RenderProcessHostImpl::CreateURLLoaderFactoryForRendererProcess.
+    |request_initiator_origin_lock| is missing - see https://crbug.com/1098938
+    and RenderProcessHostImpl::CreateURLLoaderFactoryForRendererProcess.
   </int>
   <int value="2" label="NoInitiator">|request_initiator| is missing.</int>
   <int value="3" label="CompatibleLock">
     |request.request_initiator| is compatible with
-    |factory_params_.request_initiator_site_lock| - either
+    |factory_params_.request_initiator_origin_lock| - either
     |request.request_initiator| is opaque or it is equal to
-    |request_initiator_site_lock|.
+    |request_initiator_origin_lock|.
   </int>
   <int value="4" label="IncorrectLock">
     |request.request_initiator| is non-opaque/unique and differs from
-    |factory_params_.request_initiator_site_lock|.
+    |factory_params_.request_initiator_origin_lock|.
   </int>
   <int value="5" label="ExcludedScheme">
-    Scheme excluded from request_initiator_site_lock checks. Since ~M80 this
+    Scheme excluded from request_initiator_origin_lock checks. Since ~M80 this
     value can only be recorded during tests.
   </int>
   <int value="6" label="ExcludedCorbForPlugin">
     Requests from a renderer process that embeds a plugin (e.g. Flash) that
-    needs to disable CORB and request_initiator_site_lock enforcement.
+    needs to disable CORB and request_initiator_origin_lock enforcement.
   </int>
   <int value="7" label="AllowedRequestInitiatorForPlugin">
     Requests from a renderer process that embeds a plugin (e.g. PDF) that needs
-    to poke small, targeted holes in request_initiator_site_lock enforcement.
+    to poke small, targeted holes in request_initiator_origin_lock enforcement.
   </int>
 </enum>
 
