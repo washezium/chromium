@@ -122,6 +122,9 @@ void FeedStream::Metadata::SetConsistencyToken(std::string consistency_token) {
 
 LocalActionId FeedStream::Metadata::GetNextActionId() {
   uint32_t id = metadata_.next_action_id();
+  // Never use 0, as that's an invalid LocalActionId.
+  if (id == 0)
+    ++id;
   metadata_.set_next_action_id(id + 1);
   store_->WriteMetadata(metadata_, base::DoNothing());
   return LocalActionId(id);
