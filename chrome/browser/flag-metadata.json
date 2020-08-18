@@ -1352,7 +1352,7 @@
   {
     "name": "enable-cssom-view-scroll-coordinates",
     "owners": [ "cathiechen@igalia.com", "fwang@igalia.com" ],
-    "expiry_milestone": 85
+    "expiry_milestone": 87
   },
   {
     "name": "enable-custom-mac-paper-sizes",
