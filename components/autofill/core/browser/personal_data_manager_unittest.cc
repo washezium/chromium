@@ -5233,6 +5233,7 @@ TEST_F(PersonalDataManagerTest, ApplyDedupingRoutine_MultipleDedupes) {
                        "91601", "", "");
   Barney.set_use_count(1);
   Barney.set_use_date(AutofillClock::Now() - base::TimeDelta::FromDays(180));
+  Barney.FinalizeAfterImport();
 
   AddProfileToPersonalDataManager(Homer1);
   AddProfileToPersonalDataManager(Homer2);
