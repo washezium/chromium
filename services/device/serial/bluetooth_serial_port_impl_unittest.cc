@@ -316,4 +316,38 @@ TEST_F(BluetoothSerialPortImplTest, Drain) {
   disconnect_loop.Run();
 }
 
+TEST_F(BluetoothSerialPortImplTest, Close) {
+  mojo::Remote<mojom::SerialPort> serial_port;
+  mojo::SelfOwnedReceiverRef<mojom::SerialPortConnectionWatcher> watcher;
+  CreatePort(&serial_port, &watcher);
+
+  mojo::ScopedDataPipeProducerHandle producer;
+  mojo::ScopedDataPipeConsumerHandle consumer;
+  CreateDataPipe(&producer, &consumer);
+
+  auto options = mojom::SerialConnectionOptions::New();
+  mojo::PendingRemote<mojom::SerialPortClient> client;
+  FakeSerialPortClient serial_client;
+  serial_client.Bind(client.InitWithNewPipeAndPassReceiver());
+  base::RunLoop loop;
+  serial_port->Open(
+      std::move(options), std::move(client),
+      base::BindOnce([](base::RunLoop* loop, bool success) { loop->Quit(); },
+                     &loop));
+  loop.Run();
+
+  EXPECT_CALL(mock_socket(), Close());
+
+  base::RunLoop close_loop;
+  serial_port->Close(close_loop.QuitClosure());
+  close_loop.Run();
+
+  base::RunLoop disconnect_loop;
+  watcher->set_connection_error_handler(
+      base::BindLambdaForTesting([&]() { disconnect_loop.Quit(); }));
+
+  serial_port.reset();
+  disconnect_loop.Run();
+}
+
 }  // namespace device

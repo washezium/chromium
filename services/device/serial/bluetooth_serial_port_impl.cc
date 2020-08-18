@@ -345,27 +345,38 @@ void BluetoothSerialPortImpl::Drain(DrainCallback callback) {
 
 void BluetoothSerialPortImpl::GetControlSignals(
     GetControlSignalsCallback callback) {
-  NOTIMPLEMENTED();
+  auto signals = mojom::SerialPortControlSignals::New();
+  std::move(callback).Run(std::move(signals));
 }
 
 void BluetoothSerialPortImpl::SetControlSignals(
     mojom::SerialHostControlSignalsPtr signals,
     SetControlSignalsCallback callback) {
-  NOTIMPLEMENTED();
+  std::move(callback).Run(true);
 }
 
 void BluetoothSerialPortImpl::ConfigurePort(
     mojom::SerialConnectionOptionsPtr options,
     ConfigurePortCallback callback) {
-  NOTIMPLEMENTED();
+  options_ = std::move(options);
+  std::move(callback).Run(true);
 }
 
 void BluetoothSerialPortImpl::GetPortInfo(GetPortInfoCallback callback) {
-  NOTIMPLEMENTED();
+  auto info = mojom::SerialConnectionInfo::New(
+      /*bitrate=*/options_->bitrate, /*data_bits=*/options_->data_bits,
+      /*parity_bit=*/options_->parity_bit, /*stop_bits=*/options_->stop_bits,
+      /*cts_flow_control=*/options_->cts_flow_control);
+  std::move(callback).Run(std::move(info));
 }
 
 void BluetoothSerialPortImpl::Close(CloseCallback callback) {
-  NOTIMPLEMENTED();
+  client_.reset();
+  if (bluetooth_socket_) {
+    bluetooth_socket_->Close();
+    bluetooth_socket_.reset();
+  }
+  std::move(callback).Run();
 }
 
 }  // namespace device

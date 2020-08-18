@@ -97,6 +97,8 @@ class BluetoothSerialPortImpl : public mojom::SerialPort {
   bool read_pending_ = false;
   bool write_pending_ = false;
 
+  mojom::SerialConnectionOptionsPtr options_;
+
   base::WeakPtrFactory<BluetoothSerialPortImpl> weak_ptr_factory_{this};
 };
 
