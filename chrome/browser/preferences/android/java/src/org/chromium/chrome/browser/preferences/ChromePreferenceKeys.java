@@ -56,6 +56,12 @@ public final class ChromePreferenceKeys {
     /** Whether the Autofill Assistant onboarding has been accepted. */
     public static final String AUTOFILL_ASSISTANT_ONBOARDING_ACCEPTED =
             "AUTOFILL_ASSISTANT_ONBOARDING_ACCEPTED";
+    /** Whether the user has seen a lite-script before or is a first-time user. */
+    public static final String AUTOFILL_ASSISTANT_FIRST_TIME_LITE_SCRIPT_USER =
+            "Chrome.AutofillAssistant.LiteScriptFirstTimeUser";
+    /** The number of times a user has explicitly canceled a lite script. */
+    public static final String AUTOFILL_ASSISTANT_NUMBER_OF_LITE_SCRIPTS_CANCELED =
+            "Chrome.AutofillAssistant.NumberOfLiteScriptsCanceled";
     /**
      * LEGACY preference indicating whether "do not show again" was checked in the autofill
      * assistant onboarding
@@ -783,6 +789,8 @@ public final class ChromePreferenceKeys {
     static List<String> getKeysInUse() {
         // clang-format off
         return Arrays.asList(
+                AUTOFILL_ASSISTANT_FIRST_TIME_LITE_SCRIPT_USER,
+                AUTOFILL_ASSISTANT_NUMBER_OF_LITE_SCRIPTS_CANCELED,
                 CLIPBOARD_SHARED_URI,
                 CONDITIONAL_TAB_STRIP_CONTINUOUS_DISMISS_COUNTER,
                 CONDITIONAL_TAB_STRIP_FEATURE_STATUS,
