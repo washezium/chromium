@@ -3160,10 +3160,6 @@
         "name": "system_health.common_desktop/browse:social:twitter:2018"
     },
     {
-        "duration": "124.0",
-        "name": "system_health.common_desktop/browse:social:twitter_infinite_scroll:2018"
-    },
-    {
         "duration": "116.0",
         "name": "system_health.common_desktop/browse:tech:discourse_infinite_scroll:2018"
     },
@@ -3430,10 +3426,6 @@
     {
         "duration": "82.0",
         "name": "system_health.memory_desktop/browse:social:twitter:2018"
-    },
-    {
-        "duration": "118.0",
-        "name": "system_health.memory_desktop/browse:social:twitter_infinite_scroll:2018"
     },
     {
         "duration": "110.0",
@@ -3744,10 +3736,6 @@
         "name": "v8.browsing_desktop-future/browse:social:twitter:2018"
     },
     {
-        "duration": "132.0",
-        "name": "v8.browsing_desktop-future/browse:social:twitter_infinite_scroll:2018"
-    },
-    {
         "duration": "138.0",
         "name": "v8.browsing_desktop-future/browse:tech:discourse_infinite_scroll:2018"
     },
@@ -3822,10 +3810,6 @@
     {
         "duration": "104.0",
         "name": "v8.browsing_desktop/browse:social:twitter:2018"
-    },
-    {
-        "duration": "140.0",
-        "name": "v8.browsing_desktop/browse:social:twitter_infinite_scroll:2018"
     },
     {
         "duration": "126.0",
