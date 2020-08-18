@@ -5874,7 +5874,7 @@ void WebGLRenderingContextBase::TexImageHelperImageBitmap(
 
   // TODO(kbr): refactor this away to use TexImageImpl on image.
   sk_sp<SkImage> sk_image =
-      bitmap->BitmapImage()->PaintImageForCurrentFrame().GetSwSkImage();
+      bitmap->BitmapImage()->PaintImageForCurrentFrame().GetSkImage();
   if (!sk_image) {
     SynthesizeGLError(GL_OUT_OF_MEMORY, func_name,
                       "ImageBitmap unexpectedly empty");
@@ -5884,9 +5884,9 @@ void WebGLRenderingContextBase::TexImageHelperImageBitmap(
   SkPixmap pixmap;
   uint8_t* pixel_data_ptr = nullptr;
   Vector<uint8_t> pixel_data;
-  // PaintImage::GetSwSkImage() can return a lazily generated image which will
-  // cause peekPixels() to fail. In that case we use CopyBitmapData to force
-  // image generation.
+  // In the case where an ImageBitmap is not texture backed, peekPixels() always
+  // succeed.  However, when it is texture backed and !canUseTexImageByGPU, we
+  // do a GPU read back.
   bool peek_succeed = sk_image->peekPixels(&pixmap);
   if (peek_succeed) {
     pixel_data_ptr = static_cast<uint8_t*>(pixmap.writable_addr());

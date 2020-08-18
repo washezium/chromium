@@ -167,7 +167,7 @@ void SystemClipboard::WriteImageWithTag(Image* image,
 
   PaintImage paint_image = image->PaintImageForCurrentFrame();
   SkBitmap bitmap;
-  if (sk_sp<SkImage> sk_image = paint_image.GetSwSkImage())
+  if (sk_sp<SkImage> sk_image = paint_image.GetSkImage())
     sk_image->asLegacyBitmap(&bitmap);
   clipboard_->WriteImage(bitmap);
 

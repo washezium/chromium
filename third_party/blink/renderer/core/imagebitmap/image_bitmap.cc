@@ -282,16 +282,22 @@ std::unique_ptr<CanvasResourceProvider> CreateProviderForVideoElement(
 scoped_refptr<StaticBitmapImage> FlipImageVertically(
     scoped_refptr<StaticBitmapImage> input,
     const ImageBitmap::ParsedOptions& parsed_options) {
-  SkImageInfo info = GetSkImageInfo(input);
-  if (info.isEmpty())
+  sk_sp<SkImage> image = input->PaintImageForCurrentFrame().GetSkImage();
+  if (!image)
     return nullptr;
-
-  PaintImage paint_image = input->PaintImageForCurrentFrame();
 
   if (ShouldAvoidPremul(parsed_options)) {
     // Unpremul code path results in a GPU readback if |input| is texture
     // backed since CopyImageData() uses  SkImage::readPixels() to extract the
     // pixels from SkImage.
+    SkImageInfo info = GetSkImageInfo(input);
+    if (info.isEmpty())
+      return nullptr;
+
+    PaintImage paint_image = input->PaintImageForCurrentFrame();
+    if (paint_image.GetSkImageInfo().isEmpty())
+      return nullptr;
+
     sk_sp<SkData> image_pixels = TryAllocateSkData(info.computeMinByteSize());
     if (!image_pixels)
       return nullptr;
@@ -320,10 +326,10 @@ scoped_refptr<StaticBitmapImage> FlipImageVertically(
   // can use both accelerated and software surfaces. If the image is unpremul,
   // we have to use software surfaces.
   bool use_accelerated =
-      paint_image.IsTextureBacked() && info.alphaType() == kPremul_SkAlphaType;
+      image->isTextureBacked() && image->alphaType() == kPremul_SkAlphaType;
   auto resource_provider = CreateProvider(
-      use_accelerated ? input->ContextProviderWrapper() : nullptr, info, input,
-      true /* fallback_to_software */);
+      use_accelerated ? input->ContextProviderWrapper() : nullptr,
+      GetSkImageInfo(input), input, true /* fallback_to_software */);
   if (!resource_provider)
     return nullptr;
 
@@ -389,14 +395,14 @@ scoped_refptr<StaticBitmapImage> GetImageWithAlphaDisposition(
 scoped_refptr<StaticBitmapImage> ScaleImage(
     scoped_refptr<StaticBitmapImage>&& image,
     const ImageBitmap::ParsedOptions& parsed_options) {
-  auto src_image_info = image->PaintImageForCurrentFrame().GetSkImageInfo();
+  auto sk_image = image->PaintImageForCurrentFrame().GetSkImage();
   auto image_info = GetSkImageInfo(image).makeWH(parsed_options.resize_width,
                                                  parsed_options.resize_height);
 
   // Try to avoid GPU read back by drawing accelerated premul image on an
   // accelerated surface.
   if (!ShouldAvoidPremul(parsed_options) && image->IsTextureBacked() &&
-      src_image_info.alphaType() == kPremul_SkAlphaType) {
+      sk_image->alphaType() == kPremul_SkAlphaType) {
     auto resource_provider =
         CreateProvider(image->ContextProviderWrapper(), image_info, image,
                        false /* fallback_to_software */);
@@ -405,7 +411,7 @@ scoped_refptr<StaticBitmapImage> ScaleImage(
       paint.setFilterQuality(parsed_options.resize_quality);
       resource_provider->Canvas()->drawImageRect(
           image->PaintImageForCurrentFrame(),
-          SkRect::MakeWH(src_image_info.width(), src_image_info.height()),
+          SkRect::MakeWH(sk_image->width(), sk_image->height()),
           SkRect::MakeWH(parsed_options.resize_width,
                          parsed_options.resize_height),
           &paint, SkCanvas::kStrict_SrcRectConstraint);
@@ -425,7 +431,6 @@ scoped_refptr<StaticBitmapImage> ScaleImage(
 
   SkPixmap resized_pixmap(image_info, image_pixels->data(),
                           image_info.minRowBytes());
-  auto sk_image = image->PaintImageForCurrentFrame().GetSwSkImage();
   sk_image->scalePixels(resized_pixmap, parsed_options.resize_quality);
   // Tag the resized Pixmap with the correct color space.
   resized_pixmap.setColorSpace(GetSkImageInfo(image).refColorSpace());
@@ -445,17 +450,15 @@ scoped_refptr<StaticBitmapImage> ApplyColorSpaceConversion(
   sk_sp<SkColorSpace> color_space = options.color_params.GetSkColorSpace();
   SkColorType color_type =
       image->IsTextureBacked() ? kRGBA_8888_SkColorType : kN32_SkColorType;
-  SkImageInfo src_image_info =
-      image->PaintImageForCurrentFrame().GetSkImageInfo();
-  if (src_image_info.isEmpty())
+  sk_sp<SkImage> sk_image = image->PaintImageForCurrentFrame().GetSkImage();
+  if (!sk_image)
     return nullptr;
 
   // If we should preserve color precision, don't lose it in color space
   // conversion.
   if (options.pixel_format == kImageBitmapPixelFormat_Default &&
-      (src_image_info.colorType() == kRGBA_F16_SkColorType ||
-       (src_image_info.colorSpace() &&
-        src_image_info.colorSpace()->gammaIsLinear()) ||
+      (sk_image->colorType() == kRGBA_F16_SkColorType ||
+       (sk_image->colorSpace() && sk_image->colorSpace()->gammaIsLinear()) ||
        (color_space && color_space->gammaIsLinear()))) {
     color_type = kRGBA_F16_SkColorType;
   }
@@ -485,16 +488,16 @@ scoped_refptr<StaticBitmapImage> GetImageWithPixelFormat(
     return std::move(image);
   // If the the image is not half float backed, default and uint8 image bitmap
   // pixel formats result in the same uint8 backed image bitmap.
-  SkImageInfo image_info = image->PaintImageForCurrentFrame().GetSkImageInfo();
-  if (image_info.colorType() != kRGBA_F16_SkColorType)
+  sk_sp<SkImage> skia_image = image->PaintImageForCurrentFrame().GetSkImage();
+  if (skia_image->colorType() != kRGBA_F16_SkColorType)
     return std::move(image);
 
-  auto skia_image = image->PaintImageForCurrentFrame().GetSwSkImage();
-  SkImageInfo target_info = image_info.makeColorType(kN32_SkColorType);
+  SkPixmap pixmap;
+  skia_image->peekPixels(&pixmap);
+  SkImageInfo target_info = pixmap.info().makeColorType(kN32_SkColorType);
   SkBitmap target_bitmap;
   target_bitmap.allocPixels(target_info);
-  bool read_successful = skia_image->readPixels(target_bitmap.pixmap(), 0, 0);
-  DCHECK(read_successful);
+  pixmap.readPixels(target_bitmap.pixmap(), 0, 0);
   return UnacceleratedStaticBitmapImage::Create(
       SkImage::MakeFromBitmap(target_bitmap));
 }
@@ -645,7 +648,7 @@ ImageBitmap::ImageBitmap(ImageElementBase* image,
     SkBitmap bitmap;
     SkImageInfo image_info = GetSkImageInfo(input);
     bitmap.allocPixels(image_info, image_info.minRowBytes());
-    if (!paint_image.GetSwSkImage()->readPixels(bitmap.pixmap(), 0, 0))
+    if (!paint_image.GetSkImage()->readPixels(bitmap.pixmap(), 0, 0))
       return;
 
     paint_image = PaintImageBuilder::WithDefault()
