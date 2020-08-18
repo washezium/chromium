@@ -84,7 +84,7 @@ class PDFiumEngine : public PDFEngine,
 
   // PDFEngine:
   bool New(const char* url, const char* headers) override;
-  void PageOffsetUpdated(const pp::Point& page_offset) override;
+  void PageOffsetUpdated(const gfx::Point& page_offset) override;
   void PluginSizeUpdated(const gfx::Size& size) override;
   void ScrolledToXPosition(int position) override;
   void ScrolledToYPosition(int position) override;
@@ -124,7 +124,7 @@ class PDFiumEngine : public PDFEngine,
   void Redo() override;
   void HandleAccessibilityAction(
       const PP_PdfAccessibilityActionData& action_data) override;
-  std::string GetLinkAtPosition(const pp::Point& point) override;
+  std::string GetLinkAtPosition(const gfx::Point& point) override;
   bool HasPermission(DocumentPermission permission) const override;
   void SelectAll() override;
   const std::vector<DocumentAttachmentInfo>& GetDocumentAttachmentInfoList()
@@ -160,10 +160,10 @@ class PDFiumEngine : public PDFEngine,
   void AppendBlankPages(size_t num_pages) override;
   void AppendPage(PDFEngine* engine, int index) override;
   std::vector<uint8_t> GetSaveData() override;
-  void SetCaretPosition(const pp::Point& position) override;
-  void MoveRangeSelectionExtent(const pp::Point& extent) override;
-  void SetSelectionBounds(const pp::Point& base,
-                          const pp::Point& extent) override;
+  void SetCaretPosition(const gfx::Point& position) override;
+  void MoveRangeSelectionExtent(const gfx::Point& extent) override;
+  void SetSelectionBounds(const gfx::Point& base,
+                          const gfx::Point& extent) override;
   void GetSelection(uint32_t* selection_start_page_index,
                     uint32_t* selection_start_char_index,
                     uint32_t* selection_end_page_index,
@@ -575,7 +575,7 @@ class PDFiumEngine : public PDFEngine,
   // Scrolls top left of a rect in page |target_rect| to |global_point|.
   // Global point is point relative to viewport in screen.
   void ScrollToGlobalPoint(const pp::Rect& target_rect,
-                           const pp::Point& global_point);
+                           const gfx::Point& global_point);
 
   // Set if the document has any local edits.
   void EnteredEditMode();
