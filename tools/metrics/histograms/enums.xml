@@ -16774,6 +16774,13 @@ metrics consent we also won't be able to send UMA metrics. -->
   <int value="3" label="No addresses in common"/>
 </enum>
 
+<enum name="DNS.AttemptType">
+  <int value="0" label="DnsUDPAttempt"/>
+  <int value="1" label="DnsTCPAttempt due to low UDP entropy"/>
+  <int value="2" label="DnsTCPAttempt due to retry due to UDP trucation"/>
+  <int value="3" label="DnsHTTPAttempt"/>
+</enum>
+
 <enum name="DNS.HostCache.EraseReason">
   <int value="0" label="Entry evicted"/>
   <int value="1" label="Cache cleared"/>
@@ -16814,6 +16821,16 @@ metrics consent we also won't be able to send UMA metrics. -->
       label="ID mismatch with the response ID recognized as a
              recently-queried ID"/>
   <int value="2" label="ID mismatch with an unrecognized response ID"/>
+</enum>
+
+<enum name="DNS.UdpLowEntropyReason">
+  <int value="0" label="Multiple recent reassignments of the same UDP port"/>
+  <int value="1"
+      label="DNS query/response ID mismatches, where response ID is
+             recognized from a recent query"/>
+  <int value="2"
+      label="DNS query/response ID mismatches, where response ID is
+             unrecognized"/>
 </enum>
 
 <enum name="DNSEmptyAddressListAndNoError">
