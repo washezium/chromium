@@ -55149,6 +55149,14 @@ Called by update_net_trust_anchors.py.-->
   <int value="3" label="CanMakePayment() returned true and show() was called"/>
 </enum>
 
+<enum name="PaymentRequestCheckoutFunnelSteps">
+  <int value="0" label="Initiated"/>
+  <int value="1" label="Show() called"/>
+  <int value="2" label="Payment request triggered (shown + skipped show)"/>
+  <int value="3" label="Payment handler invoked"/>
+  <int value="4" label="Completed"/>
+</enum>
+
 <enum name="PaymentRequestFlowCompletionStatus">
   <int value="0" label="Completed"/>
   <int value="1" label="User Aborted"/>
