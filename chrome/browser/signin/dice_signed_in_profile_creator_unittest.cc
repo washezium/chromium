@@ -161,11 +161,12 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensLoaded) {
   AccountInfo account_info =
       identity_test_env()->MakeAccountAvailable("bob@example.com");
   size_t kTestIcon = profiles::GetModernAvatarIconStartIndex();
+  base::string16 kProfileTestName16 = base::UTF8ToUTF16(kProfileTestName);
 
   base::RunLoop loop;
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName, kTestIcon,
+          profile(), account_info.account_id, kProfileTestName16, kTestIcon,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), loop.QuitClosure()));
   loop.Run();
@@ -190,7 +191,7 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensLoaded) {
   ASSERT_TRUE(storage.GetProfileAttributesWithPath(
       signed_in_profile()->GetPath(), &entry));
   ASSERT_TRUE(entry);
-  EXPECT_EQ(base::UTF8ToUTF16(kProfileTestName), entry->GetLocalProfileName());
+  EXPECT_EQ(kProfileTestName16, entry->GetLocalProfileName());
   EXPECT_EQ(kTestIcon, entry->GetAvatarIconIndex());
 }
 
@@ -204,7 +205,7 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensNotLoaded) {
   set_profile_added_closure(profile_added_loop.QuitClosure());
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName, base::nullopt,
+          profile(), account_info.account_id, base::string16(), base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), creator_loop.QuitClosure()));
   profile_added_loop.Run();
@@ -239,7 +240,7 @@ TEST_F(DiceSignedInProfileCreatorTest, DeleteWhileCreating) {
       identity_test_env()->MakeAccountAvailable("bob@example.com");
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName, base::nullopt,
+          profile(), account_info.account_id, base::string16(), base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), base::OnceClosure()));
   EXPECT_FALSE(creator_callback_called());
@@ -258,7 +259,7 @@ TEST_F(DiceSignedInProfileCreatorTest, DeleteProfile) {
   set_profile_added_closure(profile_added_loop.QuitClosure());
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName, base::nullopt,
+          profile(), account_info.account_id, base::string16(), base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), creator_loop.QuitClosure()));
   profile_added_loop.Run();

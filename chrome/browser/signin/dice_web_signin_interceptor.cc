@@ -26,8 +26,10 @@
 #include "chrome/browser/themes/theme_service_factory.h"
 #include "chrome/browser/ui/signin/profile_colors_util.h"
 #include "chrome/common/pref_names.h"
+#include "chrome/grit/generated_resources.h"
 #include "components/prefs/pref_service.h"
 #include "components/signin/public/identity_manager/identity_manager.h"
+#include "ui/base/l10n/l10n_util.h"
 
 namespace {
 
@@ -269,7 +271,7 @@ void DiceWebSigninInterceptor::OnProfileCreationChoice(bool create) {
     return;
   }
 
-  std::string profile_name;
+  base::string16 profile_name;
   base::Optional<AccountInfo> account_info =
       identity_manager_
           ->FindExtendedAccountInfoForAccountWithRefreshTokenByAccountId(
@@ -278,7 +280,9 @@ void DiceWebSigninInterceptor::OnProfileCreationChoice(bool create) {
     bool is_managed = !account_info->hosted_domain.empty() &&
                       account_info->hosted_domain != kNoHostedDomainFound;
     profile_name =
-        is_managed ? account_info->hosted_domain : account_info->given_name;
+        is_managed ? l10n_util::GetStringUTF16(
+                         IDS_SIGNIN_DICE_WEB_INTERCEPT_ENTERPRISE_PROFILE_NAME)
+                   : base::UTF8ToUTF16(account_info->given_name);
   }
 
   DCHECK(!dice_signed_in_profile_creator_);
