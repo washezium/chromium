@@ -17,6 +17,7 @@
 #include "chrome/browser/content_settings/cookie_settings_factory.h"
 #include "chrome/browser/content_settings/host_content_settings_map_factory.h"
 #include "chrome/browser/extensions/api/content_settings/content_settings_api.h"
+#include "chrome/browser/extensions/api/content_settings/content_settings_api_constants.h"
 #include "chrome/browser/extensions/extension_apitest.h"
 #include "chrome/browser/permissions/permission_manager_factory.h"
 #include "chrome/browser/profiles/profile.h"
@@ -519,25 +520,25 @@ IN_PROC_BROWSER_TEST_P(
     PluginTest) {
   constexpr char kExtensionPath[] = "content_settings/pluginswildcardmatching";
   EXPECT_TRUE(RunLazyTest(kExtensionPath)) << message_;
+}
 
-  constexpr char kGoogleMailUrl[] = "http://mail.google.com:443";
-  constexpr char kGoogleDriveUrl[] = "http://drive.google.com:443";
-
-  permissions::PermissionManager* permission_manager =
-      PermissionManagerFactory::GetForProfile(browser()->profile());
-  EXPECT_EQ(
-      permission_manager
-          ->GetPermissionStatus(ContentSettingsType::PLUGINS,
-                                GURL(kGoogleMailUrl), GURL(kGoogleMailUrl))
-          .content_setting,
-      ContentSetting::CONTENT_SETTING_BLOCK);
-
-  EXPECT_EQ(
-      permission_manager
-          ->GetPermissionStatus(ContentSettingsType::PLUGINS,
-                                GURL(kGoogleDriveUrl), GURL(kGoogleDriveUrl))
-          .content_setting,
-      ContentSetting::CONTENT_SETTING_ALLOW);
+IN_PROC_BROWSER_TEST_P(
+    ExtensionContentSettingsApiTestWithWildcardMatchingDisabled,
+    ConsoleErrorTest) {
+  constexpr char kExtensionPath[] = "content_settings/pluginswildcardmatching";
+  const extensions::Extension* extension =
+      LoadExtension(test_data_dir_.AppendASCII(kExtensionPath));
+  ASSERT_TRUE(extension);
+  auto* web_contents = extensions::ProcessManager::Get(profile())
+                           ->GetBackgroundHostForExtension(extension->id())
+                           ->host_contents();
+  content::WebContentsConsoleObserver console_observer(web_contents);
+  console_observer.SetPattern(
+      content_settings_api_constants::kWildcardPatternsForPluginsDisallowed);
+  browsertest_util::ExecuteScriptInBackgroundPageNoWait(
+      profile(), extension->id(), "setWildcardedPatterns()");
+  console_observer.Wait();
+  EXPECT_EQ(1u, console_observer.messages().size());
 }
 
 }  // namespace extensions
