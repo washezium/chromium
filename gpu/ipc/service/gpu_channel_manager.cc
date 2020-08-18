@@ -317,8 +317,7 @@ GpuChannelManager::GpuChannelManager(
   if (enable_gr_shader_cache && !disable_disk_cache) {
     gr_shader_cache_.emplace(gpu_preferences.gpu_program_cache_size, this);
     if (using_skia_renderer) {
-      gr_shader_cache_->CacheClientIdOnDisk(
-          gpu::kInProcessCommandBufferClientId);
+      gr_shader_cache_->CacheClientIdOnDisk(gpu::kDisplayCompositorClientId);
     }
   }
 }
