@@ -3602,11 +3602,6 @@
     "expiry_milestone": 89
   },
   {
-    "name": "per-method-can-make-payment-quota",
-    "owners": [ "rouslan" ],
-    "expiry_milestone": 78
-  },
-  {
     "name": "percent-based-scrolling",
     "owners": [ "dlibby@microsoft.com", "sarsha@microsoft.com" ],
     "expiry_milestone": 89
