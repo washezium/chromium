@@ -102,17 +102,15 @@ suite(destination_select_test.suiteName, function() {
 
     return selectOption(destinationSelect, driveKey)
         .then(() => {
-          // Icon updates early based on the ID.
-          // TODO(dhoss): This icon should be 'save-to-drive-not-supported'
-          // after all cloud print deprecation warnings are implemented.
-          compareIcon(selectEl, 'save-to-drive');
-
-          // Update the destination.
-          destinationSelect.destination = getGoogleDriveDestination(account);
-
           const saveToDriveIcon = cloudPrintDeprecationWarningsSuppressed ?
               'save-to-drive' :
               'save-to-drive-not-supported';
+
+          // Icon updates early based on the ID.
+          compareIcon(selectEl, saveToDriveIcon);
+
+          // Update the destination.
+          destinationSelect.destination = getGoogleDriveDestination(account);
 
           // Still Save to Drive icon.
           compareIcon(selectEl, saveToDriveIcon);
@@ -155,6 +153,7 @@ suite(destination_select_test.suiteName, function() {
   function testUpdateStatus(cloudPrintDeprecationWarningsSuppressed) {
     loadTimeData.overrideValues({
       offline: 'offline',
+      saveToDriveNotSupportedWarning: 'saveToDriveNotSupportedWarning',
     });
 
     assertFalse(destinationSelect.$$('.throbber-container').hidden);
@@ -171,8 +170,12 @@ suite(destination_select_test.suiteName, function() {
     destinationSelect.driveDestinationKey = driveKey;
     destinationSelect.destination = getGoogleDriveDestination(account);
     destinationSelect.updateDestination();
-    assertTrue(additionalInfoEl.hidden);
-    assertEquals('', statusEl.innerHTML);
+    const saveToDriveStatus = cloudPrintDeprecationWarningsSuppressed ?
+        '' :
+        'saveToDriveNotSupportedWarning';
+    assertEquals(
+        cloudPrintDeprecationWarningsSuppressed, additionalInfoEl.hidden);
+    assertEquals(saveToDriveStatus, statusEl.innerHTML);
 
     destinationSelect.destination = recentDestinationList[0];
     destinationSelect.updateDestination();
