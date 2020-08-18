@@ -3090,7 +3090,6 @@ crbug.com/626703 external/wpt/referrer-policy/css-integration/svg/processing-ins
 
 crbug.com/367760 external/wpt/svg/pservers/reftests/meshgradient-complex-001.svg [ Failure ]
 crbug.com/367760 external/wpt/svg/pservers/reftests/meshgradient-bicubic-001.svg [ Failure ]
-crbug.com/626703 external/wpt/x-frame-options/multiple.sub.html [ Timeout ]
 crbug.com/367760 external/wpt/svg/pservers/reftests/meshgradient-basic-005.svg [ Failure ]
 crbug.com/367760 external/wpt/svg/pservers/reftests/meshgradient-basic-002.svg [ Failure ]
 crbug.com/367760 external/wpt/svg/pservers/reftests/meshgradient-basic-003.svg [ Failure ]
