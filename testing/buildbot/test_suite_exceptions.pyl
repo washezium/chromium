@@ -574,6 +574,11 @@
           'shards': 50,
         },
       },
+      'linux-lacros-rel': {
+        'args': [
+          '--test-launcher-filter-file=../../testing/buildbot/filters/lacros.browser_tests.filter',
+        ],
+      },
       'linux-lacros-tester-fyi-rel': {
         'experiment_percentage': 100,
       },

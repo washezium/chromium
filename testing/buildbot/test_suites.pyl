@@ -3311,6 +3311,11 @@
     },
 
     'linux_lacros_cq_gtests': {
+      'browser_tests': {
+        'swarming': {
+          'shards': 10,
+        },
+      },
       'unit_tests': {},
     },
 
