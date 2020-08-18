@@ -14,6 +14,7 @@
 #include "base/threading/thread_task_runner_handle.h"
 #include "chrome/browser/profiles/profile_attributes_entry.h"
 #include "chrome/browser/profiles/profile_attributes_storage.h"
+#include "chrome/browser/profiles/profile_avatar_icon_util.h"
 #include "chrome/browser/profiles/profile_manager.h"
 #include "chrome/browser/profiles/profile_manager_observer.h"
 #include "chrome/browser/signin/identity_manager_factory.h"
@@ -159,11 +160,12 @@ class DiceSignedInProfileCreatorTest : public testing::Test,
 TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensLoaded) {
   AccountInfo account_info =
       identity_test_env()->MakeAccountAvailable("bob@example.com");
+  size_t kTestIcon = profiles::GetModernAvatarIconStartIndex();
 
   base::RunLoop loop;
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName,
+          profile(), account_info.account_id, kProfileTestName, kTestIcon,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), loop.QuitClosure()));
   loop.Run();
@@ -181,7 +183,7 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensLoaded) {
   EXPECT_TRUE(IdentityManagerFactory::GetForProfile(signed_in_profile())
                   ->HasAccountWithRefreshToken(account_info.account_id));
 
-  // Check the profile name.
+  // Check the profile name and icon.
   ProfileAttributesEntry* entry = nullptr;
   ProfileAttributesStorage& storage =
       profile_manager()->GetProfileAttributesStorage();
@@ -189,6 +191,7 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensLoaded) {
       signed_in_profile()->GetPath(), &entry));
   ASSERT_TRUE(entry);
   EXPECT_EQ(base::UTF8ToUTF16(kProfileTestName), entry->GetLocalProfileName());
+  EXPECT_EQ(kTestIcon, entry->GetAvatarIconIndex());
 }
 
 TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensNotLoaded) {
@@ -201,7 +204,7 @@ TEST_F(DiceSignedInProfileCreatorTest, CreateWithTokensNotLoaded) {
   set_profile_added_closure(profile_added_loop.QuitClosure());
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName,
+          profile(), account_info.account_id, kProfileTestName, base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), creator_loop.QuitClosure()));
   profile_added_loop.Run();
@@ -236,7 +239,7 @@ TEST_F(DiceSignedInProfileCreatorTest, DeleteWhileCreating) {
       identity_test_env()->MakeAccountAvailable("bob@example.com");
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName,
+          profile(), account_info.account_id, kProfileTestName, base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), base::OnceClosure()));
   EXPECT_FALSE(creator_callback_called());
@@ -255,7 +258,7 @@ TEST_F(DiceSignedInProfileCreatorTest, DeleteProfile) {
   set_profile_added_closure(profile_added_loop.QuitClosure());
   std::unique_ptr<DiceSignedInProfileCreator> creator =
       std::make_unique<DiceSignedInProfileCreator>(
-          profile(), account_info.account_id, kProfileTestName,
+          profile(), account_info.account_id, kProfileTestName, base::nullopt,
           base::BindOnce(&DiceSignedInProfileCreatorTest::OnProfileCreated,
                          base::Unretained(this), creator_loop.QuitClosure()));
   profile_added_loop.Run();

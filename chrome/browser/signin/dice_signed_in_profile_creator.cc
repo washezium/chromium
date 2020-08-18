@@ -132,20 +132,20 @@ DiceSignedInProfileCreator::DiceSignedInProfileCreator(
     Profile* source_profile,
     CoreAccountId account_id,
     const std::string& local_profile_name,
+    base::Optional<size_t> icon_index,
     base::OnceCallback<void(Profile*)> callback)
     : source_profile_(source_profile),
       account_id_(account_id),
       callback_(std::move(callback)) {
   ProfileAttributesStorage& storage =
       g_browser_process->profile_manager()->GetProfileAttributesStorage();
-  size_t icon_index = storage.ChooseAvatarIconIndexForNewProfile();
-
+  if (!icon_index.has_value())
+    icon_index = storage.ChooseAvatarIconIndexForNewProfile();
   base::string16 name = local_profile_name.empty()
-                            ? storage.ChooseNameForNewProfile(icon_index)
+                            ? storage.ChooseNameForNewProfile(*icon_index)
                             : base::UTF8ToUTF16(local_profile_name);
-
   ProfileManager::CreateMultiProfileAsync(
-      name, profiles::GetDefaultAvatarIconUrl(icon_index),
+      name, profiles::GetDefaultAvatarIconUrl(*icon_index),
       base::BindRepeating(&DiceSignedInProfileCreator::OnNewProfileCreated,
                           weak_pointer_factory_.GetWeakPtr()));
 }
