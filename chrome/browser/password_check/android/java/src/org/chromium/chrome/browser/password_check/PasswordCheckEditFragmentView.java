@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.chromium.base.supplier.Supplier;
 
 /**
@@ -38,6 +40,8 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
     private CompromisedCredential mCredential;
 
     private EditText mPasswordText;
+    private MenuItem mSaveButton;
+    private TextInputLayout mPasswordLabel;
 
     /**
      * Initializes the password check factory that allows to retrieve a {@link PasswordCheck}
@@ -71,6 +75,7 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
         EditText usernameText = (EditText) view.findViewById(R.id.username_edit);
         usernameText.setText(mCredential.getDisplayUsername());
 
+        mPasswordLabel = (TextInputLayout) view.findViewById(R.id.password_label);
         mPasswordText = (EditText) view.findViewById(R.id.password_edit);
         mPasswordText.setText(mCredential.getPassword());
         mPasswordText.addTextChangedListener(new TextWatcher() {
@@ -83,17 +88,19 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
             @Override
             public void afterTextChanged(Editable editable) {
                 mNewPassword = mPasswordText.getText().toString();
-                if (TextUtils.isEmpty(mNewPassword)) {
-                    // TODO(crbug.com/1114720): setError on R.id.password_label.
-                }
+                checkSavingConditions(TextUtils.isEmpty(mNewPassword));
             }
         });
+        // Enforce that even the initial password (maybe from a saved instance) cannot be empty.
+        checkSavingConditions(TextUtils.isEmpty(mNewPassword));
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear(); // Remove help and feedback for this screen.
         inflater.inflate(R.menu.password_check_editor_action_bar_menu, menu);
+        mSaveButton = menu.findItem(R.id.action_save_edited_password);
+        checkSavingConditions(mNewPassword.isEmpty()); // Enable the newly created save button.
         // TODO(crbug.com/1092444): Make the back arrow an 'X'.
     }
 
@@ -108,7 +115,7 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save_edited_password) {
-            if (!TextUtils.isEmpty(mNewPassword)) saveChanges();
+            saveChanges();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -143,5 +150,12 @@ public class PasswordCheckEditFragmentView extends PreferenceFragmentCompat {
             return extras.getParcelable(EXTRA_NEW_PASSWORD);
         }
         return mCredential.getPassword();
+    }
+
+    private void checkSavingConditions(boolean emptyPassword) {
+        if (mSaveButton != null) mSaveButton.setEnabled(!emptyPassword);
+        mPasswordLabel.setError(emptyPassword ? getContext().getString(
+                                        R.string.pref_edit_dialog_field_required_validation_message)
+                                              : "");
     }
 }

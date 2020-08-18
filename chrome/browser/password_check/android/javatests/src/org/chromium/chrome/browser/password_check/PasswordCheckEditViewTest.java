@@ -6,11 +6,14 @@ package org.chromium.chrome.browser.password_check;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import static junit.framework.Assert.assertTrue;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -25,7 +28,10 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
 
+import androidx.annotation.StringRes;
 import androidx.test.filters.MediumTest;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -130,10 +136,29 @@ public class PasswordCheckEditViewTest {
         verify(mPasswordCheck).updateCredential(eq(ANA), eq(newPassword));
     }
 
+    @Test
+    @MediumTest
+    public void testEmptyPasswordDisablesSaveButton() {
+        // Delete the password.
+        EditText password = mPasswordCheckEditView.getView().findViewById(R.id.password_edit);
+        runOnUiThreadBlocking(() -> password.setText(""));
+
+        onView(withId(R.id.action_save_edited_password)).check(matches(not(isEnabled())));
+        TextInputLayout passwordLabel =
+                mPasswordCheckEditView.getView().findViewById(R.id.password_label);
+        assertNotNull(passwordLabel.getError());
+        assertThat(passwordLabel.getError().toString(),
+                equalTo(getString(R.string.pref_edit_dialog_field_required_validation_message)));
+    }
+
     private void setUpUiLaunchedFromSettings() {
         Bundle fragmentArgs = new Bundle();
         fragmentArgs.putParcelable(EXTRA_COMPROMISED_CREDENTIAL, ANA);
         mTestRule.startSettingsActivity(fragmentArgs);
         mPasswordCheckEditView = mTestRule.getFragment();
+    }
+
+    private String getString(@StringRes int stringId) {
+        return mPasswordCheckEditView.getContext().getString(stringId);
     }
 }
