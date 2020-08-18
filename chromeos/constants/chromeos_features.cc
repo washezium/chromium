@@ -448,7 +448,7 @@ const base::Feature kSmartDimExperimentalComponent{
 // Uses the smart dim component updater to provide smart dim model and
 // preprocessor configuration.
 const base::Feature kSmartDimNewMlAgent{"SmartDimNewMlAgent",
-                                        base::FEATURE_DISABLED_BY_DEFAULT};
+                                        base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Uses the V3 (~2019-05 era) Smart Dim model instead of the default V2
 // (~2018-11) model.
