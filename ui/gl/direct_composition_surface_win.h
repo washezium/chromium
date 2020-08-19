@@ -81,6 +81,7 @@ class GL_EXPORT DirectCompositionSurfaceWin : public GLSurfaceEGL,
   // Returns overlay support flags for the given format.
   // Caller should check for DXGI_OVERLAY_SUPPORT_FLAG_DIRECT and
   // DXGI_OVERLAY_SUPPORT_FLAG_SCALING bits.
+  // This function is thread safe.
   static UINT GetOverlaySupportFlags(DXGI_FORMAT format);
 
   // Returns true if there is an HDR capable display connected.
