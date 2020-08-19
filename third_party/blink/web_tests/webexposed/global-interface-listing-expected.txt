@@ -8238,6 +8238,7 @@ interface StorageManager : EventTarget
     getter onquotachange
     method constructor
     method estimate
+    method getDirectory
     method persist
     method persisted
     setter onquotachange
@@ -11953,7 +11954,6 @@ interface webkitURL
     method getComputedAccessibleNode
     method getComputedStyle
     method getDigitalGoodsService
-    method getOriginPrivateDirectory
     method getScreens
     method getSelection
     method getWindowSegments

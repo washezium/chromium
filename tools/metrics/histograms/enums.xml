@@ -28818,6 +28818,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3425" label="BCPWritableAuxiliaries"/>
   <int value="3426" label="TextAlignSpecifiedToLegend"/>
   <int value="3427" label="V8Document_FragmentDirective_AttributeGetter"/>
+  <int value="3428" label="V8StorageManager_GetDirectory_Method"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
