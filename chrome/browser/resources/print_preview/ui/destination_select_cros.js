@@ -70,6 +70,7 @@ Polymer({
       type: String,
       computed:
           'computeStatusText_(destination, destination.printerStatusReason)',
+      observer: 'onStatusTextSet_',
     },
 
     /** @private {string} */
@@ -351,9 +352,18 @@ Polymer({
 
     // Cloudprint destinations contain their own status text.
     if (CloudOrigins.some(origin => origin === this.destination.origin)) {
-      return this.destination.shouldShowInvalidCertificateError ?
-          this.i18n('noLongerSupportedFragment') :
-          this.destination.connectionStatusText;
+      if (this.destination.shouldShowInvalidCertificateError) {
+        return this.i18n('noLongerSupportedFragment');
+      }
+      if (this.destination.connectionStatusText) {
+        return this.destination.connectionStatusText;
+      }
+    }
+
+    if (this.destination.origin !== DestinationOrigin.CROS) {
+      return this.destination.shouldShowDeprecatedPrinterWarning ?
+          this.i18nAdvanced('printerNotSupportedWarning') :
+          '';
     }
 
     // Only when the flag is enabled do we need to fetch a local printer status
@@ -370,6 +380,11 @@ Polymer({
     }
 
     return this.getErrorString_(printerStatusReason);
+  },
+
+  /** @private */
+  onStatusTextSet_() {
+    this.$$('#statusText').innerHTML = this.statusText_;
   },
 
   /**
