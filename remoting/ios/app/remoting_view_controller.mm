@@ -381,7 +381,7 @@ animationControllerForDismissedController:(UIViewController*)dismissed {
   if ([self isAnyRefreshControlRefreshing]) {
     // User could just try pull-to-refresh again to refresh. We just need to
     // show the error as a toast.
-    [MDCSnackbarManager
+    [MDCSnackbarManager.defaultManager
         showMessage:[MDCSnackbarMessage messageWithText:errorText]];
     [self stopAllRefreshControls];
     return;
