@@ -21447,6 +21447,7 @@ Called by update_document_policy_enum.py.-->
   <int value="776" label="FileSystemReadBlockedForUrls"/>
   <int value="777" label="FileSystemWriteAskForUrls"/>
   <int value="778" label="FileSystemWriteBlockedForUrls"/>
+  <int value="779" label="PrintersBulkBlocklist"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
