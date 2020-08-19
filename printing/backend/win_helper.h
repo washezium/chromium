@@ -117,14 +117,14 @@ class PRINTING_EXPORT XPSModule {
 class PRINTING_EXPORT ScopedXPSInitializer {
  public:
   ScopedXPSInitializer();
+  ScopedXPSInitializer(const ScopedXPSInitializer&) = delete;
+  ScopedXPSInitializer& operator=(const ScopedXPSInitializer&) = delete;
   ~ScopedXPSInitializer();
 
   bool initialized() const { return initialized_; }
 
  private:
   bool initialized_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedXPSInitializer);
 };
 
 // Wrapper class to wrap the XPS Print APIs (these are different from the PTxxx
