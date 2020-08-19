@@ -47,7 +47,18 @@ void GaiaScreen::MaybePreloadAuthExtension() {
 }
 
 void GaiaScreen::LoadOnline(const AccountId& account) {
+  view_->SetGaiaPath(GaiaView::GaiaPath::kDefault);
   view_->LoadGaiaAsync(account);
+}
+
+void GaiaScreen::LoadOnlineForChildSignup() {
+  view_->SetGaiaPath(GaiaView::GaiaPath::kChildSignup);
+  view_->LoadGaiaAsync(EmptyAccountId());
+}
+
+void GaiaScreen::LoadOnlineForChildSignin() {
+  view_->SetGaiaPath(GaiaView::GaiaPath::kChildSignin);
+  view_->LoadGaiaAsync(EmptyAccountId());
 }
 
 void GaiaScreen::LoadOffline(const AccountId& account) {
@@ -59,6 +70,7 @@ void GaiaScreen::ShowImpl() {
 }
 
 void GaiaScreen::HideImpl() {
+  view_->SetGaiaPath(GaiaView::GaiaPath::kDefault);
   view_->LoadGaiaAsync(EmptyAccountId());
   view_->Hide();
 }

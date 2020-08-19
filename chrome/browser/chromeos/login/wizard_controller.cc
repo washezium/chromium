@@ -834,13 +834,11 @@ void WizardController::OnUserCreationScreenExit(
       AdvanceToScreen(GaiaView::kScreenId);
       break;
     case UserCreationScreen::Result::CHILD_SIGNIN:
-      // TODO(crbug.com/1101318): entry point for child sign in screen
-      GaiaScreen::Get(screen_manager())->LoadOnline(EmptyAccountId());
+      GaiaScreen::Get(screen_manager())->LoadOnlineForChildSignin();
       AdvanceToScreen(GaiaView::kScreenId);
       break;
     case UserCreationScreen::Result::CHILD_ACCOUNT_CREATE:
-      // TODO(crbug.com/1101318): entry point for account creation screen
-      GaiaScreen::Get(screen_manager())->LoadOnline(EmptyAccountId());
+      GaiaScreen::Get(screen_manager())->LoadOnlineForChildSignup();
       AdvanceToScreen(GaiaView::kScreenId);
       break;
     case UserCreationScreen::Result::ENTERPRISE_ENROLL:
