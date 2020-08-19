@@ -28,7 +28,6 @@
 #include "base/thread_annotations.h"
 #include "media/gpu/media_gpu_export.h"
 #include "media/gpu/vaapi/va_surface.h"
-#include "media/gpu/vaapi/vaapi_utils.h"
 #include "media/video/video_decode_accelerator.h"
 #include "media/video/video_encode_accelerator.h"
 #include "ui/gfx/geometry/size.h"
@@ -47,6 +46,8 @@ class Rect;
 namespace media {
 constexpr unsigned int kInvalidVaRtFormat = 0u;
 
+class ScopedVAImage;
+class ScopedVASurface;
 class VideoFrame;
 
 // Enum, function and callback type to allow VaapiWrapper to log errors in VA
@@ -466,12 +467,8 @@ class MEDIA_GPU_EXPORT VaapiWrapper
   // Data queued up for HW codec, to be committed on next execution.
   std::vector<VABufferID> pending_va_buffers_;
 
-  // VABufferIDs for kEncode*.
+  // Buffers for kEncode or kVideoProcess.
   std::set<VABufferID> va_buffers_;
-
-  // VABufferID to be used for kVideoProcess. Allocated the first time around,
-  // and reused afterwards.
-  std::unique_ptr<ScopedID<VABufferID>> va_buffer_for_vpp_;
 
   // Called to report codec errors to UMA. Errors to clients are reported via
   // return values from public methods.
