@@ -129,6 +129,7 @@
 #include "third_party/blink/public/web/web_node.h"
 #include "third_party/blink/public/web/web_performance.h"
 #include "third_party/blink/public/web/web_plugin.h"
+#include "third_party/blink/public/web/web_print_client.h"
 #include "third_party/blink/public/web/web_print_page_description.h"
 #include "third_party/blink/public/web/web_print_params.h"
 #include "third_party/blink/public/web/web_print_preset_options.h"
@@ -674,6 +675,7 @@ void WebLocalFrameImpl::Close() {
 
   if (print_context_)
     PrintEnd();
+  print_client_.reset();
 #if DCHECK_IS_ON()
   is_in_printing_ = false;
 #endif
@@ -1530,13 +1532,16 @@ WebPlugin* WebLocalFrameImpl::FocusedPluginIfInputMethodSupported() {
   return nullptr;
 }
 
-void WebLocalFrameImpl::DispatchBeforePrintEvent() {
+void WebLocalFrameImpl::DispatchBeforePrintEvent(
+    base::WeakPtr<WebPrintClient> print_client) {
 #if DCHECK_IS_ON()
   DCHECK(!is_in_printing_) << "DispatchAfterPrintEvent() should have been "
                               "called after the previous "
                               "DispatchBeforePrintEvent() call.";
   is_in_printing_ = true;
 #endif
+
+  print_client_ = print_client;
 
   // Disable BackForwardCache when printing API is used for now. When the page
   // navigates with BackForwardCache, we currently do not close the printing
@@ -1555,6 +1560,8 @@ void WebLocalFrameImpl::DispatchAfterPrintEvent() {
                              "before DispatchAfterPrintEvent().";
   is_in_printing_ = false;
 #endif
+
+  print_client_.reset();
 
   if (View())
     DispatchPrintEventRecursively(event_type_names::kAfterprint);
@@ -2324,6 +2331,8 @@ void WebLocalFrameImpl::WillBeDetached() {
     dev_tools_agent_->WillBeDestroyed();
   if (find_in_page_)
     find_in_page_->Dispose();
+  if (print_client_)
+    print_client_->WillBeDestroyed();
 }
 
 void WebLocalFrameImpl::WillDetachParent() {
