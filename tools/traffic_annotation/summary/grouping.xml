@@ -383,5 +383,8 @@ hidden="true" so that these annotations don't show up in the document.
     <sender name="Assist Rank">
       <traffic_annotation unique_id="ranker_url_fetcher"/>
     </sender>
+    <sender name="Phone as a Security Key">
+      <traffic_annotation unique_id="cablev2_websocket_from_client"/>
+    </sender>
   </group>
 </groups>
