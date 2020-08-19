@@ -315,6 +315,7 @@ void AddPrintPreviewStrings(content::WebUIDataSource* source) {
     {"title", IDS_PRINT_PREVIEW_TITLE},
     {"top", IDS_PRINT_PREVIEW_TOP_MARGIN_LABEL},
     {"unsupportedCloudPrinter", IDS_PRINT_PREVIEW_UNSUPPORTED_CLOUD_PRINTER},
+    {"warningIconAriaLabel", IDS_WARNING_ICON_ARIA_LABEL},
 #if defined(OS_CHROMEOS)
     {"configuringFailedText", IDS_PRINT_CONFIGURING_FAILED_TEXT},
     {"configuringInProgressText", IDS_PRINT_CONFIGURING_IN_PROGRESS_TEXT},
@@ -352,9 +353,17 @@ void AddPrintPreviewStrings(content::WebUIDataSource* source) {
 
   const bool is_enterprise_managed = webui::IsEnterpriseManaged();
   if (is_enterprise_managed) {
+    source->AddLocalizedString(
+        "cloudPrintingNotSupportedWarning",
+        IDS_CLOUD_PRINTING_NOT_SUPPORTED_WARNING_ENTERPRISE);
     source->AddLocalizedString("printerNotSupportedWarning",
                                IDS_PRINTER_NOT_SUPPORTED_WARNING_ENTERPRISE);
   } else {
+    source->AddString(
+        "cloudPrintingNotSupportedWarning",
+        l10n_util::GetStringFUTF16(
+            IDS_CLOUD_PRINTING_NOT_SUPPORTED_WARNING,
+            base::ASCIIToUTF16(cloud_devices::kCloudPrintDeprecationHelpURL)));
     source->AddString(
         "printerNotSupportedWarning",
         l10n_util::GetStringFUTF16(
