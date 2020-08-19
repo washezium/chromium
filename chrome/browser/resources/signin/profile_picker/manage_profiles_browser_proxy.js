@@ -9,7 +9,7 @@ import {addSingletonGetter, sendWithPromise} from 'chrome://resources/js/cr.m.js
  * @typedef {{
  *   profilePath: string,
  *   localProfileName: string,
- *   isSignedIn: boolean,
+ *   isSyncing: boolean,
  *   gaiaName: string,
  *   userName: string,
  *   avatarIcon: string,

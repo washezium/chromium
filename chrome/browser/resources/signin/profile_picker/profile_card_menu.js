@@ -119,8 +119,8 @@ Polymer({
    */
   computeRemoveWarningText_() {
     return this.i18n(
-        this.profileState.isSignedIn ? 'removeWarningSignedInProfile' :
-                                       'removeWarningLocalProfile');
+        this.profileState.isSyncing ? 'removeWarningSignedInProfile' :
+                                      'removeWarningLocalProfile');
   },
 
   /**

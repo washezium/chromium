@@ -268,7 +268,8 @@ base::Value ProfilePickerHandler::GetProfilesList() {
                           util::FilePathToValue(entry->GetPath()));
     profile_entry->SetString("localProfileName", entry->GetLocalProfileName());
     profile_entry->SetBoolPath(
-        "isSignedIn", entry->GetSigninState() != SigninState::kNotSignedIn);
+        "isSyncing", entry->GetSigninState() ==
+                         SigninState::kSignedInWithConsentedPrimaryAccount);
     // GAIA name/user name can be empty, if the profile is not signed in to
     // chrome.
     profile_entry->SetString("gaiaName", entry->GetGAIANameToDisplay());

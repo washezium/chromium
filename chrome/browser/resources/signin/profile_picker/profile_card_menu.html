@@ -99,7 +99,9 @@
     </div>
     <div>
       [[removeWarningText_]]
-      <span class="key-text">[[profileState.userName]]</span>
+      <span hidden$="[[!profileState.isSyncing]]" class="key-text">
+        [[profileState.userName]]
+      </span>
     </div>
     <table class="statistics">
       <template is="dom-repeat" items="[[profileStatistics_]]">
