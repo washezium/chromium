@@ -7853,26 +7853,17 @@ the Bookmarks menu.">
       </message>
 
       <!-- Account password storage reauth tab modal dialog -->
-      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_SAVE_TITLE" desc="Title of the account password storage reauth tab modal dialog. The dialog was shown because the user requested to save a password to their Google account.">
-        Save this and other passwords in your Google Account?
-      </message>
-      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_SHOW_TITLE" desc="Title of the account password storage reauth tab modal dialog. The dialog was shown because the user requested to get passwords from their Google account.">
-        Show passwords from your Google Account
+      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_TITLE" desc="Title of the account password storage reauth tab modal dialog.">
+        Use your Google Account to save and fill passwords?
       </message>
       <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_DESC" desc="Body of the account password storage reauth tab modal dialog.">
-        Your passwords from your Google Account will also be available on this device while you're signed in
+        Passwords from your Google Account will also be available on this device while you're signed in
       </message>
-      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_SAVE_BUTTON_LABEL" desc="Label of the confirmation button in the account password storage reauth tab modal dialog. The dialog was shown because the user requested to save a password to their Google account.">
-        Save
-      </message>
-      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_SHOW_BUTTON_LABEL" desc="Label of the confirmation button in the account password storage reauth tab modal dialog. The dialog was shown because the user requested to get passwords from their Google account.">
-        Show
+      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_CONFIRM_BUTTON_LABEL" desc="Label of the confirmation button in the account password storage reauth tab modal dialog.">
+        Yes
       </message>
       <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_CLOSE_BUTTON_LABEL" desc="Label of the close button in the account password storage reauth tab modal dialog.">
-        Cancel
-      </message>
-      <message name="IDS_ACCOUNT_PASSWORDS_REAUTH_NEXT_BUTTON_LABEL" desc="Label of the next button in the account password storage reauth tab modal dialog. This button invites the user to authenticate to unlock the account password storage.">
-        Next
+        No thanks
       </message>
 
       <message name="IDS_PLUGIN_OUTDATED_PROMPT" desc="Infobar message when an outdated plugin was disabled">
