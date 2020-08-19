@@ -122,9 +122,9 @@ base::Optional<health::mojom::DiagnosticRoutineEnum> Convert(
       return health::mojom::DiagnosticRoutineEnum::kPrimeSearch;
     case cros_healthd::mojom::DiagnosticRoutineEnum::kBatteryDischarge:
       return health::mojom::DiagnosticRoutineEnum::kBatteryDischarge;
+    default:
+      return base::nullopt;
   }
-  NOTREACHED();
-  return base::nullopt;
 }
 
 std::string Convert(mojo::ScopedHandle handle) {
