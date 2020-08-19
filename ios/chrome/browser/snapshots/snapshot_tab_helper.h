@@ -30,9 +30,9 @@ class SnapshotTabHelper : public infobars::InfoBarManager::Observer,
   ~SnapshotTabHelper() override;
 
   // Creates the tab helper for |web_state| if it does not exists. The
-  // unique identifier |session_id| is used when interacting with the
+  // unique identifier |tab_id| is used when interacting with the
   // cache to save or fetch snapshots.
-  static void CreateForWebState(web::WebState* web_state, NSString* session_id);
+  static void CreateForWebState(web::WebState* web_state, NSString* tab_id);
 
   // Sets the delegate. Capturing snapshot before setting a delegate will
   // results in failures. The delegate is not owned by the tab helper.
@@ -81,7 +81,7 @@ class SnapshotTabHelper : public infobars::InfoBarManager::Observer,
  private:
   friend class web::WebStateUserData<SnapshotTabHelper>;
 
-  SnapshotTabHelper(web::WebState* web_state, NSString* session_id);
+  SnapshotTabHelper(web::WebState* web_state, NSString* tab_id);
 
   // web::WebStateObserver implementation.
   void PageLoaded(

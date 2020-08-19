@@ -47,12 +47,12 @@ SnapshotTabHelper::~SnapshotTabHelper() {
 
 // static
 void SnapshotTabHelper::CreateForWebState(web::WebState* web_state,
-                                          NSString* session_id) {
+                                          NSString* tab_id) {
   DCHECK(web_state);
   if (!FromWebState(web_state)) {
     web_state->SetUserData(
         UserDataKey(),
-        base::WrapUnique(new SnapshotTabHelper(web_state, session_id)));
+        base::WrapUnique(new SnapshotTabHelper(web_state, tab_id)));
   }
 }
 
@@ -109,14 +109,13 @@ void SnapshotTabHelper::IgnoreNextLoad() {
   ignore_next_load_ = true;
 }
 
-SnapshotTabHelper::SnapshotTabHelper(web::WebState* web_state,
-                                     NSString* session_id)
+SnapshotTabHelper::SnapshotTabHelper(web::WebState* web_state, NSString* tab_id)
     : web_state_(web_state),
       web_state_observer_(this),
       infobar_observer_(this),
       weak_ptr_factory_(this) {
   snapshot_generator_ = [[SnapshotGenerator alloc] initWithWebState:web_state_
-                                                  snapshotSessionId:session_id];
+                                                              tabID:tab_id];
   web_state_observer_.Add(web_state_);
 
   // Supports missing InfoBarManager to make testing easier.

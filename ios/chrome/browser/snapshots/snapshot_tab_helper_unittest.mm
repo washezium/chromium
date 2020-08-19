@@ -86,9 +86,9 @@ class SnapshotTabHelperTest : public PlatformTest {
  public:
   SnapshotTabHelperTest() {
     // Create the SnapshotTabHelper with a fake delegate.
-    snapshot_session_id_ = [[NSUUID UUID] UUIDString];
+    snapshot_id_ = [[NSUUID UUID] UUIDString];
     delegate_ = [[TabHelperSnapshotGeneratorDelegate alloc] init];
-    SnapshotTabHelper::CreateForWebState(&web_state_, snapshot_session_id_);
+    SnapshotTabHelper::CreateForWebState(&web_state_, snapshot_id_);
     SnapshotTabHelper::FromWebState(&web_state_)->SetDelegate(delegate_);
 
     // Set custom snapshot cache.
@@ -106,7 +106,7 @@ class SnapshotTabHelperTest : public PlatformTest {
   ~SnapshotTabHelperTest() override { [snapshot_cache_ shutdown]; }
 
   void SetCachedSnapshot(UIImage* image) {
-    [snapshot_cache_ setImage:image withSessionID:snapshot_session_id_];
+    [snapshot_cache_ setImage:image withSnapshotID:snapshot_id_];
   }
 
   UIImage* GetCachedSnapshot() {
@@ -114,11 +114,11 @@ class SnapshotTabHelperTest : public PlatformTest {
     base::RunLoop* run_loop_ptr = &run_loop;
 
     __block UIImage* snapshot = nil;
-    [snapshot_cache_ retrieveImageForSessionID:snapshot_session_id_
-                                      callback:^(UIImage* cached_snapshot) {
-                                        snapshot = cached_snapshot;
-                                        run_loop_ptr->Quit();
-                                      }];
+    [snapshot_cache_ retrieveImageForSnapshotID:snapshot_id_
+                                       callback:^(UIImage* cached_snapshot) {
+                                         snapshot = cached_snapshot;
+                                         run_loop_ptr->Quit();
+                                       }];
 
     run_loop.Run();
     return snapshot;
@@ -128,7 +128,7 @@ class SnapshotTabHelperTest : public PlatformTest {
   web::WebTaskEnvironment task_environment_;
   TabHelperSnapshotGeneratorDelegate* delegate_ = nil;
   SnapshotCache* snapshot_cache_ = nil;
-  NSString* snapshot_session_id_ = nil;
+  NSString* snapshot_id_ = nil;
   web::TestWebState web_state_;
 
  private:
@@ -340,14 +340,14 @@ TEST_F(SnapshotTabHelperTest, ClosingWebStateDoesNotRemoveSnapshot) {
 
   NSString* tab_id = TabIdTabHelper::FromWebState(web_state.get())->tab_id();
   SnapshotTabHelper::CreateForWebState(web_state.get(), tab_id);
-  [[partialMock reject] removeImageWithSessionID:tab_id];
+  [[partialMock reject] removeImageWithSnapshotID:tab_id];
 
   // Use @try/@catch as -reject raises an exception.
   @try {
     web_state.reset();
     EXPECT_OCMOCK_VERIFY(partialMock);
   } @catch (NSException* exception) {
-    // The exception is raised when -removeImageWithSessionID: is invoked. As
+    // The exception is raised when -removeImageWithSnapshotID: is invoked. As
     // this should not happen, mark the test as failed.
     GTEST_FAIL();
   }

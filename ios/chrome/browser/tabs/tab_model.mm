@@ -295,7 +295,7 @@ void RecordInterfaceOrientationMetric() {
             ->tab_id();
 
     [_snapshotBrowserAgent->GetSnapshotCache()
-        saveGreyInBackgroundForSessionID:tabId];
+        saveGreyInBackgroundForSnapshotID:tabId];
   }
 }
 

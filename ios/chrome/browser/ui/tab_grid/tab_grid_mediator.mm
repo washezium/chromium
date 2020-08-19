@@ -308,7 +308,7 @@ web::WebState* GetWebStateWithId(WebStateList* web_state_list,
   for (int i = 0; i < self.webStateList->count(); i++) {
     web::WebState* webState = self.webStateList->GetWebStateAt(i);
     TabIdTabHelper* tabHelper = TabIdTabHelper::FromWebState(webState);
-    [self.snapshotCache markImageWithSessionID:tabHelper->tab_id()];
+    [self.snapshotCache markImageWithSnapshotID:tabHelper->tab_id()];
   }
   self.closedSessionWindow = SerializeWebStateList(self.webStateList);
   int old_size =

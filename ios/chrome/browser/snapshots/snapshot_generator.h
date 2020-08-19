@@ -24,8 +24,7 @@ class WebState;
 
 // Designated initializer.
 - (instancetype)initWithWebState:(web::WebState*)webState
-               snapshotSessionId:(NSString*)snapshotSessionId
-    NS_DESIGNATED_INITIALIZER;
+                           tabID:(NSString*)tabID NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
