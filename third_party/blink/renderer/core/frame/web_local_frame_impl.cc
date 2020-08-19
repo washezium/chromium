@@ -715,6 +715,19 @@ bool WebLocalFrameImpl::IsFocused() const {
              ViewImpl()->GetPage()->GetFocusController().FocusedFrame());
 }
 
+bool WebLocalFrameImpl::DispatchedPagehideAndStillHidden() const {
+  // Dispatching pagehide is the first step in unloading, so we must have
+  // already dispatched pagehide if unload had started.
+  if (GetFrame() && GetFrame()->GetDocument() &&
+      GetFrame()->GetDocument()->UnloadStarted()) {
+    return true;
+  }
+  if (!ViewImpl() || !ViewImpl()->GetPage())
+    return false;
+  // We might have dispatched pagehide without unloading the document.
+  return ViewImpl()->GetPage()->DispatchedPagehideAndStillHidden();
+}
+
 bool WebLocalFrameImpl::UsePrintingLayout() const {
   return print_context_ ? print_context_->use_printing_layout() : false;
 }

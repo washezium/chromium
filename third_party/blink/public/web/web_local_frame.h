@@ -592,6 +592,13 @@ class WebLocalFrame : public WebFrame {
   // This will be removed following the deprecation.
   virtual void UsageCountChromeLoadTimes(const WebString& metric) = 0;
 
+  // Whether we've dispatched "pagehide" on the current document in this frame
+  // previously, and haven't dispatched the "pageshow" event after the last time
+  // we dispatched "pagehide". This means that we've navigated away from the
+  // document and it's still hidden (possibly preserved in the back-forward
+  // cache, or unloaded).
+  virtual bool DispatchedPagehideAndStillHidden() const = 0;
+
   // Scheduling ---------------------------------------------------------------
 
   virtual FrameScheduler* Scheduler() const = 0;
