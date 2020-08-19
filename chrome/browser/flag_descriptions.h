@@ -2529,6 +2529,9 @@ extern const char kVirtualKeyboardFloatingResizableDescription[];
 extern const char kVirtualKeyboardName[];
 extern const char kVirtualKeyboardDescription[];
 
+extern const char kWifiSyncAndroidName[];
+extern const char kWifiSyncAndroidDescription[];
+
 extern const char kZeroCopyVideoCaptureName[];
 extern const char kZeroCopyVideoCaptureDescription[];
 

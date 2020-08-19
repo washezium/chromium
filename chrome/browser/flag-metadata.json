@@ -4551,6 +4551,11 @@
     "expiry_milestone": -1
   },
   {
+    "name": "wifi-sync-android",
+    "owners": [ "jonmann", "cvandermerwe@google.com", "cros-system-services@google.com" ],
+    "expiry_milestone": 92
+  },
+  {
     "name": "win-use-native-spellchecker",
     "owners": [ "gujen@google.com", "chrome-language@google.com" ],
     "expiry_milestone": 88

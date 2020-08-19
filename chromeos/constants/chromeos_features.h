@@ -230,6 +230,8 @@ extern const base::Feature kVirtualKeyboardBorderedKey;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kVirtualKeyboardFloatingResizable;
 COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
+extern const base::Feature kWifiSyncAndroid;
+COMPONENT_EXPORT(CHROMEOS_CONSTANTS)
 extern const base::Feature kImeMozcProto;
 
 // Keep alphabetized.
