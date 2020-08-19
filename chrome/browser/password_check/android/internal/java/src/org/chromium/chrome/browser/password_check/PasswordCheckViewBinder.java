@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -134,9 +135,7 @@ class PasswordCheckViewBinder {
             username.setText(credential.getDisplayUsername());
 
             TextView reason = view.findViewById(R.id.compromised_reason);
-            reason.setText(credential.isPhished()
-                            ? R.string.password_check_credential_row_reason_phished
-                            : R.string.password_check_credential_row_reason_leaked);
+            reason.setText(getReasonForCredential(credential));
 
             ListMenuButton more = view.findViewById(R.id.credential_menu_button);
             more.setDelegate(() -> {
@@ -170,6 +169,12 @@ class PasswordCheckViewBinder {
         } else {
             assert false : "Unhandled update to property:" + propertyKey;
         }
+    }
+
+    private static @StringRes int getReasonForCredential(CompromisedCredential credential) {
+        if (!credential.isPhished()) return R.string.password_check_credential_row_reason_leaked;
+        if (!credential.isLeaked()) return R.string.password_check_credential_row_reason_phished;
+        return R.string.password_check_credential_row_reason_leaked_and_phished;
     }
 
     /**
