@@ -158,7 +158,6 @@ base::Value DiceWebSigninInterceptHandler::GetInterceptionParametersValue() {
   parameters.SetStringKey("bodyText", GetBodyText());
   parameters.SetKey("interceptedAccount",
                     GetAccountInfoValue(intercepted_account()));
-  parameters.SetKey("primaryAccount", GetAccountInfoValue(primary_account()));
   return parameters;
 }
 
