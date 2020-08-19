@@ -45,7 +45,7 @@
 <translation id="1285320974508926690">Никогда не переводить этот сайт</translation>
 <translation id="1291207594882862231">Удалить файлы cookie и данные сайтов, очистить историю и кеш</translation>
 <translation id="129553762522093515">Недавно закрытые</translation>
-<translation id="1298077576058087471">Экономьте до 60 % трафика и читайте ежедневные новости</translation>
+<translation id="1298077576058087471">Экономьте до 60 % трафика и читайте ежедневные новости.</translation>
 <translation id="1303339473099049190">Пароль не найден. Убедитесь, что он указан правильно, и повторите попытку.</translation>
 <translation id="1303507811548703290">Домен: <ph name="DOMAIN" />. Отправлено с устройства "<ph name="DEVICE_NAME" />".</translation>
 <translation id="1310482092992808703">Сгруппировать вкладки</translation>
@@ -253,10 +253,10 @@
 <translation id="305593374596241526">Определение местоположения отключено. Включите его в <ph name="BEGIN_LINK" />настройках Android<ph name="END_LINK" />.</translation>
 <translation id="3058498974290601450">Ее можно включить в настройках в любой момент.</translation>
 <translation id="3060635849835183725">{BOOKMARKS_COUNT,plural, =1{<ph name="BOOKMARKS_COUNT_ONE" /> закладка}one{<ph name="BOOKMARKS_COUNT_MANY" /> закладка}few{<ph name="BOOKMARKS_COUNT_MANY" /> закладки}many{<ph name="BOOKMARKS_COUNT_MANY" /> закладок}other{<ph name="BOOKMARKS_COUNT_MANY" /> закладки}}</translation>
-<translation id="3062802207422175757">Мы будем предлагать вам в Chrome статьи, подобранные на основе ваших интересов.</translation>
+<translation id="3062802207422175757">Прочитайте в Chrome статьи, подобранные с учетом ваших интересов.</translation>
 <translation id="3089395242580810162">Открыть в режиме инкогнито</translation>
 <translation id="3114012059975132928">Видеопроигрыватель</translation>
-<translation id="3114507951000454849">Читайте ежедневные новости <ph name="NEWS_ICON" /></translation>
+<translation id="3114507951000454849">Будьте в курсе новостей <ph name="NEWS_ICON" /></translation>
 <translation id="3123734510202723619">Оповещения</translation>
 <translation id="3137521801621304719">Выключить режим инкогнито</translation>
 <translation id="3143515551205905069">Отмена</translation>

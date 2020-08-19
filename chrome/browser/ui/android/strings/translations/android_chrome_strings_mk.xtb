@@ -45,7 +45,7 @@
 <translation id="1285320974508926690">Никогаш не преведувај ја оваа локација</translation>
 <translation id="1291207594882862231">Исчистете ги историјата, колачињата, податоците на сајтот, кешот…</translation>
 <translation id="129553762522093515">Неодамна затворено</translation>
-<translation id="1298077576058087471">Заштедете до 60 % од сообраќајот, читајте ги денешните вести</translation>
+<translation id="1298077576058087471">Прочитајте ги денешните вести и заштедете до 60 % мобилен интернет</translation>
 <translation id="1303339473099049190">Лозинката не може да се најде. Проверете дали ја внесувате правилно и обидете се повторно.</translation>
 <translation id="1303507811548703290"><ph name="DOMAIN" /> - Испратено од <ph name="DEVICE_NAME" /></translation>
 <translation id="1310482092992808703">Групирај картички</translation>
@@ -253,10 +253,10 @@
 <translation id="305593374596241526">Локацијата е исклучена, вклучете ја во <ph name="BEGIN_LINK" />Поставки за Android<ph name="END_LINK" />.</translation>
 <translation id="3058498974290601450">Може да ја исклучите синхронизацијата во секое време во „Поставки“</translation>
 <translation id="3060635849835183725">{BOOKMARKS_COUNT,plural, =1{<ph name="BOOKMARKS_COUNT_ONE" /> обележувач}one{<ph name="BOOKMARKS_COUNT_MANY" /> обележувач}other{<ph name="BOOKMARKS_COUNT_MANY" /> обележувачи}}</translation>
-<translation id="3062802207422175757">Статии за вашите интереси на Chrome</translation>
+<translation id="3062802207422175757">Статии за она што ве интересира на Chrome</translation>
 <translation id="3089395242580810162">Отвори во инкогнито картичка</translation>
 <translation id="3114012059975132928">Видеоплеер</translation>
-<translation id="3114507951000454849">Читајте ги денешните вести <ph name="NEWS_ICON" /></translation>
+<translation id="3114507951000454849">Прочитајте ги денешните вести <ph name="NEWS_ICON" /></translation>
 <translation id="3123734510202723619">Соопштенија</translation>
 <translation id="3137521801621304719">Напушти го инкогнито-режимот</translation>
 <translation id="3143515551205905069">Откажи ја синхронизацијата</translation>
@@ -681,7 +681,7 @@
 <translation id="6573096386450695060">Секогаш дозволувај</translation>
 <translation id="6573431926118603307">Картичките што сте ги отвориле во Chrome на другите уреди ќе се појават тука.</translation>
 <translation id="6583199322650523874">Ставете обележувач на тековната страница</translation>
-<translation id="6590471736817333463">Заштедете до 60 % од сообраќајот</translation>
+<translation id="6590471736817333463">Заштедете до 60 % мобилен интернет</translation>
 <translation id="6593061639179217415">Сајт за десктоп</translation>
 <translation id="6597891566292541626">Ставете го QR/линискиот код во оваа рамка.</translation>
 <translation id="6600954340915313787">Копирано на Chrome</translation>

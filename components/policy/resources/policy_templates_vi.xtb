@@ -460,7 +460,7 @@ Nếu bạn tắt chính sách này, thì việc cuộn trang web đến các ph
 
       Khi bạn không đặt chính sách này (hoặc đặt thành True), tệp đã tải xuống sẽ được gửi đi để tính năng Duyệt web an toàn phân tích, ngay cả trong trường hợp tệp đến từ một nguồn đáng tin cậy.
 
-      Lưu ý rằng những giới hạn này áp dụng cho các tệp tải xuống được kích hoạt từ nội dung trang web cũng như tùy chọn menu ngữ cảnh 'đường dẫn liên kết tải xuống...'. Những giới hạn này không áp dụng cho việc lưu/tải xuống từ trang đang hiển thị cũng như không áp dụng cho việc lưu dưới dạng tệp PDF từ các tùy chọn in.
+      Lưu ý rằng những giới hạn này áp dụng cho các tệp tải xuống được kích hoạt từ nội dung trang web cũng như tùy chọn menu ngữ cảnh 'đường liên kết tải xuống...'. Những giới hạn này không áp dụng cho việc lưu/tải xuống từ trang đang hiển thị cũng như không áp dụng cho việc lưu dưới dạng tệp PDF từ các tùy chọn in.
 
       Chính sách này chỉ có trên các phiên bản Windows liên kết với miền <ph name="MS_AD_NAME" /> hoặc phiên bản Windows 10 Pro hay Enterprise đã đăng ký quản lý thiết bị.</translation>
 <translation id="1745973235372964482">Không cho phép các tệp được bảo vệ bằng mật khẩu</translation>
@@ -725,7 +725,7 @@ Nếu bạn tắt chính sách này, thì việc cuộn trang web đến các ph
       Nếu bạn tắt cài đặt này hoặc không thiết lập cài đặt, thì mọi trang xác thực cổng cố định sẽ hiển thị trong thẻ trình duyệt mới (thông thường), sử dụng cài đặt proxy của người dùng hiện tại.</translation>
 <translation id="21394354835637379">Cho phép bạn chỉ định những URL nào được phép cài đặt tiện ích, ứng dụng và chủ đề.
 
-          Kể từ <ph name="PRODUCT_NAME" /> 21, người dùng sẽ khó cài đặt tiện ích, ứng dụng và tập lệnh người dùng từ bên ngoài Cửa hàng Chrome trực tuyến hơn. Trước đây, người dùng có thể nhấp vào một đường dẫn liên kết tới tệp *.crx và <ph name="PRODUCT_NAME" /> sẽ đề xuất cài đặt tệp này sau một vài cảnh báo. Từ <ph name="PRODUCT_NAME" /> 21 trở đi, người dùng phải tải các tệp này xuống và kéo vào trang cài đặt <ph name="PRODUCT_NAME" />. Tùy chọn cài đặt này cho phép các URL cụ thể thực hiện theo quy trình cài đặt cũ, dễ dàng hơn.
+          Kể từ <ph name="PRODUCT_NAME" /> 21, người dùng sẽ khó cài đặt tiện ích, ứng dụng và tập lệnh người dùng từ bên ngoài Cửa hàng Chrome trực tuyến hơn. Trước đây, người dùng có thể nhấp vào một đường liên kết tới tệp *.crx và <ph name="PRODUCT_NAME" /> sẽ đề xuất cài đặt tệp này sau một vài cảnh báo. Từ <ph name="PRODUCT_NAME" /> 21 trở đi, người dùng phải tải các tệp này xuống và kéo vào trang cài đặt <ph name="PRODUCT_NAME" />. Tùy chọn cài đặt này cho phép các URL cụ thể thực hiện theo quy trình cài đặt cũ, dễ dàng hơn.
 
           Mỗi mục trong danh sách này là một mẫu khớp với kiểu của tiện ích (xem https://developer.chrome.com/extensions/match_patterns). Người dùng sẽ có thể dễ dàng cài đặt các mục từ bất kỳ URL nào khớp với một mục trong danh sách này. Cả vị trí của tệp *.crx lẫn trang nơi quá trình tải xuống bắt đầu (nghĩa là liên kết giới thiệu) đều phải được các mẫu này cho phép.
 
