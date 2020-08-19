@@ -394,7 +394,8 @@ animationControllerForDismissedController:(UIViewController*)dismissed {
   // label.
   // TODO(yuweih): See if we really need to hide the account menu in this case,
   // since it requires nontrivial changes.
-  [MDCSnackbarManager dismissAndCallCompletionBlocksWithCategory:nil];
+  [MDCSnackbarManager.defaultManager
+      dismissAndCallCompletionBlocksWithCategory:nil];
 
   _fetchingErrorViewController.label.text = errorText;
   remoting::SetAccessibilityFocusElement(_fetchingErrorViewController.label);
