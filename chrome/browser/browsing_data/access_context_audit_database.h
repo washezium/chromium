@@ -98,8 +98,8 @@ class AccessContextAuditDatabase
                                  const std::string& path);
 
   // Remove all records of access to |origin|'s storage API of |type|.
-  void RemoveAllRecordsForOriginStorage(const url::Origin& origin,
-                                        StorageAPIType type);
+  void RemoveAllRecordsForOriginKeyedStorage(const url::Origin& origin,
+                                             StorageAPIType type);
 
   // Remove all records with a top frame origin present in |origins|.
   void RemoveAllRecordsForTopFrameOrigins(

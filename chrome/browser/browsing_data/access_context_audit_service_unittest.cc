@@ -270,6 +270,45 @@ TEST_F(AccessContextAuditServiceTest, ExpiredCookies) {
   EXPECT_EQ(0u, GetAllAccessRecords().size());
 }
 
+TEST_F(AccessContextAuditServiceTest, OriginKeyedStorageDeleted) {
+  // Check that informing the service that an origin's storage of a particular
+  // type as been deleted removes all records of that storage.
+  const auto kTestStorageType1 =
+      AccessContextAuditDatabase::StorageAPIType::kWebDatabase;
+  const auto kTestStorageType2 =
+      AccessContextAuditDatabase::StorageAPIType::kAppCache;
+  const url::Origin kTestOrigin1 =
+      url::Origin::Create(GURL("https://example.com"));
+  const url::Origin kTestOrigin2 =
+      url::Origin::Create(GURL("https://example2.com"));
+  const url::Origin kTestTopLevelOrigin =
+      url::Origin::Create(GURL("https://example3.com"));
+
+  // Record accesses for the 4 possible test type and origin combinations.
+  service()->RecordStorageAPIAccess(kTestOrigin1, kTestStorageType1,
+                                    kTestTopLevelOrigin);
+  service()->RecordStorageAPIAccess(kTestOrigin1, kTestStorageType2,
+                                    kTestTopLevelOrigin);
+  service()->RecordStorageAPIAccess(kTestOrigin2, kTestStorageType1,
+                                    kTestTopLevelOrigin);
+  service()->RecordStorageAPIAccess(kTestOrigin2, kTestStorageType2,
+                                    kTestTopLevelOrigin);
+
+  // Remove records for Origin1 and Type1 and ensure the record is removed, but
+  // those for Origin2 or Type2 are not.
+  service()->RemoveAllRecordsForOriginKeyedStorage(kTestOrigin1,
+                                                   kTestStorageType1);
+
+  auto records = GetAllAccessRecords();
+  EXPECT_EQ(3u, records.size());
+  CheckContainsStorageAPIRecord(kTestOrigin1, kTestStorageType2,
+                                kTestTopLevelOrigin, records);
+  CheckContainsStorageAPIRecord(kTestOrigin2, kTestStorageType1,
+                                kTestTopLevelOrigin, records);
+  CheckContainsStorageAPIRecord(kTestOrigin2, kTestStorageType2,
+                                kTestTopLevelOrigin, records);
+}
+
 TEST_F(AccessContextAuditServiceTest, HistoryDeletion) {
   // Check when the last record of an origin is deleted from history all records
   // with it as a top frame origin are also removed.

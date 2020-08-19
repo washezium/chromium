@@ -107,6 +107,18 @@ void AccessContextAuditService::CompleteGetAllAccessRecordsInternal(
   std::move(callback).Run(std::move(records));
 }
 
+void AccessContextAuditService::RemoveAllRecordsForOriginKeyedStorage(
+    const url::Origin& origin,
+    AccessContextAuditDatabase::StorageAPIType type) {
+  DCHECK_NE(type, AccessContextAuditDatabase::StorageAPIType::kCookie)
+      << "Cookies are not an origin keyed storage type.";
+  database_task_runner_->PostTask(
+      FROM_HERE,
+      base::BindOnce(
+          &AccessContextAuditDatabase::RemoveAllRecordsForOriginKeyedStorage,
+          database_, std::move(origin), type));
+}
+
 void AccessContextAuditService::Shutdown() {
   ClearSessionOnlyRecords();
 }

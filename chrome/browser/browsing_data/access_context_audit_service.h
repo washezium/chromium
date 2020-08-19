@@ -56,6 +56,11 @@ class AccessContextAuditService
       AccessContextRecordsCallback callback,
       std::vector<AccessContextAuditDatabase::AccessRecord> records);
 
+  // Remove all records of access to |origin|'s storage API of |type|.
+  void RemoveAllRecordsForOriginKeyedStorage(
+      const url::Origin& origin,
+      AccessContextAuditDatabase::StorageAPIType type);
+
   // KeyedService:
   void Shutdown() override;
 

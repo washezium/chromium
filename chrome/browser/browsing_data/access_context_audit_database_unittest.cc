@@ -421,7 +421,7 @@ TEST_F(AccessContextAuditDatabaseTest, RemoveAllStorageRecords) {
   database()->AddRecords(test_records);
   ValidateDatabaseRecords(database(), test_records);
 
-  database()->RemoveAllRecordsForOriginStorage(
+  database()->RemoveAllRecordsForOriginKeyedStorage(
       url::Origin::Create(GURL(kManyContextsStorageAPIOrigin)),
       kManyContextsStorageAPIType);
 

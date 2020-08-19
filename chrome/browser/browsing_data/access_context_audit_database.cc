@@ -460,7 +460,7 @@ void AccessContextAuditDatabase::RemoveAllRecordsForCookie(
   remove_statement.Run();
 }
 
-void AccessContextAuditDatabase::RemoveAllRecordsForOriginStorage(
+void AccessContextAuditDatabase::RemoveAllRecordsForOriginKeyedStorage(
     const url::Origin& origin,
     StorageAPIType type) {
   std::string remove;
