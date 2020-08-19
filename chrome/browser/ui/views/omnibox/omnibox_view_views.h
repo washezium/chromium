@@ -170,93 +170,6 @@ class OmniboxViewViews : public OmniboxView,
   }
 
  protected:
-  // views::Textfield:
-  void OnThemeChanged() override;
-  bool IsDropCursorForInsertion() const override;
-
-  // Applies the given |color| to |range|. This is a wrapper method around
-  // Textfield::ApplyColor that tests can override.
-  virtual void ApplyColor(SkColor color, const gfx::Range& range);
-
- private:
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExit);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExitIDN);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, PrivateRegistry);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
-                           HoverAndExitDomainInPath);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      UserInteractionAndHover);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      MouseClick);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      FocusingEditableNode);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      BoundsChanged);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, BoundsChanged);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
-                           CancellingAnimationDoesNotCrash);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      SchemeAndTrivialSubdomainElision);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
-                           SimplifiedDomainElisionWithNarrowOmnibox);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      SimplifiedDomainElisionWithNarrowOmnibox);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      HideOnInteractionAfterFocusAndBlur);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      URLPositionWithHideOnInteraction);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, AfterBlur);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      PathChangeDuringAnimation);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      VerticalAndHorizontalPosition);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      NoStaleGradientMask);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest, ModifierKeys);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           SameDocNavigations);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           SameDocNavigationDuringAnimation);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest, GradientMask);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           GradientMaskResetAfterStop);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           UserInteractionDuringAnimation);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           SubframeNavigations);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
-                           AlwaysShowFullURLs);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
-                           AlwaysShowFullURLs);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsRevealOnHoverAndMaybeHideOnInteractionTest,
-      UnsetAlwaysShowFullURLs);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
-                           RegistrableDomainRepeated);
-  FRIEND_TEST_ALL_PREFIXES(
-      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
-      TabChangeWhenNotEligibleForEliding);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxPopupContentsViewTest,
-                           EmitAccessibilityEvents);
-  // TODO(tommycli): Remove the rest of these friends after porting these
-  // browser tests to unit tests.
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, CloseOmniboxPopupOnTextDrag);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, FriendlyAccessibleLabel);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, DoNotNavigateOnDrop);
-  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest,
-                           ElideAnimationDoesntStartIfNoVisibleChange);
-
   // Animates the URL to a given range of text, which could be a substring or
   // superstring of what's currently displayed. An elision animation hides the
   // path (and optionally subdomains) by narrowing the bounds of each side of
@@ -353,6 +266,94 @@ class OmniboxViewViews : public OmniboxView,
     // first part of the animation is a zero tween of |delay_ms| length.
     std::unique_ptr<gfx::MultiAnimation> animation_;
   };
+
+  ElideAnimation* GetHoverElideOrUnelideAnimationForTesting();
+  ElideAnimation* GetElideAfterInteractionAnimationForTesting();
+
+  // views::Textfield:
+  void OnThemeChanged() override;
+  bool IsDropCursorForInsertion() const override;
+
+  // Applies the given |color| to |range|. This is a wrapper method around
+  // Textfield::ApplyColor that tests can override.
+  virtual void ApplyColor(SkColor color, const gfx::Range& range);
+
+ private:
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExit);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExitIDN);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, PrivateRegistry);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      UserInteractionAndHover);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      MouseClick);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      FocusingEditableNode);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      BoundsChanged);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, BoundsChanged);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
+                           CancellingAnimationDoesNotCrash);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      SchemeAndTrivialSubdomainElision);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
+                           SimplifiedDomainElisionWithNarrowOmnibox);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      SimplifiedDomainElisionWithNarrowOmnibox);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      HideOnInteractionAfterFocusAndBlur);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      URLPositionWithHideOnInteraction);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, AfterBlur);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      PathChangeDuringAnimation);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      VerticalAndHorizontalPosition);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      NoStaleGradientMask);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest, ModifierKeys);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           SameDocNavigations);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           SameDocNavigationDuringAnimation);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest, GradientMask);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           GradientMaskResetAfterStop);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           UserInteractionDuringAnimation);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           SubframeNavigations);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
+                           AlwaysShowFullURLs);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsHideOnInteractionTest,
+                           AlwaysShowFullURLs);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsRevealOnHoverAndMaybeHideOnInteractionTest,
+      UnsetAlwaysShowFullURLs);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
+                           RegistrableDomainRepeated);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      TabChangeWhenNotEligibleForEliding);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxPopupContentsViewTest,
+                           EmitAccessibilityEvents);
+  // TODO(tommycli): Remove the rest of these friends after porting these
+  // browser tests to unit tests.
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, CloseOmniboxPopupOnTextDrag);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, FriendlyAccessibleLabel);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest, DoNotNavigateOnDrop);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsTest,
+                           ElideAnimationDoesntStartIfNoVisibleChange);
 
   enum class UnelisionGesture {
     HOME_KEY_PRESSED,
@@ -545,9 +546,6 @@ class OmniboxViewViews : public OmniboxView,
   // Parses GetText() as a URL, trims trivial subdomains from it (if any and if
   // applicable), and returns the result.
   url::Component GetHostComponentAfterTrivialSubdomain();
-
-  ElideAnimation* GetHoverElideOrUnelideAnimationForTesting();
-  ElideAnimation* GetElideAfterInteractionAnimationForTesting();
 
   // When true, the location bar view is read only and also is has a slightly
   // different presentation (smaller font size). This is used for popups.
