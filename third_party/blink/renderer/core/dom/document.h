@@ -61,6 +61,7 @@
 #include "third_party/blink/renderer/core/dom/tree_scope.h"
 #include "third_party/blink/renderer/core/dom/user_action_element_set.h"
 #include "third_party/blink/renderer/core/editing/forward.h"
+#include "third_party/blink/renderer/core/frame/fragment_directive.h"
 #include "third_party/blink/renderer/core/html/custom/v0_custom_element.h"
 #include "third_party/blink/renderer/core/html/parser/parser_synchronization_policy.h"
 #include "third_party/blink/renderer/core/loader/font_preload_manager.h"
@@ -1038,6 +1039,10 @@ class CORE_EXPORT Document : public ContainerNode,
   ScriptPromise hasStorageAccess(ScriptState* script_state);
   ScriptPromise requestStorageAccess(ScriptState* script_state);
 
+  // Fragment directive API, currently used to feature detect text-fragments.
+  // https://wicg.github.io/scroll-to-text-fragment/#feature-detectability
+  FragmentDirective& fragmentDirective() const;
+
   // Sends a query via Mojo to ask whether the user has any trust tokens. This
   // can reject on permissions errors (e.g. associating |issuer| with the
   // top-level origin would exceed the top-level origin's limit on the number of
@@ -1588,7 +1593,7 @@ class CORE_EXPORT Document : public ContainerNode,
     return !pending_javascript_urls_.IsEmpty();
   }
 
-  String GetFragmentDirective() const { return fragment_directive_; }
+  String GetFragmentDirective() const { return fragment_directive_string_; }
   bool UseCountFragmentDirective() const {
     return use_count_fragment_directive_;
   }
@@ -2128,7 +2133,8 @@ class CORE_EXPORT Document : public ContainerNode,
 
   bool is_for_markup_sanitization_ = false;
 
-  String fragment_directive_;
+  String fragment_directive_string_;
+  Member<FragmentDirective> fragment_directive_;
 
   bool use_count_fragment_directive_ = false;
 
