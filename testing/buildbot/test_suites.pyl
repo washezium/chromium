@@ -3785,7 +3785,6 @@
       'pixel_browser_tests': {
         'name': 'pixel_browser_tests',
         'args': [
-          '--test-launcher-filter-file=../../testing/buildbot/filters/pixel_browser_tests.filter',
           '--browser-ui-tests-verify-pixels',
           '--enable-pixel-output-in-tests',
         ],
