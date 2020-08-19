@@ -1385,6 +1385,8 @@ static_library("ui") {
       "webui/policy_indicator_localized_strings_provider.h",
       "webui/profile_info_watcher.cc",
       "webui/profile_info_watcher.h",
+      "webui/sanitized_image_source.cc",
+      "webui/sanitized_image_source.h",
       "webui/settings/about_handler.cc",
       "webui/settings/about_handler.h",
       "webui/settings/accessibility_main_handler.cc",
