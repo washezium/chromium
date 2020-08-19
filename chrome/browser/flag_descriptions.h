@@ -2092,9 +2092,6 @@ extern const char kCrosRegionsModeDefault[];
 extern const char kCrosRegionsModeOverride[];
 extern const char kCrosRegionsModeHide[];
 
-extern const char kCrostiniPortForwardingName[];
-extern const char kCrostiniPortForwardingDescription[];
-
 extern const char kCrostiniDiskResizingName[];
 extern const char kCrostiniDiskResizingDescription[];
 

@@ -3617,10 +3617,6 @@ const char kCrosRegionsModeDefault[] = "Default";
 const char kCrosRegionsModeOverride[] = "Override VPD values.";
 const char kCrosRegionsModeHide[] = "Hide VPD values.";
 
-const char kCrostiniPortForwardingName[] = "Crostini Port Forwarding";
-const char kCrostiniPortForwardingDescription[] =
-    "Enable Crostini port forwarding.";
-
 const char kCrostiniDiskResizingName[] = "Allow resizing Crostini disks";
 const char kCrostiniDiskResizingDescription[] =
     "Use preallocated user-resizeable disks for Crostini instead of sparse "
