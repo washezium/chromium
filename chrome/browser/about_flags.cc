@@ -6296,6 +6296,12 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(blink::features::kCrOSAutoSelect)},
 #endif  // defined(OS_CHROMEOS)
 
+#if BUILDFLAG(ENABLE_AV1_DECODER)
+    {"enable-avif", flag_descriptions::kEnableAVIFName,
+     flag_descriptions::kEnableAVIFDescription, kOsDesktop,
+     FEATURE_VALUE_TYPE(blink::features::kAVIF)},
+#endif  // BUILDFLAG(ENABLE_AV1_DECODER)
+
     // NOTE: Adding a new flag requires adding a corresponding entry to enum
     // "LoginCustomFlags" in tools/metrics/histograms/enums.xml. See "Flag
     // Histograms" in tools/metrics/histograms/README.md (run the
