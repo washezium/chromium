@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Google Inc. All rights reserved.
+ * Copyright (C) 2013 Google Inc. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -28,43 +28,59 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "third_party/blink/renderer/core/svg/svg_transform_list_tear_off.h"
+#include "third_party/blink/renderer/core/svg/properties/svg_list_property.h"
 
-#include "third_party/blink/renderer/core/svg/svg_transform_tear_off.h"
-#include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/wtf/text/string_builder.h"
 
 namespace blink {
 
-SVGTransformListTearOff::SVGTransformListTearOff(
-    SVGTransformList* target,
-    SVGAnimatedPropertyBase* binding,
-    PropertyIsAnimValType property_is_anim_val)
-    : SVGListPropertyTearOffHelper<SVGTransformListTearOff, SVGTransformList>(
-          target,
-          binding,
-          property_is_anim_val) {}
-
-SVGTransformListTearOff::~SVGTransformListTearOff() = default;
-
-SVGTransformTearOff* SVGTransformListTearOff::createSVGTransformFromMatrix(
-    SVGMatrixTearOff* matrix) const {
-  return MakeGarbageCollected<SVGTransformTearOff>(matrix);
+void SVGListPropertyBase::Clear() {
+  // Detach all list items as they are no longer part of this list.
+  for (auto& value : values_) {
+    DCHECK_EQ(value->OwnerList(), this);
+    value->SetOwnerList(nullptr);
+  }
+  values_.clear();
 }
 
-SVGTransformTearOff* SVGTransformListTearOff::consolidate(
-    ExceptionState& exception_state) {
-  if (IsImmutable()) {
-    ThrowReadOnly(exception_state);
-    return nullptr;
+void SVGListPropertyBase::Insert(uint32_t index, SVGPropertyBase* new_item) {
+  values_.insert(index, new_item);
+  new_item->SetOwnerList(this);
+}
+
+void SVGListPropertyBase::Remove(uint32_t index) {
+  DCHECK_EQ(values_[index]->OwnerList(), this);
+  values_[index]->SetOwnerList(nullptr);
+  values_.EraseAt(index);
+}
+
+void SVGListPropertyBase::Append(SVGPropertyBase* new_item) {
+  values_.push_back(new_item);
+  new_item->SetOwnerList(this);
+}
+
+void SVGListPropertyBase::Replace(uint32_t index, SVGPropertyBase* new_item) {
+  DCHECK_EQ(values_[index]->OwnerList(), this);
+  values_[index]->SetOwnerList(nullptr);
+  values_[index] = new_item;
+  new_item->SetOwnerList(this);
+}
+
+String SVGListPropertyBase::ValueAsString() const {
+  if (values_.IsEmpty())
+    return String();
+
+  StringBuilder builder;
+
+  auto* it = values_.begin();
+  auto* it_end = values_.end();
+  while (it != it_end) {
+    builder.Append((*it)->ValueAsString());
+    ++it;
+    if (it != it_end)
+      builder.Append(' ');
   }
-  SVGTransformList* transform_list = Target();
-  if (transform_list->IsEmpty())
-    return nullptr;
-  auto* concatenated_transform =
-      MakeGarbageCollected<SVGTransform>(transform_list->Concatenate());
-  transform_list->Clear();
-  transform_list->Append(concatenated_transform);
-  return AttachedItemTearOff(concatenated_transform);
+  return builder.ToString();
 }
 
 }  // namespace blink
