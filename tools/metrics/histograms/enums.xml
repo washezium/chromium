@@ -45590,7 +45590,7 @@ Called by update_use_counter_css.py.-->
   <int value="671" label="scrollbar-gutter"/>
   <int value="672" label="ascent-override"/>
   <int value="673" label="descent-override"/>
-  <int value="674" label="letter-spacing-override"/>
+  <int value="674" label="advance-override"/>
   <int value="675" label="line-gap-override"/>
 </enum>
 
