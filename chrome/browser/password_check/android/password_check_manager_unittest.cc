@@ -12,14 +12,17 @@
 #include "base/strings/strcat.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/test/bind_test_util.h"
+#include "base/test/scoped_feature_list.h"
 #include "base/time/time.h"
 #include "chrome/browser/password_check/android/password_check_ui_status.h"
 #include "chrome/browser/password_manager/bulk_leak_check_service_factory.h"
+#include "chrome/browser/password_manager/password_scripts_fetcher_factory.h"
 #include "chrome/browser/password_manager/password_store_factory.h"
 #include "chrome/test/base/testing_profile.h"
 #include "components/password_manager/core/browser/bulk_leak_check_service.h"
 #include "components/password_manager/core/browser/password_manager_test_utils.h"
 #include "components/password_manager/core/browser/test_password_store.h"
+#include "components/password_manager/core/common/password_manager_features.h"
 #include "components/password_manager/core/common/password_manager_pref_names.h"
 #include "components/prefs/testing_pref_service.h"
 #include "components/signin/public/identity_manager/identity_manager.h"
@@ -41,8 +44,10 @@ using password_manager::prefs::kLastTimePasswordCheckCompleted;
 using testing::_;
 using testing::ElementsAre;
 using testing::Field;
+using testing::Invoke;
 using testing::IsEmpty;
 using testing::NiceMock;
+using testing::Return;
 
 using CompromisedCredentialForUI =
     PasswordCheckManager::CompromisedCredentialForUI;
@@ -72,6 +77,21 @@ class MockPasswordCheckManagerObserver : public PasswordCheckManager::Observer {
               (override));
 };
 
+class MockPasswordScriptsFetcher
+    : public password_manager::PasswordScriptsFetcher {
+ public:
+  MOCK_METHOD(void, PrewarmCache, (), (override));
+
+  MOCK_METHOD(void, RefreshScriptsIfNecessary, (base::OnceClosure), (override));
+
+  MOCK_METHOD(void,
+              FetchScriptAvailability,
+              (const url::Origin&, base::OnceCallback<void(bool)>),
+              (override));
+
+  MOCK_METHOD(bool, IsScriptAvailable, (const url::Origin&), (const override));
+};
+
 // TODO(crbug.com/1112804): Extract this into a password manager test utils
 // file, since it's used across multiple tests.
 scoped_refptr<TestPasswordStore> CreateAndUseTestPasswordStore(
@@ -94,6 +114,15 @@ BulkLeakCheckService* CreateAndUseBulkLeakCheckService(
             return std::make_unique<BulkLeakCheckService>(
                 identity_manager,
                 base::MakeRefCounted<network::TestSharedURLLoaderFactory>());
+          }));
+}
+
+MockPasswordScriptsFetcher* CreateAndUseMockPasswordScriptsFetcher(
+    Profile* profile) {
+  return PasswordScriptsFetcherFactory::GetInstance()
+      ->SetTestingSubclassFactoryAndUse(
+          profile, base::BindRepeating([](content::BrowserContext*) {
+            return std::make_unique<MockPasswordScriptsFetcher>();
           }));
 }
 
@@ -178,10 +207,10 @@ class PasswordCheckManagerTest : public testing::Test {
 
   BulkLeakCheckService* service() { return service_; }
   TestPasswordStore& store() { return *store_; }
-
- protected:
-  NiceMock<MockPasswordCheckManagerObserver> mock_observer_;
-  std::unique_ptr<PasswordCheckManager> manager_;
+  MockPasswordCheckManagerObserver& mock_observer() { return mock_observer_; }
+  MockPasswordScriptsFetcher& fetcher() { return *fetcher_; }
+  PasswordCheckManager& manager() { return *manager_; }
+  base::test::ScopedFeatureList& feature_list() { return feature_list_; }
 
  private:
   content::BrowserTaskEnvironment task_env_;
@@ -192,25 +221,29 @@ class PasswordCheckManagerTest : public testing::Test {
                                        &profile_);
   scoped_refptr<TestPasswordStore> store_ =
       CreateAndUseTestPasswordStore(&profile_);
+  NiceMock<MockPasswordCheckManagerObserver> mock_observer_;
+  MockPasswordScriptsFetcher* fetcher_ =
+      CreateAndUseMockPasswordScriptsFetcher(&profile_);
+  base::test::ScopedFeatureList feature_list_;
+  std::unique_ptr<PasswordCheckManager> manager_;
 };
 
 TEST_F(PasswordCheckManagerTest, SendsNoPasswordsMessageIfNoPasswordsAreSaved) {
-  EXPECT_CALL(mock_observer_, OnPasswordCheckStatusChanged(
-                                  PasswordCheckUIStatus::kErrorNoPasswords));
+  EXPECT_CALL(mock_observer(), OnPasswordCheckStatusChanged(
+                                   PasswordCheckUIStatus::kErrorNoPasswords));
   InitializeManager();
   RunUntilIdle();
 }
 
 TEST_F(PasswordCheckManagerTest, OnSavedPasswordsFetched) {
   store().AddLogin(MakeSavedPassword(kExampleCom, kUsername1));
-
-  EXPECT_CALL(mock_observer_, OnSavedPasswordsFetched(1));
+  EXPECT_CALL(mock_observer(), OnSavedPasswordsFetched(1));
   InitializeManager();
   RunUntilIdle();
 
   // Verify that OnSavedPasswordsFetched is not called after the initial fetch
   // even if the saved passwords change.
-  EXPECT_CALL(mock_observer_, OnSavedPasswordsFetched(_)).Times(0);
+  EXPECT_CALL(mock_observer(), OnSavedPasswordsFetched(_)).Times(0);
   store().AddLogin(MakeSavedPassword(kExampleCom, kUsername2));
   RunUntilIdle();
 }
@@ -219,12 +252,12 @@ TEST_F(PasswordCheckManagerTest, OnCompromisedCredentialsChanged) {
   // This is called on multiple events: once for saved passwords retrieval,
   // once for compromised credentials retrieval and once when the saved password
   // is added.
-  EXPECT_CALL(mock_observer_, OnCompromisedCredentialsChanged(0)).Times(3);
+  EXPECT_CALL(mock_observer(), OnCompromisedCredentialsChanged(0)).Times(3);
   InitializeManager();
   store().AddLogin(MakeSavedPassword(kExampleCom, kUsername1));
   RunUntilIdle();
 
-  EXPECT_CALL(mock_observer_, OnCompromisedCredentialsChanged(1));
+  EXPECT_CALL(mock_observer(), OnCompromisedCredentialsChanged(1));
   store().AddCompromisedCredentials(MakeCompromised(kExampleCom, kUsername1));
   RunUntilIdle();
 }
@@ -235,7 +268,7 @@ TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructForSiteCredential) {
   store().AddCompromisedCredentials(MakeCompromised(kExampleCom, kUsername1));
   RunUntilIdle();
   EXPECT_THAT(
-      manager_->GetCompromisedCredentials(),
+      manager().GetCompromisedCredentials(),
       ElementsAre(ExpectCompromisedCredentialForUI(
           base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.com"),
           base::nullopt, "https://example.com/",
@@ -258,7 +291,7 @@ TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructForAppCredentials) {
   RunUntilIdle();
 
   EXPECT_THAT(
-      manager_->GetCompromisedCredentials(),
+      manager().GetCompromisedCredentials(),
       UnorderedElementsAre(
           ExpectCompromisedCredentialForUI(
               base::ASCIIToUTF16(kUsername1),
@@ -278,11 +311,11 @@ TEST_F(PasswordCheckManagerTest, SetsTimestampOnSuccessfulCheck) {
   RunUntilIdle();
 
   // Pretend to start the check so that the manager thinks a check is running.
-  manager_->StartCheck();
+  manager().StartCheck();
 
   // Change the state to idle to simulate a successful check finish.
   service()->set_state_and_notify(State::kIdle);
-  EXPECT_NE(0.0, manager_->GetLastCheckTimestamp().ToDoubleT());
+  EXPECT_NE(0.0, manager().GetLastCheckTimestamp().ToDoubleT());
 }
 
 TEST_F(PasswordCheckManagerTest, DoesntRecordTimestampOfUnsuccessfulCheck) {
@@ -291,11 +324,34 @@ TEST_F(PasswordCheckManagerTest, DoesntRecordTimestampOfUnsuccessfulCheck) {
   RunUntilIdle();
 
   // Pretend to start the check so that the manager thinks a check is running.
-  manager_->StartCheck();
+  manager().StartCheck();
 
   // Change the state to an error state to simulate a unsuccessful check finish.
   service()->set_state_and_notify(State::kSignedOut);
-  EXPECT_EQ(0.0, manager_->GetLastCheckTimestamp().ToDoubleT());
+  EXPECT_EQ(0.0, manager().GetLastCheckTimestamp().ToDoubleT());
+}
+
+TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructWithPasswordScripts) {
+  InitializeManager();
+  feature_list().InitAndEnableFeature(
+      password_manager::features::kPasswordChangeInSettings);
+  store().AddLogin(MakeSavedPassword(kExampleCom, kUsername1));
+  store().AddCompromisedCredentials(MakeCompromised(kExampleCom, kUsername1));
+
+  RunUntilIdle();
+  EXPECT_CALL(fetcher(), RefreshScriptsIfNecessary)
+      .WillOnce(Invoke(
+          [](base::OnceClosure callback) { std::move(callback).Run(); }));
+
+  manager().RefreshScripts();
+
+  EXPECT_CALL(fetcher(), IsScriptAvailable).WillRepeatedly(Return(true));
+  EXPECT_THAT(
+      manager().GetCompromisedCredentials(),
+      ElementsAre(ExpectCompromisedCredentialForUI(
+          base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.com"),
+          base::nullopt, "https://example.com/",
+          CompromiseTypeFlags::kCredentialLeaked, /*has_script=*/true)));
 }
 
 TEST_F(PasswordCheckManagerTest, GetCompromisedCredentialsOrder) {
@@ -321,7 +377,7 @@ TEST_F(PasswordCheckManagerTest, GetCompromisedCredentialsOrder) {
                       CompromiseType::kPhished));
   RunUntilIdle();
   EXPECT_THAT(
-      manager_->GetCompromisedCredentials(),
+      manager().GetCompromisedCredentials(),
       ElementsAre(
           ExpectCompromisedCredentialForUI(
               base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.org"),
