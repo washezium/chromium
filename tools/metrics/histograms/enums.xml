@@ -33314,6 +33314,9 @@ Called by update_feature_policy_enum.py.-->
 </enum>
 
 <enum name="GoogleUpdateNotificationLaunchEvent">
+  <obsolete>
+    Removed 08/2020
+  </obsolete>
   <int value="0" label="Start"/>
   <int value="1" label="Start activity failed"/>
 </enum>
