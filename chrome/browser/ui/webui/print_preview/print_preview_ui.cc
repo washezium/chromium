@@ -350,8 +350,20 @@ void AddPrintPreviewStrings(content::WebUIDataSource* source) {
   source->AddString("gcpCertificateErrorLearnMoreURL",
                     chrome::kCloudPrintCertificateErrorLearnMoreURL);
 
+  const bool is_enterprise_managed = webui::IsEnterpriseManaged();
+  if (is_enterprise_managed) {
+    source->AddLocalizedString("printerNotSupportedWarning",
+                               IDS_PRINTER_NOT_SUPPORTED_WARNING_ENTERPRISE);
+  } else {
+    source->AddString(
+        "printerNotSupportedWarning",
+        l10n_util::GetStringFUTF16(
+            IDS_PRINTER_NOT_SUPPORTED_WARNING,
+            base::ASCIIToUTF16(cloud_devices::kCloudPrintDeprecationHelpURL)));
+  }
+
 #if !defined(OS_CHROMEOS)
-  if (webui::IsEnterpriseManaged()) {
+  if (is_enterprise_managed) {
     source->AddLocalizedString(
         "saveToDriveNotSupportedWarning",
         IDS_GOOGLE_DRIVE_OPTION_NOT_SUPPORTED_WARNING_ENTERPRISE);

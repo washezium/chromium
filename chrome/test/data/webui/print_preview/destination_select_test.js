@@ -141,6 +141,10 @@ suite(destination_select_test.suiteName, function() {
               'printer-not-supported';
 
           compareIcon(selectEl, dest3Icon);
+
+          // Update destination.
+          destinationSelect.destination = recentDestinationList[2];
+          compareIcon(selectEl, dest3Icon);
         });
   }
 
@@ -153,6 +157,7 @@ suite(destination_select_test.suiteName, function() {
   function testUpdateStatus(cloudPrintDeprecationWarningsSuppressed) {
     loadTimeData.overrideValues({
       offline: 'offline',
+      printerNotSupportedWarning: 'printerNotSupportedWarning',
       saveToDriveNotSupportedWarning: 'saveToDriveNotSupportedWarning',
     });
 
@@ -189,8 +194,12 @@ suite(destination_select_test.suiteName, function() {
 
     destinationSelect.destination = recentDestinationList[2];
     destinationSelect.updateDestination();
-    assertTrue(additionalInfoEl.hidden);
-    assertEquals('', statusEl.innerHTML);
+    assertEquals(
+        cloudPrintDeprecationWarningsSuppressed, additionalInfoEl.hidden);
+    const dest3Status = cloudPrintDeprecationWarningsSuppressed ?
+        '' :
+        'printerNotSupportedWarning';
+    assertEquals(dest3Status, statusEl.innerHTML);
   }
 
   test(assert(destination_select_test.TestNames.UpdateStatus), function() {

@@ -171,7 +171,16 @@ Polymer({
       return this.i18nAdvanced('saveToDriveNotSupportedWarning');
     }
 
-    return this.destination.connectionStatusText;
+    // Give preference to connection status.
+    if (this.destination.connectionStatusText) {
+      return this.destination.connectionStatusText;
+    }
+
+    if (this.destination.shouldShowDeprecatedPrinterWarning) {
+      return this.i18nAdvanced('printerNotSupportedWarning');
+    }
+
+    return '';
   },
 
   /** @private */
