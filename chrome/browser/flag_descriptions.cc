@@ -3171,6 +3171,12 @@ const char kAndroidNightModeTabReparentingName[] =
 const char kAndroidNightModeTabReparentingDescription[] =
     "If enabled, when the user changes themes the current tabs are reparented "
     "instead of reloaded.";
+
+const char kTabbedAppOverflowMenuIconsName[] =
+    "Android tabbed app overflow menu icons";
+const char kTabbedAppOverflowMenuIconsDescription[] =
+    "If enabled, shows icon in front of each overflow menu item.";
+
 // Non-Android -----------------------------------------------------------------
 
 #else  // !defined(OS_ANDROID)

@@ -4236,6 +4236,11 @@
     "expiry_milestone": 82
   },
   {
+    "name": "tabbed-app-overflow-menu-icons",
+    "owners": [ "gangwu" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "terminal-system-app-legacy-settings",
     "owners": [ "joelhockey", "benwells", "//chrome/browser/chromeos/guest_os/OWNERS" ],
     "expiry_milestone": 85

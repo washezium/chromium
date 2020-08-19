@@ -40833,6 +40833,7 @@ from previous Chrome versions.
   <int value="-1349826793" label="ArcInputMethod:disabled"/>
   <int value="-1349532167" label="enable-wifi-credential-sync"/>
   <int value="-1346722635" label="gesture-selection"/>
+  <int value="-1345931804" label="TabbedAppOverflowMenuIcons:disabled"/>
   <int value="-1344375439" label="ServiceWorkerPaymentApps:disabled"/>
   <int value="-1343259222" label="RegionalLocalesAsDisplayUI:disabled"/>
   <int value="-1342961844" label="InlineUpdateFlow:disabled"/>
@@ -41042,6 +41043,7 @@ from previous Chrome versions.
   <int value="-1151766565" label="enable-fullscreen-tab-detaching"/>
   <int value="-1150881704"
       label="ArcNativeBridge64BitSupportExperiment:enabled"/>
+  <int value="-1146814438" label="TabbedAppOverflowMenuIcons:enabled"/>
   <int value="-1145905507" label="SendTabToSelfWhenSignedIn:disabled"/>
   <int value="-1145702446" label="ChromeHomeInactivitySheetExpansion:enabled"/>
   <int value="-1145246849" label="ThirdPartyDoodles:enabled"/>
