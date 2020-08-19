@@ -87,12 +87,6 @@ Polymer({
     },
 
     /** @private */
-    profileMenuText_: {
-      type: String,
-      computed: 'computeProfileMenuText_(profileState)',
-    },
-
-    /** @private */
     removeWarningText_: {
       type: String,
       computed: 'computeRemoveWarningText_(profileState)',
@@ -117,14 +111,6 @@ Polymer({
     this.addWebUIListener(
         'profile-statistics-received',
         this.handleProfileStatsReceived_.bind(this));
-  },
-
-  /**
-   * @return {string}
-   * @private
-   */
-  computeProfileMenuText_() {
-    return this.i18n('profileMenuName', this.profileState.localProfileName);
   },
 
   /**
