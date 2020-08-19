@@ -6,6 +6,7 @@
 
 #include "base/notreached.h"
 #include "base/optional.h"
+#include "chrome/browser/chromeos/wilco_dtc_supportd/mojo_utils.h"
 #include "chromeos/components/telemetry_extension_ui/mojom/diagnostics_service.mojom.h"
 #include "chromeos/services/cros_healthd/public/mojom/cros_healthd_diagnostics.mojom.h"
 
@@ -127,8 +128,10 @@ base::Optional<health::mojom::DiagnosticRoutineEnum> Convert(
 }
 
 std::string Convert(mojo::ScopedHandle handle) {
-  // TODO (b:162051831): Read from handle and put contents in a string
-  return std::string();
+  base::ReadOnlySharedMemoryMapping shared_memory;
+  return MojoUtils::GetStringPieceFromMojoHandle(std::move(handle),
+                                                 &shared_memory)
+      .as_string();
 }
 
 cros_healthd::mojom::DiagnosticRoutineCommandEnum Convert(
