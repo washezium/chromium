@@ -97,14 +97,6 @@
     # They will be run in a marshmallow emulator FYI builder to keep test
     # coverage or debug the timeout issue.
     'android_marshmallow_emulator_backlog_gtests': {
-      'content_browsertests': {
-        'android_swarming': {
-          'shards': 9,
-        },
-        'swarming': {
-          'shards': 6,
-        },
-      },
       'network_service_out_of_process_chrome_public_test_apk': {
         'swarming': {
           'shards': 20,
