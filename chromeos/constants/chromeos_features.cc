@@ -29,11 +29,6 @@ const base::Feature kAmbientModeFeature{"ChromeOSAmbientMode",
 const base::Feature kAmbientModePhotoPreviewFeature{
     "ChromeOSAmbientModePhotoPreview", base::FEATURE_DISABLED_BY_DEFAULT};
 
-// Controls whether to allow Dev channel to use Prod server feature.
-const base::Feature kAmbientModeDevUseProdFeature{
-    "ChromeOSAmbientModeDevChannelUseProdServer",
-    base::FEATURE_DISABLED_BY_DEFAULT};
-
 // Controls whether to enable ARC ADB sideloading support.
 const base::Feature kArcAdbSideloadingFeature{
     "ArcAdbSideloading", base::FEATURE_DISABLED_BY_DEFAULT};
@@ -537,10 +532,6 @@ bool IsAmbientModeEnabled() {
 
 bool IsAmbientModePhotoPreviewEnabled() {
   return base::FeatureList::IsEnabled(kAmbientModePhotoPreviewFeature);
-}
-
-bool IsAmbientModeDevUseProdEnabled() {
-  return base::FeatureList::IsEnabled(kAmbientModeDevUseProdFeature);
 }
 
 bool IsBetterUpdateEnabled() {

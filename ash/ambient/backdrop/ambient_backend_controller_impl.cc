@@ -218,10 +218,7 @@ class BackdropURLLoader {
   scoped_refptr<network::SharedURLLoaderFactory> loader_factory_;
 };
 
-AmbientBackendControllerImpl::AmbientBackendControllerImpl()
-    : backdrop_client_config_(ash::AmbientClient::Get()->ShouldUseProdServer()
-                                  ? BackdropClientConfig::ServerType::kProd
-                                  : BackdropClientConfig::ServerType::kDev) {}
+AmbientBackendControllerImpl::AmbientBackendControllerImpl() = default;
 
 AmbientBackendControllerImpl::~AmbientBackendControllerImpl() = default;
 
