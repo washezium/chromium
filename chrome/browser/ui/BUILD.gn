@@ -3115,6 +3115,7 @@ static_library("ui") {
       "//ui/base:wm_role_names",
       "//ui/base/ime",
       "//ui/events:dom_keycode_converter",
+      "//ui/platform_window",
     ]
 
     if (use_dbus) {
@@ -3164,14 +3165,12 @@ static_library("ui") {
         ]
       }
       sources += [ "views/frame/native_browser_frame_factory_ozone.cc" ]
-      deps += [ "//ui/platform_window" ]
     }
     if (is_desktop_linux) {
       sources += [
         "views/frame/browser_desktop_window_tree_host_linux.cc",
         "views/frame/browser_desktop_window_tree_host_linux.h",
       ]
-      deps += [ "//ui/platform_window/extensions" ]
     }
     if (use_gtk) {
       # This is the only component that can interact with gtk.
