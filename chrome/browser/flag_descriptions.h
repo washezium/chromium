@@ -254,6 +254,9 @@ extern const char kDnsHttpssvcDescription[];
 extern const char kEnablePasswordsAccountStorageName[];
 extern const char kEnablePasswordsAccountStorageDescription[];
 
+extern const char kEnablePasswordsAccountStorageIPHName[];
+extern const char kEnablePasswordsAccountStorageIPHDescription[];
+
 extern const char kExperimentalAccessibilityLanguageDetectionName[];
 extern const char kExperimentalAccessibilityLanguageDetectionDescription[];
 

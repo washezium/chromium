@@ -411,6 +411,12 @@ const char kEnablePasswordsAccountStorageDescription[] =
     "Enables storing passwords in a second, Gaia-account-scoped storage for "
     "signed-in but not syncing users";
 
+const char kEnablePasswordsAccountStorageIPHName[] =
+    "Enable IPH for the account data storage for passwords";
+const char kEnablePasswordsAccountStorageIPHDescription[] =
+    "Enables in-product help bubbles about storing passwords in a second, "
+    "Gaia-account-scoped storage for signed-in but not syncing users";
+
 const char kExportTaggedPDFName[] = "Export Tagged PDF";
 const char kExportTaggedPDFDescription[] =
     "When printing to a PDF file, generated a tagged (accessible) PDF.";
