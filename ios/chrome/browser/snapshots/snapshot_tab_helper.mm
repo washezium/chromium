@@ -60,6 +60,10 @@ void SnapshotTabHelper::SetDelegate(id<SnapshotGeneratorDelegate> delegate) {
   snapshot_generator_.delegate = delegate;
 }
 
+void SnapshotTabHelper::SetSnapshotCache(SnapshotCache* snapshot_cache) {
+  snapshot_generator_.snapshotCache = snapshot_cache;
+}
+
 void SnapshotTabHelper::RetrieveColorSnapshot(void (^callback)(UIImage*)) {
   [snapshot_generator_ retrieveSnapshot:callback];
 }

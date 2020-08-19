@@ -11,12 +11,17 @@
 
 @protocol SnapshotCacheObserver;
 
-// A singleton providing an in-memory and on-disk cache of tab snapshots.
+// A class providing an in-memory and on-disk cache of tab snapshots.
 // A snapshot is a full-screen image of the contents of the page at the current
 // scroll offset and zoom level, used to stand in for the WKWebView if it has
 // been purged from memory or when quickly switching tabs.
 // Persists to disk on a background thread each time a snapshot changes.
 @interface SnapshotCache : NSObject
+
+// Unique identifier for SnapshotCache, which is useful when there are multiple
+// instances of this class. This property does not need to be set if there is
+// only a singleton instance.
+@property(nonatomic, copy) NSString* uniqueIdentifier;
 
 // Track session IDs to not release on low memory and to reload on
 // |UIApplicationDidBecomeActiveNotification|.

@@ -14,6 +14,7 @@
 #include "ios/web/public/web_state_observer.h"
 #import "ios/web/public/web_state_user_data.h"
 
+@class SnapshotCache;
 @class SnapshotGenerator;
 @protocol SnapshotGeneratorDelegate;
 
@@ -36,6 +37,10 @@ class SnapshotTabHelper : public infobars::InfoBarManager::Observer,
   // Sets the delegate. Capturing snapshot before setting a delegate will
   // results in failures. The delegate is not owned by the tab helper.
   void SetDelegate(id<SnapshotGeneratorDelegate> delegate);
+
+  // Sets the snapshot cache to be used to store and retrieve snapshots. This is
+  // not owned by the tab helper.
+  void SetSnapshotCache(SnapshotCache* snapshot_cache);
 
   // Retrieves a color snapshot for the current page, invoking |callback|
   // with the image. The callback may be called synchronously is there is

@@ -14,9 +14,7 @@
 #include "base/bind.h"
 #include "base/check_op.h"
 #include "base/task/post_task.h"
-#include "ios/chrome/browser/browser_state/chrome_browser_state.h"
 #import "ios/chrome/browser/snapshots/snapshot_cache.h"
-#import "ios/chrome/browser/snapshots/snapshot_cache_factory.h"
 #import "ios/chrome/browser/snapshots/snapshot_generator_delegate.h"
 #include "ios/chrome/browser/ui/ui_feature_flags.h"
 #import "ios/chrome/browser/ui/util/uikit_ui_util.h"
@@ -56,9 +54,6 @@ BOOL ViewHierarchyContainsWKWebView(UIView* view) {
 }  // namespace
 
 @interface SnapshotGenerator ()<CRWWebStateObserver>
-
-// Property providing access to the snapshot's cache. May be nil.
-@property(nonatomic, readonly) SnapshotCache* snapshotCache;
 
 // The unique ID for the web state.
 @property(nonatomic, copy) NSString* sessionID;
@@ -330,13 +325,6 @@ BOOL ViewHierarchyContainsWKWebView(UIView* view) {
   snapshotInfo.overlays = [self.delegate snapshotGenerator:self
                                snapshotOverlaysForWebState:self.webState];
   return snapshotInfo;
-}
-
-#pragma mark - Properties
-
-- (SnapshotCache*)snapshotCache {
-  return SnapshotCacheFactory::GetForBrowserState(
-      ChromeBrowserState::FromBrowserState(self.webState->GetBrowserState()));
 }
 
 #pragma mark - CRWWebStateObserver

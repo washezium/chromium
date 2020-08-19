@@ -326,6 +326,17 @@ void ConvertAndSaveGreyImage(NSString* session_id,
               object:nil];
 }
 
+- (void)setUniqueIdentifier:(NSString*)uniqueIdentifier {
+  DCHECK(!_uniqueIdentifier) << "It is an error to set the SnapshotCache "
+                                "uniqueIdentifier more than once.";
+  if (uniqueIdentifier.length == 0) {
+    return;
+  }
+  _uniqueIdentifier = uniqueIdentifier;
+  _cacheDirectory =
+      _cacheDirectory.Append(base::SysNSStringToUTF8(uniqueIdentifier));
+}
+
 - (CGFloat)snapshotScaleForDevice {
   return ScaleFromImageScale(_snapshotsScale);
 }
