@@ -2455,6 +2455,8 @@
           'dimension_sets': [
             {
               'integrity': 'high',
+              'os': 'Windows-10',
+              'cpu': 'x86-64',
             }
           ]
         },
