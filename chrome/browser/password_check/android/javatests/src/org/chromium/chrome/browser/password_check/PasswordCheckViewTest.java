@@ -519,7 +519,7 @@ public class PasswordCheckViewTest {
 
         TouchCommon.singleClickView(getCredentialMoreButtonAt(0));
 
-        onView(withText(org.chromium.chrome.R.string.remove))
+        onView(withText(R.string.password_check_credential_menu_item_remove_button_caption))
                 .inRoot(withDecorView(
                         not(is(mPasswordCheckView.getActivity().getWindow().getDecorView()))))
                 .perform(click());
