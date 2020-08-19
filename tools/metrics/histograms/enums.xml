@@ -56172,6 +56172,7 @@ Called by update_net_trust_anchors.py.-->
   <int value="22" label="DLC_NEED_SPACE"/>
   <int value="23" label="INSUFFICIENT_DISK_SPACE"/>
   <int value="24" label="INVALID_LICENSE"/>
+  <int value="25" label="OFFLINE"/>
 </enum>
 
 <enum name="PluginVmSetupResult">
