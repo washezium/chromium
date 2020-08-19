@@ -5,6 +5,7 @@
 #ifndef CHROME_BROWSER_SHARESHEET_SHARESHEET_TYPES_H_
 #define CHROME_BROWSER_SHARESHEET_SHARESHEET_TYPES_H_
 
+#include "base/optional.h"
 #include "base/strings/string16.h"
 #include "ui/gfx/image/image_skia.h"
 
@@ -24,7 +25,10 @@ struct TargetInfo {
   TargetInfo(TargetType type,
              const gfx::ImageSkia& icon,
              const base::string16& launch_name,
-             const base::string16& display_name);
+             const base::string16& display_name,
+             const base::Optional<std::string>& activity_name);
+  ~TargetInfo();
+
   // Allow move.
   TargetInfo(TargetInfo&& other);
   TargetInfo& operator=(TargetInfo&& other);
@@ -47,6 +51,10 @@ struct TargetInfo {
   // The string shown to the user to identify this target in the sharesheet
   // bubble.
   base::string16 display_name;
+
+  // The activity of the app for the target. This only applies when the app type
+  // is kArc.
+  base::Optional<std::string> activity_name;
 };
 
 }  // namespace sharesheet

@@ -311,6 +311,9 @@ struct IntentFilter {
   // Activity which registered this filter. We only fill this field for ARC
   // share intent filters.
   string? activity_name;
+
+  // The label shown to the user for this activity.
+  string? activity_label;
 };
 
 // Action and resource handling request. This includes the scheme and URL at
@@ -320,6 +323,7 @@ struct Intent {
   url.mojom.Url? url; // The URL of the intent. e.g. https://www.google.com/.
   string? mime_type; // MIME type. e.g. text/plain, image/*.
   array<url.mojom.Url>? file_urls; // The URLs of the files to share.
+  string? activity_name; // The activity for the app to launch.
 };
 
 // Represents a group of |app_ids| that is no longer preferred app of their

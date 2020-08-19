@@ -234,6 +234,8 @@ void SharesheetBubbleView::ButtonPressed(views::Button* sender,
   auto type = targets_[sender->tag()].type;
   if (type == sharesheet::TargetType::kAction) {
     active_target_ = targets_[sender->tag()].launch_name;
+  } else {
+    intent_->activity_name = targets_[sender->tag()].activity_name;
   }
   delegate_->OnTargetSelected(targets_[sender->tag()].launch_name, type,
                               std::move(intent_), share_action_view_);
