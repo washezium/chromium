@@ -28,9 +28,6 @@ using Policy = network::mojom::PrivateNetworkRequestPolicy;
 //    - if an origin is listed in this policy, then the content setting is
 //      always ALLOW for URLs of that origin
 //
-// TODO(crbug.com/986744): Currently the above description is slightly
-// incorrect, since the enterprise policies are not wired properly to content
-// settings.
 Policy GetPrivateNetworkRequestPolicy(const HostContentSettingsMap* map,
                                       const GURL& url) {
   const std::string unused_resource_identifier;
