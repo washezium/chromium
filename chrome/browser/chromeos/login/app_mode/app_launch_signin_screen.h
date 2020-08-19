@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_LOGIN_APP_LAUNCH_SIGNIN_SCREEN_H_
-#define CHROME_BROWSER_CHROMEOS_LOGIN_APP_LAUNCH_SIGNIN_SCREEN_H_
+#ifndef CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_APP_LAUNCH_SIGNIN_SCREEN_H_
+#define CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_APP_LAUNCH_SIGNIN_SCREEN_H_
 
 #include <string>
 
@@ -90,4 +90,4 @@ class AppLaunchSigninScreen : public SigninScreenHandlerDelegate,
 
 }  // namespace chromeos
 
-#endif  // CHROME_BROWSER_CHROMEOS_LOGIN_APP_LAUNCH_SIGNIN_SCREEN_H_
+#endif  // CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_APP_LAUNCH_SIGNIN_SCREEN_H_

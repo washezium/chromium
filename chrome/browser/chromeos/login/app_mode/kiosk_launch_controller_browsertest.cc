@@ -5,7 +5,7 @@
 #include "ash/public/cpp/keyboard/keyboard_controller.h"
 #include "chrome/browser/chromeos/app_mode/kiosk_app_types.h"
 #include "chrome/browser/chromeos/app_mode/web_app/mock_web_kiosk_app_launcher.h"
-#include "chrome/browser/chromeos/login/kiosk_launch_controller.h"
+#include "chrome/browser/chromeos/login/app_mode/kiosk_launch_controller.h"
 #include "chrome/browser/chromeos/login/test/kiosk_test_helpers.h"
 #include "chrome/browser/ui/ash/keyboard/chrome_keyboard_controller_client_test_helper.h"
 #include "chrome/browser/ui/browser.h"

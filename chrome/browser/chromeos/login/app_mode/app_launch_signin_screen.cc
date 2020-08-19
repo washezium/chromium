@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/chromeos/login/app_launch_signin_screen.h"
+#include "chrome/browser/chromeos/login/app_mode/app_launch_signin_screen.h"
 
 #include <memory>
 #include <utility>

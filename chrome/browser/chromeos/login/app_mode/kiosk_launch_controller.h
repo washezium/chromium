@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_CHROMEOS_LOGIN_KIOSK_LAUNCH_CONTROLLER_H_
-#define CHROME_BROWSER_CHROMEOS_LOGIN_KIOSK_LAUNCH_CONTROLLER_H_
+#ifndef CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_KIOSK_LAUNCH_CONTROLLER_H_
+#define CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_KIOSK_LAUNCH_CONTROLLER_H_
 
 #include "chrome/browser/chromeos/app_mode/kiosk_app_launcher.h"
 #include "chrome/browser/chromeos/app_mode/kiosk_app_types.h"
 #include "chrome/browser/chromeos/app_mode/kiosk_profile_loader.h"
-#include "chrome/browser/chromeos/login/app_launch_signin_screen.h"
+#include "chrome/browser/chromeos/login/app_mode/app_launch_signin_screen.h"
 #include "chrome/browser/ui/webui/chromeos/login/app_launch_splash_screen_handler.h"
 
 namespace chromeos {
@@ -197,4 +197,4 @@ class KioskLaunchController : public KioskProfileLoader::Delegate,
 
 }  // namespace chromeos
 
-#endif  // CHROME_BROWSER_CHROMEOS_LOGIN_KIOSK_LAUNCH_CONTROLLER_H_
+#endif  // CHROME_BROWSER_CHROMEOS_LOGIN_APP_MODE_KIOSK_LAUNCH_CONTROLLER_H_
