@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_FLEX_LAYOUT_NG_BUTTON_H_
-#define THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_FLEX_LAYOUT_NG_BUTTON_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_LAYOUT_NG_BUTTON_H_
+#define THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_LAYOUT_NG_BUTTON_H_
 
 #include "third_party/blink/renderer/core/layout/ng/flex/layout_ng_flexible_box.h"
 
@@ -34,4 +34,4 @@ class LayoutNGButton final : public LayoutNGFlexibleBox {
 
 }  // namespace blink
 
-#endif  // THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_FLEX_LAYOUT_NG_BUTTON_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_CORE_LAYOUT_NG_LAYOUT_NG_BUTTON_H_
