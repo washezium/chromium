@@ -402,7 +402,6 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   void DidEndPinchZoom();
   void DidUpdatePinchZoom();
   void DidStartScroll();
-  void DidEndScroll();
   void DidSetRootScrollOffsetForSynchronousInputHandler();
   FrameSequenceTrackerCollection& frame_trackers() { return frame_trackers_; }
   ImplThreadPhase GetCompositorThreadPhase() const;
@@ -1177,13 +1176,6 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   // Use to track when doing a synchronous draw.
   bool doing_sync_draw_ = false;
 #endif
-
-  // This is used to tell the scheduler there are active scroll handlers on the
-  // page so we should prioritize latency during a scroll to try to keep
-  // scroll-linked effects up to data.
-  // TODO(bokan): This is quite old and scheduling has become much more
-  // sophisticated since so it's not clear how much value it's still providing.
-  bool scroll_affects_scroll_handler_ = false;
 
   // Provides support for PaintWorklets which depend on input properties that
   // are being animated by the compositor (aka 'animated' PaintWorklets).
