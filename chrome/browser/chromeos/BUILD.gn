@@ -2634,6 +2634,8 @@ source_set("chromeos") {
     "ui/request_system_proxy_credentials_view.h",
     "ui/screen_capture_notification_ui_chromeos.cc",
     "ui/screen_capture_notification_ui_chromeos.h",
+    "ui/system_proxy_notification.cc",
+    "ui/system_proxy_notification.h",
     "ui/tpm_auto_update_notification.cc",
     "ui/tpm_auto_update_notification.h",
     "ui/update_required_notification.cc",
