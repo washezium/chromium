@@ -5005,6 +5005,17 @@ hooks = [
                 '--gs-url-base=chromium-optimization-profiles/pgo_profiles',
     ],
   },
+  {
+    'name': 'Fetch PGO profiles for linux',
+    'pattern': '.',
+    'condition': 'checkout_pgo_profiles and checkout_linux',
+    'action': [ 'vpython',
+                'src/tools/update_pgo_profiles.py',
+                '--target=linux',
+                'update',
+                '--gs-url-base=chromium-optimization-profiles/pgo_profiles',
+    ],
+  },
 
   {
     'name': 'Download prebuilt ash-chrome',
