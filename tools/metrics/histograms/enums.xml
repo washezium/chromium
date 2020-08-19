@@ -28789,6 +28789,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3423" label="BCPAuthenticatedSignedWrites"/>
   <int value="3424" label="BCPReliableWrite"/>
   <int value="3425" label="BCPWritableAuxiliaries"/>
+  <int value="3426" label="TextAlignSpecifiedToLegend"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
