@@ -1,5 +1,5 @@
 <?php
-header("Document-Policy: unoptimized-lossless-images=1.0");
+header("Document-Policy: lossless-images-max-bpp=1.0");
 ?>
 <!DOCTYPE html>
 <style>
