@@ -20,11 +20,6 @@
 #include "ui/display/types/display_constants.h"
 #include "ui/views/view.h"
 
-namespace {
-// In px.
-constexpr int kIconSize = 40;
-}  // namespace
-
 namespace sharesheet {
 
 SharesheetService::SharesheetService(Profile* profile)

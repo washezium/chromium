@@ -10,6 +10,9 @@
 
 namespace sharesheet {
 
+// In DIP (Density Independent Pixel).
+constexpr int kIconSize = 40;
+
 // The type of a target.
 enum class TargetType {
   kUnknown = 0,
@@ -34,6 +37,7 @@ struct TargetInfo {
   TargetType type;
 
   // The icon to be displayed for this target in the sharesheet bubble.
+  // DIP size must be kIconSize
   gfx::ImageSkia icon;
 
   // The string used to launch this target. Represents an Android package name
