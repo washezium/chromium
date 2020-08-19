@@ -8,6 +8,7 @@
 
 #include "base/metrics/field_trial_params.h"
 #include "base/metrics/histogram_macros.h"
+#include "base/task/common/scoped_defer_task_posting.h"
 #include "base/task/sequence_manager/lazy_now.h"
 #include "base/time/time.h"
 #include "base/trace_event/blame_context.h"
@@ -715,6 +716,11 @@ void FrameSchedulerImpl::ReportActiveSchedulerTrackedFeatures() {
     ReportFeaturesToDelegate();
 }
 
+base::WeakPtr<FrameSchedulerImpl>
+FrameSchedulerImpl::GetInvalidingOnBFCacheRestoreWeakPtr() {
+  return invalidating_on_bfcache_restore_weak_factory_.GetWeakPtr();
+}
+
 void FrameSchedulerImpl::OnAddedAllThrottlingOptOut() {
   ++all_throttling_opt_out_count_;
   opted_out_from_all_throttling_ =
@@ -1207,6 +1213,48 @@ void FrameSchedulerImpl::OnTaskQueueCreated(
       UpdateTaskQueueThrottling(task_queue, true);
     }
   }
+}
+
+void FrameSchedulerImpl::SetOnIPCTaskPostedWhileInBackForwardCacheHandler() {
+  DCHECK(parent_page_scheduler_->IsStoredInBackForwardCache());
+  for (const auto& task_queue_and_voter :
+       frame_task_queue_controller_->GetAllTaskQueuesAndVoters()) {
+    task_queue_and_voter.first->SetOnIPCTaskPosted(base::BindRepeating(
+        [](scoped_refptr<base::SingleThreadTaskRunner> task_runner,
+           base::WeakPtr<FrameSchedulerImpl> frame_scheduler,
+           const base::sequence_manager::Task& task) {
+          // Only log IPC tasks. IPC tasks are only logged currently as IPC
+          // hash can be mapped back to a function name, and IPC tasks may
+          // potentially post sensitive information.
+          if (!task.ipc_hash) {
+            return;
+          }
+          base::ScopedDeferTaskPosting::PostOrDefer(
+              task_runner, FROM_HERE,
+              base::BindOnce(
+                  &FrameSchedulerImpl::OnIPCTaskPostedWhileInBackForwardCache,
+                  frame_scheduler, task.ipc_hash, task.posted_from),
+              base::TimeDelta());
+        },
+        main_thread_scheduler_->DefaultTaskRunner(),
+        GetInvalidingOnBFCacheRestoreWeakPtr()));
+  }
+}
+
+void FrameSchedulerImpl::DetachOnIPCTaskPostedWhileInBackForwardCacheHandler() {
+  for (const auto& task_queue_and_voter :
+       frame_task_queue_controller_->GetAllTaskQueuesAndVoters()) {
+    task_queue_and_voter.first->DetachOnIPCTaskPostedWhileInBackForwardCache();
+  }
+
+  invalidating_on_bfcache_restore_weak_factory_.InvalidateWeakPtrs();
+}
+
+void FrameSchedulerImpl::OnIPCTaskPostedWhileInBackForwardCache(
+    uint32_t ipc_hash,
+    const base::Location& task_from) {
+  DCHECK(parent_page_scheduler_->IsStoredInBackForwardCache());
+  // TODO - start recording metrics
 }
 
 WTF::HashSet<SchedulingPolicy::Feature>
