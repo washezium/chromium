@@ -2671,9 +2671,6 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kUiShowCompositedLayerBordersName,
      flag_descriptions::kUiShowCompositedLayerBordersDescription, kOsCrOS,
      MULTI_VALUE_TYPE(kUiShowCompositedLayerBordersChoices)},
-    {"enable-request-tablet-site", flag_descriptions::kRequestTabletSiteName,
-     flag_descriptions::kRequestTabletSiteDescription, kOsCrOS,
-     SINGLE_VALUE_TYPE(chromeos::switches::kEnableRequestTabletSite)},
 #endif  // OS_CHROMEOS
     {"debug-packed-apps", flag_descriptions::kDebugPackedAppName,
      flag_descriptions::kDebugPackedAppDescription, kOsDesktop,

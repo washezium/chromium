@@ -1959,14 +1959,6 @@ const char kRestrictGamepadAccessName[] = "Restrict gamepad access";
 const char kRestrictGamepadAccessDescription[] =
     "Enables Feature Policy and Secure Context restrictions on the Gamepad API";
 
-const char kRequestTabletSiteName[] =
-    "Request tablet site option in the settings menu";
-const char kRequestTabletSiteDescription[] =
-    "Allows the user to request tablet site. Web content is often optimized "
-    "for tablet devices. When this option is selected the user agent string is "
-    "changed to indicate a tablet device. Web content optimized for tablets is "
-    "received there after for the current tab.";
-
 const char kDelayAsyncScriptExecutionName[] = "Delay Async Script Execution";
 const char kDelayAsyncScriptExecutionDescription[] =
     "The execution of async scripts will be delayed.";

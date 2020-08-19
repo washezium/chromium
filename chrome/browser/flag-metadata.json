@@ -1990,11 +1990,6 @@
     "expiry_milestone": 76
   },
   {
-    "name": "enable-request-tablet-site",
-    "owners": [ "xdai" ],
-    "expiry_milestone": 78
-  },
-  {
     "name": "enable-resampling-input-events",
     "owners": [ "eirage", "nzolghadr", "input-dev" ],
     "expiry_milestone": 85
