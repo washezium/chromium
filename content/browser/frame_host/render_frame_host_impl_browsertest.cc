@@ -490,7 +490,7 @@ mojo::ScopedMessagePipeHandle CreateDisconnectedMessagePipeHandle() {
 // Tests that a beforeunload dialog in an iframe doesn't stop the beforeunload
 // timer of a parent frame.
 // TODO(avi): flaky on Linux TSAN: http://crbug.com/795326
-#if defined(OS_LINUX) && defined(THREAD_SANITIZER)
+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(THREAD_SANITIZER)
 #define MAYBE_IframeBeforeUnloadParentHang DISABLED_IframeBeforeUnloadParentHang
 #else
 #define MAYBE_IframeBeforeUnloadParentHang IframeBeforeUnloadParentHang
