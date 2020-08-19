@@ -1047,7 +1047,7 @@
     },
     {
       name:"ManualSlotting",
-      status:"experimental",
+      status:"stable",
     },
     {
       name: "MathMLCore",
