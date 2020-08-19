@@ -380,6 +380,9 @@ TEST_F(FlocIdProviderUnitTest, EventLogging) {
   ASSERT_EQ(1u, fake_user_event_service_->GetRecordedUserEvents().size());
   const sync_pb::UserEventSpecifics& specifics1 =
       fake_user_event_service_->GetRecordedUserEvents()[0];
+  EXPECT_EQ(specifics1.event_time_usec(),
+            base::Time::Now().ToDeltaSinceWindowsEpoch().InMicroseconds());
+
   EXPECT_EQ(sync_pb::UserEventSpecifics::kFlocIdComputedEvent,
             specifics1.event_case());
 
@@ -389,6 +392,8 @@ TEST_F(FlocIdProviderUnitTest, EventLogging) {
             event1.event_trigger());
   EXPECT_EQ(12345ULL, event1.floc_id());
 
+  task_environment_.FastForwardBy(base::TimeDelta::FromDays(3));
+
   set_floc_id(FlocId(999ULL));
   floc_id_provider_->NotifyFlocUpdated(
       FlocIdProviderImpl::ComputeFlocTrigger::kScheduledUpdate);
@@ -396,6 +401,8 @@ TEST_F(FlocIdProviderUnitTest, EventLogging) {
   ASSERT_EQ(2u, fake_user_event_service_->GetRecordedUserEvents().size());
   const sync_pb::UserEventSpecifics& specifics2 =
       fake_user_event_service_->GetRecordedUserEvents()[1];
+  EXPECT_EQ(specifics2.event_time_usec(),
+            base::Time::Now().ToDeltaSinceWindowsEpoch().InMicroseconds());
   EXPECT_EQ(sync_pb::UserEventSpecifics::kFlocIdComputedEvent,
             specifics2.event_case());
 
@@ -412,6 +419,8 @@ TEST_F(FlocIdProviderUnitTest, EventLogging) {
   ASSERT_EQ(3u, fake_user_event_service_->GetRecordedUserEvents().size());
   const sync_pb::UserEventSpecifics& specifics3 =
       fake_user_event_service_->GetRecordedUserEvents()[2];
+  EXPECT_EQ(specifics3.event_time_usec(),
+            base::Time::Now().ToDeltaSinceWindowsEpoch().InMicroseconds());
   EXPECT_EQ(sync_pb::UserEventSpecifics::kFlocIdComputedEvent,
             specifics3.event_case());
 
