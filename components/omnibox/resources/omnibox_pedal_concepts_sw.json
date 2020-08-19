@@ -4,67 +4,62 @@
   "data_version": 15475308,
   "tokenize_characters": " -",
   "dictionary": [
-    "abrir",
-    "actualización",
-    "actualizar",
-    "administrador",
-    "administrar",
-    "borrar",
-    "caché",
-    "cambiar",
+    "***",
+    "anza",
+    "anzisha",
+    "badilisha",
     "chrome",
-    "como",
-    "contraseña",
-    "contraseñas",
-    "cookies",
-    "crear",
-    "credenciales",
-    "crédito",
-    "datos",
-    "de",
-    "dentro",
-    "editar",
-    "ejecutar",
-    "el",
-    "eliminar",
-    "en",
-    "entrar",
-    "esta",
-    "esto",
-    "formas",
+    "data",
+    "dhibiti",
+    "dirisha",
+    "fanya",
+    "faragha",
+    "fiche",
+    "fungua",
+    "futa",
     "google",
-    "guardar",
-    "hacer",
-    "historial",
-    "idioma",
-    "incógnito",
-    "info",
-    "información",
-    "iniciar",
-    "instalar",
+    "hali",
+    "hifadhi",
+    "historia",
+    "huu",
+    "installera",
+    "jinsi",
+    "kadi",
+    "katika",
+    "kichupo",
+    "kidhibiti",
+    "kitambulisho",
+    "kivinjari",
+    "kulipa",
+    "kumbukumbu",
+    "kuvinjari",
+    "kwa",
+    "kwenye",
     "la",
-    "mi",
-    "modo",
-    "mostrar",
-    "navegador",
-    "navegar",
-    "pago",
-    "pagos",
-    "para",
-    "pestaña",
-    "privada",
-    "privado",
-    "página",
-    "quitar",
-    "sacar",
-    "suprimir",
-    "tarjeta",
-    "tarjetas",
-    "traducir",
-    "un",
-    "ventana",
-    "ver",
-    "yo"
+    "lugha",
+    "maelezo",
+    "malipo",
+    "manenosiri",
+    "mikopo",
+    "mimi",
+    "ndani",
+    "nenosiri",
+    "njia",
+    "ona",
+    "ondoa",
+    "onyesha",
+    "sasisha",
+    "tafsiri",
+    "ukurasa",
+    "uppdatera",
+    "uppgradera",
+    "vidakuzi",
+    "webbläsare",
+    "weka",
+    "ya",
+    "yangu",
+    "za",
+    "zindua"
   ],
   "pedals": [
     {
@@ -76,62 +71,62 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
+              13,
+              4
             ],
+            [
+              25
+            ],
+            [
+              28
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "required": true,
+          "single": true,
+          "synonyms": [
             [
               42
-            ],
-            [
-              43
-            ],
-            [
-              8
-            ]
-          ]
-        },
-        {
-          "required": true,
-          "single": true,
-          "synonyms": [
-            [
-              22
-            ],
-            [
-              53
-            ],
-            [
-              51
-            ],
-            [
-              5
-            ],
-            [
-              52
-            ]
-          ]
-        },
-        {
-          "required": true,
-          "single": true,
-          "synonyms": [
-            [
-              35
-            ],
-            [
-              31
             ],
             [
               12
             ],
             [
-              6
+              12
+            ],
+            [
+              12
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "required": true,
+          "single": true,
+          "synonyms": [
+            [
+              27
             ],
             [
               16
             ],
             [
-              34
+              49
+            ],
+            [
+              33
+            ],
+            [
+              33
+            ],
+            [
+              5
             ]
           ]
         }
@@ -146,14 +141,14 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
+              13,
+              4
             ],
             [
-              42
+              25
             ],
             [
-              8
+              4
             ]
           ]
         },
@@ -165,25 +160,25 @@
               3
             ],
             [
-              4
+              23
             ],
             [
-              2
+              3
             ],
             [
-              7
+              6
             ],
             [
-              29
+              44
+            ],
+            [
+              15
+            ],
+            [
+              43
             ],
             [
               41
-            ],
-            [
-              19
-            ],
-            [
-              59
             ]
           ]
         },
@@ -192,13 +187,13 @@
           "single": true,
           "synonyms": [
             [
-              11
+              24
             ],
             [
-              14
+              35
             ],
             [
-              10
+              39
             ]
           ]
         }
@@ -213,35 +208,14 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
-            ],
-            [
-              42
-            ],
-            [
-              8
-            ]
-          ]
-        },
-        {
-          "required": true,
-          "single": true,
-          "synonyms": [
-            [
+              13,
               4
             ],
             [
-              2
+              25
             ],
             [
-              7
-            ],
-            [
-              29
-            ],
-            [
-              19
+              4
             ]
           ]
         },
@@ -250,56 +224,67 @@
           "single": true,
           "synonyms": [
             [
-              35,
-              17,
-              38,
-              54,
-              17,
-              15
+              3
             ],
             [
-              35,
-              17,
-              38,
-              54,
-              17,
-              15
+              3
             ],
             [
-              35,
-              17,
-              38,
-              54
-            ],
-            [
-              35,
-              17,
-              38,
-              54
-            ],
-            [
-              55,
-              17,
-              15
-            ],
-            [
-              54,
-              17,
-              15
-            ],
-            [
-              27,
-              17,
-              44
-            ],
-            [
-              55
-            ],
-            [
-              45
+              6
             ],
             [
               44
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "required": true,
+          "single": true,
+          "synonyms": [
+            [
+              33,
+              20,
+              54,
+              36
+            ],
+            [
+              33,
+              20,
+              36
+            ],
+            [
+              20,
+              54,
+              36
+            ],
+            [
+              40,
+              54,
+              26
+            ],
+            [
+              33,
+              20
+            ],
+            [
+              33,
+              20
+            ],
+            [
+              20,
+              36
+            ],
+            [
+              34
+            ],
+            [
+              34
+            ],
+            [
+              20
             ]
           ]
         }
@@ -314,14 +299,14 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
+              13,
+              4
             ],
             [
-              42
+              25
             ],
             [
-              8
+              4
             ]
           ]
         },
@@ -330,19 +315,19 @@
           "single": true,
           "synonyms": [
             [
-              20
+              2
             ],
             [
-              36
+              55
             ],
             [
-              24
+              11
             ],
             [
-              0
+              1
             ],
             [
-              13
+              51
             ]
           ]
         },
@@ -351,34 +336,32 @@
           "single": true,
           "synonyms": [
             [
-              47,
-              17,
-              33
+              7,
+              31,
+              9
             ],
             [
-              58,
-              17,
-              33
+              14,
+              9
             ],
             [
-              40,
-              17,
-              33
+              22,
+              9
             ],
             [
-              47,
-              48
+              7,
+              10
             ],
             [
-              58,
-              48
+              22,
+              10
             ],
             [
-              40,
-              49
+              14,
+              10
             ],
             [
-              33
+              10
             ]
           ]
         }
@@ -393,14 +376,14 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
+              13,
+              4
             ],
             [
-              42
+              25
             ],
             [
-              8
+              4
             ]
           ]
         },
@@ -409,11 +392,11 @@
           "single": true,
           "synonyms": [
             [
-              7,
+              3,
               32
             ],
             [
-              56
+              45
             ]
           ]
         },
@@ -422,14 +405,14 @@
           "single": true,
           "synonyms": [
             [
-              25,
-              50
+              46,
+              17
             ],
             [
-              50
+              46
             ],
             [
-              26
+              17
             ]
           ]
         }
@@ -444,14 +427,14 @@
           "single": true,
           "synonyms": [
             [
-              28,
-              8
+              13,
+              4
             ],
             [
-              42
+              50
             ],
             [
-              8
+              4
             ]
           ]
         },
@@ -460,13 +443,13 @@
           "single": true,
           "synonyms": [
             [
-              1
+              48
             ],
             [
-              2
+              18
             ],
             [
-              37
+              47
             ]
           ]
         }
@@ -478,44 +461,45 @@
     "single": false,
     "synonyms": [
       [
-        18,
-        17
+        38,
+        52
       ],
       [
-        30
-      ],
-      [
-        46
-      ],
-      [
-        9
-      ],
-      [
-        46
-      ],
-      [
-        23
+        19,
+        52
       ],
       [
         21
       ],
       [
-        57
+        30
       ],
       [
-        23
+        38
       ],
       [
-        39
+        8
       ],
       [
-        23
+        53
       ],
       [
-        57
+        37
       ],
       [
-        60
+        0
+      ],
+      [
+        0
+      ],
+      [
+        29
+      ],
+      [
+        0
+      ],
+      [
+        52
       ]
     ]
   },
