@@ -402,6 +402,7 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   void DidEndPinchZoom();
   void DidUpdatePinchZoom();
   void DidStartScroll();
+  void DidEndScroll();
   void DidSetRootScrollOffsetForSynchronousInputHandler();
   FrameSequenceTrackerCollection& frame_trackers() { return frame_trackers_; }
   ImplThreadPhase GetCompositorThreadPhase() const;
@@ -654,15 +655,12 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   ScrollNode* CurrentlyScrollingNode();
   const ScrollNode* CurrentlyScrollingNode() const;
 
-  bool scroll_affects_scroll_handler() const {
-    return settings_.enable_synchronized_scrolling &&
-           input_handler_.CurrentScrollAffectsScrollHandler();
-  }
   void QueueSwapPromiseForMainThreadScrollUpdate(
       std::unique_ptr<SwapPromise> swap_promise);
 
   // See comment in equivalent ThreadedInputHandler method for what this means.
   bool IsActivelyPrecisionScrolling() const;
+  bool ScrollAffectsScrollHandler() const;
 
   virtual void SetVisible(bool visible);
   bool visible() const { return visible_; }
@@ -698,9 +696,6 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   }
 
   MutatorHost* mutator_host() const { return mutator_host_.get(); }
-  ScrollbarController* scrollbar_controller_for_testing() const {
-    return input_handler_.get_scrollbar_controller();
-  }
 
   void SetDebugState(const LayerTreeDebugState& new_debug_state);
   const LayerTreeDebugState& debug_state() const { return debug_state_; }
@@ -978,6 +973,10 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   void LogAverageLagEvents(uint32_t frame_token,
                            const viz::FrameTimingDetails& details);
 
+  // TODO(bokan): Temporary, keep multiple pointers to the input_handler_ while
+  // we decouple this into clean interfaces. Once we're done LTHI should only
+  // talk to InputDelegateForCompositor.
+  InputDelegateForCompositor* input_delegate_;
   ThreadedInputHandler input_handler_;
 
   const LayerTreeSettings settings_;
@@ -1178,6 +1177,13 @@ class CC_EXPORT LayerTreeHostImpl : public InputHandler,
   // Use to track when doing a synchronous draw.
   bool doing_sync_draw_ = false;
 #endif
+
+  // This is used to tell the scheduler there are active scroll handlers on the
+  // page so we should prioritize latency during a scroll to try to keep
+  // scroll-linked effects up to data.
+  // TODO(bokan): This is quite old and scheduling has become much more
+  // sophisticated since so it's not clear how much value it's still providing.
+  bool scroll_affects_scroll_handler_ = false;
 
   // Provides support for PaintWorklets which depend on input properties that
   // are being animated by the compositor (aka 'animated' PaintWorklets).
