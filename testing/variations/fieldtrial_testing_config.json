@@ -879,24 +879,6 @@
             ]
         }
     ],
-    "BrowserScheduler": [
-        {
-            "platforms": [
-                "windows",
-                "mac",
-                "chromeos",
-                "linux",
-                "android",
-                "android_weblayer",
-                "ios"
-            ],
-            "experiments": [
-                {
-                    "name": "DetachTimeFg16x"
-                }
-            ]
-        }
-    ],
     "BrowserVerifiedUserActivationKeyboardTrigger": [
         {
             "platforms": [
@@ -4027,27 +4009,6 @@
             ]
         }
     ],
-    "MaxOverlapBoundsForFixed": [
-        {
-            "platforms": [
-                "android",
-                "android_weblayer",
-                "android_webview",
-                "chromeos",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "MaxOverlapBoundsForFixed"
-                    ]
-                }
-            ]
-        }
-    ],
     "MediaApp": [
         {
             "platforms": [
@@ -4164,25 +4125,6 @@
                     "enable_features": [
                         "MediaLearningFramework",
                         "MediaLearningSmoothnessExperiment"
-                    ]
-                }
-            ]
-        }
-    ],
-    "MergeBlockingNonBlockingPools": [
-        {
-            "platforms": [
-                "android",
-                "chromeos",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "Disabled",
-                    "disable_features": [
-                        "MergeBlockingNonBlockingPools"
                     ]
                 }
             ]
@@ -5169,24 +5111,6 @@
                     "name": "PlayStoreAppSearch",
                     "enable_features": [
                         "EnablePlayStoreAppSearch"
-                    ]
-                }
-            ]
-        }
-    ],
-    "PolicyAtomicGroup": [
-        {
-            "platforms": [
-                "windows",
-                "chromeos",
-                "mac",
-                "linux"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "PolicyAtomicGroup"
                     ]
                 }
             ]
@@ -7027,22 +6951,6 @@
             ]
         }
     ],
-    "TranslateSubFramesStudy": [
-        {
-            "platforms": [
-                "android",
-                "chromeos",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "TranslateSubFrames"
-                }
-            ]
-        }
-    ],
     "TriggeredResetFieldTrial": [
         {
             "platforms": [
@@ -7628,21 +7536,6 @@
             "experiments": [
                 {
                     "name": "Enabled-95-0.9993"
-                }
-            ]
-        }
-    ],
-    "WebRTC-Audio-NewOpusPacketLossRateOptimization": [
-        {
-            "platforms": [
-                "windows",
-                "mac",
-                "chromeos",
-                "linux"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled-0-20-1"
                 }
             ]
         }
