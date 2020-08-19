@@ -61689,6 +61689,17 @@ https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_2.7.1.pdf
   <int value="100" label="DANGEROUS"/>
 </enum>
 
+<enum name="SafeBrowsingSettingsUserAction">
+  <int value="0" label="Settings page showed."/>
+  <int value="1" label="Enhanced protection button clicked."/>
+  <int value="2" label="Standard protection button clicked."/>
+  <int value="3" label="Disable Safe Browsing button clicked."/>
+  <int value="4" label="Enhanced protection expand arrow clicked."/>
+  <int value="5" label="Standard protection expand arrow clicked."/>
+  <int value="6" label="Disable Safe Browsing dialog confirmed."/>
+  <int value="7" label="Disable Safe Browsing dialog denied."/>
+</enum>
+
 <enum name="SafeBrowsingStoreAvailabilityResult">
   <int value="0" label="Unknown"/>
   <int value="1" label="Not Enabled"/>
