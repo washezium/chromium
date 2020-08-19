@@ -5688,7 +5688,7 @@
         'variants': [
           'SIM_IPHONE_6S_PLUS_13_6',
           'SIM_IPHONE_6S_13_6',
-          'SIM_IPHONE_SE_13_6',
+          'SIM_IPHONE_SE_1ST_GEN_13_6',
           'SIM_IPAD_AIR_2_13_6'
         ],
       },
@@ -5762,7 +5762,7 @@
         'variants': [
           'SIM_IPHONE_6S_PLUS_13_6',
           'SIM_IPHONE_6S_13_6',
-          'SIM_IPHONE_SE_13_6',
+          'SIM_IPHONE_SE_1ST_GEN_13_6',
           'SIM_IPAD_AIR_2_13_6'
         ]
       }
