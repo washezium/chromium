@@ -46,11 +46,13 @@ using testing::NiceMock;
 
 using CompromisedCredentialForUI =
     PasswordCheckManager::CompromisedCredentialForUI;
+using CompromiseTypeFlags = password_manager::CompromiseTypeFlags;
 using State = password_manager::BulkLeakCheckService::State;
 
 namespace {
 
 constexpr char kExampleCom[] = "https://example.com";
+constexpr char kExampleOrg[] = "http://www.example.org";
 constexpr char kExampleApp[] = "com.example.app";
 
 constexpr char kUsername1[] = "alice";
@@ -143,6 +145,7 @@ auto ExpectCompromisedCredentialForUI(
     const base::string16& display_origin,
     const base::Optional<std::string>& package_name,
     const base::Optional<std::string>& change_password_url,
+    CompromiseTypeFlags compromise_type,
     bool has_script) {
   auto package_name_field_matcher =
       package_name.has_value()
@@ -158,6 +161,7 @@ auto ExpectCompromisedCredentialForUI(
       Field(&CompromisedCredentialForUI::display_username, display_username),
       Field(&CompromisedCredentialForUI::display_origin, display_origin),
       package_name_field_matcher, change_password_url_field_matcher,
+      Field(&CompromisedCredentialForUI::compromise_type, compromise_type),
       Field(&CompromisedCredentialForUI::has_script, has_script));
 }
 
@@ -221,9 +225,7 @@ TEST_F(PasswordCheckManagerTest, OnCompromisedCredentialsChanged) {
   RunUntilIdle();
 
   EXPECT_CALL(mock_observer_, OnCompromisedCredentialsChanged(1));
-  store().AddCompromisedCredentials(
-      MakeCompromised(kExampleCom, kUsername1, base::TimeDelta::FromMinutes(1),
-                      CompromiseType::kLeaked));
+  store().AddCompromisedCredentials(MakeCompromised(kExampleCom, kUsername1));
   RunUntilIdle();
 }
 
@@ -236,7 +238,9 @@ TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructForSiteCredential) {
       manager_->GetCompromisedCredentials(),
       ElementsAre(ExpectCompromisedCredentialForUI(
           base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.com"),
-          base::nullopt, "https://example.com/", /*has_script=*/false)));
+          base::nullopt, "https://example.com/",
+          CompromiseTypeFlags::kCredentialLeaked,
+          /*has_script=*/false)));
 }
 
 TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructForAppCredentials) {
@@ -253,17 +257,19 @@ TEST_F(PasswordCheckManagerTest, CorrectlyCreatesUIStructForAppCredentials) {
 
   RunUntilIdle();
 
-  EXPECT_THAT(manager_->GetCompromisedCredentials(),
-              ElementsAre(ExpectCompromisedCredentialForUI(
-                              base::ASCIIToUTF16(kUsername1),
-                              base::ASCIIToUTF16("App (com.example.app)"),
-                              "com.example.app", base::nullopt,
-                              /*has_script=*/false),
-                          ExpectCompromisedCredentialForUI(
-                              base::ASCIIToUTF16(kUsername2),
-                              base::ASCIIToUTF16("Example App"),
-                              "com.example.app", base::nullopt,
-                              /*has_script=*/false)));
+  EXPECT_THAT(
+      manager_->GetCompromisedCredentials(),
+      UnorderedElementsAre(
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername1),
+              base::ASCIIToUTF16("App (com.example.app)"), "com.example.app",
+              base::nullopt, CompromiseTypeFlags::kCredentialLeaked,
+              /*has_script=*/false),
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername2), base::ASCIIToUTF16("Example App"),
+              "com.example.app", base::nullopt,
+              CompromiseTypeFlags::kCredentialLeaked,
+              /*has_script=*/false)));
 }
 
 TEST_F(PasswordCheckManagerTest, SetsTimestampOnSuccessfulCheck) {
@@ -290,4 +296,49 @@ TEST_F(PasswordCheckManagerTest, DoesntRecordTimestampOfUnsuccessfulCheck) {
   // Change the state to an error state to simulate a unsuccessful check finish.
   service()->set_state_and_notify(State::kSignedOut);
   EXPECT_EQ(0.0, manager_->GetLastCheckTimestamp().ToDoubleT());
+}
+
+TEST_F(PasswordCheckManagerTest, GetCompromisedCredentialsOrder) {
+  InitializeManager();
+  store().AddLogin(MakeSavedPassword(kExampleCom, kUsername1));
+  store().AddLogin(MakeSavedPassword(kExampleCom, kUsername2));
+  store().AddLogin(MakeSavedPassword(kExampleOrg, kUsername1));
+  store().AddLogin(MakeSavedPassword(kExampleOrg, kUsername2));
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleCom, kUsername1, base::TimeDelta::FromMinutes(1),
+                      CompromiseType::kLeaked));
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleCom, kUsername2, base::TimeDelta::FromMinutes(5),
+                      CompromiseType::kLeaked));
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleCom, kUsername2, base::TimeDelta::FromMinutes(3),
+                      CompromiseType::kPhished));
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleOrg, kUsername2, base::TimeDelta::FromMinutes(4),
+                      CompromiseType::kLeaked));
+  store().AddCompromisedCredentials(
+      MakeCompromised(kExampleOrg, kUsername1, base::TimeDelta::FromMinutes(2),
+                      CompromiseType::kPhished));
+  RunUntilIdle();
+  EXPECT_THAT(
+      manager_->GetCompromisedCredentials(),
+      ElementsAre(
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.org"),
+              base::nullopt, "http://www.example.org/",
+              CompromiseTypeFlags::kCredentialPhished, /*has_script_=*/false),
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername2), base::ASCIIToUTF16("example.com"),
+              base::nullopt, "https://example.com/",
+              password_manager::CompromiseTypeFlags::kCredentialLeaked |
+                  password_manager::CompromiseTypeFlags::kCredentialPhished,
+              /*has_script_=*/false),
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.com"),
+              base::nullopt, "https://example.com/",
+              CompromiseTypeFlags::kCredentialLeaked, /*has_script_=*/false),
+          ExpectCompromisedCredentialForUI(
+              base::ASCIIToUTF16(kUsername2), base::ASCIIToUTF16("example.org"),
+              base::nullopt, "http://www.example.org/",
+              CompromiseTypeFlags::kCredentialLeaked, /*has_script_=*/false)));
 }
