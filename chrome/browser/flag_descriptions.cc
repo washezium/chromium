@@ -93,6 +93,11 @@ const char kConversionMeasurementDebugModeDescription[] =
     "reporting delays and noise. Only works if the Conversion Measurement API "
     "is already enabled.";
 
+const char kEnableBloomName[] = "Enable Bloom Integration";
+const char kEnableBloomDescription[] =
+    "Enables native support for bloom, an experimental vertical knowledge "
+    "search feature.";
+
 const char kEnableBluetoothSerialPortProfileInSerialApiName[] =
     "Enable Bluetooth Serial Port Profile in Serial API";
 const char kEnableBluetoothSerialPortProfileInSerialApiDescription[] =

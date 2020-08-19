@@ -4750,6 +4750,10 @@ const FeatureEntry kFeatureEntries[] = {
      FEATURE_VALUE_TYPE(
          chromeos::assistant::features::kEnableMediaSessionIntegration)},
 
+    {"enable-bloom", flag_descriptions::kEnableBloomName,
+     flag_descriptions::kEnableBloomDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::assistant::features::kEnableBloom)},
+
     {"enable-quick-answers", flag_descriptions::kEnableQuickAnswersName,
      flag_descriptions::kEnableQuickAnswersDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kQuickAnswers)},
@@ -6359,6 +6363,14 @@ bool SkipConditionalFeatureEntry(const flags_ui::FlagsStorage* storage,
 
   // enable-ambient-mode is only available for Unknown/Canary/Dev channels.
   if (!strcmp(kAmbientModeInternalName, entry.internal_name) &&
+      channel != version_info::Channel::DEV &&
+      channel != version_info::Channel::CANARY &&
+      channel != version_info::Channel::UNKNOWN) {
+    return true;
+  }
+
+  // enable-bloom is only available for Unknown/Canary/Dev channels.
+  if (!strcmp("enable-bloom", entry.internal_name) &&
       channel != version_info::Channel::DEV &&
       channel != version_info::Channel::CANARY &&
       channel != version_info::Channel::UNKNOWN) {
