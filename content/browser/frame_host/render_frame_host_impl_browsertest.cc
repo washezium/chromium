@@ -3609,8 +3609,9 @@ IN_PROC_BROWSER_TEST_F(RenderFrameHostImplBrowserTest, WebUiReloadAfterCrash) {
 // Start with A(B), navigate A to C. By emulating a slow unload handler B, check
 // the status of IsCurrent for subframes of A i.e., B before and after
 // navigating to C.
+// Test is flaky: https://crbug.com/1114149.
 IN_PROC_BROWSER_TEST_F(RenderFrameHostImplBrowserTest,
-                       CheckIsCurrentBeforeAndAfterUnload) {
+                       DISABLED_CheckIsCurrentBeforeAndAfterUnload) {
   IsolateAllSitesForTesting(base::CommandLine::ForCurrentProcess());
   GURL url_ab(embedded_test_server()->GetURL(
       "a.com", "/cross_site_iframe_factory.html?a(b)"));
