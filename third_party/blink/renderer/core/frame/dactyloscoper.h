@@ -35,14 +35,14 @@ class CORE_EXPORT Dactyloscoper {
   // methods with HighEntropy=Direct.
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
-                                  IdentifiableToken);
-  static void RecordDirectSurface(ExecutionContext*, WebFeature, String);
+                                  const IdentifiableToken&);
+  static void RecordDirectSurface(ExecutionContext*, WebFeature, const String&);
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
-                                  Vector<String>);
+                                  const Vector<String>&);
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
-                                  NotShared<DOMFloat32Array>);
+                                  const NotShared<DOMFloat32Array>&);
   static void RecordDirectSurface(ExecutionContext*,
                                   WebFeature,
                                   SVGStringListTearOff*);
