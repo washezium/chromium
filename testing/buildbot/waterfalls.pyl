@@ -2147,7 +2147,7 @@
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',
-          'xcode_12a8179i_audio',
+          'xcode_12a8189h',
         ],
         'test_suites': {
           'isolated_scripts': 'ios14_beta_simulator_tests'
@@ -2164,7 +2164,7 @@
           'mac_10.15',
           'mac_toolchain',
           'out_dir_arg',
-          'xcode_12a8179i_audio',
+          'xcode_12a8189h',
         ],
         'test_suites': {
           'isolated_scripts': 'ios14_sdk_simulator_tests'

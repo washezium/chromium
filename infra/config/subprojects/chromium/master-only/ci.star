@@ -1910,11 +1910,11 @@ ci.fyi_ios_builder(
         category = "iOS|iOS14",
         short_name = "sdk14",
     ),
-    caches = [xcode_cache.x12a8179i_audio],
+    caches = [xcode_cache.x12a8189h],
     executable = "recipe:chromium",
     os = os.MAC_10_15,
     properties = {
-        "xcode_build_version": "12a8179i_audio",
+        "xcode_build_version": "12a8189h",
     },
 )
 

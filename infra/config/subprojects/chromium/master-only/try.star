@@ -645,7 +645,7 @@ try_.chromium_mac_ios_builder(
 try_.chromium_mac_ios_builder(
     name = "ios14-sdk-simulator",
     executable = "recipe:chromium_trybot",
-    caches = [xcode_cache.x12a8179i_audio],
+    caches = [xcode_cache.x12a8189h],
     os = os.MAC_10_15,
     properties = {
         "xcode_build_version": "12a8179i_audio",

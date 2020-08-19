@@ -962,18 +962,18 @@
       ],
     },
   },
-  # xcode 12 beta 4
-  'xcode_12a8179i_audio': {
+  # xcode 12 beta 5
+  'xcode_12a8189h': {
     '$mixin_append': {
       'args': [
         '--xcode-build-version',
-        '12a8179i_audio'
+        '12a8189h'
       ],
     },
     'swarming': {
       'named_caches': [
         {
-          'name': 'xcode_ios_12a8179i_audio',
+          'name': 'xcode_ios_12a8189h',
           'path': 'Xcode.app',
         },
       ],
