@@ -7797,10 +7797,22 @@ the Bookmarks menu.">
       <!-- Dice Web Signin Interception Bubble-->
       <if expr="not chromeos and not is_android">
         <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_BUBBLE_NEW_PROFILE_BUTTON_LABEL" desc="Label of the confirmation button in the web signin interception bubble">
-          New Profile
+          Create
         </message>
         <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_BUBBLE_CANCEL_BUTTON_LABEL" desc="Label of the cancel button in the web signin interception bubble">
-          Cancel
+          No thanks
+        </message>
+        <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_CONSUMER_BUBBLE_DESC" desc="Body of the web signin interception bubble">
+          To keep your browsing separate, you can create a new profile for <ph name="NEW_USER">$1<ex>Bob</ex></ph>
+        </message>
+        <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_CONSUMER_ENTERPRISE_BUBBLE_DESC" desc="Body of the web signin interception bubble when the new account is personal and the existing account is managed">
+          To separate personal and <ph name="EXISTING_USER">$2<ex>example.com</ex></ph> browsing, create a new profile for <ph name="NEW_USER">$1<ex>Bob</ex></ph>
+        </message>
+        <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_ENTERPRISE_ENTERPRISE_BUBBLE_DESC" desc="Body of the web signin interception bubble when both accounts are managed">
+          To separate your <ph name="NEW_USER">$1<ex>example.com</ex></ph> browsing from your <ph name="EXISTING_USER">$2<ex>example.com</ex></ph> browsing, create a new profile
+        </message>
+        <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_ENTERPRISE_BUBBLE_TITLE" desc="Title of the web signin interception bubble">
+          Create a new profile for work?
         </message>
         <message name="IDS_SIGNIN_DICE_WEB_INTERCEPT_ENTERPRISE_PROFILE_NAME" desc="Default name for work profiles created after signin interception">
           Work
