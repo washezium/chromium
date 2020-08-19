@@ -398,6 +398,16 @@ const base::Feature kQuickAnswersSubToggle{"QuickAnswersSubToggle",
 const base::Feature kQuickAnswersTranslation{"QuickAnswersTranslation",
                                              base::FEATURE_DISABLED_BY_DEFAULT};
 
+// Controls whether the PIN auto submit feature is enabled.
+const base::Feature kQuickUnlockPinAutosubmit{
+    "QuickUnlockPinAutosubmit", base::FEATURE_DISABLED_BY_DEFAULT};
+
+// TODO(crbug.com/1104164) - Remove this once most
+// users have their preferences backfilled.
+// Controls whether the PIN auto submit backfill operation should be performed.
+const base::Feature kQuickUnlockPinAutosubmitBackfill{
+    "QuickUnlockPinAutosubmitBackfill", base::FEATURE_ENABLED_BY_DEFAULT};
+
 // Enables or disables Release Notes on Chrome OS.
 const base::Feature kReleaseNotes{"ReleaseNotes",
                                   base::FEATURE_ENABLED_BY_DEFAULT};
@@ -590,6 +600,14 @@ bool IsParentalControlsSettingsEnabled() {
 
 bool IsPhoneHubEnabled() {
   return base::FeatureList::IsEnabled(kPhoneHub);
+}
+
+bool IsPinAutosubmitFeatureEnabled() {
+  return base::FeatureList::IsEnabled(kQuickUnlockPinAutosubmit);
+}
+
+bool IsPinAutosubmitBackfillFeatureEnabled() {
+  return base::FeatureList::IsEnabled(kQuickUnlockPinAutosubmitBackfill);
 }
 
 bool IsQuickAnswersDogfood() {
