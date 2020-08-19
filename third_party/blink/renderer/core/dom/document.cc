@@ -2745,6 +2745,23 @@ void Document::MarkHasFindInPageContentVisibilityActiveMatch() {
   had_find_in_page_render_subtree_active_match_ = true;
 }
 
+void Document::MarkHasFindInPageBeforematchExpandedHiddenMatchable() {
+  // Note that although find-in-page in content-visibility requests happen in
+  // non-main frames, we only record the main frame results (per UKM policy).
+  // Additionally, we only record the event once.
+  if (had_find_in_page_beforematch_expanded_hidden_matchable_ ||
+      !IsInMainFrame())
+    return;
+
+  auto* recorder = UkmRecorder();
+  DCHECK(recorder);
+  DCHECK(UkmSourceID() != ukm::kInvalidSourceId);
+  ukm::builders::Blink_FindInPage(UkmSourceID())
+      .SetBeforematchExpandedHiddenMatchable(true)
+      .Record(recorder);
+  had_find_in_page_beforematch_expanded_hidden_matchable_ = true;
+}
+
 void Document::UpdateStyleAndLayout(DocumentUpdateReason reason) {
   DCHECK(IsMainThread());
   LocalFrameView* frame_view = View();

@@ -1611,6 +1611,7 @@ class CORE_EXPORT Document : public ContainerNode,
 
   void MarkHasFindInPageRequest();
   void MarkHasFindInPageContentVisibilityActiveMatch();
+  void MarkHasFindInPageBeforematchExpandedHiddenMatchable();
 
   void CancelPendingJavaScriptUrls();
 
@@ -1656,6 +1657,10 @@ class CORE_EXPORT Document : public ContainerNode,
   FRIEND_TEST_ALL_PREFIXES(FrameFetchContextSubresourceFilterTest,
                            DuringOnFreeze);
   FRIEND_TEST_ALL_PREFIXES(DocumentTest, FindInPageUkm);
+  FRIEND_TEST_ALL_PREFIXES(TextFinderSimTest,
+                           BeforeMatchExpandedHiddenMatchableUkm);
+  FRIEND_TEST_ALL_PREFIXES(TextFinderSimTest,
+                           BeforeMatchExpandedHiddenMatchableUkmNoHandler);
   class NetworkStateObserver;
 
   friend class AXContext;
@@ -2153,6 +2158,7 @@ class CORE_EXPORT Document : public ContainerNode,
   // Records find-in-page metrics, which are sent to UKM on shutdown.
   bool had_find_in_page_request_ = false;
   bool had_find_in_page_render_subtree_active_match_ = false;
+  bool had_find_in_page_beforematch_expanded_hidden_matchable_ = false;
 
   // To reduce the API noisiness an explicit deny decision will set a
   // flag that auto rejects the promise without the need for an IPC
