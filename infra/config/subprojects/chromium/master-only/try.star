@@ -271,14 +271,13 @@ try_.chromium_chromiumos_builder(
     main_list_view = "try",
 )
 
-# TODO(crbug.com/1116180): Clean this up once linux-lacros-rel is up.
 try_.chromium_chromiumos_builder(
     name = "linux-lacros-compile-rel",
+    tryjob = try_.job(),
 )
 
 try_.chromium_chromiumos_builder(
     name = "linux-lacros-rel",
-    tryjob = try_.job(),
 )
 
 try_.chromium_chromiumos_builder(
