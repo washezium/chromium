@@ -4217,6 +4217,16 @@ void NavigationRequest::ReadyToCommitNavigation(CommitPageType type) {
     client_security_state_->is_web_secure_context =
         network::IsOriginPotentiallyTrustworthy(
             url::Origin::Create(common_params_->url));
+
+    if (base::FeatureList::IsEnabled(
+            network::features::kBlockInsecurePrivateNetworkRequests)) {
+      client_security_state_->private_network_request_policy =
+          GetContentClient()->browser()->GetPrivateNetworkRequestPolicy(
+              frame_tree_node_->navigator()
+                  .GetController()
+                  ->GetBrowserContext(),
+              common_params_->url);
+    }
   }
 
   if (appcache_handle_) {

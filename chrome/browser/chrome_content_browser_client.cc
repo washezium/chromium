@@ -196,6 +196,7 @@
 #include "components/content_settings/core/browser/content_settings_utils.h"
 #include "components/content_settings/core/browser/cookie_settings.h"
 #include "components/content_settings/core/browser/host_content_settings_map.h"
+#include "components/content_settings/core/browser/private_network_settings.h"
 #include "components/content_settings/core/common/content_settings.h"
 #include "components/content_settings/core/common/content_settings_types.h"
 #include "components/content_settings/core/common/content_settings_utils.h"
@@ -5829,6 +5830,14 @@ bool ChromeContentBrowserClient::
 #else
   return false;
 #endif
+}
+
+network::mojom::PrivateNetworkRequestPolicy
+ChromeContentBrowserClient::GetPrivateNetworkRequestPolicy(
+    content::BrowserContext* browser_context,
+    const GURL& url) {
+  return content_settings::GetPrivateNetworkRequestPolicy(
+      HostContentSettingsMapFactory::GetForProfile(browser_context), url);
 }
 
 ukm::UkmService* ChromeContentBrowserClient::GetUkmService() {

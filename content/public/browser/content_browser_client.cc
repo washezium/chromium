@@ -44,6 +44,7 @@
 #include "sandbox/policy/sandbox_type.h"
 #include "services/device/public/cpp/geolocation/location_provider.h"
 #include "services/network/public/cpp/resource_request.h"
+#include "services/network/public/mojom/network_context.mojom.h"
 #include "services/network/public/mojom/network_service.mojom.h"
 #include "services/service_manager/public/cpp/manifest.h"
 #include "storage/browser/quota/quota_manager.h"
@@ -1124,6 +1125,14 @@ void ContentBrowserClient::BindBrowserControlInterface(
 bool ContentBrowserClient::ShouldInheritCrossOriginEmbedderPolicyImplicitly(
     const GURL& url) {
   return false;
+}
+
+network::mojom::PrivateNetworkRequestPolicy
+ContentBrowserClient::GetPrivateNetworkRequestPolicy(
+    BrowserContext* browser_context,
+    const GURL& url) {
+  return network::mojom::PrivateNetworkRequestPolicy::
+      kBlockFromInsecureToMorePrivate;
 }
 
 ukm::UkmService* ContentBrowserClient::GetUkmService() {
