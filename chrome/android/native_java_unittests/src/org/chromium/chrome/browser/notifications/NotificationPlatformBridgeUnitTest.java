@@ -10,31 +10,20 @@ import static org.junit.Assert.assertTrue;
 
 import android.app.Notification;
 
-import androidx.test.filters.SmallTest;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.chromium.base.test.BaseJUnit4ClassRunner;
-import org.chromium.base.test.util.Batch;
+import org.chromium.base.annotations.CalledByNative;
+import org.chromium.base.annotations.CalledByNativeJavaTest;
 import org.chromium.base.test.util.Feature;
 import org.chromium.chrome.browser.notifications.channels.ChromeChannelDefinitions;
 import org.chromium.chrome.browser.notifications.channels.SiteChannelsManager;
-import org.chromium.content_public.browser.test.NativeLibraryTestUtils;
 
 import java.util.Arrays;
 
 /**
  * Unit tests for NotificationPlatformBridge.
  */
-@RunWith(BaseJUnit4ClassRunner.class)
-@Batch(Batch.UNIT_TESTS)
 public class NotificationPlatformBridgeUnitTest {
-    @Before
-    public void setUp() {
-        NativeLibraryTestUtils.loadNativeLibraryNoBrowserProcess();
-    }
+    @CalledByNative
+    private NotificationPlatformBridgeUnitTest() {}
 
     /**
      * Verifies that the getOriginFromTag method returns the origin for valid input, and null for
@@ -43,8 +32,7 @@ public class NotificationPlatformBridgeUnitTest {
      * This is defined in functions in notification_id_generator.cc.
      */
     @Feature({"Browser", "Notifications"})
-    @SmallTest
-    @Test
+    @CalledByNativeJavaTest
     public void testGetOriginFromNotificationTag() {
         // The common case.
         assertEquals("https://example.com",
@@ -73,8 +61,7 @@ public class NotificationPlatformBridgeUnitTest {
      * and null for any other channel or a null channel id.
      */
     @Feature({"Browser", "Notifications"})
-    @SmallTest
-    @Test
+    @CalledByNativeJavaTest
     public void testGetOriginFromChannelId() {
         // Returns the expected origin for a channel id associated with a particular origin.
         assertEquals("https://example.com",
@@ -95,8 +82,7 @@ public class NotificationPlatformBridgeUnitTest {
      * Verifies that the makeDefaults method returns the generated notification defaults.
      */
     @Feature({"Browser", "Notifications"})
-    @SmallTest
-    @Test
+    @CalledByNativeJavaTest
     public void testMakeDefaults() {
         // 0 should be returned if pattern length is 0, silent is true, and vibration is enabled.
         assertEquals(0, NotificationPlatformBridge.makeDefaults(0, true, true));
@@ -122,8 +108,7 @@ public class NotificationPlatformBridgeUnitTest {
      * in Android notification.
      */
     @Feature({"Browser", "Notifications"})
-    @SmallTest
-    @Test
+    @CalledByNativeJavaTest
     public void testMakeVibrationPattern() {
         assertTrue(Arrays.equals(new long[] {0, 100, 200, 300},
                 NotificationPlatformBridge.makeVibrationPattern(new int[] {100, 200, 300})));

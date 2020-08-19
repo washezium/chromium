@@ -18,21 +18,14 @@ import static org.mockito.Mockito.when;
 
 import android.text.TextUtils;
 
-import androidx.test.filters.SmallTest;
-
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import org.chromium.base.annotations.CalledByNative;
+import org.chromium.base.annotations.CalledByNativeJavaTest;
 import org.chromium.base.task.TaskRunner;
-import org.chromium.base.test.BaseJUnit4ClassRunner;
-import org.chromium.base.test.UiThreadTest;
-import org.chromium.base.test.util.Batch;
 import org.chromium.base.test.util.Feature;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.browser.tab.TabImpl;
@@ -43,7 +36,6 @@ import org.chromium.chrome.browser.tabmodel.TabPersistentStore.TabPersistentStor
 import org.chromium.chrome.browser.tabmodel.TabPersistentStore.TabRestoreDetails;
 import org.chromium.components.embedder_support.util.UrlConstants;
 import org.chromium.content_public.browser.LoadUrlParams;
-import org.chromium.content_public.browser.test.NativeLibraryTestUtils;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
 
 import java.io.IOException;
@@ -53,8 +45,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Unit tests for the tab persistent store logic.
  */
-@RunWith(BaseJUnit4ClassRunner.class)
-@Batch(Batch.UNIT_TESTS)
 public class TabPersistentStoreUnitTest {
     private static final Integer REGULAR_TAB_ID_1 = 1;
     private static final Integer INCOGNITO_TAB_ID_1 = 21;
@@ -91,11 +81,12 @@ public class TabPersistentStoreUnitTest {
 
     private TabPersistentStore mPersistentStore;
 
-    @Before
+    @CalledByNative
+    private TabPersistentStoreUnitTest() {}
+
+    @CalledByNative
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        NativeLibraryTestUtils.loadNativeLibraryNoBrowserProcess();
 
         when(mIncognitoTabModel.isIncognito()).thenReturn(true);
         when(mTabModelSelector.getModel(false)).thenReturn(mNormalTabModel);
@@ -110,18 +101,17 @@ public class TabPersistentStoreUnitTest {
         when(mPersistencePolicy.performInitialization(any(TaskRunner.class))).thenReturn(false);
     }
 
-    @After
+    @CalledByNative
     public void tearDown() throws Exception {
         // Flush pending PersistentStore tasks.
         final AtomicBoolean flushed = new AtomicBoolean(false);
         if (mPersistentStore != null) {
             mPersistentStore.getTaskRunnerForTests().postTask(() -> { flushed.set(true); });
-            CriteriaHelper.pollUiThread(() -> flushed.get());
+            CriteriaHelper.pollUiThreadNested(() -> flushed.get());
         }
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testNtpSaveBehavior() {
         when(mNormalTabModel.index()).thenReturn(TabList.INVALID_TAB_INDEX);
@@ -172,8 +162,7 @@ public class TabPersistentStoreUnitTest {
         assertTrue(mPersistentStore.isTabPendingSave(ntpWithAllTheNavsTab));
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testNotActiveEmptyNtpIgnoredDuringRestore() {
         mPersistentStore = new TabPersistentStore(
@@ -187,8 +176,7 @@ public class TabPersistentStoreUnitTest {
         verifyZeroInteractions(mNormalTabCreator);
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testActiveEmptyNtpNotIgnoredDuringRestore() {
         when(mTabModelSelector.isIncognitoSelected()).thenReturn(false);
@@ -213,8 +201,7 @@ public class TabPersistentStoreUnitTest {
                         eq(TabLaunchType.FROM_RESTORE), (Tab) isNull());
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testNtpFromMergeWithNoStateNotIgnoredDuringMerge() {
         when(mTabModelSelector.isIncognitoSelected()).thenReturn(false);
@@ -245,8 +232,7 @@ public class TabPersistentStoreUnitTest {
                         eq(TabLaunchType.FROM_RESTORE), (Tab) isNull());
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testNtpWithStateNotIgnoredDuringRestore() {
         mPersistentStore = new TabPersistentStore(
@@ -261,8 +247,7 @@ public class TabPersistentStoreUnitTest {
         verify(mNormalTabCreator).createFrozenTab(eq(ntpState), eq(1), anyInt());
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testActiveEmptyIncognitoNtpNotIgnoredDuringRestore() {
         when(mTabModelSelector.isIncognitoSelected()).thenReturn(true);
@@ -287,8 +272,7 @@ public class TabPersistentStoreUnitTest {
                         eq(TabLaunchType.FROM_RESTORE), (Tab) isNull());
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testNotActiveIncognitoNtpIgnoredDuringRestore() {
         mPersistentStore = new TabPersistentStore(
@@ -302,8 +286,7 @@ public class TabPersistentStoreUnitTest {
         verifyZeroInteractions(mIncognitoTabCreator);
     }
 
-    @Test
-    @SmallTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testActiveEmptyIncognitoNtpIgnoredDuringRestoreIfIncognitoLoadingIsDisabled() {
         mPersistentStore = new TabPersistentStore(
@@ -317,9 +300,7 @@ public class TabPersistentStoreUnitTest {
         verifyZeroInteractions(mIncognitoTabCreator);
     }
 
-    @Test
-    @SmallTest
-    @UiThreadTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testSerializeTabModelSelector() throws IOException {
         setupSerializationTestMocks();
@@ -342,9 +323,7 @@ public class TabPersistentStoreUnitTest {
                 metadata.incognitoModelMetadata.urls.get(1));
     }
 
-    @Test
-    @SmallTest
-    @UiThreadTest
+    @CalledByNativeJavaTest
     @Feature("TabPersistentStore")
     public void testSerializeTabModelSelector_tabsBeingRestored() throws IOException {
         setupSerializationTestMocks();

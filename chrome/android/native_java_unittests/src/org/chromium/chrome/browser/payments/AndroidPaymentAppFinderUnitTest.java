@@ -13,20 +13,12 @@ import android.content.pm.ServiceInfo;
 import android.content.pm.Signature;
 import android.os.Bundle;
 
-import androidx.test.filters.SmallTest;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import org.chromium.base.test.BaseJUnit4ClassRunner;
-import org.chromium.base.test.UiThreadTest;
-import org.chromium.base.test.util.Batch;
-import org.chromium.chrome.test.ChromeBrowserTestRule;
+import org.chromium.base.annotations.CalledByNative;
+import org.chromium.base.annotations.CalledByNativeJavaTest;
 import org.chromium.components.payments.PackageManagerDelegate;
 import org.chromium.components.payments.PaymentApp;
 import org.chromium.components.payments.PaymentAppFactoryParams;
@@ -35,7 +27,6 @@ import org.chromium.components.payments.PaymentManifestParser;
 import org.chromium.components.payments.PaymentManifestWebDataService;
 import org.chromium.components.payments.WebAppManifestSection;
 import org.chromium.content_public.browser.WebContents;
-import org.chromium.content_public.browser.test.NativeLibraryTestUtils;
 import org.chromium.payments.mojom.PaymentDetailsModifier;
 import org.chromium.payments.mojom.PaymentMethodData;
 import org.chromium.url.GURL;
@@ -47,21 +38,12 @@ import java.util.List;
 import java.util.Map;
 
 /** Tests for the native Android payment app finder. */
-@RunWith(BaseJUnit4ClassRunner.class)
-@Batch(AndroidPaymentAppFinderUnitTest.PAYMENTS_BROWSER_UNIT_TESTS)
 public class AndroidPaymentAppFinderUnitTest {
-    // Collection of payments unit tests that require the browser process to be initialized.
-    static final String PAYMENTS_BROWSER_UNIT_TESTS = "PaymentsBrowserUnitTests";
     private static final IntentArgumentMatcher sPayIntentArgumentMatcher =
             new IntentArgumentMatcher(new Intent("org.chromium.intent.action.PAY"));
 
-    @Rule
-    public ChromeBrowserTestRule mTestRule = new ChromeBrowserTestRule();
-
-    @Before
-    public void setUp() {
-        NativeLibraryTestUtils.loadNativeLibraryAndInitBrowserProcess();
-    }
+    @CalledByNative
+    private AndroidPaymentAppFinderUnitTest() {}
 
     /**
      * Argument matcher that matches Intents using |filterEquals| method.
@@ -126,9 +108,7 @@ public class AndroidPaymentAppFinderUnitTest {
         Mockito.verify(delegate).onDoneCreatingPaymentApps(/*factory=*/null);
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testNoValidPaymentMethodNames() {
         verifyNoAppsFound(findApps(new String[] {"unknown-payment-method-name",
                                            "http://not.secure.payment.method.name.com", "https://"},
@@ -137,9 +117,7 @@ public class AndroidPaymentAppFinderUnitTest {
                 Mockito.mock(PackageManagerDelegate.class)));
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryWithoutApps() {
         PackageManagerDelegate packageManagerDelegate = Mockito.mock(PackageManagerDelegate.class);
         Mockito.when(packageManagerDelegate.getActivitiesThatCanRespondToIntentWithMetaData(
@@ -155,9 +133,7 @@ public class AndroidPaymentAppFinderUnitTest {
                         ArgumentMatchers.any(ApplicationInfo.class), ArgumentMatchers.anyInt());
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryWithoutMetaData() {
         List<ResolveInfo> activities = new ArrayList<>();
         ResolveInfo alicePay = new ResolveInfo();
@@ -182,9 +158,7 @@ public class AndroidPaymentAppFinderUnitTest {
                         ArgumentMatchers.any(ApplicationInfo.class), ArgumentMatchers.anyInt());
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryWithoutLabel() {
         List<ResolveInfo> activities = new ArrayList<>();
         ResolveInfo alicePay = new ResolveInfo();
@@ -212,9 +186,7 @@ public class AndroidPaymentAppFinderUnitTest {
                         ArgumentMatchers.any(ApplicationInfo.class), ArgumentMatchers.anyInt());
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryUnsupportedPaymentMethod() {
         PackageManagerDelegate packageManagerDelegate = installPaymentApps(
                 new String[] {"com.alicepay.app"}, new String[] {"unsupported-payment-method"});
@@ -254,9 +226,7 @@ public class AndroidPaymentAppFinderUnitTest {
         return packageManagerDelegate;
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryDifferentPaymentMethod() {
         PackageManagerDelegate packageManagerDelegate =
                 installPaymentApps(new String[] {"com.alicepay.app"}, new String[] {"basic-card"});
@@ -270,9 +240,7 @@ public class AndroidPaymentAppFinderUnitTest {
                         ArgumentMatchers.any(ApplicationInfo.class), ArgumentMatchers.anyInt());
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryNoPaymentMethod() {
         PackageManagerDelegate packageManagerDelegate =
                 installPaymentApps(new String[] {"com.alicepay.app"}, new String[] {"basic-card"});
@@ -285,9 +253,7 @@ public class AndroidPaymentAppFinderUnitTest {
                         ArgumentMatchers.any(ApplicationInfo.class), ArgumentMatchers.anyInt());
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryBasicCardsWithTwoApps() {
         List<ResolveInfo> activities = new ArrayList<>();
         ResolveInfo alicePay = new ResolveInfo();
@@ -348,9 +314,7 @@ public class AndroidPaymentAppFinderUnitTest {
         Mockito.verify(delegate).onDoneCreatingPaymentApps(/*factory=*/null);
     }
 
-    @SmallTest
-    @Test
-    @UiThreadTest
+    @CalledByNativeJavaTest
     public void testQueryBobPayWithOneAppThatHasIsReadyToPayService() {
         List<ResolveInfo> activities = new ArrayList<>();
         ResolveInfo bobPay = new ResolveInfo();
