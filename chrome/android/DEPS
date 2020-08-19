@@ -6,6 +6,7 @@ include_rules = [
   "+chrome/browser/fullscreen/android",
   "+chrome/browser/notifications",
   "+chrome/browser/password_manager/android",
+  "+chrome/browser/policy/android",
   "+chrome/browser/preferences/android/java",
   "+chrome/browser/safe_browsing/android",
   "+chrome/browser/safety_check/android",

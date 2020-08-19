@@ -48,7 +48,7 @@ import org.chromium.components.search_engines.TemplateUrl;
 import org.chromium.content_public.browser.UiThreadTaskTraits;
 import org.chromium.content_public.browser.test.util.Criteria;
 import org.chromium.content_public.browser.test.util.CriteriaHelper;
-import org.chromium.content_public.browser.test.util.TestThreadUtils;
+import org.chromium.policy.AbstractAppRestrictionsProvider;
 
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +95,6 @@ public class FirstRunIntegrationTest {
     public void tearDown() {
         FirstRunActivity.setEnableEnterpriseCCTForTest(false);
         FirstRunAppRestrictionInfo.setInstanceForTest(null);
-        TosAndUmaFirstRunFragmentWithEnterpriseSupport.setBlockPolicyLoadingForTest(false);
         if (mLastActivity != null) mLastActivity.finish();
     }
 
@@ -257,7 +256,9 @@ public class FirstRunIntegrationTest {
     public void testExitFirstRunWithPolicy() {
         setHasAppRestrictionForMock();
         FirstRunActivity.setEnableEnterpriseCCTForTest(true);
-        TosAndUmaFirstRunFragmentWithEnterpriseSupport.setBlockPolicyLoadingForTest(true);
+        Bundle restrictions = new Bundle();
+        restrictions.putBoolean("CCTToSDialogEnabled", false);
+        AbstractAppRestrictionsProvider.setTestRestrictions(restrictions);
 
         Intent intent =
                 CustomTabsTestUtils.createMinimalCustomTabIntent(mContext, "https://test.com");
@@ -266,19 +267,9 @@ public class FirstRunIntegrationTest {
         FirstRunActivity freActivity = waitForActivity(FirstRunActivity.class);
         CriteriaHelper.pollUiThread(
                 () -> freActivity.getSupportFragmentManager().getFragments().size() > 0);
-        TosAndUmaFirstRunFragmentWithEnterpriseSupport fragment =
-                (TosAndUmaFirstRunFragmentWithEnterpriseSupport) freActivity
-                        .getSupportFragmentManager()
-                        .getFragments()
-                        .get(0);
-
         // Make sure native is initialized so that the subseuqent transition doesn't get blocked.
         CriteriaHelper.pollUiThread((() -> freActivity.isNativeSideIsInitializedForTest()),
                 "native never initialized.");
-
-        // This policy cause the FRE to be skipped. It responds by relaunching the original intent,
-        // which should cause a {@link CustomTabActivity} because this was originally a CCT intent.
-        TestThreadUtils.runOnUiThreadBlocking(() -> fragment.onCctTosPolicyDetected(false));
 
         waitForActivity(CustomTabActivity.class);
     }
