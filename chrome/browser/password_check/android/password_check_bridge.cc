@@ -85,6 +85,7 @@ void PasswordCheckBridge::GetCompromisedCredentials(
         base::android::ConvertUTF8ToJavaString(env,
                                                credential.change_password_url),
         base::android::ConvertUTF8ToJavaString(env, credential.package_name),
+        credential.create_time.ToJavaTime(),
         (credential.compromise_type ==
          password_manager::CompromiseTypeFlags::kCredentialLeaked),
         (credential.compromise_type ==
