@@ -612,7 +612,7 @@ ci.dawn_builder(
         category = "DEPS|Linux|Builder",
         short_name = "x64",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
 )
 
 ci.dawn_builder(
@@ -622,7 +622,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Linux x64 DEPS Builder")],
 )
@@ -634,7 +634,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Linux x64 DEPS Builder")],
 )
@@ -647,7 +647,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = None,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.MAC_ANY,
 )
 
@@ -660,7 +660,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Mac x64 DEPS Builder")],
 )
@@ -672,7 +672,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Mac x64 DEPS Builder")],
 )
@@ -683,7 +683,7 @@ ci.dawn_builder(
         category = "DEPS|Windows|Builder",
         short_name = "x64",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.WINDOWS_ANY,
 )
 
@@ -694,7 +694,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Win10 x64 DEPS Builder")],
 )
@@ -706,7 +706,7 @@ ci.dawn_builder(
         short_name = "x64",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Win10 x64 DEPS Builder")],
 )
@@ -717,7 +717,7 @@ ci.dawn_builder(
         category = "DEPS|Windows|Builder",
         short_name = "x86",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.WINDOWS_ANY,
 )
 
@@ -728,7 +728,7 @@ ci.dawn_builder(
         short_name = "x86",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Win10 x86 DEPS Builder")],
 )
@@ -740,7 +740,7 @@ ci.dawn_builder(
         short_name = "x86",
     ),
     cores = 2,
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     os = os.LINUX_DEFAULT,
     triggered_by = [builder_name("Dawn Win10 x86 DEPS Builder")],
 )
@@ -750,7 +750,7 @@ ci.fyi_builder(
     console_view_entry = ci.console_view_entry(
         category = "linux",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
 )
 
 ci.fyi_ios_builder(
@@ -760,7 +760,7 @@ ci.fyi_ios_builder(
         category = "cronet",
     ),
     executable = "recipe:chromium",
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     notifies = ["cronet"],
     properties = {
         "xcode_build_version": "11e146",
@@ -961,7 +961,7 @@ ci.linux_builder(
         category = "linux",
         short_name = "loh",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name("linux-ozone-rel")],
 )
 
@@ -972,7 +972,7 @@ ci.linux_builder(
         category = "linux",
         short_name = "low",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name("linux-ozone-rel")],
 )
 
@@ -983,7 +983,7 @@ ci.linux_builder(
         category = "linux",
         short_name = "lox",
     ),
-    main_console_view = None,
+    main_console_view = main_console_if_on_branch(),
     triggered_by = [builder_name("linux-ozone-rel")],
 )
 
