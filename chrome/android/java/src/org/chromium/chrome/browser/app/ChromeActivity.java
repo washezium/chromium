@@ -425,9 +425,10 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
                 VrModuleProvider.getDelegate().maybeHandleVrIntentPreNative(this, intent);
             }
 
+            BottomContainer bottomContainer = (BottomContainer) findViewById(R.id.bottom_container);
+
             // TODO(1099750): Move this to the RootUiCoordinator.
-            mSnackbarManager = new SnackbarManager(
-                    this, findViewById(R.id.bottom_container), getWindowAndroid());
+            mSnackbarManager = new SnackbarManager(this, bottomContainer, getWindowAndroid());
             SnackbarManagerProvider.attach(getWindowAndroid(), mSnackbarManager);
 
             mAssistStatusHandler = createAssistStatusHandler();
@@ -459,7 +460,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
                         getControlContainerHeightResource());
             }
 
-            BottomContainer bottomContainer = (BottomContainer) findViewById(R.id.bottom_container);
             bottomContainer.initialize(getBrowserControlsManager(),
                     getWindowAndroid().getApplicationBottomInsetProvider());
             getLifecycleDispatcher().register(bottomContainer);
