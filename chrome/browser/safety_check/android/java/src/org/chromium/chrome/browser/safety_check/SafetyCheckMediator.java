@@ -22,6 +22,7 @@ import org.chromium.chrome.browser.flags.ChromeFeatureList;
 import org.chromium.chrome.browser.password_check.CompromisedCredential;
 import org.chromium.chrome.browser.password_check.PasswordCheck;
 import org.chromium.chrome.browser.password_check.PasswordCheckFactory;
+import org.chromium.chrome.browser.password_check.PasswordCheckReferrer;
 import org.chromium.chrome.browser.password_check.PasswordCheckUIStatus;
 import org.chromium.chrome.browser.password_manager.ManagePasswordsReferrer;
 import org.chromium.chrome.browser.password_manager.PasswordManagerHelper;
@@ -34,6 +35,8 @@ import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.PasswordsS
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.SafeBrowsingState;
 import org.chromium.chrome.browser.safety_check.SafetyCheckProperties.UpdatesState;
 import org.chromium.chrome.browser.settings.SettingsLauncher;
+import org.chromium.chrome.browser.signin.SigninActivityLauncher;
+import org.chromium.components.signin.metrics.SigninAccessPoint;
 import org.chromium.content_public.common.ContentUrlConstants;
 import org.chromium.ui.modelutil.PropertyModel;
 
@@ -57,8 +60,10 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
     private PropertyModel mModel;
     /** Client to interact with Omaha for the updates check. */
     private SafetyCheckUpdatesDelegate mUpdatesClient;
-    /** An object to interact with the password check. */
-    private PasswordCheck mPasswordCheck;
+    /** An instance of SettingsLauncher to start other activities. */
+    private SettingsLauncher mSettingsLauncher;
+    /** Client to launch a SigninActivity. */
+    private SigninActivityLauncher mSigninLauncher;
     /** Async logic for password check. */
     private boolean mShowSafePasswordState;
     private boolean mPasswordsLoaded;
@@ -110,19 +115,23 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
      * @param model A model instance.
      * @param client An updates client.
      * @param settingsLauncher An instance of the {@link SettingsLauncher} implementation.
+     * @param signinLauncher An instance implementing {@SigninActivityLauncher}.
      */
     public SafetyCheckMediator(PropertyModel model, SafetyCheckUpdatesDelegate client,
-            SettingsLauncher settingsLauncher) {
-        this(model, client, settingsLauncher, null, new Handler());
+            SettingsLauncher settingsLauncher, SigninActivityLauncher signinLauncher) {
+        this(model, client, settingsLauncher, signinLauncher, null, new Handler());
         // Have to initialize this after the constructor call, since a "this" instance is needed.
         mSafetyCheckBridge = new SafetyCheckBridge(SafetyCheckMediator.this);
     }
 
     @VisibleForTesting
     SafetyCheckMediator(PropertyModel model, SafetyCheckUpdatesDelegate client,
-            SettingsLauncher settingsLauncher, SafetyCheckBridge bridge, Handler handler) {
+            SettingsLauncher settingsLauncher, SigninActivityLauncher signinLauncher,
+            SafetyCheckBridge bridge, Handler handler) {
         mModel = model;
         mUpdatesClient = client;
+        mSettingsLauncher = settingsLauncher;
+        mSigninLauncher = signinLauncher;
         mSafetyCheckBridge = bridge;
         mHandler = handler;
         mPreferenceManager = SharedPreferencesManager.getInstance();
@@ -163,13 +172,7 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
                     return true;
                 });
         // Set the listener for clicking the passwords element.
-        mModel.set(SafetyCheckProperties.PASSWORDS_CLICK_LISTENER,
-                (Preference.OnPreferenceClickListener) (p) -> {
-                    // Open the Passwords settings.
-                    PasswordManagerHelper.showPasswordSettings(p.getContext(),
-                            ManagePasswordsReferrer.CHROME_SETTINGS, settingsLauncher);
-                    return true;
-                });
+        updatePasswordElementClickDestination();
         // Set the listener for clicking the Check button.
         mModel.set(SafetyCheckProperties.SAFETY_CHECK_BUTTON_CLICK_LISTENER,
                 (View.OnClickListener) (v) -> performSafetyCheck());
@@ -209,10 +212,9 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
         if (!mSafetyCheckBridge.userSignedIn()) {
             mLoadStage = PasswordCheckLoadStage.IDLE;
             mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.SIGNED_OUT);
+            updatePasswordElementClickDestination();
         }
-        // Refresh the PasswordCheck instance, since it's not guaranteed to be the same.
-        mPasswordCheck = PasswordCheckFactory.getOrCreate();
-        mPasswordCheck.addObserver(this, true);
+        PasswordCheckFactory.getOrCreate().addObserver(this, true);
         if (mPasswordsLoaded && mLeaksLoaded) {
             determinePasswordStateOnLoadComplete();
         }
@@ -238,14 +240,12 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
         mModel.set(SafetyCheckProperties.UPDATES_STATE, UpdatesState.CHECKING);
         // Start all the checks.
         mSafetyCheckBridge.checkSafeBrowsing();
-        // Refresh the PasswordCheck instance, since it's not guaranteed to be the same.
-        mPasswordCheck = PasswordCheckFactory.getOrCreate();
         // Start observing the password check events (including data loads).
-        mPasswordCheck.addObserver(this, false);
+        PasswordCheckFactory.getOrCreate().addObserver(this, false);
         // This indicates that the results of the initial data load should not be applied even if
         // they become available during the check.
         mLoadStage = PasswordCheckLoadStage.IDLE;
-        mPasswordCheck.startCheck();
+        PasswordCheckFactory.getOrCreate().startCheck();
         mUpdatesClient.checkForUpdates(new WeakReference(mUpdatesCheckCallback));
     }
 
@@ -303,6 +303,7 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
             mRunnablePasswords = () -> {
                 mModel.set(SafetyCheckProperties.PASSWORDS_STATE,
                         SafetyCheckProperties.passwordsStatefromErrorState(status));
+                updatePasswordElementClickDestination();
             };
             // Show the checking state for at least 1 second for a smoother UX.
             mHandler.postDelayed(mRunnablePasswords, getModelUpdateDelay());
@@ -323,11 +324,10 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
     public void destroy() {
         cancelCallbacks();
         // Refresh the ref without creating a new one.
-        mPasswordCheck = PasswordCheckFactory.getPasswordCheckInstance();
-        if (mPasswordCheck != null) {
-            mPasswordCheck.stopCheck();
-            mPasswordCheck.removeObserver(this);
-            mPasswordCheck = null;
+        PasswordCheck passwordCheck = PasswordCheckFactory.getPasswordCheckInstance();
+        if (passwordCheck != null) {
+            passwordCheck.stopCheck();
+            passwordCheck.removeObserver(this);
         }
         mSafetyCheckBridge.destroy();
         mSafetyCheckBridge = null;
@@ -356,11 +356,9 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
     private void determinePasswordStateOnLoadComplete() {
         // Nothing is blocked on data load, so ignore the load.
         if (mLoadStage == PasswordCheckLoadStage.IDLE) return;
-        // Refresh the PasswordCheck instance, since it's not guaranteed to be the same.
-        mPasswordCheck = PasswordCheckFactory.getOrCreate();
         // If something is blocked, that means the passwords check is being observed. At this point,
         // no further events need to be observed.
-        mPasswordCheck.removeObserver(this);
+        PasswordCheckFactory.getOrCreate().removeObserver(this);
         // Only delay updating the UI on the user-triggered check and not initially.
         if (mLoadStage == PasswordCheckLoadStage.INITIAL_WAIT_FOR_LOAD) {
             updatePasswordsStateOnDataLoaded();
@@ -374,7 +372,7 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
     /** Applies the results of the password check to the model. Only called when data is loaded. */
     private void updatePasswordsStateOnDataLoaded() {
         // Always display the compromised state.
-        int compromised = mPasswordCheck.getCompromisedCredentialsCount();
+        int compromised = PasswordCheckFactory.getOrCreate().getCompromisedCredentialsCount();
         if (compromised != 0) {
             mModel.set(SafetyCheckProperties.COMPROMISED_PASSWORDS, compromised);
             mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.COMPROMISED_EXIST);
@@ -382,8 +380,7 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
                 && !mShowSafePasswordState) {
             // Cannot show the safe state at the initial load if last run is older than 10 mins.
             mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.UNCHECKED);
-            mLoadStage = PasswordCheckLoadStage.IDLE;
-        } else if (mPasswordCheck.getSavedPasswordsCount() == 0) {
+        } else if (PasswordCheckFactory.getOrCreate().getSavedPasswordsCount() == 0) {
             // Can show safe state: display no passwords.
             mModel.set(SafetyCheckProperties.PASSWORDS_STATE, PasswordsState.NO_PASSWORDS);
         } else {
@@ -392,6 +389,7 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
         }
         // Nothing is blocked on this any longer.
         mLoadStage = PasswordCheckLoadStage.IDLE;
+        updatePasswordElementClickDestination();
     }
 
     /**
@@ -400,5 +398,34 @@ class SafetyCheckMediator implements PasswordCheck.Observer, SafetyCheckCommonOb
     private long getModelUpdateDelay() {
         return Math.max(
                 0, mCheckStartTime + CHECKING_MIN_DURATION_MS - SystemClock.elapsedRealtime());
+    }
+
+    /** Sets the destination of the click on the passwords element based on the current state. */
+    private void updatePasswordElementClickDestination() {
+        @PasswordsState
+        int state = mModel.get(SafetyCheckProperties.PASSWORDS_STATE);
+        Preference.OnPreferenceClickListener listener = null;
+        if (state == PasswordsState.SIGNED_OUT) {
+            listener = (p) -> {
+                // Open the sign in page.
+                mSigninLauncher.launchActivity(p.getContext(), SigninAccessPoint.SAFETY_CHECK);
+                return true;
+            };
+        } else if (state == PasswordsState.COMPROMISED_EXIST || state == PasswordsState.SAFE) {
+            listener = (p) -> {
+                // Open the Password Check UI.
+                PasswordCheckFactory.getOrCreate().showUi(
+                        p.getContext(), PasswordCheckReferrer.SAFETY_CHECK);
+                return true;
+            };
+        } else {
+            listener = (p) -> {
+                // Open the Passwords settings.
+                PasswordManagerHelper.showPasswordSettings(
+                        p.getContext(), ManagePasswordsReferrer.CHROME_SETTINGS, mSettingsLauncher);
+                return true;
+            };
+        }
+        mModel.set(SafetyCheckProperties.PASSWORDS_CLICK_LISTENER, listener);
     }
 }

@@ -16,31 +16,32 @@ import org.chromium.components.signin.metrics.SigninAccessPoint;
  * SigninActivityLauncher creates the proper intent and then launches the
  * SigninActivity in different scenarios.
  */
-public class SigninActivityLauncher {
-    private static SigninActivityLauncher sLauncher;
+public class SigninActivityLauncherImpl implements SigninActivityLauncher {
+    private static SigninActivityLauncherImpl sLauncher;
 
     /**
      * Singleton instance getter
      */
-    public static SigninActivityLauncher get() {
+    public static SigninActivityLauncherImpl get() {
         if (sLauncher == null) {
-            sLauncher = new SigninActivityLauncher();
+            sLauncher = new SigninActivityLauncherImpl();
         }
         return sLauncher;
     }
 
     @VisibleForTesting
-    public static void setLauncherForTest(@Nullable SigninActivityLauncher launcher) {
+    public static void setLauncherForTest(@Nullable SigninActivityLauncherImpl launcher) {
         sLauncher = launcher;
     }
 
-    private SigninActivityLauncher() {}
+    private SigninActivityLauncherImpl() {}
 
     /**
      * Launches the SigninActivity with default sign-in flow from personalized sign-in promo.
      * @param accessPoint {@link SigninAccessPoint} for starting sign-in flow.
      * @param accountName The account to preselect or null to preselect the default account.
      */
+    @Override
     public void launchActivityForPromoDefaultFlow(
             Context context, @SigninAccessPoint int accessPoint, String accountName) {
         launchInternal(context,
@@ -53,6 +54,7 @@ public class SigninActivityLauncher {
      * @param accessPoint {@link SigninAccessPoint} for starting sign-in flow.
      * @param accountName The account to preselect or null to preselect the default account.
      */
+    @Override
     public void launchActivityForPromoChooseAccountFlow(
             Context context, @SigninAccessPoint int accessPoint, String accountName) {
         launchInternal(context,
@@ -64,6 +66,7 @@ public class SigninActivityLauncher {
      * promo.
      * @param accessPoint {@link SigninAccessPoint} for starting sign-in flow.
      */
+    @Override
     public void launchActivityForPromoAddAccountFlow(
             Context context, @SigninAccessPoint int accessPoint) {
         launchInternal(context, SigninFragment.createArgumentsForPromoAddAccountFlow(accessPoint));
@@ -73,6 +76,7 @@ public class SigninActivityLauncher {
      * Launches the signin activity.
      * @param accessPoint {@link SigninAccessPoint} for starting sign-in flow.
      */
+    @Override
     public void launchActivity(Context context, @SigninAccessPoint int accessPoint) {
         launchInternal(context, SigninFragment.createArguments(accessPoint));
     }
