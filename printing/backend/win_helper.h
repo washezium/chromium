@@ -19,7 +19,6 @@
 #include <memory>
 #include <string>
 
-#include "base/macros.h"
 #include "base/memory/free_deleter.h"
 #include "base/strings/string16.h"
 #include "base/win/scoped_handle.h"
@@ -32,6 +31,10 @@ struct PRINTING_EXPORT PrinterBasicInfo;
 
 class PRINTING_EXPORT PrinterHandleTraits {
  public:
+  PrinterHandleTraits() = delete;
+  PrinterHandleTraits(const PrinterHandleTraits&) = delete;
+  PrinterHandleTraits& operator=(const PrinterHandleTraits&) = delete;
+
   using Handle = HANDLE;
 
   static bool CloseHandle(HANDLE handle);
@@ -39,9 +42,6 @@ class PRINTING_EXPORT PrinterHandleTraits {
   static bool IsHandleValid(HANDLE handle) { return !!handle; }
 
   static HANDLE NullHandle() { return nullptr; }
-
- private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(PrinterHandleTraits);
 };
 
 class PRINTING_EXPORT ScopedPrinterHandle
@@ -53,6 +53,11 @@ class PRINTING_EXPORT ScopedPrinterHandle
 
 class PRINTING_EXPORT PrinterChangeHandleTraits {
  public:
+  PrinterChangeHandleTraits() = delete;
+  PrinterChangeHandleTraits(const PrinterChangeHandleTraits&) = delete;
+  PrinterChangeHandleTraits& operator=(const PrinterChangeHandleTraits&) =
+      delete;
+
   using Handle = HANDLE;
 
   static bool CloseHandle(HANDLE handle);
@@ -60,9 +65,6 @@ class PRINTING_EXPORT PrinterChangeHandleTraits {
   static bool IsHandleValid(HANDLE handle) { return !!handle; }
 
   static HANDLE NullHandle() { return nullptr; }
-
- private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(PrinterChangeHandleTraits);
 };
 
 using ScopedPrinterChangeHandle =
