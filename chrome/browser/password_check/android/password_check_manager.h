@@ -100,6 +100,21 @@ class PasswordCheckManager
   PasswordCheckManager& operator=(PasswordCheckManager&&) = delete;
 
  private:
+  // Helps to track which preconditions are fulfilled.
+  enum CheckPreconditions {
+    // No preconditions have been fulfilled.
+    kNone = 0,
+    // Saved passwords can be accessed.
+    kSavedPasswordsAvailable = 1 << 0,
+    // Sites with available Scripts are fetched.
+    kScriptsCachePrewarmed = 1 << 1,
+    // Already known compromised credentials were loaded.
+    kKnownCredentialsFetched = 1 << 2,
+    // All preconditions have been fulfilled.
+    kAll = kSavedPasswordsAvailable | kScriptsCachePrewarmed |
+           kKnownCredentialsFetched,
+  };
+
   // Class remembering the state required to update the progress of an ongoing
   // Password Check.
   class PasswordCheckProgress {
@@ -175,6 +190,15 @@ class PasswordCheckManager
   // Callback when PasswordScriptsFetcher's cache has been warmed up.
   void OnScriptsFetched();
 
+  // Returns true if the passed |condition| was already met.
+  bool IsPreconditionFulfilled(CheckPreconditions condition) const;
+
+  // Marks the passed |condition| as fulfilled and runs a check if applicable.
+  void FulfillPrecondition(CheckPreconditions condition);
+
+  // Resets the passed |condition| so that it's expected to happen again.
+  void ResetPrecondition(CheckPreconditions condition);
+
   // Obsever being notified of UI-relevant events.
   // It must outlive `this`.
   Observer* observer_ = nullptr;
@@ -214,17 +238,14 @@ class PasswordCheckManager
           BulkLeakCheckServiceFactory::GetForProfile(profile_),
           profile_->GetPrefs()};
 
-  // This is true when the saved passwords have been fetched from the store.
-  bool is_initialized_ = false;
+  // The check can be run only of this is CheckPreconditions::kAll;
+  int fulfilled_preconditions_ = CheckPreconditions::kNone;
 
   // Whether the check start was requested.
   bool was_start_requested_ = false;
 
   // Whether a check is currently running.
   bool is_check_running_ = false;
-
-  // Whether scripts refreshement is finished.
-  bool are_scripts_refreshed_ = false;
 
   // Latest number of changed compromised credentials while script fetching
   // was running. If `credentials_count_to_notify_` has value, after scripts are
