@@ -67955,6 +67955,19 @@ would be helpful to identify which type is being sent.
   <int value="7" label="Favicon"/>
 </enum>
 
+<enum name="SuggestionPedalType">
+  <summary>
+    Type of pedal shown or selected in the omnibox suggestion list.
+  </summary>
+  <int value="0" label="None"/>
+  <int value="1" label="Clear browsing data"/>
+  <int value="2" label="Manage passwords"/>
+  <int value="3" label="Update credit card"/>
+  <int value="4" label="Launch incognito"/>
+  <int value="5" label="Translate"/>
+  <int value="6" label="Update Chrome"/>
+</enum>
+
 <enum name="SuggestionsResponseState">
   <int value="0" label="Empty response received from the server."/>
   <int value="1" label="Invalid response received from the server."/>
