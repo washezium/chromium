@@ -16,7 +16,7 @@
 // #import {flush} from 'chrome://resources/polymer/v3_0/polymer/polymer_bundled.min.js';
 // clang-format on
 
-suite('CrComponentsNetworkPasswordInputTest', function() {
+suite('NetworkListTest', function() {
   /** @type {!NetworkListItem|undefined} */
   let listItem;
 

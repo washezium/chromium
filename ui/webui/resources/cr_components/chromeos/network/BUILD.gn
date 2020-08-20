@@ -261,7 +261,7 @@ js_type_check("closure_compile_module") {
     ":network_icon.m",
 
     #  ":network_ip_config.m",
-    #  ":network_list.m",
+    ":network_list.m",
     ":network_list_item.m",
     ":network_list_types.m",
     ":network_listener_behavior.m",
@@ -384,7 +384,9 @@ js_library("network_ip_config.m") {
 js_library("network_list.m") {
   sources = [ "$root_gen_dir/ui/webui/resources/cr_components/chromeos/network/network_list.m.js" ]
   deps = [
-    # TODO: Fill those in.
+    "//third_party/polymer/v3_0/components-chromium/iron-list:iron-list",
+    "//third_party/polymer/v3_0/components-chromium/polymer:polymer_bundled",
+    "//ui/webui/resources/cr_elements:cr_scrollable_behavior.m",
   ]
   extra_deps = [ ":network_list_module" ]
 }
@@ -596,6 +598,7 @@ polymer_modulizer("network_list") {
   js_file = "network_list.js"
   html_file = "network_list.html"
   html_type = "dom-module"
+  auto_imports = cr_components_chromeos_auto_imports
 }
 
 polymer_modulizer("network_list_item") {
