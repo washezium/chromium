@@ -24254,6 +24254,7 @@ Called by update_extension_histograms.py.-->
   <int value="1496" label="FILEMANAGERPRIVATEINTERNAL_INVOKESHARESHEET"/>
   <int value="1497" label="FILEMANAGERPRIVATEINTERNAL_GETCONTENTMIMETYPE"/>
   <int value="1498" label="FILEMANAGERPRIVATEINTERNAL_GETCONTENTMETADATA"/>
+  <int value="1499" label="SEARCH_QUERY"/>
 </enum>
 
 <enum name="ExtensionIconState">
@@ -24615,7 +24616,8 @@ Called by update_extension_histograms.py.-->
 </enum>
 
 <enum name="ExtensionPermission3">
-<!-- Generated from extensions/common/permissions/api_permission.h.-->
+<!-- Generated from extensions/common/permissions/api_permission.h.
+Called by update_extension_permission.py.-->
 
   <int value="0" label="kInvalid"/>
   <int value="1" label="kUnknown"/>
@@ -24773,7 +24775,7 @@ Called by update_extension_histograms.py.-->
   <int value="153" label="kWallpaper"/>
   <int value="154" label="kWallpaperPrivate"/>
   <int value="155" label="kWebcamPrivate"/>
-  <int value="156" label="kWebConnectable"/>
+  <int value="156" label="kDeleted_kWebConnectable"/>
   <int value="157" label="kWebNavigation"/>
   <int value="158" label="kWebRequest"/>
   <int value="159" label="kWebRequestBlocking"/>
@@ -24845,6 +24847,7 @@ Called by update_extension_histograms.py.-->
   <int value="225" label="kCrashReportPrivate"/>
   <int value="226" label="kAutofillAssistantPrivate"/>
   <int value="227" label="kEnterpriseNetworkingAttributes"/>
+  <int value="228" label="kSearch"/>
 </enum>
 
 <enum name="ExtensionPolicyReinstallReason">
