@@ -76,6 +76,7 @@
 #include "third_party/blink/renderer/core/html/media/media_fragment_uri_parser.h"
 #include "third_party/blink/renderer/core/html/media/media_source.h"
 #include "third_party/blink/renderer/core/html/media/media_source_attachment.h"
+#include "third_party/blink/renderer/core/html/media/media_source_tracer.h"
 #include "third_party/blink/renderer/core/html/time_ranges.h"
 #include "third_party/blink/renderer/core/html/track/audio_track.h"
 #include "third_party/blink/renderer/core/html/track/audio_track_list.h"
@@ -1196,12 +1197,14 @@ void HTMLMediaElement::LoadResource(const WebMediaPlayerSource& source,
   SetPlayerPreload();
 
   DCHECK(!media_source_);
+  DCHECK(!media_source_tracer_);
 
   bool attempt_load = true;
 
   media_source_ = MediaSourceAttachment::LookupMediaSource(url.GetString());
   if (media_source_) {
-    if (media_source_->StartAttachingToMediaElement(this)) {
+    media_source_tracer_ = media_source_->StartAttachingToMediaElement(this);
+    if (media_source_tracer_) {
       // If the associated feature is enabled, auto-revoke the MediaSource
       // object URL that was used for attachment on successful (start of)
       // attachment. This can help reduce memory bloat later if the app does not
@@ -2633,6 +2636,7 @@ void HTMLMediaElement::CloseMediaSource() {
 
   media_source_->Close();
   media_source_ = nullptr;
+  media_source_tracer_ = nullptr;
 }
 
 bool HTMLMediaElement::Loop() const {
@@ -4057,6 +4061,7 @@ void HTMLMediaElement::Trace(Visitor* visitor) const {
   visitor->Trace(current_source_node_);
   visitor->Trace(next_child_node_to_consider_);
   visitor->Trace(media_source_);
+  visitor->Trace(media_source_tracer_);
   visitor->Trace(audio_tracks_);
   visitor->Trace(video_tracks_);
   visitor->Trace(cue_timeline_);

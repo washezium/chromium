@@ -66,6 +66,7 @@ class EventQueue;
 class ExceptionState;
 class HTMLMediaElementControlsList;
 class MediaSource;
+class MediaSourceTracer;
 class HTMLSourceElement;
 class HTMLTrackElement;
 class MediaError;
@@ -631,6 +632,7 @@ class CORE_EXPORT HTMLMediaElement
   cc::Layer* cc_layer_;
 
   Member<MediaSource> media_source_;
+  Member<MediaSourceTracer> media_source_tracer_;
 
   // Stores "official playback position", updated periodically from "current
   // playback position". Official playback position should not change while
