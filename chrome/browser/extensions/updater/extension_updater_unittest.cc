@@ -17,7 +17,6 @@
 #include "base/bind.h"
 #include "base/bind_helpers.h"
 #include "base/command_line.h"
-#include "base/compiler_specific.h"
 #include "base/files/file_util.h"
 #include "base/memory/weak_ptr.h"
 #include "base/run_loop.h"
@@ -173,6 +172,8 @@ class NotificationsObserver : public content::NotificationObserver {
                      content::NotificationService::AllSources());
     }
   }
+  NotificationsObserver(const NotificationsObserver&) = delete;
+  NotificationsObserver& operator=(const NotificationsObserver&) = delete;
 
   ~NotificationsObserver() override {
     for (size_t i = 0; i < base::size(kNotificationsObserved); ++i) {
@@ -219,8 +220,6 @@ class NotificationsObserver : public content::NotificationObserver {
   size_t count_[base::size(kNotificationsObserved)];
   std::set<std::string> updated_;
   base::OnceClosure quit_closure_;
-
-  DISALLOW_COPY_AND_ASSIGN(NotificationsObserver);
 };
 
 // Extracts the integer value of the |authuser| query parameter. Returns 0 if
