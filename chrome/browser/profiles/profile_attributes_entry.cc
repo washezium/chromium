@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include <utility>
+#include <vector>
 
 #include "base/hash/hash.h"
 #include "base/logging.h"
@@ -133,10 +134,7 @@ void ProfileAttributesEntry::RegisterLocalStatePrefs(
   registry->RegisterIntegerPref(kNextMetricsBucketIndex, 1);
 }
 
-ProfileAttributesEntry::ProfileAttributesEntry()
-    : profile_info_cache_(nullptr),
-      prefs_(nullptr),
-      profile_path_(base::FilePath()) {}
+ProfileAttributesEntry::ProfileAttributesEntry() = default;
 
 void ProfileAttributesEntry::Initialize(ProfileInfoCache* cache,
                                         const base::FilePath& path,
