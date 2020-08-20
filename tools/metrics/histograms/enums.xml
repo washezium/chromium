@@ -4346,6 +4346,37 @@ Unknown properties are collapsed to zero. -->
   <int value="3" label="Already installed"/>
 </enum>
 
+<enum name="AutofillAssistantLiteScriptFinished">
+  <int value="0" label="Unknown failure"/>
+  <int value="1" label="Service deleted"/>
+  <int value="2" label="Script path mismatch"/>
+  <int value="3" label="GetActions failed"/>
+  <int value="4" label="Proto parse error"/>
+  <int value="5" label="Script contained unsafe actions"/>
+  <int value="6" label="Invalid script"/>
+  <int value="7" label="Navigation to external domain while in BROWSE"/>
+  <int value="8" label="Unknown failure in BROWSE"/>
+  <int value="9" label="Navigation to external domain while in PROMPT"/>
+  <int value="10" label="PROMPT condition no longer true"/>
+  <int value="11" label="User explicitly canceled the PROMPT"/>
+  <int value="12" label="Unknown failure in PROMPT"/>
+  <int value="13" label="User explicitly accepted the PROMPT"/>
+</enum>
+
+<enum name="AutofillAssistantLiteScriptOnboarding">
+  <int value="0" label="Seen and accepted"/>
+  <int value="1" label="Seen and rejected"/>
+  <int value="2" label="Already accepted"/>
+</enum>
+
+<enum name="AutofillAssistantLiteScriptStarted">
+  <int value="0" label="DFM unavailable"/>
+  <int value="1" label="Canceled &gt;= 2 times"/>
+  <int value="2" label="Onboarding rejected"/>
+  <int value="3" label="Success, first time user"/>
+  <int value="4" label="Success, returning user"/>
+</enum>
+
 <enum name="AutofillAssistantOnBoarding">
   <int value="0" label="Shown"/>
   <int value="1" label="Not shown (returning user)"/>

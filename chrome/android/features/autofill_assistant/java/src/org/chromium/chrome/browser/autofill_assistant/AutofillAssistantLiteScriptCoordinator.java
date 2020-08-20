@@ -57,7 +57,8 @@ class AutofillAssistantLiteScriptCoordinator {
 
     private void handleLiteScriptResult(
             @LiteScriptFinishedState int finishedState, Callback<Boolean> onFinishedCallback) {
-        // TODO(arbesser) add UKM metric for state.
+        AutofillAssistantMetrics.recordLiteScriptFinished(mWebContents, finishedState);
+
         // TODO(arbesser) restart lite script on LITE_SCRIPT_BROWSE_FAILED_NAVIGATE.
         switch (finishedState) {
             case LiteScriptFinishedState.LITE_SCRIPT_UNKNOWN_FAILURE:
