@@ -16041,6 +16041,11 @@ metrics consent we also won't be able to send UMA metrics. -->
   <int value="7" label="Periodic Background Sync"/>
 </enum>
 
+<enum name="DevToolsColorPickerFixedColor">
+  <int value="0" label="AA"/>
+  <int value="1" label="AAA"/>
+</enum>
+
 <enum name="DevToolsDualScreenDeviceEmulated">
   <int value="0" label="Dual-screen or fold device selected"/>
   <int value="1" label="Dual-screen span mode selected"/>
