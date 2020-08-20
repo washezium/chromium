@@ -2,18 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'chrome://new-tab-page/new_tab_page.js';
+import {CrGridElement} from 'chrome://resources/cr_elements/cr_grid/cr_grid.js';
+import {getDeepActiveElement} from 'chrome://resources/js/util.m.js';
+import {keyDownOn} from 'chrome://resources/polymer/v3_0/iron-test-helpers/mock-interactions.js';
 
-import {assertFocus, keydown} from 'chrome://test/new_tab_page/test_support.js';
-import {eventToPromise} from 'chrome://test/test_util.m.js';
+import {assertEquals} from '../chai_assert.js';
+import {eventToPromise} from '../test_util.m.js';
 
-suite('NewTabPageGridFocusTest', () => {
+suite('CrElementsGridFocusTest', () => {
   /**
    * @param {number} size
-   * @returns {!GridElement}
+   * @return {!CrGridElement}
    */
   function createGrid(size) {
-    const grid = document.createElement('ntp-grid');
+    const grid =
+        /** @type {!CrGridElement} */ (document.createElement('cr-grid'));
     for (let i = 0; i < size; i++) {
       const div = document.createElement('div');
       div.tabIndex = '0';
@@ -25,8 +28,24 @@ suite('NewTabPageGridFocusTest', () => {
     return grid;
   }
 
+  /**
+   * Asserts that an element is focused.
+   * @param {!Element} element The element to test.
+   */
+  function assertFocus(element) {
+    assertEquals(element, getDeepActiveElement());
+  }
+
+  /**
+   * @param {!Element} element
+   * @param {string} key
+   */
+  function keydown(element, key) {
+    keyDownOn(element, 0, [], key);
+  }
+
   setup(() => {
-    PolymerTest.clearBody();
+    document.body.innerHTML = '';
   });
 
   test('right focuses right item', () => {

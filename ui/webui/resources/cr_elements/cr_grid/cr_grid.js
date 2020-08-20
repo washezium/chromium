@@ -6,9 +6,9 @@ import {html, PolymerElement} from 'chrome://resources/polymer/v3_0/polymer/poly
 
 // Displays children in a two-dimensional grid and supports focusing children
 // with arrow keys.
-class GridElement extends PolymerElement {
+export class CrGridElement extends PolymerElement {
   static get is() {
-    return 'ntp-grid';
+    return 'cr-grid';
   }
 
   static get template() {
@@ -21,8 +21,14 @@ class GridElement extends PolymerElement {
       columns: {
         type: Number,
         value: 1,
+        observer: 'onColumnsChange_',
       },
     };
+  }
+
+  /** @private */
+  onColumnsChange_() {
+    this.updateStyles({'--cr-grid-columns': this.columns});
   }
 
   /**
@@ -79,4 +85,4 @@ class GridElement extends PolymerElement {
   }
 }
 
-customElements.define(GridElement.is, GridElement);
+customElements.define(CrGridElement.is, CrGridElement);
