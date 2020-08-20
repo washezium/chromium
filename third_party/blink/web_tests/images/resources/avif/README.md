@@ -60,6 +60,11 @@ avifenc -r f -d 10 -y 444 -s 0 --nclx 9/18/9 red.png red-full-range-bt2020-hlg-4
 avifenc -r f -d 10 -y 444 -s 0 --nclx 9/18/9 red.png red-full-range-bt2020-hlg-444-12bpc.avif
 ```
 
+Unspecified color primaries, transfer characteristics, and matrix coefficients:
+```
+avifenc -r f -d  8 -y 420 -s 0 --nclx 2/2/2 red.png red-full-range-unspecified-420-8bpc.avif
+```
+
 ### silver-full-range-srgb-420-8bpc.avif
 This is generated from silver.png (3x3 rgb(192, 192, 192)) with the appropriate
 avifenc command line:
