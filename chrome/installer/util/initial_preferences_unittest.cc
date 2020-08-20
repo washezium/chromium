@@ -4,7 +4,7 @@
 //
 // Unit tests for master preferences related methods.
 
-#include "chrome/installer/util/master_preferences.h"
+#include "chrome/installer/util/initial_preferences.h"
 
 #include <stddef.h>
 
@@ -17,7 +17,7 @@
 #include "base/values.h"
 #include "chrome/common/chrome_paths.h"
 #include "chrome/common/pref_names.h"
-#include "chrome/installer/util/master_preferences_constants.h"
+#include "chrome/installer/util/initial_preferences_constants.h"
 #include "chrome/installer/util/util_constants.h"
 #include "rlz/buildflags/buildflags.h"
 #include "testing/gtest/include/gtest/gtest.h"

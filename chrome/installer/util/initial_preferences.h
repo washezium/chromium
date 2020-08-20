@@ -5,8 +5,8 @@
 // This file contains functions processing master preference file used by
 // setup and first run.
 
-#ifndef CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_H_
-#define CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_H_
+#ifndef CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_H_
+#define CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_H_
 
 #include <memory>
 #include <string>
@@ -205,4 +205,4 @@ using InitialPreferences = MasterPreferences;
 
 }  // namespace installer
 
-#endif  // CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_H_
+#endif  // CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_H_

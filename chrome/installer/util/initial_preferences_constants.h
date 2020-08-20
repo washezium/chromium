@@ -5,8 +5,8 @@
 // This file contains the constants used to process master_preferences files
 // used by setup and first run.
 
-#ifndef CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_CONSTANTS_H_
-#define CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_CONSTANTS_H_
+#ifndef CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_CONSTANTS_H_
+#define CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_CONSTANTS_H_
 
 namespace installer {
 namespace master_preferences {
@@ -67,4 +67,4 @@ extern const char kAllowDowngrade[];
 }  // namespace master_preferences
 }  // namespace installer
 
-#endif  // CHROME_INSTALLER_UTIL_MASTER_PREFERENCES_CONSTANTS_H_
+#endif  // CHROME_INSTALLER_UTIL_INITIAL_PREFERENCES_CONSTANTS_H_
