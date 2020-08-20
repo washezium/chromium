@@ -470,7 +470,7 @@ def builder(
 
     if builder_group != None:
         properties["builder_group"] = builder_group
-    if mastername != None:
+    elif mastername != None:
         properties["mastername"] = mastername
 
     pool = defaults.get_value("pool", pool)
