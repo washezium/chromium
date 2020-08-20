@@ -2,35 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "third_party/blink/renderer/core/layout/ng/inline/ng_line_height_metrics.h"
-
-#include "third_party/blink/renderer/core/style/computed_style.h"
+#include "third_party/blink/renderer/platform/fonts/font_height.h"
 
 namespace blink {
-
-FontHeight::FontHeight(const ComputedStyle& style, FontBaseline baseline_type) {
-  const SimpleFontData* font_data = style.GetFont().PrimaryFont();
-  DCHECK(font_data);
-  // TODO(kojii): This should not be null, but it happens. Avoid crash for now.
-  if (font_data)
-    Initialize(font_data->GetFontMetrics(), baseline_type);
-}
-
-FontHeight::FontHeight(const ComputedStyle& style)
-    : FontHeight(style, style.GetFontBaseline()) {}
-
-FontHeight::FontHeight(const FontMetrics& font_metrics,
-                       FontBaseline baseline_type) {
-  Initialize(font_metrics, baseline_type);
-}
-
-void FontHeight::Initialize(const FontMetrics& font_metrics,
-                            FontBaseline baseline_type) {
-  // TODO(kojii): In future, we'd like to use LayoutUnit metrics to support
-  // sub-CSS-pixel layout.
-  ascent = LayoutUnit(font_metrics.Ascent(baseline_type));
-  descent = LayoutUnit(font_metrics.Descent(baseline_type));
-}
 
 void FontHeight::AddLeading(LayoutUnit line_height) {
   DCHECK(!IsEmpty());

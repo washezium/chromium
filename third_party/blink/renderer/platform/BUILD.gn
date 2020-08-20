@@ -587,6 +587,8 @@ component("platform") {
     "fonts/font_family.h",
     "fonts/font_global_context.cc",
     "fonts/font_global_context.h",
+    "fonts/font_height.cc",
+    "fonts/font_height.h",
     "fonts/font_invalidation_reason.h",
     "fonts/font_matching_metrics.cc",
     "fonts/font_matching_metrics.h",
