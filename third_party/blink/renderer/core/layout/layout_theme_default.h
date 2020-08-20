@@ -44,8 +44,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
 
   Color SystemColor(CSSValueID, WebColorScheme color_scheme) const override;
 
-  bool ThemeDrawsFocusRing(const ComputedStyle&) const override;
-
   // List Box selection color
   virtual Color ActiveListBoxSelectionBackgroundColor(
       WebColorScheme color_scheme) const;

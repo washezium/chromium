@@ -427,8 +427,6 @@ bool LayoutTheme::IsControlStyled(ControlPart part,
 
 bool LayoutTheme::ShouldDrawDefaultFocusRing(const Node* node,
                                              const ComputedStyle& style) const {
-  if (ThemeDrawsFocusRing(style))
-    return false;
   if (!node)
     return true;
   if (!style.HasEffectiveAppearance() && !node->IsLink())

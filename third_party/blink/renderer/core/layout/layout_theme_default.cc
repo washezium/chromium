@@ -59,11 +59,6 @@ LayoutThemeDefault::LayoutThemeDefault() : LayoutTheme(), painter_(*this) {
 
 LayoutThemeDefault::~LayoutThemeDefault() = default;
 
-bool LayoutThemeDefault::ThemeDrawsFocusRing(const ComputedStyle& style) const {
-  // This causes Blink to draw the focus rings for us.
-  return false;
-}
-
 Color LayoutThemeDefault::SystemColor(CSSValueID css_value_id,
                                       WebColorScheme color_scheme) const {
   constexpr Color kDefaultButtonGrayColor(0xffdddddd);

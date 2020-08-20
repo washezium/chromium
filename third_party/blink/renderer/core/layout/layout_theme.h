@@ -227,8 +227,6 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
   virtual Color PlatformInactiveListBoxSelectionForegroundColor(
       WebColorScheme color_scheme) const;
 
-  virtual bool ThemeDrawsFocusRing(const ComputedStyle&) const = 0;
-
   // Methods for each appearance value.
   virtual void AdjustCheckboxStyle(ComputedStyle&) const;
   virtual void SetCheckboxSize(ComputedStyle&) const {}
