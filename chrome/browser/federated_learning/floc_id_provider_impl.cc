@@ -44,6 +44,7 @@ FlocIdProviderImpl::FlocIdProviderImpl(
       floc_remote_permission_service_(floc_remote_permission_service),
       history_service_(history_service),
       user_event_service_(user_event_service) {
+  history_service->AddObserver(this);
   sync_service_->AddObserver(this);
   OnStateChanged(sync_service);
 }
@@ -61,10 +62,21 @@ void FlocIdProviderImpl::NotifyFlocUpdated(ComputeFlocTrigger trigger) {
   sync_pb::UserEventSpecifics_FlocIdComputed* const floc_id_computed_event =
       specifics->mutable_floc_id_computed_event();
 
-  sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger event_trigger =
-      (trigger == ComputeFlocTrigger::kBrowserStart)
-          ? sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger_NEW
-          : sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger_REFRESHED;
+  sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger event_trigger;
+  switch (trigger) {
+    case ComputeFlocTrigger::kBrowserStart:
+      event_trigger =
+          sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger_NEW;
+      break;
+    case ComputeFlocTrigger::kScheduledUpdate:
+      event_trigger =
+          sync_pb::UserEventSpecifics_FlocIdComputed_EventTrigger_REFRESHED;
+      break;
+    case ComputeFlocTrigger::kHistoryDelete:
+      event_trigger = sync_pb::
+          UserEventSpecifics_FlocIdComputed_EventTrigger_HISTORY_DELETE;
+      break;
+  }
 
   floc_id_computed_event->set_event_trigger(event_trigger);
 
@@ -133,9 +145,22 @@ void FlocIdProviderImpl::IsSwaaNacAccountEnabled(
 }
 
 void FlocIdProviderImpl::Shutdown() {
-  if (sync_service_ && sync_service_->HasObserver(this))
+  if (sync_service_)
     sync_service_->RemoveObserver(this);
   sync_service_ = nullptr;
+
+  if (history_service_)
+    history_service_->RemoveObserver(this);
+  history_service_ = nullptr;
+}
+
+void FlocIdProviderImpl::OnURLsDeleted(
+    history::HistoryService* history_service,
+    const history::DeletionInfo& deletion_info) {
+  if (!first_floc_computation_triggered_ || !floc_id_.IsValid())
+    return;
+
+  ComputeFloc(ComputeFlocTrigger::kHistoryDelete);
 }
 
 void FlocIdProviderImpl::OnStateChanged(syncer::SyncService* sync_service) {
@@ -155,7 +180,15 @@ void FlocIdProviderImpl::ComputeFloc(ComputeFlocTrigger trigger) {
   DCHECK(trigger != ComputeFlocTrigger::kBrowserStart ||
          !floc_computation_in_progress_);
 
-  // Skip computing as long as there's one still in progress.
+  // It's fine to skip computing as long as there's one in progress:
+  // 1) If the incoming computation was triggered by history deletion, then the
+  //    in-progress one must haven't got its history query result (if it would
+  //    reach that stage), so the history query result wouldn't contain the
+  //    deleted entries anyway.
+  // 2) If the incoming computation was triggered by scheduled update and is
+  //    ignored, we won't be losing the recomputing frequency, as the
+  //    in-progress one only occurs sooner and when it finishes a new
+  //    compute-floc task will be scheduled.
   if (floc_computation_in_progress_)
     return;
 

@@ -39,13 +39,17 @@ class FlocRemotePermissionService;
 // given.
 //
 // The floc will be first computed after sync & sync-history are enabled. After
-// each computation, another computation will be scheduled 24 hours later.
+// each computation, another computation will be scheduled 24 hours later. In
+// the event of history deletion, the floc will be recomputed immediately and
+// reset the timer of any currently scheduled computation to be 24 hours later.
 class FlocIdProviderImpl : public FlocIdProvider,
+                           public history::HistoryServiceObserver,
                            public syncer::SyncServiceObserver {
  public:
   enum class ComputeFlocTrigger {
     kBrowserStart,
     kScheduledUpdate,
+    kHistoryDelete,
   };
 
   using CanComputeFlocCallback = base::OnceCallback<void(bool)>;
@@ -76,6 +80,13 @@ class FlocIdProviderImpl : public FlocIdProvider,
 
   // KeyedService:
   void Shutdown() override;
+
+  // history::HistoryServiceObserver
+  //
+  // On history deletion, recompute the floc if the current floc is speculated
+  // to be derived from the deleted history.
+  void OnURLsDeleted(history::HistoryService* history_service,
+                     const history::DeletionInfo& deletion_info) override;
 
   // syncer::SyncServiceObserver:
   void OnStateChanged(syncer::SyncService* sync_service) override;
