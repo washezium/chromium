@@ -937,6 +937,9 @@ extern const char kOmniboxSuggestionsWrapAroundDescription[];
 extern const char kOmniboxTabSwitchSuggestionsName[];
 extern const char kOmniboxTabSwitchSuggestionsDescription[];
 
+extern const char kOmniboxTrendingZeroPrefixSuggestionsOnNTPName[];
+extern const char kOmniboxTrendingZeroPrefixSuggestionsOnNTPDescription[];
+
 extern const char kOmniboxUIHideSteadyStateUrlSchemeName[];
 extern const char kOmniboxUIHideSteadyStateUrlSchemeDescription[];
 

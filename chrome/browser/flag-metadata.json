@@ -3426,6 +3426,11 @@
     "expiry_milestone": 92
   },
   {
+    "name": "omnibox-trending-zero-prefix-suggestions-on-ntp",
+    "owners": [ "mahmadi", "ender", "chrome-omnibox-team@google.com" ],
+    "expiry_milestone": 89
+  },
+  {
     "name": "omnibox-ui-hide-steady-state-url-path-query-and-ref-on-interaction",
     "owners": [ "estark", "carlosil", "chrome-security-enamel@google.com" ],
     "expiry_milestone": 89
