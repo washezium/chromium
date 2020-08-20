@@ -5,6 +5,7 @@
 #include "ash/wm/window_cycle_event_filter.h"
 
 #include "ash/accelerators/debug_commands.h"
+#include "ash/public/cpp/ash_features.h"
 #include "ash/shell.h"
 #include "ash/wm/window_cycle_controller.h"
 #include "ash/wm/window_cycle_list.h"
@@ -56,6 +57,11 @@ void WindowCycleEventFilter::OnKeyEvent(ui::KeyEvent* event) {
 }
 
 void WindowCycleEventFilter::OnMouseEvent(ui::MouseEvent* event) {
+  if (features::IsInteractiveWindowCycleListEnabled() &&
+      Shell::Get()->window_cycle_controller()->IsEventInCycleView(event)) {
+    return;
+  }
+
   // Prevent mouse clicks from doing anything while the Alt+Tab UI is active
   // <crbug.com/641171> but don't interfere with drag and drop operations
   // <crbug.com/660945>.
