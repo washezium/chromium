@@ -676,6 +676,11 @@ void RecordCrossOriginIsolationMetrics(RenderFrameHostImpl* rfh) {
     client->LogWebFeatureForCurrentPage(
         rfh, blink::mojom::WebFeature::kCoopAndCoepIsolated);
   }
+
+  if (rfh->coop_reporter()) {
+    client->LogWebFeatureForCurrentPage(
+        rfh, blink::mojom::WebFeature::kCrossOriginOpenerPolicyReporting);
+  }
 }
 
 // Subframe navigations can optionally have associated Trust Tokens operations

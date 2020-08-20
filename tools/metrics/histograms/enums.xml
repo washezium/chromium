@@ -28833,6 +28833,7 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3430" label="BluetoothAdvertisingEventName"/>
   <int value="3431" label="BluetoothAdvertisingEventAppearance"/>
   <int value="3432" label="BluetoothAdvertisingEventTxPower"/>
+  <int value="3433" label="CrossOriginOpenerPolicyReporting"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
