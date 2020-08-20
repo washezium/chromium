@@ -97,6 +97,7 @@ class PasswordCheckMediator
         }
         if (items.size() > 1) items.removeRange(1, items.size() - 1);
 
+        updateStatusHeaderWhenCredentialsChange();
         for (CompromisedCredential credential : credentialsList) {
             items.add(createEntryForCredential(credential));
         }
@@ -158,6 +159,7 @@ class PasswordCheckMediator
         assert leakedCredential != null;
         ListModel<ListItem> items = mModel.get(ITEMS);
         assert items.size() >= 1 : "Needs to initialize list with header before adding items!";
+        updateStatusHeaderWhenCredentialsChange();
         items.add(createEntryForCredential(leakedCredential));
     }
 
@@ -228,6 +230,17 @@ class PasswordCheckMediator
     public void onChangePasswordWithScriptButtonClick(CompromisedCredential credential) {
         assert credential.hasScript();
         mChangePasswordDelegate.launchCctWithScript(credential);
+    }
+
+    private void updateStatusHeaderWhenCredentialsChange() {
+        ListModel<ListItem> items = mModel.get(ITEMS);
+        assert items.size() >= 1;
+
+        PropertyModel header = items.get(0).model;
+        if (header.get(CHECK_STATUS) == PasswordCheckUIStatus.IDLE) {
+            header.set(COMPROMISED_CREDENTIALS_COUNT,
+                    Integer.valueOf(getPasswordCheck().getCompromisedCredentialsCount()));
+        }
     }
 
     private void runCheck() {
