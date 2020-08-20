@@ -16,6 +16,7 @@
 #include "chrome/services/sharing/nearby/platform_v2/input_file.h"
 #include "chrome/services/sharing/nearby/platform_v2/log_message.h"
 #include "chrome/services/sharing/nearby/platform_v2/mutex.h"
+#include "chrome/services/sharing/nearby/platform_v2/output_file.h"
 #include "chrome/services/sharing/nearby/platform_v2/recursive_mutex.h"
 #include "chrome/services/sharing/nearby/platform_v2/scheduled_executor.h"
 #include "chrome/services/sharing/nearby/platform_v2/submittable_executor.h"
@@ -41,13 +42,6 @@
 namespace location {
 namespace nearby {
 namespace api {
-
-namespace {
-std::string GetPayloadPath(std::int64_t payload_id) {
-  // TODO(alexchau): Get file path mapping from connections::NearbyConnections.
-  return std::string();
-}
-}  // namespace
 
 int GetCurrentTid() {
   // SubmittableExecutor and ScheduledExecutor does not own a thread pool
@@ -106,16 +100,15 @@ std::unique_ptr<InputFile> ImplementationPlatform::CreateInputFile(
     std::int64_t payload_id,
     std::int64_t total_size) {
   auto& connections = connections::NearbyConnections::GetInstance();
-  auto file = connections.ExtractFileForPayload(payload_id);
-  if (!file.IsValid())
-    return nullptr;
-
-  return std::make_unique<chrome::InputFile>(std::move(file));
+  return std::make_unique<chrome::InputFile>(
+      connections.ExtractInputFile(payload_id));
 }
 
 std::unique_ptr<OutputFile> ImplementationPlatform::CreateOutputFile(
     std::int64_t payload_id) {
-  return std::make_unique<shared::OutputFile>(GetPayloadPath(payload_id));
+  auto& connections = connections::NearbyConnections::GetInstance();
+  return std::make_unique<chrome::OutputFile>(
+      connections.ExtractOutputFile(payload_id));
 }
 
 std::unique_ptr<LogMessage> ImplementationPlatform::CreateLogMessage(
