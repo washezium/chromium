@@ -1198,6 +1198,25 @@ void PictureLayerImpl::RemoveAllTilings() {
   ResetRasterScale();
 }
 
+bool PictureLayerImpl::CanRecreateHighResTilingForLCDTextAndRasterTranslation(
+    const PictureLayerTiling& high_res) const {
+  // This is for the sync tree only to avoid flickering.
+  if (!layer_tree_impl()->IsSyncTree())
+    return false;
+  // We can recreate the tiling if we would invalidate all of its tiles.
+  if (high_res.may_contain_low_resolution_tiles())
+    return true;
+  // Keep the non-ideal raster translation unchanged for transform animations
+  // to avoid re-rasterization during animation.
+  if (draw_properties().screen_space_transform_is_animating ||
+      has_will_change_transform_hint())
+    return false;
+  // Also avoid re-rasterization during pinch-zoom.
+  if (layer_tree_impl()->PinchGestureActive())
+    return false;
+  return true;
+}
+
 void PictureLayerImpl::UpdateTilingsForRasterScaleAndTranslation(
     bool has_adjusted_raster_scale) {
   PictureLayerTiling* high_res =
@@ -1211,15 +1230,9 @@ void PictureLayerImpl::UpdateTilingsForRasterScaleAndTranslation(
   if (high_res) {
     bool raster_translation_is_not_ideal =
         high_res->raster_transform().translation() != raster_translation;
-    // We should recreate the high res tiling with the new raster translation
-    // and lcd text, which is for the sync tree only to avoid flickering.
     bool should_recreate_high_res =
-        layer_tree_impl()->IsSyncTree() &&
         (raster_translation_is_not_ideal || can_use_lcd_text_changed) &&
-        // Keep the non-ideal raster translation unchanged for transform
-        // animations to avoid re-rasterization during animation.
-        !draw_properties().screen_space_transform_is_animating &&
-        !has_will_change_transform_hint();
+        CanRecreateHighResTilingForLCDTextAndRasterTranslation(*high_res);
     if (should_recreate_high_res) {
       tilings_->Remove(high_res);
       high_res = nullptr;
