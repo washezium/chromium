@@ -14,7 +14,6 @@ mojom("mojom") {
     "screen_manager.mojom",
     "select_file.mojom",
   ]
-  disable_variants = true
 
   cpp_typemaps = [
     {
@@ -35,7 +34,6 @@ mojom("mojom") {
 
   public_deps = [
     "//mojo/public/mojom/base",
-    "//services/device/public/mojom:mojom",
     "//url/mojom:url_mojom_gurl",
   ]
 }

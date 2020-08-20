@@ -17,7 +17,6 @@
 #include "chromeos/crosapi/mojom/message_center.mojom.h"
 #include "chromeos/crosapi/mojom/screen_manager.mojom.h"
 #include "chromeos/crosapi/mojom/select_file.mojom.h"
-#include "content/public/browser/device_service.h"
 
 namespace crosapi {
 
@@ -51,11 +50,6 @@ void AshChromeServiceImpl::BindSelectFile(
 void AshChromeServiceImpl::BindScreenManager(
     mojo::PendingReceiver<mojom::ScreenManager> receiver) {
   screen_manager_ash_->BindReceiver(std::move(receiver));
-}
-
-void AshChromeServiceImpl::BindHidManager(
-    mojo::PendingReceiver<device::mojom::HidManager> receiver) {
-  content::GetDeviceService().BindHidManager(std::move(receiver));
 }
 
 }  // namespace crosapi
