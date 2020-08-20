@@ -95,6 +95,12 @@ void PasswordCheckManager::StartCheck() {
   // The request is being handled, so reset the boolean.
   was_start_requested_ = false;
   is_check_running_ = true;
+
+  progress_ = std::make_unique<PasswordCheckProgress>();
+  for (const auto& password : saved_passwords_presenter_.GetSavedPasswords())
+    progress_->IncrementCounts(password);
+  observer_->OnPasswordCheckProgressChanged(progress_->already_processed(),
+                                            progress_->remaining_in_queue());
   bulk_leak_check_service_adapter_.StartBulkLeakCheck();
 }
 
@@ -139,6 +145,23 @@ void PasswordCheckManager::RemoveCredential(
   compromised_credentials_manager_.RemoveCompromisedCredential(credential);
 }
 
+PasswordCheckManager::PasswordCheckProgress::PasswordCheckProgress() = default;
+PasswordCheckManager::PasswordCheckProgress::~PasswordCheckProgress() = default;
+
+void PasswordCheckManager::PasswordCheckProgress::IncrementCounts(
+    const autofill::PasswordForm& password) {
+  ++remaining_in_queue_;
+  ++counts_[password];
+}
+
+void PasswordCheckManager::PasswordCheckProgress::OnProcessed(
+    const password_manager::LeakCheckCredential& credential) {
+  auto it = counts_.find(credential);
+  const int num_matching = it != counts_.end() ? it->second : 0;
+  already_processed_ += num_matching;
+  remaining_in_queue_ -= num_matching;
+}
+
 void PasswordCheckManager::OnSavedPasswordsChanged(
     password_manager::SavedPasswordsPresenter::SavedPasswordsView passwords) {
   if (!is_initialized_) {
@@ -176,6 +199,7 @@ void PasswordCheckManager::OnStateChanged(State state) {
   }
 
   if (state != State::kRunning) {
+    progress_.reset();
     is_check_running_ = false;
   }
 
@@ -185,7 +209,9 @@ void PasswordCheckManager::OnStateChanged(State state) {
 void PasswordCheckManager::OnCredentialDone(
     const password_manager::LeakCheckCredential& credential,
     password_manager::IsLeaked is_leaked) {
-  // TODO(crbug.com/1092444): Advance progress.
+  progress_->OnProcessed(credential);
+  observer_->OnPasswordCheckProgressChanged(progress_->already_processed(),
+                                            progress_->remaining_in_queue());
   if (is_leaked) {
     // TODO(crbug.com/1092444): Trigger single-credential update.
     compromised_credentials_manager_.SaveCompromisedCredential(credential);

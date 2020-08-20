@@ -149,3 +149,11 @@ void PasswordCheckBridge::OnPasswordCheckStatusChanged(
       base::android::AttachCurrentThread(), java_bridge_,
       static_cast<int>(status));
 }
+
+void PasswordCheckBridge::OnPasswordCheckProgressChanged(
+    int already_processed,
+    int remaining_in_queue) {
+  Java_PasswordCheckBridge_onPasswordCheckProgressChanged(
+      base::android::AttachCurrentThread(), java_bridge_, already_processed,
+      remaining_in_queue);
+}

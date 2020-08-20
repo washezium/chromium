@@ -59,6 +59,7 @@ using State = password_manager::BulkLeakCheckService::State;
 namespace {
 
 constexpr char kExampleCom[] = "https://example.com";
+constexpr char kExampleOrg[] = "http://www.example.org";
 constexpr char kExampleApp[] = "com.example.app";
 
 constexpr char kUsername1[] = "alice";
@@ -76,6 +77,8 @@ class MockPasswordCheckManagerObserver : public PasswordCheckManager::Observer {
               OnPasswordCheckStatusChanged,
               (password_manager::PasswordCheckUIStatus),
               (override));
+
+  MOCK_METHOD(void, OnPasswordCheckProgressChanged, (int, int), (override));
 };
 
 class MockPasswordScriptsFetcher
@@ -389,4 +392,24 @@ TEST_F(PasswordCheckManagerTest,
           base::ASCIIToUTF16(kUsername1), base::ASCIIToUTF16("example.com"),
           base::nullopt, "https://example.com/",
           CompromiseTypeFlags::kCredentialLeaked, /*has_script=*/true)));
+}
+
+TEST_F(PasswordCheckManagerTest, UpdatesProgressCorrectly) {
+  InitializeManager();
+  store().AddLogin(MakeSavedPassword(kExampleCom, kUsername1, kPassword1));
+  store().AddLogin(MakeSavedPassword(kExampleOrg, kUsername1, kPassword1));
+  store().AddLogin(MakeSavedPassword(kExampleCom, kUsername2));
+  RunUntilIdle();
+
+  EXPECT_CALL(mock_observer(), OnPasswordCheckProgressChanged(0, 3));
+  manager().StartCheck();
+
+  // Expect that 2 credentials were processed, even if there is only one
+  // reply, because of the deduplication logic.
+  EXPECT_CALL(mock_observer(), OnPasswordCheckProgressChanged(2, 1));
+  static_cast<password_manager::BulkLeakCheckDelegateInterface*>(service())
+      ->OnFinishedCredential(
+          password_manager::LeakCheckCredential(base::ASCIIToUTF16(kUsername1),
+                                                base::ASCIIToUTF16(kPassword1)),
+          password_manager::IsLeaked(false));
 }

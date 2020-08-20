@@ -45,6 +45,13 @@ class PasswordCheckBridge {
          * @param status The current status of the password check.
          */
         void onPasswordCheckStatusChanged(@PasswordCheckUIStatus int status);
+
+        /**
+         * Called during a check when a credential has finished being processed.
+         * @param alreadyProcessed Number of credentials that the check already processed.
+         * @param remainingInQueue Number of credentials that still need to be processed.
+         */
+        void onPasswordCheckProgressChanged(int alreadyProcessed, int remainingInQueue);
     }
 
     PasswordCheckBridge(PasswordCheckObserver passwordCheckObserver) {
@@ -80,6 +87,11 @@ class PasswordCheckBridge {
     @CalledByNative
     void onPasswordCheckStatusChanged(@PasswordCheckUIStatus int state) {
         mPasswordCheckObserver.onPasswordCheckStatusChanged(state);
+    }
+
+    @CalledByNative
+    void onPasswordCheckProgressChanged(int alreadyProcessed, int remainingInQueue) {
+        mPasswordCheckObserver.onPasswordCheckProgressChanged(alreadyProcessed, remainingInQueue);
     }
 
     @CalledByNative

@@ -138,15 +138,17 @@ class PasswordCheckMediator
         }
     }
 
-    void onPasswordCheckProgressChanged(Pair<Integer, Integer> progress) {
+    @Override
+    public void onPasswordCheckProgressChanged(int alreadyProcessed, int remainingInQueue) {
         ListModel<ListItem> items = mModel.get(ITEMS);
         assert items.size() >= 1;
-        assert progress.first >= 0;
-        assert progress.second >= progress.first;
+        assert alreadyProcessed >= 0;
+        assert remainingInQueue >= 0;
 
         PropertyModel header = items.get(0).model;
         header.set(CHECK_STATUS, PasswordCheckUIStatus.RUNNING);
-        header.set(CHECK_PROGRESS, progress);
+        header.set(
+                CHECK_PROGRESS, new Pair<>(alreadyProcessed, alreadyProcessed + remainingInQueue));
         header.set(CHECK_TIMESTAMP, null);
         header.set(COMPROMISED_CREDENTIALS_COUNT, null);
     }

@@ -32,6 +32,8 @@ class PasswordCheckManager
     virtual void OnCompromisedCredentialsChanged(int count) = 0;
     virtual void OnPasswordCheckStatusChanged(
         password_manager::PasswordCheckUIStatus status) = 0;
+    virtual void OnPasswordCheckProgressChanged(int already_processed,
+                                                int remaining_in_queue) = 0;
   };
 
   struct CompromisedCredentialForUI : password_manager::CredentialWithPassword {
@@ -98,6 +100,40 @@ class PasswordCheckManager
   PasswordCheckManager& operator=(PasswordCheckManager&&) = delete;
 
  private:
+  // Class remembering the state required to update the progress of an ongoing
+  // Password Check.
+  class PasswordCheckProgress {
+   public:
+    PasswordCheckProgress();
+    ~PasswordCheckProgress();
+
+    size_t remaining_in_queue() const { return remaining_in_queue_; }
+    size_t already_processed() const { return already_processed_; }
+
+    // Increments the counts corresponding to `password`. Intended to be called
+    // for each credential that is passed to the bulk check.
+    void IncrementCounts(const autofill::PasswordForm& password);
+
+    // Updates the counts after a `credential` has been processed by the bulk
+    // check.
+    void OnProcessed(const password_manager::LeakCheckCredential& credential);
+
+   private:
+    // Count variables needed to correctly show the progress of the check to the
+    // user. `already_processed_` contains the number of credentials that have
+    // been checked already, while `remaining_in_queue_` remembers how many
+    // passwords still need to be checked.
+    // Since the bulk leak check tries to be as efficient as possible, it
+    // performs a deduplication step before starting to check passwords. In this
+    // step it canonicalizes each credential, and only processes the
+    // combinations that are unique. Since this number likely does not match the
+    // total number of saved passwords, we remember in `counts_` how many saved
+    // passwords a given canonicalized credential corresponds to.
+    size_t already_processed_ = 0;
+    size_t remaining_in_queue_ = 0;
+    std::map<password_manager::CanonicalizedCredential, size_t> counts_;
+  };
+
   // password_manager::SavedPasswordsPresenter::Observer:
   void OnSavedPasswordsChanged(
       password_manager::SavedPasswordsPresenter::SavedPasswordsView passwords)
@@ -145,6 +181,9 @@ class PasswordCheckManager
 
   // The profile for which the passwords are checked.
   Profile* profile_ = nullptr;
+
+  // Object storing the progress of a running password check.
+  std::unique_ptr<PasswordCheckProgress> progress_;
 
   // Handle to the password store, powering both `saved_passwords_presenter_`
   // and `compromised_credentials_manager_`.

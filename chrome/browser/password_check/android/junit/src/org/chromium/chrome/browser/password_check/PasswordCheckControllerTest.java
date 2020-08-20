@@ -165,7 +165,9 @@ public class PasswordCheckControllerTest {
     @Test
     public void testUpdateProgressHeader() {
         assertRunningHeader(mModel.get(ITEMS).get(0), UNKNOWN_PROGRESS);
-        mMediator.onPasswordCheckProgressChanged(PROGRESS_UPDATE);
+        int already_processed = PROGRESS_UPDATE.first;
+        int remaining_in_queue = PROGRESS_UPDATE.second - already_processed;
+        mMediator.onPasswordCheckProgressChanged(already_processed, remaining_in_queue);
         assertRunningHeader(mModel.get(ITEMS).get(0), PROGRESS_UPDATE);
     }
 
