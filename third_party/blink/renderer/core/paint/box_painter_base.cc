@@ -661,11 +661,14 @@ FloatRoundedRect BackgroundRoundedRectAdjustedForBleedAvoidance(
   }
 
   FloatRectOutsets insets(
-      -fractional_inset * edges[static_cast<unsigned>(BoxSide::kTop)].Width(),
-      -fractional_inset * edges[static_cast<unsigned>(BoxSide::kRight)].Width(),
       -fractional_inset *
-          edges[static_cast<unsigned>(BoxSide::kBottom)].Width(),
-      -fractional_inset * edges[static_cast<unsigned>(BoxSide::kLeft)].Width());
+          edges[static_cast<unsigned>(BoxSide::kTop)].UsedWidth(),
+      -fractional_inset *
+          edges[static_cast<unsigned>(BoxSide::kRight)].UsedWidth(),
+      -fractional_inset *
+          edges[static_cast<unsigned>(BoxSide::kBottom)].UsedWidth(),
+      -fractional_inset *
+          edges[static_cast<unsigned>(BoxSide::kLeft)].UsedWidth());
 
   FloatRect inset_rect(background_rounded_rect.Rect());
   inset_rect.Expand(insets);
