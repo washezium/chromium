@@ -543,6 +543,43 @@ if (is_android) {
     ]
   }
 
+  test("android_sync_integration_tests") {
+    configs += [ "//build/config:precompiled_headers" ]
+    defines = [ "HAS_OUT_OF_PROC_TEST_RUNNER" ]
+    use_default_launcher = false
+    android_manifest =
+        "${target_gen_dir}/android_browsertests_manifest/AndroidManifest.xml"
+    android_manifest_dep = ":android_browsertests_manifest"
+
+    deps = [
+      ":android_browsertests_assets",
+      ":android_browsertests_java",
+      ":browser_tests_runner",
+      ":sync_integration_test_support",
+      ":sync_integration_test_support_java",
+      ":test_support",
+      ":test_support_java",
+      ":test_support_ui_android",
+      "//chrome:chrome_android_core",
+      "//chrome/android:app_hooks_java",
+      "//content/test:android_test_message_pump_support",
+      "//testing/android/native_test:native_test_support",
+    ]
+
+    sources = [
+      "../browser/sync/test/integration/single_client_typed_urls_sync_test.cc",
+      "android/browsertests_apk/android_browsertests_jni_onload.cc",
+    ]
+
+    data = [
+      "$root_gen_dir/chrome/android/chrome_apk_paks/chrome_100_percent.pak",
+      "$root_gen_dir/chrome/android/chrome_apk_paks/locales/en-US.pak",
+      "$root_gen_dir/chrome/android/chrome_apk_paks/resources.pak",
+      "$root_gen_dir/components/components_resources.pak",
+      "$root_gen_dir/components/dev_ui_components_resources.pak",
+    ]
+  }
+
   static_library("test_support_ui_android") {
     configs += [ "//build/config:precompiled_headers" ]
     testonly = true
@@ -6451,6 +6488,8 @@ if (!is_fuchsia) {
       "../browser/sync/test/integration/sync_signin_delegate.h",
       "../browser/sync/test/integration/sync_test.cc",
       "../browser/sync/test/integration/sync_test.h",
+      "../browser/sync/test/integration/typed_urls_helper.cc",
+      "../browser/sync/test/integration/typed_urls_helper.h",
       "../browser/sync/test/integration/updated_progress_marker_checker.cc",
       "../browser/sync/test/integration/updated_progress_marker_checker.h",
     ]
@@ -6512,8 +6551,6 @@ if (!is_fuchsia) {
         "../browser/sync/test/integration/sync_signin_delegate_desktop.h",
         "../browser/sync/test/integration/themes_helper.cc",
         "../browser/sync/test/integration/themes_helper.h",
-        "../browser/sync/test/integration/typed_urls_helper.cc",
-        "../browser/sync/test/integration/typed_urls_helper.h",
         "../browser/sync/test/integration/user_events_helper.cc",
         "../browser/sync/test/integration/user_events_helper.h",
         "../browser/sync/test/integration/wallet_helper.cc",
