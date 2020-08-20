@@ -453,45 +453,6 @@ bool LayoutTheme::ControlStateChanged(const Node* node,
   return true;
 }
 
-ControlStates LayoutTheme::ControlStatesForNode(const Node* node,
-                                                const ComputedStyle& style) {
-  ControlStates result = 0;
-  if (IsHovered(node)) {
-    result |= kHoverControlState;
-    if (IsSpinUpButtonPartHovered(node))
-      result |= kSpinUpControlState;
-  }
-  if (IsPressed(node)) {
-    result |= kPressedControlState;
-    if (IsSpinUpButtonPartPressed(node))
-      result |= kSpinUpControlState;
-  }
-  if (IsFocused(node) && style.OutlineStyleIsAuto())
-    result |= kFocusControlState;
-  if (IsEnabled(node))
-    result |= kEnabledControlState;
-  if (IsChecked(node))
-    result |= kCheckedControlState;
-  if (IsReadOnlyControl(node))
-    result |= kReadOnlyControlState;
-  if (!IsActive(node))
-    result |= kWindowInactiveControlState;
-  if (IsIndeterminate(node))
-    result |= kIndeterminateControlState;
-  return result;
-}
-
-bool LayoutTheme::IsActive(const Node* node) {
-  if (!node)
-    return false;
-
-  Page* page = node->GetDocument().GetPage();
-  if (!page)
-    return false;
-
-  return page->GetFocusController().IsActive();
-}
-
 bool LayoutTheme::IsChecked(const Node* node) {
   if (auto* input = DynamicTo<HTMLInputElement>(node))
     return input->ShouldAppearChecked();
@@ -511,29 +472,10 @@ bool LayoutTheme::IsEnabled(const Node* node) {
   return !element->IsDisabledFormControl();
 }
 
-bool LayoutTheme::IsFocused(const Node* node) {
-  if (!node)
-    return false;
-
-  node = node->FocusDelegate();
-  Document& document = node->GetDocument();
-  LocalFrame* frame = document.GetFrame();
-  return node == document.FocusedElement() && node->IsFocused() &&
-         node->ShouldHaveFocusAppearance() && frame &&
-         frame->Selection().FrameIsFocusedAndActive();
-}
-
 bool LayoutTheme::IsPressed(const Node* node) {
   if (!node)
     return false;
   return node->IsActive();
-}
-
-bool LayoutTheme::IsSpinUpButtonPartPressed(const Node* node) {
-  const auto* element = DynamicTo<SpinButtonElement>(node);
-  if (!element || !element->IsActive())
-    return false;
-  return element->GetUpDownState() == SpinButtonElement::kUp;
 }
 
 bool LayoutTheme::IsReadOnlyControl(const Node* node) {
@@ -545,13 +487,6 @@ bool LayoutTheme::IsHovered(const Node* node) {
   if (!node)
     return false;
   return node->IsHovered();
-}
-
-bool LayoutTheme::IsSpinUpButtonPartHovered(const Node* node) {
-  const auto* element = DynamicTo<SpinButtonElement>(node);
-  if (!element)
-    return false;
-  return element->GetUpDownState() == SpinButtonElement::kUp;
 }
 
 void LayoutTheme::AdjustCheckboxStyle(ComputedStyle& style) const {

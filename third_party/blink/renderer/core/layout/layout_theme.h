@@ -254,16 +254,11 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
 
  public:
   // Methods for state querying
-  static ControlStates ControlStatesForNode(const Node*, const ComputedStyle&);
-  static bool IsActive(const Node*);
   static bool IsChecked(const Node*);
   static bool IsIndeterminate(const Node*);
   static bool IsEnabled(const Node*);
-  static bool IsFocused(const Node*);
   static bool IsPressed(const Node*);
-  static bool IsSpinUpButtonPartPressed(const Node*);
   static bool IsHovered(const Node*);
-  static bool IsSpinUpButtonPartHovered(const Node*);
   static bool IsReadOnlyControl(const Node*);
 
  protected:
