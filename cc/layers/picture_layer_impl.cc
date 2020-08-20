@@ -830,6 +830,12 @@ bool PictureLayerImpl::UpdateCanUseLCDText(
 
 LCDTextDisallowedReason PictureLayerImpl::ComputeLCDTextDisallowedReason(
     bool raster_translation_aligns_pixels) const {
+  // No need to use LCD text if there is no text.
+  if (!raster_source_ || !raster_source_->GetDisplayItemList() ||
+      !raster_source_->GetDisplayItemList()->has_draw_text_ops()) {
+    return LCDTextDisallowedReason::kNoText;
+  }
+
   if (layer_tree_impl()->settings().layers_always_allowed_lcd_text)
     return LCDTextDisallowedReason::kNone;
   if (!layer_tree_impl()->settings().can_use_lcd_text)
@@ -1612,6 +1618,12 @@ void PictureLayerImpl::CleanUpTilingsOnActiveLayer(
 
 bool PictureLayerImpl::CalculateRasterTranslation(
     gfx::Vector2dF& raster_translation) const {
+  // No need to use raster translation if there is no text.
+  if (!raster_source_ || !raster_source_->GetDisplayItemList() ||
+      !raster_source_->GetDisplayItemList()->has_draw_text_ops()) {
+    return false;
+  }
+
   const gfx::Transform& screen_transform = ScreenSpaceTransform();
   gfx::Transform draw_transform = DrawTransform();
 

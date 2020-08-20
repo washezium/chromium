@@ -39268,6 +39268,7 @@ Called by update_gpu_driver_bug_workaround_entries.py.-->
   <int value="7" label="Will-change: transform"/>
   <int value="8" label="Pixel or color effect"/>
   <int value="9" label="Transform animation"/>
+  <int value="10" label="No text"/>
 </enum>
 
 <enum name="LevelDBCorruptionRestoreValue">
