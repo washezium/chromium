@@ -1609,7 +1609,7 @@ public class ContextualSearchManager
                     mContext.setResolveProperties(mPolicy.getHomeCountry(mActivity),
                             mPolicy.maySendBasePageUrl(), interaction.getEventId(),
                             interaction.getEncodedUserInteractions(), targetLanguage,
-                            fluentLanguages);
+                            fluentLanguages, mPolicy.doRelatedSearches());
                 }
                 WebContents webContents = getBaseWebContents();
                 if (webContents != null) {
