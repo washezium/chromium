@@ -6,6 +6,7 @@
 
 #include <unordered_set>
 
+#include "chrome/browser/browser_process.h"
 #include "chrome/browser/content_settings/cookie_settings_factory.h"
 #include "chrome/browser/federated_learning/floc_remote_permission_service.h"
 #include "chrome/browser/history/history_service_factory.h"
@@ -15,6 +16,7 @@
 #include "chrome/browser/sync/user_event_service_factory.h"
 #include "chrome/common/chrome_features.h"
 #include "components/content_settings/core/browser/cookie_settings.h"
+#include "components/federated_learning/floc_blocklist_service.h"
 #include "components/history/core/browser/history_service.h"
 #include "components/sync/driver/profile_sync_service.h"
 #include "components/sync_user_events/user_event_service.h"
@@ -46,7 +48,12 @@ FlocIdProviderImpl::FlocIdProviderImpl(
       user_event_service_(user_event_service) {
   history_service->AddObserver(this);
   sync_service_->AddObserver(this);
+  g_browser_process->floc_blocklist_service()->AddObserver(this);
+
   OnStateChanged(sync_service);
+
+  if (g_browser_process->floc_blocklist_service()->BlocklistLoaded())
+    OnBlocklistLoaded();
 }
 
 FlocIdProviderImpl::~FlocIdProviderImpl() = default;
@@ -152,6 +159,8 @@ void FlocIdProviderImpl::Shutdown() {
   if (history_service_)
     history_service_->RemoveObserver(this);
   history_service_ = nullptr;
+
+  g_browser_process->floc_blocklist_service()->RemoveObserver(this);
 }
 
 void FlocIdProviderImpl::OnURLsDeleted(
@@ -163,12 +172,36 @@ void FlocIdProviderImpl::OnURLsDeleted(
   ComputeFloc(ComputeFlocTrigger::kHistoryDelete);
 }
 
+void FlocIdProviderImpl::OnBlocklistLoaded() {
+  if (first_blocklist_loaded_seen_)
+    return;
+
+  first_blocklist_loaded_seen_ = true;
+
+  MaybeTriggerFirstFlocComputation();
+}
+
 void FlocIdProviderImpl::OnStateChanged(syncer::SyncService* sync_service) {
-  if (first_floc_computation_triggered_)
+  if (first_sync_history_enabled_seen_)
     return;
 
   if (!IsSyncHistoryEnabled())
     return;
+
+  first_sync_history_enabled_seen_ = true;
+
+  MaybeTriggerFirstFlocComputation();
+}
+
+void FlocIdProviderImpl::MaybeTriggerFirstFlocComputation() {
+  if (first_floc_computation_triggered_)
+    return;
+
+  if (!first_sync_history_enabled_seen_ ||
+      (base::FeatureList::IsEnabled(features::kFlocIdBlocklistFiltering) &&
+       !first_blocklist_loaded_seen_)) {
+    return;
+  }
 
   ComputeFloc(ComputeFlocTrigger::kBrowserStart);
 }
@@ -280,6 +313,13 @@ void FlocIdProviderImpl::OnGetRecentlyVisitedURLsCompleted(
   FlocId floc_id = domains.size() >= kMinHistoryDomainSizeToReportFlocId
                        ? FlocId::CreateFromHistory(domains)
                        : FlocId();
+
+  if (floc_id.IsValid() &&
+      base::FeatureList::IsEnabled(features::kFlocIdBlocklistFiltering) &&
+      g_browser_process->floc_blocklist_service()->ShouldBlockFloc(
+          floc_id.ToUint64())) {
+    floc_id = FlocId();
+  }
 
   std::move(callback).Run(floc_id);
 }
