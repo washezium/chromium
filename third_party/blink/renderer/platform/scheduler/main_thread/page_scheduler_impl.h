@@ -68,6 +68,9 @@ class PLATFORM_EXPORT PageSchedulerImpl : public PageScheduler {
   bool IsMainFrameLocal() const override;
   void SetIsMainFrameLocal(bool is_local) override;
   void OnLocalMainFrameNetworkAlmostIdle() override;
+  base::TimeTicks GetStoredInBackForwardCacheTimestamp() {
+    return stored_in_back_forward_cache_timestamp_;
+  }
 
   std::unique_ptr<FrameScheduler> CreateFrameScheduler(
       FrameScheduler::Delegate* delegate,
@@ -332,6 +335,7 @@ class PLATFORM_EXPORT PageSchedulerImpl : public PageScheduler {
 
   bool is_stored_in_back_forward_cache_ = false;
   TaskHandle set_ipc_posted_handler_task_;
+  base::TimeTicks stored_in_back_forward_cache_timestamp_;
 
   std::unique_ptr<PageLifecycleStateTracker> page_lifecycle_state_tracker_;
   base::WeakPtrFactory<PageSchedulerImpl> weak_factory_{this};

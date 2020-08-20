@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "base/metrics/field_trial_params.h"
+#include "base/metrics/histogram_functions.h"
 #include "base/metrics/histogram_macros.h"
 #include "base/task/common/scoped_defer_task_posting.h"
 #include "base/task/sequence_manager/lazy_now.h"
@@ -1254,7 +1255,18 @@ void FrameSchedulerImpl::OnIPCTaskPostedWhileInBackForwardCache(
     uint32_t ipc_hash,
     const base::Location& task_from) {
   DCHECK(parent_page_scheduler_->IsStoredInBackForwardCache());
-  // TODO - start recording metrics
+  base::UmaHistogramSparse(
+      "BackForwardCache.Experimental.UnexpectedIPCMessagePostedToCachedFrame."
+      "MethodHash",
+      static_cast<int32_t>(ipc_hash));
+
+  base::TimeDelta duration =
+      main_thread_scheduler_->tick_clock()->NowTicks() -
+      parent_page_scheduler_->GetStoredInBackForwardCacheTimestamp();
+  base::UmaHistogramCustomTimes(
+      "BackForwardCache.Experimental.UnexpectedIPCMessagePostedToCachedFrame."
+      "TimeUntilIPCReceived",
+      duration, base::TimeDelta(), base::TimeDelta::FromMinutes(5), 100);
 }
 
 WTF::HashSet<SchedulingPolicy::Feature>
