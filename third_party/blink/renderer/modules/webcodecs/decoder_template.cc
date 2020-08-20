@@ -43,10 +43,10 @@ DecoderTemplate<Traits>::DecoderTemplate(ScriptState* script_state,
                                          ExceptionState& exception_state)
     : script_state_(script_state) {
   DVLOG(1) << __func__;
-  DCHECK(init->hasOutput());
-  DCHECK(init->hasError());
-  output_cb_ = init->output();
-  error_cb_ = init->error();
+  // TODO(crbug.com/1070871): Use fooOr(nullptr).
+  // TODO(sandersd): Is it an error to not provide all callbacks?
+  output_cb_ = init->hasOutput() ? init->output() : nullptr;
+  error_cb_ = init->hasError() ? init->error() : nullptr;
 }
 
 template <typename Traits>
@@ -63,11 +63,6 @@ template <typename Traits>
 void DecoderTemplate<Traits>::configure(const ConfigType* config,
                                         ExceptionState& exception_state) {
   DVLOG(1) << __func__;
-  if (is_closed_) {
-    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
-                                      "Cannot configure a closed codec.");
-    return;
-  }
 
   auto media_config = std::make_unique<MediaConfigType>();
   String console_message;
@@ -95,15 +90,8 @@ void DecoderTemplate<Traits>::configure(const ConfigType* config,
 }
 
 template <typename Traits>
-void DecoderTemplate<Traits>::decode(const InputType* chunk,
-                                     ExceptionState& exception_state) {
+void DecoderTemplate<Traits>::decode(const InputType* chunk, ExceptionState&) {
   DVLOG(3) << __func__;
-  if (is_closed_) {
-    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
-                                      "Cannot decode with a closed codec.");
-    return;
-  }
-
   Request* request = MakeGarbageCollected<Request>();
   request->type = Request::Type::kDecode;
   request->chunk = chunk;
@@ -113,14 +101,8 @@ void DecoderTemplate<Traits>::decode(const InputType* chunk,
 }
 
 template <typename Traits>
-ScriptPromise DecoderTemplate<Traits>::flush(ExceptionState& exception_state) {
+ScriptPromise DecoderTemplate<Traits>::flush(ExceptionState&) {
   DVLOG(3) << __func__;
-  if (is_closed_) {
-    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
-                                      "Cannot flush a closed codec.");
-    return ScriptPromise();
-  }
-
   Request* request = MakeGarbageCollected<Request>();
   request->type = Request::Type::kFlush;
   ScriptPromiseResolver* resolver =
@@ -132,14 +114,8 @@ ScriptPromise DecoderTemplate<Traits>::flush(ExceptionState& exception_state) {
 }
 
 template <typename Traits>
-void DecoderTemplate<Traits>::reset(ExceptionState& exception_state) {
+void DecoderTemplate<Traits>::reset(ExceptionState&) {
   DVLOG(3) << __func__;
-  if (is_closed_) {
-    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
-                                      "Cannot reset a closed codec.");
-    return;
-  }
-
   Request* request = MakeGarbageCollected<Request>();
   request->type = Request::Type::kReset;
   requests_.push_back(request);
@@ -148,20 +124,14 @@ void DecoderTemplate<Traits>::reset(ExceptionState& exception_state) {
 }
 
 template <typename Traits>
-void DecoderTemplate<Traits>::close(ExceptionState& exception_state) {
-  DVLOG(3) << __func__;
-  if (is_closed_) {
-    exception_state.ThrowDOMException(DOMExceptionCode::kInvalidStateError,
-                                      "Codec is already closed.");
-    return;
-  }
-  Shutdown(false);
+void DecoderTemplate<Traits>::close() {
+  // TODO(chcunningham): Implement.
 }
 
 template <typename Traits>
 void DecoderTemplate<Traits>::ProcessRequests() {
   DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
+  // TODO(sandersd): Re-entrancy checker.
   while (!pending_request_ && !requests_.IsEmpty()) {
     Request* request = requests_.front();
     switch (request->type) {
@@ -189,34 +159,36 @@ void DecoderTemplate<Traits>::ProcessRequests() {
 template <typename Traits>
 bool DecoderTemplate<Traits>::ProcessConfigureRequest(Request* request) {
   DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
   DCHECK(!pending_request_);
   DCHECK_EQ(request->type, Request::Type::kConfigure);
   DCHECK(request->media_config);
 
-  // TODO(sandersd): Record this configuration as pending but don't apply it
-  // until there is a decode request.
+  // TODO(sandersd): If we require configure() after reset() and there is a
+  // pending reset, then we could drop this request.
+  // TODO(sandersd): If the next request is also a configure(), they can be
+  // merged. It's not trivial to detect that situation.
+  // TODO(sandersd): Elide this request if the configuration is unchanged.
 
   if (!decoder_) {
     media_log_ = std::make_unique<media::NullMediaLog>();
     decoder_ = Traits::CreateDecoder(*ExecutionContext::From(script_state_),
                                      media_log_.get());
     if (!decoder_) {
+      // TODO(sandersd): This is a bit awkward because |request| is still in the
+      // queue.
       HandleError();
       return false;
     }
 
     // Processing continues in OnInitializeDone().
-    // Note: OnInitializeDone() must not call ProcessRequests() reentrantly,
-    // which can happen if InitializeDecoder() calls it synchronously.
+    // TODO(sandersd): OnInitializeDone() may be called reentrantly, in which
+    // case it must not call ProcessRequests().
     pending_request_ = request;
-    initializing_sync_ = true;
     Traits::InitializeDecoder(
         *decoder_, *pending_request_->media_config,
         WTF::Bind(&DecoderTemplate::OnInitializeDone, WrapWeakPersistent(this)),
         WTF::BindRepeating(&DecoderTemplate::OnOutput,
                            WrapWeakPersistent(this)));
-    initializing_sync_ = false;
     return true;
   }
 
@@ -241,7 +213,6 @@ bool DecoderTemplate<Traits>::ProcessConfigureRequest(Request* request) {
 template <typename Traits>
 bool DecoderTemplate<Traits>::ProcessDecodeRequest(Request* request) {
   DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
   DCHECK(!pending_request_);
   DCHECK_EQ(request->type, Request::Type::kDecode);
   DCHECK(request->chunk);
@@ -250,8 +221,8 @@ bool DecoderTemplate<Traits>::ProcessDecodeRequest(Request* request) {
   // TODO(sandersd): If a reset has been requested, complete immediately.
 
   if (!decoder_) {
-    HandleError();
-    return false;
+    // TODO(sandersd): Emit an error?
+    return true;
   }
 
   if (pending_decodes_.size() + 1 >
@@ -260,15 +231,7 @@ bool DecoderTemplate<Traits>::ProcessDecodeRequest(Request* request) {
     return false;
   }
 
-  scoped_refptr<media::DecoderBuffer> decoder_buffer =
-      Traits::MakeDecoderBuffer(*request->chunk);
-  if (decoder_buffer->data_size() == 0) {
-    HandleError();
-    return false;
-  }
-
   // Submit for decoding.
-  //
   // |pending_decode_id_| must not be zero because it is used as a key in a
   // HeapHashMap (pending_decodes_).
   while (++pending_decode_id_ == 0 ||
@@ -276,7 +239,7 @@ bool DecoderTemplate<Traits>::ProcessDecodeRequest(Request* request) {
     ;
   pending_decodes_.Set(pending_decode_id_, request);
   --requested_decodes_;
-  decoder_->Decode(std::move(decoder_buffer),
+  decoder_->Decode(std::move(Traits::MakeDecoderBuffer(*request->chunk)),
                    WTF::Bind(&DecoderTemplate::OnDecodeDone,
                              WrapWeakPersistent(this), pending_decode_id_));
   return true;
@@ -285,7 +248,6 @@ bool DecoderTemplate<Traits>::ProcessDecodeRequest(Request* request) {
 template <typename Traits>
 bool DecoderTemplate<Traits>::ProcessFlushRequest(Request* request) {
   DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
   DCHECK(!pending_request_);
   DCHECK_EQ(request->type, Request::Type::kFlush);
 
@@ -315,7 +277,6 @@ bool DecoderTemplate<Traits>::ProcessFlushRequest(Request* request) {
 template <typename Traits>
 bool DecoderTemplate<Traits>::ProcessResetRequest(Request* request) {
   DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
   DCHECK(!pending_request_);
   DCHECK_EQ(request->type, Request::Type::kReset);
   DCHECK_GT(requested_resets_, 0);
@@ -330,58 +291,15 @@ bool DecoderTemplate<Traits>::ProcessResetRequest(Request* request) {
 
 template <typename Traits>
 void DecoderTemplate<Traits>::HandleError() {
-  DVLOG(1) << __func__;
-  if (is_closed_)
-    return;
-
-  Shutdown(true);
-}
-
-template <typename Traits>
-void DecoderTemplate<Traits>::Shutdown(bool is_error) {
-  DVLOG(3) << __func__;
-  DCHECK(!is_closed_);
-
-  // Store the error callback so that we can use it after clearing state.
-  V8WebCodecsErrorCallback* error_cb = error_cb_.Get();
-
-  // Prevent any new public API calls during teardown.
-  // This should make it safe to call into JS synchronously.
-  is_closed_ = true;
-
-  // Prevent any late callbacks running.
-  output_cb_.Release();
-  error_cb_.Release();
-
-  // Clear decoding and JS-visible queue state.
-  decoder_.reset();
-  pending_decodes_.clear();
-  requested_decodes_ = 0;
-  requested_resets_ = 0;
-
-  // Fire the error callback if necessary.
-  // TODO(sandersd): Create a DOMException to report.
-  if (is_error)
-    error_cb->InvokeAndReportException(nullptr, nullptr);
-
-  // Clear any pending requests, rejecting all promises.
-  if (pending_request_ && pending_request_->resolver)
-    pending_request_.Release()->resolver.Release()->Reject();
-
-  while (!requests_.IsEmpty()) {
-    Request* request = requests_.front();
-    if (request->resolver)
-      request->resolver.Release()->Reject();
-    requests_.pop_front();
-  }
+  // TODO(sandersd): Reject outstanding requests. We can stop rejeting at a
+  // decode(keyframe), reset(), or configure(), but maybe we should reject
+  // everything already queued (an implicit reset).
+  NOTIMPLEMENTED();
 }
 
 template <typename Traits>
 void DecoderTemplate<Traits>::OnConfigureFlushDone(media::DecodeStatus status) {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
-
   DCHECK(pending_request_);
   DCHECK_EQ(pending_request_->type, Request::Type::kConfigure);
 
@@ -400,9 +318,6 @@ void DecoderTemplate<Traits>::OnConfigureFlushDone(media::DecodeStatus status) {
 template <typename Traits>
 void DecoderTemplate<Traits>::OnInitializeDone(media::Status status) {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
-
   DCHECK(pending_request_);
   DCHECK_EQ(pending_request_->type, Request::Type::kConfigure);
 
@@ -414,25 +329,21 @@ void DecoderTemplate<Traits>::OnInitializeDone(media::Status status) {
   }
 
   pending_request_.Release();
-
-  if (!initializing_sync_)
-    ProcessRequests();
+  ProcessRequests();
 }
 
 template <typename Traits>
 void DecoderTemplate<Traits>::OnDecodeDone(uint32_t id,
                                            media::DecodeStatus status) {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
+  DCHECK(pending_decodes_.Contains(id));
 
-  if (status != media::DecodeStatus::OK &&
-      status != media::DecodeStatus::ABORTED) {
+  if (status != media::DecodeStatus::OK) {
+    // TODO(sandersd): Handle ABORTED.
     HandleError();
     return;
   }
 
-  DCHECK(pending_decodes_.Contains(id));
   auto it = pending_decodes_.find(id);
   pending_decodes_.erase(it);
   ProcessRequests();
@@ -441,9 +352,6 @@ void DecoderTemplate<Traits>::OnDecodeDone(uint32_t id,
 template <typename Traits>
 void DecoderTemplate<Traits>::OnFlushDone(media::DecodeStatus status) {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
-
   DCHECK(pending_request_);
   DCHECK_EQ(pending_request_->type, Request::Type::kFlush);
 
@@ -459,9 +367,6 @@ void DecoderTemplate<Traits>::OnFlushDone(media::DecodeStatus status) {
 template <typename Traits>
 void DecoderTemplate<Traits>::OnResetDone() {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
-
   DCHECK(pending_request_);
   DCHECK_EQ(pending_request_->type, Request::Type::kReset);
 
@@ -472,8 +377,6 @@ void DecoderTemplate<Traits>::OnResetDone() {
 template <typename Traits>
 void DecoderTemplate<Traits>::OnOutput(scoped_refptr<MediaOutputType> output) {
   DVLOG(3) << __func__;
-  if (is_closed_)
-    return;
   output_cb_->InvokeAndReportException(
       nullptr, MakeGarbageCollected<OutputType>(output));
 }

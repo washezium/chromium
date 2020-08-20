@@ -71,30 +71,20 @@ CodecConfigEval VideoDecoderTraits::CreateMediaConfig(
     return CodecConfigEval::kUnsupported;
   }
 
-  // TODO(sandersd): Can we allow shared ArrayBuffers?
   std::vector<uint8_t> extra_data;
   if (config.hasDescription()) {
+    DOMArrayBuffer* buffer;
     if (config.description().IsArrayBuffer()) {
-      DOMArrayBuffer* buffer = config.description().GetAsArrayBuffer();
-      uint8_t* start = static_cast<uint8_t*>(buffer->Data());
-      size_t size = buffer->ByteLengthAsSizeT();
-      extra_data.assign(start, start + size);
+      buffer = config.description().GetAsArrayBuffer();
     } else {
+      // TODO(sandersd): Can IsNull() be true?
       DCHECK(config.description().IsArrayBufferView());
-      DOMArrayBufferView* view =
-          config.description().GetAsArrayBufferView().Get();
-      uint8_t* start = static_cast<uint8_t*>(view->BaseAddress());
-      size_t size = view->byteLengthAsSizeT();
-      extra_data.assign(start, start + size);
+      buffer = config.description().GetAsArrayBufferView()->buffer();
     }
-  }
-
-  // If we allow empty |extra_data| here, FFmpegVideoDecoder will expect an
-  // Annex B formatted stream.
-  if (codec == media::kCodecH264 && extra_data.empty()) {
-    *out_console_message =
-        "H.264 configuration for must include an avcC description.";
-    return CodecConfigEval::kInvalid;
+    // TODO(sandersd): Is it possible to not have Data()?
+    uint8_t* start = static_cast<uint8_t*>(buffer->Data());
+    size_t size = buffer->ByteLengthAsSizeT();
+    extra_data.assign(start, start + size);
   }
 
   // TODO(sandersd): Either remove sizes from VideoDecoderConfig (replace with

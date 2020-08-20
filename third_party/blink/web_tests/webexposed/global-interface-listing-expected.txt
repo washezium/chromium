@@ -8778,7 +8778,6 @@ interface ValidityState
 interface VideoDecoder
     attribute @@toStringTag
     getter decodeQueueSize
-    method close
     method configure
     method constructor
     method decode
