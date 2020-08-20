@@ -1,7 +1,7 @@
 // Copyright 2019 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-#include "base/util/memory_pressure/system_memory_pressure_evaluator_chromeos.h"
+#include "chromeos/memory/pressure/system_memory_pressure_evaluator.h"
 
 #include <fcntl.h>
 #include <sys/poll.h>
@@ -25,8 +25,8 @@
 #include "base/threading/thread_task_runner_handle.h"
 #include "base/time/time.h"
 
-namespace util {
 namespace chromeos {
+namespace memory {
 
 const base::Feature kCrOSUserSpaceLowMemoryNotification{
     "CrOSUserSpaceLowMemoryNotification", base::FEATURE_DISABLED_BY_DEFAULT};
@@ -140,14 +140,14 @@ bool WaitForMemoryPressureChanges(int available_fd) {
 }  // namespace
 
 SystemMemoryPressureEvaluator::SystemMemoryPressureEvaluator(
-    std::unique_ptr<MemoryPressureVoter> voter)
+    std::unique_ptr<util::MemoryPressureVoter> voter)
     : SystemMemoryPressureEvaluator(
           kMarginMemFile,
           kAvailableMemFile,
           base::BindRepeating(&WaitForMemoryPressureChanges),
           /*disable_timer_for_testing*/ false,
           base::FeatureList::IsEnabled(
-              chromeos::kCrOSUserSpaceLowMemoryNotification),
+              chromeos::memory::kCrOSUserSpaceLowMemoryNotification),
           std::move(voter)) {}
 
 SystemMemoryPressureEvaluator::SystemMemoryPressureEvaluator(
@@ -156,7 +156,7 @@ SystemMemoryPressureEvaluator::SystemMemoryPressureEvaluator(
     base::RepeatingCallback<bool(int)> kernel_waiting_callback,
     bool disable_timer_for_testing,
     bool is_user_space_notify,
-    std::unique_ptr<MemoryPressureVoter> voter)
+    std::unique_ptr<util::MemoryPressureVoter> voter)
     : util::SystemMemoryPressureEvaluator(std::move(voter)),
       is_user_space_notify_(is_user_space_notify),
       weak_ptr_factory_(this) {
@@ -392,12 +392,10 @@ void SystemMemoryPressureEvaluator::CheckMemoryPressure() {
       base::MemoryPressureListener::MEMORY_PRESSURE_LEVEL_NONE) {
     last_moderate_notification_ = base::TimeTicks();
     notify = false;
-  }
-
-  // In the case of MODERATE memory pressure we may be in this state for quite
-  // some time so we limit the rate at which we dispatch notifications.
-  else if (current_vote() ==
-           base::MemoryPressureListener::MEMORY_PRESSURE_LEVEL_MODERATE) {
+  } else if (current_vote() ==
+             base::MemoryPressureListener::MEMORY_PRESSURE_LEVEL_MODERATE) {
+    // In the case of MODERATE memory pressure we may be in this state for quite
+    // some time so we limit the rate at which we dispatch notifications.
     if (old_vote == current_vote()) {
       if (base::TimeTicks::Now() - last_moderate_notification_ <
           kModerateMemoryPressureCooldownTime) {
@@ -479,5 +477,5 @@ void SystemMemoryPressureEvaluator::ScheduleWaitForKernelNotification() {
                      weak_ptr_factory_.GetWeakPtr()));
 }
 
+}  // namespace memory
 }  // namespace chromeos
-}  // namespace util

@@ -1,12 +1,13 @@
 // Copyright 2019 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-#ifndef BASE_UTIL_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_CHROMEOS_H_
-#define BASE_UTIL_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_CHROMEOS_H_
+#ifndef CHROMEOS_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_H_
+#define CHROMEOS_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_H_
 
 #include <vector>
 
 #include "base/base_export.h"
+#include "base/component_export.h"
 #include "base/feature_list.h"
 #include "base/files/scoped_file.h"
 #include "base/macros.h"
@@ -18,8 +19,8 @@
 #include "base/util/memory_pressure/memory_pressure_voter.h"
 #include "base/util/memory_pressure/system_memory_pressure_evaluator.h"
 
-namespace util {
 namespace chromeos {
+namespace memory {
 
 // A feature which controls user space low memory notification.
 extern const base::Feature kCrOSUserSpaceLowMemoryNotification;
@@ -30,7 +31,7 @@ extern const base::Feature kCrOSUserSpaceLowMemoryNotification;
 // A class to handle the observation of our free memory. It notifies the
 // MemoryPressureListener of memory fill level changes, so that it can take
 // action to reduce memory resources accordingly.
-class SystemMemoryPressureEvaluator
+class COMPONENT_EXPORT(CHROMEOS_MEMORY) SystemMemoryPressureEvaluator
     : public util::SystemMemoryPressureEvaluator {
  public:
   // The SystemMemoryPressureEvaluator reads the pressure levels from the
@@ -40,7 +41,7 @@ class SystemMemoryPressureEvaluator
   // SupportsKernelNotifications() before constructing a new instance of this
   // class.
   explicit SystemMemoryPressureEvaluator(
-      std::unique_ptr<MemoryPressureVoter> voter);
+      std::unique_ptr<util::MemoryPressureVoter> voter);
   ~SystemMemoryPressureEvaluator() override;
 
   // GetMarginFileParts returns a vector of the configured margin file values.
@@ -86,7 +87,7 @@ class SystemMemoryPressureEvaluator
       base::RepeatingCallback<bool(int)> kernel_waiting_callback,
       bool disable_timer_for_testing,
       bool is_user_space_notify,
-      std::unique_ptr<MemoryPressureVoter> voter);
+      std::unique_ptr<util::MemoryPressureVoter> voter);
 
   static std::vector<int> GetMarginFileParts(const std::string& margin_file);
 
@@ -148,6 +149,7 @@ class SystemMemoryPressureEvaluator
   DISALLOW_COPY_AND_ASSIGN(SystemMemoryPressureEvaluator);
 };
 
+}  // namespace memory
 }  // namespace chromeos
-}  // namespace util
-#endif  // BASE_UTIL_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_CHROMEOS_H_
+
+#endif  // CHROMEOS_MEMORY_PRESSURE_SYSTEM_MEMORY_PRESSURE_EVALUATOR_H_

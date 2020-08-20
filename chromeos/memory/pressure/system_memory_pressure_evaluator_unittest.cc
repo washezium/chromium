@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "base/util/memory_pressure/system_memory_pressure_evaluator_chromeos.h"
+#include "chromeos/memory/pressure/system_memory_pressure_evaluator.h"
 
 #include <unistd.h>
 #include <string>
@@ -22,8 +22,8 @@
 #include "base/threading/thread_task_runner_handle.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-namespace util {
 namespace chromeos {
+namespace memory {
 
 namespace {
 
@@ -75,7 +75,7 @@ class TestSystemMemoryPressureEvaluator : public SystemMemoryPressureEvaluator {
       base::RepeatingCallback<bool(int)> kernel_waiting_callback,
       bool disable_timer_for_testing,
       bool is_user_space_notify,
-      std::unique_ptr<MemoryPressureVoter> voter)
+      std::unique_ptr<util::MemoryPressureVoter> voter)
       : SystemMemoryPressureEvaluator(mock_margin_file,
                                       mock_available_file,
                                       std::move(kernel_waiting_callback),
@@ -253,7 +253,7 @@ TEST(ChromeOSSystemMemoryPressureEvaluatorTest, CheckMemoryPressure) {
   auto listener = std::make_unique<base::MemoryPressureListener>(
       FROM_HERE, base::BindRepeating(&OnMemoryPressure, &pressure_events));
 
-  MultiSourceMemoryPressureMonitor monitor;
+  util::MultiSourceMemoryPressureMonitor monitor;
   monitor.ResetSystemEvaluatorForTesting();
 
   // We use a pipe to notify our blocked kernel notification thread that there
@@ -331,5 +331,5 @@ TEST(ChromeOSSystemMemoryPressureEvaluatorTest, CheckMemoryPressure) {
             pressure_events[3]);
 }
 
+}  // namespace memory
 }  // namespace chromeos
-}  // namespace util
