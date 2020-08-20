@@ -74,19 +74,12 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
   void AdjustInnerSpinButtonStyle(ComputedStyle&) const override;
   void AdjustButtonStyle(ComputedStyle&) const override;
 
-  bool PopsMenuBySpaceKey() const override { return true; }
   bool PopsMenuByReturnKey() const override;
   bool PopsMenuByAltDownUpOrF4Key() const override { return true; }
-
-  bool ShouldOpenPickerWithF4Key() const override;
 
   Color PlatformTapHighlightColor() const override {
     return Color(kDefaultTapHighlightColor);
   }
-
-  // A method asking if the theme's controls actually care about redrawing
-  // when hovered.
-  bool SupportsHover(const ComputedStyle&) const final;
 
   void SetSelectionColors(Color active_background_color,
                           Color active_foreground_color,
@@ -100,8 +93,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
                   FontSelectionValue& font_weight,
                   float& font_size,
                   AtomicString& font_family) const override;
-
-  int MinimumMenuListSize(const ComputedStyle&) const override;
 
   void AdjustSearchFieldStyle(ComputedStyle&) const override;
   void AdjustSearchFieldCancelButtonStyle(ComputedStyle&) const override;
@@ -142,7 +133,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
 
  private:
   ThemePainter& Painter() override { return painter_; }
-  void DidChangeThemeEngine() override;
 
   int MenuListInternalPadding(const ComputedStyle&, int padding) const;
 

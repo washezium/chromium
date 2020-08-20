@@ -446,11 +446,6 @@ bool LayoutTheme::ControlStateChanged(const Node* node,
   if (!style.HasEffectiveAppearance())
     return false;
 
-  // Default implementation assumes the controls don't respond to changes in
-  // :hover state
-  if (state == kHoverControlState && !SupportsHover(style))
-    return false;
-
   // Assume pressed state is only responded to if the control is enabled.
   if (state == kPressedControlState && !IsEnabled(node))
     return false;
@@ -847,10 +842,6 @@ String LayoutTheme::DisplayNameForFile(const File& file) const {
   return file.name();
 }
 
-bool LayoutTheme::ShouldOpenPickerWithF4Key() const {
-  return false;
-}
-
 bool LayoutTheme::SupportsCalendarPicker(const AtomicString& type) const {
   DCHECK(RuntimeEnabledFeatures::InputMultipleFieldsUIEnabled());
   if (features::IsFormControlsRefreshEnabled() &&
@@ -960,41 +951,6 @@ void LayoutTheme::AdjustRadioStyleUsingFallbackTheme(
   // box and turns off the Windows XP theme)
   // for now, we will not honor it.
   style.ResetBorder();
-}
-
-LengthBox LayoutTheme::ControlPadding(ControlPart part,
-                                      const FontDescription&,
-                                      const Length& zoomed_box_top,
-                                      const Length& zoomed_box_right,
-                                      const Length& zoomed_box_bottom,
-                                      const Length& zoomed_box_left,
-                                      float) const {
-  switch (part) {
-    case kMenulistPart:
-    case kMenulistButtonPart:
-    case kCheckboxPart:
-    case kRadioPart:
-      return LengthBox(0);
-    default:
-      return LengthBox(zoomed_box_top, zoomed_box_right, zoomed_box_bottom,
-                       zoomed_box_left);
-  }
-}
-
-LengthBox LayoutTheme::ControlBorder(ControlPart part,
-                                     const FontDescription&,
-                                     const LengthBox& zoomed_box,
-                                     float) const {
-  switch (part) {
-    case kPushButtonPart:
-    case kMenulistPart:
-    case kSearchFieldPart:
-    case kCheckboxPart:
-    case kRadioPart:
-      return LengthBox(0);
-    default:
-      return zoomed_box;
-  }
 }
 
 void LayoutTheme::AdjustControlPartStyle(ComputedStyle& style) {
