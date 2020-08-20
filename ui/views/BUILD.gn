@@ -334,6 +334,8 @@ component("views") {
     "controls/button/toggle_button.cc",
     "controls/combobox/combobox.cc",
     "controls/combobox/combobox_util.cc",
+    "controls/combobox/empty_combobox_model.cc",
+    "controls/combobox/empty_combobox_model.h",
     "controls/editable_combobox/editable_combobox.cc",
     "controls/focus_ring.cc",
     "controls/focusable_border.cc",
