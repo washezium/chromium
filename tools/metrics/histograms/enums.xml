@@ -28822,6 +28822,9 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3427" label="V8Document_FragmentDirective_AttributeGetter"/>
   <int value="3428" label="V8StorageManager_GetDirectory_Method"/>
   <int value="3429" label="BeforematchHandlerRegistered"/>
+  <int value="3430" label="BluetoothAdvertisingEventName"/>
+  <int value="3431" label="BluetoothAdvertisingEventAppearance"/>
+  <int value="3432" label="BluetoothAdvertisingEventTxPower"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
