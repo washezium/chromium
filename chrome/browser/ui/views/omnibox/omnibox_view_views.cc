@@ -11,6 +11,7 @@
 #include "base/command_line.h"
 #include "base/feature_list.h"
 #include "base/i18n/rtl.h"
+#include "base/metrics/histogram_functions.h"
 #include "base/metrics/histogram_macros.h"
 #include "base/strings/string_util.h"
 #include "base/task/post_task.h"
@@ -371,6 +372,7 @@ OmniboxViewViews::OmniboxViewViews(OmniboxEditController* controller,
                                    const gfx::FontList& font_list)
     : OmniboxView(controller, std::move(client)),
       popup_window_mode_(popup_window_mode),
+      clock_(base::DefaultClock::GetInstance()),
       location_bar_view_(location_bar),
       latency_histogram_state_(NOT_ACTIVE),
       friendly_suggestion_text_prefix_length_(0) {
@@ -1282,6 +1284,10 @@ void OmniboxViewViews::OnMouseMoved(const ui::MouseEvent& event) {
   if (location_bar_view_)
     location_bar_view_->OnOmniboxHovered(true);
 
+  if (hover_start_time_ == base::Time()) {
+    hover_start_time_ = clock_->Now();
+  }
+
   if (!OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover() ||
       model()->ShouldPreventElision()) {
     return;
@@ -1365,6 +1371,9 @@ void OmniboxViewViews::OnMouseMoved(const ui::MouseEvent& event) {
 void OmniboxViewViews::OnMouseExited(const ui::MouseEvent& event) {
   if (location_bar_view_)
     location_bar_view_->OnOmniboxHovered(false);
+
+  UmaHistogramTimes("Omnibox.HoverTime", clock_->Now() - hover_start_time_);
+  hover_start_time_ = base::Time();
 
   if (!OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover() ||
       model()->ShouldPreventElision()) {

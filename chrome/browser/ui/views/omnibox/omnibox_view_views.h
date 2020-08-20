@@ -299,6 +299,7 @@ class OmniboxViewViews : public OmniboxView,
       OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
       BoundsChanged);
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, BoundsChanged);
+  FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverHistogram);
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest,
                            CancellingAnimationDoesNotCrash);
   FRIEND_TEST_ALL_PREFIXES(
@@ -588,6 +589,12 @@ class OmniboxViewViews : public OmniboxView,
   // Used to smooth color transition when an ElideAnimation is animating.
   gfx::Rect elide_animation_smoothing_rect_left_;
   gfx::Rect elide_animation_smoothing_rect_right_;
+
+  // The time that the mouse begins hovering over the omnibox, used for
+  // recording metrics related to simplified domain field trials. Set in
+  // OnMouseMoved() and cleared in OnMouseExited().
+  base::Time hover_start_time_;
+  base::Clock* clock_;
 
   // Selection persisted across temporary text changes, like popup suggestions.
   std::vector<gfx::Range> saved_temporary_selection_;

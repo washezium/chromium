@@ -14,6 +14,7 @@
 #include "base/i18n/rtl.h"
 #include "base/macros.h"
 #include "base/test/scoped_feature_list.h"
+#include "base/test/simple_test_clock.h"
 #include "base/test/simple_test_tick_clock.h"
 #include "build/build_config.h"
 #include "chrome/app/chrome_command_ids.h"
@@ -2280,6 +2281,34 @@ TEST_P(OmniboxViewViewsRevealOnHoverTest, BoundsChanged) {
       kSimplifiedDomainDisplayUrlSubdomain,
       kSimplifiedDomainDisplayUrlHostnameAndScheme,
       kSimplifiedDomainDisplayUrlPath, ShouldElideToRegistrableDomain()));
+}
+
+// Tests that simplified domain hover duration histogram is recorded correctly.
+TEST_P(OmniboxViewViewsRevealOnHoverTest, HoverHistogram) {
+  base::HistogramTester histograms;
+  base::SimpleTestClock clock;
+  constexpr int kHoverTimeMs = 1000;
+  SetUpSimplifiedDomainTest();
+  clock.SetNow(base::Time::Now());
+  omnibox_view()->clock_ = &clock;
+
+  // Hover over the omnibox and then exit and check that the histogram is
+  // recorded correctly.
+  omnibox_view()->OnMouseMoved(CreateMouseEvent(ui::ET_MOUSE_MOVED, {0, 0}));
+  OmniboxViewViews::ElideAnimation* unelide_animation =
+      omnibox_view()->GetHoverElideOrUnelideAnimationForTesting();
+  ASSERT_TRUE(unelide_animation);
+  EXPECT_TRUE(unelide_animation->IsAnimating());
+  clock.Advance(base::TimeDelta::FromMilliseconds(kHoverTimeMs / 2));
+  // Call OnMouseMoved() again halfway through the hover time to ensure that the
+  // histogram is only recorded once per continuous hover.
+  omnibox_view()->OnMouseMoved(CreateMouseEvent(ui::ET_MOUSE_MOVED, {0, 0}));
+  clock.Advance(base::TimeDelta::FromMilliseconds(kHoverTimeMs / 2));
+  omnibox_view()->OnMouseExited(CreateMouseEvent(ui::ET_MOUSE_MOVED, {0, 0}));
+  auto samples = histograms.GetAllSamples("Omnibox.HoverTime");
+  ASSERT_EQ(1u, samples.size());
+  histograms.ExpectTimeBucketCount(
+      "Omnibox.HoverTime", base::TimeDelta::FromMilliseconds(kHoverTimeMs), 1);
 }
 
 // Tests that the simplified domain animation doesn't crash when it's cancelled.
