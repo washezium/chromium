@@ -717,6 +717,9 @@ Because your account is managed by <ph name="HOSTED_DOMAIN">$1<ex>google.com</ex
       <message name="IDS_IOS_DISCONNECT_DIALOG_TITLE_UNITY" desc="The title of the disconnect dialog [Length: 30em].">
         Sign out and turn off sync?
       </message>
+      <message name="IDS_IOS_DISCOVER_FEED_HEADER_IPH" desc="In-product help that points at the menu icon for the news feed on Chrome's new tab page. This string instructs the user to open the menu for settings that let them control the content that appears on the feed.">
+        Control your stories and activity here
+      </message>
       <message name="IDS_IOS_DISCOVER_FEED_TITLE" desc="The title in the Discover feed menu.">
         Discover
       </message>
