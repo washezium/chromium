@@ -355,7 +355,7 @@ PasswordStoreSync::MetadataStore* PasswordStoreDefault::GetMetadataStore() {
 }
 
 bool PasswordStoreDefault::IsAccountStore() const {
-  return login_db_->is_account_store();
+  return login_db_ && login_db_->is_account_store();
 }
 
 bool PasswordStoreDefault::DeleteAndRecreateDatabaseFile() {
