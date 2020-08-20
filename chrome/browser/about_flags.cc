@@ -3830,6 +3830,10 @@ const FeatureEntry kFeatureEntries[] = {
      flag_descriptions::kTabbedAppOverflowMenuIconsName,
      flag_descriptions::kTabbedAppOverflowMenuIconsDescription, kOsAndroid,
      FEATURE_VALUE_TYPE(chrome::android::kTabbedAppOverflowMenuIcons)},
+    {"tabbed-app-overflow-menu-regroup",
+     flag_descriptions::kTabbedAppOverflowMenuRegroupName,
+     flag_descriptions::kTabbedAppOverflowMenuRegroupDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(chrome::android::kTabbedAppOverflowMenuRegroup)},
 #endif  // OS_ANDROID
 
     {"omnibox-display-title-for-current-url",

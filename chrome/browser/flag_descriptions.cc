@@ -3180,6 +3180,11 @@ const char kTabbedAppOverflowMenuIconsName[] =
 const char kTabbedAppOverflowMenuIconsDescription[] =
     "If enabled, shows icon in front of each overflow menu item.";
 
+const char kTabbedAppOverflowMenuRegroupName[] =
+    "Android tabbed app overflow menu Regroup";
+const char kTabbedAppOverflowMenuRegroupDescription[] =
+    "If enabled, regroup overflow menu items.";
+
 // Non-Android -----------------------------------------------------------------
 
 #else  // !defined(OS_ANDROID)

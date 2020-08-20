@@ -4241,6 +4241,11 @@
     "expiry_milestone": 90
   },
   {
+    "name": "tabbed-app-overflow-menu-regroup",
+    "owners": [ "gangwu" ],
+    "expiry_milestone": 90
+  },
+  {
     "name": "terminal-system-app-legacy-settings",
     "owners": [ "joelhockey", "benwells", "//chrome/browser/chromeos/guest_os/OWNERS" ],
     "expiry_milestone": 85

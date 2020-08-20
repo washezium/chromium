@@ -1826,6 +1826,9 @@ extern const char kAndroidNightModeTabReparentingDescription[];
 extern const char kTabbedAppOverflowMenuIconsName[];
 extern const char kTabbedAppOverflowMenuIconsDescription[];
 
+extern const char kTabbedAppOverflowMenuRegroupName[];
+extern const char kTabbedAppOverflowMenuRegroupDescription[];
+
 // Non-Android ----------------------------------------------------------------
 
 #else  // !defined(OS_ANDROID)
