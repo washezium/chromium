@@ -478,10 +478,4 @@ void LoginScreenController::OnFocusLeavingSystemTray(bool reverse) {
   client_->OnFocusLeavingSystemTray(reverse);
 }
 
-void LoginScreenController::NotifyLoginScreenShown() {
-  if (!client_)
-    return;
-  client_->OnLoginScreenShown();
-}
-
 }  // namespace ash
