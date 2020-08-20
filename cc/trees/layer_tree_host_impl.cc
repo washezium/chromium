@@ -1768,9 +1768,9 @@ gfx::ColorSpace LayerTreeHostImpl::GetRasterColorSpace(
   // The pending tree will has the most recently updated color space, so use it.
   gfx::ColorSpace result;
   if (pending_tree_)
-    result = pending_tree_->raster_color_space();
+    result = pending_tree_->display_color_spaces().GetScreenInfoColorSpace();
   else if (active_tree_)
-    result = active_tree_->raster_color_space();
+    result = active_tree_->display_color_spaces().GetScreenInfoColorSpace();
 
   // Always specify a color space if color correct rasterization is requested
   // (not specifying a color space indicates that no color conversion is
