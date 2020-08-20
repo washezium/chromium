@@ -17,6 +17,8 @@ import static org.chromium.chrome.browser.password_check.PasswordCheckProperties
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.RESTART_BUTTON_ACTION;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.UNKNOWN_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_CREDENTIAL;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_DIALOG_HANDLER;
 
 import android.content.DialogInterface;
 import android.util.Pair;
@@ -186,12 +188,23 @@ class PasswordCheckMediator
             return;
         }
 
-        mReauthenticationHelper.reauthenticate(ReauthReason.VIEW_PASSWORD,
-                reauthSucceeded
-                -> {
-                        // TODO(crbug.com/1117502) Add implementation to view the compromised
-                        // credential
+        mReauthenticationHelper.reauthenticate(ReauthReason.VIEW_PASSWORD, reauthSucceeded -> {
+            if (reauthSucceeded) {
+                mModel.set(VIEW_CREDENTIAL, credential);
+                mModel.set(VIEW_DIALOG_HANDLER, new PasswordCheckViewDialogFragment.Handler() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mModel.set(VIEW_CREDENTIAL, null);
+                        mModel.set(VIEW_DIALOG_HANDLER, null);
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                        mModel.set(VIEW_DIALOG_HANDLER, null);
+                    }
                 });
+            }
+        });
     }
 
     @Override

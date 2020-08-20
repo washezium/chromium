@@ -32,6 +32,8 @@ import static org.chromium.chrome.browser.password_check.PasswordCheckProperties
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.RESTART_BUTTON_ACTION;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.UNKNOWN_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_CREDENTIAL;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_DIALOG_HANDLER;
 import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.ERROR_NO_PASSWORDS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.ERROR_OFFLINE;
 import static org.chromium.chrome.browser.password_check.PasswordCheckUIStatus.ERROR_QUOTA_LIMIT;
@@ -402,6 +404,20 @@ public class PasswordCheckViewTest {
     }
 
     @Test
+    @SmallTest
+    public void testGetTimestampStrings() {
+        Resources res = mPasswordCheckView.getContext().getResources();
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, 10 * S_TO_MS), is("Just now"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, MIN_TO_MS), is("1 minute ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, 17 * MIN_TO_MS), is("17 minutes ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, H_TO_MS), is("1 hour ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, 13 * H_TO_MS), is("13 hours ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, DAY_TO_MS), is("1 day ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, 2 * DAY_TO_MS), is("2 days ago"));
+        assertThat(PasswordCheckViewBinder.getTimestamp(res, 315 * DAY_TO_MS), is("315 days ago"));
+    }
+
+    @Test
     @MediumTest
     public void testCredentialDisplaysNameOriginAndReason() {
         runOnUiThreadBlocking(() -> {
@@ -562,20 +578,6 @@ public class PasswordCheckViewTest {
     }
 
     @Test
-    @SmallTest
-    public void testGetTimestampStrings() {
-        Resources res = mPasswordCheckView.getContext().getResources();
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, 10 * S_TO_MS), is("Just now"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, MIN_TO_MS), is("1 minute ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, 17 * MIN_TO_MS), is("17 minutes ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, H_TO_MS), is("1 hour ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, 13 * H_TO_MS), is("13 hours ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, DAY_TO_MS), is("1 day ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, 2 * DAY_TO_MS), is("2 days ago"));
-        assertThat(PasswordCheckViewBinder.getTimestamp(res, 315 * DAY_TO_MS), is("315 days ago"));
-    }
-
-    @Test
     @MediumTest
     public void testConfirmingDeletionDialogTriggersHandler() {
         final AtomicInteger recordedConfirmation = new AtomicInteger(0);
@@ -597,6 +599,30 @@ public class PasswordCheckViewTest {
                 .perform(click());
 
         assertThat(recordedConfirmation.get(), is(1));
+    }
+
+    @Test
+    @MediumTest
+    public void testCloseViewDialogTriggersHandler() {
+        final AtomicInteger recordedClosure = new AtomicInteger(0);
+        PasswordCheckDeletionDialogFragment.Handler fakeHandler =
+                new PasswordCheckDeletionDialogFragment.Handler() {
+                    @Override
+                    public void onDismiss() {}
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        recordedClosure.incrementAndGet();
+                    }
+                };
+        mModel.set(VIEW_CREDENTIAL, ANA);
+        runOnUiThreadBlocking(() -> mModel.set(VIEW_DIALOG_HANDLER, fakeHandler));
+
+        onView(withText(R.string.close))
+                .inRoot(withDecorView(
+                        not(is(mPasswordCheckView.getActivity().getWindow().getDecorView()))))
+                .perform(click());
+
+        assertThat(recordedClosure.get(), is(1));
     }
 
     private MVCListAdapter.ListItem buildHeader(@PasswordCheckUIStatus int status,

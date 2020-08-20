@@ -17,6 +17,8 @@ import static org.chromium.chrome.browser.password_check.PasswordCheckProperties
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.RESTART_BUTTON_ACTION;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.HeaderProperties.UNKNOWN_PROGRESS;
 import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.ITEMS;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_CREDENTIAL;
+import static org.chromium.chrome.browser.password_check.PasswordCheckProperties.VIEW_DIALOG_HANDLER;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -78,6 +80,12 @@ class PasswordCheckViewBinder {
                     model.get(DELETION_CONFIRMATION_HANDLER), model.get(DELETION_ORIGIN)));
         } else if (propertyKey == DELETION_ORIGIN) {
             // Binding not necessary (only used indirectly).
+        } else if (propertyKey == VIEW_CREDENTIAL) {
+            // Binding not necessary (only used indirectly).
+        } else if (propertyKey == VIEW_DIALOG_HANDLER) {
+            if (model.get(VIEW_DIALOG_HANDLER) == null) return; // Initial or onDismiss.
+            view.showDialogFragment(new PasswordCheckViewDialogFragment(
+                    model.get(VIEW_DIALOG_HANDLER), model.get(VIEW_CREDENTIAL)));
         } else {
             assert false : "Unhandled update to property:" + propertyKey;
         }

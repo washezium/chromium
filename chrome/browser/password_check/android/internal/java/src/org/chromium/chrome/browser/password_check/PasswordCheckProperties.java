@@ -27,8 +27,14 @@ class PasswordCheckProperties {
             new PropertyModel.WritableObjectPropertyKey<>("deletion_confirmation_handler");
     static final PropertyModel.WritableObjectPropertyKey<String> DELETION_ORIGIN =
             new PropertyModel.WritableObjectPropertyKey<>("deletion_origin");
+    static final PropertyModel.WritableObjectPropertyKey<CompromisedCredential> VIEW_CREDENTIAL =
+            new PropertyModel.WritableObjectPropertyKey<>("view_credential");
+    static final PropertyModel.WritableObjectPropertyKey<PasswordCheckViewDialogFragment.Handler>
+            VIEW_DIALOG_HANDLER =
+            new PropertyModel.WritableObjectPropertyKey<>("view_dialog_handler");
 
-    static final PropertyKey[] ALL_KEYS = {ITEMS, DELETION_CONFIRMATION_HANDLER, DELETION_ORIGIN};
+    static final PropertyKey[] ALL_KEYS = {ITEMS, DELETION_CONFIRMATION_HANDLER, DELETION_ORIGIN,
+            VIEW_CREDENTIAL, VIEW_DIALOG_HANDLER};
 
     static PropertyModel createDefaultModel() {
         return new PropertyModel.Builder(ALL_KEYS).with(ITEMS, new ListModel<>()).build();
