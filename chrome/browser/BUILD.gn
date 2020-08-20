@@ -646,8 +646,6 @@ static_library("browser") {
     "lookalikes/lookalike_url_tab_storage.h",
     "media/audio_service_util.cc",
     "media/audio_service_util.h",
-    "media/cast_mirroring_service_host.cc",
-    "media/cast_mirroring_service_host.h",
     "media/cast_remoting_connector.cc",
     "media/cast_remoting_connector.h",
     "media/feeds/media_feeds_utils.cc",
@@ -1985,10 +1983,6 @@ static_library("browser") {
     "//components/metrics:net",
     "//components/metrics:ui",
     "//components/metrics_services_manager",
-    "//components/mirroring/browser",
-    "//components/mirroring/mojom:host",
-    "//components/mirroring/mojom:service",
-    "//components/mirroring/service:mirroring_service",
     "//components/navigation_interception",
     "//components/navigation_metrics",
     "//components/net_log",
@@ -4990,6 +4984,10 @@ static_library("browser") {
       "guest_view/web_view/chrome_web_view_permission_helper_delegate.h",
       "guest_view/web_view/context_menu_content_type_web_view.cc",
       "guest_view/web_view/context_menu_content_type_web_view.h",
+
+      # TODO(crbug.com/879012): this shouldn't depend on enable_extensions.
+      "media/cast_mirroring_service_host.cc",
+      "media/cast_mirroring_service_host.h",
       "media/cast_transport_host_filter.cc",
       "media/cast_transport_host_filter.h",
       "media/extension_media_access_handler.cc",
@@ -5172,6 +5170,12 @@ static_library("browser") {
       "//chrome/common/extensions/api:extensions_features",
       "//components/drive",
       "//components/guest_view/browser",
+
+      # TODO(crbug.com/879012): mirroring shouldn't depend on enable_extensions.
+      "//components/mirroring/browser",
+      "//components/mirroring/mojom:host",
+      "//components/mirroring/mojom:service",
+      "//components/mirroring/service:mirroring_service",
       "//extensions/components/javascript_dialog_extensions_client",
       "//google_apis/drive",
       "//media/cast:net",
