@@ -7895,6 +7895,10 @@ interface SVGViewElement : SVGElement
     getter zoomAndPan
     method constructor
     setter zoomAndPan
+interface Sanitizer
+    attribute @@toStringTag
+    method constructor
+    method saneStringFrom
 interface Scheduler
     attribute @@toStringTag
     getter currentTaskSignal

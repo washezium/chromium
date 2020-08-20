@@ -1665,6 +1665,10 @@
       status: "test",
     },
     {
+      name: "SanitizerAPI",
+      status: "test",
+    },
+    {
       name: "ScreenWakeLock",
       status: "stable",
     },
