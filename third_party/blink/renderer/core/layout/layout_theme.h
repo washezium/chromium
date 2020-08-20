@@ -45,7 +45,6 @@ class ComputedStyle;
 class Element;
 class File;
 class FontDescription;
-class HTMLInputElement;
 class LengthSize;
 class LocalFrame;
 class Node;
@@ -189,8 +188,6 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
   virtual IntSize SliderTickSize() const = 0;
   // Returns the distance of slider tick origin from the slider track center.
   virtual int SliderTickOffsetFromTrackCenter() const = 0;
-
-  virtual bool ShouldHaveSpinButton(HTMLInputElement*) const;
 
   // Functions for <select> elements.
   virtual bool DelegatesMenuListRendering() const;

@@ -532,11 +532,6 @@ void LayoutTheme::AdjustMenuListStyle(ComputedStyle& style, Element*) const {
   style.SetOverflowY(EOverflow::kVisible);
 }
 
-bool LayoutTheme::ShouldHaveSpinButton(HTMLInputElement* input_element) const {
-  return input_element->IsSteppable() &&
-         input_element->type() != input_type_names::kRange;
-}
-
 void LayoutTheme::AdjustMenuListButtonStyle(ComputedStyle&, Element*) const {}
 
 void LayoutTheme::AdjustSliderContainerStyle(ComputedStyle& style,
