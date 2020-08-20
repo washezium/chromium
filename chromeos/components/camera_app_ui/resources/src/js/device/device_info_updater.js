@@ -244,7 +244,7 @@ export class DeviceInfoUpdater {
   /**
    * Gets supported photo and video resolutions for specified video device.
    * @param {string} deviceId Device id of the video device.
-   * @return {!Promise<!{photo: !ResolutionList, video: !ResolutionList}>}
+   * @return {!Promise<{photo: !ResolutionList, video: !ResolutionList}>}
    *     Supported photo and video resolutions.
    * @throws {!Error} May fail on HALv1 device without capability of querying
    *     supported resolutions.

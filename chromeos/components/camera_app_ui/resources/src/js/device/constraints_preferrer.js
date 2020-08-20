@@ -388,7 +388,7 @@ export class VideoConstraintsPreferrer extends ConstraintsPreferrer {
      * constant fps under that resolution or null fps for not support constant
      * fps. The resolution-fpses are sorted by user preference of constant fps.
      * @param {!Resolution} r
-     * @return {!Array<!{r: !Resolution, fps: number}>}
+     * @return {!Array<{r: !Resolution, fps: number}>}
      */
     const getFpses = (r) => {
       let /** !Array<?number> */ constFpses = [null];
@@ -409,7 +409,7 @@ export class VideoConstraintsPreferrer extends ConstraintsPreferrer {
 
     /**
      * @param {!Resolution} r
-     * @param {!number} fps
+     * @param {number} fps
      * @return {!MediaStreamConstraints}
      */
     const toConstraints = ({width, height}, fps) => ({
@@ -495,7 +495,7 @@ export class PhotoConstraintsPreferrer extends ConstraintsPreferrer {
    * @param {!ResolutionList} captureResolutions Available photo capturing
    *     resolutions.
    * @param {!ResolutionList} previewResolutions Available preview resolutions.
-   * @return {!Array<!{capture: !ResolutionList, preview: !ResolutionList}>}
+   * @return {!Array<{capture: !ResolutionList, preview: !ResolutionList}>}
    *     Each item of returned array is a object of capture and preview
    *     resolutions of same aspect ratio.
    * @private
@@ -561,7 +561,7 @@ export class PhotoConstraintsPreferrer extends ConstraintsPreferrer {
     };
 
     /**
-     * @param {!{capture: !ResolutionList, preview: !ResolutionList}} capture
+     * @param {{capture: !ResolutionList, preview: !ResolutionList}} capture
      * @return {!CaptureCandidate}
      */
     const toCaptureCandidate = ({capture: captureRs, preview: previewRs}) => {
