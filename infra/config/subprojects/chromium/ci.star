@@ -776,6 +776,9 @@ ci.gpu_builder(
 
 ci.gpu_builder(
     name = "GPU Linux Builder",
+    # TODO(https://crbug.com/1109276) Once support for mastername is removed, do
+    # not explicitly set
+    builder_group = "chromium.gpu",
     console_view_entry = ci.console_view_entry(
         category = "Linux",
     ),
@@ -801,6 +804,9 @@ ci.gpu_builder(
 
 ci.gpu_thin_tester(
     name = "Linux Release (NVIDIA)",
+    # TODO(https://crbug.com/1109276) Once support for mastername is removed, do
+    # not explicitly set
+    builder_group = "chromium.gpu",
     console_view_entry = ci.console_view_entry(
         category = "Linux",
     ),
@@ -863,6 +869,9 @@ ci.linux_builder(
 
 ci.linux_builder(
     name = "Linux Builder",
+    # TODO(https://crbug.com/1109276) Once support for mastername is removed, do
+    # not explicitly set
+    builder_group = "chromium.linux",
     console_view_entry = ci.console_view_entry(
         category = "release",
         short_name = "bld",
@@ -881,6 +890,9 @@ ci.linux_builder(
 
 ci.linux_builder(
     name = "Linux Tests",
+    # TODO(https://crbug.com/1109276) Once support for mastername is removed, do
+    # not explicitly set
+    builder_group = "chromium.linux",
     console_view_entry = ci.console_view_entry(
         category = "release",
         short_name = "tst",
