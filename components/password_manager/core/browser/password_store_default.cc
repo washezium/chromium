@@ -359,7 +359,7 @@ bool PasswordStoreDefault::IsAccountStore() const {
 }
 
 bool PasswordStoreDefault::DeleteAndRecreateDatabaseFile() {
-  return login_db_->DeleteAndRecreateDatabaseFile();
+  return login_db_ && login_db_->DeleteAndRecreateDatabaseFile();
 }
 
 void PasswordStoreDefault::ResetLoginDB() {
