@@ -4,20 +4,21 @@
 
 #include <memory>
 
-#include "android_webview/browser/input_stream.h"
-#include "android_webview/test/android_webview_unittests_jni/InputStreamUnittest_jni.h"
 #include "base/android/jni_android.h"
 #include "base/android/scoped_java_ref.h"
+#include "components/embedder_support/android/native_j_unittests_jni_headers/InputStreamUnittest_jni.h"
+#include "components/embedder_support/android/util/input_stream.h"
 #include "net/base/io_buffer.h"
 #include "net/base/net_errors.h"
 #include "net/http/http_byte_range.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-using android_webview::InputStream;
 using base::android::AttachCurrentThread;
 using base::android::ScopedJavaLocalRef;
+using embedder_support::InputStream;
 using net::IOBuffer;
+using testing::_;
 using testing::DoAll;
 using testing::Ge;
 using testing::InSequence;
@@ -27,7 +28,6 @@ using testing::NotNull;
 using testing::Return;
 using testing::SetArgPointee;
 using testing::Test;
-using testing::_;
 
 class InputStreamTest : public Test {
  public:

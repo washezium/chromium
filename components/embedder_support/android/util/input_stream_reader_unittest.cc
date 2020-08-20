@@ -2,19 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/network_service/input_stream_reader.h"
+#include "components/embedder_support/android/util/input_stream_reader.h"
 
-#include "android_webview/browser/input_stream.h"
 #include "base/android/scoped_java_ref.h"
 #include "base/callback.h"
 #include "base/memory/ref_counted.h"
+#include "components/embedder_support/android/util/input_stream.h"
 #include "net/base/io_buffer.h"
 #include "net/http/http_byte_range.h"
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 
-using android_webview::InputStream;
-using android_webview::InputStreamReader;
+using embedder_support::InputStream;
+using embedder_support::InputStreamReader;
+using testing::_;
 using testing::DoAll;
 using testing::Ge;
 using testing::InSequence;
@@ -24,9 +25,8 @@ using testing::NotNull;
 using testing::Return;
 using testing::SetArgPointee;
 using testing::Test;
-using testing::_;
 
-class MockInputStream : public InputStream {
+class MockInputStream : public embedder_support::InputStream {
  public:
   MockInputStream() {}
   virtual ~MockInputStream() {}
@@ -38,9 +38,8 @@ class MockInputStream : public InputStream {
 
 class InputStreamReaderTest : public Test {
  public:
-  InputStreamReaderTest()
-      : input_stream_reader_(&input_stream_) {
-  }
+  InputStreamReaderTest() : input_stream_reader_(&input_stream_) {}
+
  protected:
   int SeekRange(int first_byte, int last_byte) {
     net::HttpByteRange byte_range;
@@ -58,8 +57,7 @@ class InputStreamReaderTest : public Test {
 };
 
 TEST_F(InputStreamReaderTest, BytesAvailableFailurePropagationOnSeek) {
-  EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
-      .WillOnce(Return(false));
+  EXPECT_CALL(input_stream_, BytesAvailable(NotNull())).WillOnce(Return(false));
 
   ASSERT_GT(0, SeekRange(0, 0));
 }
@@ -69,8 +67,7 @@ TEST_F(InputStreamReaderTest, SkipFailurePropagationOnSeek) {
   const int bytesToSkip = 5;
 
   EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
-      .WillOnce(DoAll(SetArgPointee<0>(streamSize),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<0>(streamSize), Return(true)));
 
   EXPECT_CALL(input_stream_, Skip(bytesToSkip, NotNull()))
       .WillOnce(Return(false));
@@ -83,12 +80,10 @@ TEST_F(InputStreamReaderTest, SeekToMiddle) {
   const int bytesToSkip = 5;
 
   EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
-      .WillOnce(DoAll(SetArgPointee<0>(streamSize),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<0>(streamSize), Return(true)));
 
   EXPECT_CALL(input_stream_, Skip(bytesToSkip, NotNull()))
-      .WillOnce(DoAll(SetArgPointee<1>(bytesToSkip),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<1>(bytesToSkip), Return(true)));
 
   ASSERT_EQ(bytesToSkip, SeekRange(bytesToSkip, streamSize - 1));
 }
@@ -99,24 +94,19 @@ TEST_F(InputStreamReaderTest, SeekToMiddleInSteps) {
 
   EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
       .Times(1)
-      .WillOnce(DoAll(SetArgPointee<0>(streamSize),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<0>(streamSize), Return(true)));
 
-  EXPECT_CALL(input_stream_, Skip(_, _))
-      .Times(0);
+  EXPECT_CALL(input_stream_, Skip(_, _)).Times(0);
   {
     InSequence s;
     EXPECT_CALL(input_stream_, Skip(bytesToSkip, NotNull()))
-        .WillOnce(DoAll(SetArgPointee<1>(bytesToSkip - 3),
-                        Return(true)))
+        .WillOnce(DoAll(SetArgPointee<1>(bytesToSkip - 3), Return(true)))
         .RetiresOnSaturation();
     EXPECT_CALL(input_stream_, Skip(3, NotNull()))
-        .WillOnce(DoAll(SetArgPointee<1>(1),
-                        Return(true)))
+        .WillOnce(DoAll(SetArgPointee<1>(1), Return(true)))
         .RetiresOnSaturation();
     EXPECT_CALL(input_stream_, Skip(2, NotNull()))
-        .WillOnce(DoAll(SetArgPointee<1>(2),
-                        Return(true)))
+        .WillOnce(DoAll(SetArgPointee<1>(2), Return(true)))
         .RetiresOnSaturation();
   }
 
@@ -125,8 +115,7 @@ TEST_F(InputStreamReaderTest, SeekToMiddleInSteps) {
 
 TEST_F(InputStreamReaderTest, SeekEmpty) {
   EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
-      .WillOnce(DoAll(SetArgPointee<0>(0),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<0>(0), Return(true)));
 
   ASSERT_EQ(0, SeekRange(0, 0));
 }
@@ -134,8 +123,7 @@ TEST_F(InputStreamReaderTest, SeekEmpty) {
 TEST_F(InputStreamReaderTest, SeekMoreThanAvailable) {
   const int bytesAvailable = 256;
   EXPECT_CALL(input_stream_, BytesAvailable(NotNull()))
-      .WillOnce(DoAll(SetArgPointee<0>(bytesAvailable),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<0>(bytesAvailable), Return(true)));
 
   ASSERT_GT(0, SeekRange(bytesAvailable, 2 * bytesAvailable));
 }
@@ -164,8 +152,7 @@ TEST_F(InputStreamReaderTest, ReadSuccess) {
   auto buffer = base::MakeRefCounted<net::IOBuffer>(bytesToRead);
 
   EXPECT_CALL(input_stream_, Read(buffer.get(), bytesToRead, NotNull()))
-      .WillOnce(DoAll(SetArgPointee<2>(bytesToRead),
-                      Return(true)));
+      .WillOnce(DoAll(SetArgPointee<2>(bytesToRead), Return(true)));
 
   ASSERT_EQ(bytesToRead, ReadRawData(buffer, bytesToRead));
 }

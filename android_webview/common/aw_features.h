@@ -20,7 +20,6 @@ extern const base::Feature kWebViewDisplayCutout;
 extern const base::Feature kWebViewExtraHeadersSameDomainOnly;
 extern const base::Feature kWebViewExtraHeadersSameOriginOnly;
 extern const base::Feature kWebViewOriginCheckForStreamReader;
-extern const base::Feature kWebViewSniffMimeType;
 extern const base::Feature kWebViewTestFeature;
 extern const base::Feature kWebViewWideColorGamutSupport;
 

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ANDROID_WEBVIEW_BROWSER_INPUT_STREAM_H_
-#define ANDROID_WEBVIEW_BROWSER_INPUT_STREAM_H_
+#ifndef COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_H_
+#define COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_H_
 
 #include <stdint.h>
 
@@ -15,7 +15,7 @@ namespace net {
 class IOBuffer;
 }
 
-namespace android_webview {
+namespace embedder_support {
 
 // Abstract wrapper used to access the InputStream Java class.
 // This class is safe to pass around between threads (the destructor,
@@ -66,6 +66,6 @@ class InputStream {
   DISALLOW_COPY_AND_ASSIGN(InputStream);
 };
 
-} // namespace android_webview
+}  // namespace embedder_support
 
-#endif //  ANDROID_WEBVIEW_BROWSER_INPUT_STREAM_H_
+#endif  //  COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_H_

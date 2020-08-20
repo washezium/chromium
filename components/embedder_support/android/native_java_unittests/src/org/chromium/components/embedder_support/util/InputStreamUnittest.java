@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.android_webview.unittest;
+package org.chromium.components.embedder_support.util;
 
 import org.chromium.base.annotations.CalledByNative;
 
@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 class InputStreamUnittest {
-    private InputStreamUnittest() {
-    }
+    private InputStreamUnittest() {}
 
     @CalledByNative
     static InputStream getEmptyStream() {

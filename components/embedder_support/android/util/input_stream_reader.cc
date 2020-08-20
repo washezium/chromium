@@ -2,24 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/network_service/input_stream_reader.h"
+#include "components/embedder_support/android/util/input_stream_reader.h"
 
-#include "android_webview/browser/input_stream.h"
-#include "content/public/browser/browser_thread.h"
+#include "components/embedder_support/android/util/input_stream.h"
 #include "net/base/net_errors.h"
 #include "net/http/http_byte_range.h"
 
-using content::BrowserThread;
+namespace embedder_support {
 
-namespace android_webview {
-
-InputStreamReader::InputStreamReader(android_webview::InputStream* stream)
-    : stream_(stream) {
+InputStreamReader::InputStreamReader(InputStream* stream) : stream_(stream) {
   DCHECK(stream);
 }
 
-InputStreamReader::~InputStreamReader() {
-}
+InputStreamReader::~InputStreamReader() {}
 
 int InputStreamReader::Seek(const net::HttpByteRange& byte_range) {
   int content_size = 0;
@@ -64,8 +59,8 @@ int InputStreamReader::VerifyRequestedRange(net::HttpByteRange* byte_range,
   if (!byte_range->ComputeBounds(size))
     return net::ERR_REQUEST_RANGE_NOT_SATISFIABLE;
 
-  size = byte_range->last_byte_position() -
-         byte_range->first_byte_position() + 1;
+  size =
+      byte_range->last_byte_position() - byte_range->first_byte_position() + 1;
   DCHECK_GE(size, 0);
   *content_size = size;
 
@@ -94,4 +89,4 @@ int InputStreamReader::SkipToRequestedRange(
   return net::OK;
 }
 
-}  // namespace android_webview
+}  // namespace embedder_support

@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_ANDROID_STREAM_READER_URL_LOADER_H_
-#define ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_ANDROID_STREAM_READER_URL_LOADER_H_
+#ifndef COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_ANDROID_STREAM_READER_URL_LOADER_H_
+#define COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_ANDROID_STREAM_READER_URL_LOADER_H_
 
 #include <memory>
 #include <string>
@@ -19,8 +19,7 @@
 #include "services/network/public/mojom/url_loader.mojom.h"
 #include "services/network/public/mojom/url_response_head.mojom.h"
 
-namespace android_webview {
-
+namespace embedder_support {
 class InputStream;
 class InputStreamReaderWrapper;
 
@@ -41,7 +40,7 @@ class AndroidStreamReaderURLLoader : public network::mojom::URLLoader {
     virtual ~ResponseDelegate() {}
 
     // This method is called from a worker thread, not from the IO thread.
-    virtual std::unique_ptr<android_webview::InputStream> OpenInputStream(
+    virtual std::unique_ptr<embedder_support::InputStream> OpenInputStream(
         JNIEnv* env) = 0;
 
     // This method is called on the URLLoader thread (IO thread) if the
@@ -52,12 +51,12 @@ class AndroidStreamReaderURLLoader : public network::mojom::URLLoader {
 
     virtual bool GetMimeType(JNIEnv* env,
                              const GURL& url,
-                             android_webview::InputStream* stream,
+                             embedder_support::InputStream* stream,
                              std::string* mime_type) = 0;
 
     virtual bool GetCharset(JNIEnv* env,
                             const GURL& url,
-                            android_webview::InputStream* stream,
+                            embedder_support::InputStream* stream,
                             std::string* charset) = 0;
 
     virtual void AppendResponseHeaders(JNIEnv* env,
@@ -77,7 +76,9 @@ class AndroidStreamReaderURLLoader : public network::mojom::URLLoader {
       base::Optional<SecurityOptions> security_options);
   ~AndroidStreamReaderURLLoader() override;
 
-  void Start();
+  // TODO: remove the boolean once https://crbug.com/1096677 reaches stable and
+  // there are no issues.
+  void Start(bool cors_check);
 
   // network::mojom::URLLoader overrides:
   void FollowRedirect(
@@ -95,7 +96,7 @@ class AndroidStreamReaderURLLoader : public network::mojom::URLLoader {
   void OnInputStreamOpened(
       std::unique_ptr<AndroidStreamReaderURLLoader::ResponseDelegate>
           returned_delegate,
-      std::unique_ptr<android_webview::InputStream> input_stream);
+      std::unique_ptr<embedder_support::InputStream> input_stream);
   void OnReaderSeekCompleted(int result);
   void HeadersComplete(int status_code, const std::string& status_text);
   void RequestCompleteWithStatus(
@@ -141,6 +142,6 @@ class AndroidStreamReaderURLLoader : public network::mojom::URLLoader {
   DISALLOW_COPY_AND_ASSIGN(AndroidStreamReaderURLLoader);
 };
 
-}  // namespace android_webview
+}  // namespace embedder_support
 
-#endif  // ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_ANDROID_STREAM_READER_URL_LOADER_H_
+#endif  // COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_ANDROID_STREAM_READER_URL_LOADER_H_

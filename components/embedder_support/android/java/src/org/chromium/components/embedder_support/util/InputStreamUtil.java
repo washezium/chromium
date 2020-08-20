@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.android_webview;
+package org.chromium.components.embedder_support.util;
 
 import android.util.Log;
 
@@ -15,7 +15,7 @@ import java.io.InputStream;
 /**
  * Utility methods for calling InputStream methods. These take care of exception handling.
  */
-@JNINamespace("android_webview")
+@JNINamespace("embedder_support")
 class InputStreamUtil {
     private static final String LOGTAG = "InputStreamUtil";
     // The InputStream APIs return -1 in some cases. In order to convey the extra information that

@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/network_service/android_stream_reader_url_loader.h"
+#include "components/embedder_support/android/util/android_stream_reader_url_loader.h"
 
 #include <utility>
 
-#include "android_webview/browser/input_stream.h"
 #include "base/run_loop.h"
 #include "base/test/task_environment.h"
+#include "components/embedder_support/android/util/input_stream.h"
 #include "mojo/core/embedder/embedder.h"
 #include "net/http/http_request_headers.h"
 #include "net/traffic_annotation/network_traffic_annotation_test_helper.h"
@@ -16,7 +16,7 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/mojom/loader/resource_load_info.mojom-shared.h"
 
-namespace android_webview {
+namespace embedder_support {
 
 namespace {
 
@@ -34,7 +34,7 @@ void VerifyHeaderNameAndValue(net::HttpResponseHeaders* headers,
 
 // Always succeeds, depending on constructor uses the given string as contents
 // for the input stream and puts it in the IOBuffer |nb_reads| times.
-class FakeInputStream : public InputStream {
+class FakeInputStream : public embedder_support::InputStream {
  public:
   FakeInputStream() : contents_(""), nb_reads_(0) {}
   explicit FakeInputStream(std::string contents)
@@ -70,7 +70,7 @@ class FakeInputStream : public InputStream {
 };
 
 // Stream that always fails
-class FakeFailingInputStream : public InputStream {
+class FakeFailingInputStream : public embedder_support::InputStream {
  public:
   FakeFailingInputStream() {}
   ~FakeFailingInputStream() override {}
@@ -84,24 +84,26 @@ class FakeFailingInputStream : public InputStream {
 class TestResponseDelegate
     : public AndroidStreamReaderURLLoader::ResponseDelegate {
  public:
-  explicit TestResponseDelegate(std::unique_ptr<InputStream> input_stream)
+  explicit TestResponseDelegate(
+      std::unique_ptr<embedder_support::InputStream> input_stream)
       : input_stream_(std::move(input_stream)) {}
-  TestResponseDelegate(std::unique_ptr<InputStream> input_stream,
-                       const std::string custom_mime_type)
+  TestResponseDelegate(
+      std::unique_ptr<embedder_support::InputStream> input_stream,
+      const std::string custom_mime_type)
       : input_stream_(std::move(input_stream)),
         custom_mime_type_(custom_mime_type) {}
-  TestResponseDelegate(std::unique_ptr<InputStream> input_stream,
-                       const std::string& custom_status,
-                       const std::string& custom_header_name,
-                       const std::string& custom_header_value)
+  TestResponseDelegate(
+      std::unique_ptr<embedder_support::InputStream> input_stream,
+      const std::string& custom_status,
+      const std::string& custom_header_name,
+      const std::string& custom_header_value)
       : input_stream_(std::move(input_stream)),
         custom_status_(custom_status),
         custom_header_name_(custom_header_name),
         custom_header_value_(custom_header_value) {}
   ~TestResponseDelegate() override {}
 
-  std::unique_ptr<android_webview::InputStream> OpenInputStream(
-      JNIEnv* env) override {
+  std::unique_ptr<InputStream> OpenInputStream(JNIEnv* env) override {
     return std::move(input_stream_);
   }
 
@@ -112,7 +114,7 @@ class TestResponseDelegate
 
   bool GetMimeType(JNIEnv* env,
                    const GURL& url,
-                   android_webview::InputStream* stream,
+                   embedder_support::InputStream* stream,
                    std::string* mime_type) override {
     if (!custom_mime_type_.empty()) {
       *mime_type = custom_mime_type_;
@@ -123,7 +125,7 @@ class TestResponseDelegate
 
   bool GetCharset(JNIEnv* env,
                   const GURL& url,
-                  android_webview::InputStream* stream,
+                  embedder_support::InputStream* stream,
                   std::string* charset) override {
     return false;
   }
@@ -140,7 +142,7 @@ class TestResponseDelegate
   }
 
  private:
-  std::unique_ptr<InputStream> input_stream_;
+  std::unique_ptr<embedder_support::InputStream> input_stream_;
   const std::string custom_mime_type_;
   const std::string custom_status_;
   const std::string custom_header_name_;
@@ -154,9 +156,7 @@ class AndroidStreamReaderURLLoaderTest : public ::testing::Test {
   AndroidStreamReaderURLLoaderTest() {}
   ~AndroidStreamReaderURLLoaderTest() override = default;
 
-  void SetUp() override {
-    mojo::core::Init();
-  }
+  void SetUp() override { mojo::core::Init(); }
 
   network::ResourceRequest CreateRequest() {
     network::ResourceRequest request;
@@ -171,7 +171,7 @@ class AndroidStreamReaderURLLoaderTest : public ::testing::Test {
   AndroidStreamReaderURLLoader* CreateLoader(
       const network::ResourceRequest& request,
       network::TestURLLoaderClient* client,
-      std::unique_ptr<InputStream> input_stream) {
+      std::unique_ptr<embedder_support::InputStream> input_stream) {
     return new AndroidStreamReaderURLLoader(
         request, client->CreateRemote(),
         net::MutableNetworkTrafficAnnotationTag(TRAFFIC_ANNOTATION_FOR_TESTS),
@@ -183,7 +183,7 @@ class AndroidStreamReaderURLLoaderTest : public ::testing::Test {
   AndroidStreamReaderURLLoader* CreateLoaderWithMimeType(
       const network::ResourceRequest& request,
       network::TestURLLoaderClient* client,
-      std::unique_ptr<InputStream> input_stream,
+      std::unique_ptr<embedder_support::InputStream> input_stream,
       const std::string custom_mime_type) {
     return new AndroidStreamReaderURLLoader(
         request, client->CreateRemote(),
@@ -198,7 +198,7 @@ class AndroidStreamReaderURLLoaderTest : public ::testing::Test {
   AndroidStreamReaderURLLoader* CreateLoaderWithCustomizedResponseHeader(
       const network::ResourceRequest& request,
       network::TestURLLoaderClient* client,
-      std::unique_ptr<InputStream> input_stream,
+      std::unique_ptr<embedder_support::InputStream> input_stream,
       const std::string custom_status,
       const std::string custom_header_name,
       const std::string custom_header_value) {
@@ -244,7 +244,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, ReadFakeStream) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader =
       CreateLoader(request, client.get(), std::make_unique<FakeInputStream>());
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ("HTTP/1.1 200 OK",
@@ -259,7 +259,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, ReadFailingStream) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader = CreateLoader(
       request, client.get(), std::make_unique<FakeFailingInputStream>());
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::ERR_FAILED, client->completion_status().error_code);
 }
@@ -272,7 +272,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, ValidRangeRequest) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader =
       CreateLoader(request, client.get(), std::make_unique<FakeInputStream>());
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ("HTTP/1.1 200 OK",
@@ -287,7 +287,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, InvalidRangeRequest) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader =
       CreateLoader(request, client.get(), std::make_unique<FakeInputStream>());
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::ERR_REQUEST_RANGE_NOT_SATISFIABLE,
             client->completion_status().error_code);
@@ -300,7 +300,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, NullInputStream) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader =
       CreateLoader(request, client.get(), nullptr);
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ("HTTP/1.1 404 Not Found",
@@ -317,7 +317,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, ReadFakeStreamWithBody) {
       std::make_unique<network::TestURLLoaderClient>();
   AndroidStreamReaderURLLoader* loader = CreateLoader(
       request, client.get(), std::make_unique<FakeInputStream>(expected_body));
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ("HTTP/1.1 200 OK",
@@ -337,7 +337,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, ReadFakeStreamWithBodyMultipleReads) {
   AndroidStreamReaderURLLoader* loader =
       CreateLoader(request, client.get(),
                    std::make_unique<FakeInputStream>(expected_body, 2));
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ("HTTP/1.1 200 OK",
@@ -359,7 +359,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest,
   AndroidStreamReaderURLLoader* loader = CreateLoaderWithMimeType(
       request, client.get(), std::make_unique<FakeInputStream>(expected_body),
       valid_mime_type);
-  loader->Start();
+  loader->Start(false);
   client->RunUntilResponseBodyArrived();
   EXPECT_TRUE(client->has_received_response());
   EXPECT_FALSE(client->has_received_completion());
@@ -385,7 +385,7 @@ TEST_F(AndroidStreamReaderURLLoaderTest, CustomResponseHeaderAndStatus) {
           request, client.get(),
           std::make_unique<FakeInputStream>(expected_body), custom_status_line,
           custom_header_name, custom_header_value);
-  loader->Start();
+  loader->Start(false);
   client->RunUntilComplete();
   EXPECT_EQ(net::OK, client->completion_status().error_code);
   EXPECT_EQ(custom_status_line,
@@ -396,4 +396,4 @@ TEST_F(AndroidStreamReaderURLLoaderTest, CustomResponseHeaderAndStatus) {
                            "shouldInterceptRequest");
 }
 
-}  // namespace android_webview
+}  // namespace embedder_support

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/input_stream.h"
+#include "components/embedder_support/android/util/input_stream.h"
 
 #include "base/android/jni_android.h"
 // Disable "Warnings treated as errors" for input_stream_jni as it's a Java
@@ -10,7 +10,7 @@
 // even if they're unused.
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
-#include "android_webview/browser_jni_headers/InputStreamUtil_jni.h"
+#include "components/embedder_support/android/util_jni_headers/InputStreamUtil_jni.h"
 #pragma GCC diagnostic pop
 #include "net/base/io_buffer.h"
 
@@ -18,13 +18,13 @@ using base::android::AttachCurrentThread;
 using base::android::ClearException;
 using base::android::JavaRef;
 
-namespace android_webview {
+namespace embedder_support {
 
 namespace {
 
 // This should be the same as InputStramUtil.EXCEPTION_THROWN_STATUS.
 const int kExceptionThrownStatusCode = -2;
-}
+}  // namespace
 
 // Maximum number of bytes to be read in a single read.
 const int InputStream::kBufferSize = 4096;
@@ -120,4 +120,4 @@ bool InputStream::Read(net::IOBuffer* dest, int length, int* bytes_read) {
   return true;
 }
 
-}  // namespace android_webview
+}  // namespace embedder_support

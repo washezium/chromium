@@ -2,26 +2,23 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "android_webview/browser/network_service/android_stream_reader_url_loader.h"
+#include "components/embedder_support/android/util/android_stream_reader_url_loader.h"
 
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "android_webview/browser/input_stream.h"
-#include "android_webview/browser/network_service/input_stream_reader.h"
-#include "android_webview/common/aw_features.h"
 #include "base/android/jni_android.h"
 #include "base/bind.h"
 #include "base/callback.h"
-#include "base/feature_list.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/task/post_task.h"
 #include "base/task/thread_pool.h"
 #include "base/threading/thread.h"
 #include "base/threading/thread_task_runner_handle.h"
-#include "content/public/browser/browser_thread.h"
+#include "components/embedder_support/android/util/input_stream.h"
+#include "components/embedder_support/android/util/input_stream_reader.h"
 #include "net/base/io_buffer.h"
 #include "net/base/mime_sniffer.h"
 #include "net/http/http_status_code.h"
@@ -29,7 +26,7 @@
 #include "services/network/public/cpp/cors/cors.h"
 #include "services/network/public/cpp/url_loader_completion_status.h"
 
-namespace android_webview {
+namespace embedder_support {
 
 namespace {
 
@@ -52,8 +49,6 @@ void OpenInputStreamOnWorkerThread(
     scoped_refptr<base::SingleThreadTaskRunner> job_thread_task_runner,
     std::unique_ptr<AndroidStreamReaderURLLoader::ResponseDelegate> delegate,
     OnInputStreamOpenedCallback callback) {
-  DCHECK(!content::BrowserThread::CurrentlyOn(content::BrowserThread::IO));
-  DCHECK(!content::BrowserThread::CurrentlyOn(content::BrowserThread::UI));
   JNIEnv* env = base::android::AttachCurrentThread();
   DCHECK(env);
 
@@ -150,12 +145,10 @@ void AndroidStreamReaderURLLoader::SetPriority(net::RequestPriority priority,
 void AndroidStreamReaderURLLoader::PauseReadingBodyFromNet() {}
 void AndroidStreamReaderURLLoader::ResumeReadingBodyFromNet() {}
 
-void AndroidStreamReaderURLLoader::Start() {
+void AndroidStreamReaderURLLoader::Start(bool cors_check) {
   DCHECK(thread_checker_.CalledOnValidThread());
 
-  if (base::FeatureList::IsEnabled(
-          features::kWebViewOriginCheckForStreamReader) &&
-      reject_cors_request_ &&
+  if (cors_check && reject_cors_request_ &&
       response_head_->response_type ==
           network::mojom::FetchResponseType::kCors) {
     RequestCompleteWithStatus(
@@ -314,8 +307,7 @@ void AndroidStreamReaderURLLoader::SendBody() {
   // 2. Sending this now lets us unittest the net::ERR_ABORTED case. The case
   //    needs the ability to break the stream after getting the headers but
   //    before finishing the read.
-  if (!base::FeatureList::IsEnabled(features::kWebViewSniffMimeType) ||
-      !response_head_->mime_type.empty()) {
+  if (!response_head_->mime_type.empty()) {
     SendResponseToClient();
   }
   ReadMore();
@@ -387,7 +379,6 @@ void AndroidStreamReaderURLLoader::DidRead(int result) {
   if (consumer_handle_.is_valid()) {
     // We only hit this on for the first buffer read, which we expect to be
     // enough to determine the MIME type.
-    DCHECK(base::FeatureList::IsEnabled(features::kWebViewSniffMimeType));
     if (response_head_->mime_type.empty()) {
       // Limit sniffing to the first net::kMaxBytesToSniff.
       size_t data_length = result;
@@ -478,4 +469,4 @@ bool AndroidStreamReaderURLLoader::ParseRange(
   return true;
 }
 
-}  // namespace android_webview
+}  // namespace embedder_support

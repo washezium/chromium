@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_INPUT_STREAM_READER_H_
-#define ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_INPUT_STREAM_READER_H_
+#ifndef COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_READER_H_
+#define COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_READER_H_
 
 #include "base/macros.h"
 #include "base/memory/ref_counted.h"
@@ -11,17 +11,16 @@
 namespace net {
 class HttpByteRange;
 class IOBuffer;
-}
+}  // namespace net
 
-namespace android_webview {
-
+namespace embedder_support {
 class InputStream;
 
 // Class responsible for reading the InputStream.
 class InputStreamReader {
  public:
   // The constructor is called on the IO thread, not on the worker thread.
-  explicit InputStreamReader(android_webview::InputStream* stream);
+  explicit InputStreamReader(InputStream* stream);
   virtual ~InputStreamReader();
 
   // Perform a seek operation on the InputStream associated with this job.
@@ -45,18 +44,17 @@ class InputStreamReader {
  private:
   // Verify the requested range against the stream size.
   // net::OK is returned on success, the error code otherwise.
-  int VerifyRequestedRange(net::HttpByteRange* byte_range,
-                           int* content_size);
+  int VerifyRequestedRange(net::HttpByteRange* byte_range, int* content_size);
 
   // Skip to the first byte of the requested read range.
   // net::OK is returned on success, the error code otherwise.
   int SkipToRequestedRange(const net::HttpByteRange& byte_range);
 
-  android_webview::InputStream* stream_;
+  InputStream* stream_;
 
   DISALLOW_COPY_AND_ASSIGN(InputStreamReader);
 };
 
-}  // namespace android_webview
+}  // namespace embedder_support
 
-#endif  // ANDROID_WEBVIEW_BROWSER_NETWORK_SERVICE_INPUT_STREAM_READER_H_
+#endif  // COMPONENTS_EMBEDDER_SUPPORT_ANDROID_UTIL_INPUT_STREAM_READER_H_
