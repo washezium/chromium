@@ -83,7 +83,8 @@ public class SigninUtils {
             AccountPickerBottomSheetCoordinator coordinator =
                     new AccountPickerBottomSheetCoordinator(activity,
                             BottomSheetControllerProvider.from(activity.getWindowAndroid()),
-                            new AccountPickerDelegate(windowAndroid, continueUrl));
+                            new AccountPickerDelegate(
+                                    windowAndroid, new WebSigninBridge.Factory(), continueUrl));
         }
     }
 
