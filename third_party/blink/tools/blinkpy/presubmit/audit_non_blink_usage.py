@@ -587,7 +587,9 @@ _CONFIG = [
             'cc::ApplyViewportChangesArgs',
             'cc::LayerTreeSettings',
             'cc::TaskGraphRunner',
+            'gfx::DisplayColorSpaces',
             'ui::ImeTextSpan',
+            'viz::LocalSurfaceIdAllocation',
         ],
     },
     {
