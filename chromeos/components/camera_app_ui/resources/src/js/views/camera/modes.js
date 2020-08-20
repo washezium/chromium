@@ -386,12 +386,11 @@ export class Modes {
    * constraints for the given mode.
    * @param {!Mode} mode
    * @param {string} deviceId
-   * @param {!ResolutionList} previewResolutions
    * @return {!Array<!CaptureCandidate>}
    */
-  getResolutionCandidates(mode, deviceId, previewResolutions) {
+  getResolutionCandidates(mode, deviceId) {
     return this.allModes_[mode].constraintsPreferrer.getSortedCandidates(
-        deviceId, previewResolutions);
+        deviceId);
   }
 
   /**
