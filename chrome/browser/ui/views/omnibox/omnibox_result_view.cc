@@ -73,6 +73,9 @@ OmniboxResultView::OmniboxResultView(
   // accessibility node data for removable suggestions.
   remove_suggestion_button_ =
       AddChildView(views::CreateVectorImageButton(this));
+  // The remove suggestion button may receive mouse enter/exit events with very
+  // quick mouse movements. Monitor the button to update our state.
+  update_on_mouse_enter_exit_.emplace(this, remove_suggestion_button_);
   views::InstallCircleHighlightPathGenerator(remove_suggestion_button_);
   remove_suggestion_button_->SetTooltipText(
       l10n_util::GetStringUTF16(IDS_OMNIBOX_REMOVE_SUGGESTION));
@@ -518,6 +521,26 @@ void OmniboxResultView::EmitTextChangedAccessiblityEvent() {
 
 ////////////////////////////////////////////////////////////////////////////////
 // OmniboxResultView, private:
+
+OmniboxResultView::UpdateOnMouseEnterExit::UpdateOnMouseEnterExit(
+    OmniboxResultView* omnibox_result_view,
+    View* target)
+    : omnibox_result_view_(omnibox_result_view), target_(target) {
+  target_->AddPreTargetHandler(this);
+}
+
+OmniboxResultView::UpdateOnMouseEnterExit::~UpdateOnMouseEnterExit() {
+  target_->RemovePreTargetHandler(this);
+}
+
+void OmniboxResultView::UpdateOnMouseEnterExit::OnMouseEvent(
+    ui::MouseEvent* event) {
+  auto event_type = event->type();
+  if (event_type != ui::ET_MOUSE_ENTERED && event_type != ui::ET_MOUSE_EXITED)
+    return;
+
+  omnibox_result_view_->UpdateHoverState();
+}
 
 gfx::Image OmniboxResultView::GetIcon() const {
   return popup_contents_view_->GetMatchIcon(
