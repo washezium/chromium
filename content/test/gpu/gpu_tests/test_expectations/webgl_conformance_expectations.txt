@@ -421,7 +421,6 @@ crbug.com/599272 [ mac no-passthrough ] conformance/extensions/oes-texture-float
 crbug.com/928926 [ mac ] conformance/ogles/GL/abs/abs_001_to_006.html [ RetryOnFailure ]
 
 # Mac AMD failures
-crbug.com/905007 [ mac amd opengl ] conformance/glsl/bugs/bool-type-cast-bug-int-float.html [ Failure ]
 crbug.com/642822 [ mac amd ] conformance/rendering/clipping-wide-points.html [ Failure ]
 crbug.com/929009 [ mac amd ] conformance/glsl/misc/shader-with-non-reserved-words.html [ RetryOnFailure ]
 
