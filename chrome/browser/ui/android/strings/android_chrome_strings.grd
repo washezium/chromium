@@ -3108,6 +3108,9 @@ To change this setting, <ph name="BEGIN_LINK">&lt;resetlink&gt;</ph>reset sync<p
       <message name="IDS_OMNIBOX_CONFIRM_DELETE" desc="A message within a modal dialog that confirms the user wants to delete a suggestion from the list dropdown in the omnibox">
         Remove suggestion from history?
       </message>
+      <message name="IDS_MOST_VISITED_TILES_HEADER" desc="A header above a row with most visited tiles carousel in the Omnibox suggestions dropdown">
+        Frequently visited
+      </message>
 
       <!-- Undo Bar -->
       <message name="IDS_UNDO_BAR_CLOSE_MESSAGE" desc="Message shown when you can undo a tab close action. This message is short for a sentence &quot;TAB_TITLE has been closed&quot;, not a noun &quot;TAB_TITLE, which is a closed tab&quot;.">
