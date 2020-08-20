@@ -318,8 +318,8 @@ void WebViewFrameWidget::SetPageScaleStateAndLimits(
 
   // If page scale hasn't changed, then just return without notifying
   // the remote frames.
-  if (page_scale_factor == page_scale_factor_from_mainframe_ &&
-      is_pinch_gesture_active == is_pinch_gesture_active_from_mainframe_) {
+  if (page_scale_factor == page_scale_factor_in_mainframe_ &&
+      is_pinch_gesture_active == is_pinch_gesture_active_in_mainframe_) {
     return;
   }
 

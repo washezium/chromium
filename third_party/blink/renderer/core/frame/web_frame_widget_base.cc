@@ -653,14 +653,12 @@ void WebFrameWidgetBase::UpdateVisualProperties(
     NotifyPageScaleFactorChanged(visual_properties.page_scale_factor,
                                  visual_properties.is_pinch_gesture_active);
   } else {
-    // Ensure scale factors used in nested widgets are reset to their default
-    // values, they may be leftover from when a widget was nested and was
-    // promoted to top level (e.g. portal activation).
+    // Ensure the external scale factor in top-level widgets is reset as it may
+    // be leftover from when a widget was nested and was promoted to top level
+    // (e.g. portal activation).
     widget_base_->LayerTreeHost()->SetExternalPageScaleFactor(
         1.f,
         /*is_pinch_gesture_active=*/false);
-    page_scale_factor_from_mainframe_ = 1.f;
-    is_pinch_gesture_active_from_mainframe_ = false;
   }
 }
 
@@ -1041,11 +1039,11 @@ bool WebFrameWidgetBase::IsFullscreenGranted() {
 }
 
 bool WebFrameWidgetBase::PinchGestureActiveInMainFrame() {
-  return is_pinch_gesture_active_from_mainframe_;
+  return is_pinch_gesture_active_in_mainframe_;
 }
 
 float WebFrameWidgetBase::PageScaleInMainFrame() {
-  return page_scale_factor_from_mainframe_;
+  return page_scale_factor_in_mainframe_;
 }
 
 void WebFrameWidgetBase::UpdateSurfaceAndScreenInfo(
@@ -1992,8 +1990,8 @@ void WebFrameWidgetBase::NotifyPageScaleFactorChanged(
     bool is_pinch_gesture_active) {
   // Store the value to give to any new RemoteFrame that will be created as a
   // descendant of this widget.
-  page_scale_factor_from_mainframe_ = page_scale_factor;
-  is_pinch_gesture_active_from_mainframe_ = is_pinch_gesture_active;
+  page_scale_factor_in_mainframe_ = page_scale_factor;
+  is_pinch_gesture_active_in_mainframe_ = is_pinch_gesture_active;
   // Push the page scale factor down to any child RemoteFrames.
   // TODO(danakj): This ends up setting the page scale factor in the
   // RenderWidgetHost of the child WebFrameWidgetBase, so that it can bounce

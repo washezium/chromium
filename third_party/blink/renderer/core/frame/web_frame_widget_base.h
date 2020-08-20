@@ -582,11 +582,11 @@ class CORE_EXPORT WebFrameWidgetBase
   // complicated inheritance structures.
   std::unique_ptr<WidgetBase> widget_base_;
 
-  // The last seen page scale state, which comes from the main frame and is
-  // propagated through the RenderWidget tree. This state is passed to any new
-  // child RenderWidget.
-  float page_scale_factor_from_mainframe_ = 1.f;
-  bool is_pinch_gesture_active_from_mainframe_ = false;
+  // The last seen page scale state, which comes from the main frame if we're
+  // in a child frame. This state is propagated through the RenderWidget tree
+  // passed to any new child RenderWidget.
+  float page_scale_factor_in_mainframe_ = 1.f;
+  bool is_pinch_gesture_active_in_mainframe_ = false;
 
  private:
   void CancelDrag();
