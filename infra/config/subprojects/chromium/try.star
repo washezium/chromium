@@ -498,7 +498,7 @@ try_.chromium_mac_ios_builder(
     name = "ios-simulator",
     executable = "recipe:chromium_trybot",
     properties = {
-        "xcode_build_version": "12a8179i_audio",
+        "xcode_build_version": "12a8189h",
     },
     tryjob = try_.job(),
 )
