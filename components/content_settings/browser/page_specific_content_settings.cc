@@ -854,6 +854,13 @@ void PageSpecificContentSettings::OnContentSettingChanged(
       status.blocked = setting == CONTENT_SETTING_BLOCK;
       break;
     }
+    case ContentSettingsType::GEOLOCATION: {
+      ContentSetting geolocation_setting = map_->GetContentSetting(
+          visible_url_, visible_url_, content_type, std::string());
+      if (geolocation_setting == CONTENT_SETTING_ALLOW)
+        geolocation_was_just_granted_on_site_level_ = true;
+      FALLTHROUGH;
+    }
     case ContentSettingsType::IMAGES:
     case ContentSettingsType::JAVASCRIPT:
     case ContentSettingsType::PLUGINS:
@@ -865,7 +872,6 @@ void PageSpecificContentSettings::OnContentSettingChanged(
     case ContentSettingsType::ADS:
     case ContentSettingsType::SOUND:
     case ContentSettingsType::CLIPBOARD_READ_WRITE:
-    case ContentSettingsType::GEOLOCATION:
     case ContentSettingsType::SENSORS: {
       ContentSetting setting = map_->GetContentSetting(
           visible_url_, visible_url_, content_type, std::string());
