@@ -2668,6 +2668,11 @@ const char kCloseTabSuggestionsDescription[] =
     "configurable threshold or where duplicates of Tabs exist. "
     "The threshold is configurable.";
 
+const char kCriticalPersistedTabDataName[] = "Enable CriticalPersistedTabData";
+const char kCriticalPersistedTabDataDescription[] =
+    "A new method of persisting Tab data across restarts has been devised "
+    "and implemented. This actives the new approach.";
+
 const char kContentIndexingDownloadHomeName[] =
     "Content indexing in download home";
 const char kContentIndexingDownloadHomeDescription[] =
