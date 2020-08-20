@@ -2,9 +2,9 @@
 <html>
 <head>
 <title>RTCPeerConnection Insertable Streams</title>
-<script src="../../resources/testharness.js"></script>
-<script src="../../resources/testharnessreport.js"></script>
-<script src="../../external/wpt/webrtc/RTCPeerConnection-helper.js"></script>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="../webrtc/RTCPeerConnection-helper.js"></script>
 <script src="./RTCPeerConnection-insertable-streams.js"></script>
 </head>
 <body>
@@ -268,11 +268,11 @@ async function testNormalDataFlowWithInsertableStreamsForOtherKind(t, normalKind
 
 promise_test(t => {
   return testNormalDataFlowWithInsertableStreamsForOtherKind(t, 'audio');
-}, 'Audio flows when insertable streams is enabled for video and disabled for audio.');
+}, 'Legacy: Audio flows when insertable streams is enabled for video and disabled for audio.');
 
 promise_test(t => {
   return testNormalDataFlowWithInsertableStreamsForOtherKind(t, 'video');
-}, 'Video flows when insertable streams is enabled for audio and disabled for audio.');
+}, 'Legacy: Video flows when insertable streams is enabled for audio and disabled for audio.');
 
 promise_test(async t => {
   const caller = new RTCPeerConnection({encodedInsertableStreams:true});

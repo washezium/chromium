@@ -2,9 +2,9 @@
 <html>
 <head>
 <title>RTCPeerConnection Insertable Streams Audio</title>
-<script src="../../resources/testharness.js"></script>
-<script src="../../resources/testharnessreport.js"></script>
-<script src="../../external/wpt/webrtc/RTCPeerConnection-helper.js"></script>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="../webrtc/RTCPeerConnection-helper.js"></script>
 <script src="./RTCPeerConnection-insertable-streams.js"></script>
 </head>
 <body>
@@ -55,7 +55,7 @@ async function testAudioFlow(t, negotiationFunction) {
 
           if (numVerifiedFrames == numFramesToSend)
             resolve();
-        })).catch(e=>console.error(e));
+        }));
       }
     });
   });

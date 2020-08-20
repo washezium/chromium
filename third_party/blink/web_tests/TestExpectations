@@ -6426,9 +6426,6 @@ crbug.com/1073792 [ Mac ] virtual/threaded-prefer-compositing/fast/scrolling/eve
 # the inspector-protocol/media tests only work in the virtual test environment.
 crbug.com/1074129 inspector-protocol/media/media-player.js [ TIMEOUT ]
 
-# Sheriff 2020-04-30
-crbug.com/1068681 fast/peerconnection/RTCPeerConnection-insertable-streams.html [ Pass Timeout ]
-
 # Sheriff 2020-05-04
 crbug.com/952717 [ Debug ] http/tests/xmlhttprequest/redirect-cross-origin-post.html [ Pass Failure ]
 crbug.com/984467 fast/canvas/canvas-composite-stroke-alpha.html [ Pass Timeout ]
