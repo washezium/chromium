@@ -4,6 +4,9 @@
 
 package org.chromium.chrome.browser.tasks.tab_management;
 
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_AUTO;
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -746,6 +749,34 @@ public class TabGridDialogTest {
         verifyShowingDialog(cta, 1, null);
     }
 
+    @Test
+    @MediumTest
+    public void testAdjustBackGroundViewAccessibilityImportance() {
+        final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
+        createTabs(cta, false, 2);
+        enterTabSwitcher(cta);
+        verifyTabSwitcherCardCount(cta, 2);
+        mergeAllNormalTabsToAGroup(cta);
+        verifyTabSwitcherCardCount(cta, 1);
+
+        // Verify accessibility importance adjustment when opening dialog from tab switcher.
+        openDialogFromTabSwitcherAndVerify(cta, 2, null);
+        verifyBackgroundViewAccessibilityImportance(cta, true);
+        Espresso.pressBack();
+        waitForDialogHidingAnimationInTabSwitcher(cta);
+        verifyBackgroundViewAccessibilityImportance(cta, false);
+
+        // Verify accessibility importance adjustment when opening dialog from tab strip.
+        openDialogFromTabSwitcherAndVerify(cta, 2, null);
+        clickFirstTabInDialog(cta);
+        waitForDialogHidingAnimation(cta);
+        openDialogFromStripAndVerify(cta, 2, null);
+        verifyBackgroundViewAccessibilityImportance(cta, true);
+        Espresso.pressBack();
+        waitForDialogHidingAnimation(cta);
+        verifyBackgroundViewAccessibilityImportance(cta, false);
+    }
+
     private void openDialogFromTabSwitcherAndVerify(
             ChromeTabbedActivity cta, int tabCount, String customizedTitle) {
         clickFirstCardFromTabSwitcher(cta);
@@ -954,5 +985,25 @@ public class TabGridDialogTest {
                     cta.getRootUiCoordinatorForTesting().getScrimCoordinator().getViewForTesting();
             scrimView.performClick();
         });
+    }
+
+    private void verifyBackgroundViewAccessibilityImportance(
+            ChromeTabbedActivity cta, boolean isDialogShowing) {
+        View controlContainer = cta.findViewById(R.id.control_container);
+        assertEquals(isDialogShowing ? IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                                     : IMPORTANT_FOR_ACCESSIBILITY_AUTO,
+                controlContainer.getImportantForAccessibility());
+        View bottomControls = cta.findViewById(R.id.bottom_controls);
+        assertEquals(isDialogShowing ? IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                                     : IMPORTANT_FOR_ACCESSIBILITY_AUTO,
+                bottomControls.getImportantForAccessibility());
+        View compositorViewHolder = cta.getCompositorViewHolder();
+        assertEquals(isDialogShowing ? IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                                     : IMPORTANT_FOR_ACCESSIBILITY_AUTO,
+                compositorViewHolder.getImportantForAccessibility());
+        View bottomContainer = cta.findViewById(R.id.bottom_container);
+        assertEquals(isDialogShowing ? IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                                     : IMPORTANT_FOR_ACCESSIBILITY_AUTO,
+                bottomContainer.getImportantForAccessibility());
     }
 }
