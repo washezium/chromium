@@ -2763,6 +2763,11 @@ enum WebFeature {
   kGamepadId = 3434,
   kElementAttachInternals = 3435,
   kBluetoothDeviceName = 3436,
+  kRTCIceCandidateAddress = 3437,
+  kRTCIceCandidateCandidate = 3438,
+  kRTCIceCandidatePort = 3439,
+  kRTCIceCandidateRelatedAddress = 3440,
+  kRTCIceCandidateRelatedPort = 3441,
 
   // Add new features immediately above this line. Don't change assigned
   // numbers of any item, and don't reuse removed slots.
