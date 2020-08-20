@@ -5694,7 +5694,7 @@
       'ios_cronet_tests': {
         'variants': [
           'SIM_IPHONE_X_12_4',
-          'SIM_IPHONE_X_13_6'
+          'SIM_IPHONE_X_13_4',
         ]
       }
     },
