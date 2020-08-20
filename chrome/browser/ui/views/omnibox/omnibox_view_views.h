@@ -160,6 +160,7 @@ class OmniboxViewViews : public OmniboxView,
   bool IsCommandIdEnabled(int command_id) const override;
 
   // content::WebContentsObserver:
+  void DidStartNavigation(content::NavigationHandle* navigation) override;
   void DidFinishNavigation(content::NavigationHandle* navigation) override;
   void DidGetUserInteraction(const blink::WebInputEvent& event) override;
   void OnFocusChangedInPage(content::FocusedNodeDetails* details) override;
@@ -282,6 +283,9 @@ class OmniboxViewViews : public OmniboxView,
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExit);
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, HoverAndExitIDN);
   FRIEND_TEST_ALL_PREFIXES(OmniboxViewViewsRevealOnHoverTest, PrivateRegistry);
+  FRIEND_TEST_ALL_PREFIXES(
+      OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
+      BrowserInitiatedNavigation);
   FRIEND_TEST_ALL_PREFIXES(
       OmniboxViewViewsHideOnInteractionAndRevealOnHoverTest,
       UserInteractionAndHover);

@@ -177,6 +177,188 @@ bool TextRangeOverflowsView(OmniboxViewViews* omnibox_view,
 
 }  // namespace
 
+OmniboxViewViews::ElideAnimation::ElideAnimation(OmniboxViewViews* view,
+                                                 gfx::RenderText* render_text)
+    : AnimationDelegateViews(view), view_(view), render_text_(render_text) {
+  DCHECK(view_);
+  DCHECK(render_text_);
+}
+
+OmniboxViewViews::ElideAnimation::~ElideAnimation() = default;
+
+// TODO(estark): this code doesn't work for URLs with RTL components. Will need
+// to figure out another animation or just skip the animation entirely on URLs
+// with RTL components.
+void OmniboxViewViews::ElideAnimation::Start(
+    const gfx::Range& elide_to_bounds,
+    uint32_t delay_ms,
+    const std::vector<gfx::Range>& ranges_surrounding_simplified_domain,
+    SkColor starting_color,
+    SkColor ending_color) {
+  DCHECK(ranges_surrounding_simplified_domain.size() == 1 ||
+         ranges_surrounding_simplified_domain.size() == 2);
+  ranges_surrounding_simplified_domain_ = ranges_surrounding_simplified_domain;
+  starting_color_ = starting_color;
+  ending_color_ = ending_color;
+
+  // simplified_domain_bounds_ will be set to a rectangle surrounding the part
+  // of the URL that is never elided, on its original position before any
+  // animation runs. If ranges_surrounding_simplified_domain_ only contains one
+  // range it means we are not eliding on the right side, so we use the right
+  // side of elide_to_bounds as the range as it will always be the right limit
+  // of the simplified section.
+  gfx::Range simplified_domain_range(
+      ranges_surrounding_simplified_domain_[0].end(),
+      ranges_surrounding_simplified_domain_.size() == 2
+          ? ranges_surrounding_simplified_domain_[1].start()
+          : elide_to_bounds.end());
+  for (auto rect : render_text_->GetSubstringBounds(simplified_domain_range)) {
+    simplified_domain_bounds_.Union(rect - render_text_->GetLineOffset(0));
+  }
+
+  // After computing |elide_to_rect_| below, |elide_to_bounds| aren't actually
+  // need anymore for the animation. However, the bounds provide a convenient
+  // way for the animation consumer to check if an animation is currently in
+  // progress to a specific range, so that the consumer can avoid starting a
+  // duplicate animation (to avoid flicker). So we save the bounds so that
+  // consumers can query them.
+  elide_to_bounds_ = elide_to_bounds;
+
+  animation_ = std::make_unique<gfx::MultiAnimation>(
+      gfx::MultiAnimation::Parts({
+          gfx::MultiAnimation::Part(base::TimeDelta::FromMilliseconds(delay_ms),
+                                    gfx::Tween::ZERO),
+          gfx::MultiAnimation::Part(base::TimeDelta::FromMilliseconds(300),
+                                    gfx::Tween::FAST_OUT_SLOW_IN),
+      }),
+      gfx::MultiAnimation::kDefaultTimerInterval);
+  animation_->set_delegate(this);
+  animation_->set_continuous(false);
+
+  elide_from_rect_ = render_text_->display_rect();
+  elide_to_rect_ = gfx::Rect();
+  for (const auto& rect : render_text_->GetSubstringBounds(elide_to_bounds))
+    elide_to_rect_.Union(rect);
+  // The URL should never shift vertically while eliding to/from simplified
+  // domain.
+  elide_to_rect_.set_y(elide_from_rect_.y());
+  elide_to_rect_.set_height(elide_from_rect_.height());
+
+  // There is nothing to animate in this case, so return without starting.
+  if (elide_from_rect_ == elide_to_rect_ && starting_color_ == ending_color_)
+    return;
+
+  starting_display_offset_ = render_text_->GetUpdatedDisplayOffset().x();
+  // Shift the text to where |elide_to_bounds| starts, relative to the current
+  // display rect.
+  if (base::i18n::IsRTL()) {
+    ending_display_offset_ = starting_display_offset_ +
+                             elide_from_rect_.right() - elide_to_rect_.right();
+  } else {
+    ending_display_offset_ =
+        starting_display_offset_ - (elide_to_rect_.x() - elide_from_rect_.x());
+  }
+
+  animation_->Start();
+}
+
+void OmniboxViewViews::ElideAnimation::Stop() {
+  // Reset the smoothing rectangles whenever the animation stops to prevent
+  // stale rectangles from showing at the start of the next animation.
+  view_->elide_animation_smoothing_rect_left_ = gfx::Rect();
+  view_->elide_animation_smoothing_rect_right_ = gfx::Rect();
+  if (animation_)
+    animation_->Stop();
+}
+
+bool OmniboxViewViews::ElideAnimation::IsAnimating() {
+  return animation_ && animation_->is_animating();
+}
+
+const gfx::Range& OmniboxViewViews::ElideAnimation::GetElideToBounds() const {
+  return elide_to_bounds_;
+}
+
+SkColor OmniboxViewViews::ElideAnimation::GetCurrentColor() const {
+  return animation_
+             ? gfx::Tween::ColorValueBetween(animation_->GetCurrentValue(),
+                                             starting_color_, ending_color_)
+             : gfx::kPlaceholderColor;
+}
+
+gfx::MultiAnimation*
+OmniboxViewViews::ElideAnimation::GetAnimationForTesting() {
+  return animation_.get();
+}
+
+void OmniboxViewViews::ElideAnimation::AnimationProgressed(
+    const gfx::Animation* animation) {
+  DCHECK(!view_->model()->user_input_in_progress());
+  DCHECK_EQ(animation, animation_.get());
+
+  if (animation->GetCurrentValue() == 0)
+    return;
+
+  // |bounds| contains the interpolated substring to show for this frame. Shift
+  // it to line up with the x position of the previous frame (|old_bounds|),
+  // because the animation should gradually bring the desired string into view
+  // at the leading edge. The y/height values shouldn't change because
+  // |elide_to_rect_| is set to have the same y and height values as
+  // |elide_to_rect_|.
+  gfx::Rect old_bounds = render_text_->display_rect();
+  gfx::Rect bounds = gfx::Tween::RectValueBetween(
+      animation->GetCurrentValue(), elide_from_rect_, elide_to_rect_);
+  DCHECK_EQ(bounds.y(), old_bounds.y());
+  DCHECK_EQ(bounds.height(), old_bounds.height());
+  gfx::Rect shifted_bounds(base::i18n::IsRTL()
+                               ? old_bounds.right() - bounds.width()
+                               : old_bounds.x(),
+                           old_bounds.y(), bounds.width(), old_bounds.height());
+  render_text_->SetDisplayRect(shifted_bounds);
+  current_offset_ = gfx::Tween::IntValueBetween(animation->GetCurrentValue(),
+                                                starting_display_offset_,
+                                                ending_display_offset_);
+  render_text_->SetDisplayOffset(current_offset_);
+
+  for (const auto& range : ranges_surrounding_simplified_domain_) {
+    view_->ApplyColor(GetCurrentColor(), range);
+  }
+
+  // TODO(crbug.com/1101472): The smoothing gradient mask is not yet implemented
+  // correctly for RTL UI.
+  if (base::i18n::IsRTL()) {
+    view_->SchedulePaint();
+    return;
+  }
+
+  // The gradient mask should be a fixed width, except if that width would
+  // cause it to mask the unelided section. In that case we set it to the
+  // maximum width possible that won't cover the unelided section.
+  int unelided_left_bound = simplified_domain_bounds_.x() + current_offset_;
+  int unelided_right_bound =
+      unelided_left_bound + simplified_domain_bounds_.width();
+  // GetSubstringBounds rounds up when calculating unelided_left_bound and
+  // unelided_right_bound, we subtract 1 pixel from the gradient widths to make
+  // sure they never overlap with the always visible part of the URL.
+  // gfx::Rect() switches negative values to 0, so this doesn't affect
+  // rectangles that were originally size 0.
+  int left_gradient_width = kSmoothingGradientMaxWidth < unelided_left_bound
+                                ? kSmoothingGradientMaxWidth - 1
+                                : unelided_left_bound - 1;
+  int right_gradient_width =
+      shifted_bounds.right() - kSmoothingGradientMaxWidth > unelided_right_bound
+          ? kSmoothingGradientMaxWidth - 1
+          : shifted_bounds.right() - unelided_right_bound - 1;
+
+  view_->elide_animation_smoothing_rect_left_ = gfx::Rect(
+      old_bounds.x(), old_bounds.y(), left_gradient_width, old_bounds.height());
+  view_->elide_animation_smoothing_rect_right_ =
+      gfx::Rect(shifted_bounds.right() - right_gradient_width, old_bounds.y(),
+                right_gradient_width, old_bounds.height());
+
+  view_->SchedulePaint();
+}
+
 // OmniboxViewViews -----------------------------------------------------------
 
 // static
@@ -358,21 +540,54 @@ void OmniboxViewViews::EmphasizeURLComponents() {
   base::string16 text = GetText();
   UpdateTextStyle(text, text_is_url, model()->client()->GetSchemeClassifier());
 
-  if (OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover() &&
-      !OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction() &&
-      !model()->ShouldPreventElision()) {
-    // If reveal-on-hover is enabled and hide-on-interaction is disabled, elide
-    // to the simplified domain now. We don't animate because we don't want this
-    // to be a user-visible transformation; in this variation, we want to always
-    // show just the simplified domain until the user specifically interacts
-    // with the omnibox by hovering over it.
-    if (IsURLEligibleForSimplifiedDomainEliding()) {
+  if (model()->ShouldPreventElision())
+    return;
+
+  // If the text isn't eligible to be elided to a simplified domain, and
+  // simplified domain field trials are enabled, then ensure that as much of the
+  // text as will fit is visible.
+  if (!IsURLEligibleForSimplifiedDomainEliding() &&
+      (OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction() ||
+       OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover())) {
+    FitToLocalBounds();
+    return;
+  }
+
+  // In the simplified domain field trials, elide or unelide according to the
+  // current state and field trial configuration. These elisions are not
+  // animated because we often don't want this to be a user-visible
+  // transformation; for example, a navigation should just show the URL in the
+  // desired state without drawing additional attention from the user.
+  if (OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction()) {
+    // In the hide-on-interaction field trial, elide or unelide the URL to the
+    // simplified domain depending on whether the user has already interacted
+    // with the page or not. This is a best guess at the correct elision state,
+    // which we don't really know for sure until a navigation has committed
+    // (because the elision behavior depends on whether the navigation is
+    // same-document and if it changes the path). We elide here based on the
+    // current elision setting; we'll then update the elision state as we get
+    // more information about the navigation in DidStartNavigation and
+    // DidFinishNavigation.
+    if (elide_after_web_contents_interaction_animation_) {
+      // This can cause a slight quirk in browser-initiated navigations that
+      // occur after the user interacts with the previous page. In this case,
+      // the simplified domain will be shown briefly before we show the full URL
+      // in DidStartNavigation().
       ElideURL();
     } else {
-      // If the text isn't eligible to be elided to a simplified domain, then
-      // ensure that as much of it is visible as will fit.
-      FitToLocalBounds();
+      // Note that here we are only adjusting the display of the URL, not
+      // resetting any state associated with the animations (in particular, we
+      // are not calling ResetToHideOnInteraction()). This is, as above, because
+      // we don't know exactly how to set state until we know what kind of
+      // navigation is happening. Thus here we are only adjusting the display so
+      // things look right mid-navigation, and the final state will be set
+      // appropriately in DidFinishNavigation().
+      ShowFullURLWithoutSchemeAndTrivialSubdomain();
     }
+  } else if (OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover()) {
+    // If reveal-on-hover is enabled and hide-on-interaction is disabled, elide
+    // to the simplified domain now.
+    ElideURL();
   }
 }
 
@@ -612,6 +827,45 @@ void OmniboxViewViews::AddedToWidget() {
 void OmniboxViewViews::RemovedFromWidget() {
   views::Textfield::RemovedFromWidget();
   scoped_compositor_observer_.RemoveAll();
+}
+
+OmniboxViewViews::ElideAnimation*
+OmniboxViewViews::GetHoverElideOrUnelideAnimationForTesting() {
+  return hover_elide_or_unelide_animation_.get();
+}
+
+OmniboxViewViews::ElideAnimation*
+OmniboxViewViews::GetElideAfterInteractionAnimationForTesting() {
+  return elide_after_web_contents_interaction_animation_.get();
+}
+
+void OmniboxViewViews::OnThemeChanged() {
+  views::Textfield::OnThemeChanged();
+
+  const SkColor dimmed_text_color = GetOmniboxColor(
+      GetThemeProvider(), OmniboxPart::LOCATION_BAR_TEXT_DIMMED);
+  set_placeholder_text_color(dimmed_text_color);
+
+  if (!model()->ShouldPreventElision() &&
+      OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover()) {
+    hover_elide_or_unelide_animation_ =
+        std::make_unique<ElideAnimation>(this, GetRenderText());
+  }
+
+  EmphasizeURLComponents();
+}
+
+bool OmniboxViewViews::IsDropCursorForInsertion() const {
+  // Dragging text from within omnibox itself will behave like text input
+  // editor, showing insertion-style drop cursor as usual;
+  // but dragging text from outside omnibox will replace entire contents with
+  // paste-and-go behavior, so returning false in that case prevents the
+  // confusing insertion-style drop cursor.
+  return HasTextBeingDragged();
+}
+
+void OmniboxViewViews::ApplyColor(SkColor color, const gfx::Range& range) {
+  Textfield::ApplyColor(color, range);
 }
 
 void OmniboxViewViews::SetTextAndSelectedRanges(
@@ -1688,6 +1942,23 @@ bool OmniboxViewViews::IsCommandIdEnabled(int command_id) const {
          location_bar_view_->command_updater()->IsCommandEnabled(command_id);
 }
 
+void OmniboxViewViews::DidStartNavigation(
+    content::NavigationHandle* navigation) {
+  if (!OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction() ||
+      model()->ShouldPreventElision()) {
+    return;
+  }
+
+  // If navigating to a different page in a browser-initiated navigation, the
+  // new URL should be shown unelided while the navigation is in progress. For
+  // renderer-initiated navigations, the URL isn't displayed until the
+  // navigation commits, so there's no need to elide/unelide it now.
+  if (navigation->IsInMainFrame() && !navigation->IsSameDocument() &&
+      !navigation->IsRendererInitiated()) {
+    ResetToHideOnInteraction();
+  }
+}
+
 void OmniboxViewViews::DidFinishNavigation(
     content::NavigationHandle* navigation) {
   if (!OmniboxFieldTrial::ShouldHidePathQueryRefOnInteraction() ||
@@ -1700,48 +1971,16 @@ void OmniboxViewViews::DidFinishNavigation(
   if (!navigation->IsInMainFrame())
     return;
 
-  // Same-document navigations should be treated with the following
-  // considerations:
-  // - If the same-document navigation was triggered by a fragment navigation,
-  // the current elision/unelision state shouldn't be altered, since it always
-  // remains in the same page, keeping location.pathname
-  // - If the same-document navigation was triggered by the use of history
-  // pushState/replaceState API, we should unelide and reset state to support
-  // the same behaviour in websites that rely on same-document navigation to
-  // render different views as if it were 'normal' navigation
-  if (navigation->IsSameDocument() &&
-      navigation->GetPreviousURL().EqualsIgnoringRef(navigation->GetURL())) {
-    if (!IsURLEligibleForSimplifiedDomainEliding())
-      return;
-
-    // Handling same-document navigations is a bit tricky because they shouldn't
-    // change the current elision/unelision state:
-    // - If the user interacted with the page, and we have already finished
-    // animating to the simplified domain, then make sure we stay in the elided
-    // state, showing only the simplified domain. This is an abrupt elision,
-    // rather than an animation, because we don't want there to be any visible
-    // change in the URL from the user's perspective.
-    // - If the user interacted with the page, and we are currently animating to
-    // the simplified domain as a result, we want to let the animation run
-    // undisturbed, eventually ending up in the elided state.
-    // - If the user hadn't interacted with the previous page, then we need to
-    // ensure the full URL (without scheme and trivial subdomain) is showing;
-    // this is done by falling through to ResetToHideOnInteraction() below.
-    //
-    // |elide_after_web_contents_interaction_animation_| is only created after
-    // the user interacts with the page (in DidGetUserInteraction()), so we use
-    // its existence to determine whether the user has interacted with the page
-    // yet or not.
-    if (elide_after_web_contents_interaction_animation_) {
-      if (!elide_after_web_contents_interaction_animation_->IsAnimating())
-        ElideURL();
-      return;
-    }
+  // Once a navigation finishes that changes the visible URL (besides just the
+  // ref), unelide and reset state so that we'll show the simplified domain on
+  // interaction. Same-document navigations that only change the ref are treated
+  // specially and don't cause the elision/unelision state to be altered. This
+  // is to avoid frequent eliding/uneliding within single-page apps that do
+  // frequent fragment navigations.
+  if (!navigation->IsSameDocument() ||
+      !navigation->GetPreviousURL().EqualsIgnoringRef(navigation->GetURL())) {
+    ResetToHideOnInteraction();
   }
-
-  // Once a navigation finishes, unelide and reset state so
-  // that we'll show the simplified domain on interaction.
-  ResetToHideOnInteraction();
 }
 
 void OmniboxViewViews::DidGetUserInteraction(
@@ -1768,227 +2007,6 @@ void OmniboxViewViews::OnFocusChangedInPage(
     content::FocusedNodeDetails* details) {
   if (details->is_editable_node)
     MaybeElideURLWithAnimationFromInteraction();
-}
-
-OmniboxViewViews::ElideAnimation::ElideAnimation(OmniboxViewViews* view,
-                                                 gfx::RenderText* render_text)
-    : AnimationDelegateViews(view), view_(view), render_text_(render_text) {
-  DCHECK(view_);
-  DCHECK(render_text_);
-}
-
-OmniboxViewViews::ElideAnimation::~ElideAnimation() = default;
-
-// TODO(estark): this code doesn't work for URLs with RTL components. Will need
-// to figure out another animation or just skip the animation entirely on URLs
-// with RTL components.
-void OmniboxViewViews::ElideAnimation::Start(
-    const gfx::Range& elide_to_bounds,
-    uint32_t delay_ms,
-    const std::vector<gfx::Range>& ranges_surrounding_simplified_domain,
-    SkColor starting_color,
-    SkColor ending_color) {
-  DCHECK(ranges_surrounding_simplified_domain.size() == 1 ||
-         ranges_surrounding_simplified_domain.size() == 2);
-  ranges_surrounding_simplified_domain_ = ranges_surrounding_simplified_domain;
-  starting_color_ = starting_color;
-  ending_color_ = ending_color;
-
-  // simplified_domain_bounds_ will be set to a rectangle surrounding the part
-  // of the URL that is never elided, on its original position before any
-  // animation runs. If ranges_surrounding_simplified_domain_ only contains one
-  // range it means we are not eliding on the right side, so we use the right
-  // side of elide_to_bounds as the range as it will always be the right limit
-  // of the simplified section.
-  gfx::Range simplified_domain_range(
-      ranges_surrounding_simplified_domain_[0].end(),
-      ranges_surrounding_simplified_domain_.size() == 2
-          ? ranges_surrounding_simplified_domain_[1].start()
-          : elide_to_bounds.end());
-  for (auto rect : render_text_->GetSubstringBounds(simplified_domain_range)) {
-    simplified_domain_bounds_.Union(rect - render_text_->GetLineOffset(0));
-  }
-
-  // After computing |elide_to_rect_| below, |elide_to_bounds| aren't actually
-  // need anymore for the animation. However, the bounds provide a convenient
-  // way for the animation consumer to check if an animation is currently in
-  // progress to a specific range, so that the consumer can avoid starting a
-  // duplicate animation (to avoid flicker). So we save the bounds so that
-  // consumers can query them.
-  elide_to_bounds_ = elide_to_bounds;
-
-  animation_ = std::make_unique<gfx::MultiAnimation>(
-      gfx::MultiAnimation::Parts({
-          gfx::MultiAnimation::Part(base::TimeDelta::FromMilliseconds(delay_ms),
-                                    gfx::Tween::ZERO),
-          gfx::MultiAnimation::Part(base::TimeDelta::FromMilliseconds(300),
-                                    gfx::Tween::FAST_OUT_SLOW_IN),
-      }),
-      gfx::MultiAnimation::kDefaultTimerInterval);
-  animation_->set_delegate(this);
-  animation_->set_continuous(false);
-
-  elide_from_rect_ = render_text_->display_rect();
-  elide_to_rect_ = gfx::Rect();
-  for (const auto& rect : render_text_->GetSubstringBounds(elide_to_bounds))
-    elide_to_rect_.Union(rect);
-  // The URL should never shift vertically while eliding to/from simplified
-  // domain.
-  elide_to_rect_.set_y(elide_from_rect_.y());
-  elide_to_rect_.set_height(elide_from_rect_.height());
-
-  // There is nothing to animate in this case, so return without starting.
-  if (elide_from_rect_ == elide_to_rect_ && starting_color_ == ending_color_)
-    return;
-
-  starting_display_offset_ = render_text_->GetUpdatedDisplayOffset().x();
-  // Shift the text to where |elide_to_bounds| starts, relative to the current
-  // display rect.
-  if (base::i18n::IsRTL()) {
-    ending_display_offset_ = starting_display_offset_ +
-                             elide_from_rect_.right() - elide_to_rect_.right();
-  } else {
-    ending_display_offset_ =
-        starting_display_offset_ - (elide_to_rect_.x() - elide_from_rect_.x());
-  }
-
-  animation_->Start();
-}
-
-void OmniboxViewViews::ElideAnimation::Stop() {
-  // Reset the smoothing rectangles whenever the animation stops to prevent
-  // stale rectangles from showing at the start of the next animation.
-  view_->elide_animation_smoothing_rect_left_ = gfx::Rect();
-  view_->elide_animation_smoothing_rect_right_ = gfx::Rect();
-  if (animation_)
-    animation_->Stop();
-}
-
-bool OmniboxViewViews::ElideAnimation::IsAnimating() {
-  return animation_ && animation_->is_animating();
-}
-
-const gfx::Range& OmniboxViewViews::ElideAnimation::GetElideToBounds() const {
-  return elide_to_bounds_;
-}
-
-SkColor OmniboxViewViews::ElideAnimation::GetCurrentColor() const {
-  return animation_
-             ? gfx::Tween::ColorValueBetween(animation_->GetCurrentValue(),
-                                             starting_color_, ending_color_)
-             : gfx::kPlaceholderColor;
-}
-
-gfx::MultiAnimation*
-OmniboxViewViews::ElideAnimation::GetAnimationForTesting() {
-  return animation_.get();
-}
-
-void OmniboxViewViews::ElideAnimation::AnimationProgressed(
-    const gfx::Animation* animation) {
-  DCHECK(!view_->model()->user_input_in_progress());
-  DCHECK_EQ(animation, animation_.get());
-
-  if (animation->GetCurrentValue() == 0)
-    return;
-
-  // |bounds| contains the interpolated substring to show for this frame. Shift
-  // it to line up with the x position of the previous frame (|old_bounds|),
-  // because the animation should gradually bring the desired string into view
-  // at the leading edge. The y/height values shouldn't change because
-  // |elide_to_rect_| is set to have the same y and height values as
-  // |elide_to_rect_|.
-  gfx::Rect old_bounds = render_text_->display_rect();
-  gfx::Rect bounds = gfx::Tween::RectValueBetween(
-      animation->GetCurrentValue(), elide_from_rect_, elide_to_rect_);
-  DCHECK_EQ(bounds.y(), old_bounds.y());
-  DCHECK_EQ(bounds.height(), old_bounds.height());
-  gfx::Rect shifted_bounds(base::i18n::IsRTL()
-                               ? old_bounds.right() - bounds.width()
-                               : old_bounds.x(),
-                           old_bounds.y(), bounds.width(), old_bounds.height());
-  render_text_->SetDisplayRect(shifted_bounds);
-  current_offset_ = gfx::Tween::IntValueBetween(animation->GetCurrentValue(),
-                                                starting_display_offset_,
-                                                ending_display_offset_);
-  render_text_->SetDisplayOffset(current_offset_);
-
-  for (const auto& range : ranges_surrounding_simplified_domain_) {
-    view_->ApplyColor(GetCurrentColor(), range);
-  }
-
-  // TODO(crbug.com/1101472): The smoothing gradient mask is not yet implemented
-  // correctly for RTL UI.
-  if (base::i18n::IsRTL()) {
-    view_->SchedulePaint();
-    return;
-  }
-
-  // The gradient mask should be a fixed width, except if that width would
-  // cause it to mask the unelided section. In that case we set it to the
-  // maximum width possible that won't cover the unelided section.
-  int unelided_left_bound = simplified_domain_bounds_.x() + current_offset_;
-  int unelided_right_bound =
-      unelided_left_bound + simplified_domain_bounds_.width();
-  // GetSubstringBounds rounds up when calculating unelided_left_bound and
-  // unelided_right_bound, we subtract 1 pixel from the gradient widths to make
-  // sure they never overlap with the always visible part of the URL.
-  // gfx::Rect() switches negative values to 0, so this doesn't affect
-  // rectangles that were originally size 0.
-  int left_gradient_width = kSmoothingGradientMaxWidth < unelided_left_bound
-                                ? kSmoothingGradientMaxWidth - 1
-                                : unelided_left_bound - 1;
-  int right_gradient_width =
-      shifted_bounds.right() - kSmoothingGradientMaxWidth > unelided_right_bound
-          ? kSmoothingGradientMaxWidth - 1
-          : shifted_bounds.right() - unelided_right_bound - 1;
-
-  view_->elide_animation_smoothing_rect_left_ = gfx::Rect(
-      old_bounds.x(), old_bounds.y(), left_gradient_width, old_bounds.height());
-  view_->elide_animation_smoothing_rect_right_ =
-      gfx::Rect(shifted_bounds.right() - right_gradient_width, old_bounds.y(),
-                right_gradient_width, old_bounds.height());
-
-  view_->SchedulePaint();
-}
-
-OmniboxViewViews::ElideAnimation*
-OmniboxViewViews::GetHoverElideOrUnelideAnimationForTesting() {
-  return hover_elide_or_unelide_animation_.get();
-}
-
-OmniboxViewViews::ElideAnimation*
-OmniboxViewViews::GetElideAfterInteractionAnimationForTesting() {
-  return elide_after_web_contents_interaction_animation_.get();
-}
-
-void OmniboxViewViews::OnThemeChanged() {
-  views::Textfield::OnThemeChanged();
-
-  const SkColor dimmed_text_color = GetOmniboxColor(
-      GetThemeProvider(), OmniboxPart::LOCATION_BAR_TEXT_DIMMED);
-  set_placeholder_text_color(dimmed_text_color);
-
-  if (!model()->ShouldPreventElision() &&
-      OmniboxFieldTrial::ShouldRevealPathQueryRefOnHover()) {
-    hover_elide_or_unelide_animation_ =
-        std::make_unique<ElideAnimation>(this, GetRenderText());
-  }
-
-  EmphasizeURLComponents();
-}
-
-bool OmniboxViewViews::IsDropCursorForInsertion() const {
-  // Dragging text from within omnibox itself will behave like text input
-  // editor, showing insertion-style drop cursor as usual;
-  // but dragging text from outside omnibox will replace entire contents with
-  // paste-and-go behavior, so returning false in that case prevents the
-  // confusing insertion-style drop cursor.
-  return HasTextBeingDragged();
-}
-
-void OmniboxViewViews::ApplyColor(SkColor color, const gfx::Range& range) {
-  Textfield::ApplyColor(color, range);
 }
 
 base::string16 OmniboxViewViews::GetSelectionClipboardText() const {
@@ -2769,4 +2787,3 @@ url::Component OmniboxViewViews::GetHostComponentAfterTrivialSubdomain() {
   url_formatter::StripWWWFromHostComponent(base::UTF16ToUTF8(text), &host);
   return host;
 }
-
