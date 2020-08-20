@@ -345,6 +345,7 @@ crbug.com/997202 external/wpt/css/css-images/image-orientation/image-orientation
 crbug.com/997202 external/wpt/css/css-images/image-orientation/svg-image-orientation.html [ Failure ]
 crbug.com/997202 external/wpt/css/css-images/image-orientation/svg-image-orientation-none.html [ Failure ]
 crbug.com/997202 external/wpt/css/css-images/image-orientation/svg-image-orientation-aspect-ratio.html [ Failure ]
+crbug.com/997202 external/wpt/css/css-images/image-orientation/image-orientation-background-position.html [ Failure ]
 
 # Ref results are wrong on the background and list case, not sure on border result
 crbug.com/1076121 external/wpt/css/css-images/image-orientation/image-orientation-list-style-image.html [ Failure ]
