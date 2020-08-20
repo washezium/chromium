@@ -55,6 +55,7 @@
 #include "components/autofill/core/common/autofill_payments_features.h"
 #include "components/browsing_data/core/features.h"
 #include "components/cloud_devices/common/cloud_devices_urls.h"
+#include "components/content_settings/core/common/features.h"
 #include "components/dom_distiller/core/dom_distiller_features.h"
 #include "components/google/core/common/google_util.h"
 #include "components/omnibox/common/omnibox_features.h"
@@ -1022,11 +1023,22 @@ void AddAutofillStrings(content::WebUIDataSource* html_source,
                          autofill::payments::GetManageInstrumentsUrl().spec());
   html_source->AddString("paymentMethodsLearnMoreURL",
                          chrome::kPaymentMethodsLearnMoreURL);
-  html_source->AddString(
-      "siteSettingsFlashWildcardsUnsupported",
-      l10n_util::GetStringFUTF16(
-          IDS_SETTINGS_SITE_SETTINGS_FLASH_WILDCARD_UNSUPPORTED,
-          base::UTF8ToUTF16(chrome::kChromeFlashRoadmapURL)));
+  // The warning message that will be shown if there is a content setting
+  // pattern with a wildcard in it. The check for wildcards is done on the js
+  // side.
+  base::string16 flash_warning_message;
+  if (base::FeatureList::IsEnabled(
+          content_settings::kDisallowExtensionsToSetPluginContentSettings)) {
+    flash_warning_message = l10n_util::GetStringFUTF16(
+        IDS_SETTINGS_SITE_SETTINGS_FLASH_WILDCARD_UNSUPPORTED_IN_POLICIES,
+        base::UTF8ToUTF16(chrome::kChromeFlashRoadmapURL));
+  } else {
+    flash_warning_message = l10n_util::GetStringFUTF16(
+        IDS_SETTINGS_SITE_SETTINGS_FLASH_WILDCARD_UNSUPPORTED,
+        base::UTF8ToUTF16(chrome::kChromeFlashRoadmapURL));
+  }
+  html_source->AddString("warningAboutIgnoredWildcardedPatternsForFlash",
+                         flash_warning_message);
 
   bool is_guest_mode = false;
 #if defined(OS_CHROMEOS)
