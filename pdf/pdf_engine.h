@@ -23,12 +23,12 @@
 #include "ppapi/c/ppb_input_event.h"
 #include "ppapi/cpp/completion_callback.h"
 #include "ppapi/cpp/private/pdf.h"
-#include "ppapi/cpp/rect.h"
 #include "ppapi/cpp/size.h"
 #include "ppapi/cpp/url_loader.h"
 #include "ppapi/cpp/var_array.h"
 #include "ui/base/window_open_disposition.h"
 #include "ui/gfx/geometry/point_f.h"
+#include "ui/gfx/geometry/rect.h"
 
 #if defined(OS_WIN)
 #include <windows.h>
@@ -53,6 +53,7 @@ class Vector2d;
 
 namespace pp {
 class InputEvent;
+class Rect;
 class VarDictionary;
 }  // namespace pp
 
@@ -497,7 +498,7 @@ class PDFEngineExports {
   struct RenderingSettings {
     RenderingSettings(int dpi_x,
                       int dpi_y,
-                      const pp::Rect& bounds,
+                      const gfx::Rect& bounds,
                       bool fit_to_bounds,
                       bool stretch_to_bounds,
                       bool keep_aspect_ratio,
@@ -508,7 +509,7 @@ class PDFEngineExports {
 
     int dpi_x;
     int dpi_y;
-    pp::Rect bounds;
+    gfx::Rect bounds;
     bool fit_to_bounds;
     bool stretch_to_bounds;
     bool keep_aspect_ratio;
