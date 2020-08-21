@@ -2631,6 +2631,9 @@ crbug.com/1110512 external/wpt/css/css-pseudo/selection-contenteditable-011.html
 crbug.com/1105958 external/wpt/payment-request/payment-is-showing.https.html [ Timeout ]
 
 # ====== New tests from wpt-importer added here ======
+crbug.com/626703 external/wpt/css/css-sizing/aspect-ratio/replaced-element-016.tentative.html [ Failure ]
+crbug.com/626703 external/wpt/css/css-sizing/aspect-ratio/replaced-element-021.tentative.html [ Failure ]
+crbug.com/626703 [ Mac10.12 ] external/wpt/webrtc-insertable-streams/RTCPeerConnection-insertable-streams.https.html [ Timeout ]
 crbug.com/626703 [ Mac10.13 ] external/wpt/webrtc-insertable-streams/RTCPeerConnection-insertable-streams.https.html [ Timeout ]
 crbug.com/626703 [ Mac10.14 ] external/wpt/webrtc-insertable-streams/RTCPeerConnection-insertable-streams.https.html [ Timeout ]
 crbug.com/626703 [ Mac10.15 ] external/wpt/webrtc-insertable-streams/RTCPeerConnection-insertable-streams.https.html [ Timeout ]
