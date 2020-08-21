@@ -193,9 +193,9 @@ class NearbySharingServiceImpl
       ShareTarget placeholder_share_target,
       sharing::mojom::AdvertisementPtr advertisement);
   void OnIncomingTransferUpdate(const ShareTarget& share_target,
-                                TransferMetadata metadata);
+                                const TransferMetadata& metadata);
   void OnOutgoingTransferUpdate(const ShareTarget& share_target,
-                                TransferMetadata metadata);
+                                const TransferMetadata& metadata);
   void CloseConnection(const ShareTarget& share_target);
   void OnIncomingDecryptedCertificate(
       const std::string& endpoint_id,

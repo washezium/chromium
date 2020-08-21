@@ -2359,12 +2359,10 @@ TEST_F(NearbySharingServiceImplTest, SendText_FailedKeyVerification) {
       DiscoverShareTarget(transfer_callback, discovery_callback);
 
   base::RunLoop run_loop;
-  ExpectTransferUpdates(
-      transfer_callback, target,
-      {TransferMetadata::Status::kConnecting, TransferMetadata::Status::kFailed,
-       // TODO(crbug.com/1085067): Filter updates after the first final one.
-       TransferMetadata::Status::kAwaitingRemoteAcceptanceFailed},
-      run_loop.QuitClosure());
+  ExpectTransferUpdates(transfer_callback, target,
+                        {TransferMetadata::Status::kConnecting,
+                         TransferMetadata::Status::kFailed},
+                        run_loop.QuitClosure());
 
   SetUpKeyVerification(/*is_incoming=*/false,
                        sharing::mojom::PairedKeyResultFrame_Status::kFail);
@@ -2429,12 +2427,8 @@ TEST_P(NearbySharingServiceImplSendFailureTest, SendText_RemoteFailure) {
 
   // We're now waiting for the remote device to respond with the accept result.
   base::RunLoop reject_run_loop;
-  ExpectTransferUpdates(
-      transfer_callback, target,
-      {GetParam().expected_status,
-       // TODO(crbug.com/1085067): Filter updates after the first final one.
-       TransferMetadata::Status::kAwaitingRemoteAcceptanceFailed},
-      reject_run_loop.QuitClosure());
+  ExpectTransferUpdates(transfer_callback, target, {GetParam().expected_status},
+                        reject_run_loop.QuitClosure());
 
   // Cancel the transfer by rejecting it.
   SendConnectionResponse(GetParam().response_status);
@@ -2472,12 +2466,8 @@ TEST_P(NearbySharingServiceImplSendFailureTest, SendFiles_RemoteFailure) {
 
   // We're now waiting for the remote device to respond with the accept result.
   base::RunLoop reject_run_loop;
-  ExpectTransferUpdates(
-      transfer_callback, target,
-      {GetParam().expected_status,
-       // TODO(crbug.com/1085067): Filter updates after the first final one.
-       TransferMetadata::Status::kAwaitingRemoteAcceptanceFailed},
-      reject_run_loop.QuitClosure());
+  ExpectTransferUpdates(transfer_callback, target, {GetParam().expected_status},
+                        reject_run_loop.QuitClosure());
 
   // Cancel the transfer by rejecting it.
   SendConnectionResponse(GetParam().response_status);
