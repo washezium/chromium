@@ -23205,6 +23205,32 @@ If you disable this policy, web page scrolling to specific text fragments via UR
        If the policy is disabled, warnings will not be shown for insecure forms, and autofill will work normally.''',
     },
     {
+      'name': 'LookalikeWarningAllowlistDomains',
+      'owners': ['file://chrome/browser/lookalikes/OWNERS'],
+      'type': 'list',
+      'schema': {
+        'type': 'array',
+        'items': { 'type': 'string' },
+      },
+      'supported_on': ['chrome.*:86-', 'chrome_os:86-', 'android:86-'],
+      'features': {
+        'dynamic_refresh': True,
+        'per_profile': True,
+      },
+      'example_value': ['foo.example.com','example.org'],
+      'id': 782,
+      'caption': '''Suppress lookalike domain warnings on domains''',
+      'tags': ['system-security', 'website-sharing'],
+      'desc': '''This policy prevents the display of lookalike URL warnings on the sites listed. These warnings are typically shown on sites that <ph name="PRODUCT_NAME">$1<ex>Google Chrome</ex></ph> believes might be trying to spoof another site the user is familiar with.
+
+       If the policy is enabled and set to one or more domains, no lookalike warnings pages will be shown when the user visits pages on that domain.
+
+       If the policy is disabled, not set, or set to an empty list, warnings may appear on any site the user visits.
+
+       A hostname can be allowed with a complete host match, or any domain match. For example, a URL like "https://foo.example.com/bar" may have warnings suppressed if this list includes either "foo.example.com" or "example.com".'''
+
+    },
+    {
       'name': 'CCTToSDialogEnabled',
       'owners': ['skym@chromium.org', 'wenyufu@chromium.org', 'twellington@chromium.org'],
       'type': 'main',
@@ -24171,6 +24197,6 @@ The recommended way to configure policy on Windows is via GPO, although provisio
   ],
   'placeholders': [],
   'deleted_policy_ids': [412, 476, 546, 562, 569, 578],
-  'highest_id_currently_used': 781,
+  'highest_id_currently_used': 782,
   'highest_atomic_group_id_currently_used': 40
 }
