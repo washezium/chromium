@@ -776,41 +776,6 @@ bool LayoutTheme::SupportsCalendarPicker(const AtomicString& type) const {
          type == input_type_names::kMonth || type == input_type_names::kWeek;
 }
 
-// static
-void LayoutTheme::SetSizeIfAuto(ComputedStyle& style, const IntSize& size) {
-  if (style.Width().IsIntrinsicOrAuto())
-    style.SetWidth(Length::Fixed(size.Width()));
-  if (style.Height().IsIntrinsicOrAuto())
-    style.SetHeight(Length::Fixed(size.Height()));
-}
-
-// static
-void LayoutTheme::SetMinimumSize(ComputedStyle& style,
-                                 const LengthSize* part_size,
-                                 const LengthSize* min_part_size) {
-  DCHECK(part_size || min_part_size);
-  // We only want to set a minimum size if no explicit size is specified, to
-  // avoid overriding author intentions.
-  if (part_size && style.MinWidth().IsIntrinsicOrAuto() &&
-      style.Width().IsIntrinsicOrAuto())
-    style.SetMinWidth(part_size->Width());
-  else if (min_part_size && min_part_size->Width() != style.MinWidth())
-    style.SetMinWidth(min_part_size->Width());
-  if (part_size && style.MinHeight().IsIntrinsicOrAuto() &&
-      style.Height().IsIntrinsicOrAuto())
-    style.SetMinHeight(part_size->Height());
-  else if (min_part_size && min_part_size->Height() != style.MinHeight())
-    style.SetMinHeight(min_part_size->Height());
-}
-
-// static
-void LayoutTheme::SetMinimumSizeIfAuto(ComputedStyle& style,
-                                       const IntSize& size) {
-  LengthSize length_size(Length::Fixed(size.Width()),
-                         Length::Fixed(size.Height()));
-  SetMinimumSize(style, &length_size);
-}
-
 void LayoutTheme::AdjustControlPartStyle(ComputedStyle& style) {
   // Call the appropriate style adjustment method based off the appearance
   // value.
