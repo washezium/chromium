@@ -3,24 +3,23 @@
 # found in the LICENSE file.
 
 settings = struct(
-    project = "chromium",
-    # Switch this to False for branches
-    is_master = True,
-    ref = "refs/heads/master",
+    project = "chromium-m86",
+    is_master = False,
+    is_lts_branch = False,
+    ref = "refs/branch-heads/4240",
     ci_bucket = "ci",
-    ci_poller = "master-gitiles-trigger",
+    ci_poller = "chromium-gitiles-trigger",
     main_console_name = "main",
-    main_console_title = "Chromium Main Console",
+    main_console_title = "Chromium M86 Main Console",
     cq_mirrors_console_name = "mirrors",
-    cq_mirrors_console_title = "Chromium CQ Mirrors Console",
+    cq_mirrors_console_title = "Chromium M86 CQ Mirrors Console",
     try_bucket = "try",
-    try_triggering_projects = ["angle", "dawn", "skia", "v8"],
+    try_triggering_projects = [],
     cq_group = "cq",
-    cq_ref_regexp = "refs/heads/.+",
+    cq_ref_regexp = "refs/branch-heads/4240",
     main_list_view_name = "try",
-    main_list_view_title = "Chromium CQ console",
-    # Switch this to None for branches
-    tree_status_host = "chromium-status.appspot.com/",
+    main_list_view_title = "Chromium M86 CQ console",
+    tree_status_host = None,
 )
 
 def _generate_project_pyl(ctx):
