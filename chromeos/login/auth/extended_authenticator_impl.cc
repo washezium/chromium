@@ -122,6 +122,30 @@ void ExtendedAuthenticatorImpl::EndFingerprintAuthSession() {
       }));
 }
 
+void ExtendedAuthenticatorImpl::AuthenticateWithFingerprint(
+    const UserContext& context,
+    base::OnceCallback<void(cryptohome::CryptohomeErrorCode)> callback) {
+  cryptohome::KeyDefinition key_def;
+  key_def.type = cryptohome::KeyDefinition::TYPE_FINGERPRINT;
+  CryptohomeClient::Get()->CheckKeyEx(
+      cryptohome::CreateAccountIdentifierFromAccountId(context.GetAccountId()),
+      cryptohome::CreateAuthorizationRequestFromKeyDef(key_def),
+      cryptohome::CheckKeyRequest(),
+      base::BindOnce(&ExtendedAuthenticatorImpl::OnFingerprintScanComplete,
+                     this, std::move(callback)));
+}
+
+void ExtendedAuthenticatorImpl::OnFingerprintScanComplete(
+    base::OnceCallback<void(cryptohome::CryptohomeErrorCode)> callback,
+    base::Optional<cryptohome::BaseReply> reply) {
+  if (!reply) {
+    std::move(callback).Run(cryptohome::CryptohomeErrorCode::
+                                CRYPTOHOME_ERROR_FINGERPRINT_ERROR_INTERNAL);
+  }
+
+  std::move(callback).Run(reply->error());
+}
+
 void ExtendedAuthenticatorImpl::AddKey(const UserContext& context,
                                        const cryptohome::KeyDefinition& key,
                                        bool clobber_if_exists,

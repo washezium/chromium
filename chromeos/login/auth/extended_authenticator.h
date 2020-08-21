@@ -80,6 +80,13 @@ class COMPONENT_EXPORT(CHROMEOS_LOGIN_AUTH) ExtendedAuthenticator
   // response.
   virtual void EndFingerprintAuthSession() = 0;
 
+  // Waits for a fingerprint scan from the user in |context|, and calls
+  // |callback| with a fingerprint-specific CryptohomeErrorCode. No further
+  // actions are taken after authentication.
+  virtual void AuthenticateWithFingerprint(
+      const UserContext& context,
+      base::OnceCallback<void(cryptohome::CryptohomeErrorCode)> callback) = 0;
+
   // Attempts to add a new |key| for the user identified/authorized by
   // |context|. If a key with the same label already exists, the behavior
   // depends on the |replace_existing| flag. If the flag is set, the old key is
