@@ -64,6 +64,14 @@ void FakeExtendedAuthenticator::AuthenticateToCheck(
                 AuthFailure(AuthFailure::UNLOCK_FAILED));
 }
 
+void FakeExtendedAuthenticator::StartFingerprintAuthSession(
+    const AccountId& account_id,
+    base::OnceCallback<void(bool)> callback) {
+  std::move(callback).Run(expected_user_context_.GetAccountId() == account_id);
+}
+
+void FakeExtendedAuthenticator::EndFingerprintAuthSession() {}
+
 void FakeExtendedAuthenticator::AddKey(const UserContext& context,
                                        const cryptohome::KeyDefinition& key,
                                        bool replace_existing,
