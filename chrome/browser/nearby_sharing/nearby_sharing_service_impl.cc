@@ -10,6 +10,7 @@
 #include "base/files/file.h"
 #include "base/logging.h"
 #include "base/numerics/checked_math.h"
+#include "base/strings/string_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/system/sys_info.h"
 #include "base/task/post_task.h"
@@ -38,6 +39,7 @@
 #include "content/public/browser/storage_partition.h"
 #include "crypto/random.h"
 #include "device/bluetooth/bluetooth_adapter_factory.h"
+#include "net/base/mime_util.h"
 #include "services/network/public/cpp/shared_url_loader_factory.h"
 #include "ui/base/idle/idle.h"
 #include "url/gurl.h"
@@ -153,6 +155,41 @@ int64_t GeneratePayloadId() {
   int64_t payload_id = 0;
   crypto::RandBytes(&payload_id, sizeof(payload_id));
   return payload_id;
+}
+
+TextAttachment TextAttachmentFromText(const std::string& text) {
+  return TextAttachment(TextAttachment::Type::kText, text);
+}
+
+FileAttachment::Type FileAttachmentTypeFromMimeType(
+    const std::string& mime_type) {
+  if (base::StartsWith(mime_type, "image/"))
+    return FileAttachment::Type::kImage;
+
+  if (base::StartsWith(mime_type, "video/"))
+    return FileAttachment::Type::kVideo;
+
+  if (base::StartsWith(mime_type, "audio/"))
+    return FileAttachment::Type::kAudio;
+
+  return FileAttachment::Type::kUnknown;
+}
+
+std::string MimeTypeFromPath(const base::FilePath path) {
+  std::string mime_type = "application/octet-stream";
+  base::FilePath::StringType ext = path.Extension();
+  if (!ext.empty())
+    net::GetWellKnownMimeTypeFromExtension(ext.substr(1), &mime_type);
+
+  return mime_type;
+}
+
+FileAttachment FileAttachmentFromPath(const base::FilePath path) {
+  std::string mime_type = MimeTypeFromPath(path);
+  // Size will be updated later asynchronously, see OnOpenFiles().
+  return FileAttachment(path.BaseName().AsUTF8Unsafe(),
+                        FileAttachmentTypeFromMimeType(mime_type),
+                        /*size=*/0, path, mime_type);
 }
 
 }  // namespace
@@ -427,23 +464,19 @@ NearbySharingServiceImpl::StatusCodes NearbySharingServiceImpl::SendText(
     const ShareTarget& share_target,
     std::string text) {
   ShareTarget share_target_copy = share_target;
-  share_target_copy.text_attachments.emplace_back(TextAttachment::Type::kText,
-                                                  text);
-  return SendAttachments(share_target_copy);
+  share_target_copy.text_attachments.push_back(TextAttachmentFromText(text));
+
+  return SendAttachments(std::move(share_target_copy));
 }
 
 NearbySharingServiceImpl::StatusCodes NearbySharingServiceImpl::SendFiles(
     const ShareTarget& share_target,
     const std::vector<base::FilePath>& files) {
   ShareTarget share_target_copy = share_target;
-  for (const base::FilePath& file_path : files) {
-    // TODO(crbug.com/1085067): Get proper file name, size, type and mime type.
-    share_target_copy.file_attachments.emplace_back(
-        /*file_name=*/std::string(), FileAttachment::Type::kUnknown,
-        /*size=*/0, file_path,
-        /*mime_type=*/std::string());
-  }
-  return SendAttachments(share_target_copy);
+  for (const base::FilePath& path : files)
+    share_target_copy.file_attachments.push_back(FileAttachmentFromPath(path));
+
+  return SendAttachments(std::move(share_target_copy));
 }
 
 void NearbySharingServiceImpl::Accept(
@@ -673,8 +706,13 @@ void NearbySharingServiceImpl::OnEndpointLost(const std::string& endpoint_id) {
   }
 
   ShareTarget share_target = std::move(it->second);
-  outgoing_share_target_info_map_.erase(share_target.id);
   outgoing_share_target_map_.erase(it);
+
+  auto info_it = outgoing_share_target_info_map_.find(share_target.id);
+  if (info_it != outgoing_share_target_info_map_.end()) {
+    file_handler_.ReleaseFilePayloads(info_it->second.ExtractFilePayloads());
+    outgoing_share_target_info_map_.erase(info_it);
+  }
 
   for (ShareTargetDiscoveredCallback& discovery_callback :
        foreground_send_discovery_callbacks_) {
@@ -1349,7 +1387,7 @@ NearbySharingService::StatusCodes NearbySharingServiceImpl::SendPayloads(
 }
 
 NearbySharingService::StatusCodes NearbySharingServiceImpl::SendAttachments(
-    const ShareTarget& share_target) {
+    ShareTarget share_target) {
   if (!is_scanning_) {
     NS_LOG(WARNING)
         << __func__
@@ -1369,13 +1407,6 @@ NearbySharingService::StatusCodes NearbySharingServiceImpl::SendAttachments(
     NS_LOG(WARNING)
         << __func__
         << ": Failed to send file to remote ShareTarget. Unknown ShareTarget.";
-    return StatusCodes::kError;
-  }
-
-  if (!CreatePayloads(share_target)) {
-    NS_LOG(WARNING) << __func__
-                    << ": Failed to send file to remote ShareTarget. Failed to "
-                       "create payloads.";
     return StatusCodes::kError;
   }
 
@@ -1399,6 +1430,33 @@ NearbySharingService::StatusCodes NearbySharingServiceImpl::SendAttachments(
                         .set_status(TransferMetadata::Status::kConnecting)
                         .build());
 
+  CreatePayloads(std::move(share_target),
+                 base::BindOnce(&NearbySharingServiceImpl::OnCreatePayloads,
+                                weak_ptr_factory_.GetWeakPtr(),
+                                std::move(*endpoint_info)));
+
+  return StatusCodes::kOk;
+}
+
+void NearbySharingServiceImpl::OnCreatePayloads(
+    std::vector<uint8_t> endpoint_info,
+    ShareTarget share_target,
+    bool success) {
+  OutgoingShareTargetInfo* info = GetOutgoingShareTargetInfo(share_target);
+  bool has_payloads = info && (!info->text_payloads().empty() ||
+                               !info->file_payloads().empty());
+  if (!success || !has_payloads || !info->endpoint_id()) {
+    NS_LOG(WARNING) << __func__
+                    << ": Failed to send file to remote ShareTarget. Failed to "
+                       "create payloads.";
+    OnOutgoingTransferUpdate(
+        share_target,
+        TransferMetadataBuilder()
+            .set_status(TransferMetadata::Status::kMediaUnavailable)
+            .build());
+    return;
+  }
+
   base::Optional<std::vector<uint8_t>> bluetooth_mac_address =
       GetBluetoothMacAddress(share_target);
 
@@ -1408,12 +1466,10 @@ NearbySharingService::StatusCodes NearbySharingServiceImpl::SendAttachments(
   // TODO(crbug.com/1111458): Add preferred transfer type.
   // TODO(crbug.com/1085067): Add timeout
   nearby_connections_manager_->Connect(
-      std::move(*endpoint_info), *info->endpoint_id(),
+      std::move(endpoint_info), *info->endpoint_id(),
       std::move(bluetooth_mac_address), adjusted_data_usage,
       base::BindOnce(&NearbySharingServiceImpl::OnOutgoingConnection,
                      weak_ptr_factory_.GetWeakPtr(), share_target));
-
-  return StatusCodes::kOk;
 }
 
 void NearbySharingServiceImpl::OnOutgoingConnection(
@@ -1549,37 +1605,62 @@ void NearbySharingServiceImpl::SendIntroduction(
           .build());
 }
 
-bool NearbySharingServiceImpl::CreatePayloads(const ShareTarget& share_target) {
+void NearbySharingServiceImpl::CreatePayloads(
+    ShareTarget share_target,
+    base::OnceCallback<void(ShareTarget, bool)> callback) {
   OutgoingShareTargetInfo* info = GetOutgoingShareTargetInfo(share_target);
-  if (!info || !share_target.has_attachments())
-    return false;
+  if (!info || !share_target.has_attachments()) {
+    std::move(callback).Run(std::move(share_target), /*success=*/false);
+    return;
+  }
 
   if (!info->file_payloads().empty() || !info->text_payloads().empty()) {
     // We may have already created the payloads in the case of retry, so we can
     // skip this step.
-    return false;
+    std::move(callback).Run(std::move(share_target), /*success=*/false);
+    return;
   }
 
-  info->set_file_payloads(CreateFilePayloads(share_target.file_attachments));
   info->set_text_payloads(CreateTextPayloads(share_target.text_attachments));
+  if (share_target.file_attachments.empty()) {
+    std::move(callback).Run(std::move(share_target), /*success=*/true);
+    return;
+  }
 
-  return !info->file_payloads().empty() || !info->text_payloads().empty();
+  std::vector<base::FilePath> file_paths;
+  for (const FileAttachment& attachment : share_target.file_attachments) {
+    if (!attachment.file_path()) {
+      NS_LOG(WARNING) << __func__ << ": Got file attachment without path";
+      std::move(callback).Run(std::move(share_target), /*success=*/false);
+      return;
+    }
+    file_paths.push_back(*attachment.file_path());
+  }
+
+  file_handler_.OpenFiles(
+      std::move(file_paths),
+      base::BindOnce(&NearbySharingServiceImpl::OnOpenFiles,
+                     weak_ptr_factory_.GetWeakPtr(), std::move(share_target),
+                     std::move(callback)));
 }
 
-std::vector<location::nearby::connections::mojom::PayloadPtr>
-NearbySharingServiceImpl::CreateFilePayloads(
-    const std::vector<FileAttachment>& attachments) {
+void NearbySharingServiceImpl::OnOpenFiles(
+    ShareTarget share_target,
+    base::OnceCallback<void(ShareTarget, bool)> callback,
+    std::vector<NearbyFileHandler::FileInfo> files) {
+  OutgoingShareTargetInfo* info = GetOutgoingShareTargetInfo(share_target);
+  if (!info || files.size() != share_target.file_attachments.size()) {
+    std::move(callback).Run(std::move(share_target), /*success=*/false);
+    return;
+  }
+
   std::vector<location::nearby::connections::mojom::PayloadPtr> payloads;
-  payloads.reserve(attachments.size());
-  for (const FileAttachment& attachment : attachments) {
-    if (!attachment.file_path()) {
-      NS_LOG(VERBOSE) << __func__ << ": Skipping file attachment without path";
-      continue;
-    }
+  payloads.reserve(files.size());
 
-    // TODO(crbug.com/1085067): Open attachment.file_path() async here.
-    base::File file;
-
+  for (size_t i = 0; i < files.size(); ++i) {
+    FileAttachment& attachment = share_target.file_attachments[i];
+    attachment.set_size(files[i].size);
+    base::File& file = files[i].file;
     int64_t payload_id = GeneratePayloadId();
     SetAttachmentPayloadId(attachment, payload_id);
     payloads.push_back(location::nearby::connections::mojom::Payload::New(
@@ -1588,7 +1669,9 @@ NearbySharingServiceImpl::CreateFilePayloads(
             location::nearby::connections::mojom::FilePayload::New(
                 std::move(file)))));
   }
-  return payloads;
+
+  info->set_file_payloads(std::move(payloads));
+  std::move(callback).Run(std::move(share_target), /*success=*/true);
 }
 
 std::vector<location::nearby::connections::mojom::PayloadPtr>
@@ -2437,7 +2520,9 @@ NearbySharingServiceImpl::GetBluetoothMacAddress(
 }
 
 void NearbySharingServiceImpl::ClearOutgoingShareTargetInfoMap() {
-  // TODO(crbug.com/1085068) close file payloads
+  for (auto& entry : outgoing_share_target_info_map_)
+    file_handler_.ReleaseFilePayloads(entry.second.ExtractFilePayloads());
+
   outgoing_share_target_info_map_.clear();
   outgoing_share_target_map_.clear();
 }
