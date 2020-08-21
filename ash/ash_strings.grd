@@ -1096,6 +1096,9 @@ This file contains the strings for ash.
       <message name="IDS_ASH_DESKS_ACTIVE_DESK_MINIVIEW_A11Y_EXTRA_TIP" desc="The accessibility tooltip read by screen readers for a highlighted active desk mini_view.">
         Active desk.
       </message>
+      <message name="IDS_ASH_DESKS_INACTIVE_DESK_MINIVIEW_A11Y_EXTRA_TIP" desc="The accessibility tooltip read by screen readers for a highlighted inactive desk mini_view.">
+        Inactive desk.
+      </message>
 
       <!-- Status tray charging strings. -->
       <message name="IDS_ASH_STATUS_TRAY_LOW_POWER_CHARGER_TITLE" desc="The title of a notification indicating that a low-current USB charger has been connected.">
