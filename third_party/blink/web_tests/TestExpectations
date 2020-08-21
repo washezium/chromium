@@ -6472,9 +6472,6 @@ crbug.com/1087077 external/wpt/html/semantics/forms/form-submission-0/form-doubl
 crbug.com/1087077 external/wpt/html/semantics/forms/form-submission-0/form-double-submit-3.html [ Failure ]
 crbug.com/1087077 external/wpt/html/semantics/forms/form-submission-0/form-double-submit-to-different-origin-frame.html [ Failure ]
 
-# Flaky timeout in the Debug build
-crbug.com/1085564 [ Debug ] virtual/threaded-no-composited-antialiasing/animations/interpolation/svg-x-interpolation.html [ Pass Timeout ]
-
 # Sheriff 2020-05-29
 crbug.com/1084637 compositing/video/video-reflection.html [ Pass Failure ]
 crbug.com/1083362 compositing/reflections/load-video-in-reflection.html [ Pass Failure ]
