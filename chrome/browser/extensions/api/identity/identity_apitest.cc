@@ -944,12 +944,12 @@ class GetAuthTokenFunctionTest
 
   // Sets a cached token for the primary account.
   void SetCachedToken(const IdentityTokenCacheValue& token_data) {
-    SetCachedTokenForAccount(GetPrimaryAccountId(), token_data);
+    SetCachedTokenForAccount(GetPrimaryAccountInfo(), token_data);
   }
 
-  void SetCachedTokenForAccount(const CoreAccountId account_id,
+  void SetCachedTokenForAccount(const CoreAccountInfo account_info,
                                 const IdentityTokenCacheValue& token_data) {
-    ExtensionTokenKey key(extension_id_, account_id, oauth_scopes_);
+    ExtensionTokenKey key(extension_id_, account_info, oauth_scopes_);
     id_api()->token_cache()->SetToken(key, token_data);
   }
 
@@ -958,17 +958,18 @@ class GetAuthTokenFunctionTest
   }
 
   const IdentityTokenCacheValue& GetCachedToken(
-      const CoreAccountId& account_id,
+      const CoreAccountInfo& account_info,
       const std::set<std::string>& scopes) {
     ExtensionTokenKey key(
-        extension_id_, account_id.empty() ? GetPrimaryAccountId() : account_id,
+        extension_id_,
+        account_info.IsEmpty() ? GetPrimaryAccountInfo() : account_info,
         scopes);
     return id_api()->token_cache()->GetToken(key);
   }
 
   const IdentityTokenCacheValue& GetCachedToken(
-      const CoreAccountId& account_id) {
-    return GetCachedToken(account_id, oauth_scopes_);
+      const CoreAccountInfo& account_info) {
+    return GetCachedToken(account_info, oauth_scopes_);
   }
 
   base::Optional<std::string> GetCachedGaiaId() {
@@ -977,13 +978,15 @@ class GetAuthTokenFunctionTest
 
   void QueueRequestStart(IdentityMintRequestQueue::MintType type,
                          IdentityMintRequestQueue::Request* request) {
-    ExtensionTokenKey key(extension_id_, GetPrimaryAccountId(), oauth_scopes_);
+    ExtensionTokenKey key(extension_id_, GetPrimaryAccountInfo(),
+                          oauth_scopes_);
     id_api()->mint_queue()->RequestStart(type, key, request);
   }
 
   void QueueRequestComplete(IdentityMintRequestQueue::MintType type,
                             IdentityMintRequestQueue::Request* request) {
-    ExtensionTokenKey key(extension_id_, GetPrimaryAccountId(), oauth_scopes_);
+    ExtensionTokenKey key(extension_id_, GetPrimaryAccountInfo(),
+                          oauth_scopes_);
     id_api()->mint_queue()->RequestComplete(type, key, request);
   }
 
@@ -1190,7 +1193,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   EXPECT_FALSE(func->scope_ui_shown());
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_ADVICE,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName,
       IdentityGetAuthTokenError::State::kGaiaConsentInteractionRequired, 1);
@@ -1293,7 +1296,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, NoOptionsSuccess) {
   EXPECT_FALSE(func->login_ui_shown());
   EXPECT_FALSE(func->scope_ui_shown());
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
       1);
@@ -1315,7 +1318,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, NonInteractiveSuccess) {
   EXPECT_FALSE(func->login_ui_shown());
   EXPECT_FALSE(func->scope_ui_shown());
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
       1);
@@ -1649,7 +1652,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, InteractiveApprovalSuccess) {
   EXPECT_TRUE(func->scope_ui_shown());
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
       1);
@@ -1900,7 +1903,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   // pre-populate the cache with a token
   IdentityTokenCacheValue token =
       CreateToken(kAccessToken, base::TimeDelta::FromSeconds(3600));
-  SetCachedTokenForAccount(account_info.account_id, token);
+  SetCachedTokenForAccount(account_info, token);
 
   if (id_api()->AreExtensionsRestrictedToPrimaryAccount()) {
     // Fail when there is no primary account.
@@ -2020,7 +2023,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, LoginInvalidatesTokenCache) {
   EXPECT_TRUE(func->login_ui_shown());
   EXPECT_TRUE(func->scope_ui_shown());
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_NOTFOUND,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
       1);
@@ -2191,7 +2194,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, ManuallyIssueToken) {
   EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   EXPECT_THAT(func->login_access_tokens(),
               testing::ElementsAre(primary_account_access_token));
   histogram_tester()->ExpectUniqueSample(
@@ -2255,7 +2258,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   EXPECT_THAT(func->login_access_tokens(),
               testing::ElementsAre(primary_account_access_token));
   histogram_tester()->ExpectUniqueSample(
@@ -2291,7 +2294,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   EXPECT_THAT(func->login_access_tokens(),
               testing::ElementsAre(primary_account_access_token));
   histogram_tester()->ExpectUniqueSample(
@@ -2302,10 +2305,8 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
 IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
                        MultiSecondaryUserManuallyIssueToken) {
   SignIn("primary@example.com");
-  CoreAccountId secondary_account_id =
-      identity_test_env()
-          ->MakeAccountAvailable("secondary@example.com")
-          .account_id;
+  CoreAccountInfo secondary_account =
+      identity_test_env()->MakeAccountAvailable("secondary@example.com");
 
   scoped_refptr<FakeGetAuthTokenFunction> func(new FakeGetAuthTokenFunction());
   scoped_refptr<const Extension> extension(CreateExtension(CLIENT_ID | SCOPES));
@@ -2335,7 +2336,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   run_loop.Run();
 
   std::string secondary_account_access_token =
-      IssueLoginAccessTokenForAccount(secondary_account_id);
+      IssueLoginAccessTokenForAccount(secondary_account.account_id);
 
   std::string access_token;
   std::set<std::string> granted_scopes;
@@ -2344,7 +2345,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
   EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(secondary_account_id).status());
+            GetCachedToken(secondary_account).status());
   EXPECT_THAT(func->login_access_tokens(),
               testing::ElementsAre(secondary_account_access_token));
   histogram_tester()->ExpectUniqueSample(
@@ -2505,7 +2506,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest,
     EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
 
     EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-              GetCachedToken(secondary_account.account_id).status());
+              GetCachedToken(secondary_account).status());
     EXPECT_EQ(secondary_account.gaia,
               id_api()->GetGaiaIdForExtension(extension->id()));
     EXPECT_THAT(func->login_access_tokens(),
@@ -2600,7 +2601,7 @@ IN_PROC_BROWSER_TEST_F(
   EXPECT_EQ(1, total_scope_ui_shown);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(account.account_id).status());
+            GetCachedToken(account).status());
 
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
@@ -2672,7 +2673,7 @@ IN_PROC_BROWSER_TEST_F(
   EXPECT_EQ(1, total_scope_ui_shown);
 
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(account.account_id).status());
+            GetCachedToken(account).status());
 
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
@@ -2857,7 +2858,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionTest, SubsetMatchCachePopulate) {
                           browser(), &access_token, &granted_scopes);
 
   const IdentityTokenCacheValue& token =
-      GetCachedToken(CoreAccountId(), scopes);
+      GetCachedToken(CoreAccountInfo(), scopes);
   EXPECT_EQ(std::string(kAccessToken), token.token());
   EXPECT_EQ(scopes, token.granted_scopes());
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN, token.status());
@@ -3062,7 +3063,7 @@ IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionReturnScopesDisabledTest,
   EXPECT_FALSE(func->login_ui_shown());
   EXPECT_FALSE(func->scope_ui_shown());
   EXPECT_EQ(IdentityTokenCacheValue::CACHE_STATUS_TOKEN,
-            GetCachedToken(CoreAccountId()).status());
+            GetCachedToken(CoreAccountInfo()).status());
   histogram_tester()->ExpectUniqueSample(
       kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
       1);
@@ -3154,13 +3155,21 @@ class RemoveCachedAuthTokenFunctionTest : public ExtensionBrowserTest {
   }
 
   void SetCachedToken(const IdentityTokenCacheValue& token_data) {
-    ExtensionTokenKey key(kExtensionId, CoreAccountId("test@example.com"),
+    CoreAccountInfo account_info;
+    account_info.account_id = CoreAccountId("test@example.com");
+    account_info.gaia = "test_gaia";
+    account_info.email = "test@example.com";
+    ExtensionTokenKey key(kExtensionId, account_info,
                           std::set<std::string>({"foo"}));
     id_api()->token_cache()->SetToken(key, token_data);
   }
 
   const IdentityTokenCacheValue& GetCachedToken() {
-    ExtensionTokenKey key(kExtensionId, CoreAccountId("test@example.com"),
+    CoreAccountInfo account_info;
+    account_info.account_id = CoreAccountId("test@example.com");
+    account_info.gaia = "test_gaia";
+    account_info.email = "test@example.com";
+    ExtensionTokenKey key(kExtensionId, account_info,
                           std::set<std::string>({"foo"}));
     return id_api()->token_cache()->GetToken(key);
   }

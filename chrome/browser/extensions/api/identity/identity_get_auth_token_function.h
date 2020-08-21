@@ -232,7 +232,7 @@ class IdentityGetAuthTokenFunction : public ExtensionFunction,
   std::string email_for_default_web_account_;
 
   ExtensionTokenKey token_key_{/*extension_id=*/"",
-                               /*account_id=*/CoreAccountId(),
+                               /*account_info=*/CoreAccountInfo(),
                                /*scopes=*/{}};
   std::string oauth2_client_id_;
   // When launched in interactive mode, and if there is no existing grant,
