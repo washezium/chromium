@@ -17623,6 +17623,9 @@ Called by update_document_policy_enum.py.-->
 </enum>
 
 <enum name="Download.Service.EntryStates">
+  <obsolete>
+    Removed 08/2020
+  </obsolete>
   <int value="0" label="NEW"/>
   <int value="1" label="AVAILABLE"/>
   <int value="2" label="ACTIVE"/>
@@ -17673,6 +17676,9 @@ Called by update_document_policy_enum.py.-->
 </enum>
 
 <enum name="Download.Service.ShouldDownload">
+  <obsolete>
+    Removed 08/2020
+  </obsolete>
   <int value="0" label="CONTINUE"/>
   <int value="1" label="ABORT"/>
 </enum>
