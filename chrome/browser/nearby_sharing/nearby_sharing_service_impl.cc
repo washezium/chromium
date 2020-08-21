@@ -796,10 +796,13 @@ NearbySharingServiceImpl::CreateEndpointInfo(
   std::vector<uint8_t> encrypted_metadata_key(
       sharing::Advertisement::kMetadataEncryptionKeyHashByteSize, 0);
 
-  // TODO(nmusgrave) fill value from local device data manager
+  nearby_share::mojom::ShareTargetType device_type =
+      nearby_share::mojom::ShareTargetType::kLaptop;
+
   std::unique_ptr<sharing::Advertisement> advertisement =
-      sharing::Advertisement::NewInstance(
-          std::move(salt), std::move(encrypted_metadata_key), device_name);
+      sharing::Advertisement::NewInstance(std::move(salt),
+                                          std::move(encrypted_metadata_key),
+                                          device_type, device_name);
   if (advertisement) {
     return advertisement->ToEndpointInfo();
   } else {
@@ -2430,6 +2433,7 @@ base::Optional<ShareTarget> NearbySharingServiceImpl::CreateShareTarget(
   }
 
   ShareTarget target;
+  target.type = advertisement->device_type;
   target.device_name = std::move(*device_name);
   target.is_incoming = is_incoming;
   target.device_id = GetDeviceId(endpoint_id, certificate);

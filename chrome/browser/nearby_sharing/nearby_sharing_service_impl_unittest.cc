@@ -182,6 +182,8 @@ constexpr base::TimeDelta kDelta = base::TimeDelta::FromMilliseconds(100);
 
 const char kServiceId[] = "NearbySharing";
 const char kDeviceName[] = "test_device_name";
+const nearby_share::mojom::ShareTargetType kDeviceType =
+    nearby_share::mojom::ShareTargetType::kPhone;
 const char kEndpointId[] = "test_endpoint_id";
 const char kTextPayload[] = "Test text payload";
 
@@ -475,7 +477,7 @@ class NearbySharingServiceImplTest : public testing::Test {
                   sharing::mojom::Advertisement::New(
                       GetNearbyShareTestEncryptedMetadataKey().salt(),
                       GetNearbyShareTestEncryptedMetadataKey().encrypted_key(),
-                      kDeviceName);
+                      kDeviceType, kDeviceName);
               std::move(callback).Run(std::move(advertisement));
             }));
   }
@@ -1022,8 +1024,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_FALSE(share_target.has_attachments());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -1081,8 +1082,7 @@ TEST_F(NearbySharingServiceImplTest, RegisterSendSurfaceEmptyCertificate) {
         EXPECT_FALSE(share_target.has_attachments());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_FALSE(share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_EQ(kEndpointId, share_target.device_id);
         EXPECT_FALSE(share_target.full_name);
@@ -1664,8 +1664,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_FALSE(share_target.has_attachments());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -1717,8 +1716,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_EQ(0u, share_target.file_attachments.size());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_FALSE(share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_EQ(kEndpointId, share_target.device_id);
         EXPECT_FALSE(share_target.full_name);
 
@@ -1833,8 +1831,7 @@ TEST_F(NearbySharingServiceImplTest, IncomingConnection_OutOfStorage) {
         EXPECT_EQ(1u, share_target.file_attachments.size());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -1907,8 +1904,7 @@ TEST_F(NearbySharingServiceImplTest, IncomingConnection_FileSizeOverflow) {
         EXPECT_TRUE(share_target.is_known);
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -1952,8 +1948,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_EQ(0u, share_target.file_attachments.size());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -2106,8 +2101,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_EQ(0u, share_target.file_attachments.size());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
@@ -2160,8 +2154,7 @@ TEST_F(NearbySharingServiceImplTest,
         EXPECT_EQ(0u, share_target.file_attachments.size());
         EXPECT_EQ(kDeviceName, share_target.device_name);
         EXPECT_EQ(GURL(kTestMetadataIconUrl), share_target.image_url);
-        EXPECT_EQ(nearby_share::mojom::ShareTargetType::kUnknown,
-                  share_target.type);
+        EXPECT_EQ(kDeviceType, share_target.type);
         EXPECT_TRUE(share_target.device_id);
         EXPECT_NE(kEndpointId, share_target.device_id);
         EXPECT_EQ(kTestMetadataFullName, share_target.full_name);
