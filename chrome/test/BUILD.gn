@@ -6093,10 +6093,6 @@ if (!is_android) {
       sources += [ "../browser/ui/views/autofill/autofill_accessibility_win_browsertest.cc" ]
     }
 
-    if (is_win) {
-      sources += [ "../browser/virtual_keyboard_policy_uitest_win.cc" ]
-    }
-
     configs += [ "//build/config:precompiled_headers" ]
     if ((is_linux || is_chromeos) && !is_component_build) {
       configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
