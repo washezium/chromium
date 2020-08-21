@@ -29,7 +29,6 @@
 #include "third_party/blink/public/resources/grit/blink_resources.h"
 #include "third_party/blink/renderer/core/css_value_keywords.h"
 #include "third_party/blink/renderer/core/frame/local_frame.h"
-#include "third_party/blink/renderer/core/layout/layout_theme_font_provider.h"
 #include "third_party/blink/renderer/core/page/chrome_client.h"
 #include "third_party/blink/renderer/core/page/page.h"
 #include "third_party/blink/renderer/core/style/computed_style.h"
@@ -58,32 +57,6 @@ LayoutThemeDefault::LayoutThemeDefault() : LayoutTheme(), painter_(*this) {
 }
 
 LayoutThemeDefault::~LayoutThemeDefault() = default;
-
-Color LayoutThemeDefault::SystemColor(CSSValueID css_value_id,
-                                      WebColorScheme color_scheme) const {
-  constexpr Color kDefaultButtonGrayColor(0xffdddddd);
-  constexpr Color kDefaultButtonGrayColorDark(0xff444444);
-  constexpr Color kDefaultMenuColor(0xfff7f7f7);
-  constexpr Color kDefaultMenuColorDark(0xff404040);
-
-  if (css_value_id == CSSValueID::kButtonface) {
-    switch (color_scheme) {
-      case WebColorScheme::kLight:
-        return kDefaultButtonGrayColor;
-      case WebColorScheme::kDark:
-        return kDefaultButtonGrayColorDark;
-    }
-  }
-  if (css_value_id == CSSValueID::kMenu) {
-    switch (color_scheme) {
-      case WebColorScheme::kLight:
-        return kDefaultMenuColor;
-      case WebColorScheme::kDark:
-        return kDefaultMenuColorDark;
-    }
-  }
-  return LayoutTheme::SystemColor(css_value_id, color_scheme);
-}
 
 // Use the Windows style sheets to match their metrics.
 String LayoutThemeDefault::ExtraDefaultStyleSheet() {
@@ -239,15 +212,6 @@ void LayoutThemeDefault::AdjustInnerSpinButtonStyle(
 Color LayoutThemeDefault::PlatformFocusRingColor() const {
   constexpr Color focus_ring_color(0xFFE59700);
   return focus_ring_color;
-}
-
-void LayoutThemeDefault::SystemFont(CSSValueID system_font_id,
-                                    FontSelectionValue& font_slope,
-                                    FontSelectionValue& font_weight,
-                                    float& font_size,
-                                    AtomicString& font_family) const {
-  LayoutThemeFontProvider::SystemFont(system_font_id, font_slope, font_weight,
-                                      font_size, font_family);
 }
 
 void LayoutThemeDefault::AdjustButtonStyle(ComputedStyle& style) const {

@@ -149,11 +149,6 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
   virtual base::TimeDelta CaretBlinkInterval() const;
 
   // System fonts and colors for CSS.
-  virtual void SystemFont(CSSValueID system_font_id,
-                          FontSelectionValue& font_slope,
-                          FontSelectionValue& font_weight,
-                          float& font_size,
-                          AtomicString& font_family) const = 0;
   void SystemFont(CSSValueID system_font_id, FontDescription&);
   virtual Color SystemColor(CSSValueID, WebColorScheme color_scheme) const;
 

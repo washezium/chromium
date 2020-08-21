@@ -35,14 +35,10 @@
 
 namespace blink {
 
-class LayoutProgress;
-
 class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
  public:
   String ExtraDefaultStyleSheet() override;
   String ExtraQuirksStyleSheet() override;
-
-  Color SystemColor(CSSValueID, WebColorScheme color_scheme) const override;
 
   Color PlatformActiveSelectionBackgroundColor(
       WebColorScheme color_scheme) const override;
@@ -71,13 +67,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
                           Color inactive_background_color,
                           Color inactive_foreground_color) override;
   Color PlatformFocusRingColor() const override;
-
-  // System fonts.
-  void SystemFont(CSSValueID system_font_id,
-                  FontSelectionValue& font_slope,
-                  FontSelectionValue& font_weight,
-                  float& font_size,
-                  AtomicString& font_family) const override;
 
   void AdjustSearchFieldStyle(ComputedStyle&) const override;
   void AdjustSearchFieldCancelButtonStyle(ComputedStyle&) const override;
@@ -110,11 +99,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
  protected:
   LayoutThemeDefault();
   ~LayoutThemeDefault() override;
-
-  IntRect DeterminateProgressValueRectFor(LayoutProgress*,
-                                          const IntRect&) const;
-  IntRect IndeterminateProgressValueRectFor(LayoutProgress*,
-                                            const IntRect&) const;
 
  private:
   ThemePainter& Painter() override { return painter_; }
