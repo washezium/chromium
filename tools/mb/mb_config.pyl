@@ -825,7 +825,6 @@
       'linux-chromeos-rel': 'chromeos_with_codecs_release_trybot_code_coverage',
       'linux-chromeos-compile-dbg': 'chromeos_with_codecs_debug_bot',
       'linux-chromeos-dbg': 'chromeos_with_codecs_debug_bot',
-      'linux-lacros-compile-rel': 'lacros_on_linux_release_bot',
       'linux-lacros-rel': 'lacros_on_linux_release_bot',
     },
 
