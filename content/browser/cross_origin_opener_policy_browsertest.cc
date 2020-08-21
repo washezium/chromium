@@ -2057,8 +2057,9 @@ IN_PROC_BROWSER_TEST_F(CoopReportingOriginTrialBrowserTest,
   EXPECT_EQ("[]", reports);
 }
 
+// TODO(http://crbug.com/1119555): Flaky on multiple builders.
 IN_PROC_BROWSER_TEST_F(CoopReportingOriginTrialBrowserTest,
-                       AccessReportingWithToken) {
+                       DISABLED_AccessReportingWithToken) {
   URLLoaderInterceptor interceptor(base::BindLambdaForTesting(
       [&](URLLoaderInterceptor::RequestParams* params) {
         if (params->url_request.url != OriginTrialURL())
