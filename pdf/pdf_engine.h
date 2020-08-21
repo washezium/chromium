@@ -406,7 +406,7 @@ class PDFEngine {
   // Gets the rectangle of the page not including the shadow.
   virtual pp::Rect GetPageBoundsRect(int index) = 0;
   // Gets the rectangle of the page excluding any additional areas.
-  virtual pp::Rect GetPageContentsRect(int index) = 0;
+  virtual gfx::Rect GetPageContentsRect(int index) = 0;
   // Returns a page's rect in screen coordinates, as well as its surrounding
   // border areas and bottom separator.
   virtual pp::Rect GetPageScreenRect(int page_index) const = 0;
