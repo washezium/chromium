@@ -2,7 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/policy/messaging_layer/encryption/fake_encryption.h"
+#include "chrome/browser/policy/messaging_layer/encryption/encryption.h"
+
+#include <openssl/curve25519.h>
+
 #include "base/bind.h"
 #include "base/containers/flat_map.h"
 #include "base/hash/hash.h"
@@ -11,7 +14,7 @@
 #include "base/synchronization/waitable_event.h"
 #include "base/test/task_environment.h"
 #include "base/time/time.h"
-#include "chrome/browser/policy/messaging_layer/encryption/fake_decryption.h"
+#include "chrome/browser/policy/messaging_layer/encryption/decryption.h"
 #include "chrome/browser/policy/messaging_layer/util/status.h"
 #include "chrome/browser/policy/messaging_layer/util/status_macros.h"
 #include "chrome/browser/policy/messaging_layer/util/statusor.h"
@@ -75,26 +78,26 @@ class TestEvent {
   ResType result_;
 };
 
-class FakeEncryptionTest : public ::testing::Test {
+class EncryptionTest : public ::testing::Test {
  protected:
-  FakeEncryptionTest() = default;
+  EncryptionTest() = default;
 
   void SetUp() override {
-    auto encryptor_result = test::FakeEncryptor::Create();
+    auto encryptor_result = Encryptor::Create();
     ASSERT_OK(encryptor_result.status()) << encryptor_result.status();
     encryptor_ = std::move(encryptor_result.ValueOrDie());
 
-    auto decryptor_result = test::FakeDecryptor::Create();
+    auto decryptor_result = Decryptor::Create();
     ASSERT_OK(decryptor_result.status()) << decryptor_result.status();
     decryptor_ = std::move(decryptor_result.ValueOrDie());
   }
 
   StatusOr<EncryptedRecord> EncryptSync(base::StringPiece data) {
-    TestEvent<StatusOr<EncryptorBase::Handle*>> open_encrypt;
+    TestEvent<StatusOr<Encryptor::Handle*>> open_encrypt;
     encryptor_->OpenRecord(open_encrypt.cb());
     auto open_encrypt_result = open_encrypt.result();
     RETURN_IF_ERROR(open_encrypt_result.status());
-    EncryptorBase::Handle* const enc_handle = open_encrypt_result.ValueOrDie();
+    Encryptor::Handle* const enc_handle = open_encrypt_result.ValueOrDie();
 
     TestEvent<Status> add_encrypt;
     enc_handle->AddToRecord(data, add_encrypt.cb());
@@ -121,11 +124,11 @@ class FakeEncryptionTest : public ::testing::Test {
   StatusOr<std::string> DecryptSync(
       std::pair<std::string /*unencrypted_key*/, std::string /*encrypted_data*/>
           encrypted) {
-    TestEvent<StatusOr<DecryptorBase::Handle*>> open_decrypt;
+    TestEvent<StatusOr<Decryptor::Handle*>> open_decrypt;
     decryptor_->OpenRecord(encrypted.first, open_decrypt.cb());
     auto open_decrypt_result = open_decrypt.result();
     RETURN_IF_ERROR(open_decrypt_result.status());
-    DecryptorBase::Handle* const dec_handle = open_decrypt_result.ValueOrDie();
+    Decryptor::Handle* const dec_handle = open_decrypt_result.ValueOrDie();
 
     TestEvent<Status> add_decrypt;
     dec_handle->AddToRecord(encrypted.second, add_decrypt.cb());
@@ -156,44 +159,50 @@ class FakeEncryptionTest : public ::testing::Test {
     decryptor_->RetrieveMatchingPrivateKey(public_key_id,
                                            retrieve_private_key.cb());
     ASSIGN_OR_RETURN(std::string private_key, retrieve_private_key.result());
-    // Decrypt symmetric key with that private key.
-    std::string unencrypted_key;
-    unencrypted_key.reserve(encrypted_key.size());
-    size_t key_i = 0;
-    for (const auto& key_byte : encrypted_key) {
-      unencrypted_key.push_back(key_byte ^
-                                private_key[private_key.size() - ++key_i]);
-      if (key_i >= private_key.size()) {
-        key_i = 0;
-      }
-    }
-    return unencrypted_key;
+    // Decrypt symmetric key with that private key and peer public key.
+    ASSIGN_OR_RETURN(std::string symmetric_key,
+                     decryptor_->DecryptKey(private_key, encrypted_key));
+    return symmetric_key;
   }
 
-  scoped_refptr<EncryptorBase> encryptor_;
-  scoped_refptr<DecryptorBase> decryptor_;
+  Status AddNewKeyPair() {
+    // Generate new pair of private key and public value.
+    uint8_t out_public_value[X25519_PUBLIC_VALUE_LEN];
+    uint8_t out_private_key[X25519_PRIVATE_KEY_LEN];
+    X25519_keypair(out_public_value, out_private_key);
+
+    TestEvent<Status> record_keys;
+    decryptor_->RecordKeyPair(
+        std::string(reinterpret_cast<const char*>(out_private_key),
+                    X25519_PRIVATE_KEY_LEN),
+        std::string(reinterpret_cast<const char*>(out_public_value),
+                    X25519_PUBLIC_VALUE_LEN),
+        record_keys.cb());
+    RETURN_IF_ERROR(record_keys.result());
+    TestEvent<Status> set_public_key;
+    encryptor_->UpdateAsymmetricKey(
+        std::string(reinterpret_cast<const char*>(out_public_value),
+                    X25519_PUBLIC_VALUE_LEN),
+        set_public_key.cb());
+    RETURN_IF_ERROR(set_public_key.result());
+    return Status::StatusOK();
+  }
+
+  scoped_refptr<Encryptor> encryptor_;
+  scoped_refptr<Decryptor> decryptor_;
 
  private:
   base::test::TaskEnvironment task_environment_{
       base::test::TaskEnvironment::TimeSource::MOCK_TIME};
 };
 
-TEST_F(FakeEncryptionTest, EncryptAndDecrypt) {
+TEST_F(EncryptionTest, EncryptAndDecrypt) {
   constexpr char kTestString[] = "ABCDEF";
-  // Public and private key in this test are reversed strings.
-  constexpr char kPublicKeyString[] = "123";
-  constexpr char kPrivateKeyString[] = "321";
 
-  // Register key pair and provide public key to the encryptor.
-  TestEvent<Status> record_keys;
-  decryptor_->RecordKeyPair(kPrivateKeyString, kPublicKeyString,
-                            record_keys.cb());
-  ASSERT_OK(record_keys.result()) << record_keys.result();
-  TestEvent<Status> set_public_key;
-  encryptor_->UpdateAsymmetricKey(kPublicKeyString, set_public_key.cb());
-  ASSERT_OK(set_public_key.result());
+  // Register new pair of private key and public value.
+  ASSERT_OK(AddNewKeyPair());
 
-  // Encrypt the test string.
+  // Encrypt the test string using the last public value.
   const auto encrypted_result = EncryptSync(kTestString);
   ASSERT_OK(encrypted_result.status()) << encrypted_result.status();
 
@@ -212,7 +221,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecrypt) {
   EXPECT_THAT(decrypted_result.ValueOrDie(), ::testing::StrEq(kTestString));
 }
 
-TEST_F(FakeEncryptionTest, NoPublicKey) {
+TEST_F(EncryptionTest, NoPublicKey) {
   constexpr char kTestString[] = "ABCDEF";
 
   // Attempt to encrypt the test string.
@@ -220,23 +229,14 @@ TEST_F(FakeEncryptionTest, NoPublicKey) {
   EXPECT_EQ(encrypted_result.status().error_code(), error::NOT_FOUND);
 }
 
-TEST_F(FakeEncryptionTest, EncryptAndDecryptMultiple) {
+TEST_F(EncryptionTest, EncryptAndDecryptMultiple) {
   constexpr const char* kTestStrings[] = {"Rec1",    "Rec22",    "Rec333",
                                           "Rec4444", "Rec55555", "Rec666666"};
-  // Public and private key pairs in this test are reversed strings.
-  constexpr const char* kPublicKeyStrings[] = {"123", "45", "7"};
-  constexpr const char* kPrivateKeyStrings[] = {"321", "54", "7"};
   // Encrypted records.
   std::vector<EncryptedRecord> encrypted_records;
 
   // 1. Register first key pair.
-  TestEvent<Status> record_keys_0;
-  decryptor_->RecordKeyPair(kPrivateKeyStrings[0], kPublicKeyStrings[0],
-                            record_keys_0.cb());
-  ASSERT_OK(record_keys_0.result()) << record_keys_0.result();
-  TestEvent<Status> set_public_key_0;
-  encryptor_->UpdateAsymmetricKey(kPublicKeyStrings[0], set_public_key_0.cb());
-  ASSERT_OK(set_public_key_0.result()) << set_public_key_0.result();
+  ASSERT_OK(AddNewKeyPair());
 
   // 2. Encrypt 3 test strings.
   for (const char* test_string :
@@ -247,13 +247,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultiple) {
   }
 
   // 3. Register second key pair.
-  TestEvent<Status> record_keys_1;
-  decryptor_->RecordKeyPair(kPrivateKeyStrings[1], kPublicKeyStrings[1],
-                            record_keys_1.cb());
-  ASSERT_OK(record_keys_1.result()) << record_keys_1.result();
-  TestEvent<Status> set_public_key_1;
-  encryptor_->UpdateAsymmetricKey(kPublicKeyStrings[1], set_public_key_1.cb());
-  ASSERT_OK(set_public_key_1.result()) << set_public_key_1.result();
+  ASSERT_OK(AddNewKeyPair());
 
   // 4. Encrypt 2 test strings.
   for (const char* test_string : {kTestStrings[3], kTestStrings[4]}) {
@@ -263,13 +257,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultiple) {
   }
 
   // 3. Register third key pair.
-  TestEvent<Status> record_keys_2;
-  decryptor_->RecordKeyPair(kPrivateKeyStrings[2], kPublicKeyStrings[2],
-                            record_keys_2.cb());
-  ASSERT_OK(record_keys_2.result()) << record_keys_2.result();
-  TestEvent<Status> set_public_key_2;
-  encryptor_->UpdateAsymmetricKey(kPublicKeyStrings[2], set_public_key_2.cb());
-  ASSERT_OK(set_public_key_2.result()) << set_public_key_2.result();
+  ASSERT_OK(AddNewKeyPair());
 
   // 4. Encrypt one more test strings.
   for (const char* test_string : {kTestStrings[5]}) {
@@ -298,14 +286,14 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultiple) {
   }
 }
 
-TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
+TEST_F(EncryptionTest, EncryptAndDecryptMultipleParallel) {
   // Context of single encryption. Self-destructs upon completion or failure.
   class SingleEncryptionContext {
    public:
     SingleEncryptionContext(
         base::StringPiece test_string,
         base::StringPiece public_key,
-        scoped_refptr<EncryptorBase> encryptor,
+        scoped_refptr<Encryptor> encryptor,
         base::OnceCallback<void(StatusOr<EncryptedRecord>)> response)
         : test_string_(test_string),
           public_key_(public_key),
@@ -350,7 +338,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
     void OpenRecord() {
       encryptor_->OpenRecord(base::BindOnce(
           [](SingleEncryptionContext* self,
-             StatusOr<EncryptorBase::Handle*> handle_result) {
+             StatusOr<Encryptor::Handle*> handle_result) {
             if (!handle_result.ok()) {
               self->Respond(handle_result.status());
               return;
@@ -363,11 +351,11 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
           },
           base::Unretained(this)));
     }
-    void AddToRecord(EncryptorBase::Handle* handle) {
+    void AddToRecord(Encryptor::Handle* handle) {
       handle->AddToRecord(
           test_string_,
           base::BindOnce(
-              [](SingleEncryptionContext* self, EncryptorBase::Handle* handle,
+              [](SingleEncryptionContext* self, Encryptor::Handle* handle,
                  Status status) {
                 if (!status.ok()) {
                   self->Respond(status);
@@ -381,7 +369,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
               },
               base::Unretained(this), base::Unretained(handle)));
     }
-    void CloseRecord(EncryptorBase::Handle* handle) {
+    void CloseRecord(Encryptor::Handle* handle) {
       handle->CloseRecord(base::BindOnce(
           [](SingleEncryptionContext* self,
              StatusOr<EncryptedRecord> encryption_result) {
@@ -393,7 +381,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
    private:
     const std::string test_string_;
     const std::string public_key_;
-    const scoped_refptr<EncryptorBase> encryptor_;
+    const scoped_refptr<Encryptor> encryptor_;
     base::OnceCallback<void(StatusOr<EncryptedRecord>)> response_;
   };
 
@@ -402,7 +390,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
    public:
     SingleDecryptionContext(
         const EncryptedRecord& encrypted_record,
-        scoped_refptr<DecryptorBase> decryptor,
+        scoped_refptr<Decryptor> decryptor,
         base::OnceCallback<void(StatusOr<base::StringPiece>)> response)
         : encrypted_record_(encrypted_record),
           decryptor_(decryptor),
@@ -451,30 +439,25 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
     }
 
     void DecryptSymmetricKey(base::StringPiece private_key) {
-      // Decrypt symmetric key with that private key.
-      std::string unencrypted_key;
-      unencrypted_key.reserve(
-          encrypted_record_.encryption_info().encryption_key().size());
-      size_t key_i = 0;
-      for (const auto& key_byte :
-           encrypted_record_.encryption_info().encryption_key()) {
-        unencrypted_key.push_back(key_byte ^
-                                  private_key[private_key.size() - ++key_i]);
-        if (key_i >= private_key.size()) {
-          key_i = 0;
-        }
+      // Decrypt symmetric key with that private key and peer public key.
+      auto symmetric_key_result = decryptor_->DecryptKey(
+          private_key, encrypted_record_.encryption_info().encryption_key());
+      if (!symmetric_key_result.ok()) {
+        Respond(symmetric_key_result.status());
+        return;
       }
       base::ThreadPool::PostTask(
           FROM_HERE, base::BindOnce(&SingleDecryptionContext::OpenRecord,
-                                    base::Unretained(this), unencrypted_key));
+                                    base::Unretained(this),
+                                    symmetric_key_result.ValueOrDie()));
     }
 
-    void OpenRecord(base::StringPiece unencrypted_key) {
+    void OpenRecord(base::StringPiece symmetric_key) {
       decryptor_->OpenRecord(
-          unencrypted_key,
+          symmetric_key,
           base::BindOnce(
               [](SingleDecryptionContext* self,
-                 StatusOr<DecryptorBase::Handle*> handle_result) {
+                 StatusOr<Decryptor::Handle*> handle_result) {
                 if (!handle_result.ok()) {
                   self->Respond(handle_result.status());
                   return;
@@ -489,11 +472,11 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
               base::Unretained(this)));
     }
 
-    void AddToRecord(DecryptorBase::Handle* handle) {
+    void AddToRecord(Decryptor::Handle* handle) {
       handle->AddToRecord(
           encrypted_record_.encrypted_wrapped_record(),
           base::BindOnce(
-              [](SingleDecryptionContext* self, DecryptorBase::Handle* handle,
+              [](SingleDecryptionContext* self, Decryptor::Handle* handle,
                  Status status) {
                 if (!status.ok()) {
                   self->Respond(status);
@@ -508,7 +491,7 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
               base::Unretained(this), base::Unretained(handle)));
     }
 
-    void CloseRecord(DecryptorBase::Handle* handle) {
+    void CloseRecord(Decryptor::Handle* handle) {
       handle->CloseRecord(base::BindOnce(
           [](SingleDecryptionContext* self,
              StatusOr<base::StringPiece> decryption_result) {
@@ -519,41 +502,55 @@ TEST_F(FakeEncryptionTest, EncryptAndDecryptMultipleParallel) {
 
    private:
     const EncryptedRecord encrypted_record_;
-    const scoped_refptr<DecryptorBase> decryptor_;
+    const scoped_refptr<Decryptor> decryptor_;
     base::OnceCallback<void(StatusOr<base::StringPiece>)> response_;
   };
 
   constexpr std::array<const char*, 6> kTestStrings = {
       "Rec1", "Rec22", "Rec333", "Rec4444", "Rec55555", "Rec666666"};
+
   // Public and private key pairs in this test are reversed strings.
-  constexpr std::array<const char*, 3> kPublicKeyStrings = {"123", "45", "7"};
-  constexpr std::array<const char*, 3> kPrivateKeyStrings = {"321", "54", "7"};
+  std::vector<std::string> private_key_strings;
+  std::vector<std::string> public_value_strings;
+  for (size_t i = 0; i < 3; ++i) {
+    // Generate new pair of private key and public value.
+    uint8_t out_public_value[X25519_PUBLIC_VALUE_LEN];
+    uint8_t out_private_key[X25519_PRIVATE_KEY_LEN];
+    X25519_keypair(out_public_value, out_private_key);
+    private_key_strings.emplace_back(
+        reinterpret_cast<const char*>(out_private_key), X25519_PRIVATE_KEY_LEN);
+    public_value_strings.emplace_back(
+        reinterpret_cast<const char*>(out_public_value),
+        X25519_PUBLIC_VALUE_LEN);
+  }
 
   // Encrypt all records in parallel.
   std::vector<TestEvent<StatusOr<EncryptedRecord>>> results(
       kTestStrings.size());
   for (size_t i = 0; i < kTestStrings.size(); ++i) {
     // Choose random key pair.
-    size_t i_key_pair = base::RandInt(0, kPublicKeyStrings.size() - 1);
-    (new SingleEncryptionContext(kTestStrings[i], kPublicKeyStrings[i_key_pair],
-                                 encryptor_, results[i].cb()))
+    size_t i_key_pair = base::RandInt(0, public_value_strings.size() - 1);
+    (new SingleEncryptionContext(kTestStrings[i],
+                                 public_value_strings[i_key_pair], encryptor_,
+                                 results[i].cb()))
         ->Start();
   }
 
   // Register all key pairs for decryption.
-  std::vector<TestEvent<Status>> record_results(kPublicKeyStrings.size());
-  for (size_t i = 0; i < kPublicKeyStrings.size(); ++i) {
+  std::vector<TestEvent<Status>> record_results(public_value_strings.size());
+  for (size_t i = 0; i < public_value_strings.size(); ++i) {
     base::ThreadPool::PostTask(
-        FROM_HERE,
-        base::BindOnce(
-            [](const char* public_key_string, const char* private_key_string,
-               scoped_refptr<DecryptorBase> decryptor,
-               base::OnceCallback<void(Status)> done_cb) {
-              decryptor->RecordKeyPair(private_key_string, public_key_string,
-                                       std::move(done_cb));
-            },
-            kPublicKeyStrings[i], kPrivateKeyStrings[i], decryptor_,
-            record_results[i].cb()));
+        FROM_HERE, base::BindOnce(
+                       [](base::StringPiece private_key_string,
+                          base::StringPiece public_key_string,
+                          scoped_refptr<Decryptor> decryptor,
+                          base::OnceCallback<void(Status)> done_cb) {
+                         decryptor->RecordKeyPair(private_key_string,
+                                                  public_key_string,
+                                                  std::move(done_cb));
+                       },
+                       private_key_strings[i], public_value_strings[i],
+                       decryptor_, record_results[i].cb()));
   }
   // Verify registration success.
   for (auto& record_result : record_results) {
