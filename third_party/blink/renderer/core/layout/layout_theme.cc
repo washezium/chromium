@@ -50,7 +50,6 @@
 #include "third_party/blink/renderer/core/layout/layout_theme_mobile.h"
 #include "third_party/blink/renderer/core/page/focus_controller.h"
 #include "third_party/blink/renderer/core/page/page.h"
-#include "third_party/blink/renderer/core/paint/fallback_theme.h"
 #include "third_party/blink/renderer/core/style/computed_style.h"
 #include "third_party/blink/renderer/core/style/computed_style_initial_values.h"
 #include "third_party/blink/renderer/platform/file_metadata.h"
@@ -262,11 +261,6 @@ void LayoutTheme::AdjustStyle(ComputedStyle& style, Element* e) {
   DCHECK_NE(part, kAutoPart);
   if (part == kNoControlPart)
     return;
-
-  if (ShouldUseFallbackTheme(style)) {
-    AdjustStyleUsingFallbackTheme(style);
-    return;
-  }
 
   AdjustControlPartStyle(style);
 
@@ -782,22 +776,6 @@ bool LayoutTheme::SupportsCalendarPicker(const AtomicString& type) const {
          type == input_type_names::kMonth || type == input_type_names::kWeek;
 }
 
-bool LayoutTheme::ShouldUseFallbackTheme(const ComputedStyle&) const {
-  return false;
-}
-
-void LayoutTheme::AdjustStyleUsingFallbackTheme(ComputedStyle& style) {
-  ControlPart part = style.EffectiveAppearance();
-  switch (part) {
-    case kCheckboxPart:
-      return AdjustCheckboxStyleUsingFallbackTheme(style);
-    case kRadioPart:
-      return AdjustRadioStyleUsingFallbackTheme(style);
-    default:
-      break;
-  }
-}
-
 // static
 void LayoutTheme::SetSizeIfAuto(ComputedStyle& style, const IntSize& size) {
   if (style.Width().IsIntrinsicOrAuto())
@@ -831,54 +809,6 @@ void LayoutTheme::SetMinimumSizeIfAuto(ComputedStyle& style,
   LengthSize length_size(Length::Fixed(size.Width()),
                          Length::Fixed(size.Height()));
   SetMinimumSize(style, &length_size);
-}
-
-void LayoutTheme::AdjustCheckboxStyleUsingFallbackTheme(
-    ComputedStyle& style) const {
-  // If the width and height are both specified, then we have nothing to do.
-  if (!style.Width().IsIntrinsicOrAuto() && !style.Height().IsAuto())
-    return;
-
-  IntSize size(GetFallbackTheme().GetPartSize(ui::NativeTheme::kCheckbox,
-                                              ui::NativeTheme::kNormal,
-                                              ui::NativeTheme::ExtraParams()));
-  float zoom_level = style.EffectiveZoom();
-  size.SetWidth(size.Width() * zoom_level);
-  size.SetHeight(size.Height() * zoom_level);
-  SetMinimumSizeIfAuto(style, size);
-  SetSizeIfAuto(style, size);
-
-  // padding - not honored by WinIE, needs to be removed.
-  style.ResetPadding();
-
-  // border - honored by WinIE, but looks terrible (just paints in the control
-  // box and turns off the Windows XP theme)
-  // for now, we will not honor it.
-  style.ResetBorder();
-}
-
-void LayoutTheme::AdjustRadioStyleUsingFallbackTheme(
-    ComputedStyle& style) const {
-  // If the width and height are both specified, then we have nothing to do.
-  if (!style.Width().IsIntrinsicOrAuto() && !style.Height().IsAuto())
-    return;
-
-  IntSize size(GetFallbackTheme().GetPartSize(ui::NativeTheme::kRadio,
-                                              ui::NativeTheme::kNormal,
-                                              ui::NativeTheme::ExtraParams()));
-  float zoom_level = style.EffectiveZoom();
-  size.SetWidth(size.Width() * zoom_level);
-  size.SetHeight(size.Height() * zoom_level);
-  SetMinimumSizeIfAuto(style, size);
-  SetSizeIfAuto(style, size);
-
-  // padding - not honored by WinIE, needs to be removed.
-  style.ResetPadding();
-
-  // border - honored by WinIE, but looks terrible (just paints in the control
-  // box and turns off the Windows XP theme)
-  // for now, we will not honor it.
-  style.ResetBorder();
 }
 
 void LayoutTheme::AdjustControlPartStyle(ComputedStyle& style) {

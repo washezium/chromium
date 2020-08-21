@@ -202,8 +202,6 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
 
   virtual bool SupportsSelectionForegroundColors() const { return true; }
 
-  virtual bool ShouldUseFallbackTheme(const ComputedStyle&) const;
-
   // Adjust style as per platform selection.
   virtual void AdjustControlPartStyle(ComputedStyle&);
 
@@ -243,9 +241,6 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
   virtual void AdjustSliderThumbStyle(ComputedStyle&) const;
   virtual void AdjustSearchFieldStyle(ComputedStyle&) const;
   virtual void AdjustSearchFieldCancelButtonStyle(ComputedStyle&) const;
-  void AdjustStyleUsingFallbackTheme(ComputedStyle&);
-  void AdjustCheckboxStyleUsingFallbackTheme(ComputedStyle&) const;
-  void AdjustRadioStyleUsingFallbackTheme(ComputedStyle&) const;
 
  public:
   // Methods for state querying
