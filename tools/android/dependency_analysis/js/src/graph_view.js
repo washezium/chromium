@@ -8,6 +8,9 @@ import {GraphEdgeColor} from './display_settings_data.js';
 
 import * as d3 from 'd3';
 
+// The radius of each node in the visualization.
+const NODE_RADIUS = 5;
+
 // Category10 colors pulled from https://observablehq.com/@d3/color-schemes.
 const HULL_COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
   '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
@@ -114,8 +117,7 @@ function addArrowMarkerDef(defs, id, color, length, width) {
   defs.append('marker')
       .attr('id', id) // 'graph-arrowhead-*'
       .attr('viewBox', `0 -${halfWidth} ${length} ${width}`)
-      // TODO(yjlong): 5 is the hardcoded radius, change for dynamic radius.
-      .attr('refX', length + 5)
+      .attr('refX', length + NODE_RADIUS)
       .attr('refY', 0)
       .attr('orient', 'auto')
       .attr('markerWidth', length)
@@ -799,8 +801,6 @@ class GraphView {
             .attr('id', edge => edge.id)
             .attr('gradientUnits', 'userSpaceOnUse'));
 
-    // TODO(yjlong): Determine if we ever want to render self-loops (will need
-    // to be a loop instead of a straight line) and handle accordingly.
     this.edgeGroup_.selectAll('path')
         .data(inputEdges, edge => edge.id)
         .join(enter => enter.append('path'));
@@ -847,8 +847,6 @@ class GraphView {
                   node.fx = node.x;
                   node.fy = node.y;
                 }
-                // TODO(yjlong): Change this so the style is tied to whether the
-                // fx/fy are non-null instead of toggling it each time.
                 pageNode.classed('locked', !pageNode.classed('locked'));
               });
         },
