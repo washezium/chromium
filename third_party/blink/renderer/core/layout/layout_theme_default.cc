@@ -274,17 +274,6 @@ void LayoutThemeDefault::SystemFont(CSSValueID system_font_id,
                                       font_size, font_family);
 }
 
-// Return a rectangle that has the same center point as |original|, but with a
-// size capped at |width| by |height|.
-IntRect Center(const IntRect& original, int width, int height) {
-  width = std::min(original.Width(), width);
-  height = std::min(original.Height(), height);
-  int x = original.X() + (original.Width() - width) / 2;
-  int y = original.Y() + (original.Height() - height) / 2;
-
-  return IntRect(x, y, width, height);
-}
-
 void LayoutThemeDefault::AdjustButtonStyle(ComputedStyle& style) const {
   if (style.EffectiveAppearance() == kPushButtonPart) {
     // Ignore line-height.
