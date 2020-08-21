@@ -1623,6 +1623,7 @@ ci.fyi_builder(
     ),
     os = os.MAC_ANY,
     cpu = cpu.X86_64,
+    builderless = True,
 )
 
 ci.fyi_builder(
