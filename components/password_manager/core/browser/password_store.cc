@@ -933,8 +933,8 @@ void PasswordStore::PostCompromisedCredentialsTaskAndReplyToConsumerWithResult(
   consumer->cancelable_task_tracker()->PostTaskAndReplyWithResult(
       background_task_runner_.get(), FROM_HERE, std::move(task),
       base::BindOnce(
-          &CompromisedCredentialsConsumer::OnGetCompromisedCredentials,
-          consumer->GetWeakPtr()));
+          &CompromisedCredentialsConsumer::OnGetCompromisedCredentialsFrom,
+          consumer->GetWeakPtr(), base::RetainedRef(this)));
 }
 
 void PasswordStore::AddLoginInternal(const PasswordForm& form) {
