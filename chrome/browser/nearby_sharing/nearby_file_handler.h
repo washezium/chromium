@@ -23,8 +23,13 @@ class NearbyFileHandler {
     int64_t size;
     base::File file;
   };
+  struct CreateFileResult {
+    base::File input_file;
+    base::File output_file;
+  };
   using PayloadPtr = location::nearby::connections::mojom::PayloadPtr;
   using OpenFilesCallback = base::OnceCallback<void(std::vector<FileInfo>)>;
+  using CreateFileCallback = base::OnceCallback<void(CreateFileResult)>;
 
   NearbyFileHandler();
   ~NearbyFileHandler();
@@ -38,6 +43,10 @@ class NearbyFileHandler {
   // Releases the file |payloads| on a MayBlock task runner as closing a file
   // might block.
   void ReleaseFilePayloads(std::vector<PayloadPtr> payloads);
+
+  // Create and open the file given in |file_path| and returns the opened files
+  // via |callback|.
+  void CreateFile(const base::FilePath& file_path, CreateFileCallback callback);
 
  private:
   // Task runner for doing file operations.

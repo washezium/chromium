@@ -36,6 +36,17 @@ std::vector<NearbyFileHandler::FileInfo> DoOpenFiles(
   return files;
 }
 
+NearbyFileHandler::CreateFileResult DoCreateFile(base::FilePath file_path) {
+  base::FilePath unique_path = base::GetUniquePath(file_path);
+  NearbyFileHandler::CreateFileResult result;
+  result.output_file.Initialize(
+      unique_path,
+      base::File::Flags::FLAG_CREATE_ALWAYS | base::File::Flags::FLAG_WRITE);
+  result.input_file.Initialize(
+      unique_path, base::File::Flags::FLAG_OPEN | base::File::Flags::FLAG_READ);
+  return result;
+}
+
 }  // namespace
 
 NearbyFileHandler::NearbyFileHandler() : task_runner_(CreateFileTaskRunner()) {}
@@ -57,4 +68,10 @@ void NearbyFileHandler::ReleaseFilePayloads(std::vector<PayloadPtr> payloads) {
   }
   if (!files->empty())
     task_runner_->DeleteSoon(FROM_HERE, std::move(files));
+}
+
+void NearbyFileHandler::CreateFile(const base::FilePath& file_path,
+                                   CreateFileCallback callback) {
+  task_runner_->PostTaskAndReplyWithResult(
+      FROM_HERE, base::BindOnce(&DoCreateFile, file_path), std::move(callback));
 }
