@@ -101,6 +101,9 @@ class IdentifiableSurface {
     // metric is retained even if filtering discards the surface.
     kMeasuredSurface = 7,
 
+    // WebGL parameter for WebGLRenderingContext.getParameter().
+    kWebGLParameter = 8,
+
     // We can use values up to and including |kMax|.
     kMax = (1 << kTypeBits) - 1
   };
