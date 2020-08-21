@@ -43,6 +43,8 @@ message RTLookupRequest {
   // Version 1:
   //   * Client supports caching with |COVERING_MATCH| verdicts.
   //   * Client supports the |os_type| field.
+  //   * Client falls back to hash-based checks if there's a SAFE match in the
+  //     cache.
   optional int32 version = 6 [default = 0];
 
   // The operating system of the client.

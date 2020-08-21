@@ -35,7 +35,7 @@ const size_t kMaxFailuresToEnforceBackoff = 3;
 const size_t kMinBackOffResetDurationInSeconds = 5 * 60;   //  5 minutes.
 const size_t kMaxBackOffResetDurationInSeconds = 30 * 60;  // 30 minutes.
 
-const size_t kURLLookupTimeoutDurationInSeconds = 10;  // 10 seconds.
+const size_t kURLLookupTimeoutDurationInSeconds = 3;
 
 constexpr char kAuthHeaderBearer[] = "Bearer ";
 
@@ -313,6 +313,7 @@ void RealTimeUrlLookupServiceBase::StartLookup(
     base::PostTask(FROM_HERE, CreateTaskTraits(ThreadID::IO),
                    base::BindOnce(std::move(response_callback),
                                   /* is_rt_lookup_successful */ true,
+                                  /* is_cached_response */ true,
                                   std::move(cache_response)));
     return;
   }
@@ -415,9 +416,10 @@ void RealTimeUrlLookupServiceBase::OnURLLoaderComplete(
                                      GetMetricSuffix(),
                                      response->threat_info_size());
 
-  base::PostTask(FROM_HERE, CreateTaskTraits(ThreadID::IO),
-                 base::BindOnce(std::move(it->second), is_rt_lookup_successful,
-                                std::move(response)));
+  base::PostTask(
+      FROM_HERE, CreateTaskTraits(ThreadID::IO),
+      base::BindOnce(std::move(it->second), is_rt_lookup_successful,
+                     /* is_cached_response */ false, std::move(response)));
 
   delete it->first;
   pending_requests_.erase(it);
@@ -473,10 +475,12 @@ bool RealTimeUrlLookupServiceBase::IsHistorySyncEnabled() {
 
 void RealTimeUrlLookupServiceBase::Shutdown() {
   for (auto& pending : pending_requests_) {
-    // Treat all pending requests as safe.
+    // Treat all pending requests as safe, and not from cache so that a
+    // hash-based check isn't performed.
     auto response = std::make_unique<RTLookupResponse>();
     std::move(pending.second)
-        .Run(/* is_rt_lookup_successful */ true, std::move(response));
+        .Run(/* is_rt_lookup_successful */ true, /* is_cached_response */ false,
+             std::move(response));
     delete pending.first;
   }
   pending_requests_.clear();
