@@ -89,6 +89,11 @@ void PasswordStore::Observer::OnLoginsChangedIn(
   OnLoginsChanged(changes);
 }
 
+void PasswordStore::DatabaseCompromisedCredentialsObserver::
+    OnCompromisedCredentialsChangedIn(PasswordStore* store) {
+  OnCompromisedCredentialsChanged();
+}
+
 #if defined(SYNC_PASSWORD_REUSE_DETECTION_ENABLED)
 PasswordStore::CheckReuseRequest::CheckReuseRequest(
     PasswordReuseDetectorConsumer* consumer)
@@ -786,8 +791,10 @@ void PasswordStore::InvokeAndNotifyAboutCompromisedPasswordsChange(
   DCHECK(background_task_runner_->RunsTasksInCurrentSequence());
   if (std::move(callback).Run()) {
     compromised_credentials_observers_->Notify(
-        FROM_HERE, &DatabaseCompromisedCredentialsObserver::
-                       OnCompromisedCredentialsChanged);
+        FROM_HERE,
+        &DatabaseCompromisedCredentialsObserver::
+            OnCompromisedCredentialsChangedIn,
+        base::RetainedRef(this));
   }
 }
 
