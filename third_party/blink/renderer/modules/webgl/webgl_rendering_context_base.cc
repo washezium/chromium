@@ -778,15 +778,16 @@ scoped_refptr<StaticBitmapImage> WebGLRenderingContextBase::GetImage() {
   auto color_params = ColorParams();
   std::unique_ptr<CanvasResourceProvider> resource_provider =
       CanvasResourceProvider::CreateSharedImageProvider(
-          size, SharedGpuContext::ContextProviderWrapper(),
-          GetDrawingBuffer()->FilterQuality(), color_params,
-          is_origin_top_left_, RasterMode::kGPU,
-          0u /*shared_image_usage_flags*/);
+          size, GetDrawingBuffer()->FilterQuality(), color_params,
+          CanvasResourceProvider::ShouldInitialize::kNo,
+          SharedGpuContext::ContextProviderWrapper(), RasterMode::kGPU,
+          is_origin_top_left_, 0u /*shared_image_usage_flags*/);
   // todo(bug 1090962) This CPU fallback is needed as it would break
   // webgl_conformance_gles_passthrough_tests on Android FYI for Nexus 5x.
   if (!resource_provider || !resource_provider->IsValid()) {
     resource_provider = CanvasResourceProvider::CreateBitmapProvider(
-        size, GetDrawingBuffer()->FilterQuality(), color_params);
+        size, GetDrawingBuffer()->FilterQuality(), color_params,
+        CanvasResourceProvider::ShouldInitialize::kNo);
   }
 
   if (!resource_provider || !resource_provider->IsValid())
@@ -8323,8 +8324,9 @@ CanvasResourceProvider* WebGLRenderingContextBase::
   // TODO(fserb): why is this a BITMAP?
   std::unique_ptr<CanvasResourceProvider> temp(
       CanvasResourceProvider::CreateBitmapProvider(
-          size, kLow_SkFilterQuality,
-          CanvasColorParams()));  // TODO: should this use the canvas's
+          size, kLow_SkFilterQuality, CanvasColorParams(),
+          CanvasResourceProvider::ShouldInitialize::kNo));  // TODO: should this
+                                                            // use the canvas's
 
   if (!temp)
     return nullptr;
