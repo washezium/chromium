@@ -54,6 +54,10 @@
            file="${root_gen_dir}/ui/webui/resources/cr_components/chromeos/network/network_list_types.m.js"
            use_base_dir="false"
            type="BINDATA" />
+    <include name="IDR_WEBUI_CHROMEOS_NETWORK_NAMESERVERS_M_JS"
+           file="${root_gen_dir}/ui/webui/resources/cr_components/chromeos/network/network_nameservers.m.js"
+           use_base_dir="false"
+           type="BINDATA" />
     <include name="IDR_WEBUI_CHROMEOS_NETWORK_PASSWORD_INPUT_M_JS"
            file="${root_gen_dir}/ui/webui/resources/cr_components/chromeos/network/network_password_input.m.js"
            use_base_dir="false"

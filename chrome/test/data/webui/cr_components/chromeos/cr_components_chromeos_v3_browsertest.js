@@ -16,6 +16,7 @@ GEN('#include "chromeos/constants/chromeos_features.h"');
  ['NetworkIpConfig', 'network/network_ip_config_test.m.js'],
  ['NetworkList', 'network/network_list_test.m.js'],
  ['NetworkListItem', 'network/network_list_item_test.m.js'],
+ ['NetworkNameservers', 'network/network_nameservers_test.m.js'],
  ['NetworkPasswordInput', 'network/network_password_input_test.m.js'],
  ['NetworkPropertyListMojo', 'network/network_property_list_mojo_test.m.js'],
 ].forEach(test => registerTest('NetworkComponents', ...test));
