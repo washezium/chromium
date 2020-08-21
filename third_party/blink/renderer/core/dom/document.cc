@@ -4387,6 +4387,9 @@ void Document::SetURL(const KURL& url) {
   if (new_url == url_)
     return;
 
+  TRACE_EVENT1("navigation", "Document::SetURL", "url",
+               new_url.GetString().Utf8());
+
   // Count non-targetText occurrences of :~: in the url fragment to make sure
   // the delimiter is web-compatible. This can be removed once the feature
   // ships.
