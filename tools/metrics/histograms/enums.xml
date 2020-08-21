@@ -7774,6 +7774,11 @@ Called by update_bad_message_reasons.py.-->
   <int value="1" label="Loaded"/>
 </enum>
 
+<enum name="BooleanLockingSuccess">
+  <int value="0" label="Locking failed"/>
+  <int value="1" label="Locking succeeded"/>
+</enum>
+
 <enum name="BooleanMainFrame">
   <int value="0" label="Subframe"/>
   <int value="1" label="Main frame"/>
