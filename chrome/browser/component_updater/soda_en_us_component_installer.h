@@ -1,9 +1,9 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
+// Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_COMPONENT_UPDATER_SODA_COMPONENT_INSTALLER_H_
-#define CHROME_BROWSER_COMPONENT_UPDATER_SODA_COMPONENT_INSTALLER_H_
+#ifndef CHROME_BROWSER_COMPONENT_UPDATER_SODA_EN_US_COMPONENT_INSTALLER_H_
+#define CHROME_BROWSER_COMPONENT_UPDATER_SODA_EN_US_COMPONENT_INSTALLER_H_
 
 #include <string>
 
@@ -14,23 +14,25 @@
 namespace component_updater {
 
 // Success callback to be run after the component is downloaded.
-using OnSODAComponentReadyCallback =
+using OnSodaEnUsComponentReadyCallback =
     base::RepeatingCallback<void(const base::FilePath&)>;
 
-class SODAComponentInstallerPolicy : public ComponentInstallerPolicy {
+class SodaEnUsComponentInstallerPolicy : public ComponentInstallerPolicy {
  public:
-  explicit SODAComponentInstallerPolicy(OnSODAComponentReadyCallback callback);
-  ~SODAComponentInstallerPolicy() override;
+  explicit SodaEnUsComponentInstallerPolicy(
+      OnSodaEnUsComponentReadyCallback callback);
+  ~SodaEnUsComponentInstallerPolicy() override;
 
-  SODAComponentInstallerPolicy(const SODAComponentInstallerPolicy&) = delete;
-  SODAComponentInstallerPolicy& operator=(const SODAComponentInstallerPolicy&) =
+  SodaEnUsComponentInstallerPolicy(const SodaEnUsComponentInstallerPolicy&) =
       delete;
+  SodaEnUsComponentInstallerPolicy& operator=(
+      const SodaEnUsComponentInstallerPolicy&) = delete;
 
   static const std::string GetExtensionId();
-  static void UpdateSODAComponentOnDemand();
+  static void UpdateSodaEnUsComponentOnDemand();
 
  private:
-  FRIEND_TEST_ALL_PREFIXES(SODAComponentInstallerTest,
+  FRIEND_TEST_ALL_PREFIXES(SodaEnUsComponentInstallerTest,
                            ComponentReady_CallsLambda);
 
   // The following methods override ComponentInstallerPolicy.
@@ -51,20 +53,18 @@ class SODAComponentInstallerPolicy : public ComponentInstallerPolicy {
   update_client::InstallerAttributes GetInstallerAttributes() const override;
   std::vector<std::string> GetMimeTypes() const override;
 
-  OnSODAComponentReadyCallback on_component_ready_callback_;
+  OnSodaEnUsComponentReadyCallback on_component_ready_callback_;
 };
 
 // Call once during startup to make the component update service aware of
 // the File Type Policies component.
-void RegisterSODAComponent(ComponentUpdateService* cus,
-                           PrefService* prefs,
-                           base::OnceClosure callback);
+void RegisterSodaEnUsComponent(ComponentUpdateService* cus,
+                               PrefService* prefs,
+                               base::OnceClosure callback);
 
-void RegisterSodaLanguageComponent(ComponentUpdateService* cus,
-                                   PrefService* prefs);
-
-bool UninstallSODAComponent(ComponentUpdateService* cus, PrefService* prefs);
+bool UninstallSodaEnUsComponent(ComponentUpdateService* cus,
+                                PrefService* prefs);
 
 }  // namespace component_updater
 
-#endif  // CHROME_BROWSER_COMPONENT_UPDATER_SODA_COMPONENT_INSTALLER_H_
+#endif  // CHROME_BROWSER_COMPONENT_UPDATER_SODA_EN_US_COMPONENT_INSTALLER_H_

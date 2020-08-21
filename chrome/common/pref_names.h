@@ -187,8 +187,10 @@ extern const char kAccessibilityCaptionsTextShadow[];
 extern const char kAccessibilityCaptionsBackgroundOpacity[];
 #if !defined(OS_ANDROID)
 extern const char kLiveCaptionEnabled[];
+extern const char kLiveCaptionLanguageCode[];
 extern const char kSodaBinaryPath[];
 extern const char kSodaEnUsConfigPath[];
+extern const char kSodaJaJpConfigPath[];
 #endif
 #if defined(OS_MAC)
 extern const char kConfirmToQuitEnabled[];
