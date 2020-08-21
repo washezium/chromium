@@ -6568,7 +6568,6 @@ crbug.com/1098067 [ Fuchsia ] virtual/text-antialias/bidi-isolate-nextlinebreak-
 
 # Sheriff 2020-06-23
 crbug.com/1098136 [ Linux ] virtual/android/fullscreen/video-fixed-background.html [ Failure ]
-crbug.com/1025944 [ Linux ] external/wpt/pointerevents/pointerlock/pointerevent_pointermove_on_chorded_mouse_button_when_locked.html [ Pass Failure ]
 
 # Sheriff 2020-06-24
 crbug.com/1098676 [ Win ] http/tests/devtools/console-xhr-logging.js [ Pass Failure ]
