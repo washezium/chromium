@@ -1624,6 +1624,8 @@ ci.fyi_builder(
     os = os.MAC_ANY,
     cpu = cpu.X86_64,
     builderless = True,
+    ssd = None,
+    cores = None,
 )
 
 ci.fyi_builder(
