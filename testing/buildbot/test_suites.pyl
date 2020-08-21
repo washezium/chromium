@@ -3737,10 +3737,6 @@
       },
     },
 
-    'omaha_gtests': {
-      'updater_tests': {},
-    },
-
     'opus_tests': {
       'opus_tests': {
         'args': [
@@ -4175,6 +4171,10 @@
         'io_timeout': 14400,
         'script': 'test_traffic_annotation_auditor.py',
       },
+    },
+
+    'updater_gtests': {
+      'updater_tests': {},
     },
 
     'upload_perfetto': {
