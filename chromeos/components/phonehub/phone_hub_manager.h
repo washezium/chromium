@@ -35,12 +35,6 @@ class TetherController;
 // a singleton.
 class PhoneHubManager : public KeyedService {
  public:
-  // Returns a pointer to the singleton once it has been instantiated. Returns
-  // null if the primary profile has not yet been initialized or has already
-  // shut down, if the kPhoneHub flag is disabled, or if the feature is
-  // prohibited by policy.
-  static PhoneHubManager* Get();
-
   PhoneHubManager(
       PrefService* pref_service,
       device_sync::DeviceSyncClient* device_sync_client,
