@@ -44,16 +44,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
 
   Color SystemColor(CSSValueID, WebColorScheme color_scheme) const override;
 
-  // List Box selection color
-  virtual Color ActiveListBoxSelectionBackgroundColor(
-      WebColorScheme color_scheme) const;
-  virtual Color ActiveListBoxSelectionForegroundColor(
-      WebColorScheme color_scheme) const;
-  virtual Color InactiveListBoxSelectionBackgroundColor(
-      WebColorScheme color_scheme) const;
-  virtual Color InactiveListBoxSelectionForegroundColor(
-      WebColorScheme color_scheme) const;
-
   Color PlatformActiveSelectionBackgroundColor(
       WebColorScheme color_scheme) const override;
   Color PlatformInactiveSelectionBackgroundColor(
@@ -71,9 +61,6 @@ class CORE_EXPORT LayoutThemeDefault : public LayoutTheme {
   void SetRadioSize(ComputedStyle&) const override;
   void AdjustInnerSpinButtonStyle(ComputedStyle&) const override;
   void AdjustButtonStyle(ComputedStyle&) const override;
-
-  bool PopsMenuByReturnKey() const override;
-  bool PopsMenuByAltDownUpOrF4Key() const override { return true; }
 
   Color PlatformTapHighlightColor() const override {
     return Color(kDefaultTapHighlightColor);

@@ -115,26 +115,6 @@ String LayoutThemeDefault::ExtraQuirksStyleSheet() {
   return UncompressResourceAsASCIIString(IDR_UASTYLE_THEME_WIN_QUIRKS_CSS);
 }
 
-Color LayoutThemeDefault::ActiveListBoxSelectionBackgroundColor(
-    WebColorScheme color_scheme) const {
-  return Color(0x28, 0x28, 0x28);
-}
-
-Color LayoutThemeDefault::ActiveListBoxSelectionForegroundColor(
-    WebColorScheme color_scheme) const {
-  return color_scheme == WebColorScheme::kDark ? Color::kWhite : Color::kBlack;
-}
-
-Color LayoutThemeDefault::InactiveListBoxSelectionBackgroundColor(
-    WebColorScheme color_scheme) const {
-  return Color(0xc8, 0xc8, 0xc8);
-}
-
-Color LayoutThemeDefault::InactiveListBoxSelectionForegroundColor(
-    WebColorScheme color_scheme) const {
-  return Color(0x32, 0x32, 0x32);
-}
-
 Color LayoutThemeDefault::PlatformActiveSelectionBackgroundColor(
     WebColorScheme color_scheme) const {
   return active_selection_background_color_;
@@ -254,10 +234,6 @@ void LayoutThemeDefault::AdjustInnerSpinButtonStyle(
   float zoom_level = style.EffectiveZoom();
   style.SetWidth(Length::Fixed(size.Width() * zoom_level));
   style.SetMinWidth(Length::Fixed(size.Width() * zoom_level));
-}
-
-bool LayoutThemeDefault::PopsMenuByReturnKey() const {
-  return true;
 }
 
 Color LayoutThemeDefault::PlatformFocusRingColor() const {

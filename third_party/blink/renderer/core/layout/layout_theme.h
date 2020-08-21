@@ -183,8 +183,7 @@ class CORE_EXPORT LayoutTheme : public RefCounted<LayoutTheme> {
   // DelegatesMenuListRendering() always returns true.
   void SetDelegatesMenuListRenderingForTesting(bool flag);
   virtual bool PopsMenuByArrowKeys() const { return false; }
-  virtual bool PopsMenuByReturnKey() const { return false; }
-  virtual bool PopsMenuByAltDownUpOrF4Key() const { return false; }
+  virtual bool PopsMenuByReturnKey() const { return true; }
 
   virtual String DisplayNameForFile(const File& file) const;
 
