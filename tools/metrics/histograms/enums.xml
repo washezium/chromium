@@ -28876,6 +28876,9 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3440" label="RTCIceCandidateRelatedAddress"/>
   <int value="3441" label="RTCIceCandidateRelatedPort"/>
   <int value="3442" label="SlotAssignNode"/>
+  <int value="3443" label="PluginName"/>
+  <int value="3444" label="PluginFilename"/>
+  <int value="3445" label="PluginDescription"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
