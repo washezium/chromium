@@ -12,7 +12,6 @@ const char kMimeTypeURIList[] = "text/uri-list";
 const char kMimeTypeMozillaURL[] = "text/x-moz-url";
 const char kMimeTypeDownloadURL[] = "downloadurl";
 const char kMimeTypeHTML[] = "text/html";
-const char kMimeTypeSvg[] = "image/svg+xml";
 const char kMimeTypeRTF[] = "text/rtf";
 const char kMimeTypePNG[] = "image/png";
 

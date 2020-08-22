@@ -127,10 +127,6 @@ void Clipboard::DispatchPortableRepresentation(PortableFormat format,
       }
       break;
 
-    case PortableFormat::kSvg:
-      WriteSvg(&(params[0].front()), params[0].size());
-      break;
-
     case PortableFormat::kRtf:
       WriteRTF(&(params[0].front()), params[0].size());
       break;

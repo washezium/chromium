@@ -8,7 +8,6 @@
 
 namespace ui {
 
-NSString* const kImageSvg = @"public.svg-image";
 // TODO(dcheng): This name is temporary. See crbug.com/106449.
 NSString* const kWebCustomDataPboardType = @"org.chromium.web-custom-data";
 NSString* const kWebSmartPastePboardType = @"NeXT smart paste pasteboard type";
