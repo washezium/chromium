@@ -226,10 +226,12 @@ class TestOAuth2MintTokenFlow : public OAuth2MintTokenFlow {
   };
 
   TestOAuth2MintTokenFlow(ResultType result,
+                          const std::set<std::string>* requested_scopes,
                           const std::set<std::string>& granted_scopes,
                           OAuth2MintTokenFlow::Delegate* delegate)
       : OAuth2MintTokenFlow(delegate, OAuth2MintTokenFlow::Parameters()),
         result_(result),
+        requested_scopes_(requested_scopes),
         granted_scopes_(granted_scopes),
         delegate_(delegate) {}
 
@@ -247,7 +249,10 @@ class TestOAuth2MintTokenFlow : public OAuth2MintTokenFlow {
         break;
       }
       case MINT_TOKEN_SUCCESS: {
-        delegate_->OnMintTokenSuccess(kAccessToken, granted_scopes_, 3600);
+        if (granted_scopes_.empty())
+          delegate_->OnMintTokenSuccess(kAccessToken, *requested_scopes_, 3600);
+        else
+          delegate_->OnMintTokenSuccess(kAccessToken, granted_scopes_, 3600);
         break;
       }
       case MINT_TOKEN_FAILURE: {
@@ -272,7 +277,8 @@ class TestOAuth2MintTokenFlow : public OAuth2MintTokenFlow {
 
  private:
   ResultType result_;
-  const std::set<std::string>& granted_scopes_;
+  const std::set<std::string>* requested_scopes_;
+  std::set<std::string> granted_scopes_;
   OAuth2MintTokenFlow::Delegate* delegate_;
 };
 
@@ -350,15 +356,17 @@ class FakeGetAuthTokenFunction : public IdentityGetAuthTokenFunction {
     flow_queue_.push(std::move(flow));
   }
 
-  void push_mint_token_result(TestOAuth2MintTokenFlow::ResultType result_type) {
+  void push_mint_token_result(
+      TestOAuth2MintTokenFlow::ResultType result_type,
+      const std::set<std::string>& granted_scopes = {}) {
+    // If `granted_scopes` is empty, `TestOAuth2MintTokenFlow` returns the
+    // requested scopes (retrieved from `token_key`) in a mint token success
+    // flow by default. Since the scopes in `token_key` may be populated at a
+    // later time, the requested scopes cannot be immediately copied, so a
+    // pointer is passed instead.
     const ExtensionTokenKey* token_key = GetExtensionTokenKeyForTest();
-    push_mint_token_result(result_type, token_key->scopes);
-  }
-
-  void push_mint_token_result(TestOAuth2MintTokenFlow::ResultType result_type,
-                              const std::set<std::string>& granted_scopes) {
     push_mint_token_flow(std::make_unique<TestOAuth2MintTokenFlow>(
-        result_type, granted_scopes, this));
+        result_type, &token_key->scopes, granted_scopes, this));
   }
 
   // Sets scope UI to not complete immediately. Call
@@ -525,6 +533,10 @@ class FakeGetAuthTokenFunction : public IdentityGetAuthTokenFunction {
 
   bool enable_granular_permissions() const {
     return IdentityGetAuthTokenFunction::enable_granular_permissions();
+  }
+
+  std::string GetSelectedUserId() const {
+    return IdentityGetAuthTokenFunction::GetSelectedUserId();
   }
 
  private:
@@ -866,14 +878,27 @@ class GetAuthTokenFunctionTest
     : public IdentityTestWithSignin,
       public signin::IdentityManager::DiagnosticsObserver {
  public:
-  explicit GetAuthTokenFunctionTest(bool is_return_scopes_enabled = true) {
+  explicit GetAuthTokenFunctionTest(bool is_return_scopes_enabled = true,
+                                    bool is_selected_user_id_enabled = true) {
+    std::vector<base::Feature> enabled_features;
+    std::vector<base::Feature> disabled_features;
     if (is_return_scopes_enabled) {
-      feature_list_.InitAndEnableFeature(
+      enabled_features.push_back(
           extensions_features::kReturnScopesInGetAuthToken);
     } else {
-      feature_list_.InitAndDisableFeature(
+      disabled_features.push_back(
           extensions_features::kReturnScopesInGetAuthToken);
     }
+
+    if (is_selected_user_id_enabled) {
+      enabled_features.push_back(
+          extensions_features::kSelectedUserIdInGetAuthToken);
+    } else {
+      disabled_features.push_back(
+          extensions_features::kSelectedUserIdInGetAuthToken);
+    }
+
+    feature_list_.InitWithFeatures(enabled_features, disabled_features);
   }
 
   std::string IssueLoginAccessTokenForAccount(const CoreAccountId& account_id) {
@@ -3174,6 +3199,202 @@ class RemoveCachedAuthTokenFunctionTest : public ExtensionBrowserTest {
     return id_api()->token_cache()->GetToken(key);
   }
 };
+
+class GetAuthTokenFunctionSelectedUserIdTest : public GetAuthTokenFunctionTest {
+ public:
+  explicit GetAuthTokenFunctionSelectedUserIdTest(
+      bool is_selected_user_id_enabled = true)
+      : GetAuthTokenFunctionTest(true, is_selected_user_id_enabled) {}
+
+  // Executes a new function and checks that the selected_user_id is the
+  // expected value. The interactive and scopes field are predefined.
+  // The account id specified by the extension is optional.
+  void RunNewFunctionAndExpectSelectedUserId(
+      const scoped_refptr<const extensions::Extension>& extension,
+      const std::string& expected_selected_user_id,
+      const base::Optional<std::string> requested_account = base::nullopt) {
+    auto func = base::MakeRefCounted<FakeGetAuthTokenFunction>();
+    func->set_extension(extension);
+    RunFunctionAndExpectSelectedUserId(func, expected_selected_user_id,
+                                       requested_account);
+  }
+
+  void RunFunctionAndExpectSelectedUserId(
+      const scoped_refptr<FakeGetAuthTokenFunction>& func,
+      const std::string& expected_selected_user_id,
+      const base::Optional<std::string> requested_account = base::nullopt) {
+    // Stops the function right before selected_user_id would be used.
+    MockQueuedMintRequest queued_request;
+    IdentityMintRequestQueue::MintType type =
+        IdentityMintRequestQueue::MINT_TYPE_INTERACTIVE;
+    EXPECT_CALL(queued_request, StartMintToken(type)).Times(1);
+    QueueRequestStart(type, &queued_request);
+
+    func->push_mint_token_result(TestOAuth2MintTokenFlow::MINT_TOKEN_SUCCESS);
+
+    std::string requested_account_arg =
+        requested_account.has_value()
+            ? ", \"account\": {\"id\": \"" + requested_account.value() + "\"}"
+            : "";
+    RunFunctionAsync(func.get(),
+                     "[{\"interactive\": true" + requested_account_arg + "}]");
+    base::RunLoop().RunUntilIdle();
+
+    EXPECT_EQ(expected_selected_user_id, func->GetSelectedUserId());
+
+    // Resume the function
+    QueueRequestComplete(type, &queued_request);
+
+    // Complete function and do some basic checks.
+    std::string access_token;
+    std::set<std::string> granted_scopes;
+    WaitForGetAuthTokenResults(func.get(), &access_token, &granted_scopes);
+    EXPECT_EQ(kAccessToken, access_token);
+    EXPECT_EQ(func->GetExtensionTokenKeyForTest()->scopes, granted_scopes);
+  }
+};
+
+// Tests that Chrome uses the correct selected user id value when a gaia id was
+// cached and only the primary account is signed in.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdTest, SingleAccount) {
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+  CoreAccountInfo primary_account = GetPrimaryAccountInfo();
+
+  SetCachedGaiaId(primary_account.gaia);
+  RunNewFunctionAndExpectSelectedUserId(extension, primary_account.gaia);
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
+
+// Tests that Chrome uses the correct selected user id value when a gaia id was
+// cached for a secondary account.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdTest,
+                       MultipleAccounts) {
+  // This test requires the use of a secondary account. If extensions are
+  // restricted to primary account only, this test wouldn't make too much sense.
+  if (id_api()->AreExtensionsRestrictedToPrimaryAccount())
+    return;
+
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+  AccountInfo secondary_account =
+      identity_test_env()->MakeAccountAvailable("secondary@example.com");
+
+  SetCachedGaiaId(secondary_account.gaia);
+  RunNewFunctionAndExpectSelectedUserId(extension, secondary_account.gaia);
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
+
+// Tests that Chrome uses the correct selected user id value when a gaia id was
+// cached but the extension specifies an account id for a different available
+// account.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdTest,
+                       RequestedAccountAvailable) {
+  // This test requires the use of a secondary account. If extensions are
+  // restricted to primary account only, this test wouldn't make too much sense.
+  if (id_api()->AreExtensionsRestrictedToPrimaryAccount())
+    return;
+
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+  CoreAccountInfo primary_account = GetPrimaryAccountInfo();
+  AccountInfo secondary_account =
+      identity_test_env()->MakeAccountAvailable("secondary@example.com");
+
+  SetCachedGaiaId(primary_account.gaia);
+  // Run a new function with an account id specified in the arguments.
+  RunNewFunctionAndExpectSelectedUserId(extension, secondary_account.gaia,
+                                        secondary_account.gaia);
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
+
+// The signin flow is not used on ChromeOS.
+#if !defined(OS_CHROMEOS)
+// Tests that Chrome does not have any selected user id value if the account
+// specified by the extension is not available.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdTest,
+                       RequestedAccountUnavailable) {
+  // This test requires the use of a secondary account. If extensions are
+  // restricted to primary account only, this test wouldn't make too much sense.
+  if (id_api()->AreExtensionsRestrictedToPrimaryAccount())
+    return;
+
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+
+  // Run a new function with an account id specified. Since this account is not
+  // signed in, the login screen will be shown.
+  auto func = base::MakeRefCounted<FakeGetAuthTokenFunction>();
+  func->set_extension(extension);
+  func->set_login_ui_result(true);
+  RunFunctionAndExpectSelectedUserId(func, "",
+                                     "gaia_id_for_unavailable_example.com");
+  // The login ui still showed but another account was logged in instead.
+  EXPECT_TRUE(func->login_ui_shown());
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
+
+// Tests that Chrome uses the correct selected user id value after logging into
+// the account requested by the extension.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdTest,
+                       RequestedAccountLogin) {
+  // This test requires the use of a secondary account. If extensions are
+  // restricted to primary account only, this test wouldn't make too much sense.
+  if (id_api()->AreExtensionsRestrictedToPrimaryAccount())
+    return;
+
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+
+  // Run a new function with an account id specified. Since this account is not
+  // signed in, the login screen will be shown.
+  auto func = base::MakeRefCounted<FakeGetAuthTokenFunction>();
+  func->set_extension(extension);
+  func->set_login_ui_result(true);
+  RunFunctionAndExpectSelectedUserId(func, "gaia_id_for_secondary_example.com",
+                                     "gaia_id_for_secondary_example.com");
+  EXPECT_TRUE(func->login_ui_shown());
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
+#endif
+
+class GetAuthTokenFunctionSelectedUserIdDisabledTest
+    : public GetAuthTokenFunctionSelectedUserIdTest {
+ public:
+  GetAuthTokenFunctionSelectedUserIdDisabledTest()
+      : GetAuthTokenFunctionSelectedUserIdTest(false) {}
+};
+
+// Tests that Chrome does not use any selected user id value if the
+// 'SelectedUserIdInGetAuthToken' flag is disabled.
+IN_PROC_BROWSER_TEST_F(GetAuthTokenFunctionSelectedUserIdDisabledTest,
+                       SingleAccount) {
+  auto extension = base::WrapRefCounted(CreateExtension(CLIENT_ID | SCOPES));
+  SignIn("primary@example.com");
+  CoreAccountInfo primary_account = GetPrimaryAccountInfo();
+
+  SetCachedGaiaId(primary_account.gaia);
+  RunNewFunctionAndExpectSelectedUserId(extension, "");
+
+  histogram_tester()->ExpectUniqueSample(
+      kGetAuthTokenResultHistogramName, IdentityGetAuthTokenError::State::kNone,
+      1);
+}
 
 IN_PROC_BROWSER_TEST_F(RemoveCachedAuthTokenFunctionTest, NotFound) {
   EXPECT_TRUE(InvalidateDefaultToken());

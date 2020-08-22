@@ -96,6 +96,11 @@ bool IsReturnScopesInGetAuthTokenEnabled() {
       extensions_features::kReturnScopesInGetAuthToken);
 }
 
+bool IsSelectedUserIdInGetAuthTokenEnabled() {
+  return base::FeatureList::IsEnabled(
+      extensions_features::kSelectedUserIdInGetAuthToken);
+}
+
 }  // namespace
 
 IdentityGetAuthTokenFunction::IdentityGetAuthTokenFunction()
@@ -179,6 +184,7 @@ ExtensionFunction::ResponseAction IdentityGetAuthTokenFunction::Run() {
                   .value_or("");
   }
 
+  selected_gaia_id_ = gaia_id;
   // From here on out, results must be returned asynchronously.
   StartAsyncRun();
 
@@ -1037,13 +1043,14 @@ IdentityGetAuthTokenFunction::CreateMintTokenFlow() {
   std::string signin_scoped_device_id =
       GetSigninScopedDeviceIdForProfile(GetProfile());
   auto mint_token_flow = std::make_unique<OAuth2MintTokenFlow>(
-      this, OAuth2MintTokenFlow::Parameters(
-                extension()->id(), oauth2_client_id_,
-                std::vector<std::string>(token_key_.scopes.begin(),
-                                         token_key_.scopes.end()),
-                enable_granular_permissions_, signin_scoped_device_id,
-                consent_result_, GetOAuth2MintTokenFlowVersion(),
-                GetOAuth2MintTokenFlowChannel(), gaia_mint_token_mode_));
+      this,
+      OAuth2MintTokenFlow::Parameters(
+          extension()->id(), oauth2_client_id_,
+          std::vector<std::string>(token_key_.scopes.begin(),
+                                   token_key_.scopes.end()),
+          enable_granular_permissions_, signin_scoped_device_id,
+          GetSelectedUserId(), consent_result_, GetOAuth2MintTokenFlowVersion(),
+          GetOAuth2MintTokenFlowChannel(), gaia_mint_token_mode_));
   return mint_token_flow;
 }
 
@@ -1078,6 +1085,14 @@ Profile* IdentityGetAuthTokenFunction::GetProfile() const {
 
 bool IdentityGetAuthTokenFunction::enable_granular_permissions() const {
   return enable_granular_permissions_;
+}
+
+std::string IdentityGetAuthTokenFunction::GetSelectedUserId() const {
+  if (IsSelectedUserIdInGetAuthTokenEnabled() &&
+      selected_gaia_id_ == token_key_.account_info.gaia)
+    return selected_gaia_id_;
+
+  return "";
 }
 
 }  // namespace extensions
