@@ -1455,8 +1455,10 @@ const char kPrintJobHistoryExpirationPeriod[] =
     "printing.print_job_history_expiration_period";
 
 // The list of extensions allowed to skip print job confirmation dialog when
-// they use the chrome.printing.submitJob() function.
-const char kPrintingAPIExtensionsWhitelist[] =
+// they use the chrome.printing.submitJob() function. Note that this used to be
+// `kPrintingAPIExtensionsWhitelist`, hence the difference between the variable
+// name and the string value.
+const char kPrintingAPIExtensionsAllowlist[] =
     "printing.printing_api_extensions_whitelist";
 
 // Boolean flag which represents whether the user's print job history can be
