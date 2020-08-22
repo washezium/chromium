@@ -1060,9 +1060,22 @@ public class PaymentRequestImpl
             return;
         }
 
+        mSpec.recomputeSpecForDetails();
+
         if (mInvokedPaymentApp != null && mInvokedPaymentApp.isWaitingForPaymentDetailsUpdate()) {
             mInvokedPaymentApp.onPaymentDetailsNotUpdated();
             return;
+        }
+
+        if (shouldShowShippingSection()
+                && (mPaymentUIsManager.getUiShippingOptions().isEmpty()
+                        || !TextUtils.isEmpty(mSpec.selectedShippingOptionError()))
+                && mPaymentUIsManager.getShippingAddressesSection().getSelectedItem() != null) {
+            mPaymentUIsManager.getShippingAddressesSection().getSelectedItem().setInvalid();
+            mPaymentUIsManager.getShippingAddressesSection().setSelectedItemIndex(
+                    SectionInformation.INVALID_SELECTION);
+            mPaymentUIsManager.getShippingAddressesSection().setErrorMessage(
+                    mSpec.selectedShippingOptionError());
         }
 
         boolean providedInformationToPaymentRequestUI =
