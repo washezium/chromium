@@ -5,10 +5,6 @@
     #test {
         margin: 5px;
     }
-    #test.composite > .container {
-        /* Not using will-change:transform because it ignores subpixel accumulation. */ 
-        will-change: opacity;
-    }
     .container {
         position: absolute;
     }
@@ -21,7 +17,7 @@
 </style>
 </head>
 <body>
-<div id=test class=composite>
+<div id=test>
 </div>
 <script>
     function setupGrid(leftOffset, topOffset, leftFraction, topFraction, multiplier)
@@ -38,8 +34,8 @@
                 var shifter = document.createElement("div");
                 container.setAttribute('class', 'container');
                 shifter.setAttribute('class', 'shifter');
-                container.style.left = (leftOffsetj + j * multiplier + i * leftFraction) + "px"
-                container.style.top = (topOffset + i * multiplier + i * topFraction) + "px"
+                container.style.left = Math.round(leftOffsetj + j * multiplier + i * leftFraction) + "px"
+                container.style.top = Math.round(topOffset + i * multiplier + i * topFraction) + "px"
                 shifter.style.left = (5 + j * leftFraction) + "px"
                 shifter.style.top = (5 + j * topFraction) + "px"
                 container.appendChild(shifter);
