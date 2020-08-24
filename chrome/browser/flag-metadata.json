@@ -1036,8 +1036,8 @@
   },
   {
     "name": "enable-accessibility-live-captions",
-    "owners": [ "//ui/accessibility/OWNERS" ],
-    "expiry_milestone": 86
+    "owners": [ "abigailbklein@google.com", "evliu@google.com", "//ui/accessibility/OWNERS" ],
+    "expiry_milestone": 90
   },
   {
     "name": "enable-accessibility-object-model",
