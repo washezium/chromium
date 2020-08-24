@@ -36,6 +36,8 @@ class InSessionAuthDialogControllerImpl : public InSessionAuthDialogController {
   void AuthenticateUserWithPasswordOrPin(
       const std::string& password,
       OnAuthenticateCallback callback) override;
+  void AuthenticateUserWithFingerprint(
+      base::OnceCallback<void(bool, FingerprintState)> callback) override;
   void Cancel() override;
 
  private:
@@ -47,6 +49,11 @@ class InSessionAuthDialogControllerImpl : public InSessionAuthDialogController {
 
   // Callback to execute when auth on ChromeOS side completes.
   void OnAuthenticateComplete(OnAuthenticateCallback callback, bool success);
+
+  void OnFingerprintAuthComplete(
+      base::OnceCallback<void(bool, FingerprintState)> views_callback,
+      bool success,
+      FingerprintState fingerprint_state);
 
   InSessionAuthDialogClient* client_ = nullptr;
 

@@ -8,6 +8,7 @@
 
 #include "ash/public/cpp/in_session_auth_dialog_controller.h"
 #include "base/bind.h"
+#include "base/bind_helpers.h"
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
 #include "chrome/browser/chromeos/login/quick_unlock/fingerprint_storage.h"
@@ -167,6 +168,41 @@ void InSessionAuthDialogClient::OnPasswordAuthSuccess(
           user_context.GetAccountId());
   if (quick_unlock_storage)
     quick_unlock_storage->MarkStrongAuth();
+}
+
+void InSessionAuthDialogClient::AuthenticateUserWithFingerprint(
+    base::OnceCallback<void(bool, ash::FingerprintState)> callback) {
+  const user_manager::User* const user =
+      user_manager::UserManager::Get()->GetActiveUser();
+  DCHECK(user);
+  UserContext user_context(*user);
+
+  DCHECK(extended_authenticator_);
+  extended_authenticator_->AuthenticateWithFingerprint(
+      user_context,
+      base::BindOnce(&InSessionAuthDialogClient::OnFingerprintAuthDone,
+                     weak_factory_.GetWeakPtr(),
+                     base::Passed(std::move(callback))));
+}
+
+void InSessionAuthDialogClient::OnFingerprintAuthDone(
+    base::OnceCallback<void(bool, ash::FingerprintState)> callback,
+    cryptohome::CryptohomeErrorCode error) {
+  switch (error) {
+    case cryptohome::CRYPTOHOME_ERROR_NOT_SET:
+      std::move(callback).Run(true, ash::FingerprintState::AVAILABLE_DEFAULT);
+      break;
+    case cryptohome::CRYPTOHOME_ERROR_FINGERPRINT_RETRY_REQUIRED:
+      std::move(callback).Run(false, ash::FingerprintState::AVAILABLE_DEFAULT);
+      break;
+    case cryptohome::CRYPTOHOME_ERROR_FINGERPRINT_DENIED:
+      std::move(callback).Run(false,
+                              ash::FingerprintState::DISABLED_FROM_ATTEMPTS);
+      break;
+    default:
+      // Internal error.
+      std::move(callback).Run(false, ash::FingerprintState::UNAVAILABLE);
+  }
 }
 
 // AuthStatusConsumer:

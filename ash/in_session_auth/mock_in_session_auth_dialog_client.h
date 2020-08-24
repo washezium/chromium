@@ -45,6 +45,11 @@ class MockInSessionAuthDialogClient : public InSessionAuthDialogClient {
               (const AccountId& account_id,
                base::OnceCallback<void(bool)> callback),
               (override));
+
+  MOCK_METHOD(void,
+              AuthenticateUserWithFingerprint,
+              (base::OnceCallback<void(bool, FingerprintState)> callback),
+              (override));
 };
 
 }  // namespace ash

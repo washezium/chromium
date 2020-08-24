@@ -101,6 +101,15 @@ void InSessionAuthDialogControllerImpl::AuthenticateUserWithPasswordOrPin(
                      weak_factory_.GetWeakPtr(), std::move(callback)));
 }
 
+void InSessionAuthDialogControllerImpl::AuthenticateUserWithFingerprint(
+    base::OnceCallback<void(bool, FingerprintState)> views_callback) {
+  DCHECK(client_);
+
+  client_->AuthenticateUserWithFingerprint(base::BindOnce(
+      &InSessionAuthDialogControllerImpl::OnFingerprintAuthComplete,
+      weak_factory_.GetWeakPtr(), std::move(views_callback)));
+}
+
 void InSessionAuthDialogControllerImpl::OnAuthenticateComplete(
     OnAuthenticateCallback callback,
     bool success) {
@@ -109,6 +118,22 @@ void InSessionAuthDialogControllerImpl::OnAuthenticateComplete(
   DestroyAuthenticationDialog();
   if (finish_callback_)
     std::move(finish_callback_).Run(success);
+}
+
+void InSessionAuthDialogControllerImpl::OnFingerprintAuthComplete(
+    base::OnceCallback<void(bool, FingerprintState)> views_callback,
+    bool success,
+    FingerprintState fingerprint_state) {
+  // If success is false and retry is allowed, the view will start another
+  // fingerprint check.
+  std::move(views_callback).Run(success, fingerprint_state);
+
+  if (success) {
+    DestroyAuthenticationDialog();
+    if (finish_callback_)
+      std::move(finish_callback_).Run(success);
+    return;
+  }
 }
 
 void InSessionAuthDialogControllerImpl::Cancel() {
