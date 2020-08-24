@@ -5118,17 +5118,18 @@
             ]
         }
     ],
-    "PersistentHistogramsLocalMemory": [
+    "PersistentHistogramsFileMetrics": [
         {
             "platforms": [
                 "android_webview"
             ],
             "experiments": [
                 {
-                    "name": "EnabledOnLocalMemory",
+                    "name": "EnabledOnFileMetrics",
                     "params": {
+                        "prev_run_metrics_count_only": "true",
                         "send_unreported_metrics": "yes",
-                        "storage": "LocalMemory"
+                        "storage": "MappedFile"
                     },
                     "enable_features": [
                         "PersistentHistograms"
