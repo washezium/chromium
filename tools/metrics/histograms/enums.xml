@@ -28868,6 +28868,12 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3433" label="CrossOriginOpenerPolicyReporting"/>
   <int value="3434" label="GamepadId"/>
   <int value="3435" label="ElementAttachInternals"/>
+  <int value="3436" label="BluetoothDeviceName"/>
+  <int value="3437" label="RTCIceCandidateAddress"/>
+  <int value="3438" label="RTCIceCandidateCandidate"/>
+  <int value="3439" label="RTCIceCandidatePort"/>
+  <int value="3440" label="RTCIceCandidateRelatedAddress"/>
+  <int value="3441" label="RTCIceCandidateRelatedPort"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
