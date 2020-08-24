@@ -28906,6 +28906,14 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3444" label="PluginFilename"/>
   <int value="3445" label="PluginDescription"/>
   <int value="3446" label="SubresourceWebBundles"/>
+  <int value="3447" label="RTCPeerConnectionSetRemoteDescriptionPromise"/>
+  <int value="3448" label="RTCPeerConnectionSetLocalDescriptionPromise"/>
+  <int value="3449" label="RTCPeerConnectionCreateOfferPromise"/>
+  <int value="3450" label="RTCPeerConnectionCreateAnswerPromise"/>
+  <int value="3451" label="RTCPeerConnectionSetRemoteDescription"/>
+  <int value="3452" label="RTCPeerConnectionSetLocalDescription"/>
+  <int value="3453" label="RTCPeerConnectionCreateOffer"/>
+  <int value="3454" label="RTCPeerConnectionCreateAnswer"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
