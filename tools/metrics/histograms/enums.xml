@@ -16983,7 +16983,7 @@ Called by update_document_policy_enum.py.-->
   <int value="2" label="LosslessImagesMaxBpp"/>
   <int value="3" label="ForceLoadAtTop"/>
   <int value="4" label="LosslessImagesStrictMaxBpp"/>
-  <int value="5" label="UnoptimizedLossyImages"/>
+  <int value="5" label="LossyImagesMaxBpp"/>
   <int value="6" label="OversizedImages"/>
   <int value="7" label="UnsizedMedia"/>
   <int value="8" label="LayoutAnimations"/>
