@@ -526,7 +526,7 @@
 <translation id="5127805178023152808">समन्वयन बंद है</translation>
 <translation id="5129038482087801250">वेब ऐप्लिकेशन इंस्टॉल करें</translation>
 <translation id="5132942445612118989">सभी डिवाइस पर अपने पासवर्ड, इतिहास और दूसरी कई चीज़ें सिंक करें</translation>
-<translation id="5136035049889637840">मिलते-जुलते उत्पाद खरीदें <ph name="BEGIN_NEW" />नए<ph name="END_NEW" /></translation>
+<translation id="5136035049889637840">मिलते-जुलते प्रॉडक्ट खरीदें <ph name="BEGIN_NEW" />नए<ph name="END_NEW" /></translation>
 <translation id="5139940364318403933">Google डिस्क के इस्तेमाल का तरीका जानें</translation>
 <translation id="5152843274749979095">भुगतान करने के लिए कोई ऐप्लिकेशन इंस्‍टॉल नहीं है</translation>
 <translation id="5161254044473106830">शीर्षक आवश्‍यक</translation>
@@ -670,7 +670,7 @@
 <translation id="6186394685773237175">ऐसा कोई भी पासवर्ड नहीं मिला जो या तो हैक हुआ है या चोरी हुआ है</translation>
 <translation id="6206830853671714236">चुनें कि कब डाउनलोड करना है</translation>
 <translation id="6210748933810148297">क्या <ph name="EMAIL" /> नहीं हैं?</translation>
-<translation id="6218096829563201111">मिलते-जुलते उत्पाद खोजें <ph name="BEGIN_NEW" />नए<ph name="END_NEW" /></translation>
+<translation id="6218096829563201111">मिलते-जुलते प्रॉडक्ट खोजें <ph name="BEGIN_NEW" />नए<ph name="END_NEW" /></translation>
 <translation id="6221633008163990886">अपने पासवर्ड निर्यात करने के लिए अनलॉक करें</translation>
 <translation id="6232535412751077445">‘नज़र न रखें’ सुविधा को चालू करने का मतलब है कि आपके ब्राउज़िंग ट्रैफ़िक के साथ कोई अनुरोध शामिल किया जाएगा. कोई भी प्रभाव इस बात पर निर्भर करता है कि वेबसाइट, अनुरोध का जवाब देती है या नहीं और अनुरोध को किस तरह समझा जाता है.
 
@@ -703,6 +703,7 @@
 <translation id="6402652558933147609"><ph name="VIOLATED_URL" /> पर <ph name="ERROR_CODE" /></translation>
 <translation id="6404511346730675251">बुकमार्क में बदलाव करें</translation>
 <translation id="6406506848690869874">सिंक</translation>
+<translation id="6410883413783534063">एक ही समय में अलग-अलग पेजों पर जाने के लिए कई टैब खोलें</translation>
 <translation id="6412673304250309937">Chrome में पहले से सेव असुरक्षित साइटों के साथ यूआरएल की जांच करता है. अगर कोई साइट आपका पासवर्ड चुराने की कोशिश करती है या आप कोई नुकसान पहुंचाने वाली फ़ाइल डाउनलोड करते हैं, तो Chrome सुरक्षित ब्राउज़िंग की सेवा को उनका यूआरएल भेजता है. यूआरएल के साथ इनमें उन पेज की कुछ सामग्री भी शामिल होती है.</translation>
 <translation id="641643625718530986">प्रिंट करें…</translation>
 <translation id="6427112570124116297">वेब का अनुवाद करें</translation>
@@ -821,6 +822,7 @@
 <translation id="7328017930301109123">'लाइट मोड' में, Chrome पेजों को ज़्यादा तेज़ी से लोड करता है और 60 प्रतिशत तक कम डेटा इस्तेमाल करता है.</translation>
 <translation id="7333031090786104871">पिछली साइट अब भी जोड़ी जा रही है</translation>
 <translation id="7340958967809483333">'डिस्कवर' के लिए विकल्प</translation>
+<translation id="7352651011704765696">कुछ गलत हुआ</translation>
 <translation id="7352939065658542140">वीडियो</translation>
 <translation id="7353894246028566792">{NUM_SELECTED,plural, =1{1 चयनित आइटम शेयर करें}one{# चयनित आइटम शेयर करें}other{# चयनित आइटम शेयर करें}}</translation>
 <translation id="7359002509206457351">भुगतान के तरीकों को ऐक्सेस करें</translation>
@@ -1013,6 +1015,7 @@
 <translation id="868929229000858085">अपने संपर्क खोजें</translation>
 <translation id="869891660844655955">समय समाप्ति तारीख</translation>
 <translation id="8712637175834984815">समझ लिया</translation>
+<translation id="8725066075913043281">फिर से कोशिश करें</translation>
 <translation id="8748850008226585750">छिपी हुई सामग्री</translation>
 <translation id="8751914237388039244">इमेज चुनें</translation>
 <translation id="8758557275681689734">सभी खुले हुए टैब देखें</translation>

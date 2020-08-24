@@ -63,6 +63,7 @@
 <translation id="1554477036522844996">نئی ونڈو</translation>
 <translation id="1580783302095112590">میل بھیج دی گئی۔</translation>
 <translation id="1582732959743469162">اس سے آپ کے موجودہ ڈاؤن لوڈ کی سبھی پیش رفت رک جائے گی۔</translation>
+<translation id="1605405588277479165">آف ہے - تجویز کردہ نہیں ہے</translation>
 <translation id="1605658421715042784">تصویر کاپی کریں</translation>
 <translation id="1608337082864370066">کاپی کردہ تصویر تلاش کریں</translation>
 <translation id="1612730193129642006">ٹیب گرڈ دکھائیں</translation>
@@ -155,6 +156,7 @@
 <translation id="2712127207578915686">فائل کو کھولنے سے قاصر</translation>
 <translation id="2718352093833049315">‏صرف Wi-Fi پر</translation>
 <translation id="2747003861858887689">پچھلا فیلڈ</translation>
+<translation id="2764831210418622012">ابھی ابھی</translation>
 <translation id="2773292004659987824">پوشیدگی وضع میں تلاش کریں</translation>
 <translation id="277771892408211951">زبان منتخب کریں</translation>
 <translation id="2780046210906776326">کوئی ای میل اکاؤنٹس نہیں ہیں</translation>
@@ -300,6 +302,7 @@
 <translation id="4476574785019001431">ترتیبات</translation>
 <translation id="4496373720959965247">ٹیبز شامل کریں اور صفحات کے درمیان سوئچ کریں</translation>
 <translation id="4502566650163919158">ابھی چیک کریں</translation>
+<translation id="4505980578794259603">آخری بار جانچ کیا گیا <ph name="TIME" />۔</translation>
 <translation id="4508750114462689118">سائن ان پرومو بند کریں</translation>
 <translation id="4526249700380860531">‏<ph name="BEGIN_LINK" />passwords.google.com<ph name="END_LINK" /> پر محفوظ کردہ پاس ورڈز دیکھیں اور ان کا نظم کریں</translation>
 <translation id="4536418791685807335">دوبارہ سائن ان کرنے کی کوشش کریں۔</translation>
@@ -435,6 +438,7 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="6040143037577758943">بند کریں</translation>
 <translation id="6042308850641462728">مزید</translation>
 <translation id="605721222689873409">YY</translation>
+<translation id="6059830886158432458">اپنی کہانیوں اور سرگرمی کو یہاں کنٹرول کریں</translation>
 <translation id="6066301408025741299">منسوخ کرنے کیلئے تھپتھپائیں۔</translation>
 <translation id="6108923351542677676">سیٹ اپ جاری ہے…</translation>
 <translation id="6119050551270742952">موجودہ ویب صفحہ پوشیدگی پر ہے</translation>
@@ -480,6 +484,7 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="6445051938772793705">ملک</translation>
 <translation id="6445981559479772097">پیغام بھیج دیا گیا۔</translation>
 <translation id="6447842834002726250">کوکیز</translation>
+<translation id="6453018583485750254">چیک کبھی نہیں چلتا ہے۔</translation>
 <translation id="6464071786529933911">نئے پوشیدگی ٹیب میں کھولیں</translation>
 <translation id="6464397691496239022">سائٹس آپ کے براؤزنگ کے تجربہ کو بہتر بنانے کے لیے کوکیز کا استعمال کر سکتی ہیں، مثال کے طور پر آپ کو سائن ان رکھنا یا آپ کی شاپنگ کارٹ میں آئٹمز کو یاد رکھنا۔
 
@@ -495,6 +500,7 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="6624219055418309072">پوشیدگی وضع میں مسدود کریں</translation>
 <translation id="6628106477656132239">میعاد ختم ہونے کی تاریخ غلط ہے</translation>
 <translation id="6638511529934826365">ٹیکسٹ کو زوم کریں…</translation>
+<translation id="6639730758971422557">‏محفوظ براؤزنگ کو آن کرنے کے لیے، <ph name="BEGIN_LINK" />مطابقت پذیری اور Google سروسز<ph name="END_LINK" /> کھولیں اور محفوظ براؤزنگ کو تھپتھپائیں۔</translation>
 <translation id="6642362222295953972">موجودہ ٹیب پر سوئچ کریں</translation>
 <translation id="6643016212128521049">صاف کریں</translation>
 <translation id="6645899968535965230">‏QR کوڈ: <ph name="PAGE_TITLE" /></translation>
@@ -579,6 +585,7 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="7561196759112975576">ہمیشہ</translation>
 <translation id="7600965453749440009"><ph name="LANGUAGE" /> کا کبھی بھی ترجمہ نہ کریں</translation>
 <translation id="7603852183842204213">پاپ اپس کو مسدود کر دیا گیا (<ph name="NUMBER_OF_BLOCKED_POPUPS" />)</translation>
+<translation id="7607521702806708809">پاس ورڈ حذف کریں</translation>
 <translation id="7638584964844754484">غلط پاس فریز</translation>
 <translation id="7649070708921625228">مدد</translation>
 <translation id="7658239707568436148">منسوخ کریں</translation>
@@ -657,6 +664,7 @@ Handoff ترتیبات کے عام سیکشن میں بھی فعال ہونی ض
 <translation id="8529767659511976195">نئی</translation>
 <translation id="8532105204136943229">میعاد کے اختتام کا سال</translation>
 <translation id="8533166274275423134">کہیں اور کھلی ہوئیں</translation>
+<translation id="8533670235862049797">محفوظ براؤزنگ آن ہے</translation>
 <translation id="8534481786647257214">‏Google+‎ اشاعت مکمل ہوگئی۔</translation>
 <translation id="8548878600947630424">صفحہ میں تلاش کریں…</translation>
 <translation id="8574235780160508979">‏Chrome کی سروس کی شرائط 31 مارچ کو بدل رہی ہیں۔ <ph name="BEGIN_LINK" />براہ کرم جائزہ لیں<ph name="END_LINK" /></translation>
