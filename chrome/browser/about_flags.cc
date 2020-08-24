@@ -5385,6 +5385,12 @@ const FeatureEntry kFeatureEntries[] = {
 #endif
 
 #if defined(OS_ANDROID)
+    {"safe-browsing-client-side-detection-android",
+     flag_descriptions::kSafeBrowsingClientSideDetectionAndroidName,
+     flag_descriptions::kSafeBrowsingClientSideDetectionAndroidDescription,
+     kOsAndroid,
+     FEATURE_VALUE_TYPE(safe_browsing::kClientSideDetectionForAndroid)},
+
     {"safe-browsing-enhanced-protection-android",
      flag_descriptions::kSafeBrowsingEnhancedProtectionAndroidName,
      flag_descriptions::kSafeBrowsingEnhancedProtectionAndroidDescription,

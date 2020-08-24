@@ -3050,6 +3050,11 @@ const char kReportFeedUserActionsDescription[] =
     "Enable the report of click actions on cards in Chrome's Feed on Android."
     " Also enable the feed header menu to manage the feed.";
 
+const char kSafeBrowsingClientSideDetectionAndroidName[] =
+    "Safe Browsing Client Side Detection on Android";
+const char kSafeBrowsingClientSideDetectionAndroidDescription[] =
+    "Enable DOM feature collection on Safe Browsing pings on Android";
+
 const char kSafeBrowsingEnhancedProtectionAndroidName[] =
     "Safe Browsing Enhanced Protection on Android";
 const char kSafeBrowsingEnhancedProtectionAndroidDescription[] =

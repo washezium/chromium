@@ -1761,6 +1761,9 @@ extern const char kRelatedSearchesDescription[];
 extern const char kReportFeedUserActionsName[];
 extern const char kReportFeedUserActionsDescription[];
 
+extern const char kSafeBrowsingClientSideDetectionAndroidName[];
+extern const char kSafeBrowsingClientSideDetectionAndroidDescription[];
+
 extern const char kSafeBrowsingEnhancedProtectionAndroidName[];
 extern const char kSafeBrowsingEnhancedProtectionAndroidDescription[];
 

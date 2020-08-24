@@ -3881,6 +3881,14 @@
     "expiry_milestone": 87
   },
   {
+    "name": "safe-browsing-client-side-detection-android",
+    "owners": [
+      "bdea",
+      "chrome-safebrowsing-core@google.com"
+    ],
+    "expiry_milestone": 88
+  },
+  {
     "name": "safe-browsing-enhanced-protection-android",
     "owners": [
       "vakh",
