@@ -42,6 +42,8 @@ class AuthDialogContentsView : public views::View,
   // views::ButtonListener:
   void ButtonPressed(views::Button* sender, const ui::Event& event) override;
 
+  uint32_t auth_methods() const { return auth_methods_; }
+
  private:
   class FingerprintView;
 

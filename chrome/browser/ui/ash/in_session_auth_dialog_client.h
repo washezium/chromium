@@ -37,6 +37,10 @@ class InSessionAuthDialogClient : public ash::InSessionAuthDialogClient,
       bool authenticated_by_pin,
       AuthenticateCallback callback) override;
   bool IsFingerprintAuthAvailable(const AccountId& account_id) override;
+  void StartFingerprintAuthSession(
+      const AccountId& account_id,
+      base::OnceCallback<void(bool)> callback) override;
+  void EndFingerprintAuthSession() override;
   void CheckPinAuthAvailability(
       const AccountId& account_id,
       base::OnceCallback<void(bool)> callback) override;
@@ -60,6 +64,10 @@ class InSessionAuthDialogClient : public ash::InSessionAuthDialogClient,
     // Callback that should be executed the authentication result is available.
     base::OnceCallback<void(bool)> callback;
   };
+
+  // Returns a pointer to the ExtendedAuthenticator instance if there is one.
+  // Otherwise creates one.
+  chromeos::ExtendedAuthenticator* GetExtendedAuthenticator();
 
   void AuthenticateWithPassword(const chromeos::UserContext& user_context);
 

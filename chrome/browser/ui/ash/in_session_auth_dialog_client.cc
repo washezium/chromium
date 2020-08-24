@@ -60,6 +60,26 @@ bool InSessionAuthDialogClient::IsFingerprintAuthAvailable(
          quick_unlock_storage->fingerprint_storage()->IsFingerprintAvailable();
 }
 
+ExtendedAuthenticator* InSessionAuthDialogClient::GetExtendedAuthenticator() {
+  // Lazily allocate |extended_authenticator_| so that tests can inject a fake.
+  if (!extended_authenticator_)
+    extended_authenticator_ = ExtendedAuthenticator::Create(this);
+
+  return extended_authenticator_.get();
+}
+
+void InSessionAuthDialogClient::StartFingerprintAuthSession(
+    const AccountId& account_id,
+    base::OnceCallback<void(bool)> callback) {
+  GetExtendedAuthenticator()->StartFingerprintAuthSession(account_id,
+                                                          std::move(callback));
+}
+
+void InSessionAuthDialogClient::EndFingerprintAuthSession() {
+  DCHECK(extended_authenticator_);
+  extended_authenticator_->EndFingerprintAuthSession();
+}
+
 void InSessionAuthDialogClient::CheckPinAuthAvailability(
     const AccountId& account_id,
     base::OnceCallback<void(bool)> callback) {
@@ -89,10 +109,6 @@ void InSessionAuthDialogClient::AuthenticateUserWithPasswordOrPin(
     LOG(FATAL) << "Incorrect Active Directory user type "
                << user_context.GetUserType();
   }
-
-  // Lazily allocate |extended_authenticator_| so that tests can inject a fake.
-  if (!extended_authenticator_)
-    extended_authenticator_ = ExtendedAuthenticator::Create(this);
 
   DCHECK(!pending_auth_state_);
   pending_auth_state_.emplace(std::move(callback));
@@ -139,7 +155,7 @@ void InSessionAuthDialogClient::AuthenticateWithPassword(
       FROM_HERE,
       base::BindOnce(
           &ExtendedAuthenticator::AuthenticateToCheck,
-          extended_authenticator_.get(), user_context,
+          GetExtendedAuthenticator(), user_context,
           base::Bind(&InSessionAuthDialogClient::OnPasswordAuthSuccess,
                      weak_factory_.GetWeakPtr(), user_context)));
 }

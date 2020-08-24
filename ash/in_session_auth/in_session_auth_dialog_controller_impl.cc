@@ -38,7 +38,27 @@ void InSessionAuthDialogControllerImpl::ShowAuthenticationDialog(
   // Password should always be available.
   uint32_t auth_methods = AuthDialogContentsView::kAuthPassword;
 
-  if (client_->IsFingerprintAuthAvailable(account_id))
+  if (client_->IsFingerprintAuthAvailable(account_id)) {
+    client_->StartFingerprintAuthSession(
+        account_id,
+        base::BindOnce(
+            &InSessionAuthDialogControllerImpl::OnStartFingerprintAuthSession,
+            weak_factory_.GetWeakPtr(), account_id, auth_methods));
+    // OnStartFingerprintAuthSession checks PIN availability.
+    return;
+  }
+
+  client_->CheckPinAuthAvailability(
+      account_id,
+      base::BindOnce(&InSessionAuthDialogControllerImpl::OnPinCanAuthenticate,
+                     weak_factory_.GetWeakPtr(), auth_methods));
+}
+
+void InSessionAuthDialogControllerImpl::OnStartFingerprintAuthSession(
+    AccountId account_id,
+    uint32_t auth_methods,
+    bool success) {
+  if (success)
     auth_methods |= AuthDialogContentsView::kAuthFingerprint;
 
   client_->CheckPinAuthAvailability(
@@ -57,6 +77,13 @@ void InSessionAuthDialogControllerImpl::OnPinCanAuthenticate(
 }
 
 void InSessionAuthDialogControllerImpl::DestroyAuthenticationDialog() {
+  DCHECK(client_);
+  if (!dialog_)
+    return;
+
+  if (dialog_->GetAuthMethods() & AuthDialogContentsView::kAuthFingerprint)
+    client_->EndFingerprintAuthSession();
+
   dialog_.reset();
 }
 

@@ -40,6 +40,9 @@ class InSessionAuthDialogControllerImpl : public InSessionAuthDialogController {
 
  private:
   bool IsFingerprintAvailable(const AccountId& account_id);
+  void OnStartFingerprintAuthSession(AccountId account_id,
+                                     uint32_t auth_methods,
+                                     bool success);
   void OnPinCanAuthenticate(uint32_t auth_methods, bool pin_auth_available);
 
   // Callback to execute when auth on ChromeOS side completes.
