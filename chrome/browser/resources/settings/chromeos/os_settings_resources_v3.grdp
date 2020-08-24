@@ -194,6 +194,7 @@
   <include name="IDR_OS_SETTINGS_PRIVACY_PAGE_BROWSER_PROXY_M_JS"
            file="${root_gen_dir}/chrome/browser/resources/settings/privacy_page/privacy_page_browser_proxy.m.js"
            use_base_dir="false"
+           preprocess="true"
            compress="false"
            type="BINDATA" />
   <include name="IDR_OS_SETTINGS_PARENTAL_CONTROLS_PAGE_M_JS"
