@@ -50,6 +50,7 @@
 #include "third_party/blink/renderer/core/html/html_table_cell_element.h"
 #include "third_party/blink/renderer/core/html/media/html_media_element.h"
 #include "third_party/blink/renderer/core/html_names.h"
+#include "third_party/blink/renderer/core/input_type_names.h"
 #include "third_party/blink/renderer/core/layout/layout_object.h"
 #include "third_party/blink/renderer/core/layout/layout_replaced.h"
 #include "third_party/blink/renderer/core/layout/layout_theme.h"
@@ -347,6 +348,17 @@ static void AdjustStyleForHTMLElement(ComputedStyle& style,
     style.SetOverflowX(EOverflow::kHidden);
     style.SetOverflowY(EOverflow::kHidden);
     return;
+  }
+
+  if (const auto* input = DynamicTo<HTMLInputElement>(element)) {
+    if (input->type() == input_type_names::kFile) {
+      if (style.Display() == EDisplay::kFlex ||
+          style.Display() == EDisplay::kGrid)
+        style.SetDisplay(EDisplay::kBlock);
+      else if (style.Display() == EDisplay::kInlineFlex ||
+               style.Display() == EDisplay::kInlineGrid)
+        style.SetDisplay(EDisplay::kInlineBlock);
+    }
   }
 
   if (IsA<HTMLTextAreaElement>(element)) {
