@@ -22,6 +22,7 @@ GEN('#include "content/public/test/browser_test.h"');
   ['CrPolicyNetworkIndicatorMojo', 'network/cr_policy_network_indicator_mojo_tests.js',
     ['../../cr_elements/cr_policy_strings.js']
   ],
+  ['NetworkApnlist', 'network/network_apnlist_test.js', []],
   ['NetworkConfig', 'network/network_config_test.js',
     [
       '//ui/webui/resources/js/assert.js',
