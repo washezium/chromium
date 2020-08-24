@@ -502,7 +502,7 @@ TEST_F('OSSettingsAppManagementReducersTest', 'AllJsTests', () => {
   mocha.run();
 });
 
-// Tests for the Device page.
+// Tests for the Bluetooth page.
 // eslint-disable-next-line no-var
 var OSSettingsBluetoothPageTest = class extends OSSettingsBrowserTest {
   /** @override */
