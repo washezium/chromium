@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 #include "base/memory/ref_counted.h"
+#include "chrome/updater/mac/control_service_out_of_process.h"
+#include "chrome/updater/mac/update_service_out_of_process.h"
 #include "chrome/updater/service_scope.h"
-#include "chrome/updater/win/control_service_out_of_process.h"
-#include "chrome/updater/win/update_service_out_of_process.h"
 
 namespace updater {
 
