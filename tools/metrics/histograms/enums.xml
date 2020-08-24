@@ -16892,6 +16892,7 @@ metrics consent we also won't be able to send UMA metrics. -->
   <int value="2"
       label="DNS query/response ID mismatches, where response ID is
              unrecognized"/>
+  <int value="3" label="Exhaustion of process-wide UDP socket limit"/>
 </enum>
 
 <enum name="DNSEmptyAddressListAndNoError">
