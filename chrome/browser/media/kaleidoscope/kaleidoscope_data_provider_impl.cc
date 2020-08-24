@@ -159,11 +159,6 @@ void KaleidoscopeDataProviderImpl::GetShouldShowFirstRunExperience(
   std::move(cb).Run(false);
 }
 
-void KaleidoscopeDataProviderImpl::SetFirstRunExperienceCompleted() {
-  SetFirstRunExperienceStep(
-      media::mojom::KaleidoscopeFirstRunExperienceStep::kCompleted);
-}
-
 void KaleidoscopeDataProviderImpl::SetFirstRunExperienceStep(
     media::mojom::KaleidoscopeFirstRunExperienceStep step) {
   if (metrics_recorder_)
