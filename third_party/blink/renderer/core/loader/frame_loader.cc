@@ -1205,8 +1205,6 @@ void FrameLoader::CommitDocumentLoader(
         unload_timing->unload_event_end);
   }
 
-  document_loader_->MarkAsCommitted();
-
   TakeObjectSnapshot();
 
   Client()->TransitionToCommittedForNewPage();

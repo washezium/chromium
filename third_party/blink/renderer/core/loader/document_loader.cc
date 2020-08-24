@@ -416,11 +416,6 @@ void DocumentLoader::DidObserveLoadingBehavior(LoadingBehaviorFlag behavior) {
   }
 }
 
-void DocumentLoader::MarkAsCommitted() {
-  DCHECK_LT(state_, kCommitted);
-  state_ = kCommitted;
-}
-
 // static
 WebHistoryCommitType LoadTypeToCommitType(WebFrameLoadType type) {
   switch (type) {
@@ -697,9 +692,7 @@ void DocumentLoader::BodyLoadingFinished(
   ResourceError resource_error(*error);
   if (network_utils::IsCertificateTransparencyRequiredError(
           resource_error.ErrorCode())) {
-    GetUseCounterHelper().Count(
-        WebFeature::kCertificateTransparencyRequiredErrorOnResourceLoad,
-        GetFrame());
+    CountUse(WebFeature::kCertificateTransparencyRequiredErrorOnResourceLoad);
   }
   GetFrameLoader().Progress().CompleteProgress(main_resource_identifier_);
   probe::DidFailLoading(probe::ToCoreProbeSink(GetFrame()),
@@ -842,7 +835,7 @@ void DocumentLoader::ConsoleError(const String& message) {
       mojom::ConsoleMessageSource::kSecurity,
       mojom::ConsoleMessageLevel::kError, message,
       response_.CurrentRequestUrl(), this, MainResourceIdentifier());
-  frame_->GetDocument()->AddConsoleMessage(console_message);
+  frame_->DomWindow()->AddConsoleMessage(console_message);
 }
 
 void DocumentLoader::ReplaceWithEmptyDocument() {
@@ -916,11 +909,6 @@ DocumentPolicy::ParsedDocumentPolicy DocumentLoader::CreateDocumentPolicy() {
 void DocumentLoader::HandleResponse() {
   DCHECK(frame_);
   application_cache_host_->DidReceiveResponseForMainResource(response_);
-
-  // Pre-commit state, count usage the use counter associated with "this"
-  // (provisional document loader) instead of frame_'s document loader.
-  if (response_.DidServiceWorkerNavigationPreload())
-    CountUse(WebFeature::kServiceWorkerNavigationPreload);
 
   if (response_.CurrentRequestUrl().ProtocolIs("ftp") &&
       response_.MimeType() == "text/vnd.chromium.ftp-dir") {
@@ -1266,13 +1254,6 @@ void DocumentLoader::StartLoadingInternal() {
     HandleRedirect(redirect_response.CurrentRequestUrl());
   }
 
-  if (!frame_->IsMainFrame() && response_.GetCTPolicyCompliance() ==
-                                    ResourceResponse::kCTPolicyDoesNotComply) {
-    // Exclude main-frame navigations; those are tracked elsewhere.
-    GetUseCounterHelper().Count(
-        WebFeature::kCertificateTransparencyNonCompliantResourceInSubframe,
-        GetFrame());
-  }
   MixedContentChecker::CheckMixedPrivatePublic(GetFrame(),
                                                response_.RemoteIPAddress());
   ApplyClientHintsConfig(params_->enabled_client_hints);
@@ -1420,32 +1401,6 @@ void DocumentLoader::DidInstallNewDocument(Document* document) {
     if (!header_content_language.IsEmpty())
       document->SetContentLanguage(AtomicString(header_content_language));
   }
-
-  String referrer_policy_header =
-      response_.HttpHeaderField(http_names::kReferrerPolicy);
-  if (!referrer_policy_header.IsNull()) {
-    UseCounter::Count(*document, WebFeature::kReferrerPolicyHeader);
-    document->domWindow()->ParseAndSetReferrerPolicy(referrer_policy_header);
-  }
-
-  if (response_.IsSignedExchangeInnerResponse()) {
-    UseCounter::Count(*document, WebFeature::kSignedExchangeInnerResponse);
-    UseCounter::Count(*document,
-                      document->GetFrame()->IsMainFrame()
-                          ? WebFeature::kSignedExchangeInnerResponseInMainFrame
-                          : WebFeature::kSignedExchangeInnerResponseInSubFrame);
-  }
-
-  if (!response_.HttpHeaderField(http_names::kRequireDocumentPolicy).IsNull())
-    UseCounter::Count(*document, WebFeature::kRequireDocumentPolicyHeader);
-
-  if (was_blocked_by_document_policy_)
-    UseCounter::Count(*document, WebFeature::kDocumentPolicyCausedPageUnload);
-
-  // Required document policy can either come from iframe attribute or HTTP
-  // header 'Require-Document-Policy'.
-  if (!frame_policy_.required_document_policy.empty())
-    UseCounter::Count(*document, WebFeature::kRequiredDocumentPolicy);
 
   for (const auto& message : document_policy_parsing_messages_) {
     document->AddConsoleMessage(MakeGarbageCollected<ConsoleMessage>(
@@ -1709,13 +1664,21 @@ void DocumentLoader::InitializeWindow(Document* owner_document) {
       security_context.AddInsecureNavigationUpgrade(to_upgrade);
   }
   frame_->DomWindow()->SetAddressSpace(ip_address_space_);
+
+  String referrer_policy_header =
+      response_.HttpHeaderField(http_names::kReferrerPolicy);
+  if (!referrer_policy_header.IsNull()) {
+    CountUse(WebFeature::kReferrerPolicyHeader);
+    frame_->DomWindow()->ParseAndSetReferrerPolicy(referrer_policy_header);
+  }
 }
 
 void DocumentLoader::CommitNavigation() {
-  CHECK_GE(state_, kCommitted);
+  DCHECK_LT(state_, kCommitted);
   DCHECK(frame_->GetPage());
   DCHECK(!frame_->GetDocument() || !frame_->GetDocument()->IsActive());
   DCHECK_EQ(frame_->Tree().ChildCount(), 0u);
+  state_ = kCommitted;
 
   // Prepare a DocumentInit before clearing the frame, because it may need to
   // inherit an aliased security context.
@@ -1780,6 +1743,9 @@ void DocumentLoader::CommitNavigation() {
           .WithSrcdocDocument(loading_srcdoc_)
           .WithNewRegistrationContext()
           .WithWebBundleClaimedUrl(web_bundle_claimed_url_));
+
+  RecordUseCountersForCommit();
+  RecordConsoleMessagesForCommit();
 
   // Clear the user activation state.
   // TODO(crbug.com/736415): Clear this bit unconditionally for all frames.
@@ -1858,37 +1824,6 @@ void DocumentLoader::CommitNavigation() {
   } else {
     document->SetDeferredCompositorCommitIsAllowed(false);
   }
-
-  if (RuntimeEnabledFeatures::ForceLoadAtTopEnabled(frame_->DomWindow()))
-    CountUse(WebFeature::kForceLoadAtTop);
-
-  // Log if the document was blocked by CSP checks now that the new Document has
-  // been created and console messages will be properly displayed.
-  if (was_blocked_by_csp_) {
-    ConsoleError("Refused to display '" +
-                 response_.CurrentRequestUrl().ElidedString() +
-                 "' because it has not opted into the following policy "
-                 "required by its embedder: '" +
-                 GetFrameLoader().RequiredCSP() + "'.");
-  }
-
-  if (was_blocked_by_document_policy_) {
-    // TODO(chenleihu): Add which document policy violated in error string,
-    // instead of just displaying serialized required document policy.
-    ConsoleError(
-        "Refused to display '" + response_.CurrentRequestUrl().ElidedString() +
-        "' because it violates the following document policy "
-        "required by its embedder: '" +
-        DocumentPolicy::Serialize(frame_policy_.required_document_policy)
-            .value_or("[Serialization Error]")
-            .c_str() +
-        "'.");
-  }
-
-  // Report the ResourceResponse now that the new Document has been created and
-  // console messages will be properly displayed.
-  frame_->Console().ReportResourceResponseReceived(
-      this, main_resource_identifier_, response_);
 
   if (response_.IsHTTP() && navigation_timing_info_) {
     // The response is being copied here to pass the ServerTiming info.
@@ -2050,6 +1985,69 @@ void DocumentLoader::ResumeParser() {
 
 void DocumentLoader::CountUse(mojom::WebFeature feature) {
   return use_counter_.Count(feature, GetFrame());
+}
+
+void DocumentLoader::RecordUseCountersForCommit() {
+  // Pre-commit state, count usage the use counter associated with "this"
+  // (provisional document loader) instead of frame_'s document loader.
+  if (response_.DidServiceWorkerNavigationPreload())
+    CountUse(WebFeature::kServiceWorkerNavigationPreload);
+  if (!frame_->IsMainFrame() && response_.GetCTPolicyCompliance() ==
+                                    ResourceResponse::kCTPolicyDoesNotComply) {
+    // Exclude main-frame navigations; those are tracked elsewhere.
+    CountUse(
+        WebFeature::kCertificateTransparencyNonCompliantResourceInSubframe);
+  }
+  if (RuntimeEnabledFeatures::ForceLoadAtTopEnabled(frame_->DomWindow()))
+    CountUse(WebFeature::kForceLoadAtTop);
+
+  if (response_.IsSignedExchangeInnerResponse()) {
+    CountUse(WebFeature::kSignedExchangeInnerResponse);
+    CountUse(frame_->IsMainFrame()
+                 ? WebFeature::kSignedExchangeInnerResponseInMainFrame
+                 : WebFeature::kSignedExchangeInnerResponseInSubFrame);
+  }
+
+  if (!response_.HttpHeaderField(http_names::kRequireDocumentPolicy).IsNull())
+    CountUse(WebFeature::kRequireDocumentPolicyHeader);
+
+  if (was_blocked_by_document_policy_)
+    CountUse(WebFeature::kDocumentPolicyCausedPageUnload);
+
+  // Required document policy can either come from iframe attribute or HTTP
+  // header 'Require-Document-Policy'.
+  if (!frame_policy_.required_document_policy.empty())
+    CountUse(WebFeature::kRequiredDocumentPolicy);
+}
+
+void DocumentLoader::RecordConsoleMessagesForCommit() {
+  // Log if the document was blocked by CSP checks now that the new Document has
+  // been created and console messages will be properly displayed.
+  if (was_blocked_by_csp_) {
+    ConsoleError("Refused to display '" +
+                 response_.CurrentRequestUrl().ElidedString() +
+                 "' because it has not opted into the following policy "
+                 "required by its embedder: '" +
+                 GetFrameLoader().RequiredCSP() + "'.");
+  }
+
+  if (was_blocked_by_document_policy_) {
+    // TODO(chenleihu): Add which document policy violated in error string,
+    // instead of just displaying serialized required document policy.
+    ConsoleError(
+        "Refused to display '" + response_.CurrentRequestUrl().ElidedString() +
+        "' because it violates the following document policy "
+        "required by its embedder: '" +
+        DocumentPolicy::Serialize(frame_policy_.required_document_policy)
+            .value_or("[Serialization Error]")
+            .c_str() +
+        "'.");
+  }
+
+  // Report the ResourceResponse now that the new Document has been created and
+  // console messages will be properly displayed.
+  frame_->Console().ReportResourceResponseReceived(
+      this, main_resource_identifier_, response_);
 }
 
 void DocumentLoader::ReportPreviewsIntervention() const {
