@@ -469,17 +469,17 @@
   {
     "name": "chrome-share-qr-code",
     "owners": [ "kmilka", "tgupta" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "chrome-share-screenshot",
     "owners": [ "jeffreycohen", "kristipark" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "chrome-sharing-hub",
     "owners": [ "kmilka" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "chrome-sharing-hub-v1-5",
@@ -4026,7 +4026,7 @@
   {
     "name": "sharing-qr-code-generator",
     "owners": [ "//components/send_tab_to_self/OWNERS" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "sharing-send-via-sync",
