@@ -2749,8 +2749,7 @@ const FeatureEntry kFeatureEntries[] = {
     {"device-discovery-notifications",
      flag_descriptions::kDeviceDiscoveryNotificationsName,
      flag_descriptions::kDeviceDiscoveryNotificationsDescription, kOsDesktop,
-     ENABLE_DISABLE_VALUE_TYPE(switches::kEnableDeviceDiscoveryNotifications,
-                               switches::kDisableDeviceDiscoveryNotifications)},
+     SINGLE_VALUE_TYPE(switches::kEnableDeviceDiscoveryNotifications)},
 #endif  // BUILDFLAG(ENABLE_SERVICE_DISCOVERY)
     {"force-enable-devices-page",
      flag_descriptions::kForceEnableDevicesPageName,

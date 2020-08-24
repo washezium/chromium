@@ -785,8 +785,8 @@
   },
   {
     "name": "device-discovery-notifications",
-    "owners": [ "thestig" ],
-    "expiry_milestone": 78
+    "owners": [ "thestig", "gavinwill" ],
+    "expiry_milestone": 89
   },
   {
     "name": "dice-web-signin-interception",
