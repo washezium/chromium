@@ -35,8 +35,6 @@ import org.chromium.chrome.browser.tabmodel.TabModelObserver;
 import org.chromium.chrome.browser.tabmodel.TabModelSelector;
 import org.chromium.chrome.browser.tabmodel.TabModelSelectorObserver;
 import org.chromium.chrome.browser.tasks.tab_groups.TabGroupModelFilter;
-import org.chromium.chrome.browser.ui.messages.snackbar.Snackbar;
-import org.chromium.chrome.browser.ui.messages.snackbar.SnackbarManager;
 import org.chromium.chrome.tab_ui.R;
 import org.chromium.components.browser_ui.share.ShareParams;
 import org.chromium.components.embedder_support.util.UrlConstants;
@@ -51,7 +49,7 @@ import java.util.List;
  * with the components' coordinator as well as managing the business logic
  * for dialog show/hide.
  */
-public class TabGridDialogMediator implements SnackbarManager.SnackbarController {
+public class TabGridDialogMediator {
     /**
      * Defines an interface for a {@link TabGridDialogMediator} to control dialog.
      */
@@ -117,8 +115,7 @@ public class TabGridDialogMediator implements SnackbarManager.SnackbarController
             TabModelSelector tabModelSelector, TabCreatorManager tabCreatorManager,
             TabSwitcherMediator.ResetHandler tabSwitcherResetHandler,
             AnimationSourceViewProvider animationSourceViewProvider,
-            ObservableSupplier<ShareDelegate> shareDelegateSupplier,
-            SnackbarManager snackbarManager, String componentName) {
+            ObservableSupplier<ShareDelegate> shareDelegateSupplier, String componentName) {
         mContext = context;
         mModel = model;
         mTabModelSelector = tabModelSelector;
@@ -145,7 +142,6 @@ public class TabGridDialogMediator implements SnackbarManager.SnackbarController
             public void tabClosureUndone(Tab tab) {
                 updateDialog();
                 updateGridTabSwitcher();
-                snackbarManager.dismissSnackbars(TabGridDialogMediator.this, tab.getId());
             }
 
             @Override
@@ -171,22 +167,6 @@ public class TabGridDialogMediator implements SnackbarManager.SnackbarController
                 }
                 updateDialog();
                 updateGridTabSwitcher();
-            }
-
-            @Override
-            public void tabPendingClosure(Tab tab) {
-                if (!mModel.get(TabGridPanelProperties.IS_DIALOG_VISIBLE)) return;
-                snackbarManager.showSnackbar(
-                        Snackbar.make(tab.getTitle(), TabGridDialogMediator.this,
-                                        Snackbar.TYPE_ACTION, Snackbar.UMA_TAB_CLOSE_UNDO)
-                                .setTemplateText(
-                                        mContext.getString(R.string.undo_bar_close_message))
-                                .setAction(mContext.getString(R.string.undo), tab.getId()));
-            }
-
-            @Override
-            public void tabClosureCommitted(Tab tab) {
-                snackbarManager.dismissSnackbars(TabGridDialogMediator.this, tab.getId());
             }
         };
 
@@ -522,25 +502,6 @@ public class TabGridDialogMediator implements SnackbarManager.SnackbarController
 
     TabListMediator.TabGridDialogHandler getTabGridDialogHandler() {
         return mTabGridDialogHandler;
-    }
-
-    // SnackbarManager.SnackbarController implementation.
-    @Override
-    public void onAction(Object actionData) {
-        int tabId = (int) actionData;
-        TabModel model = mTabModelSelector.getModelForTabId(tabId);
-        if (model != null) {
-            model.cancelTabClosure(tabId);
-        }
-    }
-
-    @Override
-    public void onDismissNoAction(Object actionData) {
-        int tabId = (int) actionData;
-        TabModel model = mTabModelSelector.getModelForTabId(tabId);
-        if (model != null) {
-            model.commitTabClosure(tabId);
-        }
     }
 
     /**
