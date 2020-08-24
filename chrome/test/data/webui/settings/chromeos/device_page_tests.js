@@ -821,44 +821,40 @@ cr.define('device_page_tests', function() {
     });
 
     suite(assert(TestNames.Display), function() {
+      let displayPage;
+      let browserProxy;
+
+      setup(async () => {
+        displayPage =
+            await showAndGetDeviceSubpage('display', settings.routes.DISPLAY);
+        browserProxy = settings.DevicePageBrowserProxyImpl.getInstance();
+        await fakeSystemDisplay.getInfoCalled.promise;
+      });
+
       test('display tests', function() {
-        let displayPage;
-        const browserProxy = settings.DevicePageBrowserProxyImpl.getInstance();
+        // Verify all the conditionals that get run during page load
+        // before the display info has been populated.
+        expectEquals(undefined, displayPage.displays);
+        expectFalse(displayPage.showMirror_(true, displayPage.displays));
+        expectFalse(displayPage.showMirror_(false, displayPage.displays));
+        expectFalse(displayPage.isMirrored_(displayPage.displays));
+        expectFalse(
+            displayPage.showUnifiedDesktop_(true, true, displayPage.displays));
+        expectFalse(displayPage.showUnifiedDesktop_(
+            false, false, displayPage.displays));
+        expectEquals(
+            displayPage.invalidDisplayId_,
+            browserProxy.lastHighlightedDisplayId_);
+
+        // Add a display.
+        addDisplay(1);
+        fakeSystemDisplay.onDisplayChanged.callListeners();
+
         return Promise
             .all([
-              // Get the display sub-page.
-              showAndGetDeviceSubpage('display', settings.routes.DISPLAY)
-                  .then(function(page) {
-                    displayPage = page;
-                    // Verify all the conditionals that get run during page load
-                    // before the display info has been populated.
-                    expectEquals(undefined, displayPage.displays);
-                    expectFalse(
-                        displayPage.showMirror_(true, displayPage.displays));
-                    expectFalse(
-                        displayPage.showMirror_(false, displayPage.displays));
-                    expectFalse(displayPage.isMirrored_(displayPage.displays));
-                    expectFalse(displayPage.showUnifiedDesktop_(
-                        true, true, displayPage.displays));
-                    expectFalse(displayPage.showUnifiedDesktop_(
-                        false, false, displayPage.displays));
-                    expectEquals(
-                        displayPage.invalidDisplayId_,
-                        browserProxy.lastHighlightedDisplayId_);
-                  }),
-              // Wait for the initial call to getInfo.
               fakeSystemDisplay.getInfoCalled.promise,
+              fakeSystemDisplay.getLayoutCalled.promise,
             ])
-            .then(function() {
-              // Add a display.
-              addDisplay(1);
-              fakeSystemDisplay.onDisplayChanged.callListeners();
-
-              return Promise.all([
-                fakeSystemDisplay.getInfoCalled.promise,
-                fakeSystemDisplay.getLayoutCalled.promise,
-              ]);
-            })
             .then(function() {
               // There should be a single display which should be primary and
               // selected. Mirroring should be disabled.
