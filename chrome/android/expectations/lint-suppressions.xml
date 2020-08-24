@@ -36,9 +36,9 @@ Still reading?
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
     <ignore regexp="chrome/android/java/res/layout/contacts_list_item_view.xml"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
-    <ignore regexp="chrome/android/java/res/layout/photo_picker_dialog.xml"/>
+    <ignore regexp="components/browser_ui/photo_picker/android/java/res/layout/photo_picker_dialog.xml"/>
     <!--TODO(crbug.com/1044658): This suppression was added blindly, and needs investigated.-->
-    <ignore regexp="chrome/android/java/res/layout/video_player.xml"/>
+    <ignore regexp="components/browser_ui/photo_picker/android/java/res/layout/video_player.xml"/>
   </issue>
   <issue id="CustomViewStyleable">
     <!-- TODO(crbug.com/1077861): Old code, good to fix. -->
@@ -65,7 +65,7 @@ Still reading?
   <issue id="EllipsizeMaxLines" severity="ignore"/>
   <issue id="ExifInterface">
     <!-- TODO(crbug.com/804438): Cannot update until android.media.ExifInterface supports file descriptors -->
-    <ignore regexp="chrome/android/java/src/org/chromium/chrome/browser/photo_picker/BitmapUtils.java"/>
+    <ignore regexp="components/browser_ui/photo_picker/android/java/src/org/chromium/components/browser_ui/photo_picker/BitmapUtils.java"/>
   </issue>
   <issue id="ExportedContentProvider" severity="ignore"/>
   <issue id="ExportedService" severity="ignore"/>
@@ -367,7 +367,7 @@ Still reading?
   </issue>
   <issue id="UseCompoundDrawables">
     <!-- Upscaling 24dp to 48dp doesn't work as expected with a TextView compound drawable. -->
-    <ignore regexp="chrome/android/java/res/layout/photo_picker_bitmap_view.xml"/>
+    <ignore regexp="components/browser_ui/photo_picker/android/java/res/layout/photo_picker_bitmap_view.xml"/>
     <!-- Cannot add image to textview as the image is supplied through @style/TabBarShadow. -->
     <ignore regexp="chrome/browser/share/android/java/res/layout/qrcode_camera_error_layout.xml"/>
   </issue>

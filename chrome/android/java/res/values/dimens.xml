@@ -437,17 +437,6 @@
     <!-- Contact Picker dimensions -->
     <dimen name="contact_picker_icon_size">36dp</dimen>
 
-    <!-- Photo Picker dimensions -->
-    <dimen name="photo_picker_label_gap">10dp</dimen>
-    <dimen name="photo_picker_tile_min_size">100dp</dimen>
-    <dimen name="photo_picker_tile_gap">4dp</dimen>
-    <dimen name="photo_picker_grainy_thumbnail_size">12dp</dimen>
-    <dimen name="photo_picker_play_button_size">84dp</dimen>
-    <dimen name="photo_picker_seek_bar_thickness">4dp</dimen>
-    <dimen name="photo_picker_seek_bar_edge_radius">2dp</dimen>
-    <dimen name="photo_picker_seek_bar_thumb_size">12dp</dimen>
-    <dimen name="photo_picker_video_duration_offset">16dp</dimen>
-
     <!-- Account chooser dialog dimensions -->
     <dimen name="account_chooser_dialog_margin">24dp</dimen>
     <dimen name="account_chooser_dialog_item_margin">24dp</dimen>
@@ -553,7 +542,6 @@
     <!-- History Navigation UI Item -->
     <dimen name="navigation_bubble_size">44dp</dimen>
     <dimen name="navigation_bubble_radius">22dp</dimen>
-    <dimen name="navigation_bubble_shadow_padding">1dp</dimen>
     <dimen name="navigation_bubble_arrow_size">32dp</dimen>
     <dimen name="navigation_bubble_start_padding">2dp</dimen>
     <dimen name="navigation_bubble_top_padding">4dp</dimen>

@@ -2251,8 +2251,8 @@
         errorLine1="            public boolean onTouch(View v, MotionEvent event) {"
         errorLine2="                           ~~~~~~~">
         <location
-            file="../../chrome/android/java/src/org/chromium/chrome/browser/photo_picker/PickerVideoPlayer.java"
-            line="231"
+            file="../../components/browser_ui/photo_picker/android/java/src/org/chromium/components/browser_ui/photo_picker/PickerVideoPlayer.java"
+            line="230"
             column="28"/>
     </issue>
 
@@ -2570,7 +2570,7 @@
         errorLine1="        android:clickable=&quot;true&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="../../chrome/android/java/res/layout/photo_picker_dialog.xml"
+            file="../../components/browser_ui/photo_picker/android/java/res/layout/photo_picker_dialog.xml"
             line="36"
             column="9"/>
     </issue>
@@ -2625,7 +2625,7 @@
         errorLine1="        android:clickable=&quot;true&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="../../chrome/android/java/res/layout/video_player.xml"
+            file="../../components/browser_ui/photo_picker/android/java/res/layout/video_player.xml"
             line="37"
             column="9"/>
     </issue>
@@ -2636,7 +2636,7 @@
         errorLine1="                android:clickable=&quot;true&quot;"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="../../chrome/android/java/res/layout/video_player.xml"
+            file="../../components/browser_ui/photo_picker/android/java/res/layout/video_player.xml"
             line="99"
             column="17"/>
     </issue>
@@ -2647,7 +2647,7 @@
         errorLine1="                android:clickable=&quot;true&quot;"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="../../chrome/android/java/res/layout/video_player.xml"
+            file="../../components/browser_ui/photo_picker/android/java/res/layout/video_player.xml"
             line="124"
             column="17"/>
     </issue>
