@@ -36,6 +36,7 @@
 #include "third_party/blink/public/strings/grit/blink_strings.h"
 #include "third_party/blink/renderer/bindings/core/v8/v8_image_bitmap_options.h"
 #include "third_party/blink/renderer/core/aom/accessible_node.h"
+#include "third_party/blink/renderer/core/css/css_resolution_units.h"
 #include "third_party/blink/renderer/core/display_lock/display_lock_utilities.h"
 #include "third_party/blink/renderer/core/dom/element.h"
 #include "third_party/blink/renderer/core/dom/flat_tree_traversal.h"
@@ -1912,6 +1913,22 @@ ax::mojom::blink::TextAlign AXNodeObject::GetTextAlign() const {
     case ETextAlign::kJustify:
       return ax::mojom::blink::TextAlign::kJustify;
   }
+}
+
+float AXNodeObject::GetTextIndent() const {
+  // Text-indent applies to lines or blocks, but not text.
+  if (IsTextObject() || !GetLayoutObject())
+    return 0.0f;
+  const ComputedStyle* style = GetLayoutObject()->Style();
+  if (!style)
+    return 0.0f;
+
+  const blink::LayoutBlock* layout_block =
+      GetLayoutObject()->InclusiveContainingBlock();
+  if (!layout_block)
+    return 0.0f;
+  float text_indent = layout_block->TextIndentOffset().ToFloat();
+  return text_indent / kCssPixelsPerMillimeter;
 }
 
 String AXNodeObject::ImageDataUrl(const IntSize& max_size) const {
