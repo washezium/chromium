@@ -1353,7 +1353,7 @@ int Element::clientHeight() {
 
 PaintLayerScrollableArea* Element::GetScrollableArea() const {
   LayoutBox* box = GetLayoutBox();
-  if (!box || !box->HasOverflowClip())
+  if (!box || !box->HasNonVisibleOverflow())
     return nullptr;
   return box->GetScrollableArea();
 }
