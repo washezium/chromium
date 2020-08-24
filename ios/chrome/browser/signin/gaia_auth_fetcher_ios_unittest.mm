@@ -24,15 +24,54 @@
 
 namespace {
 
-class MockGaiaAuthFetcherIOSBridge : public GaiaAuthFetcherIOSBridge {
+class FakeGaiaAuthFetcherIOSBridge : public GaiaAuthFetcherIOSBridge {
  public:
-  MockGaiaAuthFetcherIOSBridge(
-      GaiaAuthFetcherIOSBridge::GaiaAuthFetcherIOSBridgeDelegate* delegate,
-      web::BrowserState* browser_state)
-      : GaiaAuthFetcherIOSBridge(delegate, browser_state) {}
+  FakeGaiaAuthFetcherIOSBridge(
+      GaiaAuthFetcherIOSBridge::GaiaAuthFetcherIOSBridgeDelegate* delegate)
+      : GaiaAuthFetcherIOSBridge(delegate) {}
+  ~FakeGaiaAuthFetcherIOSBridge() override {}
 
-  MOCK_METHOD0(Cancel, void());
-  MOCK_METHOD0(FetchPendingRequest, void());
+  void Fetch(const GURL& url,
+             const std::string& headers,
+             const std::string& body,
+             bool should_use_xml_http_request) override {
+    fetch_called_ = true;
+    url_ = url;
+  }
+
+  void Cancel() override { cancel_called_ = true; }
+
+  void NotifyDelegateFetchSuccess(const std::string& data) {
+    EXPECT_TRUE(fetch_called_);
+    const int kSuccessResponseCode = 200;
+    delegate()->OnFetchComplete(url_, data, net::Error::OK,
+                                kSuccessResponseCode);
+    fetch_called_ = false;
+  }
+
+  void NotifyDelegateFetchError(net::Error net_error) {
+    EXPECT_TRUE(fetch_called_);
+    const int kSomeErrorResponseCode = 500;
+    delegate()->OnFetchComplete(url_, "", net_error, kSomeErrorResponseCode);
+    fetch_called_ = false;
+  }
+
+  void NotifyDelegateFetchAborted() {
+    EXPECT_TRUE(cancel_called_);
+    const int kIgnoredResponseCode = 0;
+    delegate()->OnFetchComplete(url_, "", net::ERR_ABORTED,
+                                kIgnoredResponseCode);
+    fetch_called_ = false;
+    cancel_called_ = false;
+  }
+
+  bool fetch_called() const { return fetch_called_; }
+  bool cancel_called() const { return cancel_called_; }
+
+ private:
+  bool fetch_called_ = false;
+  bool cancel_called_ = false;
+  GURL url_;
 };
 
 class MockGaiaConsumer : public GaiaAuthConsumer {
@@ -56,16 +95,16 @@ class GaiaAuthFetcherIOSTest : public PlatformTest {
     gaia_auth_fetcher_.reset(new GaiaAuthFetcherIOS(
         &consumer_, gaia::GaiaSource::kChrome,
         test_url_loader_factory_.GetSafeWeakWrapper(), browser_state_.get()));
-    gaia_auth_fetcher_->bridge_.reset(new MockGaiaAuthFetcherIOSBridge(
-        gaia_auth_fetcher_.get(), browser_state_.get()));
+    gaia_auth_fetcher_->bridge_.reset(
+        new FakeGaiaAuthFetcherIOSBridge(gaia_auth_fetcher_.get()));
   }
 
   ~GaiaAuthFetcherIOSTest() override {
     gaia_auth_fetcher_.reset();
   }
 
-  MockGaiaAuthFetcherIOSBridge* GetBridge() {
-    return static_cast<MockGaiaAuthFetcherIOSBridge*>(
+  FakeGaiaAuthFetcherIOSBridge* GetBridge() {
+    return static_cast<FakeGaiaAuthFetcherIOSBridge*>(
         gaia_auth_fetcher_->bridge_.get());
   }
 
@@ -79,45 +118,39 @@ class GaiaAuthFetcherIOSTest : public PlatformTest {
 // Tests that the cancel mechanism works properly by cancelling an OAuthLogin
 // request and controlling that the consumer is properly called.
 TEST_F(GaiaAuthFetcherIOSTest, StartOAuthLoginCancelled) {
-  MockGaiaAuthFetcherIOSBridge* bridge = GetBridge();
-
-  EXPECT_CALL(*bridge, FetchPendingRequest());
   gaia_auth_fetcher_->StartOAuthLogin("fake_token", "gaia");
+  EXPECT_TRUE(GetBridge()->fetch_called());
+
+  gaia_auth_fetcher_->CancelRequest();
+  EXPECT_TRUE(GetBridge()->cancel_called());
 
   GoogleServiceAuthError expected_error =
       GoogleServiceAuthError(GoogleServiceAuthError::REQUEST_CANCELED);
   EXPECT_CALL(consumer_, OnClientLoginFailure(expected_error));
-  EXPECT_CALL(*bridge, Cancel()).WillOnce([&bridge]() {
-    bridge->OnURLFetchFailure(net::ERR_ABORTED, 0);
-  });
-  gaia_auth_fetcher_->CancelRequest();
+  GetBridge()->NotifyDelegateFetchAborted();
 }
 
 // Tests that the successful case works properly by starting a MergeSession
 // request, making it succeed and controlling that the consumer is properly
 // called.
 TEST_F(GaiaAuthFetcherIOSTest, StartMergeSession) {
-  MockGaiaAuthFetcherIOSBridge* bridge = GetBridge();
-
-  EXPECT_CALL(*bridge, FetchPendingRequest()).WillOnce([&bridge]() {
-    bridge->OnURLFetchSuccess("data", 200);
-  });
-  EXPECT_CALL(consumer_, OnMergeSessionSuccess("data"));
   gaia_auth_fetcher_->StartMergeSession("uber_token", "");
+  EXPECT_TRUE(GetBridge()->fetch_called());
+
+  EXPECT_CALL(consumer_, OnMergeSessionSuccess("data"));
+  GetBridge()->NotifyDelegateFetchSuccess("data");
 }
 
 // Tests that the failure case works properly by starting a LogOut request,
 // making it fail, and controlling that the consumer is properly called.
 TEST_F(GaiaAuthFetcherIOSTest, StartLogOutError) {
-  MockGaiaAuthFetcherIOSBridge* bridge = GetBridge();
+  gaia_auth_fetcher_->StartLogOut();
+  EXPECT_TRUE(GetBridge()->fetch_called());
 
   GoogleServiceAuthError expected_error =
-      GoogleServiceAuthError(GoogleServiceAuthError::CONNECTION_FAILED);
+      GoogleServiceAuthError::FromConnectionError(net::Error::ERR_FAILED);
   EXPECT_CALL(consumer_, OnLogOutFailure(expected_error));
-  EXPECT_CALL(*bridge, FetchPendingRequest()).WillOnce([&bridge]() {
-    bridge->OnURLFetchFailure(net::ERR_FAILED, 500);
-  });
-  gaia_auth_fetcher_->StartLogOut();
+  GetBridge()->NotifyDelegateFetchError(net::Error::ERR_FAILED);
 }
 
 // Tests that requests that do not require cookies are using the original
@@ -135,5 +168,7 @@ TEST_F(GaiaAuthFetcherIOSTest, StartGetCheckConnectionInfo) {
       data);
 
   gaia_auth_fetcher_->StartGetCheckConnectionInfo();
+  EXPECT_FALSE(GetBridge()->fetch_called());
+
   base::RunLoop().RunUntilIdle();
 }
