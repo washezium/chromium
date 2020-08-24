@@ -658,11 +658,8 @@ bool LocalFrame::ShouldClose() {
 }
 
 void LocalFrame::DetachChildren() {
-  DCHECK(loader_.StateMachine()->CreatingInitialEmptyDocument() ||
-         GetDocument());
-
-  if (Document* document = this->GetDocument())
-    ChildFrameDisconnector(*document).Disconnect();
+  DCHECK(GetDocument());
+  ChildFrameDisconnector(*GetDocument()).Disconnect();
 }
 
 void LocalFrame::DidAttachDocument() {
@@ -1920,7 +1917,7 @@ bool LocalFrame::NeedsOcclusionTracking() const {
 void LocalFrame::ForceSynchronousDocumentInstall(
     const AtomicString& mime_type,
     scoped_refptr<SharedBuffer> data) {
-  CHECK(loader_.StateMachine()->IsDisplayingInitialEmptyDocument());
+  CHECK(GetDocument()->IsInitialEmptyDocument());
   DCHECK(!Client()->IsLocalFrameClientImpl());
 
   // Any Document requires Shutdown() before detach, even the initial empty
@@ -1931,8 +1928,6 @@ void LocalFrame::ForceSynchronousDocumentInstall(
   DomWindow()->InstallNewDocument(DocumentInit::Create()
                                       .WithWindow(DomWindow(), nullptr)
                                       .WithTypeFrom(mime_type));
-  loader_.StateMachine()->AdvanceTo(
-      FrameLoaderStateMachine::kCommittedFirstRealLoad);
 
   GetDocument()->OpenForNavigation(kForceSynchronousParsing, mime_type,
                                    AtomicString("UTF-8"));

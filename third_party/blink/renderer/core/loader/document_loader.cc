@@ -304,7 +304,7 @@ DocumentLoader::DocumentLoader(
   if (was_blocked_by_csp_ || was_blocked_by_document_policy_)
     ReplaceWithEmptyDocument();
 
-  if (!GetFrameLoader().StateMachine()->CreatingInitialEmptyDocument())
+  if (commit_reason_ != CommitReason::kInitialization)
     redirect_chain_.push_back(url_);
 
   if (IsBackForwardLoadType(params_->frame_load_type))
@@ -1566,12 +1566,12 @@ scoped_refptr<SecurityOrigin> DocumentLoader::CalculateOrigin(
   return origin;
 }
 
-bool ShouldReuseDOMWindow(LocalFrame* frame, SecurityOrigin* security_origin) {
+bool ShouldReuseDOMWindow(LocalDOMWindow* window,
+                          SecurityOrigin* security_origin) {
   // Secure transitions can only happen when navigating from the initial empty
   // document.
-  if (!frame->Loader().StateMachine()->IsDisplayingInitialEmptyDocument())
-    return false;
-  return frame->DomWindow()->GetSecurityOrigin()->CanAccess(security_origin);
+  return window && window->document()->IsInitialEmptyDocument() &&
+         window->GetSecurityOrigin()->CanAccess(security_origin);
 }
 
 WindowAgent* GetWindowAgentForOrigin(LocalFrame* frame,
@@ -1598,7 +1598,7 @@ void DocumentLoader::InitializeWindow(Document* owner_document) {
   // commits. To make that happen, we "securely transition" the existing
   // LocalDOMWindow to the Document that results from the network load. See also
   // Document::IsSecureTransitionTo.
-  if (!ShouldReuseDOMWindow(frame_.Get(), security_origin.get())) {
+  if (!ShouldReuseDOMWindow(frame_->DomWindow(), security_origin.get())) {
     auto* agent = GetWindowAgentForOrigin(frame_.Get(), security_origin.get());
     frame_->SetDOMWindow(MakeGarbageCollected<LocalDOMWindow>(*frame_, agent));
 
@@ -1711,11 +1711,6 @@ void DocumentLoader::CommitNavigation() {
   LocalDOMWindow* previous_window = frame_->DomWindow();
   InitializeWindow(owner_document);
 
-  if (GetFrameLoader().StateMachine()->IsDisplayingInitialEmptyDocument()) {
-    GetFrameLoader().StateMachine()->AdvanceTo(
-        FrameLoaderStateMachine::kCommittedFirstRealLoad);
-  }
-
   SecurityContextInit security_init(frame_->DomWindow());
   // FeaturePolicy and DocumentPolicy require SecurityOrigin and origin trials
   // to be initialized.
@@ -1738,6 +1733,8 @@ void DocumentLoader::CommitNavigation() {
   Document* document = frame_->DomWindow()->InstallNewDocument(
       DocumentInit::Create()
           .WithWindow(frame_->DomWindow(), owner_document)
+          .ForInitialEmptyDocument(commit_reason_ ==
+                                   CommitReason::kInitialization)
           .WithURL(Url())
           .WithTypeFrom(MimeType())
           .WithSrcdocDocument(loading_srcdoc_)
@@ -1885,7 +1882,7 @@ void DocumentLoader::CreateParserPostCommit() {
   // which later triggers CHECK when swapping in via WebFrame::Swap().
   // We can safely omit installing original trials on initial empty document
   // and wait for the real load.
-  if (GetFrameLoader().StateMachine()->CommittedFirstRealDocumentLoad()) {
+  if (commit_reason_ != CommitReason::kInitialization) {
     LocalDOMWindow* window = frame_->DomWindow();
     if (frame_->GetSettings()
             ->GetForceTouchEventFeatureDetectionForInspector()) {
