@@ -426,6 +426,12 @@ std::string SetWhitelistedPref(Profile* profile,
       return base::StringPrintf("Assistant not allowed - state: %d",
                                 allowed_state);
     }
+  } else if (pref_name == chromeos::assistant::prefs::kAssistantConsentStatus) {
+    DCHECK(value.is_int());
+    if (!profile->GetPrefs()->GetBoolean(
+            chromeos::assistant::prefs::kAssistantEnabled)) {
+      return "Unable to set the pref because Assistant has not been enabled.";
+    }
   } else if (pref_name ==
                  chromeos::assistant::prefs::kAssistantContextEnabled ||
              pref_name ==
