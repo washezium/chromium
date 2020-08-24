@@ -18,9 +18,7 @@ class GaiaAuthFetcherIOSNSURLSessionBridge;
 @class NSURLSession;
 
 // Specialization of GaiaAuthFetcher on iOS, using NSURLSession to send
-// requests. This class can only be used when those 2 flags are enabbled:
-//  + kUseNSURLSessionForGaiaSigninRequests
-//  + web::features::kWKHTTPSystemCookieStore
+// requests.
 class GaiaAuthFetcherIOSNSURLSessionBridge : public GaiaAuthFetcherIOSBridge {
  public:
   GaiaAuthFetcherIOSNSURLSessionBridge(

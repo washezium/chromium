@@ -11,9 +11,7 @@
 #include "base/mac/foundation_util.h"
 #include "base/strings/sys_string_conversions.h"
 #include "components/signin/ios/browser/account_consistency_service.h"
-#include "ios/chrome/browser/signin/feature_flags.h"
 #include "ios/net/cookies/system_cookie_util.h"
-#include "ios/web/common/features.h"
 #include "ios/web/public/browser_state.h"
 #import "net/base/mac/url_conversions.h"
 
@@ -83,7 +81,6 @@ GaiaAuthFetcherIOSNSURLSessionBridge::GaiaAuthFetcherIOSNSURLSessionBridge(
     GaiaAuthFetcherIOSBridge::GaiaAuthFetcherIOSBridgeDelegate* delegate,
     web::BrowserState* browser_state)
     : GaiaAuthFetcherIOSBridge(delegate, browser_state) {
-  DCHECK(base::FeatureList::IsEnabled(kUseNSURLSessionForGaiaSigninRequests));
   url_session_delegate_ = [[GaiaAuthFetcherIOSURLSessionDelegate alloc] init];
   url_session_delegate_.bridge = this;
 }
