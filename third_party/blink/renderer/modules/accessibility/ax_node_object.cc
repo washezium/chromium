@@ -1889,7 +1889,8 @@ String AXNodeObject::GetText() const {
 }
 
 ax::mojom::blink::TextAlign AXNodeObject::GetTextAlign() const {
-  if (!GetLayoutObject())
+  // Object attributes are not applied to text objects.
+  if (IsTextObject() || !GetLayoutObject())
     return ax::mojom::blink::TextAlign::kNone;
 
   const ComputedStyle* style = GetLayoutObject()->Style();
