@@ -28927,6 +28927,8 @@ Called by update_use_counter_feature_enum.py.-->
   <int value="3452" label="RTCPeerConnectionSetLocalDescription"/>
   <int value="3453" label="RTCPeerConnectionCreateOffer"/>
   <int value="3454" label="RTCPeerConnectionCreateAnswer"/>
+  <int value="3455"
+      label="V8AuthenticatorAttestationResponse_GetTransports_Method"/>
 </enum>
 
 <enum name="FeaturePolicyAllowlistType">
