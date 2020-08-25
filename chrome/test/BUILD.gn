@@ -6194,6 +6194,8 @@ if (!is_android) {
 
     if (toolkit_views) {
       sources += [
+        "../browser/ui/read_later/read_later_test_utils.cc",
+        "../browser/ui/read_later/read_later_test_utils.h",
         "../browser/ui/views/bookmarks/bookmark_bar_view_test.cc",
         "../browser/ui/views/bookmarks/bookmark_bar_view_test_helper.h",
         "../browser/ui/views/certificate_selector_browsertest.cc",

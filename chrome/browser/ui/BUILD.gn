@@ -3571,6 +3571,8 @@ static_library("ui") {
       "views/location_bar/permission_chip.h",
       "views/location_bar/selected_keyword_view.cc",
       "views/location_bar/selected_keyword_view.h",
+      "views/location_bar/star_menu_model.cc",
+      "views/location_bar/star_menu_model.h",
       "views/location_bar/star_view.cc",
       "views/location_bar/star_view.h",
       "views/location_bar/zoom_bubble_view.cc",
