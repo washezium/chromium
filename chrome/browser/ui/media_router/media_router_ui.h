@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CHROME_BROWSER_UI_VIEWS_MEDIA_ROUTER_MEDIA_ROUTER_VIEWS_UI_H_
-#define CHROME_BROWSER_UI_VIEWS_MEDIA_ROUTER_MEDIA_ROUTER_VIEWS_UI_H_
+#ifndef CHROME_BROWSER_UI_MEDIA_ROUTER_MEDIA_ROUTER_UI_H_
+#define CHROME_BROWSER_UI_MEDIA_ROUTER_MEDIA_ROUTER_UI_H_
 
 #include <memory>
 #include <set>
@@ -50,14 +50,14 @@ class MediaSink;
 class RouteRequestResult;
 
 // Functions as an intermediary between MediaRouter and Views Cast dialog.
-class MediaRouterViewsUI
+class MediaRouterUI
     : public CastDialogController,
       public QueryResultManager::Observer,
       public WebContentsPresentationManager::Observer,
       public MediaRouterFileDialog::MediaRouterFileDialogDelegate {
  public:
-  explicit MediaRouterViewsUI(content::WebContents* initiator);
-  ~MediaRouterViewsUI() override;
+  explicit MediaRouterUI(content::WebContents* initiator);
+  ~MediaRouterUI() override;
 
   // CastDialogController:
   void AddObserver(CastDialogController::Observer* observer) override;
@@ -173,7 +173,7 @@ class MediaRouterViewsUI
   // updated.
   class UiIssuesObserver : public IssuesObserver {
    public:
-    UiIssuesObserver(IssueManager* issue_manager, MediaRouterViewsUI* ui);
+    UiIssuesObserver(IssueManager* issue_manager, MediaRouterUI* ui);
     ~UiIssuesObserver() override;
 
     // IssuesObserver:
@@ -181,8 +181,8 @@ class MediaRouterViewsUI
     void OnIssuesCleared() override;
 
    private:
-    // Reference back to the owning MediaRouterViewsUI instance.
-    MediaRouterViewsUI* const ui_;
+    // Reference back to the owning MediaRouterUI instance.
+    MediaRouterUI* const ui_;
 
     DISALLOW_COPY_AND_ASSIGN(UiIssuesObserver);
   };
@@ -203,7 +203,7 @@ class MediaRouterViewsUI
         const std::vector<MediaRoute::Id>& joinable_route_ids) override;
 
    private:
-    // Callback to the owning MediaRouterViewsUI instance.
+    // Callback to the owning MediaRouterUI instance.
     RoutesUpdatedCallback callback_;
 
     DISALLOW_COPY_AND_ASSIGN(UIMediaRoutesObserver);
@@ -418,11 +418,11 @@ class MediaRouterViewsUI
 
   // NOTE: Weak pointers must be invalidated before all other member variables.
   // Therefore |weak_factory_| must be placed at the end.
-  base::WeakPtrFactory<MediaRouterViewsUI> weak_factory_{this};
+  base::WeakPtrFactory<MediaRouterUI> weak_factory_{this};
 
-  DISALLOW_COPY_AND_ASSIGN(MediaRouterViewsUI);
+  DISALLOW_COPY_AND_ASSIGN(MediaRouterUI);
 };
 
 }  // namespace media_router
 
-#endif  // CHROME_BROWSER_UI_VIEWS_MEDIA_ROUTER_MEDIA_ROUTER_VIEWS_UI_H_
+#endif  // CHROME_BROWSER_UI_MEDIA_ROUTER_MEDIA_ROUTER_UI_H_

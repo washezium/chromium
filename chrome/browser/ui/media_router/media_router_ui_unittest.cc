@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/ui/views/media_router/media_router_views_ui.h"
+#include "chrome/browser/ui/media_router/media_router_ui.h"
 
 #include <initializer_list>
 #include <memory>
@@ -152,7 +152,7 @@ class MediaRouterViewsUITest : public ChromeRenderViewHostTestHarness {
     ON_CALL(*mock_router_, GetLogger()).WillByDefault(Return(logger_.get()));
 
     CreateSessionServiceTabHelper(web_contents());
-    ui_ = std::make_unique<MediaRouterViewsUI>(web_contents());
+    ui_ = std::make_unique<MediaRouterUI>(web_contents());
     ui_->InitWithDefaultMediaSource();
   }
 
@@ -172,7 +172,7 @@ class MediaRouterViewsUITest : public ChromeRenderViewHostTestHarness {
     content::RenderFrameHostTester::CommitPendingLoad(
         &web_contents()->GetController());
     CreateSessionServiceTabHelper(web_contents());
-    ui_ = std::make_unique<MediaRouterViewsUI>(web_contents());
+    ui_ = std::make_unique<MediaRouterUI>(web_contents());
     ui_->InitWithDefaultMediaSource();
   }
 
@@ -251,7 +251,7 @@ class MediaRouterViewsUITest : public ChromeRenderViewHostTestHarness {
  protected:
   std::vector<MediaSinksObserver*> media_sinks_observers_;
   MockMediaRouter* mock_router_ = nullptr;
-  std::unique_ptr<MediaRouterViewsUI> ui_;
+  std::unique_ptr<MediaRouterUI> ui_;
   std::unique_ptr<StartPresentationContext> start_presentation_context_;
   std::unique_ptr<LoggerImpl> logger_;
   content::PresentationRequest presentation_request_{
