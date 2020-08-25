@@ -326,6 +326,30 @@ api::autotest_private::AppType GetAppType(apps::mojom::AppType type) {
   return api::autotest_private::AppType::APP_TYPE_NONE;
 }
 
+api::autotest_private::AppInstallSource GetAppInstallSource(
+    apps::mojom::InstallSource source) {
+  switch (source) {
+    case apps::mojom::InstallSource::kUnknown:
+      return api::autotest_private::AppInstallSource::
+          APP_INSTALL_SOURCE_UNKNOWN;
+    case apps::mojom::InstallSource::kSystem:
+      return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_SYSTEM;
+    case apps::mojom::InstallSource::kPolicy:
+      return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_POLICY;
+    case apps::mojom::InstallSource::kOem:
+      return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_OEM;
+    case apps::mojom::InstallSource::kDefault:
+      return api::autotest_private::AppInstallSource::
+          APP_INSTALL_SOURCE_DEFAULT;
+    case apps::mojom::InstallSource::kSync:
+      return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_SYNC;
+    case apps::mojom::InstallSource::kUser:
+      return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_USER;
+  }
+  NOTREACHED();
+  return api::autotest_private::AppInstallSource::APP_INSTALL_SOURCE_NONE;
+}
+
 api::autotest_private::AppWindowType GetAppWindowType(ash::AppType type) {
   switch (type) {
     case ash::AppType::ARC_APP:
@@ -2864,6 +2888,7 @@ AutotestPrivateGetAllInstalledAppsFunction::Run() {
     app.short_name = update.ShortName();
     app.additional_search_terms = update.AdditionalSearchTerms();
     app.type = GetAppType(update.AppType());
+    app.install_source = GetAppInstallSource(update.InstallSource());
     app.readiness = GetAppReadiness(update.Readiness());
     app.show_in_launcher = ConvertMojomOptionalBool(update.ShowInLauncher());
     app.show_in_search = ConvertMojomOptionalBool(update.ShowInSearch());
