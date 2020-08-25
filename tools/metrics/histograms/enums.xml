@@ -21512,6 +21512,7 @@ Called by update_document_policy_enum.py.-->
   <int value="779" label="PrintersBulkBlocklist"/>
   <int value="780" label="PrintersBulkAllowlist"/>
   <int value="781" label="CloudPrintWarningsSuppressed"/>
+  <int value="782" label="LookalikeWarningAllowlistDomains"/>
 </enum>
 
 <enum name="EnterprisePolicyDeviceIdValidity">
