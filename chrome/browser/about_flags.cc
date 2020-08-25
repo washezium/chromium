@@ -5214,6 +5214,10 @@ const FeatureEntry kFeatureEntries[] = {
     {"print-save-to-drive", flag_descriptions::kPrintSaveToDriveName,
      flag_descriptions::kPrintSaveToDriveDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(chromeos::features::kPrintSaveToDrive)},
+
+    {"diagnostics-app", flag_descriptions::kDiagnosticsAppName,
+     flag_descriptions::kDiagnosticsAppDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::features::kDiagnosticsApp)},
 #endif  // OS_CHROMEOS
 
     {"autofill-off-no-server-data",
