@@ -1244,14 +1244,6 @@ crbug.com/829804 virtual/layout_ng_block_frag/printing/webgl-oversized-printing.
 
 ### With LayoutNGFragmentTraversal (and LayoutNGFragmentItem) enabled:
 
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/linebox/inline-formatting-context-023.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/linebox/line-height-126.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/max-height-applies-to-012.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/max-width-applies-to-012.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/min-height-applies-to-012.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/min-width-applies-to-012.xht [ Pass ]
-virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/normal-flow/width-applies-to-012.xht [ Pass ]
-
 crbug.com/982194 [ Mac ] virtual/layout_ng_fragment_traversal/fast/table/027-vertical.html [ Failure ]
 crbug.com/982194 [ Mac ] virtual/layout_ng_fragment_traversal/fast/table/border-collapsing/003-vertical.html [ Failure ]
 
