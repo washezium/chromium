@@ -276,10 +276,6 @@ void RecordSourceIdConsistency(bool all_valid, bool all_unique) {
 DEFINE_SCOPED_UMA_HISTOGRAM_TIMER(PendingTreeRasterDurationHistogramTimer,
                                   "Scheduling.%s.PendingTreeRasterDuration")
 
-void LayerTreeHostImpl::SetNeedsCommitInputChanges() {
-  client_->SetNeedsCommitOnImplThread();
-}
-
 void LayerTreeHostImpl::DidUpdateScrollAnimationCurve() {
   // Because we updated the animation target, notify the SwapPromiseMonitor
   // to tell it that something happened that will cause a swap in the future.
@@ -319,15 +315,32 @@ void LayerTreeHostImpl::DidStartScroll() {
   client_->RenewTreePriority();
 }
 
-void LayerTreeHostImpl::DidSetRootScrollOffsetForSynchronousInputHandler() {
+void LayerTreeHostImpl::DidMouseLeave() {
+  for (auto& pair : scrollbar_animation_controllers_)
+    pair.second->DidMouseLeave();
+}
+
+void LayerTreeHostImpl::SetNeedsFullViewportRedraw() {
   // TODO(bokan): Do these really need to be manually called? (Rather than
   // damage/redraw being set from scroll offset changes).
   SetFullViewportDamage();
   SetNeedsRedraw();
 }
 
-ImplThreadPhase LayerTreeHostImpl::GetCompositorThreadPhase() const {
-  return impl_thread_phase_;
+bool LayerTreeHostImpl::IsInHighLatencyMode() const {
+  return impl_thread_phase_ == ImplThreadPhase::IDLE;
+}
+
+const LayerTreeSettings& LayerTreeHostImpl::GetSettings() const {
+  return settings();
+}
+
+LayerTreeHostImpl& LayerTreeHostImpl::GetImplDeprecated() {
+  return *this;
+}
+
+const LayerTreeHostImpl& LayerTreeHostImpl::GetImplDeprecated() const {
+  return *this;
 }
 
 LayerTreeHostImpl::FrameData::FrameData() = default;
@@ -373,7 +386,7 @@ LayerTreeHostImpl::LayerTreeHostImpl(
           std::make_unique<CompositorFrameReportingController>(
               /*should_report_metrics=*/!settings
                   .single_thread_proxy_scheduler)),
-      input_handler_(this),
+      input_handler_(*this),
       settings_(settings),
       is_synchronous_single_threaded_(!task_runner_provider->HasImplThread() &&
                                       !settings_.single_thread_proxy_scheduler),
@@ -3783,8 +3796,32 @@ InputHandlerScrollResult LayerTreeHostImpl::ScrollUpdate(
   return input_handler_.ScrollUpdate(scroll_state, delayed_by);
 }
 
-void LayerTreeHostImpl::DidScrollContent(bool animated) {
-  client_->RenewTreePriority();
+void LayerTreeHostImpl::WillScrollContent(ElementId element_id) {
+  // Flash the overlay scrollbar even if the scroll delta is 0.
+  if (settings().scrollbar_flash_after_any_scroll_update) {
+    FlashAllScrollbars(false);
+  } else {
+    if (ScrollbarAnimationController* animation_controller =
+            ScrollbarAnimationControllerForElementId(element_id))
+      animation_controller->WillUpdateScroll();
+  }
+}
+
+void LayerTreeHostImpl::DidScrollContent(ElementId element_id, bool animated) {
+  if (settings().scrollbar_flash_after_any_scroll_update) {
+    FlashAllScrollbars(true);
+  } else {
+    if (ScrollbarAnimationController* animation_controller =
+            ScrollbarAnimationControllerForElementId(element_id))
+      animation_controller->DidScrollUpdate();
+  }
+
+  // We may wish to prioritize smoothness over raster when the user is
+  // interacting with content, but this needs to be evaluated only for direct
+  // user scrolls, not for programmatic scrolls.
+  if (input_delegate_->IsCurrentlyScrolling())
+    client_->RenewTreePriority();
+
   if (!animated) {
     // SetNeedsRedraw is only called in non-animated cases since an animation
     // won't actually update any scroll offsets until a frame produces a
@@ -3797,6 +3834,10 @@ void LayerTreeHostImpl::DidScrollContent(bool animated) {
 
 float LayerTreeHostImpl::DeviceScaleFactor() const {
   return active_tree_->device_scale_factor();
+}
+
+float LayerTreeHostImpl::PageScaleFactor() const {
+  return active_tree_->page_scale_factor_for_scroll();
 }
 
 void LayerTreeHostImpl::RequestUpdateForSynchronousInputHandler() {
@@ -3850,6 +3891,10 @@ InputHandlerPointerResult LayerTreeHostImpl::MouseUp(
 InputHandlerPointerResult LayerTreeHostImpl::MouseMoveAt(
     const gfx::Point& viewport_point) {
   return input_handler_.MouseMoveAt(viewport_point);
+}
+
+ScrollTree& LayerTreeHostImpl::GetScrollTree() const {
+  return active_tree_->property_trees()->scroll_tree;
 }
 
 bool LayerTreeHostImpl::HasAnimatedScrollbars() const {
