@@ -82,15 +82,13 @@ var OSSettingsAboutPageTest = class extends OSSettingsBrowserTest {
   }
 };
 
-TEST_F('OSSettingsAboutPageTest', 'AboutPage', () => {
-  settings_about_page.registerTests();
-  mocha.run();
+TEST_F('OSSettingsAboutPageTest', 'AllBuilds', () => {
+  mocha.grep('/^(?!AboutPageTest_OfficialBuild).*$/').run();
 });
 
 GEN('#if BUILDFLAG(GOOGLE_CHROME_BRANDING)');
 TEST_F('OSSettingsAboutPageTest', 'AboutPage_OfficialBuild', () => {
-  settings_about_page.registerOfficialBuildTests();
-  mocha.run();
+  mocha.grep('AboutPageTest_OfficialBuild').run();
 });
 GEN('#endif');
 
