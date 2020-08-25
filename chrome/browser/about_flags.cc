@@ -5781,12 +5781,6 @@ const FeatureEntry kFeatureEntries[] = {
      MULTI_VALUE_TYPE(kEnableCrOSActionRecorderChoices)},
 #endif  // defined(OS_CHROMEOS)
 
-#if !defined(OS_ANDROID)
-    {"mix-browser-type-tabs", flag_descriptions::kMixBrowserTypeTabsName,
-     flag_descriptions::kMixBrowserTypeTabsDescription, kOsDesktop,
-     FEATURE_VALUE_TYPE(features::kMixBrowserTypeTabs)},
-#endif  // !defined(OS_ANDROID)
-
 #if defined(OS_ANDROID)
     {"enable-games-hub", flag_descriptions::kGamesHubName,
      flag_descriptions::kGamesHubDescription, kOsAndroid,

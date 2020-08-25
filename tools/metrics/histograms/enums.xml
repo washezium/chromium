@@ -40784,7 +40784,6 @@ from previous Chrome versions.
       label="ContextualSuggestionsAlternateCardLayout:disabled"/>
   <int value="-1536293422" label="SharedArrayBuffer:enabled"/>
   <int value="-1536242739" label="security-chip"/>
-  <int value="-1535946978" label="MixBrowserTypeTabs:disabled"/>
   <int value="-1535758690" label="AutoplayIgnoreWebAudio:disabled"/>
   <int value="-1535694535" label="PageInfoPerformanceHints:enabled"/>
   <int value="-1533258008" label="CalculateNativeWinOcclusion:enabled"/>
@@ -43673,7 +43672,6 @@ from previous Chrome versions.
   <int value="1478075250" label="QuickAnswersTextAnnotator:disabled"/>
   <int value="1478461926" label="GlobalMediaControlsPictureInPicture:enabled"/>
   <int value="1479248574" label="disable-voice-input"/>
-  <int value="1480607006" label="MixBrowserTypeTabs:enabled"/>
   <int value="1481562816" label="disable-password-link"/>
   <int value="1482039233" label="SearchSuggestionsOnLocalNtp:disabled"/>
   <int value="1482839038" label="AutofillCreditCardAuthentication:enabled"/>
