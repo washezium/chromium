@@ -5315,7 +5315,6 @@ int AXPlatformNodeWin::MSAARole() {
     case ax::mojom::Role::kMenuBar:
       return ROLE_SYSTEM_MENUBAR;
 
-    case ax::mojom::Role::kMenuButton:
     case ax::mojom::Role::kMenuItem:
     case ax::mojom::Role::kMenuItemCheckBox:
     case ax::mojom::Role::kMenuItemRadio:
@@ -6143,7 +6142,6 @@ base::string16 AXPlatformNodeWin::UIAAriaRole() {
     case ax::mojom::Role::kMenuBar:
       return L"menubar";
 
-    case ax::mojom::Role::kMenuButton:
     case ax::mojom::Role::kMenuItem:
       return L"menuitem";
 
@@ -6810,7 +6808,6 @@ LONG AXPlatformNodeWin::ComputeUIAControlType() {  // NOLINT(runtime/int)
     case ax::mojom::Role::kMenuBar:
       return UIA_MenuBarControlTypeId;
 
-    case ax::mojom::Role::kMenuButton:
     case ax::mojom::Role::kMenuItem:
       return UIA_MenuItemControlTypeId;
 
