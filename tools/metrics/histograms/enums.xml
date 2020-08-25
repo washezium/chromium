@@ -3340,6 +3340,8 @@ Unknown properties are collapsed to zero. -->
   <int value="4" label="M_TO_P"/>
   <int value="5" label="N_TO_P"/>
   <int value="6" label="P_TO_Q"/>
+  <int value="7" label="N_TO_R"/>
+  <int value="8" label="P_TO_R"/>
 </enum>
 
 <enum name="ArcShareFilesOnExit">
