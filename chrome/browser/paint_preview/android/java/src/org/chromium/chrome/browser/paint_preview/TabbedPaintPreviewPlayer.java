@@ -161,7 +161,10 @@ public class TabbedPaintPreviewPlayer implements TabViewProvider, UserData {
                 () -> mMetricsHelper.onFirstPaint(activityCreationTimestampMs, wasBackgrounded),
                 () -> mHasUserInteraction = true,
                 ChromeColors.getPrimaryBackgroundColor(mTab.getContext().getResources(), false),
-                () -> removePaintPreview(ExitCause.COMPOSITOR_FAILURE),
+                (status) -> {
+                    mMetricsHelper.onCompositorFailure(status);
+                    removePaintPreview(ExitCause.COMPOSITOR_FAILURE);
+                },
                 /*ignoreInitialScrollOffset=*/false);
         mPlayerManager.setUserFrustrationCallback(this::showSnackbar);
         mOnDismissed = onDismissed;

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import org.chromium.base.Callback;
 import org.chromium.base.TraceEvent;
 import org.chromium.base.UnguessableToken;
 import org.chromium.components.paintpreview.browser.NativePaintPreviewServiceProvider;
@@ -63,7 +64,7 @@ public class PlayerManager {
             String directoryKey, @NonNull LinkClickHandler linkClickHandler,
             @Nullable Runnable refreshCallback, Runnable viewReadyCallback,
             @Nullable Runnable firstPaintListener, Runnable userInteractionCallback,
-            int backgroundColor, Runnable compositorErrorCallback,
+            int backgroundColor, Callback<Integer> compositorErrorCallback,
             boolean ignoreInitialScrollOffset) {
         TraceEvent.startAsync(sInitEvent, hashCode());
         mContext = context;

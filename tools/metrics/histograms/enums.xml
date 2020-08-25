@@ -69307,6 +69307,17 @@ would be helpful to identify which type is being sent.
   <int value="2" label="Not loaded on creation"/>
 </enum>
 
+<enum name="TabbedPaintPreviewCompositorFailureReason">
+  <int value="0" label="OK"/>
+  <int value="1" label="URL Mismatch"/>
+  <int value="2" label="Compositor Service Disconnected"/>
+  <int value="3" label="Compositor Client Disconnected"/>
+  <int value="4" label="Protobuf Deserialization Error"/>
+  <int value="5" label="Compositor Deserialization Error"/>
+  <int value="6" label="Invalid Root Frame SKP"/>
+  <int value="7" label="Invalid Request"/>
+</enum>
+
 <enum name="TabbedPaintPreviewExitCause">
   <int value="0" label="Pull to Refresh"/>
   <int value="1" label="Actionbar Action"/>
