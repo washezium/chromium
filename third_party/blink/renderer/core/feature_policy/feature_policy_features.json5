@@ -152,12 +152,6 @@
       feature_default: "EnableForAll",
     },
     {
-      name: "DocumentWrite",
-      feature_policy_name: "document-write",
-      feature_default: "EnableForAll",
-      depends_on: ["ExperimentalProductivityFeatures"],
-    },
-    {
       name: "Downloads",
       feature_policy_name: "downloads",
       feature_default: "EnableForAll",

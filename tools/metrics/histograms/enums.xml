@@ -16998,6 +16998,7 @@ Called by update_document_policy_enum.py.-->
   <int value="6" label="OversizedImages"/>
   <int value="7" label="UnsizedMedia"/>
   <int value="8" label="LayoutAnimations"/>
+  <int value="9" label="DocumentWrite"/>
 </enum>
 
 <enum name="DocumentScanSaneBackend">

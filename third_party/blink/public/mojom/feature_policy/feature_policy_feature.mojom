@@ -49,10 +49,6 @@ enum FeaturePolicyFeature {
   kPictureInPicture = 26,
   // Controls the ability to block and interfere with vertical scrolling.
   kVerticalScroll = 27,
-  // Controls the ability of the document to use several dynamic markup API
-  // which interfere with document's input stream (document.write(),
-  // document.close(), etc.).
-  kDocumentWrite = 28,
   // Controls access to Screen Wake Lock
   kScreenWakeLock = 31,
   // These are the defined sandbox features implemented as policy-controlled
