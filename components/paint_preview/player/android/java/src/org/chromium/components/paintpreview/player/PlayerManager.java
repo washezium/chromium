@@ -5,6 +5,7 @@
 package org.chromium.components.paintpreview.player;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,16 @@ public class PlayerManager {
         PlayerUserFrustrationDetector userFrustrationDetector =
                 new PlayerUserFrustrationDetector(userFrustrationCallback);
         mPlayerGestureListener.setUserFrustrationDetector(userFrustrationDetector);
+    }
+
+    /**
+     * @return Current scroll position of the main frame. null if the player is not
+     * initialized.
+     */
+    public Point getScrollPosition() {
+        if (mRootFrameCoordinator == null) return null;
+
+        return mRootFrameCoordinator.getScrollPosition();
     }
 
     /**
