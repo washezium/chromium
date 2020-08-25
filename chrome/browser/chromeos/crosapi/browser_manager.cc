@@ -206,14 +206,9 @@ bool BrowserManager::Start() {
     argv.push_back(flag);
   }
 
-  // We assume that if there's a custom chrome path, that this is a developer
-  // and they want to enable logging.
-  bool custom_chrome_path = base::CommandLine::ForCurrentProcess()->HasSwitch(
-      chromeos::switches::kLacrosChromePath);
-  if (custom_chrome_path) {
-    argv.push_back("--enable-logging");
-    argv.push_back("--log-file=" + LacrosLogPath().value());
-  }
+  // Always enable logging.
+  argv.push_back("--enable-logging");
+  argv.push_back("--log-file=" + LacrosLogPath().value());
 
   // Set up Mojo channel.
   base::CommandLine command_line(argv);
