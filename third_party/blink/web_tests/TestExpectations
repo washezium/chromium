@@ -1244,9 +1244,6 @@ crbug.com/829804 virtual/layout_ng_block_frag/printing/webgl-oversized-printing.
 
 ### With LayoutNGFragmentTraversal (and LayoutNGFragmentItem) enabled:
 
-crbug.com/982194 [ Mac ] virtual/layout_ng_fragment_traversal/fast/table/027-vertical.html [ Failure ]
-crbug.com/982194 [ Mac ] virtual/layout_ng_fragment_traversal/fast/table/border-collapsing/003-vertical.html [ Failure ]
-
 # From NeverFixTests:
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/linebox/inline-formatting-context-002.xht [ Skip ]
 virtual/layout_ng_fragment_traversal/external/wpt/css/CSS2/linebox/inline-formatting-context-003.xht [ Skip ]
