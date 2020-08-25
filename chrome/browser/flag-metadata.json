@@ -3128,7 +3128,7 @@
   {
     "name": "ntp-iframe-one-google-bar",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 87
   },
   {
     "name": "ntp-modules",
@@ -3138,7 +3138,7 @@
   {
     "name": "ntp-one-google-bar-modal-overlays",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 87
   },
   {
     "name": "ntp-realbox",
@@ -3158,7 +3158,7 @@
   {
     "name": "ntp-webui",
     "owners": [ "aee", "mahmadi", "tiborg" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 87
   },
   {
     "name": "offline-indicator-always-http-probe",
