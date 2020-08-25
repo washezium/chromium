@@ -196,6 +196,10 @@ bool BrowserManager::Start() {
                                    "--enable-crashpad",
                                    "--breakpad-dump-location=" + crash_dir};
 
+  // CrAS is the default audio server in Chrome OS.
+  if (base::SysInfo::IsRunningOnChromeOS())
+    argv.push_back("--use-cras");
+
   std::string additional_flags =
       base::CommandLine::ForCurrentProcess()->GetSwitchValueASCII(
           chromeos::switches::kLacrosChromeAdditionalArgs);
