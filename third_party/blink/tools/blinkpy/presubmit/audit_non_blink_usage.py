@@ -948,6 +948,16 @@ _CONFIG = [
     },
     {
         'paths': [
+            'third_party/blink/renderer/modules/webcodecs/video_decoder_fuzzer.cc',
+            'third_party/blink/renderer/modules/webcodecs/fuzzer_utils.cc',
+            'third_party/blink/renderer/modules/webcodecs/fuzzer_utils.h',
+        ],
+        'allowed': [
+            'wc_fuzzer::.+',
+        ]
+    },
+    {
+        'paths': [
             'third_party/blink/renderer/modules/webgpu/',
         ],
         # The WebGPU Blink module needs access to the WebGPU control
