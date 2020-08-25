@@ -341,6 +341,7 @@ void SetRuntimeFeaturesFromChromiumFeatures() {
     {wf::EnableMediaFeeds, media::kMediaFeeds, kUseFeatureState},
     {wf::EnableRestrictGamepadAccess, features::kRestrictGamepadAccess,
      kEnableOnly},
+    {wf::EnableCompositeSVG, blink::features::kCompositeSVG, kUseFeatureState},
     {wf::EnableCompositingOptimizations,
      blink::features::kCompositingOptimizations, kUseFeatureState},
     {wf::EnableConversionMeasurementInfraSupport,
