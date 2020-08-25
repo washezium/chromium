@@ -1510,21 +1510,6 @@
             ]
         }
     ],
-    "CrOSUserSpaceLowMemoryNotification": [
-        {
-            "platforms": [
-                "chromeos"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled_20200520",
-                    "enable_features": [
-                        "CrOSUserSpaceLowMemoryNotification"
-                    ]
-                }
-            ]
-        }
-    ],
     "CrostiniWebUIUpgrader": [
         {
             "platforms": [
