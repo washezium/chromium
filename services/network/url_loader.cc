@@ -216,9 +216,14 @@ std::unique_ptr<net::UploadDataStream> CreateUploadDataStream(
     network::mojom::DataElementType type = body->elements()->begin()->type();
     if (type == network::mojom::DataElementType::kChunkedDataPipe ||
         type == network::mojom::DataElementType::kReadOnceStream) {
-      return std::make_unique<ChunkedDataPipeUploadDataStream>(
-          body,
-          body->elements_mutable()->begin()->ReleaseChunkedDataPipeGetter());
+      auto upload_data_stream =
+          std::make_unique<ChunkedDataPipeUploadDataStream>(
+              body, body->elements_mutable()
+                        ->begin()
+                        ->ReleaseChunkedDataPipeGetter());
+      if (type == network::mojom::DataElementType::kReadOnceStream)
+        upload_data_stream->EnableCache();
+      return upload_data_stream;
     }
   }
 
