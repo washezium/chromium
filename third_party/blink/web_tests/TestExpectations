@@ -6709,3 +6709,6 @@ crbug.com/1117613 media/video-error-networkState.html [ Failure Timeout ]
 crbug.com/1120330 virtual/threaded/external/wpt/feature-policy/experimental-features/vertical-scroll-disabled-scrollbar-tentative.html [ Pass Failure ]
 
 crbug.com/1119676 external/wpt/html/cross-origin-embedder-policy/reporting-to-endpoint.https.html [ Failure ]
+
+# Sheriff 2020-08-25
+crbug.com/1121429 fast/selectors/placeholder-shown-style-update.html [ Pass Crash ]
