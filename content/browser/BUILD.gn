@@ -2361,7 +2361,7 @@ source_set("browser") {
     # Ozone/Linux, but requires to use pangocairo. We probably want to continue
     # using pango on Linux and switch to something else for other systems that
     # use Ozone.
-    if (use_ozone && !is_desktop_linux) {
+    if (use_ozone && (!is_desktop_linux || !use_pangocairo)) {
       sources += [ "renderer_host/pepper/pepper_truetype_font_list_ozone.cc" ]
     } else if (use_pangocairo) {
       sources += [ "renderer_host/pepper/pepper_truetype_font_list_pango.cc" ]
