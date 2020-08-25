@@ -3358,7 +3358,7 @@
   {
     "name": "omnibox-on-focus-suggestions",
     "owners": [ "chrome-omnibox-team@google.com" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 90
   },
   {
     "name": "omnibox-on-focus-suggestions-contextual-web",
