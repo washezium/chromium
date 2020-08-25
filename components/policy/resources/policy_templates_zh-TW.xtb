@@ -22,6 +22,13 @@
 
       拼字檢查功能目前支援的語言如下：af、bg、ca、cs、da、de、el、en-AU、en-CA、en-GB、en-US、es、es-419、es-AR、es-ES、es-MX、es-US、et、fa、fo、fr、he、hi、hr、hu、id、it、ko、lt、lv、nb、nl、pl、pt-BR、pt-PT、ro、ru、sh、sk、sl、sq、sr、sv、ta、tg、tr、uk、vi。</translation>
 <translation id="1019101089073227242">設定使用者資料目錄</translation>
+<translation id="1021843807738753764"> 請注意，這項政策已遭淘汰，並將在 <ph name="PRODUCT_OS_NAME" />第 89 版中移除。請改用 <ph name="MANAGED_GUEST_SESSION_PRIVACY_WARNINGS_POLICY_NAME" /> 來設定受管理訪客工作階段的隱私權警告訊息。
+
+      控管 <ph name="PRODUCT_OS_NAME" />上受管理訪客工作階段的自動啟動通知。
+
+      如果將這項政策設為 True，系統會在數秒後關閉隱私權警告通知。
+
+      如果將這項政策設為 False 或不予設定，系統會持續顯示隱私權警告通知，直到使用者關閉為止。</translation>
 <translation id="1022361784792428773">使用者應避免安裝的擴充功能 ID (使用星號 (*) 排除所有擴充功能)</translation>
 <translation id="102492767056134033">設定螢幕小鍵盤在登入畫面中的預設狀態</translation>
 <translation id="1027000705181149370">指定是否要將登入時 SAML IdP 設定的驗證 Cookie 轉移到使用者的設定檔。
@@ -271,6 +278,20 @@
 如果啟用或不設定這項政策，系統會啟用透過網址將網頁捲動至特定文字片段的功能。
 
 如果停用這項政策，系統會停用透過網址將網頁捲動至特定文字片段的功能。</translation>
+<translation id="1469072784237350146">這項政策可控管是否允許不安全網站向更私密的網路端點傳送要求。
+
+          這項政策與 CORS-RFC1918 規格有關，詳情請參閱 https://wicg.github.io/cors-rfc1918。
+
+          當網路端點符合以下條件時，私密程度較高：
+          1) 其 IP 位址為 localhost，且其他網路端點的 IP 位址不是 localhost。
+          2) 其 IP 位址為私人位址，且其他網路端點的 IP 位址為公開位址。
+          根據未來的規格演進而定，這項政策可能會套用至所有導向私人 IP 或 localhost 的跨來源要求。
+
+          如果網站符合以下頁面中對於安全內容的定義，系統會將其視為安全網站：https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts。如果不符合定義，系統會將其視為不安全網站。
+
+          如果不設定這項政策或設為 False，從不安全網站向更私密的網路端點傳送要求的預設行為將取決於使用者對 <ph name="BLOCK_INSECURE_PRIVATE_NETWORK_REQUESTS_FEATURE_NAME" /> 功能的個人設定，使用者可以透過實際測試或指令列來進行設定。
+
+          如果將這項政策設為 True，不安全網站即可向任何網路端點傳送要求，並且需經過其他跨來源檢查。</translation>
 <translation id="1474273443907024088">停用 TLS False Start</translation>
 <translation id="1477934438414550161">TLS 1.2</translation>
 <translation id="1479427764273213107">你可以透過這項政策來定義 USB 裝置清單，使用者可以從核心驅動程式中卸除這份清單中的 USB 裝置，並且直接透過 chrome.usb API 在網頁應用程式中使用。輸入項目為可識別特定硬體的 USB 供應商識別碼和產品識別碼組合。
@@ -1291,6 +1312,7 @@
       指定是否要啟用 TLS 網域專屬憑證擴充功能。
 
       這項實驗性設定是用來啟用 TLS 網域專屬憑證擴充功能以供測試，我們將於日後移除。</translation>
+<translation id="2957047180944828740">指定是否允許不安全網站向更私密的網站端點傳送要求</translation>
 <translation id="2957506574938329824">不允許任何網站透過 Web Bluetooth API 要求存取藍牙裝置</translation>
 <translation id="2957513448235202597"><ph name="HTTP_NEGOTIATE" /> 驗證模式的帳戶類型</translation>
 <translation id="2959469725686993410">解析時區時一律將 Wi-Fi 存取點傳送至伺服器</translation>
@@ -3210,6 +3232,9 @@
       如果未設定，系統會停用虛擬螢幕小鍵盤，但使用者可以變更這項設定。
 
        注意：系統可能會使用經驗法則判斷鍵盤顯示設定。</translation>
+<translation id="5657752663637568277">這項政策可控管是否要在列印預覽對話方塊或設定頁面中，向使用者顯示 <ph name="CLOUD_PRINT_NAME" />淘汰警告訊息。
+      如果將這項政策設為 True，系統會隱藏淘汰警告訊息。
+      如果將這項政策設為 False 或不設定，系統會顯示淘汰警告訊息。</translation>
 <translation id="5666457529647159548">允許使用者管理已安裝的用戶端憑證。</translation>
 <translation id="567377007899266033">如果將這項政策設為 Ture，系統會將政策觸發的主要擴充功能安裝事件報告傳送給 Google。如果將這項政策設為 False，則系統不會擷取任何事件。如果不設定這項政策，預設值為 True。</translation>
 <translation id="5676740747107495269">在登入畫面的系統匣選單中顯示無障礙選項</translation>
@@ -3434,6 +3459,12 @@
 
       停用這項政策會對 Chrome 的安全性和穩定性造成負面影響，因為這樣一來，Chrome 會允許轉譯器程序載入未知且可能具有惡意的程式碼。如要瞭解詳情，請參閱 https://chromium.googlesource.com/chromium/src/+/master/docs/design/sandbox.md#Process-mitigation-policies。</translation>
 <translation id="6048199181629830227">開啟用電尖峰轉移電源管理功能</translation>
+<translation id="6054485492411959335">指定可供使用的印表機。
+
+      只有在為 <ph name="PRINTERS_BULK_ACCESS_MODE_POLICY_NAME" /> 選擇 <ph name="PRINTERS_ALLOWLIST" /> 的情況下，系統才會使用這項政策。
+
+      如果使用這項政策，只有 ID 與這項政策的值相符的印表機可供使用。ID 必須和 <ph name="PRINTERS_BULK_CONFIGURATION_POLICY_NAME" /> 指定檔案中的「id」或「guid」欄位相符。
+      </translation>
 <translation id="6066761914755798079">如果已啟用 <ph name="DEFAULT_SEARCH_PROVIDER_ENABLED_POLICY_NAME" /> 政策，你可以設定 <ph name="DEFAULT_SEARCH_PROVIDER_SUGGEST_URL_POLICY_NAME" /> 政策來指定搜尋引擎提供搜尋建議的網址。網址應包含字串 <ph name="SEARCH_TERM_MARKER" />，系統會在查詢中將其替換為使用者的搜尋字詞。
 
       你可以將 Google 的搜尋網址指定為：<ph name="GOOGLE_SUGGEST_SEARCH_URL" />。</translation>
@@ -3997,6 +4028,7 @@
 <translation id="68798513449385583">延遲下載，直到系統取得掃描結果</translation>
 <translation id="6889123056995503704">使用者決定版本降級行為</translation>
 <translation id="6894178810167845842">新分頁網址</translation>
+<translation id="6897730193187922386">禁止顯示 <ph name="CLOUD_PRINT_NAME" />淘汰訊息</translation>
 <translation id="6899705656741990703">自動偵測 Proxy 設定</translation>
 <translation id="6902561336084511004">為可用的列印伺服器提供設定。
 
@@ -5226,6 +5258,14 @@
       這項政策的用途是讓企業能自行遷移目前使用 HTTP/0.9 的伺服器，我們將於日後移除這項政策。
 
       如果不設定這項政策，則系統會在非預設通訊埠停用 HTTP/0.9。</translation>
+<translation id="8504725006737796967">指定可供使用的印表機。
+
+      只有在為 <ph name="BULK_PRINTERS_ACCESS_MODE_POLICY_NAME" /> 選擇 <ph name="PRINTERS_WHITELIST" /> 的情況下，系統才會使用這項政策。
+
+          如果使用這項政策，只有 ID 與這項政策值相符的印表機可供使用。ID 必須與 <ph name="BULK_PRINTERS_POLICY_NAME" /> 政策中指定檔案的「id」或「guid」欄位相符。
+
+      這項政策已遭淘汰，請改用 <ph name="PRINTERS_BULK_ALLOWLIST_POLICY_NAME" />。
+      </translation>
 <translation id="8507835864888987300">設定自動更新的目標版本。
 
       指定 <ph name="PRODUCT_OS_NAME" /> 應更新的目標版本前置碼。如果裝置執行的版本比指定的前置碼版本更舊，系統會自動更新至指定前置碼的最新版本。如果裝置使用的是最新版本，則這項政策的效果將取決於 <ph name="DEVICE_ROLLBACK_TO_TARGET_VERSION_POLICY_NAME" /> 的值。前置碼格式須按部分逐一指定，如下列範例所示：

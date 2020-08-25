@@ -22,6 +22,13 @@
 
       Các ngôn ngữ hiện được hỗ trợ là: tiếng Hà Lan (Nam Phi), tiếng Bulgaria, tiếng Catalan, tiếng Séc, tiếng Đan Mạch, tiếng Đức, tiếng Hy Lạp, tiếng Anh – Úc, tiếng Anh – Canada, tiếng Anh – Anh, tiếng Anh – Mỹ, tiếng Tây Ban Nha, tiếng Tây Ban Nha – Mỹ La tinh, tiếng Tây Ban Nha – Argentina, tiếng Tây Ban Nha – Tây Ban Nha, tiếng Tây Ban Nha – Mexico, tiếng Tây Ban Nha – Mỹ, tiếng Estonia, tiếng Ba Tư, tiếng Faroe, tiếng Pháp, tiếng Do Thái, tiếng Hindi, tiếng Croatia, tiếng Hungary, tiếng Indonesia, tiếng Ý, tiếng Hàn, tiếng Lithuania, tiếng Latvia, tiếng Bokmål, tiếng Hà Lan, tiếng Ba Lan, tiếng Bồ Đào Nha – Brazil, tiếng Bồ Đào Nha – Bồ Đào Nha, tiếng Romania, tiếng Nga, tiếng Serbia – Croatia, tiếng Slovak, tiếng Slovenia, tiếng Albania, tiếng Serbia, tiếng Thụy Điển, tiếng Tamil, tiếng Tajik, tiếng Thổ Nhĩ Kỳ, tiếng Ukraina, tiếng Việt.</translation>
 <translation id="1019101089073227242">Thiết lập thư mục dữ liệu người dùng</translation>
+<translation id="1021843807738753764"> Lưu ý rằng chúng tôi không dùng chính sách này nữa và sẽ xóa khỏi <ph name="PRODUCT_OS_NAME" /> phiên bản 89. Vui lòng sử dụng <ph name="MANAGED_GUEST_SESSION_PRIVACY_WARNINGS_POLICY_NAME" /> để định cấu hình các cảnh báo về quyền riêng tư của những phiên khách được quản lý.
+
+      Kiểm soát thông báo tự động chạy phiên khách được quản lý trên <ph name="PRODUCT_OS_NAME" />.
+
+      Nếu bạn đặt chính sách này thành Bật, hệ thống sẽ đóng thông báo cảnh báo về quyền riêng tư sau một vài giây.
+
+      Nếu bạn đặt thành Tắt hoặc không đặt chính sách này, thì hệ thống sẽ ghim thông báo cảnh báo về quyền riêng tư cho đến khi người dùng đóng thông báo đó.</translation>
 <translation id="1022361784792428773">Các ID tiện ích mà bạn nên ngăn người dùng cài đặt (hoặc * cho tất cả)</translation>
 <translation id="102492767056134033">Đặt trạng thái mặc định của bàn phím ảo trên màn hình đăng nhập</translation>
 <translation id="1027000705181149370">Chỉ định xem có nên chuyển cookie xác thực do SAML IdP đặt trong khi đăng nhập tới hồ sơ của người dùng không.
@@ -271,6 +278,20 @@
 Nếu bạn bật hoặc không định cấu hình chính sách này, thì việc cuộn trang web đến các phần văn bản cụ thể qua URL sẽ được bật.
 
 Nếu bạn tắt chính sách này, thì việc cuộn trang web đến các phần văn bản cụ thể qua URL sẽ bị tắt.</translation>
+<translation id="1469072784237350146">Kiểm soát việc có cho phép các trang web không an toàn gửi yêu cầu đến các thiết bị đầu cuối trên mạng riêng hay không.
+
+          Chính sách này liên quan đến thông số CORS-RFC1918. Hãy truy cập vào https://wicg.github.io/cors-rfc1918 để biết thông tin chi tiết.
+
+          Một thiết bị đầu cuối trên mạng có mức độ riêng tư cao hơn so với thiết bị khác nếu:
+          1) Địa chỉ IP của thiết bị đó là địa chỉ của máy chủ cục bộ, còn địa chỉ IP của thiết bị khác thì không phải.
+          2) Địa chỉ IP của thiết bị đó ở chế độ riêng tư và địa chỉ IP của thiết bị còn lại ở chế độ công khai.
+          Trong tương lai, tùy thuộc vào sự thay đổi về thông số, chính sách này có thể áp dụng cho tất cả yêu cầu trên nhiều nguồn gốc nhằm vào các IP riêng tư hoặc máy chủ cục bộ.
+
+          Một trang web được coi là an toàn nếu trang web đó thỏa mãn định nghĩa về ngữ cảnh an toàn trong https://developer.mozilla.org/vi-VN/docs/Web/Security/Secure_Contexts. Nếu không, trang web đó sẽ bị coi là có ngữ cảnh không an toàn.
+
+          Khi bạn đặt thành tắt hoặc không đặt chính sách này, chế độ mặc định đối với yêu cầu gửi từ các nguồn không an toàn đến thiết bị đầu cuối trên mạng riêng sẽ phụ thuộc vào cấu hình cá nhân của người dùng dành cho tính năng <ph name="BLOCK_INSECURE_PRIVATE_NETWORK_REQUESTS_FEATURE_NAME" />. Bạn có thể đặt tính năng này trong giai đoạn thực nghiệm hoặc thông qua dòng lệnh.
+
+          Khi bạn đặt chính sách này thành bật, các trang web không an toàn sẽ được phép gửi yêu cầu đến mọi thiết bị đầu cuối trên mạng nhưng phải trải qua các quá trình kiểm tra khác trên nhiều nguồn gốc.</translation>
 <translation id="1474273443907024088">Tắt Khởi động giả TLS</translation>
 <translation id="1477934438414550161">TLS 1.2</translation>
 <translation id="1479427764273213107">Nếu đặt chính sách này, bạn có thể xác định danh sách các thiết bị USB mà người dùng có thể tách khỏi trình điều khiển nhân hệ điều hành để sử dụng thông qua API chrome.usb ngay trong ứng dụng web. Các mục trong danh sách là những cặp Mã nhận dạng nhà cung cấp và Mã nhận dạng sản phẩm USB để xác định một phần cứng cụ thể.
@@ -1326,6 +1347,7 @@ Khi chính sách này được đặt thành false hoặc không được địn
       Chỉ định xem có cần bật tiện ích chứng chỉ giới hạn miền TLS hay không.
 
       Cài đặt này được sử dụng để bật tiện ích chứng chỉ giới hạn miền TLS dành cho thử nghiệm.  Cài đặt thử nghiệm này sẽ bị xóa trong tương lai.</translation>
+<translation id="2957047180944828740">Chỉ định xem có cho phép các trang web không an toàn gửi yêu cầu đến các thiết bị đầu cuối trên mạng riêng hay không</translation>
 <translation id="2957506574938329824">Không cho phép bất kỳ trang web nào yêu cầu quyền truy cập vào thiết bị Bluetooth qua API Web Bluetooth</translation>
 <translation id="2957513448235202597">Loại tài khoản để xác thực <ph name="HTTP_NEGOTIATE" /></translation>
 <translation id="2959469725686993410">Luôn gửi điểm truy cập Wi-Fi tới máy chủ trong khi phân giải múi giờ</translation>
@@ -3273,6 +3295,9 @@ Nếu đặt thành False, thì <ph name="PRODUCT_NAME" /> sẽ không sử dụ
       Nếu bạn không đặt chính sách này, thì bàn phím sẽ tắt nhưng người dùng có thể thay đổi tùy chọn cài đặt này.
 
        Lưu ý: Quy tắc heuristic cũng có thể ảnh hưởng đến cách hiển thị bàn phím.</translation>
+<translation id="5657752663637568277">Chính sách này kiểm soát việc có hiển thị các cảnh báo về việc ngừng cung cấp <ph name="CLOUD_PRINT_NAME" /> với người dùng trong hộp thoại xem trước bản in hoặc trang cài đặt hay không.
+      Việc đặt chính sách này thành Bật sẽ ẩn các cảnh báo về việc ngừng cung cấp.
+      Việc đặt thành Tắt hoặc không đặt chính sách này sẽ hiển thị các cảnh báo về việc ngừng cung cấp.</translation>
 <translation id="5666457529647159548">Cho phép người dùng quản lý các chứng chỉ ứng dụng khách đã cài đặt.</translation>
 <translation id="567377007899266033">Nếu bạn đặt chính sách này thành True, thì hệ thống sẽ gửi cho Google các báo cáo về sự kiện cài đặt tiện ích do khóa, chính sách kích hoạt. Nếu bạn đặt chính sách này thành False, thì sẽ không có sự kiện nào được ghi lại. Nếu bạn không đặt chính sách này, thì giá trị mặc định sẽ được đặt thành True.</translation>
 <translation id="5676740747107495269">Hiển thị tùy chọn hỗ trợ tiếp cận trong trình đơn của khay hệ thống trên màn hình đăng nhập</translation>
@@ -3499,6 +3524,12 @@ Nếu đặt thành False, thì <ph name="PRODUCT_NAME" /> sẽ không sử dụ
 
       Khi tắt chính sách này, tính bảo mật và độ ổn định của Chrome sẽ bị ảnh hưởng bởi vì mã không xác định và có khả năng gây hại sẽ được phép tải trong các quá trình xử lý trình kết xuất của Chrome. Vui lòng tham khảo https://chromium.googlesource.com/chromium/src/+/master/docs/design/sandbox.md#Process-mitigation-policies để biết thêm thông tin.</translation>
 <translation id="6048199181629830227">Bật tính năng quản lý nguồn điện khi chuyển đổi vào giờ cao điểm</translation>
+<translation id="6054485492411959335">Chỉ định những máy in mà người dùng có thể sử dụng.
+
+      Chỉ sử dụng chính sách này nếu bạn đã chọn <ph name="PRINTERS_ALLOWLIST" /> cho <ph name="PRINTERS_BULK_ACCESS_MODE_POLICY_NAME" />.
+
+      Nếu bạn sử dụng chính sách này, chỉ những máy in có mã nhận dạng khớp với các giá trị trong chính sách này mới được cung cấp cho người dùng. Các mã nhận dạng này phải tương ứng với các trường "id" hoặc "guid" ở tệp đã chỉ định trong <ph name="PRINTERS_BULK_CONFIGURATION_POLICY_NAME" />.
+      </translation>
 <translation id="6066761914755798079">Nếu bạn bật <ph name="DEFAULT_SEARCH_PROVIDER_ENABLED_POLICY_NAME" />, thì thao tác đặt <ph name="DEFAULT_SEARCH_PROVIDER_SUGGEST_URL_POLICY_NAME" /> sẽ chỉ định URL của công cụ tìm kiếm sẽ đưa ra đề xuất tìm kiếm. URL phải chứa chuỗi <ph name="SEARCH_TERM_MARKER" />. Chuỗi này sẽ được thay bằng cụm từ tìm kiếm của người dùng trong truy vấn.
 
       Bạn có thể chỉ định URL tìm kiếm của Google là: <ph name="GOOGLE_SUGGEST_SEARCH_URL" />.</translation>
@@ -4071,6 +4102,7 @@ Nếu đặt thành False, thì <ph name="PRODUCT_NAME" /> sẽ không sử dụ
 <translation id="68798513449385583">Trì hoãn tệp tải xuống cho đến khi biết kết quả quét</translation>
 <translation id="6889123056995503704">Người dùng sẽ quyết định chế độ hạ cấp kênh</translation>
 <translation id="6894178810167845842">URL trang Thẻ mới</translation>
+<translation id="6897730193187922386">Ngăn chặn các thông báo về việc ngừng cung cấp <ph name="CLOUD_PRINT_NAME" /></translation>
 <translation id="6899705656741990703">Cài đặt tự động phát hiện proxy</translation>
 <translation id="6902561336084511004">Cung cấp cấu hình của các máy chủ máy in hiện có.
 
@@ -5323,6 +5355,14 @@ Bạn nên định cấu hình chính sách trên Windows qua GPO, mặc dù vi�
       Chính sách này nhằm mang đến cho doanh nghiệp cơ hội di chuyển các máy chủ hiện có khỏi HTTP/0.9 và sẽ bị xóa trong tương lai.
 
       Nếu bạn không đặt chính sách này, thì HTTP/0.9 sẽ bị tắt trên các cổng không phải cổng mặc định.</translation>
+<translation id="8504725006737796967">Chỉ định những máy in mà người dùng có thể sử dụng.
+
+      Chỉ sử dụng chính sách này nếu bạn đã chọn <ph name="PRINTERS_WHITELIST" /> cho <ph name="BULK_PRINTERS_ACCESS_MODE_POLICY_NAME" />.
+
+      Nếu bạn sử dụng chính sách này, chỉ những máy in có mã nhận dạng khớp với các giá trị trong chính sách này mới được cung cấp cho người dùng. Các mã nhận dạng này phải tương ứng với trường "id" hoặc "guid" ở tệp đã chỉ định trong <ph name="BULK_PRINTERS_POLICY_NAME" />.
+
+      Chính sách này không còn dùng nữa, vui lòng sử dụng <ph name="PRINTERS_BULK_ALLOWLIST_POLICY_NAME" />.
+      </translation>
 <translation id="8507835864888987300">Đặt phiên bản đích cho Cập nhật tự động.
 
       Chỉ định tiền tố của phiên bản đích <ph name="PRODUCT_OS_NAME" /> sẽ cập nhật. Nếu thiết bị đang chạy phiên bản trước tiền tố đã chỉ định thì thiết bị sẽ cập nhật lên phiên bản mới nhất có tiền tố đã cho. Nếu thiết bị đã chạy phiên bản mới hơn thì hiệu lực sẽ phụ thuộc vào giá trị của <ph name="DEVICE_ROLLBACK_TO_TARGET_VERSION_POLICY_NAME" />. Định dạng tiền tố hoạt động theo từng thành phần như được minh họa trong ví dụ sau:
