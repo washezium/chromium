@@ -78,6 +78,7 @@ class Time;
 // background thread.
 - (void)purgeCacheOlderThan:(const base::Time&)date
                     keeping:(NSSet*)liveSnapshotIDs;
+
 // Hint that the snapshot for |snapshotID| will likely be saved to disk when the
 // application is backgrounded.  The snapshot is then saved in memory, so it
 // does not need to be read off disk.
