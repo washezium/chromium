@@ -132,7 +132,7 @@ void Adapter::CreateRfcommService(const std::string& service_name,
                                   const device::BluetoothUUID& service_uuid,
                                   CreateRfcommServiceCallback callback) {
   device::BluetoothAdapter::ServiceOptions service_options;
-  service_options.name = std::make_unique<std::string>(service_name);
+  service_options.name = service_name;
 
   auto copyable_callback = base::AdaptCallbackForRepeating(std::move(callback));
   adapter_->CreateRfcommService(
