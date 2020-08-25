@@ -8,6 +8,29 @@ Script for determining which CLs in a blamelist ran on a certain trybot.
 There are cases where CLs can be absolved of a CI failure if they ran on a
 similar trybot before being submitted. This CL will go through each CL in a
 given blamelist and determine whether they ran on a specified trybot or not.
+
+This script depends on the `bq` tool, which is available as part of the Google
+Cloud SDK https://cloud.google.com/sdk/docs/quickstarts.
+
+Example usage:
+
+trim_culprit_cls.py \
+  --start-revision <first/oldest revision in the blamelist> \
+  --end-revision <last/newest revision in the blamelist> \
+  --trybot <optional trybot name> \
+  --project <billing project>
+
+Concrete example:
+
+trim_culprit_cls.py \
+  --start-revision 1cdf916d194215f1e4139f295e494fc1c1863c3c \
+  --end-revision 9aa31419100be8d0f02708a500aaed7c33a53a10 \
+  --trybot win_optional_gpu_tests_rel \
+  --project chromium-swarm
+
+The --project argument can be any project you are associated with in the
+Google Cloud console https://console.cloud.google.com/ (see drop-down menu in
+the top left corner).
 """
 
 import argparse
