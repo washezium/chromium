@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/media/audio/mojo_audio_output_ipc.h"
+#include "third_party/blink/renderer/modules/media/audio/mojo_audio_output_ipc.h"
 
 #include <algorithm>
 #include <memory>
@@ -13,7 +13,6 @@
 #include "base/optional.h"
 #include "base/run_loop.h"
 #include "base/test/gtest_util.h"
-#include "base/test/task_environment.h"
 #include "media/audio/audio_device_description.h"
 #include "media/base/audio_parameters.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
@@ -24,6 +23,7 @@
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/platform/scheduler/test/renderer_scheduler_test_support.h"
+#include "third_party/blink/renderer/platform/testing/io_task_runner_testing_platform_support.h"
 
 using testing::_;
 using testing::AtLeast;
@@ -31,7 +31,7 @@ using testing::Invoke;
 using testing::Mock;
 using testing::StrictMock;
 
-namespace content {
+namespace blink {
 
 namespace {
 
@@ -46,14 +46,16 @@ media::AudioParameters Params() {
 
 MojoAudioOutputIPC::FactoryAccessorCB NullAccessor() {
   return base::BindRepeating(
-      []() -> blink::mojom::RendererAudioOutputStreamFactory* {
+      []() -> blink::mojom::blink::RendererAudioOutputStreamFactory* {
         return nullptr;
       });
 }
 
-class TestStreamProvider : public media::mojom::AudioOutputStreamProvider {
+// TODO(https://crbug.com/787252): Convert the test away from using std::string.
+class TestStreamProvider
+    : public media::mojom::blink::AudioOutputStreamProvider {
  public:
-  explicit TestStreamProvider(media::mojom::AudioOutputStream* stream)
+  explicit TestStreamProvider(media::mojom::blink::AudioOutputStream* stream)
       : stream_(stream) {}
 
   ~TestStreamProvider() override {
@@ -64,13 +66,14 @@ class TestStreamProvider : public media::mojom::AudioOutputStreamProvider {
 
   void Acquire(
       const media::AudioParameters& params,
-      mojo::PendingRemote<media::mojom::AudioOutputStreamProviderClient>
+      mojo::PendingRemote<media::mojom::blink::AudioOutputStreamProviderClient>
           pending_provider_client) override {
     EXPECT_EQ(receiver_, base::nullopt);
     EXPECT_NE(stream_, nullptr);
     provider_client_.reset();
     provider_client_.Bind(std::move(pending_provider_client));
-    mojo::PendingRemote<media::mojom::AudioOutputStream> stream_pending_remote;
+    mojo::PendingRemote<media::mojom::blink::AudioOutputStream>
+        stream_pending_remote;
     receiver_.emplace(stream_,
                       stream_pending_remote.InitWithNewPipeAndPassReceiver());
     base::CancelableSyncSocket foreign_socket;
@@ -84,20 +87,22 @@ class TestStreamProvider : public media::mojom::AudioOutputStreamProvider {
 
   void SignalErrorToProviderClient() {
     provider_client_.ResetWithReason(
-        static_cast<uint32_t>(media::mojom::AudioOutputStreamObserver::
+        static_cast<uint32_t>(media::mojom::blink::AudioOutputStreamObserver::
                                   DisconnectReason::kPlatformError),
         std::string());
   }
 
  private:
-  media::mojom::AudioOutputStream* stream_;
-  mojo::Remote<media::mojom::AudioOutputStreamProviderClient> provider_client_;
-  base::Optional<mojo::Receiver<media::mojom::AudioOutputStream>> receiver_;
+  media::mojom::blink::AudioOutputStream* stream_;
+  mojo::Remote<media::mojom::blink::AudioOutputStreamProviderClient>
+      provider_client_;
+  base::Optional<mojo::Receiver<media::mojom::blink::AudioOutputStream>>
+      receiver_;
   base::CancelableSyncSocket socket_;
 };
 
 class TestRemoteFactory
-    : public blink::mojom::RendererAudioOutputStreamFactory {
+    : public blink::mojom::blink::RendererAudioOutputStreamFactory {
  public:
   TestRemoteFactory()
       : expect_request_(false),
@@ -106,24 +111,27 @@ class TestRemoteFactory
   ~TestRemoteFactory() override {}
 
   void RequestDeviceAuthorization(
-      mojo::PendingReceiver<media::mojom::AudioOutputStreamProvider>
+      mojo::PendingReceiver<media::mojom::blink::AudioOutputStreamProvider>
           stream_provider_receiver,
       const base::Optional<base::UnguessableToken>& session_id,
-      const std::string& device_id,
+      const String& device_id,
       RequestDeviceAuthorizationCallback callback) override {
     EXPECT_EQ(session_id, expected_session_id_);
-    EXPECT_EQ(device_id, expected_device_id_);
+    EXPECT_EQ(device_id.Utf8(), expected_device_id_);
     EXPECT_TRUE(expect_request_);
     if (provider_) {
       std::move(callback).Run(
-          media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_OK, Params(),
-          std::string(kReturnedDeviceId));
+          static_cast<media::mojom::blink::OutputDeviceStatus>(
+              media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_OK),
+          Params(), String(kReturnedDeviceId));
       provider_receiver_.emplace(provider_.get(),
                                  std::move(stream_provider_receiver));
     } else {
       std::move(callback).Run(
-          media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_ERROR_NOT_AUTHORIZED,
-          Params(), std::string(""));
+          static_cast<media::mojom::blink::OutputDeviceStatus>(
+              media::OutputDeviceStatus::
+                  OUTPUT_DEVICE_STATUS_ERROR_NOT_AUTHORIZED),
+          Params(), String(""));
     }
     expect_request_ = false;
   }
@@ -168,7 +176,7 @@ class TestRemoteFactory
   }
 
  private:
-  blink::mojom::RendererAudioOutputStreamFactory* get() {
+  blink::mojom::blink::RendererAudioOutputStreamFactory* get() {
     return this_remote_.get();
   }
 
@@ -176,15 +184,16 @@ class TestRemoteFactory
   base::Optional<base::UnguessableToken> expected_session_id_;
   std::string expected_device_id_;
 
-  mojo::Remote<blink::mojom::RendererAudioOutputStreamFactory> this_remote_;
-  mojo::Receiver<blink::mojom::RendererAudioOutputStreamFactory> receiver_{
-      this};
+  mojo::Remote<blink::mojom::blink::RendererAudioOutputStreamFactory>
+      this_remote_;
+  mojo::Receiver<blink::mojom::blink::RendererAudioOutputStreamFactory>
+      receiver_{this};
   std::unique_ptr<TestStreamProvider> provider_;
-  base::Optional<mojo::Receiver<media::mojom::AudioOutputStreamProvider>>
+  base::Optional<mojo::Receiver<media::mojom::blink::AudioOutputStreamProvider>>
       provider_receiver_;
 };
 
-class MockStream : public media::mojom::AudioOutputStream {
+class MockStream : public media::mojom::blink::AudioOutputStream {
  public:
   MOCK_METHOD0(Play, void());
   MOCK_METHOD0(Pause, void());
@@ -215,8 +224,8 @@ class MockDelegate : public media::AudioOutputIPCDelegate {
 }  // namespace
 
 TEST(MojoAudioOutputIPC, AuthorizeWithoutFactory_CallsAuthorizedWithError) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   StrictMock<MockDelegate> delegate;
 
@@ -238,8 +247,8 @@ TEST(MojoAudioOutputIPC, AuthorizeWithoutFactory_CallsAuthorizedWithError) {
 
 TEST(MojoAudioOutputIPC,
      CreateWithoutAuthorizationWithoutFactory_CallsAuthorizedWithError) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   StrictMock<MockDelegate> delegate;
 
   std::unique_ptr<media::AudioOutputIPC> ipc =
@@ -256,8 +265,8 @@ TEST(MojoAudioOutputIPC,
 }
 
 TEST(MojoAudioOutputIPC, DeviceAuthorized_Propagates) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockDelegate> delegate;
@@ -281,8 +290,8 @@ TEST(MojoAudioOutputIPC, DeviceAuthorized_Propagates) {
 }
 
 TEST(MojoAudioOutputIPC, OnDeviceCreated_Propagates) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockStream> stream;
@@ -310,8 +319,8 @@ TEST(MojoAudioOutputIPC, OnDeviceCreated_Propagates) {
 
 TEST(MojoAudioOutputIPC,
      CreateWithoutAuthorization_RequestsAuthorizationFirst) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   StrictMock<MockStream> stream;
   StrictMock<MockDelegate> delegate;
@@ -339,8 +348,8 @@ TEST(MojoAudioOutputIPC,
 }
 
 TEST(MojoAudioOutputIPC, IsReusable) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockStream> stream;
@@ -372,8 +381,8 @@ TEST(MojoAudioOutputIPC, IsReusable) {
 }
 
 TEST(MojoAudioOutputIPC, IsReusableAfterError) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockStream> stream;
@@ -427,8 +436,8 @@ TEST(MojoAudioOutputIPC, IsReusableAfterError) {
 }
 
 TEST(MojoAudioOutputIPC, DeviceNotAuthorized_Propagates) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockDelegate> delegate;
@@ -460,8 +469,8 @@ TEST(MojoAudioOutputIPC,
   // The authorization IPC message might be aborted by the remote end
   // disconnecting. In this case, the MojoAudioOutputIPC object must still
   // send a notification to unblock the AudioOutputIPCDelegate.
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   StrictMock<MockDelegate> delegate;
@@ -492,8 +501,8 @@ TEST(MojoAudioOutputIPC,
   // This test makes sure that the MojoAudioOutputIPC doesn't callback for
   // authorization when the factory disconnects if it already got a callback
   // for authorization.
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   TestRemoteFactory stream_factory;
   stream_factory.PrepareProviderForAuthorization(
@@ -520,8 +529,8 @@ TEST(MojoAudioOutputIPC,
 }
 
 TEST(MojoAudioOutputIPC, AuthorizeNoClose_DCHECKs) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   StrictMock<MockDelegate> delegate;
@@ -542,8 +551,8 @@ TEST(MojoAudioOutputIPC, AuthorizeNoClose_DCHECKs) {
 }
 
 TEST(MojoAudioOutputIPC, CreateNoClose_DCHECKs) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   StrictMock<MockDelegate> delegate;
   StrictMock<MockStream> stream;
@@ -566,8 +575,8 @@ TEST(MojoAudioOutputIPC, CreateNoClose_DCHECKs) {
 }
 
 TEST(MojoAudioOutputIPC, Play_Plays) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   StrictMock<MockStream> stream;
@@ -596,8 +605,8 @@ TEST(MojoAudioOutputIPC, Play_Plays) {
 }
 
 TEST(MojoAudioOutputIPC, Pause_Pauses) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   StrictMock<MockStream> stream;
@@ -626,8 +635,8 @@ TEST(MojoAudioOutputIPC, Pause_Pauses) {
 }
 
 TEST(MojoAudioOutputIPC, SetVolume_SetsVolume) {
-  base::test::SingleThreadTaskEnvironment task_environment(
-      base::test::SingleThreadTaskEnvironment::MainThreadType::IO);
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   TestRemoteFactory stream_factory;
   const base::UnguessableToken session_id = base::UnguessableToken::Create();
   StrictMock<MockStream> stream;
@@ -655,4 +664,4 @@ TEST(MojoAudioOutputIPC, SetVolume_SetsVolume) {
   base::RunLoop().RunUntilIdle();
 }
 
-}  // namespace content
+}  // namespace blink

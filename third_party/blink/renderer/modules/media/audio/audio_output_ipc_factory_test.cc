@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/media/audio/audio_output_ipc_factory.h"
+#include "third_party/blink/public/web/modules/media/audio/audio_output_ipc_factory.h"
 
 #include <string>
 #include <utility>
@@ -12,7 +12,6 @@
 #include "base/message_loop/message_pump_type.h"
 #include "base/run_loop.h"
 #include "base/test/bind_test_util.h"
-#include "base/test/task_environment.h"
 #include "base/threading/thread.h"
 #include "media/audio/audio_output_ipc.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
@@ -21,10 +20,12 @@
 #include "testing/gmock/include/gmock/gmock.h"
 #include "testing/gtest/include/gtest/gtest.h"
 #include "third_party/blink/public/common/browser_interface_broker_proxy.h"
+#include "third_party/blink/public/mojom/media/renderer_audio_output_stream_factory.mojom-blink.h"
+#include "third_party/blink/renderer/platform/testing/io_task_runner_testing_platform_support.h"
 
 using ::testing::_;
 
-namespace content {
+namespace blink {
 
 namespace {
 
@@ -45,20 +46,22 @@ std::unique_ptr<base::Thread> MakeIOThread() {
 }
 
 class FakeRemoteFactory
-    : public blink::mojom::RendererAudioOutputStreamFactory {
+    : public mojom::blink::RendererAudioOutputStreamFactory {
  public:
   FakeRemoteFactory() = default;
   ~FakeRemoteFactory() override {}
 
   void RequestDeviceAuthorization(
-      mojo::PendingReceiver<media::mojom::AudioOutputStreamProvider>
+      mojo::PendingReceiver<media::mojom::blink::AudioOutputStreamProvider>
           stream_provider,
       const base::Optional<base::UnguessableToken>& session_id,
-      const std::string& device_id,
+      const String& device_id,
       RequestDeviceAuthorizationCallback callback) override {
     std::move(callback).Run(
-        media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_ERROR_NOT_AUTHORIZED,
-        media::AudioParameters::UnavailableDeviceParams(), std::string());
+        static_cast<media::mojom::blink::OutputDeviceStatus>(
+            media::OutputDeviceStatus::
+                OUTPUT_DEVICE_STATUS_ERROR_NOT_AUTHORIZED),
+        media::AudioParameters::UnavailableDeviceParams(), WTF::g_empty_string);
     EXPECT_FALSE(on_called_.is_null());
     std::move(on_called_).Run();
   }
@@ -70,12 +73,12 @@ class FakeRemoteFactory
   void Bind(mojo::ScopedMessagePipeHandle handle) {
     EXPECT_FALSE(receiver_.is_bound());
     receiver_.Bind(
-        mojo::PendingReceiver<blink::mojom::RendererAudioOutputStreamFactory>(
+        mojo::PendingReceiver<mojom::blink::RendererAudioOutputStreamFactory>(
             std::move(handle)));
   }
 
  private:
-  mojo::Receiver<blink::mojom::RendererAudioOutputStreamFactory> receiver_{
+  mojo::Receiver<mojom::blink::RendererAudioOutputStreamFactory> receiver_{
       this};
   base::OnceClosure on_called_;
 };
@@ -113,7 +116,7 @@ class AudioOutputIPCFactoryTest : public testing::Test {
 TEST_F(AudioOutputIPCFactoryTest, CallFactoryFromIOThread) {
   // This test makes sure that AudioOutputIPCFactory correctly binds the
   // RendererAudioOutputStreamFactory to the IO thread.
-  base::test::SingleThreadTaskEnvironment task_environment;
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
   base::RunLoop run_loop;
   auto io_thread = MakeIOThread();
 
@@ -122,7 +125,7 @@ TEST_F(AudioOutputIPCFactoryTest, CallFactoryFromIOThread) {
 
   auto& interface_broker = blink::GetEmptyBrowserInterfaceBroker();
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_,
+      mojom::blink::RendererAudioOutputStreamFactory::Name_,
       base::BindRepeating(&FakeRemoteFactory::Bind,
                           base::Unretained(&remote_factory)));
 
@@ -148,7 +151,7 @@ TEST_F(AudioOutputIPCFactoryTest, CallFactoryFromIOThread) {
   ipc_factory.MaybeDeregisterRemoteFactory(TokenFromInt(0));
 
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_, {});
+      mojom::blink::RendererAudioOutputStreamFactory::Name_, {});
 
   io_thread.reset();
   base::RunLoop().RunUntilIdle();
@@ -156,7 +159,7 @@ TEST_F(AudioOutputIPCFactoryTest, CallFactoryFromIOThread) {
 
 TEST_F(AudioOutputIPCFactoryTest, SeveralFactories) {
   // This test simulates having several frames being created and destructed.
-  base::test::SingleThreadTaskEnvironment task_environment;
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
   auto io_thread = MakeIOThread();
   const int n_factories = 5;
 
@@ -165,7 +168,7 @@ TEST_F(AudioOutputIPCFactoryTest, SeveralFactories) {
   auto& interface_broker = blink::GetEmptyBrowserInterfaceBroker();
 
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_,
+      mojom::blink::RendererAudioOutputStreamFactory::Name_,
       base::BindLambdaForTesting([&](mojo::ScopedMessagePipeHandle handle) {
         static int factory_index = 0;
         DCHECK_LT(factory_index, n_factories);
@@ -211,7 +214,7 @@ TEST_F(AudioOutputIPCFactoryTest, SeveralFactories) {
   }
 
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_, {});
+      mojom::blink::RendererAudioOutputStreamFactory::Name_, {});
 
   io_thread.reset();
   base::RunLoop().RunUntilIdle();
@@ -220,14 +223,15 @@ TEST_F(AudioOutputIPCFactoryTest, SeveralFactories) {
 TEST_F(AudioOutputIPCFactoryTest, RegisterDeregisterBackToBack_Deregisters) {
   // This test makes sure that calling Register... followed by Deregister...
   // correctly sequences the registration before the deregistration.
-  base::test::SingleThreadTaskEnvironment task_environment;
+  ScopedTestingPlatformSupport<IOTaskRunnerTestingPlatformSupport> platform;
+
   auto io_thread = MakeIOThread();
 
   FakeRemoteFactory remote_factory;
 
   auto& interface_broker = blink::GetEmptyBrowserInterfaceBroker();
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_,
+      mojom::blink::RendererAudioOutputStreamFactory::Name_,
       base::BindRepeating(&FakeRemoteFactory::Bind,
                           base::Unretained(&remote_factory)));
 
@@ -242,9 +246,9 @@ TEST_F(AudioOutputIPCFactoryTest, RegisterDeregisterBackToBack_Deregisters) {
   base::RunLoop().RunUntilIdle();
 
   interface_broker.SetBinderForTesting(
-      blink::mojom::RendererAudioOutputStreamFactory::Name_, {});
+      mojom::blink::RendererAudioOutputStreamFactory::Name_, {});
   io_thread.reset();
   base::RunLoop().RunUntilIdle();
 }
 
-}  // namespace content
+}  // namespace blink

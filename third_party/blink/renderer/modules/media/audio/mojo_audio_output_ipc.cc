@@ -2,24 +2,24 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/media/audio/mojo_audio_output_ipc.h"
+#include "third_party/blink/renderer/modules/media/audio/mojo_audio_output_ipc.h"
 
 #include <utility>
 
 #include "base/bind.h"
 #include "base/metrics/histogram_macros.h"
 #include "media/audio/audio_device_description.h"
-#include "media/mojo/mojom/audio_output_stream.mojom.h"
+#include "media/mojo/mojom/audio_output_stream.mojom-blink.h"
 #include "mojo/public/cpp/bindings/callback_helpers.h"
 #include "mojo/public/cpp/system/platform_handle.h"
 
-namespace content {
+namespace blink {
 
 namespace {
 
-void TrivialAuthorizedCallback(media::OutputDeviceStatus,
+void TrivialAuthorizedCallback(media::mojom::blink::OutputDeviceStatus,
                                const media::AudioParameters&,
-                               const std::string&) {}
+                               const String&) {}
 
 }  // namespace
 
@@ -57,8 +57,9 @@ void MojoAudioOutputIPC::RequestDeviceAuthorization(
       mojo::WrapCallbackWithDefaultInvokeIfNotRun(
           base::BindOnce(&MojoAudioOutputIPC::ReceivedDeviceAuthorization,
                          weak_factory_.GetWeakPtr(), base::TimeTicks::Now()),
-          media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_ERROR_INTERNAL,
-          media::AudioParameters::UnavailableDeviceParams(), std::string()));
+          static_cast<media::mojom::blink::OutputDeviceStatus>(
+              media::OutputDeviceStatus::OUTPUT_DEVICE_STATUS_ERROR_INTERNAL),
+          media::AudioParameters::UnavailableDeviceParams(), String()));
 }
 
 void MojoAudioOutputIPC::CreateStream(
@@ -83,7 +84,7 @@ void MojoAudioOutputIPC::CreateStream(
   DCHECK_EQ(delegate_, delegate);
   // Since the creation callback won't fire if the provider receiver is gone
   // and |this| owns |stream_provider_|, unretained is safe.
-  mojo::PendingRemote<media::mojom::AudioOutputStreamProviderClient>
+  mojo::PendingRemote<media::mojom::blink::AudioOutputStreamProviderClient>
       client_remote;
   receiver_.Bind(client_remote.InitWithNewPipeAndPassReceiver());
   // Unretained is safe because |this| owns |receiver_|.
@@ -140,7 +141,7 @@ void MojoAudioOutputIPC::ProviderClientBindingDisconnected(
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
   DCHECK(delegate_);
   if (disconnect_reason ==
-      static_cast<uint32_t>(media::mojom::AudioOutputStreamObserver::
+      static_cast<uint32_t>(media::mojom::blink::AudioOutputStreamObserver::
                                 DisconnectReason::kPlatformError)) {
     delegate_->OnError();
   }
@@ -157,7 +158,7 @@ bool MojoAudioOutputIPC::StreamCreationRequested() const {
   return receiver_.is_bound();
 }
 
-mojo::PendingReceiver<media::mojom::AudioOutputStreamProvider>
+mojo::PendingReceiver<media::mojom::blink::AudioOutputStreamProvider>
 MojoAudioOutputIPC::MakeProviderReceiver() {
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
   DCHECK(!AuthorizationRequested());
@@ -203,14 +204,14 @@ void MojoAudioOutputIPC::DoRequestDeviceAuthorization(
       MakeProviderReceiver(),
       session_id.is_empty() ? base::Optional<base::UnguessableToken>()
                             : session_id,
-      device_id, std::move(callback));
+      String::FromUTF8(device_id), std::move(callback));
 }
 
 void MojoAudioOutputIPC::ReceivedDeviceAuthorization(
     base::TimeTicks auth_start_time,
-    media::OutputDeviceStatus status,
+    media::mojom::blink::OutputDeviceStatus status,
     const media::AudioParameters& params,
-    const std::string& device_id) const {
+    const String& device_id) const {
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
   DCHECK(delegate_);
 
@@ -221,12 +222,13 @@ void MojoAudioOutputIPC::ReceivedDeviceAuthorization(
                              base::TimeDelta::FromMilliseconds(1),
                              base::TimeDelta::FromSeconds(15), 100);
 
-  delegate_->OnDeviceAuthorized(status, params, device_id);
+  delegate_->OnDeviceAuthorized(static_cast<media::OutputDeviceStatus>(status),
+                                params, device_id.Utf8());
 }
 
 void MojoAudioOutputIPC::Created(
-    mojo::PendingRemote<media::mojom::AudioOutputStream> pending_stream,
-    media::mojom::ReadWriteAudioDataPipePtr data_pipe) {
+    mojo::PendingRemote<media::mojom::blink::AudioOutputStream> pending_stream,
+    media::mojom::blink::ReadWriteAudioDataPipePtr data_pipe) {
   DCHECK(io_task_runner_->RunsTasksInCurrentSequence());
   DCHECK(delegate_);
 
@@ -250,4 +252,4 @@ void MojoAudioOutputIPC::Created(
     stream_->Play();
 }
 
-}  // namespace content
+}  // namespace blink

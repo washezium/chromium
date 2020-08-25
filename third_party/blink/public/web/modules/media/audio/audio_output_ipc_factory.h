@@ -2,17 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_
-#define CONTENT_RENDERER_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_
+#ifndef THIRD_PARTY_BLINK_PUBLIC_WEB_MODULES_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_
+#define THIRD_PARTY_BLINK_PUBLIC_WEB_MODULES_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_
 
 #include <memory>
 
-#include "base/containers/flat_map.h"
-#include "base/memory/ref_counted.h"
-#include "content/common/content_export.h"
-#include "mojo/public/cpp/bindings/pending_remote.h"
-#include "mojo/public/cpp/bindings/remote.h"
-#include "third_party/blink/public/mojom/media/renderer_audio_output_stream_factory.mojom.h"
+#include "base/memory/scoped_refptr.h"
+#include "base/unguessable_token.h"
+#include "third_party/blink/public/platform/web_common.h"
 
 namespace base {
 class SingleThreadTaskRunner;
@@ -24,9 +21,6 @@ class AudioOutputIPC;
 
 namespace blink {
 class BrowserInterfaceBrokerProxy;
-}
-
-namespace content {
 
 // This is a factory for AudioOutputIPC objects. It is threadsafe. This class
 // is designed to be leaked at shutdown, as it posts tasks to itself using
@@ -37,17 +31,15 @@ namespace content {
 // TODO(maxmorin): Registering the factories for each frame will become
 // unnecessary when https://crbug.com/668275 is fixed. When that is done, this
 // class can be greatly simplified.
-class CONTENT_EXPORT AudioOutputIPCFactory {
+class BLINK_MODULES_EXPORT AudioOutputIPCFactory {
  public:
-  AudioOutputIPCFactory(
+  explicit AudioOutputIPCFactory(
       scoped_refptr<base::SingleThreadTaskRunner> io_task_runner);
   ~AudioOutputIPCFactory();
 
   static AudioOutputIPCFactory* get() { return instance_; }
 
-  const scoped_refptr<base::SingleThreadTaskRunner>& io_task_runner() const {
-    return io_task_runner_;
-  }
+  const scoped_refptr<base::SingleThreadTaskRunner>& io_task_runner() const;
 
   // Enables |this| to create MojoAudioOutputIPCs for the specified frame.
   // Does nothing if not using mojo factories.
@@ -64,28 +56,10 @@ class CONTENT_EXPORT AudioOutputIPCFactory {
       const base::UnguessableToken& frame_token) const;
 
  private:
-  using StreamFactoryMap = base::flat_map<
-      base::UnguessableToken,
-      mojo::Remote<blink::mojom::RendererAudioOutputStreamFactory>>;
-
-  blink::mojom::RendererAudioOutputStreamFactory* GetRemoteFactory(
-      const base::UnguessableToken& frame_token) const;
-
-  void RegisterRemoteFactoryOnIOThread(
-      const base::UnguessableToken& frame_token,
-      mojo::PendingRemote<blink::mojom::RendererAudioOutputStreamFactory>
-          factory_pending_remote);
-
-  void MaybeDeregisterRemoteFactoryOnIOThread(
-      const base::UnguessableToken& frame_token);
-
-  // Indicates whether mojo factories are used.
-  bool UsingMojoFactories() const;
-
-  // Maps frame id to the corresponding factory.
-  StreamFactoryMap factory_remotes_;
-
-  const scoped_refptr<base::SingleThreadTaskRunner> io_task_runner_;
+  // TODO(https://crbug.com/787252): When this header gets moved out of the
+  // Blink public API layer, move this Pimpl class back to its outer class.
+  class Impl;
+  std::unique_ptr<Impl> impl_;
 
   // Global instance, set in constructor and unset in destructor.
   static AudioOutputIPCFactory* instance_;
@@ -93,6 +67,6 @@ class CONTENT_EXPORT AudioOutputIPCFactory {
   DISALLOW_COPY_AND_ASSIGN(AudioOutputIPCFactory);
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_
+#endif  // THIRD_PARTY_BLINK_PUBLIC_WEB_MODULES_MEDIA_AUDIO_AUDIO_OUTPUT_IPC_FACTORY_H_

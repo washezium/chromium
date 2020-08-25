@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef CONTENT_RENDERER_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_
-#define CONTENT_RENDERER_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_
+#ifndef THIRD_PARTY_BLINK_RENDERER_MODULES_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_
+#define THIRD_PARTY_BLINK_RENDERER_MODULES_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_
 
 #include <string>
 
@@ -13,27 +13,27 @@
 #include "base/optional.h"
 #include "base/single_thread_task_runner.h"
 #include "base/time/time.h"
-#include "content/common/content_export.h"
 #include "media/audio/audio_output_ipc.h"
-#include "media/mojo/mojom/audio_data_pipe.mojom.h"
-#include "media/mojo/mojom/audio_output_stream.mojom.h"
+#include "media/mojo/mojom/audio_data_pipe.mojom-blink.h"
+#include "media/mojo/mojom/audio_output_stream.mojom-blink.h"
 #include "mojo/public/cpp/bindings/pending_receiver.h"
 #include "mojo/public/cpp/bindings/pending_remote.h"
 #include "mojo/public/cpp/bindings/receiver.h"
 #include "mojo/public/cpp/bindings/remote.h"
-#include "third_party/blink/public/mojom/media/renderer_audio_output_stream_factory.mojom.h"
+#include "third_party/blink/public/mojom/media/renderer_audio_output_stream_factory.mojom-blink.h"
+#include "third_party/blink/renderer/modules/modules_export.h"
 
-namespace content {
+namespace blink {
 
 // MojoAudioOutputIPC is a renderer-side class for handling creation,
 // initialization and control of an output stream. May only be used on a single
 // thread.
-class CONTENT_EXPORT MojoAudioOutputIPC
+class MODULES_EXPORT MojoAudioOutputIPC
     : public media::AudioOutputIPC,
-      public media::mojom::AudioOutputStreamProviderClient {
+      public media::mojom::blink::AudioOutputStreamProviderClient {
  public:
   using FactoryAccessorCB = base::RepeatingCallback<
-      blink::mojom::RendererAudioOutputStreamFactory*()>;
+      blink::mojom::blink::RendererAudioOutputStreamFactory*()>;
 
   // |factory_accessor| is required to provide a
   // RendererAudioOutputStreamFactory* if IPC is possible.
@@ -58,14 +58,15 @@ class CONTENT_EXPORT MojoAudioOutputIPC
   void SetVolume(double volume) override;
 
   // media::mojom::AudioOutputStreamProviderClient implementation.
-  void Created(mojo::PendingRemote<media::mojom::AudioOutputStream> stream,
-               media::mojom::ReadWriteAudioDataPipePtr data_pipe) override;
+  void Created(
+      mojo::PendingRemote<media::mojom::blink::AudioOutputStream> stream,
+      media::mojom::blink::ReadWriteAudioDataPipePtr data_pipe) override;
 
  private:
   static constexpr double kDefaultVolume = 1.0;
 
-  using AuthorizationCB = blink::mojom::RendererAudioOutputStreamFactory::
-      RequestDeviceAuthorizationCallback;
+  using AuthorizationCB = blink::mojom::blink::
+      RendererAudioOutputStreamFactory::RequestDeviceAuthorizationCallback;
 
   bool AuthorizationRequested() const;
   bool StreamCreationRequested() const;
@@ -73,7 +74,7 @@ class CONTENT_EXPORT MojoAudioOutputIPC
   void ProviderClientBindingDisconnected(uint32_t disconnect_reason,
                                          const std::string& description);
 
-  mojo::PendingReceiver<media::mojom::AudioOutputStreamProvider>
+  mojo::PendingReceiver<media::mojom::blink::AudioOutputStreamProvider>
   MakeProviderReceiver();
 
   // Tries to acquire a RendererAudioOutputStreamFactory and requests device
@@ -83,10 +84,11 @@ class CONTENT_EXPORT MojoAudioOutputIPC
                                     const std::string& device_id,
                                     AuthorizationCB callback);
 
-  void ReceivedDeviceAuthorization(base::TimeTicks auth_start_time,
-                                   media::OutputDeviceStatus status,
-                                   const media::AudioParameters& params,
-                                   const std::string& device_id) const;
+  void ReceivedDeviceAuthorization(
+      base::TimeTicks auth_start_time,
+      media::mojom::blink::OutputDeviceStatus status,
+      const media::AudioParameters& params,
+      const String& device_id) const;
 
   const FactoryAccessorCB factory_accessor_;
 
@@ -95,9 +97,10 @@ class CONTENT_EXPORT MojoAudioOutputIPC
   enum { kPaused, kPlaying } expected_state_ = kPaused;
   base::Optional<double> volume_;
 
-  mojo::Receiver<media::mojom::AudioOutputStreamProviderClient> receiver_{this};
-  mojo::Remote<media::mojom::AudioOutputStreamProvider> stream_provider_;
-  mojo::Remote<media::mojom::AudioOutputStream> stream_;
+  mojo::Receiver<media::mojom::blink::AudioOutputStreamProviderClient>
+      receiver_{this};
+  mojo::Remote<media::mojom::blink::AudioOutputStreamProvider> stream_provider_;
+  mojo::Remote<media::mojom::blink::AudioOutputStream> stream_;
   media::AudioOutputIPCDelegate* delegate_ = nullptr;
   scoped_refptr<base::SingleThreadTaskRunner> io_task_runner_;
 
@@ -108,6 +111,6 @@ class CONTENT_EXPORT MojoAudioOutputIPC
   DISALLOW_COPY_AND_ASSIGN(MojoAudioOutputIPC);
 };
 
-}  // namespace content
+}  // namespace blink
 
-#endif  // CONTENT_RENDERER_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_
+#endif  // THIRD_PARTY_BLINK_RENDERER_MODULES_MEDIA_AUDIO_MOJO_AUDIO_OUTPUT_IPC_H_

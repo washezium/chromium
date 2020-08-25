@@ -2,30 +2,62 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "content/renderer/media/audio/audio_output_ipc_factory.h"
+#include "third_party/blink/public/web/modules/media/audio/audio_output_ipc_factory.h"
 
 #include <utility>
 
 #include "base/bind.h"
 #include "base/check_op.h"
+#include "base/containers/flat_map.h"
 #include "base/single_thread_task_runner.h"
-#include "content/renderer/media/audio/mojo_audio_output_ipc.h"
+#include "mojo/public/cpp/bindings/pending_remote.h"
+#include "mojo/public/cpp/bindings/remote.h"
 #include "third_party/blink/public/common/browser_interface_broker_proxy.h"
+#include "third_party/blink/public/mojom/media/renderer_audio_output_stream_factory.mojom-blink.h"
+#include "third_party/blink/renderer/modules/media/audio/mojo_audio_output_ipc.h"
 
-namespace content {
+namespace blink {
 
 AudioOutputIPCFactory* AudioOutputIPCFactory::instance_ = nullptr;
 
+class AudioOutputIPCFactory::Impl {
+ public:
+  using StreamFactoryMap = base::flat_map<
+      base::UnguessableToken,
+      mojo::Remote<mojom::blink::RendererAudioOutputStreamFactory>>;
+
+  explicit Impl(scoped_refptr<base::SingleThreadTaskRunner> io_task_runner)
+      : io_task_runner_(std::move(io_task_runner)) {}
+  ~Impl() { DCHECK(factory_remotes_.empty()); }
+
+  mojom::blink::RendererAudioOutputStreamFactory* GetRemoteFactory(
+      const base::UnguessableToken& frame_token) const;
+
+  void RegisterRemoteFactoryOnIOThread(
+      const base::UnguessableToken& frame_token,
+      mojo::PendingRemote<mojom::blink::RendererAudioOutputStreamFactory>
+          factory_pending_remote);
+
+  void MaybeDeregisterRemoteFactoryOnIOThread(
+      const base::UnguessableToken& frame_token);
+
+  // Maps frame id to the corresponding factory.
+  StreamFactoryMap factory_remotes_;
+  const scoped_refptr<base::SingleThreadTaskRunner> io_task_runner_;
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(Impl);
+};
+
 AudioOutputIPCFactory::AudioOutputIPCFactory(
     scoped_refptr<base::SingleThreadTaskRunner> io_task_runner)
-    : io_task_runner_(std::move(io_task_runner)) {
+    : impl_(std::make_unique<Impl>(std::move(io_task_runner))) {
   DCHECK(!instance_);
   instance_ = this;
 }
 
 AudioOutputIPCFactory::~AudioOutputIPCFactory() {
   // Allow destruction in tests.
-  DCHECK(factory_remotes_.empty());
   DCHECK_EQ(instance_, this);
   instance_ = nullptr;
 }
@@ -35,47 +67,53 @@ AudioOutputIPCFactory::CreateAudioOutputIPC(
     const base::UnguessableToken& frame_token) const {
   // Unretained is safe due to the contract at the top of the header file.
   return std::make_unique<MojoAudioOutputIPC>(
-      base::BindRepeating(&AudioOutputIPCFactory::GetRemoteFactory,
-                          base::Unretained(this), frame_token),
-      io_task_runner_);
+      base::BindRepeating(&AudioOutputIPCFactory::Impl::GetRemoteFactory,
+                          base::Unretained(impl_.get()), frame_token),
+      io_task_runner());
 }
 
 void AudioOutputIPCFactory::RegisterRemoteFactory(
     const base::UnguessableToken& frame_token,
     blink::BrowserInterfaceBrokerProxy* interface_broker) {
-  mojo::PendingRemote<blink::mojom::RendererAudioOutputStreamFactory>
+  mojo::PendingRemote<mojom::blink::RendererAudioOutputStreamFactory>
       factory_remote;
   interface_broker->GetInterface(
       factory_remote.InitWithNewPipeAndPassReceiver());
   // Unretained is safe due to the contract at the top of the header file.
   // It's safe to pass the |factory_remote| PendingRemote between threads.
-  io_task_runner_->PostTask(
+  io_task_runner()->PostTask(
       FROM_HERE,
-      base::BindOnce(&AudioOutputIPCFactory::RegisterRemoteFactoryOnIOThread,
-                     base::Unretained(this), frame_token,
-                     std::move(factory_remote)));
+      base::BindOnce(
+          &AudioOutputIPCFactory::Impl::RegisterRemoteFactoryOnIOThread,
+          base::Unretained(impl_.get()), frame_token,
+          std::move(factory_remote)));
 }
 
 void AudioOutputIPCFactory::MaybeDeregisterRemoteFactory(
     const base::UnguessableToken& frame_token) {
-  io_task_runner_->PostTask(
+  io_task_runner()->PostTask(
       FROM_HERE,
       base::BindOnce(
-          &AudioOutputIPCFactory::MaybeDeregisterRemoteFactoryOnIOThread,
-          base::Unretained(this), frame_token));
+          &AudioOutputIPCFactory::Impl::MaybeDeregisterRemoteFactoryOnIOThread,
+          base::Unretained(impl_.get()), frame_token));
 }
 
-blink::mojom::RendererAudioOutputStreamFactory*
-AudioOutputIPCFactory::GetRemoteFactory(
+const scoped_refptr<base::SingleThreadTaskRunner>&
+AudioOutputIPCFactory::io_task_runner() const {
+  return impl_->io_task_runner_;
+}
+
+mojom::blink::RendererAudioOutputStreamFactory*
+AudioOutputIPCFactory::Impl::GetRemoteFactory(
     const base::UnguessableToken& frame_token) const {
   DCHECK(io_task_runner_->BelongsToCurrentThread());
   auto it = factory_remotes_.find(frame_token);
   return it == factory_remotes_.end() ? nullptr : it->second.get();
 }
 
-void AudioOutputIPCFactory::RegisterRemoteFactoryOnIOThread(
+void AudioOutputIPCFactory::Impl::RegisterRemoteFactoryOnIOThread(
     const base::UnguessableToken& frame_token,
-    mojo::PendingRemote<blink::mojom::RendererAudioOutputStreamFactory>
+    mojo::PendingRemote<mojom::blink::RendererAudioOutputStreamFactory>
         factory_pending_remote) {
   DCHECK(io_task_runner_->BelongsToCurrentThread());
   std::pair<StreamFactoryMap::iterator, bool> emplace_result =
@@ -92,11 +130,11 @@ void AudioOutputIPCFactory::RegisterRemoteFactoryOnIOThread(
   // Unretained is safe because |this| owns the remote, so a connection error
   // cannot trigger after destruction.
   emplaced_factory.set_disconnect_handler(base::BindOnce(
-      &AudioOutputIPCFactory::MaybeDeregisterRemoteFactoryOnIOThread,
+      &AudioOutputIPCFactory::Impl::MaybeDeregisterRemoteFactoryOnIOThread,
       base::Unretained(this), frame_token));
 }
 
-void AudioOutputIPCFactory::MaybeDeregisterRemoteFactoryOnIOThread(
+void AudioOutputIPCFactory::Impl::MaybeDeregisterRemoteFactoryOnIOThread(
     const base::UnguessableToken& frame_token) {
   DCHECK(io_task_runner_->BelongsToCurrentThread());
   // This function can be called both by the frame and the connection error
@@ -106,4 +144,4 @@ void AudioOutputIPCFactory::MaybeDeregisterRemoteFactoryOnIOThread(
   factory_remotes_.erase(frame_token);
 }
 
-}  // namespace content
+}  // namespace blink
