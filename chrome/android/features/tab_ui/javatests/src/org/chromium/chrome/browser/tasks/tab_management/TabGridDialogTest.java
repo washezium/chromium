@@ -777,6 +777,50 @@ public class TabGridDialogTest {
         verifyBackgroundViewAccessibilityImportance(cta, false);
     }
 
+    @Test
+    @MediumTest
+    @Features.EnableFeatures({ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID})
+    public void testAccessibilityString() throws ExecutionException {
+        final ChromeTabbedActivity cta = mActivityTestRule.getActivity();
+        createTabs(cta, false, 3);
+        enterTabSwitcher(cta);
+        verifyTabSwitcherCardCount(cta, 3);
+        mergeAllNormalTabsToAGroup(cta);
+        verifyTabSwitcherCardCount(cta, 1);
+
+        // Verify the initial content description.
+        RecyclerView recyclerView = cta.findViewById(R.id.tab_list_view);
+        View firstItem = recyclerView.findViewHolderForAdapterPosition(0).itemView;
+        String targetString = "Expand  tab group with 3 tabs.";
+        assertEquals(targetString, firstItem.getContentDescription());
+
+        // Content description should update with group title.
+        openDialogFromTabSwitcherAndVerify(cta, 3, null);
+        editDialogTitle(cta, CUSTOMIZED_TITLE1);
+        clickScrimToExitDialog(cta);
+        waitForDialogHidingAnimationInTabSwitcher(cta);
+        verifyFirstCardTitle(CUSTOMIZED_TITLE1);
+        targetString = String.format("Expand %s tab group with 3 tabs.", CUSTOMIZED_TITLE1);
+        assertEquals(targetString, firstItem.getContentDescription());
+
+        // Content description should update with group count change.
+        openDialogFromTabSwitcherAndVerify(cta, 3, CUSTOMIZED_TITLE1);
+        closeFirstTabInDialog();
+        verifyShowingDialog(cta, 2, CUSTOMIZED_TITLE1);
+        clickScrimToExitDialog(cta);
+        waitForDialogHidingAnimationInTabSwitcher(cta);
+        targetString = String.format("Expand %s tab group with 2 tabs.", CUSTOMIZED_TITLE1);
+        assertEquals(targetString, firstItem.getContentDescription());
+
+        // Content description should restore when the group becomes a single tab.
+        openDialogFromTabSwitcherAndVerify(cta, 2, CUSTOMIZED_TITLE1);
+        closeFirstTabInDialog();
+        verifyShowingDialog(cta, 1, "1 tab");
+        clickScrimToExitDialog(cta);
+        waitForDialogHidingAnimationInTabSwitcher(cta);
+        assertEquals(null, firstItem.getContentDescription());
+    }
+
     private void openDialogFromTabSwitcherAndVerify(
             ChromeTabbedActivity cta, int tabCount, String customizedTitle) {
         clickFirstCardFromTabSwitcher(cta);
