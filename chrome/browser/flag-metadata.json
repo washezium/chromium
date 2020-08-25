@@ -4004,7 +4004,7 @@
   {
     "name": "share-button-in-top-toolbar",
     "owners": [ "jeffreycohen" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "shared-clipboard-ui",
