@@ -242,11 +242,8 @@ bool CompromisedCredentialsManager::UpdateCompromisedCredentials(
   if (forms.empty())
     return false;
 
-  for (size_t i = 1; i < forms.size(); ++i) {
-    PasswordStore& store =
-        forms[i].IsUsingAccountStore() ? *account_store_ : *profile_store_;
-    store.RemoveLogin(forms[i]);
-  }
+  for (size_t i = 1; i < forms.size(); ++i)
+    profile_store_->RemoveLogin(forms[i]);
 
   // Note: We Invoke EditPassword on the presenter rather than UpdateLogin() on
   // the store, so that observers of the presenter get notified of this event.
@@ -262,12 +259,8 @@ bool CompromisedCredentialsManager::RemoveCompromisedCredential(
   // Erase all matching credentials from the store. Return whether any
   // credentials were deleted.
   const auto& saved_passwords = it->second.forms;
-  for (const autofill::PasswordForm& saved_password : saved_passwords) {
-    PasswordStore& store = saved_password.IsUsingAccountStore()
-                               ? *account_store_
-                               : *profile_store_;
-    store.RemoveLogin(saved_password);
-  }
+  for (const autofill::PasswordForm& saved_password : saved_passwords)
+    profile_store_->RemoveLogin(saved_password);
 
   return !saved_passwords.empty();
 }
