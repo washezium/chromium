@@ -4097,9 +4097,6 @@
   <message name="IDS_ARC_SIGN_IN_GMS_NOT_AVAILABLE_ERROR" desc="Android sign-in error because of GMS services are unavailable">
     Couldn’t connect with Google services
   </message>
-  <message name="IDS_ARC_SIGN_IN_CLOUD_PROVISION_FLOW_FAIL_ERROR" desc="Android sign-in error because of cloud provision flow failed">
-    Provisioning flow was interrupted. Please try again or contact your device owner or administrator.
-  </message>
   <message name="IDS_ARC_SIGN_IN_CLOUD_PROVISION_FLOW_ACCOUNT_MISSING_ERROR" desc="Android permament sign-in error because of cloud provision flow failed">
     Provisioning failed because your account details could not be retrieved. Please try again. Error code: <ph name="ERROR_CODE">$1<ex>7</ex></ph>.
   </message>
