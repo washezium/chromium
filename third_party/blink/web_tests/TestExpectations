@@ -5209,6 +5209,7 @@ crbug.com/831673 http/tests/devtools/reveal-objects.js [ Pass Timeout ]
 crbug.com/829952 fast/webgl/texImage-imageBitmap-from-image-resize.html [ Pass Timeout ]
 
 # Sheriff 2018-04-13
+crbug.com/833655 [ Linux ] media/controls/closed-captions-dynamic-update.html [ Skip ]
 crbug.com/833658 [ Linux ] media/video-controls-focus-movement-on-hide.html [ Pass Failure ]
 crbug.com/833658 [ Win ] media/video-controls-focus-movement-on-hide.html [ Pass Failure ]
 crbug.com/833658 [ Mac ] media/video-controls-focus-movement-on-hide.html [ Pass Failure ]
