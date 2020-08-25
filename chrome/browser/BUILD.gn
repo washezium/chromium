@@ -2947,7 +2947,7 @@ static_library("browser") {
       "updates/update_notification_client.h",
       "updates/update_notification_service_bridge_android.cc",
       "updates/update_notification_service_bridge_android.h",
-      "video_tutorials/internal/android/video_tutorial_service_bridge_factory.cc",
+      "video_tutorials/android/video_tutorial_service_bridge_factory.cc",
       "webauthn/android/cable_module_android.cc",
     ]
     public_deps += [
