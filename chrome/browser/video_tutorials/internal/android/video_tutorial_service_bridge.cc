@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "chrome/browser/video_tutorials/android/video_tutorial_service_bridge.h"
+#include "chrome/browser/video_tutorials/internal/android/video_tutorial_service_bridge.h"
 
 #include <memory>
 #include <vector>
@@ -10,7 +10,7 @@
 #include "base/android/callback_android.h"
 #include "base/android/jni_string.h"
 #include "base/bind.h"
-#include "chrome/browser/video_tutorials/jni_headers/VideoTutorialServiceBridge_jni.h"
+#include "chrome/browser/video_tutorials/internal/jni_headers/VideoTutorialServiceBridge_jni.h"
 
 using base::android::AttachCurrentThread;
 
