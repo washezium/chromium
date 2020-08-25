@@ -2034,7 +2034,8 @@
     },
     {
       name: "WebCodecs",
-      status: "test",
+      status: "experimental",
+      origin_trial_feature_name: "WebCodecs"
     },
     {
       name: "WebCryptoCurve25519",
