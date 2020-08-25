@@ -333,6 +333,10 @@ Widget* BubbleDialogDelegate::CreateBubble(
   return bubble_widget;
 }
 
+Widget* BubbleDialogDelegateView::CreateBubble(
+    std::unique_ptr<BubbleDialogDelegateView> delegate) {
+  return CreateBubble(delegate.release());
+}
 Widget* BubbleDialogDelegateView::CreateBubble(BubbleDialogDelegateView* view) {
   return BubbleDialogDelegate::CreateBubble(view);
 }
