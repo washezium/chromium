@@ -181,6 +181,7 @@ void KaleidoscopeDataProviderImpl::SetMediaFeedsConsent(
   if (!prefs)
     return;
   prefs->SetBoolean(prefs::kMediaFeedsBackgroundFetching, accepted_media_feeds);
+  prefs->SetBoolean(prefs::kMediaFeedsSafeSearchEnabled, accepted_media_feeds);
 
   // If the user declined to use Media Feeds at all, then there's nothing left
   // to do.
