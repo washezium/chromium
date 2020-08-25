@@ -31,8 +31,6 @@ enum FeaturePolicyFeature {
   kPayment = 8,
   // Controls access to document.domain attribute.
   kDocumentDomain = 11,
-  // Controls whether synchronous script elements will run.
-  kSyncScript = 12,
   // Controls use of synchronous XMLHTTPRequest API.
   kSyncXHR = 13,
   // Controls access to the WebUSB API.

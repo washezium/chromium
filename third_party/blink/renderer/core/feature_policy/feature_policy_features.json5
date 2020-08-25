@@ -298,12 +298,6 @@
       depends_on: ["StorageAccessAPI"],
     },
     {
-      name: "SyncScript",
-      feature_policy_name: "sync-script",
-      feature_default: "EnableForAll",
-      depends_on: ["ExperimentalProductivityFeatures"],
-    },
-    {
       name: "SyncXHR",
       feature_default: "EnableForAll",
       feature_policy_name: "sync-xhr",
