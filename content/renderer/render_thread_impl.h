@@ -60,7 +60,7 @@
 #include "third_party/blink/public/platform/scheduler/web_rail_mode_observer.h"
 #include "third_party/blink/public/platform/scheduler/web_thread_scheduler.h"
 #include "third_party/blink/public/platform/web_connection_type.h"
-#include "third_party/blink/public/web/modules/media/audio/audio_output_ipc_factory.h"
+#include "third_party/blink/public/web/modules/media/audio/web_audio_output_ipc_factory.h"
 #include "third_party/blink/public/web/web_memory_statistics.h"
 #include "ui/gfx/native_widget_types.h"
 
@@ -523,7 +523,7 @@ class CONTENT_EXPORT RenderThreadImpl
   base::Optional<AudioInputIPCFactory> audio_input_ipc_factory_;
   // Provides AudioOutputIPC objects for audio output devices. Initialized in
   // Init.
-  base::Optional<blink::AudioOutputIPCFactory> audio_output_ipc_factory_;
+  base::Optional<blink::WebAudioOutputIPCFactory> audio_output_ipc_factory_;
 
   // Used on the render thread.
   std::unique_ptr<blink::WebVideoCaptureImplManager> vc_manager_;

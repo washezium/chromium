@@ -27,7 +27,7 @@
 #include "media/base/audio_renderer_mixer_input.h"
 #include "media/base/media_switches.h"
 #include "third_party/blink/public/mojom/media/renderer_audio_input_stream_factory.mojom.h"
-#include "third_party/blink/public/web/modules/media/audio/audio_output_ipc_factory.h"
+#include "third_party/blink/public/web/modules/media/audio/web_audio_output_ipc_factory.h"
 
 namespace content {
 
@@ -59,10 +59,10 @@ scoped_refptr<media::AudioOutputDevice> NewOutputDevice(
     const base::UnguessableToken& frame_token,
     const media::AudioSinkParameters& params,
     base::TimeDelta auth_timeout) {
-  CHECK(blink::AudioOutputIPCFactory::get());
+  CHECK(blink::WebAudioOutputIPCFactory::get());
   auto device = base::MakeRefCounted<media::AudioOutputDevice>(
-      blink::AudioOutputIPCFactory::get()->CreateAudioOutputIPC(frame_token),
-      blink::AudioOutputIPCFactory::get()->io_task_runner(), params,
+      blink::WebAudioOutputIPCFactory::get()->CreateAudioOutputIPC(frame_token),
+      blink::WebAudioOutputIPCFactory::get()->io_task_runner(), params,
       auth_timeout);
   device->RequestDeviceAuthorization();
   return device;

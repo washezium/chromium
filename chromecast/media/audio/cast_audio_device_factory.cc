@@ -12,7 +12,7 @@
 #include "media/base/audio_parameters.h"
 #include "media/base/audio_renderer_sink.h"
 #include "media/base/output_device_info.h"
-#include "third_party/blink/public/web/modules/media/audio/audio_output_ipc_factory.h"
+#include "third_party/blink/public/web/modules/media/audio/web_audio_output_ipc_factory.h"
 
 namespace chromecast {
 namespace media {
@@ -83,8 +83,8 @@ scoped_refptr<::media::AudioOutputDevice> NewOutputDevice(
     const ::media::AudioSinkParameters& params,
     base::TimeDelta auth_timeout) {
   auto device = base::MakeRefCounted<::media::AudioOutputDevice>(
-      blink::AudioOutputIPCFactory::get()->CreateAudioOutputIPC(frame_token),
-      blink::AudioOutputIPCFactory::get()->io_task_runner(), params,
+      blink::WebAudioOutputIPCFactory::get()->CreateAudioOutputIPC(frame_token),
+      blink::WebAudioOutputIPCFactory::get()->io_task_runner(), params,
       auth_timeout);
   device->RequestDeviceAuthorization();
   return device;
