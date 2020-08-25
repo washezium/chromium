@@ -4373,6 +4373,11 @@ const FeatureEntry kFeatureEntries[] = {
                                     kCloseTabSuggestionsStaleVariations,
                                     "CloseSuggestionsTab")},
 
+    {"enable-critical-persisted-tab-data",
+     flag_descriptions::kCriticalPersistedTabDataName,
+     flag_descriptions::kCriticalPersistedTabDataDescription, kOsAndroid,
+     FEATURE_VALUE_TYPE(chrome::android::kCriticalPersistedTabData)},
+
     {"enable-horizontal-tab-switcher",
      flag_descriptions::kHorizontalTabSwitcherAndroidName,
      flag_descriptions::kHorizontalTabSwitcherAndroidDescription, kOsAndroid,

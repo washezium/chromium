@@ -71,6 +71,7 @@ public class CachedFeatureFlags {
             put(ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID, false);
             put(ChromeFeatureList.DUET_TABSTRIP_INTEGRATION_ANDROID, false);
             put(ChromeFeatureList.CLOSE_TAB_SUGGESTIONS, false);
+            put(ChromeFeatureList.CRITICAL_PERSISTED_TAB_DATA, false);
             put(ChromeFeatureList.INSTANT_START, false);
             put(ChromeFeatureList.TAB_GROUPS_CONTINUATION_ANDROID, false);
             put(ChromeFeatureList.TAB_TO_GTS_ANIMATION, false);

@@ -1551,6 +1551,9 @@ extern const char kClearOldBrowsingDataDescription[];
 extern const char kCloseTabSuggestionsName[];
 extern const char kCloseTabSuggestionsDescription[];
 
+extern const char kCriticalPersistedTabDataName[];
+extern const char kCriticalPersistedTabDataDescription[];
+
 extern const char kContentIndexingDownloadHomeName[];
 extern const char kContentIndexingDownloadHomeDescription[];
 
