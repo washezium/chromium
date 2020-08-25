@@ -385,7 +385,6 @@ class VIEWS_EXPORT BubbleDialogDelegateView : public BubbleDialogDelegate,
 
   // BubbleDialogDelegate:
   View* GetContentsView() override;
-  void DeleteDelegate() override;
 
   // View:
   Widget* GetWidget() override;

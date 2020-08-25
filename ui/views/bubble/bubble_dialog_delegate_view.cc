@@ -345,6 +345,7 @@ BubbleDialogDelegateView::BubbleDialogDelegateView(View* anchor_view,
                                                    BubbleBorder::Shadow shadow)
     : BubbleDialogDelegate(anchor_view, arrow, shadow) {
   set_owned_by_client();
+  SetOwnedByWidget(true);
   WidgetDelegate::SetShowCloseButton(false);
 
   SetArrow(arrow);
@@ -432,10 +433,6 @@ void BubbleDialogDelegateView::AddedToWidget() {
 
 View* BubbleDialogDelegateView::GetContentsView() {
   return this;
-}
-
-void BubbleDialogDelegateView::DeleteDelegate() {
-  delete this;
 }
 
 void BubbleDialogDelegate::OnBubbleWidgetClosing() {

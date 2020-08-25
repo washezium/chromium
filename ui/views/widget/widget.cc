@@ -97,12 +97,10 @@ class DefaultWidgetDelegate : public WidgetDelegate {
     // In most situations where a Widget is used without a delegate the Widget
     // is used as a container, so that we want focus to advance to the top-level
     // widget. A good example of this is the find bar.
+    SetOwnedByWidget(true);
     SetFocusTraversesOut(true);
   }
   ~DefaultWidgetDelegate() override = default;
-
-  // WidgetDelegate:
-  void DeleteDelegate() override { delete this; }
 
  private:
   DISALLOW_COPY_AND_ASSIGN(DefaultWidgetDelegate);
