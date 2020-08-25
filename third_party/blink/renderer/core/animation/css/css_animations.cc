@@ -618,9 +618,6 @@ void CSSAnimations::CalculateAnimationUpdate(CSSAnimationUpdate& update,
       StyleRuleScrollTimeline* scroll_timeline_rule =
           FindScrollTimelineRule(element.GetDocument(), timeline_name);
 
-      AnimationTimeline* timeline =
-          ComputeTimeline(&element, timeline_name, scroll_timeline_rule);
-
       const RunningAnimation* existing_animation = nullptr;
       wtf_size_t existing_animation_index = 0;
 
@@ -682,6 +679,8 @@ void CSSAnimations::CalculateAnimationUpdate(CSSAnimationUpdate& update,
         }
       } else {
         DCHECK(!is_animation_style_change);
+        AnimationTimeline* timeline =
+            ComputeTimeline(&element, timeline_name, scroll_timeline_rule);
         base::Optional<TimelinePhase> inherited_phase;
         base::Optional<double> inherited_time;
         if (timeline) {
