@@ -713,6 +713,9 @@ extern const char kH264DecoderBufferIsCompleteFrameDescription[];
 extern const char kHandwritingGestureName[];
 extern const char kHandwritingGestureDescription[];
 
+extern const char kHandwritingGestureEditingName[];
+extern const char kHandwritingGestureEditingDescription[];
+
 extern const char kHardwareMediaKeyHandling[];
 extern const char kHardwareMediaKeyHandlingDescription[];
 

@@ -1224,6 +1224,10 @@ const char kHandwritingGestureDescription[] =
     "handwriting you write inside the virtual keyboard to Google servers for "
     "recognition but will not be associated with your Google account.";
 
+const char kHandwritingGestureEditingName[] = "Handwriting Gestures Editing";
+const char kHandwritingGestureEditingDescription[] =
+    "Enables editing with handwriting gestures within the virtual keyboard.";
+
 const char kHardwareMediaKeyHandling[] = "Hardware Media Key Handling";
 const char kHardwareMediaKeyHandlingDescription[] =
     "Enables using media keys to control the active media session. This "

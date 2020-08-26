@@ -3978,6 +3978,11 @@ const FeatureEntry kFeatureEntries[] = {
     {"handwriting-gesture", flag_descriptions::kHandwritingGestureName,
      flag_descriptions::kHandwritingGestureDescription, kOsCrOS,
      FEATURE_VALUE_TYPE(features::kHandwritingGesture)},
+
+    {"handwriting-gesture-editing",
+     flag_descriptions::kHandwritingGestureEditingName,
+     flag_descriptions::kHandwritingGestureEditingDescription, kOsCrOS,
+     FEATURE_VALUE_TYPE(chromeos::features::kHandwritingGestureEditing)},
 #endif  // OS_CHROMEOS
 
 #if BUILDFLAG(ENABLE_EXTENSIONS)
