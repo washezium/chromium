@@ -669,7 +669,7 @@
   {
     "name": "cross-origin-isolated",
     "owners": [ "ahemery", "arthursonzogni", "clamy", "pmeuleman" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "cross-origin-opener-policy",
@@ -679,12 +679,12 @@
   {
     "name": "cross-origin-opener-policy-access-reporting",
     "owners": [ "ahemery", "arthursonzogni", "clamy", "pmeuleman" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "cross-origin-opener-policy-reporting",
     "owners": [ "ahemery", "arthursonzogni", "clamy", "pmeuleman" ],
-    "expiry_milestone": 86
+    "expiry_milestone": 88
   },
   {
     "name": "crostini-disk-resizing",
