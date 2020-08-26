@@ -7,10 +7,10 @@
       "backgroundColor": "#FFFFFF"
     },
     {
-      "name": "LayoutSVGRoot svg",
-      "position": [50, 0],
-      "bounds": [500, 400],
-      "transform": 1
+      "name": "LayoutSVGRect rect id='rect'",
+      "position": [10, 10],
+      "bounds": [100, 100],
+      "transform": 2
     }
   ],
   "transforms": [
@@ -21,6 +21,16 @@
         [0, 1, 0, 0],
         [0, 0, 1, 0],
         [8, 8, 0, 1]
+      ]
+    },
+    {
+      "id": 2,
+      "parent": 1,
+      "transform": [
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 50, 0, 1]
       ]
     }
   ]
