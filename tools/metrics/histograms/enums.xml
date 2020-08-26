@@ -16175,6 +16175,18 @@ metrics consent we also won't be able to send UMA metrics. -->
   <int value="20" label="showGridTrackSizes.true"/>
 </enum>
 
+<enum name="DevtoolsGridSettingChanged2">
+  <int value="0" label="showGridLineLabels.none"/>
+  <int value="1" label="showGridLineLabels.lineNumbers"/>
+  <int value="2" label="showGridLineLabels.lineNames"/>
+  <int value="3" label="extendGridLines.false"/>
+  <int value="4" label="extendGridLines.true"/>
+  <int value="5" label="showGridAreas.false"/>
+  <int value="6" label="showGridAreas.true"/>
+  <int value="7" label="showGridTrackSizes.false"/>
+  <int value="8" label="showGridTrackSizes.true"/>
+</enum>
+
 <enum name="DevToolsIssuesPanelOpenedFrom">
   <int value="0" label="Console Info Bar"/>
   <int value="1" label="Learn More Link COEP"/>
