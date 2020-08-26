@@ -5320,6 +5320,9 @@ crbug.com/986018 fast/scroll-snap/snaps-for-different-key-granularity.html [ Fai
 
 # This test is not intended to pass on Plan B.
 crbug.com/740501 virtual/webrtc-wpt-plan-b/external/wpt/webrtc/RTCPeerConnection-onnegotiationneeded.html [ Pass Failure Timeout ]
+# Temporarily disable to unblock a WebRTC CL that makes more tests pass.
+crbug.com/1060083 external/wpt/webrtc/RTCPeerConnection-onnegotiationneeded.html [ Pass Failure ]
+crbug.com/1060083 external/wpt/webrtc/RTCPeerConnection-setRemoteDescription-rollback.html [ Pass Failure ]
 
 crbug.com/910979 http/tests/html/validation-bubble-oopif-clip.html [ Failure Pass ]
 
