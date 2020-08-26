@@ -1911,25 +1911,6 @@
             ]
         }
     ],
-    "DisableLatencyRecoveryDesktop": [
-        {
-            "platforms": [
-                "chromeos",
-                "linux",
-                "mac",
-                "windows"
-            ],
-            "experiments": [
-                {
-                    "name": "DisabledImplDisabledMain",
-                    "disable_features": [
-                        "ImplLatencyRecovery",
-                        "MainLatencyRecovery"
-                    ]
-                }
-            ]
-        }
-    ],
     "DisableMalwareExtensionsRemotely": [
         {
             "platforms": [
