@@ -55,7 +55,7 @@ constexpr size_t kGenericMaxResults = 10;
 // in some UI, so we need to allow returning more results than actual maximum
 // number of results to be displayed in UI.
 constexpr size_t kMaxAppsGroupResults = 7;
-constexpr size_t kMaxLauncherSearchResults = 2;
+constexpr size_t kMaxLauncherSearchResults = 4;
 // We need twice as many ZeroState and Drive file results as we need
 // duplicates of these results for the suggestion chips.
 constexpr size_t kMaxZeroStateFileResults = 20;
