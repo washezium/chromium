@@ -93,7 +93,6 @@ public class ActivityTabProvider implements Supplier<Tab> {
             mActivityTabObserver = (tab, hint) -> {
                 updateObservedTab(tab);
                 onObservingDifferentTab(tab, hint);
-                onObservingDifferentTab(tab);
             };
             if (shouldTrigger) {
                 mTabProvider.addObserverAndTrigger(mActivityTabObserver);
@@ -112,14 +111,6 @@ public class ActivityTabProvider implements Supplier<Tab> {
             mTab = newTab;
             if (mTab != null) mTab.addObserver(ActivityTabTabObserver.this);
         }
-
-        /**
-         * A notification that the observer has switched to observing a different tab.
-         * @param tab The tab that the observer is now observing. This can be null.
-         * @deprecated Use {@link #onObservingDifferentTab(Tab, boolean)} instead.
-         */
-        @Deprecated
-        protected void onObservingDifferentTab(Tab tab) {}
 
         /**
          * A notification that the observer has switched to observing a different tab. This can be
