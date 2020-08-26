@@ -4275,11 +4275,6 @@ const char kSyncWifiConfigurationsName[] = "Sync Wi-Fi network configurations";
 const char kSyncWifiConfigurationsDescription[] =
     "Enables the option to sync Wi-Fi network configurations with Chrome Sync.";
 
-const char kTerminalSystemAppLegacySettingsName[] =
-    "Terminal System App Legacy Settings";
-const char kTerminalSystemAppLegacySettingsDescription[] =
-    "Use the legacy settings page for Terminal System App.";
-
 const char kPluginVmShowCameraPermissionsName[] =
     "Show Plugin VM camera permissions";
 const char kPluginVmShowCameraPermissionsDescription[] =

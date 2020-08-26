@@ -2290,9 +2290,6 @@ extern const char kEnableQuickAnswersRichUiDescription[];
 extern const char kEnableQuickAnswersTextAnnotatorName[];
 extern const char kEnableQuickAnswersTextAnnotatorDescription[];
 
-extern const char kTerminalSystemAppLegacySettingsName[];
-extern const char kTerminalSystemAppLegacySettingsDescription[];
-
 extern const char kPluginVmShowCameraPermissionsName[];
 extern const char kPluginVmShowCameraPermissionsDescription[];
 
