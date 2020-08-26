@@ -1811,10 +1811,6 @@ crbug.com/1020373 external/wpt/css/css-writing-modes/line-box-direction-vlr-016.
 crbug.com/1020373 external/wpt/css/css-writing-modes/line-box-direction-vrl-015.xht [ Failure ]
 crbug.com/1020373 external/wpt/css/css-writing-modes/table-cell-001.html [ Failure ]
 crbug.com/1020373 external/wpt/css/css-writing-modes/table-cell-002.html [ Failure ]
-crbug.com/1020373 external/wpt/css/css-writing-modes/table-progression-vlr-003.html [ Failure ]
-crbug.com/1020373 external/wpt/css/css-writing-modes/table-progression-vlr-004.html [ Failure ]
-crbug.com/1020373 external/wpt/css/css-writing-modes/table-progression-vrl-003.html [ Failure ]
-crbug.com/1020373 external/wpt/css/css-writing-modes/table-progression-vrl-004.html [ Failure ]
 
 crbug.com/637055 fast/css/outline-offset-large.html [ Skip ]
 
