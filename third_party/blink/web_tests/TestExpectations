@@ -3852,6 +3852,7 @@ crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/sel
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-005.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-006.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-007.html [ Failure ]
+crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-008.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-changes-grid-area-size-001.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-changes-grid-area-size-002.html [ Failure ]
 crbug.com/1045599 virtual/layout-ng-grid/external/wpt/css/css-grid/alignment/self-baseline/grid-self-baseline-changes-grid-area-size-003.html [ Failure ]
