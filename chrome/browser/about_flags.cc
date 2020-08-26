@@ -4957,13 +4957,6 @@ const FeatureEntry kFeatureEntries[] = {
          chromeos::assistant::features::kEnableStereoAudioInput)},
 #endif  // defined(OS_CHROMEOS)
 
-#if BUILDFLAG(ENABLE_PRINT_PREVIEW) && defined(OS_MAC)
-    {"enable-custom-mac-paper-sizes",
-     flag_descriptions::kEnableCustomMacPaperSizesName,
-     flag_descriptions::kEnableCustomMacPaperSizesDescription, kOsMac,
-     FEATURE_VALUE_TYPE(printing::features::kEnableCustomMacPaperSizes)},
-#endif
-
 #if defined(OS_WIN) || defined(OS_MAC) || defined(OS_LINUX) || \
     defined(OS_CHROMEOS)
     {"enable-reopen-tab-in-product-help",

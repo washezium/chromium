@@ -3486,10 +3486,6 @@ const char kImmersiveFullscreenName[] = "Immersive Fullscreen Toolbar";
 const char kImmersiveFullscreenDescription[] =
     "Automatically hide and show the toolbar in fullscreen.";
 
-const char kEnableCustomMacPaperSizesName[] = "Enable custom paper sizes";
-const char kEnableCustomMacPaperSizesDescription[] =
-    "Allow use of custom paper sizes in Print Preview.";
-
 const char kMacSyscallSandboxName[] = "Mac Syscall Filtering Sandbox";
 const char kMacSyscallSandboxDescription[] =
     "Controls whether the macOS sandbox filters syscalls.";

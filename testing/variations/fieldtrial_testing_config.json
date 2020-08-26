@@ -3982,21 +3982,6 @@
             ]
         }
     ],
-    "MacCustomPaperSize": [
-        {
-            "platforms": [
-                "mac"
-            ],
-            "experiments": [
-                {
-                    "name": "Enabled",
-                    "enable_features": [
-                        "EnableCustomMacPaperSizes"
-                    ]
-                }
-            ]
-        }
-    ],
     "MacSystemMediaPermissionsInfoUI": [
         {
             "platforms": [

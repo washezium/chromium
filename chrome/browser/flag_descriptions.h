@@ -2009,9 +2009,6 @@ extern const char kCupsIppPrintingBackendDescription[];
 extern const char kImmersiveFullscreenName[];
 extern const char kImmersiveFullscreenDescription[];
 
-extern const char kEnableCustomMacPaperSizesName[];
-extern const char kEnableCustomMacPaperSizesDescription[];
-
 extern const char kMacSyscallSandboxName[];
 extern const char kMacSyscallSandboxDescription[];
 
