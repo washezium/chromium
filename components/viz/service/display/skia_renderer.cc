@@ -2265,8 +2265,10 @@ sk_sp<SkColorFilter> SkiaRenderer::GetColorSpaceConversionFilter(
     const char* hdr = R"(
 uniform half offset;
 uniform half multiplier;
+in shader child;
 
-void main(inout half4 color) {
+half4 main() {
+  half4 color = sample(child);
   // un-premultiply alpha
   if (color.a > 0)
     color.rgb /= color.a;
@@ -2277,6 +2279,7 @@ void main(inout half4 color) {
     const char* ftr = R"(
   // premultiply alpha
   color.rgb *= color.a;
+  return color;
 }
 )";
 
@@ -2292,7 +2295,8 @@ void main(inout half4 color) {
   input.multiplier = resource_multiplier;
   sk_sp<SkData> data = SkData::MakeWithCopy(&input, sizeof(input));
 
-  return effect->makeColorFilter(std::move(data));
+  sk_sp<SkColorFilter> child = nullptr;  // = default input color
+  return effect->makeColorFilter(std::move(data), &child, 1);
 }
 
 sk_sp<SkColorFilter> SkiaRenderer::GetContentColorFilter() {
